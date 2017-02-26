@@ -42,56 +42,72 @@ function get_next_question(answare) {
 }
 
 function question_abcd(data) {
-    swal({
-            title: "Question: " + data.qid,
-            text: data.question,
-            html: true,
-            allowOutsideClick: false,
-            type: "input",
-            showConfirmButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'submit',
-            closeOnConfirm: false,
-            closeOnCancel: false
-        }, function (inputValue) {
+    settings = {
+        title: "Question: " + data.qid,
+        text: data.question + '<p>' + data.answares,
+        html: true,
+        allowOutsideClick: false,
+        type: "input",
+        showConfirmButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'submit',
+        closeOnConfirm: false,
+        closeOnCancel: false
+    };
+    if (data.img === true) {
+        settings.imageUrl = './images/' + data.qid + '.png';
+        settings.imageSize = "400x400";
+    }
+    swal(settings, function (inputValue) {
             get_next_question(inputValue);
         }
     );
 }
 
 function question_bool(data) {
-    swal({
-            title: "Question: " + data.qid,
-            text: data.question,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "True",
-            cancelButtonText: "False",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        },
+    settings = {
+        title: "Question: " + data.qid,
+        text: data.question,
+        type: "warning",
+        html: true,
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "True",
+        cancelButtonText: "False",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    };
+    if (data.img === true) {
+        settings.imageUrl = './images/' + data.qid + '.png';
+        settings.imageSize = "400x400";
+    }
+    swal(settings,
         function (inputValue) {
             get_next_question(inputValue);
         }
     );
-    console.log(data);
 }
 
 function question_plain(data) {
-    swal({
-            title: "Question: " + data.qid,
-            type: "input",
-            text: data.question,
-            showCancelButton: false,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'submit',
-            animation: "slide-from-top",
-            inputPlaceholder: "Write answare",
-            allowOutsideClick: false,
-            closeOnConfirm: false,
-            closeOnCancel: false
-        },
+    settings = {
+        title: "Question: " + data.qid,
+        type: "input",
+        text: data.question,
+        html: true,
+        showCancelButton: false,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'submit',
+        animation: "slide-from-top",
+        inputPlaceholder: "Write answare",
+        allowOutsideClick: false,
+        closeOnConfirm: false,
+        closeOnCancel: false
+    };
+    if (data.img === true) {
+        settings.imageUrl = './images/' + data.qid + '.png';
+        settings.imageSize = "400x400";
+    }
+    swal(settings,
         function (inputValue) {
             if (gdata.qid === 0) {
                 name = inputValue;
@@ -103,13 +119,13 @@ function question_plain(data) {
 
 function finish_quiz(data) {
     swal({
-            title: "Finished",
-            type: "info",
-            text: data.name + data.question,
-            showCancelButton: false,
-            animation: "slide-from-top",
-            allowOutsideClick: false,
-            closeOnConfirm: false,
-            closeOnCancel: false
-        })
+        title: "Finished",
+        type: "info",
+        text: data.name + data.question,
+        showCancelButton: false,
+        animation: "slide-from-top",
+        allowOutsideClick: false,
+        closeOnConfirm: false,
+        closeOnCancel: false
+    })
 }
