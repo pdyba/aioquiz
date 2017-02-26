@@ -49,7 +49,7 @@ function refresh_graph() {
         }),
         function (data) {
             qid = data.qid;
-            $('#title').text(data.qid.toString() + '. ' + data.question);
+            $('#title').html(data.qid.toString() + '. ' + data.question);
             refresh_graph_graphics(data);
             next_question_stats();
         })
@@ -70,7 +70,7 @@ function previous() {
 function next_question_stats(){
         $.get("./api/stats/" + (qid+1).toString(),
         function (data) {
-            $('#stats').text(data.done.toString() + ' / ' + data.max.toString());
+            $('#stats').html(data.done.toString() + ' / ' + data.max.toString());
         })
 }
 

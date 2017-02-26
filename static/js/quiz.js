@@ -59,7 +59,12 @@ function question_abcd(data) {
         settings.imageSize = "400x400";
     }
     swal(settings, function (inputValue) {
-            get_next_question(inputValue);
+            if (inputValue.length > 0) {
+                get_next_question(inputValue);
+            }
+            else {
+                question_abcd(data);
+            }
         }
     );
 }
@@ -68,7 +73,6 @@ function question_bool(data) {
     settings = {
         title: "Question: " + data.qid,
         text: data.question,
-        type: "warning",
         html: true,
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
@@ -109,10 +113,16 @@ function question_plain(data) {
     }
     swal(settings,
         function (inputValue) {
-            if (gdata.qid === 0) {
-                name = inputValue;
+
+            if (inputValue.length > 0) {
+                if (gdata.qid === 0) {
+                    name = inputValue;
+                }
+                get_next_question(inputValue);
             }
-            get_next_question(inputValue);
+            else {
+                question_plain(data);
+            }
         }
     );
 }

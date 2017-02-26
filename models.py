@@ -166,7 +166,7 @@ class Quiz:
         qtype='abcd',
     )
 
-    question_fin = Question(' To juz wszystko ! ', [], 'end')
+    question_fin = Question(' To juz wszystko ! ', qtype='end')
 
     async def get(self, quid):
         return getattr(self, 'question_{}'.format(quid), self.question_fin)

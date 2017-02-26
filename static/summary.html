@@ -7,11 +7,17 @@
         text-align: center;
         display: table;
     }
+    p {
+        margin: 0;
+    }
     .arrow {
         font-size: 100px;
         vertical-align: middle;
         display: table-cell;
         top: 50%;
+    }
+    .title {
+        font-size: 20px;
     }
 </style>
 <head>
@@ -27,7 +33,7 @@
 <body>
 
 <div class="next-too" style="margin-left: 33%;">
-    <h2 id="title"></h2>
+    <div id="title" class="title"></div>
     <div class="next-too arrow" onclick="previous()">&#8668;</div>
     <div id="chart" class="next-too"></div>
     <div class="next-too arrow" onclick="next()">&#8669;</div>
