@@ -1,4 +1,6 @@
 # !/usr/bin/python3.5
+from datetime import datetime
+from json import dump
 from uuid import uuid4
 
 from sanic import Sanic
@@ -62,10 +64,11 @@ class Stats(HTTPMethodView):
 
 
 class Summary(HTTPMethodView):
-    @staticmethod
-    async def get_question_and_answares(qid, session_id):
+    async def get_question_and_answares(self, qid, session_id):
         quiz = await main_quiz.get(qid)
         columns = await format_dict_to_columns(answares.get(qid, {}))
+        if quiz.qtype == 'end':
+            await self.save()
         return {
             'session_id': session_id,
             'question': quiz.question,
@@ -74,6 +77,12 @@ class Summary(HTTPMethodView):
             'qid': qid,
             'img': quiz.img,
         }
+
+    @staticmethod
+    async def save():
+        filename = str(datetime.utcnow())
+        with open(filename, 'w') as file:
+            dump(answares, file, indent=4)
 
     async def post(self, request):
         try:
