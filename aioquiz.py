@@ -12,8 +12,6 @@ from utils import logger
 
 current_sessions = {}
 answares = {}
-# answares = {0: {'Piotr': 1, 's': 1, 'P': 1}, 1: {'t1': 1, '': 1, '3': 1}, 2: {'': 2, '2': 1}, 3: {False: 1, True: 2}} # testing
-
 main_quiz = Quiz()
 
 
@@ -118,4 +116,4 @@ app.add_route(Summary.as_view(), '/api/summary')
 app.add_route(Stats.as_view(), '/api/stats/<qid:int>')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=80)

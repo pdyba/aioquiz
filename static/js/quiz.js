@@ -131,7 +131,7 @@ function finish_quiz(data) {
     swal({
         title: "Finished",
         type: "info",
-        text: data.name + data.question,
+        text: name + data.question,
         showCancelButton: false,
         animation: "slide-from-top",
         allowOutsideClick: false,
