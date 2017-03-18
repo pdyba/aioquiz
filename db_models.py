@@ -5,11 +5,15 @@ from datetime import datetime
 
 class Table:
     def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            if not hasattr(self, key) and self._in_schema(key):
-                setattr(self, key, value)
+        for field in self._schema:
+            name = field.name
+            if name not in kwargs:
+                if field.default is not None:
+                    setattr(self, name, field.default)
+                elif field.required and name != 'id':
+                    raise Exception('No {} provided'.format(name))
             else:
-                setattr(self, '{}__'.format(key), value)
+                setattr(self, name, kwargs[field.name])
 
     def __str__(self):
         return '<' + self._name + ' ' + ' '.join([('{}={}'.format(prop.name, getattr(self, prop.name))) for prop in self._schema if not prop.name.startswith('time')]) + '>'
@@ -19,7 +23,10 @@ class Table:
 
     @classmethod
     def _gen_schema(cls):
-        ' ,'.join([str(field) for field in cls._schema])
+        alist = []
+        for field in cls._schema:
+            alist.append(str(field))
+        return ', '.join(alist)
 
     @classmethod
     def _in_schema(cls, name):
@@ -54,7 +61,9 @@ class Table:
                 await conn.execute(
                     """CREATE TABLE {} ( {} );""".format(cls._name, cls._gen_schema())
                 )
-                print('Question Table Done')
+                print('{} Table Done'.format(cls._name))
+        # else:
+        #     print('{} Table already exists'.format(cls._name))
 
     @classmethod
     async def get_by_id(cls, engine, uid):
@@ -81,23 +90,27 @@ class Table:
     @classmethod
     def _format_create(cls, clsi):
         keys = []
-        values = ""
+        values = """"""
         for prop in cls._schema:
-            if not prop.name.startswith('time') and prop.name != 'id':
+            if prop.name != 'id':
                 keys.append(prop.name)
-                if isinstance(prop._py_type, str):
-                    values += "'{}'".format(getattr(clsi, prop.name))
+                if isinstance(prop.type, String):
+                    val = getattr(clsi, prop.name)
+                    values += "'"
+                    values += val
+                    values += "'"
                 else:
-                    values += str(getattr(clsi, prop.name))
-        return ', '.format(keys),
+                    values += (str(getattr(clsi, prop.name)))
+                values += ', '
+        return ', '.join(keys), values[:-2]
 
 
     @classmethod
-    async def _create(cls, engine, data): # TODO: WIP
+    async def _create(cls, engine, data):
         async with engine.acquire() as conn:
-            resp =  await conn.execute("""INSERT INTO question ({}) VALUES
+            resp =  await conn.execute("""INSERT INTO {} ({}) VALUES
             ({})
-            ;""".format(*cls._format_create(data)))
+            ;""".format(cls._name, *cls._format_create(data)))
             return resp
 
     async def create(self, engine):
@@ -106,7 +119,6 @@ class Table:
     @classmethod
     def _format_update(cls, clsi):
         return ', '.join([("{}='{}'".format(prop.name, getattr(clsi, prop.name))) for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'])
-
 
     @classmethod
     async def _update(cls, engine, data):
@@ -120,22 +132,28 @@ class Table:
     async def update(self, engine):
         await self._update(engine, self)
 
+
 class Column:
-    def __init__(self, name, type, primary_key=False):
+    def __init__(self, name, type, primary_key=False, required=True, default=None):
         self.name = name
         self.type = type
         self.primary_key = primary_key
+        self.required = required
+        self.default = default() if callable(default) else default
 
     def __str__(self):
         if not self.primary_key:
-            return '{} {}'.format(self.name, self.type)
-        elif self.primary_key and isinstance(self.type, Integer):
-            return '{} serial primary key'.format(self.name)
+            return '{} {}'.format(self.name, str(self.type))
+        return '{} serial primary key'.format(self.name)
 
 
 class ColumnType:
     def __init__(self):
         pass
+
+    @classmethod
+    def __str__(cls):
+        return cls._type
 
     @abstractproperty
     def _type(self):
@@ -145,9 +163,7 @@ class ColumnType:
     def _py_type(self):
         pass
 
-    @classmethod
-    def __str__(cls):
-        return cls._type
+
 
     @classmethod
     def validate(cls, data):
@@ -190,38 +206,48 @@ class Question(Table):
         Column('id', Integer, primary_key=True),
         Column('question', String(1000)),
         Column('answares', String(1000)),
-        Column('img', String(255)),
+        Column('img', String(255), required=False, default=''),
         Column('creator', Integer()),
-        Column('reviewer', Integer()),
-        Column('time_created', DateTime()),
-        Column('time_accepted', DateTime()),
-        Column('active', Boolean()),
+        Column('reviewer', Integer(), required=False, default=0),
+        Column('time_created', DateTime(), default=datetime.utcnow),
+        Column('time_accepted', DateTime(), required=False),
+        Column('active', Boolean(), default=False),
     ]
 
 
-class User(Table):
-    id = Column('id', Integer, primary_key=True)
-    email = Column('email', String(255))
-    password = Column('password', String(1000))
-    questions = Column('questions', String(10000))
-    live_quiz = Column('live_quiz', String(500))
-    moderator = Column('moderator', Boolean())
-    admin = Column('admin', Boolean())
-    active = Column('active', Boolean())
+class Users(Table):
+    _name = 'users'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('email', String(255)),
+        Column('password', String(1000)),
+        Column('questions', String(10000), default=''),
+        Column('live_quiz', String(5000), default=''),
+        Column('moderator', Boolean(), default=False),
+        Column('admin', Boolean(), default=False),
+        Column('active', Boolean(), default=True)
+    ]
 
 
 class Quiz(Table):
-    id = Column('id', Integer, primary_key=True)
-    title = Column('title', String(255))
-    questions = Column('questions', String(10000))
-    creator = Column('creator', Integer())
-    time_created = Column('time_accepted', DateTime())
+    _name = 'quiz'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('title', String(255)),
+        Column('questions', String(10000)),
+        Column('creator', Integer()),
+        Column('time_created', DateTime(), default=datetime.utcnow),
+        Column('time_accepted', DateTime(), required=False),
+    ]
 
 
 class LiveQuiz(Table):
-    id = Column('id', Integer, primary_key=True)
-    title = Column('title', String(255))
-    questions = Column('questions', String(10000))
-    creator = Column('creator', Integer())
-    time_created = Column('time_created', DateTime())
-    active = Column('active', Boolean())
+    _name = 'live_quiz'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('title', String(255)),
+        Column('questions', String(10000)),
+        Column('creator', Integer()),
+        Column('time_created', DateTime(), default=datetime.utcnow),
+        Column('active', Boolean(), default=False),
+    ]
