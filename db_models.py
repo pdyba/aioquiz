@@ -1,6 +1,5 @@
 # !/usr/bin/python3.5
 from abc import abstractproperty
-from collections import namedtuple
 from datetime import datetime
 
 
@@ -11,6 +10,12 @@ class Table:
                 setattr(self, key, value)
             else:
                 setattr(self, '{}__'.format(key), value)
+
+    def __str__(self):
+        return '<' + self._name + ' ' + ' '.join([('{}={}'.format(prop.name, getattr(self, prop.name))) for prop in self._schema if not prop.name.startswith('time')]) + '>'
+
+    def __repr__(self):
+        return self.__str__()
 
     @classmethod
     def _gen_schema(cls):
@@ -32,16 +37,7 @@ class Table:
         pass
 
     @classmethod
-    async def get_by_id(cls, engine, uid):
-        async with engine.acquire() as conn:
-            resp = await conn.execute(
-                """SELECT * FROM {} WHERE id = {}""".format(cls._name, uid)
-            )
-            resp = await resp.first()
-            return cls.__init__(resp)
-
-    @classmethod
-    async def table_exists(cls, engine):
+    async def _table_exists(cls, engine):
         async with engine.acquire() as conn:
             exists = await conn.execute("""SELECT EXISTS (
                         SELECT 1
@@ -51,11 +47,9 @@ class Table:
             exists = await exists.first()
             return str(exists) == '(False,)'
 
-
-
     @classmethod
     async def create_table(cls, engine):
-        if await cls.table_exists(engine):
+        if await cls._table_exists(engine):
             async with engine.acquire() as conn:
                 await conn.execute(
                     """CREATE TABLE {} ( {} );""".format(cls._name, cls._gen_schema())
@@ -63,16 +57,68 @@ class Table:
                 print('Question Table Done')
 
     @classmethod
+    async def get_by_id(cls, engine, uid):
+        async with engine.acquire() as conn:
+            resp = await conn.execute(
+                """SELECT * FROM {} WHERE id = {}""".format(cls._name, uid)
+            )
+            resp = await resp.first()
+            return cls(**resp)
+
+
+    @classmethod
     async def get_all(cls, engine):
         async with engine.acquire() as conn:
             resp = await conn.execute("""SELECT * FROM {}""".format(cls._name))
-            return [cls.__init__(r) for r in await resp.fetchall()]
+            return [cls(**r) for r in await resp.fetchall()]
 
     @classmethod
     async def get_by_field_value(cls, engine, field, value):
         async with engine.acquire() as conn:
             resp = await conn.execute("""SELECT * FROM {} WHERE {} = {}}}""".format(cls._name, field, value))
-            return [cls.__init__(r) for r in await resp.fetchall()]
+            return [cls(**r) for r in await resp.fetchall()]
+
+    @classmethod
+    def _format_create(cls, clsi):
+        keys = []
+        values = ""
+        for prop in cls._schema:
+            if not prop.name.startswith('time') and prop.name != 'id':
+                keys.append(prop.name)
+                if isinstance(prop._py_type, str):
+                    values += "'{}'".format(getattr(clsi, prop.name))
+                else:
+                    values += str(getattr(clsi, prop.name))
+        return ', '.format(keys),
+
+
+    @classmethod
+    async def _create(cls, engine, data): # TODO: WIP
+        async with engine.acquire() as conn:
+            resp =  await conn.execute("""INSERT INTO question ({}) VALUES
+            ({})
+            ;""".format(*cls._format_create(data)))
+            return resp
+
+    async def create(self, engine):
+        await self._create(engine, self)
+
+    @classmethod
+    def _format_update(cls, clsi):
+        return ', '.join([("{}='{}'".format(prop.name, getattr(clsi, prop.name))) for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'])
+
+
+    @classmethod
+    async def _update(cls, engine, data):
+        async with engine.acquire() as conn:
+            resp =  await conn.execute(
+                """UPDATE {} SET {}
+                WHERE id = {}
+                ;""".format(cls._name, cls._format_update(data), data.id))
+            return resp
+
+    async def update(self, engine):
+        await self._update(engine, self)
 
 class Column:
     def __init__(self, name, type, primary_key=False):
@@ -140,55 +186,17 @@ class DateTime(ColumnType):
 
 class Question(Table):
     _name = 'question'
-    _schema = []
-    id = Column('id', Integer, primary_key=True)
-    question = Column('question', String(1000))
-    answares = Column('answares', String(1000))
-    img = Column('img', String(255))
-    creator = Column('creator', Integer())
-    reviewer = Column('reviewer', Integer())
-    time_created = Column('time_created', DateTime())
-    time_accepted = Column('time_accepted', DateTime())
-    active = Column('active', Boolean())
-
-    # @classmethod
-    # async def create_table(cls, engine):
-    #     async with engine.acquire() as conn:
-    #         exists = await conn.execute("""SELECT EXISTS (
-    #                     SELECT 1
-    #                     FROM   information_schema.tables
-    #                     WHERE  tables.table_name = 'question'
-    #                 ); """)
-    #         exists = await exists.first()
-    #         if str(exists) == '(False,)':
-    #             await conn.execute("""
-    #                CREATE TABLE question (
-    #                    id serial primary key,
-    #                    question varchar(1000),
-    #                    answares varchar(1000),
-    #                    img varchar(255),
-    #                    creator integer,
-    #                    reviewer integer,
-    #                    time_created timestamp,
-    #                    time_accepted timestamp,
-    #                    active boolean
-    #                );""")
-    #             print('Question Table Done')
-    #
-    # @classmethod
-    # async def create_new_user(cls, engine, data):
-    #     async with engine.acquire() as conn:
-    #         resp =  await conn.execute("""INSERT INTO question (question, answares, img, creator, reviewer, time_created, time_accepted, active) VALUES
-    #         ('{question}', '{answares}', '{img}', {creator}, {reviewer}, '{time_created}', '{time_accepted}', '{active}')
-    #         ;""".format(**data))
-    #         return resp
-    #
-    #
-    # @classmethod
-    # async def get_all(cls, engine):
-    #     async with engine.acquire() as conn:
-    #         resp = await conn.execute("""SELECT * FROM question""")
-    #         return [cls._instance(**r) for r in await resp.fetchall()]
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('question', String(1000)),
+        Column('answares', String(1000)),
+        Column('img', String(255)),
+        Column('creator', Integer()),
+        Column('reviewer', Integer()),
+        Column('time_created', DateTime()),
+        Column('time_accepted', DateTime()),
+        Column('active', Boolean()),
+    ]
 
 
 class User(Table):

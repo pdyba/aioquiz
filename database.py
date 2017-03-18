@@ -6,7 +6,7 @@ from aiopg.sa import create_engine
 from db_models import Question
 
 
-tbl = Question()
+tbl = Question
 
 async def go():
     async with create_engine(
@@ -27,8 +27,12 @@ async def go():
             'active': 't',
         }
         # await tbl.create_new_user(engine, new_user)
+        x = await tbl.get_by_id(engine, 5)
+        print(x)
+        x.question = 'updated test'
+        await  x.update(engine)
         print(await tbl.get_by_id(engine, 5))
-        print(await tbl.get_all(engine))
+        # print(await tbl.get_all(engine))
 
 
 if __name__ == '__main__':
