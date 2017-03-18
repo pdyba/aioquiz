@@ -102,6 +102,19 @@ class Summary(HTTPMethodView):
             return json({})
 
 
+class UserView(HTTPMethodView):
+    async def get(self, _, uid=0, name=''):
+        pass
+
+    async def post(self, _):
+        pass
+
+    async def put(self, _, uid):
+        pass
+
+    async def delete(self, _, uid):
+        pass
+
 app = Sanic()
 
 app.static('/', './static/index.html')
@@ -114,6 +127,10 @@ app.static('/images', './static/images')
 app.add_route(QuestionView.as_view(), '/api/quiz')
 app.add_route(Summary.as_view(), '/api/summary')
 app.add_route(Stats.as_view(), '/api/stats/<qid:int>')
+
+app.add_route(UserView.as_view(), '/api/user/')
+app.add_route(UserView.as_view(), '/api/user/<uid:int>')
+app.add_route(UserView.as_view(), '/api/user/<name:str>')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80)
