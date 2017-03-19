@@ -5,9 +5,6 @@ from aiopg.sa import create_engine
 
 from db_models import Question, Users, LiveQuiz, Quiz
 
-
-
-
 async def bootstrap_db():
     async with create_engine(
             user='aiopg',
