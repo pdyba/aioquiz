@@ -124,6 +124,8 @@ app.static('/js/vendor/', './static/js/vendor/')
 app.static('/css/', './static/css')
 app.static('/js', './static/js/')
 app.static('/images', './static/images')
+app.static('/partials', './static/partials')
+app.static('/templates', './static/templates')
 
 app.add_route(QuestionView.as_view(), '/api/quiz')
 app.add_route(Summary.as_view(), '/api/summary')
