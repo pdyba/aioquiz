@@ -19,7 +19,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
         .when("/about", {
             templateUrl: "partials/about.html",
-            controller: "PageCtrl",
+            controller: "PageCtrl"
         })
         .when("/live_quiz", {
             templateUrl: "partials/live_quiz.html",
@@ -121,6 +121,28 @@ function RegisterController(UserService, $location, $rootScope, FlashService) {
                 if (response.success) {
                     FlashService.Success('Registration successful', true);
                     $location.path('/login');
+                } else {
+                    FlashService.Error(response.message);
+                    vm.dataLoading = false;
+                }
+            });
+    }
+}
+
+app.controller('NewQuestionController', NewQuestionController);
+
+NewQuestionController.$inject = ['$http', '$location', '$rootScope', 'FlashService'];
+function NewQuestionController($http, $location, $rootScope, FlashService) {
+    var vm = this;
+
+    vm.new_question = new_question;
+
+    function new_question() {
+        vm.dataLoading = true;
+        $http.post('/api/question', vm.n_question).then(function (response) {
+                if (response.success) {
+                    FlashService.Success('New Question added successful', true);
+                    $location.path('/propose');
                 } else {
                     FlashService.Error(response.message);
                     vm.dataLoading = false;

@@ -1,6 +1,7 @@
 # !/usr/bin/python3.5
 from abc import abstractproperty
 from datetime import datetime
+import json
 
 
 class Table:
@@ -62,8 +63,8 @@ class Table:
                     """CREATE TABLE {} ( {} );""".format(cls._name, cls._gen_schema())
                 )
                 print('{} Table Done'.format(cls._name))
-        # else:
-        #     print('{} Table already exists'.format(cls._name))
+        else:
+            print('{} Table already exists'.format(cls._name))
 
     @classmethod
     async def get_by_id(cls, engine, uid):
@@ -96,8 +97,14 @@ class Table:
                 keys.append(prop.name)
                 if isinstance(prop.type, String):
                     val = getattr(clsi, prop.name)
+                    ending = '"' if "'" in val else "'"
+                    values += ending
+                    values += prop.type.format(val)
+                    values += ending
+                elif isinstance(prop.type, DateTime):
+                    val = getattr(clsi, prop.name)
                     values += "'"
-                    values += val
+                    values += str(val)
                     values += "'"
                 else:
                     values += (str(getattr(clsi, prop.name)))
@@ -114,11 +121,11 @@ class Table:
             return resp
 
     async def create(self, engine):
-        await self._create(engine, self)
+        return await self._create(engine, self)
 
     @classmethod
     def _format_update(cls, clsi):
-        return ', '.join([("{}='{}'".format(prop.name, getattr(clsi, prop.name))) for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'])
+        return ', '.join([("{}='{}'".format(prop.name, getattr(prop.type.format(clsi), prop.name))) for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'])
 
     @classmethod
     async def _update(cls, engine, data):
@@ -131,6 +138,9 @@ class Table:
 
     async def update(self, engine):
         await self._update(engine, self)
+
+    async def to_dict(self):
+        return {field.name: getattr(self, field.name) for field in self._schema}
 
 
 class Column:
@@ -163,11 +173,12 @@ class ColumnType:
     def _py_type(self):
         pass
 
-
-
     @classmethod
     def validate(cls, data):
         return isinstance(data, cls._py_type)
+
+    def format(self, data):
+        return data
 
 
 class Integer(ColumnType):
@@ -189,6 +200,11 @@ class String(ColumnType):
     def validate(self, data):
         super().validate(data) and len(data) <= self.length
 
+    def format(self, data):
+        if isinstance(data, str):
+            return data
+        return json.dumps(data)
+
 
 class Boolean(ColumnType):
     _type = 'boolean'
@@ -199,55 +215,3 @@ class DateTime(ColumnType):
     _type = 'timestamp'
     _py_type = datetime
 
-
-class Question(Table):
-    _name = 'question'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('question', String(1000)),
-        Column('answares', String(1000)),
-        Column('img', String(255), required=False, default=''),
-        Column('creator', Integer()),
-        Column('reviewer', Integer(), required=False, default=0),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('time_accepted', DateTime(), required=False),
-        Column('active', Boolean(), default=False),
-    ]
-
-
-class Users(Table):
-    _name = 'users'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('email', String(255)),
-        Column('password', String(1000)),
-        Column('questions', String(10000), default=''),
-        Column('live_quiz', String(5000), default=''),
-        Column('moderator', Boolean(), default=False),
-        Column('admin', Boolean(), default=False),
-        Column('active', Boolean(), default=True)
-    ]
-
-
-class Quiz(Table):
-    _name = 'quiz'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('title', String(255)),
-        Column('questions', String(10000)),
-        Column('creator', Integer()),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('time_accepted', DateTime(), required=False),
-    ]
-
-
-class LiveQuiz(Table):
-    _name = 'live_quiz'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('title', String(255)),
-        Column('questions', String(10000)),
-        Column('creator', Integer()),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('active', Boolean(), default=False),
-    ]
