@@ -30,9 +30,9 @@
                 </li>
                 <li ng-show="$parent.globals.currentUser"><a href="#/profile">{{ $parent.globals.currentUser.username }}</a>
                 </li>
-                <li ng-show="$parent.globals.currentUser.admin"><a href="#/admin">Admin</a>
+                <li ng-show="$parent.globals.currentUser.admin"><a href="#/admin" class="admin">Admin</a>
                 </li>
-                <li ng-show="$parent.globals.currentUser"><a  ng-click="logout()" target="_self">Logout</a>
+                <li ng-show="$parent.globals.currentUser"><a  ng-click="logout()" target="_self">&#10006;</a>
                 </li>
             </ul>
         </div>
