@@ -12,11 +12,15 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "partials/home.html",
             controller: "PageCtrl",
             controllerAs: 'vm'
-        }
-        )
+        })
+        .when("/lessons", {
+            templateUrl: "partials/lessons.html",
+            controller: "PageCtrl",
+            controllerAs: 'vm'
+        })
         .when("/about", {
             templateUrl: "partials/about.html",
-            controller: "PageCtrl",
+            controller: "AboutCtrl",
             controllerAs: 'vm'
         })
         .when("/live_quiz", {
@@ -88,6 +92,21 @@ function PageCtrl ($scope, $location, $AuthenticationService, $FlashService) {
     $scope.logout = function () {
                 $AuthenticationService.ClearCredentials()
             };
+}
+
+app.controller('AboutCtrl', AboutCtrl);
+AboutCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
+function AboutCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+
+    function loadAllUsers() {
+        $UserService.GetAll().then(function (users) {
+                vm.allUsers = users;
+            console.log(users);
+            });
+    }
+    loadAllUsers()
 }
 
 app.controller('LoginController', LoginController);
@@ -209,7 +228,6 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 
 // Base64 encoding service used by AuthenticationService
 var Base64 = {
-
     keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
 
     encode: function (input) {
@@ -290,7 +308,6 @@ var Base64 = {
 };
 
 app.factory('UserService', UserService);
-
 UserService.$inject = ['$http'];
 function UserService($http) {
     var service = {};
@@ -328,8 +345,6 @@ function UserService($http) {
         return $http.delete('/api/user/' + id).then(handleSuccess, handleError('Error deleting user'));
     }
 
-    // private functions
-
     function handleSuccess(res) {
         return res.data;
     }
@@ -347,10 +362,8 @@ app.factory('FlashService', FlashService);
 FlashService.$inject = ['$rootScope'];
 function FlashService($rootScope) {
     var service = {};
-
     service.Success = Success;
     service.Error = Error;
-
     initService();
 
     return service;
@@ -366,7 +379,6 @@ function FlashService($rootScope) {
                 if (!flash.keepAfterLocationChange) {
                     delete $rootScope.flash;
                 } else {
-                    // only keep for a single location change
                     flash.keepAfterLocationChange = false;
                 }
             }
@@ -392,7 +404,6 @@ function FlashService($rootScope) {
 
 
 app.controller('AdminController', AdminController);
-
 AdminController.$inject = ['UserService', '$rootScope'];
 function AdminController(UserService, $rootScope) {
     var vm = this;

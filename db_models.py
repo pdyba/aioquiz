@@ -6,7 +6,7 @@ import json
 from psycopg2._psycopg import IntegrityError
 
 
-class UserDoesNoteExists(Exception):
+class DoesNoteExists(Exception):
     @staticmethod
     async def to_dict():
         return {'msg': 'User Does not Exists'}
@@ -102,7 +102,7 @@ class Table:
         try:
             return data[0]
         except Exception as err:
-            raise UserDoesNoteExists
+            raise DoesNoteExists
 
     @classmethod
     def _format_create(cls, clsi):
@@ -112,7 +112,11 @@ class Table:
             if prop.name != 'id':
                 keys.append(prop.name)
                 if isinstance(prop.type, String):
-                    val = getattr(clsi, prop.name)
+                    try:
+                        val = getattr(clsi, prop.name)
+                    except AttributeError:
+                        if not prop.required:
+                            val = ''
                     ending = '"' if "'" in val else "'"
                     values += ending
                     values += prop.type.format(val)
@@ -131,7 +135,7 @@ class Table:
     @classmethod
     async def _create(cls, engine, data):
         async with engine.acquire() as conn:
-            resp =  await conn.execute("""INSERT INTO {} ({}) VALUES
+            resp = await conn.execute("""INSERT INTO {} ({}) VALUES
             ({})
             ;""".format(cls._name, *cls._format_create(data)))
             return resp

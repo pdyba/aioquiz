@@ -3,7 +3,7 @@ from aiopg.sa import create_engine
 from sanic.response import json
 from sanic.views import HTTPMethodView
 
-from db_models import UserDoesNoteExists
+from db_models import DoesNoteExists
 from models import Quiz
 from models import Question
 from models import Users
@@ -128,8 +128,8 @@ class LessonView(HTTPMethodView):
 
     async def get(self, _, qid):
         async with create_engine(**psql_cfg) as engine:
-            question = await Question.get_by_id(engine, qid)
-            return json(await question.to_dict())
+            lesson = await Lesson.get_by_id(engine, qid)
+            return json(await lesson.to_dict())
 
 
 class AuthenticateView(HTTPMethodView):
@@ -143,7 +143,7 @@ class AuthenticateView(HTTPMethodView):
                 return json({'success': True, 'admin': user.admin, 'moderator': user.moderator}, status=200)
             else:
                 return json(self.user_error, status=200)
-        except UserDoesNoteExists:
+        except DoesNoteExists:
             return json(self.user_error, status=200)
         except:
             logger.exception('err authentication.post')

@@ -30,7 +30,10 @@ class Users(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('email', String(255), unique=True),
+        Column('name', String(255)),
+        Column('surname', String(255)),
         Column('password', String(1000)),
+        Column('description', String(5000), required=False),
         Column('questions', String(10000), default=''),
         Column('live_quiz', String(5000), default=''),
         Column('moderator', Boolean(), default=False),

@@ -12,6 +12,8 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
+                <li ng-show="$parent.globals.currentUser"><a href="#/lessons">Lessons</a>
+                </li>
                 <li ng-show="$parent.globals.currentUser"><a href="#/quiz">Start Quiz</a>
                 </li>
                 <li ng-show="$parent.globals.currentUser"><a href="#/live_quiz">Live Quiz</a>
