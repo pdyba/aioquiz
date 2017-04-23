@@ -74,19 +74,23 @@ app.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.hashPrefix('');
 }]);
 
-app.controller('PageCtrl', function (/* $scope, $location, $http */) {
+app.controller('PageCtrl', PageCtrl);
+PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService'];
+function PageCtrl ($scope, $location, $AuthenticationService, $FlashService) {
     // Activates the Carousel
     $('.carousel').carousel({
         interval: 5000
     });
-
     // Activates Tooltips for Social Links
     $('.tooltip-social').tooltip({
         selector: "a[data-toggle=tooltip]"
-    })
-});
-app.controller('LoginController', LoginController);
+    });
+    $scope.logout = function () {
+                $AuthenticationService.ClearCredentials()
+            };
+}
 
+app.controller('LoginController', LoginController);
 LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
 function LoginController($location, AuthenticationService, FlashService) {
     var vm = this;
@@ -101,14 +105,14 @@ function LoginController($location, AuthenticationService, FlashService) {
         vm.dataLoading = true;
         AuthenticationService.Login(vm.username, vm.password, function (response) {
             if (response.data.success) {
-                AuthenticationService.SetCredentials(vm.username, vm.password);
+                AuthenticationService.SetCredentials(vm.username, vm.password, response.data.admin, response.data.moderator);
                 $location.path('/');
             } else {
                 FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
             }
         });
-    };
+    }
 }
 app.controller('RegisterController', RegisterController);
 
@@ -175,13 +179,15 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 
     }
 
-    function SetCredentials(username, password) {
+    function SetCredentials(username, password, admin, moderator) {
         var authdata = Base64.encode(username + ':' + password);
 
         $rootScope.globals = {
             currentUser: {
                 username: username,
-                authdata: authdata
+                authdata: authdata,
+                admin: admin,
+                moderator: moderator
             }
         };
 
@@ -434,7 +440,7 @@ function run($rootScope, $location, $cookies, $http) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
         if (restrictedPage && !loggedIn) {
             $location.path('/login');

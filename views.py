@@ -139,12 +139,12 @@ class AuthenticateView(HTTPMethodView):
             req = request.json
             async with create_engine(**psql_cfg) as engine:
                 user = await Users.get_first(engine, 'email', req.get('email', ''))
-            if user and req.get('password', '') == user.password:
-                return json({'success': True}, status=200)
+            if user and user.active and req.get('password', '') == user.password:
+                return json({'success': True, 'admin': user.admin, 'moderator': user.moderator}, status=200)
             else:
-                return json(self.user_error, status=404)
+                return json(self.user_error, status=200)
         except UserDoesNoteExists:
-            return json(self.user_error, status=404)
+            return json(self.user_error, status=200)
         except:
             logger.exception('err authentication.post')
             return json({'msg': 'internal error'}, status=500)
