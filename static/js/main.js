@@ -15,7 +15,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/lessons", {
             templateUrl: "partials/lessons.html",
-            controller: "PageCtrl",
+            controller: "LessonCtrl",
             controllerAs: 'vm'
         })
         .when("/about", {
@@ -25,27 +25,27 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/live_quiz", {
             templateUrl: "partials/live_quiz.html",
-            controller: "PageCtrl",
+            controller: "LiveQuizCtrl",
             controllerAs: 'vm'
         })
         .when("/quiz", {
             templateUrl: "partials/quiz.html",
-            controller: "PageCtrl",
+            controller: "QuizCtrl",
             controllerAs: 'vm'
         })
         .when("/propose", {
             templateUrl: "partials/propose.html",
-            controller: "PageCtrl",
+            controller: "ProposeCtrl",
             controllerAs: 'vm'
         })
         .when("/review", {
             templateUrl: "partials/review.html",
-            controller: "PageCtrl",
+            controller: "ReviewCtrl",
             controllerAs: 'vm'
         })
         .when("/create_quiz", {
             templateUrl: "partials/create_quiz.html",
-            controller: "PageCtrl",
+            controller: "CreateQuizCtrl",
             controllerAs: 'vm'
         })
         .when("/login", {
@@ -103,10 +103,52 @@ function AboutCtrl ($scope, $location, $AuthenticationService, $FlashService, $i
     function loadAllUsers() {
         $UserService.GetAll().then(function (users) {
                 vm.allUsers = users;
-            console.log(users);
             });
     }
     loadAllUsers()
+}
+
+app.controller('LessonCtrl', LessonCtrl);
+LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
+function LessonCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+}
+
+app.controller('QuizCtrl', QuizCtrl);
+QuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
+function QuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+}
+
+app.controller('LiveQuizCtrl', LiveQuizCtrl);
+LiveQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
+function LiveQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+}
+
+
+app.controller('ProposeCtrl', ProposeCtrl);
+ProposeCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
+function ProposeCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+}
+
+app.controller('ReviewCtrl', ProposeCtrl);
+ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
+function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+}
+
+app.controller('CreateQuizCtrl', CreateQuizCtrl);
+CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
+function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
 }
 
 app.controller('LoginController', LoginController);
