@@ -26,7 +26,6 @@ async def bootstrap_db():
             'admin': True,
         }
         tbl = Users(**new_user)
-        await tbl.create(engine)
         await tbl.get_by_id(engine, 1)
 
         await Question(question='Jak masz na imie ?').create(engine)

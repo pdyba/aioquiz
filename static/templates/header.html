@@ -10,7 +10,6 @@
             </button>
             <a class="navbar-brand" href="#/">aioquiz</a>
         </div>
-
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#/quiz">Start Quiz</a>
@@ -25,15 +24,13 @@
                 </li>
                 <li><a href="#/about">About</a>
                 </li>
-                <li><a href="#/login">Login/Register</a>
+                <li><a href="#/login">Login/Register {{ vm.user.email }}</a>
                 </li>
                 <li><a href="#/profile">Profile</a>
                 </li>
-                <li><a href="#/admin">Admin</a>
+                <li ng-show="$parent.AuthenticationService.user.admin"><a href="#/admin">Admin</a>
                 </li>
             </ul>
         </div>
-
     </div>
-
 </nav>

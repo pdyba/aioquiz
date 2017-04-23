@@ -1,11 +1,3 @@
-/**
- * AngularJS Tutorial 1
- * @author Nick Kaye <nick.c.kaye@gmail.com>
- */
-
-/**
- * Main AngularJS Web Application
- */
 var app = angular.module('aioquiz', [
     'ngRoute',
     'ngCookies'
@@ -16,30 +8,41 @@ var app = angular.module('aioquiz', [
  */
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
-        .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
+        .when("/", {
+            templateUrl: "partials/home.html",
+            controller: "PageCtrl",
+            controllerAs: 'vm'
+        }
+        )
         .when("/about", {
             templateUrl: "partials/about.html",
-            controller: "PageCtrl"
+            controller: "PageCtrl",
+            controllerAs: 'vm'
         })
         .when("/live_quiz", {
             templateUrl: "partials/live_quiz.html",
-            controller: "PageCtrl"
+            controller: "PageCtrl",
+            controllerAs: 'vm'
         })
         .when("/quiz", {
             templateUrl: "partials/quiz.html",
-            controller: "PageCtrl"
+            controller: "PageCtrl",
+            controllerAs: 'vm'
         })
         .when("/propose", {
             templateUrl: "partials/propose.html",
-            controller: "PageCtrl"
+            controller: "PageCtrl",
+            controllerAs: 'vm'
         })
         .when("/review", {
             templateUrl: "partials/review.html",
-            controller: "PageCtrl"
+            controller: "PageCtrl",
+            controllerAs: 'vm'
         })
         .when("/create_quiz", {
             templateUrl: "partials/create_quiz.html",
-            controller: "PageCtrl"
+            controller: "PageCtrl",
+            controllerAs: 'vm'
         })
         .when("/login", {
             templateUrl: "partials/login.html",
@@ -53,7 +56,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/profile", {
             templateUrl: "partials/profile.html",
-            controller: "PageCtrl"
+            controller: "PageCtrl",
+            controllerAs: 'vm'
         })
         .when("/admin", {
             templateUrl: "partials/admin.html",
@@ -62,7 +66,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .otherwise("/404", {
             templateUrl: "partials/404.html",
-            controller: "PageCtrl"
+            controller: "PageCtrl",
+            controllerAs: 'vm'
         });
 }]);
 app.config(['$locationProvider', function ($locationProvider) {
@@ -89,18 +94,17 @@ function LoginController($location, AuthenticationService, FlashService) {
     vm.login = login;
 
     (function initController() {
-        // reset login status
         AuthenticationService.ClearCredentials();
     })();
 
     function login() {
         vm.dataLoading = true;
         AuthenticationService.Login(vm.username, vm.password, function (response) {
-            if (response.success) {
+            if (response.data.success) {
                 AuthenticationService.SetCredentials(vm.username, vm.password);
                 $location.path('/');
             } else {
-                FlashService.Error(response.message);
+                FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -164,31 +168,10 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
     return service;
 
     function Login(username, password, callback) {
-
-        /* Dummy authentication for testing, uses $timeout to simulate api call
-         ----------------------------------------------*/
-        $timeout(function () {
-            var response;
-            UserService.GetByUsername(username)
-                .then(function (user) {
-                    if (user !== null && user.password === password) {
-                        response = {success: true};
-                    } else {
-                        response = {
-                            success: false,
-                            message: 'Username or password is incorrect'
-                        };
-                    }
-                    callback(response);
-                });
-        }, 1000);
-
-        /* Use this for real authentication
-         ----------------------------------------------*/
-        //$http.post('/api/authenticate', { username: username, password: password })
-        //    .success(function (response) {
-        //        callback(response);
-        //    });
+        $http.post('/api/authenticate', { email: username, password: password }).then(
+            function (response) {
+                callback(response);
+            });
 
     }
 
@@ -300,171 +283,58 @@ var Base64 = {
     }
 };
 
-//app.factory('UserService', UserService);
-//
-//UserService.$inject = ['$http'];
-//function UserService($http) {
-//    var service = {};
-//
-//    service.GetAll = GetAll;
-//    service.GetById = GetById;
-//    service.GetByUsername = GetByUsername;
-//    service.Create = Create;
-//    service.Update = Update;
-//    service.Delete = Delete;
-//
-//    return service;
-//
-//    function GetAll() {
-//        return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
-//    }
-//
-//    function GetById(id) {
-//        return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
-//    }
-//
-//    function GetByUsername(username) {
-//        return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
-//    }
-//
-//    function Create(user) {
-//        return $http.post('/api/users', user).then(handleSuccess, handleError('Error creating user'));
-//    }
-//
-//    function Update(user) {
-//        return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
-//    }
-//
-//    function Delete(id) {
-//        return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
-//    }
-//
-//    // private functions
-//
-//    function handleSuccess(res) {
-//        return res.data;
-//    }
-//
-//    function handleError(error) {
-//        return function () {
-//            return {success: false, message: error};
-//        };
-//    }
-//}
-
 app.factory('UserService', UserService);
 
-    UserService.$inject = ['$timeout', '$filter', '$q'];
-    function UserService($timeout, $filter, $q) {
+UserService.$inject = ['$http'];
+function UserService($http) {
+    var service = {};
 
-        var service = {};
+    service.GetAll = GetAll;
+    service.GetById = GetById;
+    service.GetByUsername = GetByUsername;
+    service.Create = Create;
+    service.Update = Update;
+    service.Delete = Delete;
 
-        service.GetAll = GetAll;
-        service.GetById = GetById;
-        service.GetByUsername = GetByUsername;
-        service.Create = Create;
-        service.Update = Update;
-        service.Delete = Delete;
+    return service;
 
-        return service;
-
-        function GetAll() {
-            var deferred = $q.defer();
-            deferred.resolve(getUsers());
-            return deferred.promise;
-        }
-
-        function GetById(id) {
-            var deferred = $q.defer();
-            var filtered = $filter('filter')(getUsers(), { id: id });
-            var user = filtered.length ? filtered[0] : null;
-            deferred.resolve(user);
-            return deferred.promise;
-        }
-
-        function GetByUsername(username) {
-            var deferred = $q.defer();
-            var filtered = $filter('filter')(getUsers(), { username: username });
-            var user = filtered.length ? filtered[0] : null;
-            deferred.resolve(user);
-            return deferred.promise;
-        }
-
-        function Create(user) {
-            var deferred = $q.defer();
-
-            // simulate api call with $timeout
-            $timeout(function () {
-                GetByUsername(user.username)
-                    .then(function (duplicateUser) {
-                        if (duplicateUser !== null) {
-                            deferred.resolve({ success: false, message: 'Username "' + user.username + '" is already taken' });
-                        } else {
-                            var users = getUsers();
-
-                            // assign id
-                            var lastUser = users[users.length - 1] || { id: 0 };
-                            user.id = lastUser.id + 1;
-
-                            // save to local storage
-                            users.push(user);
-                            setUsers(users);
-
-                            deferred.resolve({ success: true });
-                        }
-                    });
-            }, 1000);
-
-            return deferred.promise;
-        }
-
-        function Update(user) {
-            var deferred = $q.defer();
-
-            var users = getUsers();
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].id === user.id) {
-                    users[i] = user;
-                    break;
-                }
-            }
-            setUsers(users);
-            deferred.resolve();
-
-            return deferred.promise;
-        }
-
-        function Delete(id) {
-            var deferred = $q.defer();
-
-            var users = getUsers();
-            for (var i = 0; i < users.length; i++) {
-                var user = users[i];
-                if (user.id === id) {
-                    users.splice(i, 1);
-                    break;
-                }
-            }
-            setUsers(users);
-            deferred.resolve();
-
-            return deferred.promise;
-        }
-
-        // private functions
-
-        function getUsers() {
-            if(!localStorage.users){
-                localStorage.users = JSON.stringify([]);
-            }
-
-            return JSON.parse(localStorage.users);
-        }
-
-        function setUsers(users) {
-            localStorage.users = JSON.stringify(users);
-        }
+    function GetAll() {
+        return $http.get('/api/user/').then(handleSuccess, handleError('Error getting all users'));
     }
+
+    function GetById(id) {
+        return $http.get('/api/user/' + id).then(handleSuccess, handleError('Error getting user by id'));
+    }
+
+    function GetByUsername(username) {
+        return $http.get('/api/user/' + username).then(handleSuccess, handleError('Error getting user by username'));
+    }
+
+    function Create(user) {
+        return $http.post('/api/user/', user).then(handleSuccess, handleError('Error creating user'));
+    }
+
+    function Update(user) {
+        return $http.put('/api/user/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
+    }
+
+    function Delete(id) {
+        return $http.delete('/api/user/' + id).then(handleSuccess, handleError('Error deleting user'));
+    }
+
+    // private functions
+
+    function handleSuccess(res) {
+        return res.data;
+    }
+
+    function handleError(error) {
+        return function () {
+            return {success: false, message: error};
+        };
+    }
+}
+
 
 app.factory('FlashService', FlashService);
 

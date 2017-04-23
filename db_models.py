@@ -3,6 +3,14 @@ from abc import abstractproperty
 from datetime import datetime
 import json
 
+from psycopg2._psycopg import IntegrityError
+
+
+class UserDoesNoteExists(Exception):
+    @staticmethod
+    async def to_dict():
+        return {'msg': 'User Does not Exists'}
+
 
 class Table:
     def __init__(self, **kwargs):
@@ -85,8 +93,16 @@ class Table:
     @classmethod
     async def get_by_field_value(cls, engine, field, value):
         async with engine.acquire() as conn:
-            resp = await conn.execute("""SELECT * FROM {} WHERE {} = {}}}""".format(cls._name, field, value))
+            resp = await conn.execute("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
             return [cls(**r) for r in await resp.fetchall()]
+
+    @classmethod
+    async def get_first(cls, engine, field, value):
+        data = await cls.get_by_field_value(engine, field, value)
+        try:
+            return data[0]
+        except Exception as err:
+            raise UserDoesNoteExists
 
     @classmethod
     def _format_create(cls, clsi):
@@ -121,7 +137,14 @@ class Table:
             return resp
 
     async def create(self, engine):
-        return await self._create(engine, self)
+        try:
+            return await self._create(engine, self)
+        except IntegrityError as e:
+            er = e.pgerror
+            msg = er[er.find('Key') + 4:er.find('already') - 1].replace('(', '').replace(')', '')
+            return {
+                'error': msg + 'already exists',
+            }
 
     @classmethod
     def _format_update(cls, clsi):
@@ -144,15 +167,26 @@ class Table:
 
 
 class Column:
-    def __init__(self, name, type, primary_key=False, required=True, default=None):
+    def __init__(
+            self,
+            name,
+            type,
+            primary_key=False,
+            required=True,
+            default=None,
+            unique=False
+    ):
         self.name = name
         self.type = type
         self.primary_key = primary_key
         self.required = required
+        self.unique = unique
         self.default = default() if callable(default) else default
 
     def __str__(self):
-        if not self.primary_key:
+        if self.unique:
+            return '{} {} UNIQUE NOT NULL'.format(self.name, str(self.type))
+        elif not self.primary_key:
             return '{} {}'.format(self.name, str(self.type))
         return '{} serial primary key'.format(self.name)
 

@@ -29,7 +29,7 @@ class Users(Table):
     _name = 'users'
     _schema = [
         Column('id', Integer, primary_key=True),
-        Column('email', String(255)),
+        Column('email', String(255), unique=True),
         Column('password', String(1000)),
         Column('questions', String(10000), default=''),
         Column('live_quiz', String(5000), default=''),

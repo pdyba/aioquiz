@@ -1,6 +1,7 @@
 # !/usr/bin/python3.5
 from sanic import Sanic
 
+from views import AuthenticateView
 from views import QuestionView
 from views import UserView
 
@@ -17,8 +18,8 @@ app.static('/templates', './static/templates')
 app.static('/favicon.ico', './static/images/favicon.ico')
 
 app.add_route(UserView.as_view(), '/api/user/')
-app.add_route(UserView.as_view(), '/api/user/<uid:int>')
-app.add_route(UserView.as_view(), '/api/user/<name:str>')
+app.add_route(UserView.as_view(), '/api/user/<id_name>')
+app.add_route(AuthenticateView.as_view(), '/api/authenticate')
 
 app.add_route(QuestionView.as_view(), '/api/question/')
 app.add_route(QuestionView.as_view(), '/api/question/<qid:int>')
