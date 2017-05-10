@@ -19,6 +19,7 @@ class Question(Table):
         Column('img', String(255), required=False, default=''),
         Column('creator', Integer(), default=1),
         Column('reviewer', Integer(), required=False, default=0),
+        Column('lesson', Integer(), required=False, default=0),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('time_accepted', DateTime(), required=False, default=datetime(1900, 1, 1, 1, 1, 1, 1)),
         Column('active', Boolean(), default=False),

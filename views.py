@@ -13,7 +13,7 @@ from utils import logger
 
 psql_cfg = {
     'user': 'aiopg',
-    'database':  'postgres',
+    'database': 'postgres',
     'host': '127.0.0.1',
     'password': 'aiopg'
 }
@@ -118,29 +118,46 @@ class LessonView(HTTPMethodView):
     async def post(self, request):
         try:
             req = request.json
-            lesson = Lesson(**req)
             async with create_engine(**psql_cfg) as engine:
-                qid = await lesson.create(engine)
-            return json({'id': qid}, status=302)
+                user = await Users.get_first(engine, 'email', req['creator'])
+                req['creator'] = user.id
+                lesson = Lesson(**req)
+                await lesson.create(engine)
+            return json({'success': True}, status=200)
         except:
             logger.exception('err lesson.post')
-            return json({})
+            return json({'message': 'error creating'})
 
-    async def get(self, _, qid):
+    async def get(self, _, lid=None):
         async with create_engine(**psql_cfg) as engine:
-            lesson = await Lesson.get_by_id(engine, qid)
-            return json(await lesson.to_dict())
+            if lid:
+                lesson = await Lesson.get_by_id(engine, lid)
+                return json(await lesson.to_dict())
+            else:
+                lessons = await Lesson.get_all(engine)
+                return json(
+                    [{
+                            'id': l.id,
+                            'title': l.title,
+                            'description': l.description,
+                            'file': l.file
+                        } for l in lessons]
+                )
 
 
 class AuthenticateView(HTTPMethodView):
     user_error = {'success': False, 'msg': 'Wrong user name or password'}
+
     async def post(self, request):
         try:
             req = request.json
             async with create_engine(**psql_cfg) as engine:
-                user = await Users.get_first(engine, 'email', req.get('email', ''))
-            if user and user.active and req.get('password', '') == user.password:
-                return json({'success': True, 'admin': user.admin, 'moderator': user.moderator}, status=200)
+                user = await Users.get_first(engine, 'email',
+                                             req.get('email', ''))
+            if user and user.active and req.get('password',
+                                                '') == user.password:
+                return json({'success': True, 'admin': user.admin,
+                             'moderator': user.moderator}, status=200)
             else:
                 return json(self.user_error, status=200)
         except DoesNoteExists:

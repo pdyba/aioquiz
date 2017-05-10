@@ -35,7 +35,12 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/propose", {
             templateUrl: "partials/propose.html",
-            controller: "ProposeCtrl",
+            controller: "NewQuestionController",
+            controllerAs: 'vm'
+        })
+        .when("/lessons_new", {
+            templateUrl: "partials/lessons_new.html",
+            controller: "NewLessonController",
             controllerAs: 'vm'
         })
         .when("/review", {
@@ -109,10 +114,15 @@ function AboutCtrl ($scope, $location, $AuthenticationService, $FlashService, $i
 }
 
 app.controller('LessonCtrl', LessonCtrl);
-LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function LessonCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function LessonCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $http.get('/api/lessons').then(
+        function (response) {
+            vm.lessons = response.data;
+        }
+    );
 }
 
 app.controller('QuizCtrl', QuizCtrl);
@@ -176,7 +186,6 @@ function LoginController($location, AuthenticationService, FlashService) {
     }
 }
 app.controller('RegisterController', RegisterController);
-
 RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
 function RegisterController(UserService, $location, $rootScope, FlashService) {
     var vm = this;
@@ -199,13 +208,16 @@ function RegisterController(UserService, $location, $rootScope, FlashService) {
 }
 
 app.controller('NewQuestionController', NewQuestionController);
-
 NewQuestionController.$inject = ['$http', '$location', '$rootScope', 'FlashService'];
 function NewQuestionController($http, $location, $rootScope, FlashService) {
     var vm = this;
-
     vm.new_question = new_question;
-
+    $http.get('/api/lessons').then(
+        function (response) {
+            vm.lessons = response.data;
+            console.log(response);
+        }
+    );
     function new_question() {
         vm.dataLoading = true;
         $http.post('/api/question', vm.n_question).then(function (response) {
@@ -214,6 +226,28 @@ function NewQuestionController($http, $location, $rootScope, FlashService) {
                     $location.path('/propose');
                 } else {
                     FlashService.Error(response.message);
+                    vm.dataLoading = false;
+                }
+            });
+    }
+}
+
+app.controller('NewLessonController', NewLessonController);
+NewLessonController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function NewLessonController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+
+    vm.new_lesson = new_lesson;
+    function new_lesson() {
+        vm.dataLoading = true;
+        vm.lesson.creator = $scope.globals.currentUser.username;
+        $http.post('/api/lessons', vm.lesson).then(function (response) {
+                if (response.data.success) {
+                    $FlashService.Success('New Lesson added successful', true);
+                    $location.path('/lessons');
+                } else {
+                    $FlashService.Error(response.data.message);
                     vm.dataLoading = false;
                 }
             });

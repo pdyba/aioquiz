@@ -131,7 +131,6 @@ class Table:
                 values += ', '
         return ', '.join(keys), values[:-2]
 
-
     @classmethod
     async def _create(cls, engine, data):
         async with engine.acquire() as conn:

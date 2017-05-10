@@ -4,6 +4,7 @@ from sanic import Sanic
 from views import AuthenticateView
 from views import QuestionView
 from views import UserView
+from views import LessonView
 
 app = Sanic()
 
@@ -23,6 +24,9 @@ app.add_route(AuthenticateView.as_view(), '/api/authenticate')
 
 app.add_route(QuestionView.as_view(), '/api/question/')
 app.add_route(QuestionView.as_view(), '/api/question/<qid:int>')
+
+app.add_route(LessonView.as_view(), '/api/lessons')
+app.add_route(LessonView.as_view(), '/api/lessons/<qid:int>')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

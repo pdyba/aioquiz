@@ -11,5 +11,42 @@
     </div>
 
 
+    <form name="form" ng-submit="vm.new_question()" role="form">
+        <div class="form-group"
+             ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
+            <label for="question">Question</label>
+            <textarea type="text" name="question" id="firstName"
+                   class="form-control" ng-model="vm.question.question" required/></textarea>
+            <span ng-show="form.question.$dirty && form.question.$error.required"
+                  class="help-block">Question is required</span>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': form.answer.$dirty && form.lastName.$error.required }">
+            <label for="answer">Possible Answer</label>
+            <input type="text" name="answer" id="Text2" class="form-control"
+                   ng-model="vm.question.answer" required/>
+            <span ng-show="form.answer.$dirty && form.answer.$error.required"
+                  class="help-block">Possible Answer</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
+            <label for="lesson">Lesson</label>
+            <select ng-model="lesson" ng-options="x.title for x in vm.lessons">
+            </select>
+            <h1>You selected: {{lesson}}</h1>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
+                    class="btn btn-primary">Submit for review
+            </button>
+            <img ng-if="vm.dataLoading"
+                 src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+        </div>
+    </form>
+
+
+</div>
 </div>
 <!-- /.container -->
