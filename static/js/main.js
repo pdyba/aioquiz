@@ -13,6 +13,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "PageCtrl",
             controllerAs: 'vm'
         })
+        .when("/live_quiz", {
+            templateUrl: "partials/live_quiz.html",
+            controller: "PageCtrl",
+            controllerAs: 'vm'
+        })
         .when("/lessons", {
             templateUrl: "partials/lessons.html",
             controller: "LessonCtrl",
@@ -24,17 +29,22 @@ app.config(['$routeProvider', function ($routeProvider) {
             controllerAs: 'vm'
         })
         .when("/live_quiz", {
-            templateUrl: "partials/live_quiz.html",
+            templateUrl: "partials/live_quiz_list.html",
             controller: "LiveQuizCtrl",
             controllerAs: 'vm'
         })
         .when("/quiz", {
-            templateUrl: "partials/quiz.html",
+            templateUrl: "partials/quiz_list.html",
             controller: "QuizCtrl",
             controllerAs: 'vm'
         })
+        .when("/quiz_start", {
+            templateUrl: "partials/quiz.html",
+            controller: "QuizStartCtrl",
+            controllerAs: 'vm'
+        })
         .when("/propose", {
-            templateUrl: "partials/propose.html",
+            templateUrl: "partials/question_create.html",
             controller: "NewQuestionController",
             controllerAs: 'vm'
         })
@@ -44,12 +54,12 @@ app.config(['$routeProvider', function ($routeProvider) {
             controllerAs: 'vm'
         })
         .when("/review", {
-            templateUrl: "partials/review.html",
+            templateUrl: "partials/question_review.html",
             controller: "ReviewCtrl",
             controllerAs: 'vm'
         })
         .when("/create_quiz", {
-            templateUrl: "partials/create_quiz.html",
+            templateUrl: "partials/quiz_create.html",
             controller: "CreateQuizCtrl",
             controllerAs: 'vm'
         })
@@ -126,39 +136,69 @@ function LessonCtrl ($scope, $location, $AuthenticationService, $FlashService, $
 }
 
 app.controller('QuizCtrl', QuizCtrl);
-QuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function QuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+QuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function QuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $http.get('/api/quiz').then(
+        function (response) {
+            vm.lessons = response.data;
+        }
+    );
 }
 
 app.controller('LiveQuizCtrl', LiveQuizCtrl);
-LiveQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function LiveQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+LiveQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function LiveQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $http.get('/api/live_quiz').then(
+        function (response) {
+            vm.lessons = response.data;
+        }
+    );
 }
 
 
 app.controller('ProposeCtrl', ProposeCtrl);
-ProposeCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function ProposeCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+ProposeCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function ProposeCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
 }
 
 app.controller('ReviewCtrl', ProposeCtrl);
-ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
 }
 
 app.controller('CreateQuizCtrl', CreateQuizCtrl);
-CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $http.get('/api/question').then(
+        function (response) {
+            vm.questions = response.data;
+        }
+    );
+    vm.create_quiz = create_quiz;
+
+    function create_quiz() {
+        vm.dataLoading = true;
+        vm.lesson.creator = $scope.globals.currentUser.username;
+        $http.post('/api/lessons', vm.lesson).then(function (response) {
+                if (response.data.success) {
+                    $FlashService.Success('New Lesson added successful', true);
+                    $location.path('/lessons');
+                } else {
+                    $FlashService.Error(response.data.message);
+                    vm.dataLoading = false;
+                }
+            });
+    }
 }
 
 app.controller('LoginController', LoginController);
@@ -208,9 +248,11 @@ function RegisterController(UserService, $location, $rootScope, FlashService) {
 }
 
 app.controller('NewQuestionController', NewQuestionController);
-NewQuestionController.$inject = ['$http', '$location', '$rootScope', 'FlashService'];
-function NewQuestionController($http, $location, $rootScope, FlashService) {
+NewQuestionController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function NewQuestionController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+
     vm.new_question = new_question;
     $http.get('/api/lessons').then(
         function (response) {
@@ -220,12 +262,15 @@ function NewQuestionController($http, $location, $rootScope, FlashService) {
     );
     function new_question() {
         vm.dataLoading = true;
+        vm.n_question.creator = $scope.globals.currentUser.username;
+        vm.n_question.lesson = vm.n_question.lesson['id'];
         $http.post('/api/question', vm.n_question).then(function (response) {
-                if (response.success) {
-                    FlashService.Success('New Question added successful', true);
+                if (response.data.success) {
+                    $FlashService.Success('New Question added successful', true);
                     $location.path('/propose');
+                    vm.dataLoading = false;
                 } else {
-                    FlashService.Error(response.message);
+                    $FlashService.Error(response.message);
                     vm.dataLoading = false;
                 }
             });

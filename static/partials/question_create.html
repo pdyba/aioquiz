@@ -13,18 +13,18 @@
 
     <form name="form" ng-submit="vm.new_question()" role="form">
         <div class="form-group"
-             ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
+             ng-class="{ 'has-error': form.question.$dirty && form.question.$error.required }">
             <label for="question">Question</label>
-            <textarea type="text" name="question" id="firstName"
-                   class="form-control" ng-model="vm.question.question" required/></textarea>
-            <span ng-show="form.question.$dirty && form.question.$error.required"
+            <textarea type="text" name="question" id="question"
+                   class="form-control" ng-model="vm.n_question.question" required/></textarea>
+            <span ng-show="form.n_question.$dirty && form.n_question.$error.required"
                   class="help-block">Question is required</span>
         </div>
         <div class="form-group"
              ng-class="{ 'has-error': form.answer.$dirty && form.lastName.$error.required }">
             <label for="answer">Possible Answer</label>
             <input type="text" name="answer" id="Text2" class="form-control"
-                   ng-model="vm.question.answer" required/>
+                   ng-model="vm.n_question.answer" required/>
             <span ng-show="form.answer.$dirty && form.answer.$error.required"
                   class="help-block">Possible Answer</span>
         </div>
@@ -32,9 +32,8 @@
         <div class="form-group"
              ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
             <label for="lesson">Lesson</label>
-            <select ng-model="lesson" ng-options="x.title for x in vm.lessons">
+            <select ng-options="x.title for x in vm.lessons" ng-model="vm.n_question.lesson" ngValue="x.id">
             </select>
-            <h1>You selected: {{lesson}}</h1>
         </div>
 
         <div class="form-actions">

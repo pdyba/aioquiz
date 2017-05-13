@@ -27,18 +27,29 @@ class QuestionView(HTTPMethodView):
     async def post(self, request):
         try:
             req = request.json
-            question = Question(**req)
             async with create_engine(**psql_cfg) as engine:
-                qid = await question.create(engine)
-            return json({'id': qid}, status=302)
+                user = await Users.get_first(engine, 'email', req['creator'])
+                req['creator'] = user.id
+                question = Question(**req)
+                await question.create(engine)
+            return json({'success': True}, status=200)
         except:
             logger.exception('err game.post')
             return json({})
 
-    async def get(self, _, qid):
+    async def get(self, _, qid=0, to_review=False):
         async with create_engine(**psql_cfg) as engine:
-            question = await Question.get_by_id(engine, qid)
-            return json(await question.to_dict())
+            if qid:
+                question = await Question.get_by_id(engine, qid)
+                return json(await question.to_dict())
+            elif to_review:
+                questions = Quiz.get_by_field_value(engine, field='active', value=True)
+            else:
+                questions = await Quiz.get_all(engine)
+            resp = []
+            for q in questions:
+                resp.append(await q.to_dict())
+            return json(resp)
 
 
 class UserView(HTTPMethodView):
@@ -89,8 +100,15 @@ class QuizView(HTTPMethodView):
 
     async def get(self, _, qid=0):
         async with create_engine(**psql_cfg) as engine:
-            question = await Question.get_by_id(engine, qid)
-        return json(await question.to_dict())
+            if qid:
+                quiz = await Quiz.get_by_id(engine, qid)
+                return json(await quiz.to_dict())
+            else:
+                quiz = await Quiz.get_all(engine)
+                resp = []
+                for q in quiz:
+                    resp.append(await q.to_dict())
+                return json(resp)
 
 
 class LiveQuizView(HTTPMethodView):
@@ -135,14 +153,10 @@ class LessonView(HTTPMethodView):
                 return json(await lesson.to_dict())
             else:
                 lessons = await Lesson.get_all(engine)
-                return json(
-                    [{
-                            'id': l.id,
-                            'title': l.title,
-                            'description': l.description,
-                            'file': l.file
-                        } for l in lessons]
-                )
+                resp = []
+                for l in lessons:
+                    resp.append(await l.to_dict())
+                return json(resp)
 
 
 class AuthenticateView(HTTPMethodView):
@@ -156,8 +170,14 @@ class AuthenticateView(HTTPMethodView):
                                              req.get('email', ''))
             if user and user.active and req.get('password',
                                                 '') == user.password:
-                return json({'success': True, 'admin': user.admin,
-                             'moderator': user.moderator}, status=200)
+                return json(
+                    {
+                        'success': True,
+                        'admin': user.admin,
+                        'moderator': user.moderator
+                    },
+                    status=200
+                )
             else:
                 return json(self.user_error, status=200)
         except DoesNoteExists:
