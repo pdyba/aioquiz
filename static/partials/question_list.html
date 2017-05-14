@@ -1,26 +1,26 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Lessons</h1>
+            <h1 class="page-header">Questions</h1>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel-group" id="accordion">
-                <div class="panel panel-default" ng-repeat="x in vm.lessons">
+                <div class="panel panel-default" ng-repeat="x in vm.questions">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" target="_self"
                                data-parent="#accordion"
                                href="#collapse_{{ x.id }}">
-                               {{ x.id }}.  {{ x.title }}
+                               {{ x.id }}.  {{ x.question }}
                             </a>
                         </h4>
                     </div>
                     <div id="collapse_{{ x.id }}" class="panel-collapse collapse">
                         <div class="panel-body">
-                            {{ x.description }}
+                            Type: {{ x.qtype }}
                             <br>
-                            <a href="{{ x.file }}">{{ x.file }}</a>
+                            Answares: {{ x.answares }}
                         </div>
                     </div>
                 </div>

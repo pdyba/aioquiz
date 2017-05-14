@@ -93,7 +93,10 @@ class Table:
     @classmethod
     async def get_by_field_value(cls, engine, field, value):
         async with engine.acquire() as conn:
-            resp = await conn.execute("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
+            if isinstance(value, str):
+                resp = await conn.execute("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
+            else:
+                resp = await conn.execute("""SELECT * FROM {} WHERE {}={}""".format(cls._name, field, value))
             return [cls(**r) for r in await resp.fetchall()]
 
     @classmethod

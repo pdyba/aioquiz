@@ -24,6 +24,8 @@ async def format_dict_to_columns(adict):
 
 
 class QuestionView(HTTPMethodView):
+    _users = {}
+
     async def post(self, request):
         try:
             req = request.json
@@ -37,18 +39,34 @@ class QuestionView(HTTPMethodView):
             logger.exception('err game.post')
             return json({})
 
-    async def get(self, _, qid=0, to_review=False):
+    async def get_user_name(self, uid):
+        if uid not in self._users:
+            async with create_engine(**psql_cfg) as engine:
+                user = await Users.get_by_id(engine, uid)
+                self._users[uid] = '{} {}'.format(user.name, user.surname)
+        return self._users[uid]
+
+    async def get(self, request, qid=0):
+        to_review = request.args.get('review', False)
         async with create_engine(**psql_cfg) as engine:
             if qid:
                 question = await Question.get_by_id(engine, qid)
                 return json(await question.to_dict())
             elif to_review:
-                questions = Quiz.get_by_field_value(engine, field='active', value=True)
+                questions = await Question.get_by_field_value(
+                    engine,
+                    field='active',
+                    value=False
+                )
+
             else:
-                questions = await Quiz.get_all(engine)
+                questions = await Question.get_all(engine)
             resp = []
             for q in questions:
-                resp.append(await q.to_dict())
+                data = await q.to_dict()
+                if to_review:
+                    data['creator'] = await self.get_user_name(data['creator'])
+                resp.append(data)
             return json(resp)
 
 
@@ -128,7 +146,11 @@ class LiveQuizView(HTTPMethodView):
             if qid:
                 quiz = await LiveQuiz.get_by_id(engine, qid)
             else:
-                quiz = await LiveQuiz.get_all(engine)
+                quiz = await Quiz.get_all(engine)
+                resp = []
+                for q in quiz:
+                    resp.append(await q.to_dict())
+                return json(resp)
         return json(await quiz.to_dict())
 
 

@@ -38,6 +38,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "QuizCtrl",
             controllerAs: 'vm'
         })
+        .when("/question_list", {
+            templateUrl: "partials/question_list.html",
+            controller: "QuestionListCtrl",
+            controllerAs: 'vm'
+        })
         .when("/quiz_start", {
             templateUrl: "partials/quiz.html",
             controller: "QuizStartCtrl",
@@ -147,6 +152,18 @@ function QuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $in
     );
 }
 
+app.controller('QuestionListCtrl', QuestionListCtrl);
+QuestionListCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function QuestionListCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $http.get('/api/question').then(
+        function (response) {
+            vm.questions = response.data;
+        }
+    );
+}
+
 app.controller('LiveQuizCtrl', LiveQuizCtrl);
 LiveQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function LiveQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
@@ -167,11 +184,17 @@ function ProposeCtrl ($scope, $location, $AuthenticationService, $FlashService, 
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
 }
 
-app.controller('ReviewCtrl', ProposeCtrl);
+app.controller('ReviewCtrl', ReviewCtrl);
 ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    vm.user = $scope.globals.currentUser.username;
+    $http.get('/api/question?review=true').then(
+        function (response) {
+            vm.questions = response.data;
+        }
+    );
 }
 
 app.controller('CreateQuizCtrl', CreateQuizCtrl);
