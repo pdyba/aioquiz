@@ -185,8 +185,8 @@ function ProposeCtrl ($scope, $location, $AuthenticationService, $FlashService, 
 }
 
 app.controller('ReviewCtrl', ReviewCtrl);
-ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route'];
+function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
     vm.user = $scope.globals.currentUser.username;
@@ -195,14 +195,43 @@ function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $
             vm.questions = response.data;
         }
     );
+    vm.accept = accept;
+    function accept (id){
+        data = {
+          'reviewer': vm.user,
+           'accept': true
+        };
+        $http.put('/api/question/' + id, data).then(
+        function (response) {
+            vm.questions = response.data;
+            $FlashService.Success('Question accepted', true);
+            $route.reload();
+        }
+    );
+    }
+    vm.reject = reject;
+    function reject (id){
+        data = {
+          'reviewer': vm.user,
+           'accept': false
+        };
+        $http.put('/api/question/' + id, data).then(
+        function (response) {
+            vm.questions = response.data;
+            $FlashService.Success('Question Rejected', true);
+            $route.reload();
+        }
+    );
+    }
 }
 
 app.controller('CreateQuizCtrl', CreateQuizCtrl);
 CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
+    vm.questions = [];
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
-    $http.get('/api/question').then(
+    $http.get('/api/question?review=False').then(
         function (response) {
             vm.questions = response.data;
         }
@@ -280,7 +309,6 @@ function NewQuestionController($scope, $location, $AuthenticationService, $Flash
     $http.get('/api/lessons').then(
         function (response) {
             vm.lessons = response.data;
-            console.log(response);
         }
     );
     function new_question() {
@@ -335,7 +363,9 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
     return service;
 
     function Login(username, password, callback) {
-        $http.post('/api/authenticate', { email: username, password: password }).then(
+        $http.post('/api/authenticate', { email: username, password: password }).catch(function (rejection) {
+              console.debug("error :" + rejection);
+        }).then(
             function (response) {
                 callback(response);
             });
@@ -503,8 +533,8 @@ function UserService($http) {
 
 app.factory('FlashService', FlashService);
 
-FlashService.$inject = ['$rootScope'];
-function FlashService($rootScope) {
+FlashService.$inject = ['$rootScope', '$route'];
+function FlashService($rootScope, $route) {
     var service = {};
     service.Success = Success;
     service.Error = Error;
@@ -522,6 +552,7 @@ function FlashService($rootScope) {
             if (flash) {
                 if (!flash.keepAfterLocationChange) {
                     delete $rootScope.flash;
+
                 } else {
                     flash.keepAfterLocationChange = false;
                 }
@@ -535,6 +566,10 @@ function FlashService($rootScope) {
             type: 'success',
             keepAfterLocationChange: keepAfterLocationChange
         };
+        setTimeout(function(){
+           delete $rootScope.flash;
+            $route.reload();
+        }, 3000);
     }
 
     function Error(message, keepAfterLocationChange) {

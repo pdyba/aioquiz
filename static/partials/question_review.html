@@ -12,8 +12,8 @@
                     <li class="list-group-item">{{ q.question }}</li>
                     <li class="list-group-item">{{ q.answares }}</li>
                     <li class="list-group-item">{{ q.creator }}</li>
-                    <li class="list-group-item"><a class="btn btn-primary" href="vm.accept({{ q.id }})">Accept</a>
-                    <li class="list-group-item"><a class="btn btn-primary" href="vm.reject({{ q.id }})">Reject</a>
+                    <li class="list-group-item"><a class="btn btn-primary" ng-click="vm.accept( q.id )">Accept</a>
+                    <li class="list-group-item"><a class="btn btn-primary" ng-click="vm.reject( q.id )">Reject</a>
                     </li>
                 </ul>
             </div>

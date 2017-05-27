@@ -154,7 +154,7 @@ class Table:
 
     @classmethod
     def _format_update(cls, clsi):
-        return ', '.join([("{}='{}'".format(prop.name, getattr(prop.type.format(clsi), prop.name))) for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'])
+        return ', '.join([("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name)))) for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'])
 
     @classmethod
     async def _update(cls, engine, data):
@@ -241,10 +241,12 @@ class String(ColumnType):
         super().validate(data) and len(data) <= self.length
 
     def format(self, data):
-        if isinstance(data, str):
-            return data
-        return json.dumps(data)
-
+        try:
+            if isinstance(data, str):
+                return data
+            return json.dumps(data)
+        except:
+            import pdb; pdb.set_trace()
 
 class Boolean(ColumnType):
     _type = 'boolean'

@@ -27,7 +27,7 @@
              ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
             <label for="lesson">Questions:</label>
             <div class="checkbox">
-                <label ng-repeat="q for q in vm.questions"><input type="checkbox" value="{{ q.id }}">{{ q. }}</label>
+                <label ng-repeat="q for q in vm.questions"><input type="checkbox" value="{{ q.id }}">{{ q.question }}</label>
             </div>
             <span ng-show="form.file.$dirty && form.file.$error.required"
                   class="help-block">Link for presentation is required</span>

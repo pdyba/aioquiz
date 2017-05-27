@@ -2,6 +2,7 @@
 from aiopg.sa import create_engine
 from sanic.response import json
 from sanic.views import HTTPMethodView
+from psycopg2 import OperationalError
 
 from db_models import DoesNoteExists
 from models import Quiz
@@ -36,7 +37,7 @@ class QuestionView(HTTPMethodView):
                 await question.create(engine)
             return json({'success': True}, status=200)
         except:
-            logger.exception('err game.post')
+            logger.exception('err question.post')
             return json({})
 
     async def get_user_name(self, uid):
@@ -46,8 +47,22 @@ class QuestionView(HTTPMethodView):
                 self._users[uid] = '{} {}'.format(user.name, user.surname)
         return self._users[uid]
 
+    async def put(self, request, qid):
+        try:
+            req = request.json
+            async with create_engine(**psql_cfg) as engine:
+                user = await Users.get_first(engine, 'email', req['reviewer'])
+                question = await Question.get_by_id(engine, qid)
+                question.reviewer = user.id
+                question.active = req['accept']
+                await question.update(engine)
+            return json({'success': True}, status=200)
+        except:
+            logger.exception('err question.update')
+            return json({})
+
     async def get(self, request, qid=0):
-        to_review = request.args.get('review', False)
+        to_review = {'False': False, 'false': False, 'True': True, 'true': True, None: None}[request.args.get('review', None)]
         async with create_engine(**psql_cfg) as engine:
             if qid:
                 question = await Question.get_by_id(engine, qid)
@@ -55,12 +70,15 @@ class QuestionView(HTTPMethodView):
             elif to_review:
                 questions = await Question.get_by_field_value(
                     engine,
-                    field='active',
-                    value=False
+                    field='reviewer',
+                    value=0
                 )
-
-            else:
-                questions = await Question.get_all(engine)
+            elif not to_review:
+                questions = await Question.get_by_field_value(
+                    engine,
+                    field='active',
+                    value=True
+                )
             resp = []
             for q in questions:
                 data = await q.to_dict()
@@ -204,6 +222,8 @@ class AuthenticateView(HTTPMethodView):
                 return json(self.user_error, status=200)
         except DoesNoteExists:
             return json(self.user_error, status=200)
+        except OperationalError:
+            logger.error('Could not connect to DB')
         except:
             logger.exception('err authentication.post')
-            return json({'msg': 'internal error'}, status=500)
+        return json({'msg': 'internal error'}, status=500)
