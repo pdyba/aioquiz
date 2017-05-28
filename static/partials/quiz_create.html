@@ -5,7 +5,7 @@
             </h1>
         </div>
     </div>
-    <form name="form" ng-submit="vm.new_lesson()" role="form">
+    <form name="form" ng-submit="vm.create_quiz()" role="form">
         <div class="form-group"
              ng-class="{ 'has-error': form.answer.$dirty && form.lastName.$error.required }">
             <label for="title">Title</label>
@@ -26,8 +26,8 @@
         <div class="form-group"
              ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
             <label for="lesson">Questions:</label>
-            <div class="checkbox">
-                <label ng-repeat="q for q in vm.questions"><input type="checkbox" value="{{ q.id }}">{{ q.question }}</label>
+            <div class="checkbox" ng-repeat="qiz in vm.questions">
+                <label ><input ng-model="vm.lesson.questions[qiz.id]" type="checkbox" value="{{ qiz.id }}">{{ qiz.question }}</label>
             </div>
             <span ng-show="form.file.$dirty && form.file.$error.required"
                   class="help-block">Link for presentation is required</span>

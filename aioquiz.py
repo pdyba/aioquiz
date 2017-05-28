@@ -7,6 +7,7 @@ from views import UserView
 from views import LessonView
 from views import LiveQuizView
 from views import QuizView
+from views import QuizManageView
 
 app = Sanic()
 
@@ -35,6 +36,9 @@ app.add_route(LiveQuizView.as_view(), '/api/live_quiz/<qid:int>')
 
 app.add_route(QuizView.as_view(), '/api/quiz')
 app.add_route(QuizView.as_view(), '/api/quiz/<qid:int>')
+
+app.add_route(QuizManageView.as_view(), '/api/quiz_manage')
+app.add_route(QuizManageView.as_view(), '/api/quiz_manage/<qid:int>')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

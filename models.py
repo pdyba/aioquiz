@@ -48,10 +48,10 @@ class Quiz(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
+        Column('description', String(10000)),
         Column('questions', String(10000)),
         Column('creator', Integer()),
         Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('time_accepted', DateTime(), required=False),
     ]
 
     def get_next_question(self, qid):

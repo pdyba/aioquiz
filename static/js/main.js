@@ -147,7 +147,7 @@ function QuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $in
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
     $http.get('/api/quiz').then(
         function (response) {
-            vm.lessons = response.data;
+            vm.quizes = response.data;
         }
     );
 }
@@ -171,7 +171,7 @@ function LiveQuizCtrl ($scope, $location, $AuthenticationService, $FlashService,
     $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
     $http.get('/api/live_quiz').then(
         function (response) {
-            vm.lessons = response.data;
+            vm.live_quzies = response.data;
         }
     );
 }
@@ -241,10 +241,11 @@ function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashServic
     function create_quiz() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        $http.post('/api/lessons', vm.lesson).then(function (response) {
+        console.log(vm.lesson);
+        $http.post('/api/quiz_manage', vm.lesson).then(function (response) {
                 if (response.data.success) {
-                    $FlashService.Success('New Lesson added successful', true);
-                    $location.path('/lessons');
+                    $FlashService.Success('New Quiz added successful', true);
+                    $location.path('/quiz');
                 } else {
                     $FlashService.Error(response.data.message);
                     vm.dataLoading = false;

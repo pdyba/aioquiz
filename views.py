@@ -1,4 +1,6 @@
 # !/usr/bin/python3.5
+from json import loads as jloads
+
 from aiopg.sa import create_engine
 from sanic.response import json
 from sanic.views import HTTPMethodView
@@ -122,7 +124,25 @@ class UserView(HTTPMethodView):
         pass
 
 
+class QuizManageView(HTTPMethodView):
+    async def post(self, request):
+        try:
+            req = request.json
+            req['questions'] = [int(q) for q in req['questions']]
+            async with create_engine(**psql_cfg) as engine:
+                user = await Users.get_first(engine, 'email', req['creator'])
+                req['creator'] = user.id
+                quiz = Quiz(**req)
+                await quiz.create(engine)
+            return json({'success': True}, status=200)
+        except:
+            logger.exception('err quiz_manage.post')
+            return json({})
+
+
 class QuizView(HTTPMethodView):
+    _users = {}
+
     async def post(self, request):
         try:
             async with create_engine(**psql_cfg) as engine:
@@ -143,8 +163,18 @@ class QuizView(HTTPMethodView):
                 quiz = await Quiz.get_all(engine)
                 resp = []
                 for q in quiz:
-                    resp.append(await q.to_dict())
+                    q = await q.to_dict()
+                    q['creator'] = await self.get_user_name(q['creator'])
+                    q['amount'] = len(jloads(q['questions']))
+                    resp.append(q)
                 return json(resp)
+
+    async def get_user_name(self, uid):
+        if uid not in self._users:
+            async with create_engine(**psql_cfg) as engine:
+                user = await Users.get_by_id(engine, uid)
+                self._users[uid] = '{} {}'.format(user.name, user.surname)
+        return self._users[uid]
 
 
 class LiveQuizView(HTTPMethodView):

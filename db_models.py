@@ -171,6 +171,18 @@ class Table:
     async def to_dict(self):
         return {field.name: getattr(self, field.name) for field in self._schema}
 
+    @classmethod
+    async def _delete(cls, engine, data):
+        async with engine.acquire() as conn:
+            resp =  await conn.execute(
+                """DELETE * FROM {}
+                WHERE id = {}
+                ;""".format(cls._name, data.id))
+            return resp
+
+    async def delete(self, engine):
+        await self._update(engine, self)
+
 
 class Column:
     def __init__(
