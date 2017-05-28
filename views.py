@@ -67,12 +67,14 @@ class QuestionView(HTTPMethodView):
             return json({})
 
     async def get(self, request, qid=0):
-        to_review = \
-        {'False': False, 'false': False, 'True': True, 'true': True,
-         None: None}[request.args.get('review', None)]
+        to_review = {
+            'False': False,
+            'false': False,
+            'True': True,
+            'true': True,
+            None: None
+        }[request.args.get('review', None)]
         async with create_engine(**psql_cfg) as engine:
-            logger.info(qid)
-            logger.info(type(qid))
             if qid:
                 question = await Question.get_by_id(engine, qid)
                 return json(await question.to_dict())
@@ -195,10 +197,19 @@ class LiveQuizView(HTTPMethodView):
     async def put(self, request, qid=0):
         try:
             req = request.json
-            question = LiveQuiz(**req)
             async with create_engine(**psql_cfg) as engine:
-                qid = await question.create(engine)
-            return json({'success': qid}, status=200)
+                lg = await LiveQuiz.get_by_id(engine, qid)
+                if lg.answares:
+                    lg.answares = jloads(lg.answares)
+                else:
+                    lg.answares = {}
+                answare = req['answare']
+                quest_id = str(req['question'])
+                lg.answares.setdefault(quest_id, {})
+                lg.answares[quest_id].setdefault(answare, 0)
+                lg.answares[quest_id][answare] += 1
+                await lg.update(engine)
+            return json({'success': True}, status=200)
         except:
             logger.exception('err live_quiz.post')
             return json({})

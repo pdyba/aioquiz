@@ -12,14 +12,15 @@
     <div class="col-md-6 col-md-offset-3">
         <p>
             {{ vm.question.question }}
+            {{ vm.question.answares }}
         </p>
         <form name="form" ng-submit="vm.answare_question()" role="form">
             <div class="form-group"
                  ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
                 <label for="answer">Answer:</label>
                 <input type="text" name="answer" id="answer"
-                       class="form-control" ng-model="vm.answer" required/>
-                <span ng-show="form.answer.$dirty && form.answer.$error.required"
+                       class="form-control" ng-model="vm.answare" required/>
+                <span ng-show="form.answare.$dirty && form.answare.$error.required"
                       class="help-block">Answer is required</span>
             </div>
 

@@ -38,6 +38,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "LiveQuizRunCtrl",
             controllerAs: 'vm'
         })
+        .when("/live_quiz_results/:id", {
+            templateUrl: "partials/live_quiz_results.html",
+            controller: "LiveQuizResultsCtrl",
+            controllerAs: 'vm'
+        })
         .when("/create_live_quiz", {
             templateUrl: "partials/live_quiz_create.html",
             controller: "LiveQuizCreateCtrl",
@@ -110,7 +115,7 @@ app.config(['$locationProvider', function ($locationProvider) {
 
 app.controller('PageCtrl', PageCtrl);
 PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService'];
-function PageCtrl ($scope, $location, $AuthenticationService, $FlashService) {
+function PageCtrl($scope, $location, $AuthenticationService, $FlashService) {
     // Activates the Carousel
     $('.carousel').carousel({
         interval: 5000
@@ -120,29 +125,40 @@ function PageCtrl ($scope, $location, $AuthenticationService, $FlashService) {
         selector: "a[data-toggle=tooltip]"
     });
     $scope.logout = function () {
-                $AuthenticationService.ClearCredentials()
-            };
+        $AuthenticationService.ClearCredentials()
+    };
 }
 
 app.controller('AboutCtrl', AboutCtrl);
 AboutCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function AboutCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+function AboutCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
 
     function loadAllUsers() {
         $UserService.GetAll().then(function (users) {
-                vm.allUsers = users;
-            });
+            vm.allUsers = users;
+        });
     }
+
     loadAllUsers()
 }
 
 app.controller('LessonCtrl', LessonCtrl);
 LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LessonCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+function LessonCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
     $http.get('/api/lessons').then(
         function (response) {
             vm.lessons = response.data;
@@ -152,9 +168,14 @@ function LessonCtrl ($scope, $location, $AuthenticationService, $FlashService, $
 
 app.controller('QuizCtrl', QuizCtrl);
 QuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function QuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+function QuizCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
     $http.get('/api/quiz').then(
         function (response) {
             vm.quizes = response.data;
@@ -164,9 +185,14 @@ function QuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $in
 
 app.controller('QuestionListCtrl', QuestionListCtrl);
 QuestionListCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function QuestionListCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+function QuestionListCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
     $http.get('/api/question').then(
         function (response) {
             vm.questions = response.data;
@@ -176,9 +202,14 @@ function QuestionListCtrl ($scope, $location, $AuthenticationService, $FlashServ
 
 app.controller('LiveQuizCtrl', LiveQuizCtrl);
 LiveQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LiveQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+function LiveQuizCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
     $http.get('/api/live_quiz').then(
         function (response) {
             vm.live_quzies = response.data;
@@ -189,16 +220,26 @@ function LiveQuizCtrl ($scope, $location, $AuthenticationService, $FlashService,
 
 app.controller('ProposeCtrl', ProposeCtrl);
 ProposeCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function ProposeCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+function ProposeCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
 }
 
 app.controller('ReviewCtrl', ReviewCtrl);
 ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route'];
-function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route) {
+function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/question?review=true').then(
         function (response) {
@@ -206,40 +247,46 @@ function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $
         }
     );
     vm.accept = accept;
-    function accept (id){
+    function accept(id) {
         data = {
-          'reviewer': vm.user,
-           'accept': true
+            'reviewer': vm.user,
+            'accept': true
         };
         $http.put('/api/question/' + id, data).then(
-        function (response) {
-            vm.questions = response.data;
-            $FlashService.Success('Question accepted', true);
-            $route.reload();
-        }
-    );
+            function (response) {
+                vm.questions = response.data;
+                $FlashService.Success('Question accepted', true);
+                $route.reload();
+            }
+        );
     }
+
     vm.reject = reject;
-    function reject (id){
+    function reject(id) {
         data = {
-          'reviewer': vm.user,
-           'accept': false
+            'reviewer': vm.user,
+            'accept': false
         };
         $http.put('/api/question/' + id, data).then(
-        function (response) {
-            vm.questions = response.data;
-            $FlashService.Success('Question Rejected', true);
-            $route.reload();
-        }
-    );
+            function (response) {
+                vm.questions = response.data;
+                $FlashService.Success('Question Rejected', true);
+                $route.reload();
+            }
+        );
     }
 }
 
 app.controller('LiveQuizRunCtrl', LiveQuizRunCtrl);
 LiveQuizRunCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams'];
-function LiveQuizRunCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams) {
+function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/live_quiz/' + $routeParams.id).then(
         function (response) {
@@ -250,35 +297,46 @@ function LiveQuizRunCtrl ($scope, $location, $AuthenticationService, $FlashServi
     );
     function get_question(id) {
         $http.get('/api/question/' + id).then(
-        function (response) {
-            vm.question = response.data;
-            console.log(response.data)
-        }
-    );
+            function (response) {
+                vm.question = response.data;
+            }
+        );
     }
-    vm.answare = answare;
-    function answare (id){
+
+    vm.answare_question = answare_question;
+    function answare_question() {
         data = {
-          'reviewer': vm.user,
-           'accept': true
+            'question': vm.live_quiz.questions[vm.current_question],
+            'answare': vm.answare
         };
-        $http.put('/api/question/' + id, data).then(
-        function (response) {
-            vm.questions = response.data;
-            $FlashService.Success('Question accepted', true);
-            $route.reload();
-        }
-    );
+        $http.put('/api/live_quiz/' + vm.live_quiz.id, data).then(
+            function (response) {
+                $FlashService.SuccessNoReload('Answare Saved', false);
+                vm.current_question += 1;
+                console.log(vm.current_question);
+                if (vm.current_question >= vm.live_quiz.questions.length) {
+                    $FlashService.Success('You have complited the Quiz', true);
+                    $location.path('/live_quiz_results/' + vm.live_quiz.id);
+                } else {
+                    get_question(vm.live_quiz.questions[vm.current_question]);
+                }
+            }
+        );
     }
 }
 
 
 app.controller('CreateQuizCtrl', CreateQuizCtrl);
 CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+function CreateQuizCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     vm.questions = [];
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
     $http.get('/api/question?review=False').then(
         function (response) {
             vm.questions = response.data;
@@ -290,24 +348,29 @@ function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashServic
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
         $http.post('/api/quiz_manage', vm.lesson).then(function (response) {
-                if (response.data.success) {
-                    $FlashService.Success('New Quiz added successful', true);
-                    $location.path('/quiz');
-                } else {
-                    $FlashService.Error(response.data.message);
-                    vm.dataLoading = false;
-                }
-            });
+            if (response.data.success) {
+                $FlashService.Success('New Quiz added successful', true);
+                $location.path('/quiz');
+            } else {
+                $FlashService.Error(response.data.message);
+                vm.dataLoading = false;
+            }
+        });
     }
 }
 
 
 app.controller('LiveQuizCreateCtrl', LiveQuizCreateCtrl);
 LiveQuizCreateCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LiveQuizCreateCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     vm.questions = [];
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
     $http.get('/api/question?review=False').then(
         function (response) {
             vm.questions = response.data;
@@ -319,14 +382,14 @@ function LiveQuizCreateCtrl ($scope, $location, $AuthenticationService, $FlashSe
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
         $http.post('/api/live_quiz', vm.lesson).then(function (response) {
-                if (response.data.success) {
-                    $FlashService.Success('New Live Quiz added successful', true);
-                    $location.path('/live_quiz');
-                } else {
-                    $FlashService.Error(response.data.message);
-                    vm.dataLoading = false;
-                }
-            });
+            if (response.data.success) {
+                $FlashService.Success('New Live Quiz added successful', true);
+                $location.path('/live_quiz');
+            } else {
+                $FlashService.Error(response.data.message);
+                vm.dataLoading = false;
+            }
+        });
     }
 }
 
@@ -380,7 +443,12 @@ app.controller('NewQuestionController', NewQuestionController);
 NewQuestionController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function NewQuestionController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
 
     vm.new_question = new_question;
     $http.get('/api/lessons').then(
@@ -393,15 +461,15 @@ function NewQuestionController($scope, $location, $AuthenticationService, $Flash
         vm.n_question.creator = $scope.globals.currentUser.username;
         vm.n_question.lesson = vm.n_question.lesson['id'];
         $http.post('/api/question', vm.n_question).then(function (response) {
-                if (response.data.success) {
-                    $FlashService.Success('New Question added successful', true);
-                    $location.path('/propose');
-                    vm.dataLoading = false;
-                } else {
-                    $FlashService.Error(response.message);
-                    vm.dataLoading = false;
-                }
-            });
+            if (response.data.success) {
+                $FlashService.Success('New Question added successful', true);
+                $location.path('/propose');
+                vm.dataLoading = false;
+            } else {
+                $FlashService.Error(response.message);
+                vm.dataLoading = false;
+            }
+        });
     }
 }
 
@@ -409,21 +477,26 @@ app.controller('NewLessonController', NewLessonController);
 NewLessonController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function NewLessonController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
-    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
 
     vm.new_lesson = new_lesson;
     function new_lesson() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
         $http.post('/api/lessons', vm.lesson).then(function (response) {
-                if (response.data.success) {
-                    $FlashService.Success('New Lesson added successful', true);
-                    $location.path('/lessons');
-                } else {
-                    $FlashService.Error(response.data.message);
-                    vm.dataLoading = false;
-                }
-            });
+            if (response.data.success) {
+                $FlashService.Success('New Lesson added successful', true);
+                $location.path('/lessons');
+            } else {
+                $FlashService.Error(response.data.message);
+                vm.dataLoading = false;
+            }
+        });
     }
 }
 
@@ -440,8 +513,11 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
     return service;
 
     function Login(username, password, callback) {
-        $http.post('/api/authenticate', { email: username, password: password }).catch(function (rejection) {
-              console.debug("error :" + rejection);
+        $http.post('/api/authenticate', {
+            email: username,
+            password: password
+        }).catch(function (rejection) {
+            console.debug("error :" + rejection);
         }).then(
             function (response) {
                 callback(response);
@@ -616,6 +692,7 @@ function FlashService($rootScope, $route) {
     var service = {};
     service.Success = Success;
     service.Error = Error;
+    service.SuccessNoReload = SuccessNoReload;
     initService();
 
     return service;
@@ -644,10 +721,18 @@ function FlashService($rootScope, $route) {
             type: 'success',
             keepAfterLocationChange: keepAfterLocationChange
         };
-        setTimeout(function(){
-           delete $rootScope.flash;
+        setTimeout(function () {
+            delete $rootScope.flash;
             $route.reload();
         }, 3000);
+    }
+
+    function SuccessNoReload(message, keepAfterLocationChange) {
+        $rootScope.flash = {
+            message: message,
+            type: 'success',
+            keepAfterLocationChange: keepAfterLocationChange
+        };
     }
 
     function Error(message, keepAfterLocationChange) {
@@ -692,9 +777,9 @@ function AdminController(UserService, $rootScope) {
 
     function deleteUser(id) {
         UserService.Delete(id)
-        .then(function () {
-            loadAllUsers();
-        });
+            .then(function () {
+                loadAllUsers();
+            });
     }
 }
 
