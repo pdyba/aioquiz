@@ -181,6 +181,10 @@ function QuizCtrl($scope, $location, $AuthenticationService, $FlashService, $inj
             vm.quizes = response.data;
         }
     );
+    vm.start = start;
+    function start(id){
+        $location.path('/quiz/' + id);
+    }
 }
 
 app.controller('QuestionListCtrl', QuestionListCtrl);
@@ -328,6 +332,56 @@ function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashSe
             function (response) {
                 vm.live_quiz.answares = response.data.answares;
                 $timeout(refresh, 2000);
+            }
+        );
+    }
+}
+
+
+app.controller('QuizStartCtrl', QuizStartCtrl);
+QuizStartCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams'];
+function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.user = $scope.globals.currentUser.username;
+    $http.get('/api/quiz/' + $routeParams.id).then(
+        function (response) {
+            vm.live_quiz = response.data;
+            vm.current_question = 0;
+            get_question(vm.live_quiz.questions[vm.current_question]);
+        }
+    );
+    function get_question(id) {
+        $http.get('/api/question/' + id).then(
+            function (response) {
+                vm.question = response.data;
+            }
+        );
+    }
+
+    vm.answare_question = answare_question;
+    function answare_question() {
+        data = {
+            'question': vm.live_quiz.questions[vm.current_question],
+            'answare': vm.answare,
+            'user_id': $scope.globals.currentUser.id
+        };
+        $http.put('/api/user/', data).then(
+            function (response) {
+                $FlashService.SuccessNoReload('Answare Saved', false);
+                vm.current_question += 1;
+                console.log(vm.current_question);
+                if (vm.current_question >= vm.live_quiz.questions.length) {
+                    $FlashService.Success('You have complited the Quiz', true);
+                    $location.path('/live_quiz_results/' + vm.live_quiz.id);
+                } else {
+                    get_question(vm.live_quiz.questions[vm.current_question]);
+                }
             }
         );
     }

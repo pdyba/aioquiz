@@ -115,6 +115,9 @@ class UserView(HTTPMethodView):
                     user.append(await u.to_dict())
         return json(user)
 
+    async  def put(self, _, id_name=None):
+        return json({'success': True}, status=200)
+
     async def post(self, request):
         try:
             async with create_engine(**psql_cfg) as engine:
@@ -125,9 +128,6 @@ class UserView(HTTPMethodView):
         except:
             logger.exception('err user.post')
             return json({})
-
-    async def put(self, _, uid):
-        pass
 
     async def delete(self, _, uid):
         pass
@@ -167,7 +167,9 @@ class QuizView(HTTPMethodView):
         async with create_engine(**psql_cfg) as engine:
             if qid:
                 quiz = await Quiz.get_by_id(engine, qid)
-                return json(await quiz.to_dict())
+                quiz = await quiz.to_dict()
+                quiz['questions'] = jloads(quiz['questions'])
+                return json(quiz)
             else:
                 quiz = await Quiz.get_all(engine)
                 resp = []
