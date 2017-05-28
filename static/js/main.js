@@ -277,6 +277,55 @@ function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $i
     }
 }
 
+
+app.controller('LiveQuizResultsCtrl', LiveQuizResultsCtrl);
+LiveQuizResultsCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams', '$timeout'];
+function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams, $timeout) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.questions = {};
+    $http.get('/api/question/').then(
+        function (response) {
+            vm.questions = response.data;
+            refresh();
+        }
+    );
+    $http.get('/api/live_quiz/' + $routeParams.id).then(
+        function (response) {
+            vm.live_quiz = response.data;
+            vm.live_quiz.questions.forEach(
+                function(a, b) {
+                    get_question(a);
+                }
+            );
+            refresh();
+        }
+    );
+    function get_question (qid) {
+        $http.get('/api/question/' + qid).then(
+            function (response) {
+                console.log(response)
+                vm.questions[qid] = response.data.question;
+            }
+        );
+    }
+
+    function refresh() {
+        $http.get('/api/live_quiz/' + $routeParams.id).then(
+            function (response) {
+                vm.live_quiz.answares = response.data.answares;
+                $timeout(refresh, 2000);
+            }
+        );
+    }
+}
+
+
 app.controller('LiveQuizRunCtrl', LiveQuizRunCtrl);
 LiveQuizRunCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams'];
 function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams) {

@@ -220,6 +220,7 @@ class LiveQuizView(HTTPMethodView):
                 quiz = await LiveQuiz.get_by_id(engine, qid)
                 quiz = await quiz.to_dict()
                 quiz['questions'] = jloads(quiz['questions'])
+                quiz['answares'] = jloads(quiz['answares'])
                 return json(quiz)
             else:
                 quiz = await LiveQuiz.get_all(engine)
@@ -230,7 +231,6 @@ class LiveQuizView(HTTPMethodView):
                     q['amount'] = len(jloads(q['questions']))
                     resp.append(q)
                 return json(resp)
-
 
 
 class LessonView(HTTPMethodView):
