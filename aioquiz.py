@@ -42,4 +42,4 @@ app.add_route(QuizManageView.as_view(), '/api/quiz_manage')
 app.add_route(QuizManageView.as_view(), '/api/quiz_manage/<qid:int>')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)

@@ -25,7 +25,7 @@
                 <ul class="list-group">
                     <li class="list-group-item">{{ q.description }}</li>
                     <li class="list-group-item">{{ q.creator }}</li>
-                    <li class="list-group-item"><a class="btn btn-primary">Start now !</a>
+                    <li class="list-group-item"><a class="btn btn-primary" ng-click="vm.start( q.id )">Start now !</a>
                     </li>
                 </ul>
             </div>

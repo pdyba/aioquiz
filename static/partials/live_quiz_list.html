@@ -26,8 +26,8 @@
                     <li class="list-group-item">{{ q.description }}</li>
                     <li class="list-group-item">{{ q.creator }}</li>
                     <li class="list-group-item">
-                        <a class="btn btn-success">Start now !</a>
-                        <a class="btn btn-danger">Results</a>
+                        <a class="btn btn-success" ng-click="vm.start( q.id )">Start now !</a>
+                        <a class="btn btn-danger" ng-click="vm.show_results( q.id )">Results</a>
                     </li>
                 </ul>
             </div>

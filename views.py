@@ -121,7 +121,7 @@ class UserView(HTTPMethodView):
                 req = request.json
                 user = Users(**req)
                 uid = await user.create(engine)
-                return json({'id': uid}, status=302)
+                return json({'success': True}, status=200)
         except:
             logger.exception('err user.post')
             return json({})
@@ -220,7 +220,10 @@ class LiveQuizView(HTTPMethodView):
                 quiz = await LiveQuiz.get_by_id(engine, qid)
                 quiz = await quiz.to_dict()
                 quiz['questions'] = jloads(quiz['questions'])
-                quiz['answares'] = jloads(quiz['answares'])
+                if quiz['answares']:
+                    quiz['answares'] = jloads(quiz['answares'])
+                else:
+                    quiz['answares'] = ''
                 return json(quiz)
             else:
                 quiz = await LiveQuiz.get_all(engine)

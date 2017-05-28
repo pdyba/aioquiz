@@ -30,9 +30,10 @@
                     </ul>
                     </li>
 
-                <li class="dropdown" ng-show="$parent.globals.currentUser">
+                <li class="dropdown" ng-show="$parent.globals.currentUser.admin">
                     <a class="dropdown-toggle" data-toggle="dropdown">Add Quiz</a>
                     <ul class="dropdown-menu">
+                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/lessons_new">New Lesson</a>
                         <li ng-show="$parent.globals.currentUser.moderator"><a href="#/create_quiz">Create Quiz</a>
                 </li>
                         <li ng-show="$parent.globals.currentUser.moderator"><a href="#/create_live_quiz">Create Live Quiz</a>

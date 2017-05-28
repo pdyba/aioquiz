@@ -215,6 +215,15 @@ function LiveQuizCtrl($scope, $location, $AuthenticationService, $FlashService, 
             vm.live_quzies = response.data;
         }
     );
+    vm.start = start;
+    function start(id){
+        $location.path('/live_quiz/' + id);
+    }
+
+    vm.show_results = show_results;
+    function show_results(id) {
+        $location.path('/live_quiz_results/' + id);
+    }
 }
 
 
@@ -309,7 +318,6 @@ function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashSe
     function get_question (qid) {
         $http.get('/api/question/' + qid).then(
             function (response) {
-                console.log(response)
                 vm.questions[qid] = response.data.question;
             }
         );
