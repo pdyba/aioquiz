@@ -21,9 +21,19 @@ psql_cfg = {
     'password': 'aiopg'
 }
 
+_users = {}
+
 
 async def format_dict_to_columns(adict):
     return [[a, adict[a]] for a in adict]
+
+
+async def get_user_name(uid):
+    if uid not in _users:
+        async with create_engine(**psql_cfg) as engine:
+            user = await Users.get_by_id(engine, uid)
+            _users[uid] = '{} {}'.format(user.name, user.surname)
+    return _users[uid]
 
 
 class QuestionView(HTTPMethodView):
@@ -42,13 +52,6 @@ class QuestionView(HTTPMethodView):
             logger.exception('err question.post')
             return json({})
 
-    async def get_user_name(self, uid):
-        if uid not in self._users:
-            async with create_engine(**psql_cfg) as engine:
-                user = await Users.get_by_id(engine, uid)
-                self._users[uid] = '{} {}'.format(user.name, user.surname)
-        return self._users[uid]
-
     async def put(self, request, qid):
         try:
             req = request.json
@@ -64,8 +67,12 @@ class QuestionView(HTTPMethodView):
             return json({})
 
     async def get(self, request, qid=0):
-        to_review = {'False': False, 'false': False, 'True': True, 'true': True, None: None}[request.args.get('review', None)]
+        to_review = \
+        {'False': False, 'false': False, 'True': True, 'true': True,
+         None: None}[request.args.get('review', None)]
         async with create_engine(**psql_cfg) as engine:
+            logger.info(qid)
+            logger.info(type(qid))
             if qid:
                 question = await Question.get_by_id(engine, qid)
                 return json(await question.to_dict())
@@ -85,7 +92,7 @@ class QuestionView(HTTPMethodView):
             for q in questions:
                 data = await q.to_dict()
                 if to_review:
-                    data['creator'] = await self.get_user_name(data['creator'])
+                    data['creator'] = await get_user_name(data['creator'])
                 resp.append(data)
             return json(resp)
 
@@ -164,27 +171,34 @@ class QuizView(HTTPMethodView):
                 resp = []
                 for q in quiz:
                     q = await q.to_dict()
-                    q['creator'] = await self.get_user_name(q['creator'])
+                    q['creator'] = await get_user_name(q['creator'])
                     q['amount'] = len(jloads(q['questions']))
                     resp.append(q)
                 return json(resp)
-
-    async def get_user_name(self, uid):
-        if uid not in self._users:
-            async with create_engine(**psql_cfg) as engine:
-                user = await Users.get_by_id(engine, uid)
-                self._users[uid] = '{} {}'.format(user.name, user.surname)
-        return self._users[uid]
 
 
 class LiveQuizView(HTTPMethodView):
     async def post(self, request):
         try:
             req = request.json
+            req['questions'] = [int(q) for q in req['questions']]
+            async with create_engine(**psql_cfg) as engine:
+                user = await Users.get_first(engine, 'email', req['creator'])
+                req['creator'] = user.id
+                question = LiveQuiz(**req)
+                await question.create(engine)
+            return json({'success': True}, status=200)
+        except:
+            logger.exception('err live_quiz.post')
+            return json({})
+
+    async def put(self, request, qid=0):
+        try:
+            req = request.json
             question = LiveQuiz(**req)
             async with create_engine(**psql_cfg) as engine:
                 qid = await question.create(engine)
-            return json({'id': qid}, status=302)
+            return json({'success': qid}, status=200)
         except:
             logger.exception('err live_quiz.post')
             return json({})
@@ -193,13 +207,19 @@ class LiveQuizView(HTTPMethodView):
         async with create_engine(**psql_cfg) as engine:
             if qid:
                 quiz = await LiveQuiz.get_by_id(engine, qid)
+                quiz = await quiz.to_dict()
+                quiz['questions'] = jloads(quiz['questions'])
+                return json(quiz)
             else:
-                quiz = await Quiz.get_all(engine)
+                quiz = await LiveQuiz.get_all(engine)
                 resp = []
                 for q in quiz:
-                    resp.append(await q.to_dict())
+                    q = await q.to_dict()
+                    q['creator'] = await get_user_name(q['creator'])
+                    q['amount'] = len(jloads(q['questions']))
+                    resp.append(q)
                 return json(resp)
-        return json(await quiz.to_dict())
+
 
 
 class LessonView(HTTPMethodView):
@@ -244,7 +264,8 @@ class AuthenticateView(HTTPMethodView):
                     {
                         'success': True,
                         'admin': user.admin,
-                        'moderator': user.moderator
+                        'moderator': user.moderator,
+                        'id': user.id
                     },
                     status=200
                 )

@@ -63,7 +63,9 @@ class LiveQuiz(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
+        Column('description', String(10000)),
         Column('questions', String(10000)),
+        Column('answares', String(10000), required=False, default=''),
         Column('creator', Integer()),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),

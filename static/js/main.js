@@ -33,6 +33,16 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "LiveQuizCtrl",
             controllerAs: 'vm'
         })
+        .when("/live_quiz/:id", {
+            templateUrl: "partials/live_quiz.html",
+            controller: "LiveQuizRunCtrl",
+            controllerAs: 'vm'
+        })
+        .when("/create_live_quiz", {
+            templateUrl: "partials/live_quiz_create.html",
+            controller: "LiveQuizCreateCtrl",
+            controllerAs: 'vm'
+        })
         .when("/quiz", {
             templateUrl: "partials/quiz_list.html",
             controller: "QuizCtrl",
@@ -43,7 +53,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "QuestionListCtrl",
             controllerAs: 'vm'
         })
-        .when("/quiz_start", {
+        .when("/quiz/:id", {
             templateUrl: "partials/quiz.html",
             controller: "QuizStartCtrl",
             controllerAs: 'vm'
@@ -225,6 +235,44 @@ function ReviewCtrl ($scope, $location, $AuthenticationService, $FlashService, $
     }
 }
 
+app.controller('LiveQuizRunCtrl', LiveQuizRunCtrl);
+LiveQuizRunCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams'];
+function LiveQuizRunCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    vm.user = $scope.globals.currentUser.username;
+    $http.get('/api/live_quiz/' + $routeParams.id).then(
+        function (response) {
+            vm.live_quiz = response.data;
+            vm.current_question = 0;
+            get_question(vm.live_quiz.questions[vm.current_question]);
+        }
+    );
+    function get_question(id) {
+        $http.get('/api/question/' + id).then(
+        function (response) {
+            vm.question = response.data;
+            console.log(response.data)
+        }
+    );
+    }
+    vm.answare = answare;
+    function answare (id){
+        data = {
+          'reviewer': vm.user,
+           'accept': true
+        };
+        $http.put('/api/question/' + id, data).then(
+        function (response) {
+            vm.questions = response.data;
+            $FlashService.Success('Question accepted', true);
+            $route.reload();
+        }
+    );
+    }
+}
+
+
 app.controller('CreateQuizCtrl', CreateQuizCtrl);
 CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
@@ -241,11 +289,39 @@ function CreateQuizCtrl ($scope, $location, $AuthenticationService, $FlashServic
     function create_quiz() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        console.log(vm.lesson);
         $http.post('/api/quiz_manage', vm.lesson).then(function (response) {
                 if (response.data.success) {
                     $FlashService.Success('New Quiz added successful', true);
                     $location.path('/quiz');
+                } else {
+                    $FlashService.Error(response.data.message);
+                    vm.dataLoading = false;
+                }
+            });
+    }
+}
+
+
+app.controller('LiveQuizCreateCtrl', LiveQuizCreateCtrl);
+LiveQuizCreateCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function LiveQuizCreateCtrl ($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    vm.questions = [];
+    $injector.invoke(PageCtrl, this, {$scope: $scope, $location: $location, $AuthenticationService: $AuthenticationService, $FlashService: $FlashService});
+    $http.get('/api/question?review=False').then(
+        function (response) {
+            vm.questions = response.data;
+        }
+    );
+    vm.create_quiz = create_quiz;
+
+    function create_quiz() {
+        vm.dataLoading = true;
+        vm.lesson.creator = $scope.globals.currentUser.username;
+        $http.post('/api/live_quiz', vm.lesson).then(function (response) {
+                if (response.data.success) {
+                    $FlashService.Success('New Live Quiz added successful', true);
+                    $location.path('/live_quiz');
                 } else {
                     $FlashService.Error(response.data.message);
                     vm.dataLoading = false;
@@ -269,7 +345,7 @@ function LoginController($location, AuthenticationService, FlashService) {
         vm.dataLoading = true;
         AuthenticationService.Login(vm.username, vm.password, function (response) {
             if (response.data.success) {
-                AuthenticationService.SetCredentials(vm.username, vm.password, response.data.admin, response.data.moderator);
+                AuthenticationService.SetCredentials(vm.username, vm.password, response.data.admin, response.data.moderator, response.data.id);
                 $location.path('/');
             } else {
                 FlashService.Error(response.data.msg);
@@ -373,7 +449,7 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 
     }
 
-    function SetCredentials(username, password, admin, moderator) {
+    function SetCredentials(username, password, admin, moderator, id) {
         var authdata = Base64.encode(username + ':' + password);
 
         $rootScope.globals = {
@@ -381,7 +457,8 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
                 username: username,
                 authdata: authdata,
                 admin: admin,
-                moderator: moderator
+                moderator: moderator,
+                id: id
             }
         };
 
