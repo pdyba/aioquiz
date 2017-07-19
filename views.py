@@ -151,7 +151,7 @@ class QuizView(HTTPMethodView):
 
     async def get(self, _, qid=0):
         if qid:
-            quiz = await Quiz.get_by_id( qid)
+            quiz = await Quiz.get_by_id(qid)
             quiz = await quiz.to_dict()
             quiz['questions'] = jloads(quiz['questions'])
             return json(quiz)
@@ -238,7 +238,7 @@ class LessonView(HTTPMethodView):
     async def get(self, _, lid=None):
         
         if lid:
-            lesson = await Lesson.get_by_id( lid)
+            lesson = await Lesson.get_by_id(lid)
             return json(await lesson.to_dict())
         else:
             lessons = await Lesson.get_all()

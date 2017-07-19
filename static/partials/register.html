@@ -4,18 +4,20 @@
     <h2>Register</h2>
     <form name="form" ng-submit="vm.register()" role="form">
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Attendee/Mentor</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+            <label for="mentor">
+                <input class="form-inline text-left" type="radio" name="mentor" id="mentor" value="false" class="form-control" ng-model="vm.user.mentor" required />Attendee
+                <input class="form-inline float-right"  type="radio" name="mentor" id="mentor" value="true" class="form-control" ng-model="vm.user.mentor" required /> Mentor
+            </label>
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Choose mentor or atendee</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-            <label for="username">First name</label>
-            <input type="text" name="name" id="firstName" class="form-control" ng-model="vm.user.name" required />
+            <label for="name">First name</label>
+            <input type="text" name="name" id="name" class="form-control" ng-model="vm.user.name" required />
             <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">First name is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
+        <div class="form-group" ng-class="{ 'has-error': form.surname.$dirty && form.lastName.$error.required }">
             <label for="username">Last name</label>
-            <input type="text" name="surname" id="Text1" class="form-control" ng-model="vm.user.surname" required />
+            <input type="text" name="surname" id="surname" class="form-control" ng-model="vm.user.surname" required />
             <span ng-show="form.surname.$dirty && form.surname.$error.required" class="help-block">Last name is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
@@ -28,50 +30,51 @@
             <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">City</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
+        <div class="form-group" ng-class="{ 'has-error': form.city.$dirty && form.password.$error.required }">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" class="form-control" ng-model="vm.user.city" required />
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Education</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+        <div class="form-group"
+             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
+            <label for="lesson">Education</label>
+            <select ng-options="x for x in ['Elementary', 'Gymnasium', 'Vocational', 'Technician', 'High School', 'Baccalaureate', 'Engineer', 'Master', 'PHD']" ng-model="vm.user.education" ngValue="x">
+            </select>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">University</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
+            <label for="university">University</label>
+            <input type="text" name="university" id="university" class="form-control" ng-model="vm.user.university" required />
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
+            <label for="t_shirt">T-shirt</label>
+            <select ng-options="x for x in ['XXS', 'XS', 'M', 'L', 'XL', 'XXL', 'XXXL']" ng-model="vm.user.t_shirt" ngValue="x">
+            </select>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.operating_system.$dirty && form.operating_system.$error.required }">
+            <label for="operating_system">Operating System</label>
+            <select ng-options="x for x in ['MacOS', 'Linux', 'Windows']" ng-model="vm.user.operating_system" ngValue="x">
+            </select>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">T-shirt</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+            <label for="description">Description</label>
+            <input type="text" name="description" id="description" class="form-control" ng-model="vm.user.description" required />
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Description is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Operating System</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+            <label for="motivation">Motivation</label>
+            <input type="text" name="motivation" id="motivation" class="form-control" ng-model="vm.user.motivation" required />
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Motivation is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Description</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+            <label for="experience">Experience</label>
+            <input type="text" name="experience" id="experience" class="form-control" ng-model="vm.user.experience" required />
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Experience is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Motivation</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Experience</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
-        </div>
-                <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">App idea</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }" ng-hide="vm.user.mentor == 'mentor'">
+            <label for="app_idea">App idea</label>
+            <input type="text" name="app_idea" id="app_idea" class="form-control" ng-model="vm.user.app_idea"/>
         </div>
 
 
