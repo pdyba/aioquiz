@@ -5,8 +5,8 @@ var session_id = '';
 var name = '';
 var gdata;
 
-function start() {
-    $.get("./api/quiz",
+function start(id) {
+    $.get("./api/live_quiz/" + id,
         function (data) {
             session_id = data.session_id;
             next_question(data);

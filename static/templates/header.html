@@ -1,0 +1,58 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/">aioquiz</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="$parent.globals.currentUser"><a href="#/lessons">Lessons</a>
+                </li>
+                <li ng-show="$parent.globals.currentUser"><a href="#/quiz">Quiz</a>
+                </li>
+                <li ng-show="$parent.globals.currentUser"><a href="#/live_quiz">Live Quiz</a>
+                </li>
+                <li class="dropdown" ng-show="$parent.globals.currentUser">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Questions</a>
+                    <ul class="dropdown-menu">
+                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/question_list">Question List</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser"><a href="#/propose">Propose new question</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/review">Review question</a>
+                        </li>
+                    </ul>
+                    </li>
+
+                <li class="dropdown" ng-show="$parent.globals.currentUser.admin">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Add Quiz</a>
+                    <ul class="dropdown-menu">
+                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/lessons_new">New Lesson</a>
+                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/create_quiz">Create Quiz</a>
+                </li>
+                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/create_live_quiz">Create Live Quiz</a>
+                </li>
+
+                    </ul>
+                    </li>
+
+                <li><a href="#/about">About</a>
+                </li>
+                <li ng-hide="$parent.globals.currentUser"><a href="#/login">Login/Register {{ vm.user.email }}</a>
+                </li>
+                <li ng-show="$parent.globals.currentUser"><a href="#/profile">{{ $parent.globals.currentUser.username }}</a>
+                </li>
+                <li ng-show="$parent.globals.currentUser.admin"><a href="#/admin" class="admin">Admin</a>
+                </li>
+                <li ng-show="$parent.globals.currentUser"><a  ng-click="logout()" target="_self">&#10006;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

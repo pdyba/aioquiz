@@ -1,0 +1,32 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            <h1 class="page-header">Live Quizes
+                <small>Avalaible quizes</small>
+            </h1>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-3" ng-repeat="(name, q) in vm.live_quiz.answares">
+
+
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <strong>{{ vm.questions[name] }}</strong>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="(a, b) in q">{{ a }} : {{ b }}</li>
+                </ul>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Review question xx</h1>
+    </div>
+        <div class="col-sm-3" ng-repeat="q in vm.questions">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <strong>{{ q.id }}</strong>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">{{ q.question }}</li>
+                    <li class="list-group-item">{{ q.answares }}</li>
+                    <li class="list-group-item">{{ q.creator }}</li>
+                    <li class="list-group-item"><a class="btn btn-primary" ng-click="vm.accept( q.id )">Accept</a>
+                    <li class="list-group-item"><a class="btn btn-primary" ng-click="vm.reject( q.id )">Reject</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</div>
+</div>
+<!-- /.container -->
