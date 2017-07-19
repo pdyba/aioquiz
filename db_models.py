@@ -2,10 +2,29 @@
 from abc import abstractproperty
 from datetime import datetime
 import json
+import logging
 import re
 
+import asyncpg
 
-from psycopg2._psycopg import IntegrityError
+psql_cfg = {
+    'user': 'aiopg',
+    'database': 'postgres',
+    'host': '127.0.0.1',
+    'password': 'aiopg'
+}
+
+
+# noinspection PyBroadException
+async def make_a_querry(querry):
+    try:
+        db = await asyncpg.connect(**psql_cfg)
+        try:
+            return await db.fetch(querry)
+        except:
+            logging.exception('queering db')
+    except:
+        logging.exception('connecting to db')
 
 
 class DoesNoteExists(Exception):
@@ -55,54 +74,50 @@ class Table:
         pass
 
     @classmethod
-    async def _table_exists(cls, engine):
-        async with engine.acquire() as conn:
-            exists = await conn.execute("""SELECT EXISTS (
-                        SELECT 1
-                        FROM   information_schema.tables
-                        WHERE  tables.table_name = '{}'
-                    ); """.format(cls._name))
-            exists = await exists.first()
-            return str(exists) == '(False,)'
+    async def _table_exists(cls):
+        exists = await make_a_querry(
+            """SELECT EXISTS (
+                    SELECT 1
+                    FROM   information_schema.tables
+                    WHERE  tables.table_name = '{}'
+                );
+            """.format(cls._name)
+        )
+        return exists[0]['exists'] == True
 
     @classmethod
-    async def create_table(cls, engine):
-        if await cls._table_exists(engine):
-            async with engine.acquire() as conn:
-                await conn.execute(
-                    """CREATE TABLE {} ( {} );""".format(cls._name, cls._gen_schema())
-                )
-                print('{} Table Done'.format(cls._name))
+    async def create_table(cls):
+        if not await cls._table_exists():
+            await make_a_querry(
+                """CREATE TABLE {} ( {} );""".format(cls._name, cls._gen_schema())
+            )
+            print('{} Table Done'.format(cls._name))
         else:
             print('{} Table already exists'.format(cls._name))
 
     @classmethod
-    async def get_by_id(cls, engine, uid):
-        async with engine.acquire() as conn:
-            resp = await conn.execute(
-                """SELECT * FROM {} WHERE id = {}""".format(cls._name, uid)
-            )
-            resp = await resp.first()
-            return cls(**resp)
+    async def get_by_id(cls, uid):
+        resp = await make_a_querry(
+            """SELECT * FROM {} WHERE id = {}""".format(cls._name, uid)
+        )
+        return cls(**dict(resp[0]))
 
     @classmethod
-    async def get_all(cls, engine):
-        async with engine.acquire() as conn:
-            resp = await conn.execute("""SELECT * FROM {}""".format(cls._name))
-            return [cls(**r) for r in await resp.fetchall()]
+    async def get_all(cls):
+        resp = await make_a_querry("""SELECT * FROM {}""".format(cls._name))
+        return [cls(**dict(r)) for r in resp]
 
     @classmethod
-    async def get_by_field_value(cls, engine, field, value):
-        async with engine.acquire() as conn:
-            if isinstance(value, str):
-                resp = await conn.execute("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
-            else:
-                resp = await conn.execute("""SELECT * FROM {} WHERE {}={}""".format(cls._name, field, value))
-            return [cls(**r) for r in await resp.fetchall()]
+    async def get_by_field_value(cls, field, value):
+        if isinstance(value, str):
+            resp = await make_a_querry("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
+        else:
+            resp = await make_a_querry("""SELECT * FROM {} WHERE {}={}""".format(cls._name, field, value))
+        return [cls(**dict(r)) for r in resp]
 
     @classmethod
-    async def get_first(cls, engine, field, value):
-        data = await cls.get_by_field_value(engine, field, value)
+    async def get_first(cls, field, value):
+        data = await cls.get_by_field_value(field, value)
         try:
             return data[0]
         except Exception as err:
@@ -136,53 +151,52 @@ class Table:
         return ', '.join(keys), values[:-2]
 
     @classmethod
-    async def _create(cls, engine, data):
-        async with engine.acquire() as conn:
-            resp = await conn.execute("""INSERT INTO {} ({}) VALUES
-            ({})
-            ;""".format(cls._name, *cls._format_create(data)))
-            return resp
+    async def _create(cls, data):
+        resp = await make_a_querry(
+            """INSERT INTO {} ({}) VALUES ({});""".format(
+                cls._name,
+                *cls._format_create(data)
+            )
+        )
+        return resp
 
-    async def create(self, engine):
+    async def create(self):
         try:
-            return await self._create(engine, self)
-        except IntegrityError as e:
-            er = e.pgerror
-            msg = er[er.find('Key') + 4:er.find('already') - 1].replace('(', '').replace(')', '')
-            return {
-                'error': msg + 'already exists',
-            }
+            return await self._create(self)
+        except Exception as e:
+            logging.exception('Error creating {}'.format(self._name))
 
     @classmethod
     def _format_update(cls, clsi):
-        return ', '.join([("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name)))) for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'])
+        return ', '.join([
+            ("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name))))
+            for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'
+        ])
 
     @classmethod
-    async def _update(cls, engine, data):
-        async with engine.acquire() as conn:
-            resp =  await conn.execute(
-                """UPDATE {} SET {}
-                WHERE id = {}
-                ;""".format(cls._name, cls._format_update(data), data.id))
-            return resp
+    async def _update(cls, data):
+        resp = await make_a_querry(
+            """UPDATE {} SET {}
+            WHERE id = {}
+            ;""".format(cls._name, cls._format_update(data), data.id))
+        return resp
 
-    async def update(self, engine):
-        await self._update(engine, self)
+    async def update(self):
+        await self._update(self)
 
     async def to_dict(self):
         return {field.name: getattr(self, field.name) for field in self._schema}
 
     @classmethod
-    async def _delete(cls, engine, data):
-        async with engine.acquire() as conn:
-            resp =  await conn.execute(
-                """DELETE * FROM {}
-                WHERE id = {}
-                ;""".format(cls._name, data.id))
-            return resp
+    async def _delete(cls, data):
+        resp = await make_a_querry(
+            """DELETE * FROM {}
+            WHERE id = {}
+            ;""".format(cls._name, data.id))
+        return resp
 
-    async def delete(self, engine):
-        await self._update(engine, self)
+    async def delete(self):
+        await self._update(self)
 
 
 class Column:
@@ -252,7 +266,7 @@ class String(ColumnType):
 
     def validate(self, data):
         if super().validate(data) and len(data) <= self.length:
-            return re.match("^[A-Za-z0-9_-]*$", data)
+            return re.match("^[\sA-Za-z0-9_-]*$", data)
         return False
 
     def format(self, data):
