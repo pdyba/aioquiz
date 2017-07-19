@@ -2,6 +2,8 @@
 from abc import abstractproperty
 from datetime import datetime
 import json
+import re
+
 
 from psycopg2._psycopg import IntegrityError
 
@@ -82,7 +84,6 @@ class Table:
             )
             resp = await resp.first()
             return cls(**resp)
-
 
     @classmethod
     async def get_all(cls, engine):
@@ -250,15 +251,31 @@ class String(ColumnType):
         return self._type.format(self.length)
 
     def validate(self, data):
-        super().validate(data) and len(data) <= self.length
+        if super().validate(data) and len(data) <= self.length:
+            return re.match("^[A-Za-z0-9_-]*$", data)
+        return False
 
     def format(self, data):
         try:
             if isinstance(data, str):
                 return data
             return json.dumps(data)
-        except:
-            import pdb; pdb.set_trace()
+        except Exception as err:
+            print(err)
+
+
+class CodeString(String):
+    _type = 'varchar({})'
+    _py_type = str
+
+    def validate(self, data):
+        if isinstance(data, self._py_type):
+            return re.match(
+                "^[\s\(\)A-Za-z0-9\-_\.\+\*\\\/\:=\'\{\},<\"\^\[\]]*",
+                data
+            )
+        return False
+
 
 class Boolean(ColumnType):
     _type = 'boolean'
@@ -269,3 +286,7 @@ class DateTime(ColumnType):
     _type = 'timestamp'
     _py_type = datetime
 
+    def validate(self, data):
+        if super().validate(data):
+            return re.match("^[0-9\.\:\/]*$", data)
+        return False
