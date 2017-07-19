@@ -3,7 +3,7 @@ from json import loads as jloads
 from sanic.response import json
 from sanic.views import HTTPMethodView
 
-from db_models import DoesNoteExists
+from orm import DoesNoteExists
 from models import Quiz
 from models import Question
 from models import Users
@@ -259,17 +259,25 @@ class AuthenticateView(HTTPMethodView):
                 'email',
                 req.get('email', '')
             )
-            if user and user.active and req.get('password', '') == user.password:
+            if not user:
+                print('n found')
+                return json({'msg': 'User not found'}, status=404)
+            if not user.active:
+                print('n act')
+                return json({'msg': 'User not active'}, status=404)
+            if req.get('password', '') == user.password:
                 return json(
                     {
                         'success': True,
                         'admin': user.admin,
-                        'moderator': user.moderator,
+                        'mentor': user.mentor,
                         'id': user.id
                     },
                     status=200
                 )
             else:
+                print(req.get('password', ''))
+                print(user.password)
                 return json(self.user_error, status=200)
         except DoesNoteExists:
             return json(self.user_error, status=200)

@@ -22,16 +22,15 @@ async def bootstrap_db():
         'email': 'piotr@dyba.com.pl',
         'password': 'test_1',
         'img': 'test_1',
-        'moderator': True,
+        'mentor': True,
+        'active': True,
         'admin': True,
         'name': 'Piotr',
         'surname': 'Dyba',
     }
-    try:
-        tbl = Users(**new_user)
-        await tbl.create()
-    except:
-        pass
+
+    tbl = Users(**new_user)
+    await tbl.create()
     await Users.get_by_id(1)
 
     await Question(question='Jak masz na imie ?').create()

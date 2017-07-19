@@ -1,12 +1,13 @@
 # !/usr/bin/python3.5
 from datetime import datetime
 
-from db_models import Table
-from db_models import Column
-from db_models import Integer
-from db_models import String
-from db_models import DateTime
-from db_models import Boolean
+from orm import Table
+from orm import Column
+from orm import Integer
+from orm import String
+from orm import DateTime
+from orm import Boolean
+from orm import Float
 
 
 class Question(Table):
@@ -34,12 +35,29 @@ class Users(Table):
         Column('name', String(255)),
         Column('surname', String(255)),
         Column('password', String(1000)),
+        Column('city', String(255), required=False),
+        Column('education', String(255), required=False),
+        Column('university', String(255), required=False),
+        Column('t_shirt', String(10), required=False),
+        Column('operating_system', String(10), required=False),
+        Column('confirmation', String(10), default='noans'),
         Column('description', String(5000), required=False),
+        Column('motivation', String(5000), required=False),
+        Column('what_can_you_bring', String(5000), required=False),
+        Column('experience', String(5000), required=False),
+        Column('app_idea', String(5000), required=False),
         Column('questions', String(10000), default=''),
         Column('live_quiz', String(5000), default=''),
-        Column('moderator', Boolean(), default=False),
+        Column('notes', String(5000), default=''),
+        Column('mentor', Boolean(), default=False),
         Column('admin', Boolean(), default=False),
-        Column('active', Boolean(), default=True)
+        Column('active', Boolean(), default=False),
+        Column('accepted_rules', Boolean(), default=False),
+        Column('accepted', Boolean(), default=False),
+        Column('create_date', DateTime(), default=datetime.utcnow),
+        Column('last_login', DateTime(), default=datetime.utcnow),
+        Column('session_uuid', String(255), required=False),
+        Column('score', Float(), default=0, required=False),
     ]
 
 

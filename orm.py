@@ -253,6 +253,11 @@ class Integer(ColumnType):
     _py_type = int
 
 
+class Float(ColumnType):
+    _type = 'float'
+    _py_type = float
+
+
 class String(ColumnType):
     _type = 'varchar({})'
     _py_type = str
