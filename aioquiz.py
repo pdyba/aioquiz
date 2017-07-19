@@ -26,7 +26,6 @@ app.add_route(UserView.as_view(), '/api/user/<id_name>')
 app.add_route(AuthenticateView.as_view(), '/api/authenticate')
 
 app.add_route(QuestionView.as_view(), '/api/question')
-app.add_route(QuestionView.as_view(), '/api/question/')
 app.add_route(QuestionView.as_view(), '/api/question/<qid:int>')
 
 app.add_route(LessonView.as_view(), '/api/lessons')
