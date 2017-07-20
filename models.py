@@ -20,8 +20,7 @@ class Question(Table):
         Column('answare', String(1000), default=''),
         Column('qtype', String(50), default='plain'),
         Column('img', String(255), required=False, default=''),
-        Column('creator', Integer(), default=1),
-        Column('reviewer', Integer(), required=False, default=0),
+        Column('users', ForeignKey('users'), default=1),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('time_accepted', DateTime(), required=False, default=datetime(1900, 1, 1, 1, 1, 1, 1)),
         Column('active', Boolean(), default=False),
@@ -57,6 +56,7 @@ class Users(Table):
         Column('last_login', DateTime(), default=datetime.utcnow),
         Column('session_uuid', String(255), required=False),
         Column('score', Float(), default=0, required=False),
+        Column('i_needed_help', Integer(), default=0),
     ]
 
     @classmethod
@@ -73,19 +73,55 @@ class Lesson(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('creator', Integer()),
+        Column('users', ForeignKey('users'), default=1),
         Column('file', String(255)),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
+        Column('quiz', ForeignKey('quiz'), required=False),
     ]
 
 
-class QuestionAnsware(Table):
-    _name = 'question_answare'
+class Quiz(Table):
+    _name = 'quiz'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('title', String(255)),
+        Column('description', String(10000)),
+        Column('questions', String(10000)),
+        Column('users', ForeignKey('users'), default=1),
+        Column('time_created', DateTime(), default=datetime.utcnow),
+    ]
+
+    def get_next_question(self, qid):
+        return self.questions[self.questions.index(qid) + 1]
+
+
+class Exercise(Table):
+    _name = 'exercise'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('title', String(255)),
+        Column('description', String(10000)),
+        Column('users', ForeignKey('users'), default=1),
+        Column('time_created', DateTime(), default=datetime.utcnow),
+    ]
+
+
+class LessonFeedback(Table):
+    _name = 'lesson_feedback'
     _schema = [
         Column('users', ForeignKey('users')),
-        Column('question', ForeignKey('question')),
-        Column('answare', String(5000)),
+        Column('lesson', ForeignKey('lesson')),
+        Column('feedback', String(5000)),
+    ]
+
+
+class LessonExercise(Table):
+    _name = 'lesson_exercise'
+    _schema = [
+        Column('lesson', ForeignKey('lesson')),
+        Column('exercise', ForeignKey('exercise')),
+        Column('feedback', String(5000)),
     ]
 
 
@@ -98,19 +134,23 @@ class LessonStatus(Table):
     ]
 
 
-class Quiz(Table):
-    _name = 'quiz'
+class QuestionAnsware(Table):
+    _name = 'question_answare'
     _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('title', String(255)),
-        Column('description', String(10000)),
-        Column('questions', String(10000)),
-        Column('creator', Integer()),
-        Column('time_created', DateTime(), default=datetime.utcnow),
+        Column('users', ForeignKey('users')),
+        Column('question', ForeignKey('question')),
+        Column('answare', String(5000)),
     ]
 
-    def get_next_question(self, qid):
-        return self.questions[self.questions.index(qid) + 1]
+
+class ExerciseAnsware(Table):
+    _name = 'lesson_status'
+    _schema = [
+        Column('exercise', ForeignKey('exercise')),
+        Column('users', ForeignKey('users')),
+        Column('answare', String(5000)),
+        Column('status', String(20)),
+    ]
 
 
 class QuizQuestions(Table):
@@ -127,7 +167,7 @@ class LiveQuiz(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('creator', Integer()),
+        Column('users', ForeignKey('users'), default=1),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
     ]
@@ -148,3 +188,25 @@ class LiveQuizAnsware(Table):
         Column('question', ForeignKey('question')),
         Column('answare', String(5000)),
     ]
+
+
+class Seat(Table):
+    _name = 'seat'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('row', String(255)),
+        Column('number', String(10000)),
+        Column('users', ForeignKey('users')),
+        Column('i_need_help', Boolean, default=False),
+    ]
+
+
+class Feedback(Table):
+    _name = 'seat'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('row', String(255)),
+        Column('number', String(10000)),
+        Column('users', ForeignKey('users')),
+    ]
+

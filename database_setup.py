@@ -201,4 +201,6 @@ async def add_question():
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.run_until_complete(bootstrap_db())
-    loop.run_until_complete(add_question())
+    loop.run_until_complete(bootstrap_db())
+    # loop.run_until_complete(add_question())
+    # loop.run_until_complete(admin())
