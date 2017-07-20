@@ -22,7 +22,7 @@ async def make_a_querry(querry):
         try:
             return await db.fetch(querry)
         except:
-            logging.exception('queering db')
+            logging.exception('queering db: %s', querry)
     except:
         logging.exception('connecting to db')
 
@@ -309,3 +309,18 @@ class DateTime(ColumnType):
         if super().validate(data):
             return re.match("^[0-9\.\:\/]*$", data)
         return False
+
+
+class ForeignKey(ColumnType):
+    _type = 'integer references {}(id)'
+    _py_type = str
+
+    def __init__(self, f_key):
+        super().__init__()
+        self.f_key = f_key
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return self._type.format(self.f_key)

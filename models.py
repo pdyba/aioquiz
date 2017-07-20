@@ -8,6 +8,7 @@ from orm import String
 from orm import DateTime
 from orm import Boolean
 from orm import Float
+from orm import ForeignKey
 
 
 class Question(Table):
@@ -61,6 +62,37 @@ class Users(Table):
     ]
 
 
+class QuestionAnsware(Table):
+    _name = 'question_answare'
+    _schema = [
+        Column('users', ForeignKey('users')),
+        Column('question', ForeignKey('question')),
+        Column('answare', String(5000)),
+    ]
+
+
+class Lesson(Table):
+    _name = 'lesson'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('title', String(255)),
+        Column('description', String(10000)),
+        Column('creator', Integer()),
+        Column('file', String(255)),
+        Column('time_created', DateTime(), default=datetime.utcnow),
+        Column('active', Boolean(), default=False),
+    ]
+
+
+class LessonStatus(Table):
+    _name = 'lesson_status'
+    _schema = [
+        Column('lesson', ForeignKey('lesson')),
+        Column('users', ForeignKey('users')),
+        Column('status', String(20)),
+    ]
+
+
 class Quiz(Table):
     _name = 'quiz'
     _schema = [
@@ -76,28 +108,38 @@ class Quiz(Table):
         return self.questions[self.questions.index(qid) + 1]
 
 
+class QuizQuestions(Table):
+    _name = 'quiz_questions'
+    _schema = [
+        Column('quiz', ForeignKey('quiz')),
+        Column('question', ForeignKey('question')),
+    ]
+
+
 class LiveQuiz(Table):
     _name = 'live_quiz'
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('questions', String(10000)),
-        Column('answares', String(10000), required=False, default=''),
         Column('creator', Integer()),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
     ]
 
 
-class Lesson(Table):
-    _name = 'lesson'
+class LiveQuizQuestion(Table):
+    _name = 'live_quiz_questions'
     _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('title', String(255)),
-        Column('description', String(10000)),
-        Column('creator', Integer()),
-        Column('file', String(255)),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('active', Boolean(), default=False),
+        Column('lesson', ForeignKey('lesson')),
+        Column('question', ForeignKey('question')),
+    ]
+
+
+class LiveQuizAnsware(Table):
+    _name = 'live_quiz_answare'
+    _schema = [
+        Column('live_quiz', ForeignKey('live_quiz')),
+        Column('question', ForeignKey('question')),
+        Column('answare', String(5000)),
     ]
