@@ -37,6 +37,7 @@ async def admin():
     tbl = models.Users(**new_user)
     await tbl.create()
     await models.Users.get_by_id(1)
+    print('Admin Created')
 
 async def add_question():
     await models.Question(question='Jak masz na imie ?').create()
@@ -195,7 +196,9 @@ async def add_question():
         question='Czy podobal Ci sie quiz',
         qtype='bool',
     ).create()
+    print('question added')
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.run_until_complete(bootstrap_db())
+    loop.run_until_complete(add_question())

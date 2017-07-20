@@ -1,5 +1,8 @@
 # !/usr/bin/python3.5
 from json import loads as jloads
+import logging
+from uuid import uuid4
+
 from sanic.response import json
 from sanic.views import HTTPMethodView
 
@@ -9,7 +12,13 @@ from models import Question
 from models import Users
 from models import LiveQuiz
 from models import Lesson
-import logging
+from models import QuizQuestions
+from models import LiveQuizQuestion
+from models import LiveQuizAnsware
+from models import QuestionAnsware
+from models import LessonStatus
+from models import LessonStatus
+
 
 
 _users = {}
@@ -200,15 +209,17 @@ class LiveQuizView(HTTPMethodView):
             logging.exception('err live_quiz.post')
             return json({})
 
-    async def get(self, _, qid=0):
+    async def get(self, request, qid=0):
         if qid:
+            print(request.headers['authorization'].replace('Basic', ''))
+            print(qid)
             quiz = await LiveQuiz.get_by_id(qid)
             quiz = await quiz.to_dict()
-            quiz['questions'] = jloads(quiz['questions'])
-            if quiz['answares']:
-                quiz['answares'] = jloads(quiz['answares'])
-            else:
-                quiz['answares'] = ''
+            quiz['questions'] = await Question.get_by_id(qid)
+            # if await LiveQuizAnsware.get_by_many_field_value(quiz=qid, ):
+            #     quiz['answares'] = jloads(quiz['answares'])
+            # else:
+            quiz['answares'] = ''
             return json(quiz)
         else:
             quiz = await LiveQuiz.get_all()
@@ -216,7 +227,8 @@ class LiveQuizView(HTTPMethodView):
             for q in quiz:
                 q = await q.to_dict()
                 q['creator'] = await get_user_name(q['creator'])
-                q['amount'] = len(jloads(q['questions']))
+                questions = await QuizQuestions.get_by_field_value('quiz', qid)
+                q['amount'] = len(questions)
                 resp.append(q)
             return json(resp)
 
@@ -260,27 +272,37 @@ class AuthenticateView(HTTPMethodView):
                 req.get('email', '')
             )
             if not user:
-                print('n found')
                 return json({'msg': 'User not found'}, status=404)
             if not user.active:
-                print('n act')
                 return json({'msg': 'User not active'}, status=404)
             if req.get('password', '') == user.password:
+                user.session_uuid = str(uuid4()).replace('-', '')
+                await user.update()
                 return json(
                     {
                         'success': True,
                         'admin': user.admin,
                         'mentor': user.mentor,
-                        'id': user.id
+                        'id': user.id,
+                        'session_uuid': user.session_uuid
                     },
                     status=200
                 )
             else:
-                print(req.get('password', ''))
-                print(user.password)
                 return json(self.user_error, status=200)
         except DoesNoteExists:
             return json(self.user_error, status=200)
         except:
             logging.exception('err authentication.post')
         return json({'msg': 'internal error'}, status=500)
+
+
+class LogOutView(HTTPMethodView):
+    async def post(self, request):
+        req = request.json
+        user = await Users.get_user_by_session_uuid(req.session_uid)
+        if user:
+            user.session_uuid = ''
+            await user.update()
+            return json({'success': True})
+        return json({'success': False}, status=403)

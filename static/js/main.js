@@ -519,7 +519,7 @@ function LoginController($location, AuthenticationService, FlashService) {
         vm.dataLoading = true;
         AuthenticationService.Login(vm.username, vm.password, function (response) {
             if (response.data.success) {
-                AuthenticationService.SetCredentials(vm.username, vm.password, response.data.admin, response.data.moderator, response.data.id);
+                AuthenticationService.SetCredentials(vm.username, vm.password, response.data.admin, response.data.mentor, response.data.id, response.data.session_uuid);
                 $location.path('/');
             } else {
                 FlashService.Error(response.data.msg);
@@ -636,21 +636,21 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 
     }
 
-    function SetCredentials(username, password, admin, moderator, id) {
-        var authdata = Base64.encode(username + ':' + password);
+    function SetCredentials(username, password, admin, mentor, id, session_uuid) {
+        var authdata = session_uuid;
 
         $rootScope.globals = {
             currentUser: {
                 username: username,
                 authdata: authdata,
                 admin: admin,
-                moderator: moderator,
+                mentor: mentor,
                 id: id
             }
         };
 
         // set default auth header for http requests
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
+        $http.defaults.headers.common['Authorization'] =  authdata;
 
         // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
         var cookieExp = new Date();

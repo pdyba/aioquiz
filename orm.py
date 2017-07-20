@@ -116,6 +116,19 @@ class Table:
         return [cls(**dict(r)) for r in resp]
 
     @classmethod
+    async def get_by_many_field_value(cls, **kwargs):
+        querry = """SELECT * FROM {}"""
+        for i, kw in enumerate(kwargs):
+            if isinstance(kwargs[kw], str):
+                querry += """WHERE {}='{}'""".format(cls._name, kw, kwargs[kw])
+            else:
+                querry += """WHERE {}={}""".format(cls._name, kw, kwargs[kw])
+            if i + 1 < len(kwargs):
+                querry += """ AND """
+        resp = await make_a_querry(querry)
+        return [cls(**dict(r)) for r in resp]
+
+    @classmethod
     async def get_first(cls, field, value):
         data = await cls.get_by_field_value(field, value)
         try:

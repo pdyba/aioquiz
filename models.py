@@ -2,6 +2,7 @@
 from datetime import datetime
 
 from orm import Table
+from orm import DoesNoteExists
 from orm import Column
 from orm import Integer
 from orm import String
@@ -16,12 +17,11 @@ class Question(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('question', String(1000)),
-        Column('answares', String(1000), default=''),
+        Column('answare', String(1000), default=''),
         Column('qtype', String(50), default='plain'),
         Column('img', String(255), required=False, default=''),
         Column('creator', Integer(), default=1),
         Column('reviewer', Integer(), required=False, default=0),
-        Column('lesson', Integer(), required=False, default=0),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('time_accepted', DateTime(), required=False, default=datetime(1900, 1, 1, 1, 1, 1, 1)),
         Column('active', Boolean(), default=False),
@@ -47,8 +47,6 @@ class Users(Table):
         Column('what_can_you_bring', String(5000), required=False),
         Column('experience', String(5000), required=False),
         Column('app_idea', String(5000), required=False),
-        Column('questions', String(10000), default=''),
-        Column('live_quiz', String(5000), default=''),
         Column('notes', String(5000), default=''),
         Column('mentor', Boolean(), default=False),
         Column('admin', Boolean(), default=False),
@@ -61,14 +59,12 @@ class Users(Table):
         Column('score', Float(), default=0, required=False),
     ]
 
-
-class QuestionAnsware(Table):
-    _name = 'question_answare'
-    _schema = [
-        Column('users', ForeignKey('users')),
-        Column('question', ForeignKey('question')),
-        Column('answare', String(5000)),
-    ]
+    @classmethod
+    async def get_user_by_session_uuid(cls, session_uuid):
+        try:
+            return await cls.get_first('session_uuid', session_uuid)
+        except DoesNoteExists:
+            return None
 
 
 class Lesson(Table):
@@ -81,6 +77,15 @@ class Lesson(Table):
         Column('file', String(255)),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
+    ]
+
+
+class QuestionAnsware(Table):
+    _name = 'question_answare'
+    _schema = [
+        Column('users', ForeignKey('users')),
+        Column('question', ForeignKey('question')),
+        Column('answare', String(5000)),
     ]
 
 

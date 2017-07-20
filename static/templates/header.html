@@ -21,22 +21,22 @@
                 <li class="dropdown" ng-show="$parent.globals.currentUser">
                     <a class="dropdown-toggle" data-toggle="dropdown">Questions</a>
                     <ul class="dropdown-menu">
-                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/question_list">Question List</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/question_list">Question List</a>
                         </li>
                         <li ng-show="$parent.globals.currentUser"><a href="#/propose">Propose new question</a>
                         </li>
-                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/review">Review question</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/review">Review question</a>
                         </li>
                     </ul>
                     </li>
 
-                <li class="dropdown" ng-show="$parent.globals.currentUser.admin">
+                <li class="dropdown" ng-show="$parent.globals.currentUser.mentor">
                     <a class="dropdown-toggle" data-toggle="dropdown">Add Quiz</a>
                     <ul class="dropdown-menu">
-                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/lessons_new">New Lesson</a>
-                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/create_quiz">Create Quiz</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/lessons_new">New Lesson</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/create_quiz">Create Quiz</a>
                 </li>
-                        <li ng-show="$parent.globals.currentUser.moderator"><a href="#/create_live_quiz">Create Live Quiz</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/create_live_quiz">Create Live Quiz</a>
                 </li>
 
                     </ul>
