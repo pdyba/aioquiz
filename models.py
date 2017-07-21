@@ -22,8 +22,7 @@ class Question(Table):
         Column('img', String(255), required=False, default=''),
         Column('users', ForeignKey('users'), default=1),
         Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('time_accepted', DateTime(), required=False, default=datetime(1900, 1, 1, 1, 1, 1, 1)),
-        Column('active', Boolean(), default=False),
+        Column('active', Boolean(), default=True),
     ]
 
 
@@ -87,13 +86,20 @@ class Quiz(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('questions', String(10000)),
         Column('users', ForeignKey('users'), default=1),
         Column('time_created', DateTime(), default=datetime.utcnow),
     ]
 
-    def get_next_question(self, qid):
-        return self.questions[self.questions.index(qid) + 1]
+    async def get_question(self, question_order=0):
+        return await QuizQuestions.get_by_many_field_value(
+            quiz=self.id,
+            question_order=question_order
+        )
+
+    async def get_question_amount(self):
+        return len(await QuizQuestions.get_by_field_value(
+            'quiz', self.id
+        ))
 
 
 class Exercise(Table):
@@ -158,6 +164,7 @@ class QuizQuestions(Table):
     _schema = [
         Column('quiz', ForeignKey('quiz')),
         Column('question', ForeignKey('question')),
+        Column('question_order', Integer(), default=0),
     ]
 
 
@@ -178,6 +185,7 @@ class LiveQuizQuestion(Table):
     _schema = [
         Column('lesson', ForeignKey('lesson')),
         Column('question', ForeignKey('question')),
+        Column('question_order', Integer(), default=0),
     ]
 
 

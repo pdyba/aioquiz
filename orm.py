@@ -25,6 +25,7 @@ async def make_a_querry(querry):
             logging.exception('queering db: %s', querry)
     except:
         logging.exception('connecting to db')
+    return False
 
 
 class DoesNoteExists(Exception):
@@ -117,12 +118,12 @@ class Table:
 
     @classmethod
     async def get_by_many_field_value(cls, **kwargs):
-        querry = """SELECT * FROM {}"""
+        querry = """SELECT * FROM {} """.format(cls._name)
         for i, kw in enumerate(kwargs):
             if isinstance(kwargs[kw], str):
-                querry += """WHERE {}='{}'""".format(cls._name, kw, kwargs[kw])
+                querry += """WHERE {}='{}'""".format(kw, kwargs[kw])
             else:
-                querry += """WHERE {}={}""".format(cls._name, kw, kwargs[kw])
+                querry += """WHERE {}={}""".format(kw, kwargs[kw])
             if i + 1 < len(kwargs):
                 querry += """ AND """
         resp = await make_a_querry(querry)
@@ -165,13 +166,18 @@ class Table:
 
     @classmethod
     async def _create(cls, data):
-        resp = await make_a_querry(
+        await make_a_querry(
             """INSERT INTO {} ({}) VALUES ({});""".format(
                 cls._name,
                 *cls._format_create(data)
             )
         )
-        return resp
+        if cls._in_schema('id'):
+            resp = await make_a_querry(
+                """SELECT id FROM {} ORDER BY id DESC limit 1""".format(cls._name)
+            )
+            return resp[0]['id']
+        return True
 
     async def create(self):
         try:

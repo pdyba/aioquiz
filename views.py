@@ -90,7 +90,7 @@ class QuestionView(HTTPMethodView):
         for q in questions:
             data = await q.to_dict()
             if to_review:
-                data['creator'] = await get_user_name(data['creator'])
+                data['creator'] = await get_user_name(data['user'])
             resp.append(data)
         return json(resp)
 
@@ -133,11 +133,15 @@ class QuizManageView(HTTPMethodView):
     async def post(self, request):
         try:
             req = request.json
-            req['questions'] = [int(q) for q in req['questions']]
             user = await Users.get_first('email', req['creator'])
-            req['creator'] = user.id
+            req['users'] = user.id
+            questions = [int(q) for q in req['questions']]
+            del req['questions']
             quiz = Quiz(**req)
-            await quiz.create()
+            quiz_id = await quiz.create()
+            for i, question in enumerate(questions):
+                qq = QuizQuestions(quiz=quiz_id, question=question, question_order=i)
+                await qq.create()
             return json({'success': True}, status=200)
         except:
             logging.exception('err quiz_manage.post')
@@ -146,13 +150,11 @@ class QuizManageView(HTTPMethodView):
 
 # noinspection PyBroadException
 class QuizView(HTTPMethodView):
-    _users = {}
-
     async def post(self, request):
         try:
             req = request.json
             user = await Users.get_by_id(req['uid'])
-            quiz = await Quiz.get_by_id(req['quiz_id'])
+            quiz = await QuizQuestions.get_by_field_value('quiz', req['quiz_id'])
             next_question = quiz.get_next_question(req['qid'])
         except:
             logging.exception('err quiz.post')
@@ -161,16 +163,15 @@ class QuizView(HTTPMethodView):
     async def get(self, _, qid=0):
         if qid:
             quiz = await Quiz.get_by_id(qid)
-            quiz = await quiz.to_dict()
-            quiz['questions'] = jloads(quiz['questions'])
-            return json(quiz)
+            question = await quiz.get_question()
+            return json(question)
         else:
-            quiz = await Quiz.get_all()
+            quizes = await Quiz.get_all()
             resp = []
-            for q in quiz:
-                q = await q.to_dict()
-                q['creator'] = await get_user_name(q['creator'])
-                q['amount'] = len(jloads(q['questions']))
+            for quiz in quizes:
+                q = await quiz.to_dict()
+                q['creator'] = await get_user_name(q['users'])
+                q['amount'] = await quiz.get_question_amount()
                 resp.append(q)
             return json(resp)
 
@@ -226,7 +227,7 @@ class LiveQuizView(HTTPMethodView):
             resp = []
             for q in quiz:
                 q = await q.to_dict()
-                q['creator'] = await get_user_name(q['creator'])
+                q['creator'] = await get_user_name(q['users'])
                 questions = await QuizQuestions.get_by_field_value('quiz', qid)
                 q['amount'] = len(questions)
                 resp.append(q)
