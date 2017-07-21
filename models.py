@@ -91,10 +91,13 @@ class Quiz(Table):
     ]
 
     async def get_question(self, question_order=0):
-        return await QuizQuestions.get_by_many_field_value(
+        if question_order + 1 >= await self.get_question_amount():
+            return {'last': True, 'msg': 'that was last question in the quiz'}
+        qq = await QuizQuestions.get_first_by_many_field_value(
             quiz=self.id,
             question_order=question_order
         )
+        return await Question.get_by_id(qq.question)
 
     async def get_question_amount(self):
         return len(await QuizQuestions.get_by_field_value(

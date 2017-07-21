@@ -150,12 +150,21 @@ class QuizManageView(HTTPMethodView):
 
 # noinspection PyBroadException
 class QuizView(HTTPMethodView):
-    async def post(self, request):
+    async def post(self, request, qid=0):
         try:
             req = request.json
-            user = await Users.get_by_id(req['uid'])
-            quiz = await QuizQuestions.get_by_field_value('quiz', req['quiz_id'])
-            next_question = quiz.get_next_question(req['qid'])
+            qa = QuestionAnsware(
+                users=req['user_id'],
+                question=req['question'],
+                answare=req['answare'],
+            )
+            await qa.create()
+            quiz = await Quiz.get_by_id(qid)
+            question = await quiz.get_question(req['current_question'] + 1)
+            if isinstance(question, dict):
+                return json(question)
+            q = await question.to_dict()
+            return json(q)
         except:
             logging.exception('err quiz.post')
             return json({})
@@ -164,7 +173,8 @@ class QuizView(HTTPMethodView):
         if qid:
             quiz = await Quiz.get_by_id(qid)
             question = await quiz.get_question()
-            return json(question)
+            q = await question.to_dict()
+            return json(q)
         else:
             quizes = await Quiz.get_all()
             resp = []
@@ -178,12 +188,9 @@ class QuizView(HTTPMethodView):
 
 # noinspection PyBroadException
 class LiveQuizView(HTTPMethodView):
-    async def post(self, request):
+    async def post(self, request, qid=0):
         try:
             req = request.json
-            req['questions'] = [int(q) for q in req['questions']]
-            user = await Users.get_first('email', req['creator'])
-            req['creator'] = user.id
             question = LiveQuiz(**req)
             await question.create()
             return json({'success': True}, status=200)
@@ -212,8 +219,6 @@ class LiveQuizView(HTTPMethodView):
 
     async def get(self, request, qid=0):
         if qid:
-            print(request.headers['authorization'].replace('Basic', ''))
-            print(qid)
             quiz = await LiveQuiz.get_by_id(qid)
             quiz = await quiz.to_dict()
             quiz['questions'] = await Question.get_by_id(qid)

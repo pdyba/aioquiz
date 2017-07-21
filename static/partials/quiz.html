@@ -3,7 +3,7 @@
     <div class="row">
 
         <div class="col-lg-12">
-            <h1 class="page-header">Quiz: {{ vm.live_quiz.title }}
+            <h1 class="page-header">Quiz: {{ vm.quiz.title }}
             </h1>
         </div>
 
@@ -12,7 +12,7 @@
     <div class="col-md-6 col-md-offset-3">
         <p>
             {{ vm.question.question }}
-            {{ vm.question.answares }}
+            {{ vm.question.answare }}
         </p>
         <form name="form" ng-submit="vm.answare_question()" role="form">
             <div class="form-group"

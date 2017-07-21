@@ -118,16 +118,24 @@ class Table:
 
     @classmethod
     async def get_by_many_field_value(cls, **kwargs):
-        querry = """SELECT * FROM {} """.format(cls._name)
+        querry = """SELECT * FROM {} WHERE """.format(cls._name)
         for i, kw in enumerate(kwargs):
             if isinstance(kwargs[kw], str):
-                querry += """WHERE {}='{}'""".format(kw, kwargs[kw])
+                querry += """ {}='{}'""".format(kw, kwargs[kw])
             else:
-                querry += """WHERE {}={}""".format(kw, kwargs[kw])
+                querry += """  {}={}""".format(kw, kwargs[kw])
             if i + 1 < len(kwargs):
                 querry += """ AND """
         resp = await make_a_querry(querry)
         return [cls(**dict(r)) for r in resp]
+
+    @classmethod
+    async def get_first_by_many_field_value(cls, **kwargs):
+        data = await cls.get_by_many_field_value(**kwargs)
+        try:
+            return data[0]
+        except Exception as err:
+            raise DoesNoteExists
 
     @classmethod
     async def get_first(cls, field, value):

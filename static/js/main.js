@@ -351,9 +351,8 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/quiz/' + $routeParams.id).then(
         function (response) {
-            vm.live_quiz = response.data;
+            vm.question = response.data;
             vm.current_question = 0;
-            get_question(vm.live_quiz.questions[vm.current_question]);
         }
     );
     function get_question(id) {
@@ -367,20 +366,19 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
     vm.answare_question = answare_question;
     function answare_question() {
         data = {
-            'question': vm.live_quiz.questions[vm.current_question],
+            'question': vm.question.id,
             'answare': vm.answare,
-            'user_id': $scope.globals.currentUser.id
+            'user_id': $scope.globals.currentUser.id,
+            'current_question': vm.current_question
         };
-        $http.put('/api/user/', data).then(
+        $http.post('/api/quiz/' + $routeParams.id, data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Answare Saved', false);
                 vm.current_question += 1;
-                console.log(vm.current_question);
-                if (vm.current_question >= vm.live_quiz.questions.length) {
-                    $FlashService.Success('You have complited the Quiz', true);
-                    $location.path('/live_quiz_results/' + vm.live_quiz.id);
+                if (response.data.last){
+                    vm.question.question = response.data.msg;
                 } else {
-                    get_question(vm.live_quiz.questions[vm.current_question]);
+                    vm.question = response.data;
                 }
             }
         );
