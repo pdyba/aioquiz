@@ -127,6 +127,8 @@ class Table:
             if i + 1 < len(kwargs):
                 querry += """ AND """
         resp = await make_a_querry(querry)
+        if not resp:
+            return resp
         return [cls(**dict(r)) for r in resp]
 
     @classmethod
@@ -193,6 +195,13 @@ class Table:
         except Exception as e:
             logging.exception('Error creating {}'.format(self._name))
 
+    async def update_or_create(self, *args):
+        kw = {arg: getattr(self, arg) for arg in args}
+        if await self.get_by_many_field_value(**kw):
+            await self.update(**kw)
+        else:
+            await self.create()
+
     @classmethod
     def _format_update(cls, clsi):
         return ', '.join([
@@ -201,15 +210,31 @@ class Table:
         ])
 
     @classmethod
-    async def _update(cls, data):
-        resp = await make_a_querry(
-            """UPDATE {} SET {}
-            WHERE id = {}
-            ;""".format(cls._name, cls._format_update(data), data.id))
+    def _format_kwargs(cls, **kwargs):
+        querry = ''
+        for i, kw in enumerate(kwargs):
+            if isinstance(kwargs[kw], str):
+                querry += """ {}='{}'""".format(kw, kwargs[kw])
+            else:
+                querry += """  {}={}""".format(kw, kwargs[kw])
+            if i + 1 < len(kwargs):
+                querry += """ AND """
+        return querry
+
+    @classmethod
+    async def _update(cls, data, **kwargs):
+        if hasattr(data, 'id'):
+            resp = await make_a_querry(
+                """UPDATE {} SET {}
+                WHERE id = {}
+                ;""".format(cls._name, cls._format_update(data), data.id))
+        else:
+            resp = await make_a_querry(
+                """UPDATE {} SET {} WHERE {}""".format(cls._name, cls._format_update(data), cls._format_kwargs(**kwargs)))
         return resp
 
-    async def update(self):
-        await self._update(self)
+    async def update(self, **kwargs):
+        await self._update(self, **kwargs)
 
     async def to_dict(self):
         return {field.name: getattr(self, field.name) for field in self._schema}

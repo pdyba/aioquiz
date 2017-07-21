@@ -158,7 +158,7 @@ class QuizView(HTTPMethodView):
                 question=req['question'],
                 answare=req['answare'],
             )
-            await qa.create()
+            await qa.update_or_create('users', 'question')
             quiz = await Quiz.get_by_id(qid)
             question = await quiz.get_question(req['current_question'] + 1)
             if isinstance(question, dict):
