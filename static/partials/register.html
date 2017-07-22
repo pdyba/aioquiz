@@ -91,6 +91,10 @@
             <span ng-show="form.experience.$dirty && form.experience.$valid" class="help-inline alert-success">&#10003;</span>
             <textarea ng-minlength="65" type="text" name="experience" id="experience" class="form-control" ng-model="vm.user.experience" required />
         </div>
+        <div class="form-group" ng-class="{ 'has-error': form.experience.$dirty && form.password.$error.required }">
+            <label for="what_can_you_bring">What can you bring to eat and share.</label>
+            <input type="text" name="what_can_you_bring" id="what_can_you_bring" class="form-control" ng-model="vm.user.what_can_you_bring" />
+        </div>
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }" ng-hide="vm.user.mentor == 'mentor'">
             <label for="app_idea">App idea</label>
             <textarea type="text" name="app_idea" id="app_idea" class="form-control" ng-model="vm.user.app_idea"/>

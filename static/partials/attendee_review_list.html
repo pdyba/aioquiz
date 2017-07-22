@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Attendee: Review
+            </h1>
+        </div>
+
+    </div>
+    <label for="filter">Filter
+        <input class="form-inline text-left" type="radio" value="notrated"
+               class="form-control" ng-model="vm.filter.type" required/>
+        notrated
+        <input class="form-inline text-left" type="radio" value="notrated"
+               class="form-control" ng-model="vm.filter.type" required/>
+        notrated by me
+        <input class="form-inline float-right" type="radio" value="top200"
+               class="form-control" ng-model="vm.filter.type" required/> top200
+        <input class="form-inline float-right" type="radio" value="accepted"
+               class="form-control" ng-model="vm.filter.type" required/>
+        accepted
+        <input class="form-inline float-right" type="radio" value="confirmed"
+               class="form-control" ng-model="vm.filter.type" required/>
+        confirmed
+        <input class="form-inline float-right" type="radio" value="unconfirmed"
+               class="form-control" ng-model="vm.filter.type" required/>
+        unconfirmed
+        <input class="form-inline float-right" type="radio" value="mentor"
+               class="form-control" ng-model="vm.filter.type" required/> mentor
+        <input class="form-inline float-right" type="radio" value="mentor"
+               class="form-control" ng-model="vm.filter.type" required/> all
+        attendee
+    </label>
+</div>
+<div class="row">
+
+    <div class="col-sm-4" ng-repeat="u in vm.attendee">
+        <div class="panel panel-default text-center">
+            <div class="panel-heading">
+                <strong>{{ u.name }} {{ u.surname }}</strong>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">{{ u.city }}</li>
+                <li class="list-group-item">{{ u.operating_system }}</li>
+                <li class="list-group-item">{{ u.description }}</li>
+                <li class="list-group-item">{{ u.motivation }}</li>
+                <li class="list-group-item">{{ u.what_can_you_bring }}</li>
+                <li class="list-group-item">{{ u.experience }}</li>
+                <li class="list-group-item">{{ u.app_idea }}</li>
+                <li class="list-group-item">{{ u.score }}</li>
+                <li class="list-group-item">{{ u.confirmation }}</li>
+                <li class="list-group-item">
+                    <a class="btn btn-success" ng-click="vm.start( q.id )">Accept</a>
+                    <div class="form-group"
+                         ng-class="{ 'has-error': form.university.$dirty && form.university.$error.required }">
+                        <label for="university">University</label>
+                        <select ng-options="x for x in [1, 2, 3, 4, 5, 6, 7 ,8, 9, 10]"
+                                ng-model="TODO" ngValue="x"
+                                required></select>
+                        <a class="btn btn-danger"
+                           ng-click="vm.show_results( q.id )">Rate</a>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</div>

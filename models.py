@@ -59,10 +59,10 @@ class Users(Table):
         Column('session_uuid', String(255), required=False),
         Column('score', Float(), default=0, required=False),
         Column('i_needed_help', Integer(), default=0),
-        Column('linkedin', String(255)),
-        Column('twitter', String(255)),
-        Column('facebook', String(255)),
-        Column('pyfunction', String(255)),
+        Column('linkedin', String(255), required=False),
+        Column('twitter', String(255), required=False),
+        Column('facebook', String(255), required=False),
+        Column('pyfunction', String(255), required=False),
     ]
 
     @classmethod
