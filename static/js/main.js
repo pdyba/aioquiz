@@ -494,7 +494,7 @@ function LoginController($location, AuthenticationService, FlashService) {
         vm.dataLoading = true;
         AuthenticationService.Login(vm.username, vm.password, function (response) {
             if (response.data.success) {
-                AuthenticationService.SetCredentials(vm.username, vm.password, response.data.admin, response.data.mentor, response.data.id, response.data.session_uuid);
+                AuthenticationService.SetCredentials(vm.username, response.data.admin, response.data.mentor, response.data.id, response.data.session_uuid, response.data.name, response.data.surname);
                 $location.path('/');
             } else {
                 FlashService.Error(response.data.msg);
@@ -605,7 +605,7 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 
     }
 
-    function SetCredentials(username, password, admin, mentor, id, session_uuid) {
+    function SetCredentials(username, admin, mentor, id, session_uuid, name, surname) {
         var authdata = session_uuid;
 
         $rootScope.globals = {
@@ -614,6 +614,8 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
                 authdata: authdata,
                 admin: admin,
                 mentor: mentor,
+                name: name,
+                surname: surname,
                 id: id
             }
         };

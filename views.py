@@ -17,7 +17,6 @@ from models import LiveQuizQuestion
 from models import LiveQuizAnsware
 from models import QuestionAnsware
 from models import LessonStatus
-from models import LessonStatus
 
 
 
@@ -285,6 +284,8 @@ class AuthenticateView(HTTPMethodView):
                         'success': True,
                         'admin': user.admin,
                         'mentor': user.mentor,
+                        'name': user.name,
+                        'surname': user.surname,
                         'id': user.id,
                         'session_uuid': user.session_uuid
                     },

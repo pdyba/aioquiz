@@ -125,3 +125,9 @@ footer {
         /* increases the carousel height so it looks good on phones */
     }
 }
+
+.divider-vertical {
+    height: 40px;
+    margin: 5px;
+    border-left: 1px solid #777;
+}
