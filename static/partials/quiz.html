@@ -3,7 +3,7 @@
     <div class="row">
 
         <div class="col-lg-12">
-            <h1 class="page-header">Quiz: {{ vm.live_quiz.title }}
+            <h1 class="page-header">Quiz: {{ vm.quiz_title }}
             </h1>
         </div>
 
@@ -12,9 +12,9 @@
     <div class="col-md-6 col-md-offset-3">
         <p>
             {{ vm.question.question }}
-            {{ vm.question.answares }}
+            {{ vm.question.answare }}
         </p>
-        <form name="form" ng-submit="vm.answare_question()" role="form">
+        <form name="form" ng-submit="vm.answare_question()" role="form" ng-hide="vm.question.last">
             <div class="form-group"
                  ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
                 <label for="answer">Answer:</label>
@@ -24,7 +24,7 @@
                       class="help-block">Answer is required</span>
             </div>
 
-            <div class="form-actions">
+            <div class="form-actions" ng-hide="vm.question.last">
                 <button type="submit"
                         ng-disabled="form.$invalid || vm.dataLoading"
                         class="btn btn-primary">Answare

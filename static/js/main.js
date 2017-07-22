@@ -63,7 +63,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "QuizStartCtrl",
             controllerAs: 'vm'
         })
-        .when("/propose", {
+        .when("/question_create", {
             templateUrl: "partials/question_create.html",
             controller: "NewQuestionController",
             controllerAs: 'vm'
@@ -231,18 +231,6 @@ function LiveQuizCtrl($scope, $location, $AuthenticationService, $FlashService, 
 }
 
 
-app.controller('ProposeCtrl', ProposeCtrl);
-ProposeCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function ProposeCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
-    var vm = this;
-    $injector.invoke(PageCtrl, this, {
-        $scope: $scope,
-        $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
-    });
-}
-
 app.controller('ReviewCtrl', ReviewCtrl);
 ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route'];
 function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route) {
@@ -351,36 +339,29 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/quiz/' + $routeParams.id).then(
         function (response) {
-            vm.live_quiz = response.data;
+            vm.question = response.data;
+            vm.quiz_title = response.data.quiz_title;
             vm.current_question = 0;
-            get_question(vm.live_quiz.questions[vm.current_question]);
         }
     );
-    function get_question(id) {
-        $http.get('/api/question/' + id).then(
-            function (response) {
-                vm.question = response.data;
-            }
-        );
-    }
 
     vm.answare_question = answare_question;
     function answare_question() {
         data = {
-            'question': vm.live_quiz.questions[vm.current_question],
+            'question': vm.question.id,
             'answare': vm.answare,
-            'user_id': $scope.globals.currentUser.id
+            'user_id': $scope.globals.currentUser.id,
+            'current_question': vm.current_question
         };
-        $http.put('/api/user/', data).then(
+        $http.post('/api/quiz/' + $routeParams.id, data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Answare Saved', false);
                 vm.current_question += 1;
-                console.log(vm.current_question);
-                if (vm.current_question >= vm.live_quiz.questions.length) {
-                    $FlashService.Success('You have complited the Quiz', true);
-                    $location.path('/live_quiz_results/' + vm.live_quiz.id);
+                if (response.data.last){
+                    vm.question.question = response.data.msg;
+                    vm.question.last = response.data.last;
                 } else {
-                    get_question(vm.live_quiz.questions[vm.current_question]);
+                    vm.question = response.data;
                 }
             }
         );
@@ -401,35 +382,29 @@ function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashServic
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/live_quiz/' + $routeParams.id).then(
         function (response) {
-            vm.live_quiz = response.data;
+            vm.question = response.data;
+            vm.quiz_title = response.data.quiz_title;
             vm.current_question = 0;
-            get_question(vm.live_quiz.questions[vm.current_question]);
         }
     );
-    function get_question(id) {
-        $http.get('/api/question/' + id).then(
-            function (response) {
-                vm.question = response.data;
-            }
-        );
-    }
 
     vm.answare_question = answare_question;
     function answare_question() {
         data = {
-            'question': vm.live_quiz.questions[vm.current_question],
-            'answare': vm.answare
+            'question': vm.question.id,
+            'answare': vm.answare,
+            'user_id': $scope.globals.currentUser.id,
+            'current_question': vm.current_question
         };
-        $http.put('/api/live_quiz/' + vm.live_quiz.id, data).then(
+        $http.post('/api/live_quiz/' + $routeParams.id, data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Answare Saved', false);
                 vm.current_question += 1;
-                console.log(vm.current_question);
-                if (vm.current_question >= vm.live_quiz.questions.length) {
-                    $FlashService.Success('You have complited the Quiz', true);
-                    $location.path('/live_quiz_results/' + vm.live_quiz.id);
+                if (response.data.last){
+                    vm.question.question = response.data.msg;
+                    vm.question.last = response.data.last;
                 } else {
-                    get_question(vm.live_quiz.questions[vm.current_question]);
+                    vm.question = response.data;
                 }
             }
         );
@@ -492,7 +467,7 @@ function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashSer
     function create_quiz() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        $http.post('/api/live_quiz', vm.lesson).then(function (response) {
+        $http.post('/api/live_quiz_manage', vm.lesson).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('New Live Quiz added successful', true);
                 $location.path('/live_quiz');
@@ -519,7 +494,7 @@ function LoginController($location, AuthenticationService, FlashService) {
         vm.dataLoading = true;
         AuthenticationService.Login(vm.username, vm.password, function (response) {
             if (response.data.success) {
-                AuthenticationService.SetCredentials(vm.username, vm.password, response.data.admin, response.data.moderator, response.data.id);
+                AuthenticationService.SetCredentials(vm.username, response.data.admin, response.data.mentor, response.data.id, response.data.session_uuid, response.data.name, response.data.surname);
                 $location.path('/');
             } else {
                 FlashService.Error(response.data.msg);
@@ -562,19 +537,13 @@ function NewQuestionController($scope, $location, $AuthenticationService, $Flash
     });
 
     vm.new_question = new_question;
-    $http.get('/api/lessons').then(
-        function (response) {
-            vm.lessons = response.data;
-        }
-    );
     function new_question() {
         vm.dataLoading = true;
-        vm.n_question.creator = $scope.globals.currentUser.username;
-        vm.n_question.lesson = vm.n_question.lesson['id'];
+        vm.n_question.users = $scope.globals.currentUser.id;
         $http.post('/api/question', vm.n_question).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('New Question added successful', true);
-                $location.path('/propose');
+                $location.path('/question_create');
                 vm.dataLoading = false;
             } else {
                 $FlashService.Error(response.message);
@@ -636,21 +605,23 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 
     }
 
-    function SetCredentials(username, password, admin, moderator, id) {
-        var authdata = Base64.encode(username + ':' + password);
+    function SetCredentials(username, admin, mentor, id, session_uuid, name, surname) {
+        var authdata = session_uuid;
 
         $rootScope.globals = {
             currentUser: {
                 username: username,
                 authdata: authdata,
                 admin: admin,
-                moderator: moderator,
+                mentor: mentor,
+                name: name,
+                surname: surname,
                 id: id
             }
         };
 
         // set default auth header for http requests
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
+        $http.defaults.headers.common['Authorization'] =  authdata;
 
         // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
         var cookieExp = new Date();
@@ -664,87 +635,6 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
         $http.defaults.headers.common.Authorization = 'Basic';
     }
 }
-
-// Base64 encoding service used by AuthenticationService
-var Base64 = {
-    keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
-
-    encode: function (input) {
-        var output = "";
-        var chr1, chr2, chr3 = "";
-        var enc1, enc2, enc3, enc4 = "";
-        var i = 0;
-
-        do {
-            chr1 = input.charCodeAt(i++);
-            chr2 = input.charCodeAt(i++);
-            chr3 = input.charCodeAt(i++);
-
-            enc1 = chr1 >> 2;
-            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-            enc4 = chr3 & 63;
-
-            if (isNaN(chr2)) {
-                enc3 = enc4 = 64;
-            } else if (isNaN(chr3)) {
-                enc4 = 64;
-            }
-
-            output = output +
-                this.keyStr.charAt(enc1) +
-                this.keyStr.charAt(enc2) +
-                this.keyStr.charAt(enc3) +
-                this.keyStr.charAt(enc4);
-            chr1 = chr2 = chr3 = "";
-            enc1 = enc2 = enc3 = enc4 = "";
-        } while (i < input.length);
-
-        return output;
-    },
-
-    decode: function (input) {
-        var output = "";
-        var chr1, chr2, chr3 = "";
-        var enc1, enc2, enc3, enc4 = "";
-        var i = 0;
-
-        // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
-        var base64test = /[^A-Za-z0-9\+\/\=]/g;
-        if (base64test.exec(input)) {
-            window.alert("There were invalid base64 characters in the input text.\n" +
-                "Valid base64 characters are A-Z, a-z, 0-9, '+', '/',and '='\n" +
-                "Expect errors in decoding.");
-        }
-        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-
-        do {
-            enc1 = this.keyStr.indexOf(input.charAt(i++));
-            enc2 = this.keyStr.indexOf(input.charAt(i++));
-            enc3 = this.keyStr.indexOf(input.charAt(i++));
-            enc4 = this.keyStr.indexOf(input.charAt(i++));
-
-            chr1 = (enc1 << 2) | (enc2 >> 4);
-            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-            chr3 = ((enc3 & 3) << 6) | enc4;
-
-            output = output + String.fromCharCode(chr1);
-
-            if (enc3 != 64) {
-                output = output + String.fromCharCode(chr2);
-            }
-            if (enc4 != 64) {
-                output = output + String.fromCharCode(chr3);
-            }
-
-            chr1 = chr2 = chr3 = "";
-            enc1 = enc2 = enc3 = enc4 = "";
-
-        } while (i < input.length);
-
-        return output;
-    }
-};
 
 app.factory('UserService', UserService);
 UserService.$inject = ['$http'];

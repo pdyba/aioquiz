@@ -3,26 +3,101 @@
 <div class="col-md-6 col-md-offset-3">
     <h2>Register</h2>
     <form name="form" ng-submit="vm.register()" role="form">
-        <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
-            <label for="username">First name</label>
-            <input type="text" name="name" id="firstName" class="form-control" ng-model="vm.user.name" required />
-            <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">First name is required</span>
+        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+            <label for="mentor">
+                <span ng-show="form.mentor.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.mentor.$dirty && form.mentor.$valid" class="help-inline alert-success">&#10003;</span>
+                <input class="form-inline text-left" type="radio" name="mentor" id="mentor" value="false" class="form-control" ng-model="vm.user.mentor" required />Attendee
+                <input class="form-inline float-right"  type="radio" name="mentor" id="mentor" value="true" class="form-control" ng-model="vm.user.mentor" required /> Mentor
+            </label>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
-            <label for="username">Last name</label>
-            <input type="text" name="surname" id="Text1" class="form-control" ng-model="vm.user.surname" required />
-            <span ng-show="form.surname.$dirty && form.surname.$error.required" class="help-block">Last name is required</span>
+        <div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+            <label for="name">First name</label>
+            <span ng-show="form.name.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+           <span ng-show="form.name.$error.minlength " class="help-inline alert-danger">Minimal length 3</span>
+            <span ng-show="form.name.$dirty && form.name.$valid" class="help-inline alert-success">&#10003;</span>
+            <input ng-minlength="3"  type="text" name="name" id="name" class="form-control" ng-model="vm.user.name" required />
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.surname.$dirty && form.lastName.$error.required }">
+            <label for="surname">Last name</label>
+            <span ng-show="form.surname.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+           <span ng-show="form.surname.$error.minlength " class="help-inline alert-danger">Minimal length 3</span>
+            <span ng-show="form.surname.$dirty && form.surname.$valid" class="help-inline alert-success">&#10003;</span>
+            <input ng-minlength="3" type="text" name="surname" id="surname" class="form-control" ng-model="vm.user.surname" required />
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
-            <label for="username">E-Mail</label>
-            <input type="text" name="email" id="email" class="form-control" ng-model="vm.user.email" required />
-            <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">E-mail is required</span>
+            <label for="email">E-Mail</label>
+            <span ng-show="form.email.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+            <span ng-show="form.email.$invalid" class="help-inline alert-danger">&#10060; Invalid e-mail </span>
+            <span ng-show="form.email.$dirty && form.email.$valid" class="help-inline alert-success">&#10003;</span>
+            <input type="email" name="email" id="email" class="form-control" ng-model="vm.user.email" required />
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
+            <span ng-show="form.password.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+            <span ng-show="form.password.$error.minlength " class="help-inline alert-danger">Minimal length 8</span>
+            <span ng-show="form.password.$dirty && form.password.$valid" class="help-inline alert-success">&#10003;</span>
+            <input ng-minlength="8" type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.city.$dirty && form.password.$error.required }">
+            <label for="city">City</label>
+            <span ng-show="form.city.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+            <span ng-show="form.city.$error.minlength " class="help-inline alert-danger">Minimal length 3</span>
+            <span ng-show="form.city.$dirty && form.city.$valid" class="help-inline alert-success">&#10003;</span>
+            <input ng-minlength="3" type="text" name="city" id="city" class="form-control" ng-model="vm.user.city" required />
+        </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
+            <label for="lesson">Education</label>
+            <select ng-options="x for x in ['Elementary', 'Gymnasium', 'Vocational', 'Technician', 'High School', 'Baccalaureate', 'Engineer', 'Master', 'PHD']" ng-model="vm.user.education" ngValue="x">
+            </select>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.university.$dirty && form.university.$error.required }">
+            <label for="university">University</label>
+            <select ng-options="x for x in ['None', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER']" ng-model="vm.user.university" ngValue="x" required></select>
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
+        <div class="form-group"
+             ng-class="{ 'has-error': form.t_shirt.$dirty && form.t_shirt.$error.required }">
+            <label for="t_shirt">T-shirt</label>
+            <select ng-options="x for x in ['XXS', 'XS', 'M', 'L', 'XL', 'XXL', 'XXXL']" ng-model="vm.user.t_shirt" ngValue="x" required>
+            </select>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.operating_system.$dirty && form.operating_system.$error.required }">
+            <label for="operating_system">Operating System</label>
+            <span ng-show="form.operating_system.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+            <span ng-show="form.operating_system.$dirty && form.operating_system.$valid" class="help-inline alert-success">&#10003;</span>
+            <select ng-options="x for x in ['MacOS', 'Linux', 'Windows']" ng-model="vm.user.operating_system" ngValue="x" required>
+            </select>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+            <label for="description">Description</label>
+            <span ng-show="form.description.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+            <span ng-show="form.description.$error.minlength " class="help-inline alert-danger">Minimal length 65</span>
+            <span ng-show="form.description.$dirty && form.description.$valid" class="help-inline alert-success">&#10003;</span>
+            <textarea ng-minlength="65" type="text" name="description" id="description" class="form-control" ng-model="vm.user.description" required />
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+            <label for="motivation">Motivation</label>
+            <span ng-show="form.motivation.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+            <span ng-show="form.motivation.$error.minlength " class="help-inline alert-danger">Minimal length 65</span>
+            <span ng-show="form.motivation.$dirty && form.motivation.$valid" class="help-inline alert-success">&#10003;</span>
+            <textarea ng-minlength="65" type="text" name="motivation" id="motivation" class="form-control" ng-model="vm.user.motivation" required />
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.experience.$dirty && form.password.$error.required }">
+            <label for="experience">Experience</label>
+            <span ng-show="form.experience.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+            <span ng-show="form.experience.$error.minlength " class="help-inline alert-danger">Minimal length 65</span>
+            <span ng-show="form.experience.$dirty && form.experience.$valid" class="help-inline alert-success">&#10003;</span>
+            <textarea ng-minlength="65" type="text" name="experience" id="experience" class="form-control" ng-model="vm.user.experience" required />
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }" ng-hide="vm.user.mentor == 'mentor'">
+            <label for="app_idea">App idea</label>
+            <textarea type="text" name="app_idea" id="app_idea" class="form-control" ng-model="vm.user.app_idea"/>
+        </div>
+
+
+
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Register</button>
             <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
