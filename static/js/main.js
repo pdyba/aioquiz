@@ -352,16 +352,10 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
     $http.get('/api/quiz/' + $routeParams.id).then(
         function (response) {
             vm.question = response.data;
+            vm.quiz_title = response.data.quiz_title;
             vm.current_question = 0;
         }
     );
-    function get_question(id) {
-        $http.get('/api/question/' + id).then(
-            function (response) {
-                vm.question = response.data;
-            }
-        );
-    }
 
     vm.answare_question = answare_question;
     function answare_question() {
@@ -377,6 +371,7 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
                 vm.current_question += 1;
                 if (response.data.last){
                     vm.question.question = response.data.msg;
+                    vm.question.last = response.data.last;
                 } else {
                     vm.question = response.data;
                 }
@@ -399,35 +394,29 @@ function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashServic
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/live_quiz/' + $routeParams.id).then(
         function (response) {
-            vm.live_quiz = response.data;
+            vm.question = response.data;
+            vm.quiz_title = response.data.quiz_title;
             vm.current_question = 0;
-            get_question(vm.live_quiz.questions[vm.current_question]);
         }
     );
-    function get_question(id) {
-        $http.get('/api/question/' + id).then(
-            function (response) {
-                vm.question = response.data;
-            }
-        );
-    }
 
     vm.answare_question = answare_question;
     function answare_question() {
         data = {
-            'question': vm.live_quiz.questions[vm.current_question],
-            'answare': vm.answare
+            'question': vm.question.id,
+            'answare': vm.answare,
+            'user_id': $scope.globals.currentUser.id,
+            'current_question': vm.current_question
         };
-        $http.put('/api/live_quiz/' + vm.live_quiz.id, data).then(
+        $http.post('/api/live_quiz/' + $routeParams.id, data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Answare Saved', false);
                 vm.current_question += 1;
-                console.log(vm.current_question);
-                if (vm.current_question >= vm.live_quiz.questions.length) {
-                    $FlashService.Success('You have complited the Quiz', true);
-                    $location.path('/live_quiz_results/' + vm.live_quiz.id);
+                if (response.data.last){
+                    vm.question.question = response.data.msg;
+                    vm.question.last = response.data.last;
                 } else {
-                    get_question(vm.live_quiz.questions[vm.current_question]);
+                    vm.question = response.data;
                 }
             }
         );
@@ -490,7 +479,7 @@ function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashSer
     function create_quiz() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        $http.post('/api/live_quiz', vm.lesson).then(function (response) {
+        $http.post('/api/live_quiz_manage', vm.lesson).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('New Live Quiz added successful', true);
                 $location.path('/live_quiz');

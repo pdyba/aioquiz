@@ -174,6 +174,7 @@ class QuizView(HTTPMethodView):
             quiz = await Quiz.get_by_id(qid)
             question = await quiz.get_question()
             q = await question.to_dict()
+            q['quiz_title'] = quiz.title
             return json(q)
         else:
             quizes = await Quiz.get_all()
@@ -187,56 +188,67 @@ class QuizView(HTTPMethodView):
 
 
 # noinspection PyBroadException
+class LiveQuizManageView(HTTPMethodView):
+    async def post(self, request):
+        try:
+            req = request.json
+            user = await Users.get_first('email', req['creator'])
+            req['users'] = user.id
+            questions = [int(q) for q in req['questions']]
+            del req['questions']
+            quiz = LiveQuiz(**req)
+            quiz_id = await quiz.create()
+            for i, question in enumerate(questions):
+                lqq = LiveQuizQuestion(
+                    live_quiz=quiz_id,
+                    question=question,
+                    question_order=i
+                )
+                await lqq.create()
+            return json({'success': True}, status=200)
+        except:
+            logging.exception('err quiz_manage.post')
+            return json({})
+
+
+# noinspection PyBroadException
 class LiveQuizView(HTTPMethodView):
     async def post(self, request, qid=0):
         try:
             req = request.json
-            question = LiveQuiz(**req)
-            await question.create()
-            return json({'success': True}, status=200)
+            qa = LiveQuizAnsware(
+                live_quiz=qid,
+                question=req['question'],
+                answare=req['answare'],
+            )
+            await qa.create()
+            live_quiz = await LiveQuiz.get_by_id(qid)
+            question = await live_quiz.get_question(req['current_question'] + 1)
+            if isinstance(question, dict):
+                return json(question)
+            q = await question.to_dict()
+            return json(q)
         except:
             logging.exception('err live_quiz.post')
             return json({})
 
-    async def put(self, request, qid=0):
-        try:
-            req = request.json
-            lg = await LiveQuiz.get_by_id(qid)
-            if lg.answares:
-                lg.answares = jloads(lg.answares)
-            else:
-                lg.answares = {}
-            answare = req['answare']
-            quest_id = str(req['question'])
-            lg.answares.setdefault(quest_id, {})
-            lg.answares[quest_id].setdefault(answare, 0)
-            lg.answares[quest_id][answare] += 1
-            await lg.update()
-            return json({'success': True}, status=200)
-        except:
-            logging.exception('err live_quiz.post')
-            return json({})
-
-    async def get(self, request, qid=0):
+    async def get(self, _, qid=0):
         if qid:
             quiz = await LiveQuiz.get_by_id(qid)
-            quiz = await quiz.to_dict()
-            quiz['questions'] = await Question.get_by_id(qid)
-            # if await LiveQuizAnsware.get_by_many_field_value(quiz=qid, ):
-            #     quiz['answares'] = jloads(quiz['answares'])
-            # else:
-            quiz['answares'] = ''
-            return json(quiz)
+            question = await quiz.get_question()
+            q = await question.to_dict()
+            q['quiz_title'] = quiz.title
+            return json(q)
         else:
-            quiz = await LiveQuiz.get_all()
+            quizes = await LiveQuiz.get_all()
             resp = []
-            for q in quiz:
-                q = await q.to_dict()
+            for quiz in quizes:
+                q = await quiz.to_dict()
                 q['creator'] = await get_user_name(q['users'])
-                questions = await QuizQuestions.get_by_field_value('quiz', qid)
-                q['amount'] = len(questions)
+                q['amount'] = await quiz.get_question_amount()
                 resp.append(q)
             return json(resp)
+
 
 
 # noinspection PyBroadException
