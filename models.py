@@ -42,12 +42,14 @@ class Users(Table):
         Column('operating_system', String(10), required=False),
         Column('confirmation', String(10), default='noans'),
         Column('description', String(5000), required=False),
+        Column('img', String(255), required=False, default=''),
         Column('motivation', String(5000), required=False),
         Column('what_can_you_bring', String(5000), required=False),
         Column('experience', String(5000), required=False),
         Column('app_idea', String(5000), required=False),
         Column('notes', String(5000), default=''),
         Column('mentor', Boolean(), default=False),
+        Column('organiser', Boolean(), default=False),
         Column('admin', Boolean(), default=False),
         Column('active', Boolean(), default=False),
         Column('accepted_rules', Boolean(), default=False),
@@ -57,6 +59,10 @@ class Users(Table):
         Column('session_uuid', String(255), required=False),
         Column('score', Float(), default=0, required=False),
         Column('i_needed_help', Integer(), default=0),
+        Column('linkedin', String(255)),
+        Column('twitter', String(255)),
+        Column('facebook', String(255)),
+        Column('pyfunction', String(255)),
     ]
 
     @classmethod

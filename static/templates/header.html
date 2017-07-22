@@ -54,10 +54,23 @@
 
                 <li ng-hide="$parent.globals.currentUser"><a href="#/login">Login/Register {{ vm.user.email }}</a>
                 </li>
-                <li ng-show="$parent.globals.currentUser.admin"><a
-                        href="#/admin" class="admin">Admin</a>
-                </li>
 
+                <li class="dropdown"
+                    ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin">
+                    <a class="dropdown-toggle"
+                       data-toggle="dropdown">Admin</a>
+                    <ul class="dropdown-menu">
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/review_application">Attendee: Review</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/group_email">Group e-mail</a>
+                        </li>
+
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/admin_users">Users: Admin</a>
+                    </ul>
+                </li>
 
     <li class="divider-vertical"></li>
 
