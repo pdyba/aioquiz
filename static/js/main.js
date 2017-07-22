@@ -63,7 +63,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "QuizStartCtrl",
             controllerAs: 'vm'
         })
-        .when("/propose", {
+        .when("/question_create", {
             templateUrl: "partials/question_create.html",
             controller: "NewQuestionController",
             controllerAs: 'vm'
@@ -230,18 +230,6 @@ function LiveQuizCtrl($scope, $location, $AuthenticationService, $FlashService, 
     }
 }
 
-
-app.controller('ProposeCtrl', ProposeCtrl);
-ProposeCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function ProposeCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
-    var vm = this;
-    $injector.invoke(PageCtrl, this, {
-        $scope: $scope,
-        $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
-    });
-}
 
 app.controller('ReviewCtrl', ReviewCtrl);
 ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route'];
@@ -549,19 +537,13 @@ function NewQuestionController($scope, $location, $AuthenticationService, $Flash
     });
 
     vm.new_question = new_question;
-    $http.get('/api/lessons').then(
-        function (response) {
-            vm.lessons = response.data;
-        }
-    );
     function new_question() {
         vm.dataLoading = true;
-        vm.n_question.creator = $scope.globals.currentUser.username;
-        vm.n_question.lesson = vm.n_question.lesson['id'];
+        vm.n_question.users = $scope.globals.currentUser.id;
         $http.post('/api/question', vm.n_question).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('New Question added successful', true);
-                $location.path('/propose');
+                $location.path('/question_create');
                 vm.dataLoading = false;
             } else {
                 $FlashService.Error(response.message);

@@ -3,7 +3,7 @@
     <div class="row">
 
         <div class="col-lg-12">
-            <h1 class="page-header">Propose a question
+            <h1 class="page-header">Create a question
             </h1>
 
         </div>
@@ -16,7 +16,8 @@
              ng-class="{ 'has-error': form.question.$dirty && form.question.$error.required }">
             <label for="question">Question</label>
             <textarea type="text" name="question" id="question"
-                   class="form-control" ng-model="vm.n_question.question" required/></textarea>
+                      class="form-control" ng-model="vm.n_question.question"
+                      required/></textarea>
             <span ng-show="form.n_question.$dirty && form.n_question.$error.required"
                   class="help-block">Question is required</span>
         </div>
@@ -24,25 +25,65 @@
              ng-class="{ 'has-error': form.answer.$dirty && form.lastName.$error.required }">
             <label for="answer">Possible Answer</label>
             <input type="text" name="answer" id="Text2" class="form-control"
-                   ng-model="vm.n_question.answer" required/>
+                   ng-model="vm.n_question.possible_answare" required/>
             <span ng-show="form.answer.$dirty && form.answer.$error.required"
-                  class="help-block">Possible Answer</span>
-        </div>
+                  class="help-block">Possible Answe requriedr</span>
 
-        <div class="form-group"
-             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
-            <label for="lesson">Lesson</label>
-            <select ng-options="x.title for x in vm.lessons" ng-model="vm.n_question.lesson" ngValue="x.id">
-            </select>
-        </div>
 
-        <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
-                    class="btn btn-primary">Submit for review
-            </button>
-            <img ng-if="vm.dataLoading"
-                 src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-        </div>
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                <label for="qtype">Question type</label><br>
+                <input class="form-inline text-left" type="radio" name="mentor"
+                       id="qtype_0" value="plain" class="form-control"
+                       ng-model="vm.n_question.qtype" required/> plain
+                <input class="form-inline float-right" type="radio"
+                       name="mentor" id="qtype_1" value="bool"
+                       class="form-control" ng-model="vm.n_question.qtype"
+                       required/> bool
+                <input class="form-inline float-right" type="radio"
+                       name="mentor" id="qtype_2" value="abcd"
+                       class="form-control" ng-model="vm.n_question.qtype"
+                       required/> abcd
+            </div>
+
+            <div class="form-group"
+             ng-show="vm.n_question.qtype === 'abcd'">
+
+            <label for="ans_a">Answare A:</label>
+            <input type="text" name="answer" id="ans_a" class="form-control"
+                   ng-model="vm.n_question.ans_a" ng-required="vm.n_question.qtype === 'abcd'"/>
+            <span ng-show="form.ans_a.$dirty && form.ans_a.$error.required"
+                  class="help-block">Answare A is required</span>
+
+                     <label for="ans_b">Answare B:</label>
+            <input type="text" name="answer" id="ans_b" class="form-control"
+                   ng-model="vm.n_question.ans_b" ng-required="vm.n_question.qtype === 'abcd'"/>
+            <span ng-show="form.ans_b.$dirty && form.ans_b.$error.required"
+                  class="help-block">Answare B is required</span>
+
+
+                         <label for="ans_c">Answare C:</label>
+            <input type="text" name="answer" id="ans_c" class="form-control"
+                   ng-model="vm.n_question.ans_c" ng-required="vm.n_question.qtype === 'abcd'"/>
+            <span ng-show="form.ans_c.$dirty && form.ans_c.$error.required"
+                  class="help-block">Answare C is required</span>
+
+                         <label for="ans_d">Answare D:</label>
+            <input type="text" name="answer" id="ans_d" class="form-control"
+                   ng-model="vm.n_question.ans_d" ng-required="vm.n_question.qtype === 'abcd'"/>
+            <span ng-show="form.ans_d.$dirty && form.ans_d.$error.required"
+                  class="help-block">Answare D is required</span>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit"
+                        ng-disabled="form.$invalid || vm.dataLoading"
+                        class="btn btn-primary">Submit
+                </button>
+                <img ng-if="vm.dataLoading"
+                     src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+            </div>
     </form>
 
 

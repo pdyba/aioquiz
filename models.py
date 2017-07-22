@@ -18,12 +18,12 @@ class Question(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('question', String(1000)),
-        Column('answare', String(1000), default=''),
+        Column('answares', CodeString(2000), default=''),
+        Column('possible_answare', String(1000), default=''),
         Column('qtype', String(50), default='plain'),
         Column('img', String(255), required=False, default=''),
         Column('users', ForeignKey('users'), default=1),
         Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('active', Boolean(), default=True),
     ]
 
 

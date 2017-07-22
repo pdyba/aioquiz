@@ -1,5 +1,5 @@
 # !/usr/bin/python3.5
-from json import loads as jloads
+from json import dumps as jdumps
 import logging
 from uuid import uuid4
 
@@ -37,13 +37,15 @@ async def get_user_name(uid):
 
 # noinspection PyBroadException
 class QuestionView(HTTPMethodView):
-    _users = {}
-
     async def post(self, request):
         try:
             req = request.json
-            user = await Users.get_first('email', req['creator'])
-            req['creator'] = user.id
+            if req['qtype'] == 'abcd':
+                req['answares'] = jdumps([req['ans_a'], req['ans_b'], req['ans_c'], req['ans_d']])
+                del req['ans_a']
+                del req['ans_b']
+                del req['ans_c']
+                del req['ans_d']
             question = Question(**req)
             await question.create()
             return json({'success': True}, status=200)
@@ -65,32 +67,14 @@ class QuestionView(HTTPMethodView):
             return json({})
 
     async def get(self, request, qid=0):
-        to_review = {
-            'False': False,
-            'false': False,
-            'True': True,
-            'true': True,
-            None: None
-        }[request.args.get('review', None)]
-        
         if qid:
             question = await Question.get_by_id( qid)
             return json(await question.to_dict())
-        elif to_review:
-            questions = await Question.get_by_field_value(
-                field='reviewer',
-                value=0
-            )
-        elif not to_review:
-            questions = await Question.get_by_field_value(
-                field='active',
-                value=True
-            )
+        questions = await Question.get_all()
         resp = []
         for q in questions:
             data = await q.to_dict()
-            if to_review:
-                data['creator'] = await get_user_name(data['user'])
+            data['creator'] = await get_user_name(data['users'])
             resp.append(data)
         return json(resp)
 

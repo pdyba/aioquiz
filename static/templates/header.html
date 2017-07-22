@@ -18,25 +18,18 @@
                 </li>
                 <li ng-show="$parent.globals.currentUser"><a href="#/live_quiz">Live Quiz</a>
                 </li>
-                <li class="dropdown" ng-show="$parent.globals.currentUser">
-                    <a class="dropdown-toggle" data-toggle="dropdown">Questions</a>
+                <li class="dropdown" ng-show="$parent.globals.currentUser && $parent.globals.currentUser.mentor">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Manage</a>
                     <ul class="dropdown-menu">
-                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/question_list">Question List</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/question_list">Question: List</a>
                         </li>
-                        <li ng-show="$parent.globals.currentUser"><a href="#/propose">Propose new question</a>
+                        <li ng-show="$parent.globals.currentUser"><a href="#/question_create">Question:Create</a>
                         </li>
-                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/review">Review question</a>
-                        </li>
-                    </ul>
-                    </li>
 
-                <li class="dropdown" ng-show="$parent.globals.currentUser.mentor">
-                    <a class="dropdown-toggle" data-toggle="dropdown">Add Quiz</a>
-                    <ul class="dropdown-menu">
-                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/lessons_new">New Lesson</a>
-                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/create_quiz">Create Quiz</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/lessons_new">Lesson: Create</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/create_quiz">Quiz: Create</a>
                 </li>
-                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/create_live_quiz">Create Live Quiz</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a href="#/create_live_quiz">Live Quiz: Create</a>
                 </li>
 
                     </ul>
