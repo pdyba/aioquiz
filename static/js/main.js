@@ -164,7 +164,8 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     vm.filter = 'notrated';
     vm.filters = filters;
     vm.rate = rate;
-    current_user_id = $scope.globals.currentUser.id;
+    vm.accept = accept;
+    vm.current_user_id = $scope.globals.currentUser.id;
 
     function rate(user) {
         data = {
@@ -177,25 +178,60 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
             }
         );
     }
+    function accept(user) {
+        data = {
+            'users': user.id,
+        };
+        $http.put('/api/review_attendees/', data).then(
+            function (response) {
+                $FlashService.SuccessNoReload('Score Accepted', false);
+            }
+        );
+    }
+
+    function avg(obj) {
+        var sum = 0;
+        obj.forEach(function (user, index) {
+           sum += user.score
+        });
+        return sum/obj.length;
+    }
 
     function filters() {
         vm.attendee.forEach(function (user, index) {
         if (vm.filter === 'notrated'){
             user.show = !!(user.reviews && user.reviews.length === 0);
-            console.log(user.reviews)
         }
         else if (vm.filter === 'notratedbyme'){
-            user.show = !(current_user_id in user.reviews);
+            user.show = !(vm.current_user_id in user.reviews);
+        }
+        else if (vm.filter === 'top200'){
+            user.show = (user.score >= vm.average)
+        }
+        else if (vm.filter === 'accepted'){
+            user.show = (user.accepted)
+        }
+        else if (vm.filter === 'confirmed'){
+            user.show = (user.accepted && user.confirmation === 'true')
+        }
+        else if (vm.filter === 'unconfirmed'){
+            user.show = (user.accepted && user.confirmation === 'noans')
+        }
+        else if (vm.filter === 'mentor'){
+            user.show = (user.mentor)
         }
         else if (vm.filter === 'all'){
             user.show = true
         }
+
     })
     }
 
     function get_all_users() {
         $UserService.GetAllAttendees().then(function (users) {
             vm.attendee = users;
+            vm.average = avg(users);
+            console.log(vm.average);
             filters();
         });
     }

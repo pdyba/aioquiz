@@ -85,26 +85,27 @@
                     <b>Score:</b>
                     {{ u.score }}
                 </li>
-                <li class="list-group-item" ng-show=" u.reviews">
+                <li class="list-group-item" ng-show="u.reviews">
                     <b>Reviews:</b>
                     <p ng-repeat="s in u.reviews">{{ s.name }}: {{ s.score }}</p>
                 </li>
                 <li class="list-group-item">
-                    <b>Confirmation:</b>
-                    {{ u.confirmation }}
+                    <b>Accepted: </b>{{ u.accepted }}  ||
+                    <b>Confirmation: </b>{{ u.confirmation }}
                 </li>
                 <li class="list-group-item">
-                    <div class="form-group"
-                         ng-class="{ 'has-error': form.university.$dirty && form.university.$error.required }">
+                    <div class="form-group" ng-hide="u.reviews && u.reviews[vm.current_user_id]">
                         <label for="rating_{{ u.id }}">Rating</label>
                         <select ng-options="x for x in [1, 2, 3, 4, 5, 6, 7 ,8, 9, 10]"
                                 ng-model="u.new_review" ngValue="x"
                                 required></select>
                         <a class="btn btn-danger"
                            ng-click="vm.rate( u )">Rate</a>
+                    </div>
+                    <div>
                         <a class="btn btn-success"
                            ng-show="$parent.globals.currentUser.admin"
-                           ng-click="vm.accept( u )">Accept</a>
+                           ng-click="vm.accept( u.id )">Accept</a>
                     </div>
 
                 </li>
