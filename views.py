@@ -391,3 +391,11 @@ class ReviewAttendees(HTTPMethodView):
         user.score = new_score
         await user.update()
         return json({'success': True})
+
+    @user_required('organiser')
+    async def put(self, request):
+        req = request.json
+        user = await Users.get_by_id(req['users'])
+        user.accepted = True
+        await user.update()
+        return json({'success': True})

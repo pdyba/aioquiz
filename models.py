@@ -55,6 +55,7 @@ class Users(Table):
         Column('education', String(255), required=False),
         Column('university', String(255), required=False),
         Column('t_shirt', String(10), required=False),
+        # Column('telephone', String(20), required=False),  #TODO: add everywhere
         Column('operating_system', String(10), required=False),
         Column('description', String(5000), required=False),
         Column('motivation', String(5000), required=False),

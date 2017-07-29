@@ -180,7 +180,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     }
     function accept(user) {
         data = {
-            'users': user.id,
+            'users': user
         };
         $http.put('/api/review_attendees/', data).then(
             function (response) {
