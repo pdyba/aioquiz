@@ -34,7 +34,11 @@ class DoesNoteExists(Exception):
         return {'msg': 'User Does not Exists'}
 
 
+# noinspection PyProtectedMember
 class Table:
+    _restricted_keys = []
+    _soft_restricted_keys = []
+
     def __init__(self, **kwargs):
         for field in self._schema:
             name = field.name
@@ -89,9 +93,13 @@ class Table:
     @classmethod
     async def create_table(cls):
         if not await cls._table_exists():
-            await make_a_querry(
-                """CREATE TABLE {} ( {} );""".format(cls._name, cls._gen_schema())
+            unique = ", UNIQUE ({})".format(", ".join(cls._unique)) if hasattr(cls, '_unique') else ''
+            querry = """CREATE TABLE {} ( {} {})""".format(
+                cls._name,
+                cls._gen_schema(),
+                unique
             )
+            await make_a_querry(querry)
             print('{} Table Done'.format(cls._name))
         else:
             print('{} Table already exists'.format(cls._name))
@@ -160,6 +168,7 @@ class Table:
                     except AttributeError:
                         if not prop.required:
                             val = ''
+                    prop.type.validate(val)
                     ending = '"' if "'" in val else "'"
                     values += ending
                     values += prop.type.format(val)
@@ -192,8 +201,11 @@ class Table:
     async def create(self):
         try:
             return await self._create(self)
+        except asyncpg.exceptions.UniqueViolationError:
+            logging.exception('Error creating {}'.format(self._name))
         except Exception as e:
             logging.exception('Error creating {}'.format(self._name))
+        return False
 
     async def update_or_create(self, *args):
         kw = {arg: getattr(self, arg) for arg in args}
@@ -236,8 +248,13 @@ class Table:
     async def update(self, **kwargs):
         await self._update(self, **kwargs)
 
-    async def to_dict(self):
-        return {field.name: getattr(self, field.name) for field in self._schema}
+    async def to_dict(self, include_soft=False):
+        restricted_keys = self._restricted_keys if include_soft else self._restricted_keys + self._soft_restricted_keys
+        return {
+            field.name: getattr(self, field.name)
+            for field in self._schema
+            if field.name not in restricted_keys
+        }
 
     @classmethod
     async def _delete(cls, data):
@@ -277,9 +294,6 @@ class Column:
 
 
 class ColumnType:
-    def __init__(self):
-        pass
-
     @classmethod
     def __str__(cls):
         return cls._type
@@ -315,7 +329,6 @@ class String(ColumnType):
     _py_type = str
 
     def __init__(self, length):
-        super().__init__()
         self.length = length
 
     def __str__(self):
@@ -364,11 +377,10 @@ class DateTime(ColumnType):
 
 
 class ForeignKey(ColumnType):
-    _type = 'integer references {}(id)'
+    _type = 'integer references {} (id)'
     _py_type = str
 
     def __init__(self, f_key):
-        super().__init__()
         self.f_key = f_key
 
     def __repr__(self):

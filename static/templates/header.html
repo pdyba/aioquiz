@@ -25,8 +25,26 @@
                 </li>
 
 
-    <li class="divider-vertical"></li>
+    <li class="divider-vertical" ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin"></li>
 
+                <li class="dropdown"
+                    ng-show="$parent.globals.currentUser && $parent.globals.currentUser.mentor">
+                    <a class="dropdown-toggle"
+                       data-toggle="dropdown">Overview</a>
+                    <ul class="dropdown-menu">
+                        <li ng-show="$parent.globals.currentUser.mentor"><a
+                                href="#/overview_seats">Seats</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a
+                                href="#/overview_lesson">Lesson</a>
+                        </li>
+
+                        <li ng-show="$parent.globals.currentUser.mentor"><a
+                                href="#/overview_quiz">Quiz</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a
+                                href="#/overview_live_quiz">Live Quiz</a>
+                    </ul>
+                </li>
 
                 <li class="dropdown"
                     ng-show="$parent.globals.currentUser && $parent.globals.currentUser.mentor">
@@ -34,7 +52,7 @@
                        data-toggle="dropdown">Manage</a>
                     <ul class="dropdown-menu">
                         <li ng-show="$parent.globals.currentUser.mentor"><a
-                                href="#/question_list">Question: List</a>
+                                href="#/question_list">Question: List & Manage</a>
                         </li>
                         <li ng-show="$parent.globals.currentUser"><a
                                 href="#/question_create">Question: Create</a>
@@ -43,10 +61,18 @@
                         <li ng-show="$parent.globals.currentUser.mentor"><a
                                 href="#/lessons_new">Lesson: Create</a>
                         <li ng-show="$parent.globals.currentUser.mentor"><a
+                                href="#/lessons_mngt">Lesson: List & Manage</a>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a
                                 href="#/create_quiz">Quiz: Create</a>
                         </li>
                         <li ng-show="$parent.globals.currentUser.mentor"><a
+                                href="#/quiz_mngt">Quiz: List & Manage</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a
                                 href="#/create_live_quiz">Live Quiz: Create</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser.mentor"><a
+                                href="#/live_quiz_mngt">Live Quiz: List & Manage</a>
                         </li>
 
                     </ul>
@@ -54,18 +80,45 @@
 
                 <li ng-hide="$parent.globals.currentUser"><a href="#/login">Login/Register {{ vm.user.email }}</a>
                 </li>
-                <li ng-show="$parent.globals.currentUser.admin"><a
-                        href="#/admin" class="admin">Admin</a>
+
+                <li class="dropdown"
+                    ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin">
+                    <a class="dropdown-toggle"
+                       data-toggle="dropdown">Admin</a>
+                    <ul class="dropdown-menu">
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/review_attendee">Attendee: Review</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/group_email">Group e-mail</a>
+                        </li>
+
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/admin_users">Users: Admin</a>
+                    </ul>
                 </li>
 
 
-    <li class="divider-vertical"></li>
+    <li ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin" class="divider-vertical"></li>
 
-
-                <li ng-show="$parent.globals.currentUser"><a href="#/profile">
-                    {{ $parent.globals.currentUser.name }}
+    <li class="dropdown"
+                    ng-show="$parent.globals.currentUser">
+                    <a class="dropdown-toggle"
+                       data-toggle="dropdown">{{ $parent.globals.currentUser.name }}
                     {{ $parent.globals.currentUser.surname }}</a>
+                    <ul class="dropdown-menu">
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/profile">My Profile</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/seats">Seats</a>
+                        </li>
+
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/attendance">Attendance</a>
+                    </ul>
                 </li>
+
                 <li ng-show="$parent.globals.currentUser"><a
                         ng-click="logout()" target="_self">&#10006;</a>
                 </li>

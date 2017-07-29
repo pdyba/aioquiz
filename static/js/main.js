@@ -98,9 +98,19 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "PageCtrl",
             controllerAs: 'vm'
         })
-        .when("/admin", {
+        .when("/admin_users", {
             templateUrl: "partials/admin.html",
             controller: "AdminController",
+            controllerAs: 'vm'
+        })
+        .when("/seats", {
+            templateUrl: "partials/seats.html",
+            controller: "SeatController",
+            controllerAs: 'vm'
+        })
+        .when("/review_attendee", {
+            templateUrl: "partials/attendee_review_list.html",
+            controller: "ReviewAttendeeController",
             controllerAs: 'vm'
         })
         .otherwise("/404", {
@@ -116,14 +126,6 @@ app.config(['$locationProvider', function ($locationProvider) {
 app.controller('PageCtrl', PageCtrl);
 PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService'];
 function PageCtrl($scope, $location, $AuthenticationService, $FlashService) {
-    // Activates the Carousel
-    $('.carousel').carousel({
-        interval: 5000
-    });
-    // Activates Tooltips for Social Links
-    $('.tooltip-social').tooltip({
-        selector: "a[data-toggle=tooltip]"
-    });
     $scope.logout = function () {
         $AuthenticationService.ClearCredentials()
     };
@@ -141,12 +143,99 @@ function AboutCtrl($scope, $location, $AuthenticationService, $FlashService, $in
     });
 
     function loadAllUsers() {
-        $UserService.GetAll().then(function (users) {
+        $UserService.GetAllOrganisers().then(function (users) {
             vm.allUsers = users;
         });
     }
 
     loadAllUsers()
+}
+
+app.controller('ReviewAttendeeController', ReviewAttendeeController);
+ReviewAttendeeController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService', '$http'];
+function ReviewAttendeeController($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService, $http) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.filter = 'notrated';
+    vm.filters = filters;
+    vm.rate = rate;
+    vm.accept = accept;
+    vm.current_user_id = $scope.globals.currentUser.id;
+
+    function rate(user) {
+        data = {
+            'users': user.id,
+            'score': user.new_review
+        };
+        $http.post('/api/review_attendees/', data).then(
+            function (response) {
+                $FlashService.SuccessNoReload('Score Saved', false);
+            }
+        );
+    }
+    function accept(user) {
+        data = {
+            'users': user
+        };
+        $http.put('/api/review_attendees/', data).then(
+            function (response) {
+                $FlashService.SuccessNoReload('Score Accepted', false);
+            }
+        );
+    }
+
+    function avg(obj) {
+        var sum = 0;
+        obj.forEach(function (user, index) {
+           sum += user.score
+        });
+        return sum/obj.length;
+    }
+
+    function filters() {
+        vm.attendee.forEach(function (user, index) {
+        if (vm.filter === 'notrated'){
+            user.show = !!(user.reviews && user.reviews.length === 0);
+        }
+        else if (vm.filter === 'notratedbyme'){
+            user.show = !(vm.current_user_id in user.reviews);
+        }
+        else if (vm.filter === 'top200'){
+            user.show = (user.score >= vm.average)
+        }
+        else if (vm.filter === 'accepted'){
+            user.show = (user.accepted)
+        }
+        else if (vm.filter === 'confirmed'){
+            user.show = (user.accepted && user.confirmation === 'true')
+        }
+        else if (vm.filter === 'unconfirmed'){
+            user.show = (user.accepted && user.confirmation === 'noans')
+        }
+        else if (vm.filter === 'mentor'){
+            user.show = (user.mentor)
+        }
+        else if (vm.filter === 'all'){
+            user.show = true
+        }
+
+    })
+    }
+
+    function get_all_users() {
+        $UserService.GetAllAttendees().then(function (users) {
+            vm.attendee = users;
+            vm.average = avg(users);
+            console.log(vm.average);
+            filters();
+        });
+    }
+    get_all_users();
 }
 
 app.controller('LessonCtrl', LessonCtrl);
@@ -644,6 +733,9 @@ function UserService($http) {
     service.GetAll = GetAll;
     service.GetById = GetById;
     service.GetByUsername = GetByUsername;
+    service.GetAllOrganisers = GetAllOrganisers;
+    service.GetAllMentors = GetAllMentors;
+    service.GetAllAttendees = GetAllAttendees;
     service.Create = Create;
     service.Update = Update;
     service.Delete = Delete;
@@ -652,6 +744,18 @@ function UserService($http) {
 
     function GetAll() {
         return $http.get('/api/user/').then(handleSuccess, handleError('Error getting all users'));
+    }
+
+    function GetAllOrganisers() {
+        return $http.get('/api/user/?organiser=True').then(handleSuccess, handleError('Error getting all users'));
+    }
+
+    function GetAllAttendees() {
+        return $http.get('/api/review_attendees/').then(handleSuccess, handleError('Error getting all users'));
+    }
+
+    function GetAllMentors() {
+        return $http.get('/api/user/?mentor=True').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetById(id) {
@@ -789,7 +893,7 @@ function run($rootScope, $location, $cookies, $http) {
     // keep user logged in after page refresh
     $rootScope.globals = $cookies.getObject('globals') || {};
     if ($rootScope.globals.currentUser) {
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
+        $http.defaults.headers.common['Authorization'] = $rootScope.globals.currentUser.authdata;
     }
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
