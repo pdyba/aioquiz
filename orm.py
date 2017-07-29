@@ -34,7 +34,10 @@ class DoesNoteExists(Exception):
         return {'msg': 'User Does not Exists'}
 
 
+# noinspection PyProtectedMember
 class Table:
+    _restricted_keys = []
+
     def __init__(self, **kwargs):
         for field in self._schema:
             name = field.name
@@ -89,9 +92,13 @@ class Table:
     @classmethod
     async def create_table(cls):
         if not await cls._table_exists():
-            await make_a_querry(
-                """CREATE TABLE {} ( {} );""".format(cls._name, cls._gen_schema())
+            unique = ", UNIQUE ({})".format(", ".join(cls._unique)) if hasattr(cls, '_unique') else ''
+            querry = """CREATE TABLE {} ( {} {})""".format(
+                cls._name,
+                cls._gen_schema(),
+                unique
             )
+            await make_a_querry(querry)
             print('{} Table Done'.format(cls._name))
         else:
             print('{} Table already exists'.format(cls._name))
@@ -237,7 +244,11 @@ class Table:
         await self._update(self, **kwargs)
 
     async def to_dict(self):
-        return {field.name: getattr(self, field.name) for field in self._schema}
+        return {
+            field.name: getattr(self, field.name)
+            for field in self._schema
+            if field.name not in self._restricted_keys
+        }
 
     @classmethod
     async def _delete(cls, data):
@@ -277,9 +288,6 @@ class Column:
 
 
 class ColumnType:
-    def __init__(self):
-        pass
-
     @classmethod
     def __str__(cls):
         return cls._type
@@ -315,7 +323,6 @@ class String(ColumnType):
     _py_type = str
 
     def __init__(self, length):
-        super().__init__()
         self.length = length
 
     def __str__(self):
@@ -364,11 +371,10 @@ class DateTime(ColumnType):
 
 
 class ForeignKey(ColumnType):
-    _type = 'integer references {}(id)'
+    _type = 'integer references {} (id)'
     _py_type = str
 
     def __init__(self, f_key):
-        super().__init__()
         self.f_key = f_key
 
     def __repr__(self):

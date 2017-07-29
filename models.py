@@ -28,6 +28,7 @@ class Question(Table):
 
 
 class Users(Table):
+    _restricted_keys = ['score', 'session_uuid', 'password', 'notes']
     _name = 'users'
     _schema = [
         Column('id', Integer, primary_key=True),
@@ -35,34 +36,39 @@ class Users(Table):
         Column('name', String(255)),
         Column('surname', String(255)),
         Column('password', String(1000)),
+        Column('create_date', DateTime(), default=datetime.utcnow),
+        Column('last_login', DateTime(), default=datetime.utcnow),
+        Column('mentor', Boolean(), default=False),
+        Column('organiser', Boolean(), default=False),
+        Column('admin', Boolean(), default=False),
+        Column('session_uuid', String(255), required=False),
+
+        Column('img', String(255), required=False, default=''),
+        Column('linkedin', String(255), required=False),
+        Column('twitter', String(255), required=False),
+        Column('facebook', String(255), required=False),
+
         Column('city', String(255), required=False),
         Column('education', String(255), required=False),
         Column('university', String(255), required=False),
         Column('t_shirt', String(10), required=False),
         Column('operating_system', String(10), required=False),
-        Column('confirmation', String(10), default='noans'),
         Column('description', String(5000), required=False),
-        Column('img', String(255), required=False, default=''),
         Column('motivation', String(5000), required=False),
         Column('what_can_you_bring', String(5000), required=False),
         Column('experience', String(5000), required=False),
         Column('app_idea', String(5000), required=False),
-        Column('notes', String(5000), default=''),
-        Column('mentor', Boolean(), default=False),
-        Column('organiser', Boolean(), default=False),
-        Column('admin', Boolean(), default=False),
+
+        Column('pyfunction', String(255), required=False),
+
+        Column('confirmation', String(10), default='noans'),
         Column('active', Boolean(), default=False),
         Column('accepted_rules', Boolean(), default=False),
         Column('accepted', Boolean(), default=False),
-        Column('create_date', DateTime(), default=datetime.utcnow),
-        Column('last_login', DateTime(), default=datetime.utcnow),
-        Column('session_uuid', String(255), required=False),
-        Column('score', Float(), default=0, required=False),
         Column('i_needed_help', Integer(), default=0),
-        Column('linkedin', String(255), required=False),
-        Column('twitter', String(255), required=False),
-        Column('facebook', String(255), required=False),
-        Column('pyfunction', String(255), required=False),
+
+        Column('notes', String(5000), default=''),
+        Column('score', Float(), default=0, required=False),
     ]
 
     @classmethod
@@ -71,6 +77,16 @@ class Users(Table):
             return await cls.get_first('session_uuid', session_uuid)
         except DoesNoteExists:
             return None
+
+
+class UserReview(Table):
+    _name = 'user_review'
+    _schema = [
+        Column('users', ForeignKey('users')),
+        Column('reviewer', ForeignKey('users')),
+        Column('score', Integer()),
+    ]
+    _unique = ['users', 'reviewer']
 
 
 class Lesson(Table):
@@ -157,6 +173,7 @@ class QuestionAnsware(Table):
         Column('question', ForeignKey('question')),
         Column('answare', CodeString(5000)),
     ]
+    _unique = ['users', 'question']
 
 
 class ExerciseAnsware(Table):
@@ -176,6 +193,7 @@ class QuizQuestions(Table):
         Column('question', ForeignKey('question')),
         Column('question_order', Integer(), default=0),
     ]
+    _unique = ['quiz', 'question_order']
 
 
 class LiveQuiz(Table):
@@ -211,6 +229,7 @@ class LiveQuizQuestion(Table):
         Column('question', ForeignKey('question')),
         Column('question_order', Integer(), default=0),
     ]
+    _unique = ['live_quiz', 'question_order']
 
 
 class LiveQuizAnsware(Table):
@@ -222,6 +241,7 @@ class LiveQuizAnsware(Table):
     ]
 
 
+
 class Seat(Table):
     _name = 'seat'
     _schema = [
@@ -229,7 +249,7 @@ class Seat(Table):
         Column('row', String(255)),
         Column('number', String(10000)),
         Column('users', ForeignKey('users')),
-        Column('i_need_help', Boolean, default=False),
+        Column('i_need_help', Boolean(), default=False),
     ]
 
 

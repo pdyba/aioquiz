@@ -98,9 +98,19 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "PageCtrl",
             controllerAs: 'vm'
         })
-        .when("/admin", {
+        .when("/admin_users", {
             templateUrl: "partials/admin.html",
             controller: "AdminController",
+            controllerAs: 'vm'
+        })
+        .when("/seats", {
+            templateUrl: "partials/seats.html",
+            controller: "SeatController",
+            controllerAs: 'vm'
+        })
+        .when("/review_attendee", {
+            templateUrl: "partials/attendee_review_list.html",
+            controller: "ReviewAttendeeController",
             controllerAs: 'vm'
         })
         .otherwise("/404", {
@@ -116,14 +126,6 @@ app.config(['$locationProvider', function ($locationProvider) {
 app.controller('PageCtrl', PageCtrl);
 PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService'];
 function PageCtrl($scope, $location, $AuthenticationService, $FlashService) {
-    // Activates the Carousel
-    $('.carousel').carousel({
-        interval: 5000
-    });
-    // Activates Tooltips for Social Links
-    $('.tooltip-social').tooltip({
-        selector: "a[data-toggle=tooltip]"
-    });
     $scope.logout = function () {
         $AuthenticationService.ClearCredentials()
     };
@@ -141,12 +143,33 @@ function AboutCtrl($scope, $location, $AuthenticationService, $FlashService, $in
     });
 
     function loadAllUsers() {
-        $UserService.GetAll().then(function (users) {
+        $UserService.GetAllOrganisers().then(function (users) {
             vm.allUsers = users;
         });
     }
 
     loadAllUsers()
+}
+
+app.controller('ReviewAttendeeController', ReviewAttendeeController);
+ReviewAttendeeController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
+function ReviewAttendeeController($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.filter = 'notrated';
+    vm.fitlers = fitlers;
+
+    function fitlers() {
+        $UserService.GetAllAttendees(vm.filter).then(function (users) {
+            vm.attendee = users;
+        });
+    }
+    fitlers()
 }
 
 app.controller('LessonCtrl', LessonCtrl);
@@ -644,6 +667,9 @@ function UserService($http) {
     service.GetAll = GetAll;
     service.GetById = GetById;
     service.GetByUsername = GetByUsername;
+    service.GetAllOrganisers = GetAllOrganisers;
+    service.GetAllMentors = GetAllMentors;
+    service.GetAllAttendees = GetAllAttendees;
     service.Create = Create;
     service.Update = Update;
     service.Delete = Delete;
@@ -652,6 +678,18 @@ function UserService($http) {
 
     function GetAll() {
         return $http.get('/api/user/').then(handleSuccess, handleError('Error getting all users'));
+    }
+
+    function GetAllOrganisers() {
+        return $http.get('/api/user/?organiser=True').then(handleSuccess, handleError('Error getting all users'));
+    }
+
+    function GetAllAttendees(afilter) {
+        return $http.get('/api/review_attendees/' + afilter).then(handleSuccess, handleError('Error getting all users'));
+    }
+
+    function GetAllMentors() {
+        return $http.get('/api/user/?mentor=True').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetById(id) {
@@ -789,7 +827,7 @@ function run($rootScope, $location, $cookies, $http) {
     // keep user logged in after page refresh
     $rootScope.globals = $cookies.getObject('globals') || {};
     if ($rootScope.globals.currentUser) {
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
+        $http.defaults.headers.common['Authorization'] = $rootScope.globals.currentUser.authdata;
     }
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {

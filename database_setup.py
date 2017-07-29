@@ -212,4 +212,4 @@ if __name__ == '__main__':
     loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(add_question())
-    loop.run_until_complete(admin())
+    # loop.run_until_complete(admin())
