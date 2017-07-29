@@ -10,35 +10,35 @@
         <div class="form-group">
             <label for="filter">Filter:<br>
                 <input class="form-inline text-left" type="radio"
-                       value="notrated"
+                       value="notrated" ng-change='vm.filters()'
                        class="form-control" ng-model="vm.filter" required/>
                 notrated
                 <input class="form-inline text-left" type="radio"
-                       value="notratedbyme"
+                       value="notratedbyme" ng-change='vm.filters()'
                        class="form-control" ng-model="vm.filter" required/>
                 notrated by me
                 <input class="form-inline float-right" type="radio"
-                       value="top200"
+                       value="top200" ng-change='vm.filters()'
                        class="form-control" ng-model="vm.filter" required/>
                 top200
                 <input class="form-inline float-right" type="radio"
-                       value="accepted"
+                       value="accepted" ng-change='vm.filters()'
                        class="form-control" ng-model="vm.filter" required/>
                 accepted
                 <input class="form-inline float-right" type="radio"
-                       value="confirmed"
+                       value="confirmed" ng-change='vm.filters()'
                        class="form-control" ng-model="vm.filter" required/>
                 confirmed
                 <input class="form-inline float-right" type="radio"
-                       value="unconfirmed"
+                       value="unconfirmed" ng-change='vm.filters()'
                        class="form-control" ng-model="vm.filter" required/>
                 unconfirmed
                 <input class="form-inline float-right" type="radio"
-                       value="mentor"
+                       value="mentor" ng-change='vm.filters()'
                        class="form-control" ng-model="vm.filter" required/>
                 mentor
                 <input class="form-inline float-right" type="radio"
-                       value="mentor"
+                       value="all" ng-change='vm.filters()'
                        class="form-control" ng-model="vm.filter" required/> all
                 attendee
             </label>
@@ -48,7 +48,7 @@
 <div class="row">
 <div class="col-lg-12">
     <div class="col-sm-4" ng-repeat="u in vm.attendee">
-        <div class="panel panel-default text-left">
+        <div class="panel panel-default text-left" ng-show="u.show">
             <div class="panel-heading">
                 <strong>{{ u.name }} {{ u.surname }}</strong>
             </div>
@@ -85,6 +85,10 @@
                     <b>Score:</b>
                     {{ u.score }}
                 </li>
+                <li class="list-group-item" ng-show=" u.reviews">
+                    <b>Reviews:</b>
+                    <p ng-repeat="s in u.reviews">{{ s.name }}: {{ s.score }}</p>
+                </li>
                 <li class="list-group-item">
                     <b>Confirmation:</b>
                     {{ u.confirmation }}
@@ -92,15 +96,15 @@
                 <li class="list-group-item">
                     <div class="form-group"
                          ng-class="{ 'has-error': form.university.$dirty && form.university.$error.required }">
-                        <label for="university">Rating</label>
+                        <label for="rating_{{ u.id }}">Rating</label>
                         <select ng-options="x for x in [1, 2, 3, 4, 5, 6, 7 ,8, 9, 10]"
-                                ng-model="TODO" ngValue="x"
+                                ng-model="u.new_review" ngValue="x"
                                 required></select>
                         <a class="btn btn-danger"
-                           ng-click="vm.show_results( q.id )">Rate</a>
+                           ng-click="vm.rate( u )">Rate</a>
                         <a class="btn btn-success"
                            ng-show="$parent.globals.currentUser.admin"
-                           ng-click="vm.accept( q.id )">Accept</a>
+                           ng-click="vm.accept( u )">Accept</a>
                     </div>
 
                 </li>

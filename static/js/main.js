@@ -152,8 +152,8 @@ function AboutCtrl($scope, $location, $AuthenticationService, $FlashService, $in
 }
 
 app.controller('ReviewAttendeeController', ReviewAttendeeController);
-ReviewAttendeeController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function ReviewAttendeeController($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+ReviewAttendeeController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService', '$http'];
+function ReviewAttendeeController($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
@@ -162,14 +162,44 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         $FlashService: $FlashService
     });
     vm.filter = 'notrated';
-    vm.fitlers = fitlers;
+    vm.filters = filters;
+    vm.rate = rate;
+    current_user_id = $scope.globals.currentUser.id;
 
-    function fitlers() {
-        $UserService.GetAllAttendees(vm.filter).then(function (users) {
+    function rate(user) {
+        data = {
+            'users': user.id,
+            'score': user.new_review
+        };
+        $http.post('/api/review_attendees/', data).then(
+            function (response) {
+                $FlashService.SuccessNoReload('Score Saved', false);
+            }
+        );
+    }
+
+    function filters() {
+        vm.attendee.forEach(function (user, index) {
+        if (vm.filter === 'notrated'){
+            user.show = !!(user.reviews && user.reviews.length === 0);
+            console.log(user.reviews)
+        }
+        else if (vm.filter === 'notratedbyme'){
+            user.show = !(current_user_id in user.reviews);
+        }
+        else if (vm.filter === 'all'){
+            user.show = true
+        }
+    })
+    }
+
+    function get_all_users() {
+        $UserService.GetAllAttendees().then(function (users) {
             vm.attendee = users;
+            filters();
         });
     }
-    fitlers()
+    get_all_users();
 }
 
 app.controller('LessonCtrl', LessonCtrl);
@@ -684,8 +714,8 @@ function UserService($http) {
         return $http.get('/api/user/?organiser=True').then(handleSuccess, handleError('Error getting all users'));
     }
 
-    function GetAllAttendees(afilter) {
-        return $http.get('/api/review_attendees/' + afilter).then(handleSuccess, handleError('Error getting all users'));
+    function GetAllAttendees() {
+        return $http.get('/api/review_attendees/').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetAllMentors() {

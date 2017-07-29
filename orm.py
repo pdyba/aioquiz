@@ -201,8 +201,11 @@ class Table:
     async def create(self):
         try:
             return await self._create(self)
+        except asyncpg.exceptions.UniqueViolationError:
+            logging.exception('Error creating {}'.format(self._name))
         except Exception as e:
             logging.exception('Error creating {}'.format(self._name))
+        return False
 
     async def update_or_create(self, *args):
         kw = {arg: getattr(self, arg) for arg in args}

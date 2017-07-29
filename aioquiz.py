@@ -45,7 +45,7 @@ app.add_route(LiveQuizView.as_view(), '/api/live_quiz/<qid:int>')
 app.add_route(LiveQuizManageView.as_view(), '/api/live_quiz_manage')
 app.add_route(LiveQuizManageView.as_view(), '/api/live_quiz_manage/<qid:int>')
 
-app.add_route(ReviewAttendees.as_view(), '/api/review_attendees/<afilter>')
+app.add_route(ReviewAttendees.as_view(), '/api/review_attendees')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=False)

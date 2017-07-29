@@ -57,6 +57,9 @@ async def get_user_name(uid):
         _users_names[uid] = '{} {}'.format(user.name, user.surname)
     return _users_names[uid]
 
+async def get_current_user(request):
+    session_uid = request.headers.get('authorization')
+    return _users.get(session_uid) or await Users.get_user_by_session_uuid(session_uid)
 
 # noinspection PyBroadException
 class QuestionView(HTTPMethodView):
@@ -354,7 +357,7 @@ class LogOutView(HTTPMethodView):
 
 class ReviewAttendees(HTTPMethodView):
     @user_required('organiser')
-    async def get(self, request, afilter):
+    async def get(self, request):
         allusers = await Users.get_by_many_field_value(
             admin=False,
             organiser=False
@@ -364,7 +367,7 @@ class ReviewAttendees(HTTPMethodView):
         for rev in allreviews:
             reviews[rev.users][rev.reviewer] = {
                 'score': rev.score,
-                'name': get_user_name(rev.reviewer)
+                'name': await get_user_name(rev.reviewer)
             }
         users = []
         for u in allusers:
@@ -372,4 +375,19 @@ class ReviewAttendees(HTTPMethodView):
             if reviews and reviews.get(u.id):
                 ud.update({'reviews': reviews.get(u.id)})
             users.append(ud)
-        return json(allusers)
+        return json(users)
+
+    @user_required('organiser')
+    async def post(self, request):
+        current_user = await get_current_user(request)
+        req = request.json
+        req['reviewer'] = current_user.id
+        ur = UserReview(**req)
+        if not await ur.create():
+            return json({'msg': 'already exists', 'error': True})
+        all_ur = await UserReview.get_by_field_value('users', req['users'])
+        user = await Users.get_by_id(req['users'])
+        new_score = sum(u.score for u in all_ur) / (len(all_ur) or 1)
+        user.score = new_score
+        await user.update()
+        return json({'success': True})
