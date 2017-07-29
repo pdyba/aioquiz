@@ -25,7 +25,8 @@
                 </li>
 
 
-    <li class="divider-vertical"></li>
+    <li class="divider-vertical" ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin"></li>
+
                 <li class="dropdown"
                     ng-show="$parent.globals.currentUser && $parent.globals.currentUser.mentor">
                     <a class="dropdown-toggle"
@@ -98,7 +99,7 @@
                 </li>
 
 
-    <li class="divider-vertical"></li>
+    <li ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin" class="divider-vertical"></li>
 
     <li class="dropdown"
                     ng-show="$parent.globals.currentUser">

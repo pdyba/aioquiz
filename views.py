@@ -1,4 +1,5 @@
 # !/usr/bin/python3.5
+from collections import defaultdict
 from functools import wraps
 from json import dumps as jdumps
 import logging
@@ -20,8 +21,12 @@ from models import QuestionAnsware
 from models import LessonStatus
 from models import UserReview
 
+from utils import get_args
+from utils import safe_del_key
+from utils import hash_password
 
 _users = {}
+_users_names = {}
 
 NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
 
@@ -34,7 +39,7 @@ def user_required(access_level=None):
             authorization = args[0].headers.get('authorization')
             if not authorization:
                 return NOTAUTHRISED
-            user = _users.get(authorization) or Users.get_user_by_session_uuid(authorization)
+            user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
             if not user:
                 return NOTAUTHRISED
             if access_level:
@@ -46,27 +51,11 @@ def user_required(access_level=None):
     return decorator
 
 
-async def format_dict_to_columns(adict):
-    return [[a, adict[a]] for a in adict]
-
-
-def get_args(args_dict):
-    for arg, val in args_dict.items():
-        if isinstance(val ,list):
-            args_dict[arg] = {
-                'true': True,
-                'True': True,
-                'false': False,
-                'False': False
-            }.get(val[0], val[0])
-    return args_dict
-
-
 async def get_user_name(uid):
-    if uid not in _users:
+    if uid not in _users_names:
         user = await Users.get_by_id(uid)
-        _users[uid] = '{} {}'.format(user.name, user.surname)
-    return _users[uid]
+        _users_names[uid] = '{} {}'.format(user.name, user.surname)
+    return _users_names[uid]
 
 
 # noinspection PyBroadException
@@ -140,7 +129,6 @@ class UserView(HTTPMethodView):
     async def put(self, _, id_name=None):
         return json({'success': True}, status=200)
 
-    @user_required()
     async def post(self, request):
         try:
             req = request.json
@@ -316,7 +304,6 @@ class LessonView(HTTPMethodView):
 class AuthenticateView(HTTPMethodView):
     user_error = {'success': False, 'msg': 'Wrong user name or password'}
 
-    @user_required()
     async def post(self, request):
         try:
             req = request.json
@@ -328,7 +315,8 @@ class AuthenticateView(HTTPMethodView):
                 return json({'msg': 'User not found'}, status=404)
             if not user.active:
                 return json({'msg': 'User not active'}, status=404)
-            if req.get('password', '') == user.password:
+            if hash_password(req.get('password', 'x')) == user.password:
+                print(user.password)
                 user.session_uuid = str(uuid4()).replace('-', '')
                 await user.update()
                 return json(
@@ -355,8 +343,8 @@ class AuthenticateView(HTTPMethodView):
 class LogOutView(HTTPMethodView):
     @user_required()
     async def post(self, request):
-        req = request.json
-        user = await Users.get_user_by_session_uuid(req.session_uid)
+        session_uid = request.headers.get('authorization')
+        user = await Users.get_user_by_session_uuid(session_uid)
         if user:
             user.session_uuid = ''
             await user.update()
@@ -365,20 +353,23 @@ class LogOutView(HTTPMethodView):
 
 
 class ReviewAttendees(HTTPMethodView):
-
     @user_required('organiser')
     async def get(self, request, afilter):
-        print()
-        if afilter == 'notrated':
-            users = await Users.get_by_many_field_value(
-                score=0,
-                admin=False,
-                organiser=False
-            )
-        # elif afilter == 'notratedbyme':
-
-        #     await UserReview.get_by_field_value('reviewer')
-        allusers = []
-        for u in users:
-            allusers.append(await u.to_dict())
+        allusers = await Users.get_by_many_field_value(
+            admin=False,
+            organiser=False
+        )
+        allreviews = await UserReview.get_all()
+        reviews = defaultdict(dict)
+        for rev in allreviews:
+            reviews[rev.users][rev.reviewer] = {
+                'score': rev.score,
+                'name': get_user_name(rev.reviewer)
+            }
+        users = []
+        for u in allusers:
+            ud = await u.to_dict(include_soft=True)
+            if reviews and reviews.get(u.id):
+                ud.update({'reviews': reviews.get(u.id)})
+            users.append(ud)
         return json(allusers)

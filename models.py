@@ -12,6 +12,8 @@ from orm import Boolean
 from orm import Float
 from orm import ForeignKey
 
+from utils import hash_password
+
 
 class Question(Table):
     _name = 'question'
@@ -28,7 +30,8 @@ class Question(Table):
 
 
 class Users(Table):
-    _restricted_keys = ['score', 'session_uuid', 'password', 'notes']
+    _restricted_keys = ['session_uuid', 'password']
+    _soft_restricted_keys = ['score', 'notes']
     _name = 'users'
     _schema = [
         Column('id', Integer, primary_key=True),
@@ -62,7 +65,7 @@ class Users(Table):
         Column('pyfunction', String(255), required=False),
 
         Column('confirmation', String(10), default='noans'),
-        Column('active', Boolean(), default=False),
+        Column('active', Boolean(), default=True),  #TODO: set proper validation over e-mail
         Column('accepted_rules', Boolean(), default=False),
         Column('accepted', Boolean(), default=False),
         Column('i_needed_help', Integer(), default=0),
@@ -70,6 +73,10 @@ class Users(Table):
         Column('notes', String(5000), default=''),
         Column('score', Float(), default=0, required=False),
     ]
+
+    async def create(self):
+        self.password = hash_password(self.password)
+        await super().create()
 
     @classmethod
     async def get_user_by_session_uuid(cls, session_uuid):

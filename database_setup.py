@@ -3,6 +3,7 @@
 import asyncio
 
 import models
+import types
 from orm import Table
 
 psql_cfg = {
@@ -15,11 +16,17 @@ psql_cfg = {
 
 async def bootstrap_db():
     for cls_name in dir(models):
-        if cls_name.startswith('_'):
-            continue
-        cls = getattr(models, cls_name)
-        if issubclass(cls, Table) and cls != Table:
-            await cls.create_table()
+        try:
+            if cls_name.startswith('_'):
+                continue
+            cls = getattr(models, cls_name)
+            if isinstance(cls, types.FunctionType):
+                print('skipping: ' + cls_name)
+                continue
+            if issubclass(cls, Table) and cls != Table:
+                await cls.create_table()
+        except TypeError:
+            print(cls_name)
     print('bootstrap done')
 
 async def admin():
@@ -212,4 +219,4 @@ if __name__ == '__main__':
     loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(add_question())
-    # loop.run_until_complete(admin())
+    loop.run_until_complete(admin())

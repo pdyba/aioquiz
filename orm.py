@@ -37,6 +37,7 @@ class DoesNoteExists(Exception):
 # noinspection PyProtectedMember
 class Table:
     _restricted_keys = []
+    _soft_restricted_keys = []
 
     def __init__(self, **kwargs):
         for field in self._schema:
@@ -167,6 +168,7 @@ class Table:
                     except AttributeError:
                         if not prop.required:
                             val = ''
+                    prop.type.validate(val)
                     ending = '"' if "'" in val else "'"
                     values += ending
                     values += prop.type.format(val)
@@ -243,11 +245,12 @@ class Table:
     async def update(self, **kwargs):
         await self._update(self, **kwargs)
 
-    async def to_dict(self):
+    async def to_dict(self, include_soft=False):
+        restricted_keys = self._restricted_keys if include_soft else self._restricted_keys + self._soft_restricted_keys
         return {
             field.name: getattr(self, field.name)
             for field in self._schema
-            if field.name not in self._restricted_keys
+            if field.name not in restricted_keys
         }
 
     @classmethod
