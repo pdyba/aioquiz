@@ -1,2 +1,5 @@
+uvloop
+pytest-asyncio
 sanic
 asyncpg
+aiosmtplib

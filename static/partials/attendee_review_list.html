@@ -47,8 +47,8 @@
 
 <div class="row">
 <div class="col-lg-12">
-    <div class="col-sm-4" ng-repeat="u in vm.attendee">
-        <div class="panel panel-default text-left" ng-show="u.show">
+    <div class="col-sm-4" ng-repeat="u in vm.attendee" ng-if="u.show">
+        <div class="panel panel-default text-left">
             <div class="panel-heading">
                 <strong>{{ u.name }} {{ u.surname }}</strong>
             </div>
@@ -102,10 +102,15 @@
                         <a class="btn btn-danger"
                            ng-click="vm.rate( u )">Rate</a>
                     </div>
-                    <div>
+                    <div ng-hide="u.accepted">
                         <a class="btn btn-success"
                            ng-show="$parent.globals.currentUser.admin"
                            ng-click="vm.accept( u.id )">Accept</a>
+                    </div>
+                    <div ng-show="u.accepted">
+                        <a class="btn btn-danger"
+                           ng-show="$parent.globals.currentUser.admin"
+                           ng-click="vm.unaccept( u.id )">UnAccept</a>
                     </div>
 
                 </li>

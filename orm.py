@@ -201,6 +201,9 @@ class Table:
     async def create(self):
         try:
             return await self._create(self)
+        except TypeError:
+            logging.exception('Error creating {}'.format(self._name))
+            return True
         except asyncpg.exceptions.UniqueViolationError:
             logging.exception('Error creating {}'.format(self._name))
         except Exception as e:

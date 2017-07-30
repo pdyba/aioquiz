@@ -1,8 +1,11 @@
 # !/usr/bin/python3.5
+from email.mime.text import MIMEText
 from functools import wraps
 import hashlib
 import logging
 
+import aiosmtplib
+from config import EMAIL
 
 async def format_dict_to_columns(adict):
     return [[a, adict[a]] for a in adict]
@@ -67,3 +70,18 @@ def error_catcher(function, default_return=False):
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
+
+async def send_email(recipients=None, subject='', text=''):
+    try:
+        server = aiosmtplib.SMTP(hostname=EMAIL.SERVER, port=EMAIL.PORT)
+        await server.connect(timeout=5, use_tls=True)
+        await server.login(username=EMAIL.USERNAME, password=EMAIL.PASSWORD)
+        message = MIMEText(text)
+        message['From'] = 'PyLadies Poznan <pyladies@dyba.it>'
+        message['Subject'] = subject
+        sender = 'pyladies@dyba.it'
+        await server.sendmail(sender, recipients, message.as_string())
+        return True
+    except:
+        logging.exception('error sending email')
+        return False

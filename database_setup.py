@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 import asyncio
-
+from datetime import datetime
 import models
+import random
 import types
+
 from orm import Table
 
 psql_cfg = {
@@ -28,6 +30,44 @@ async def bootstrap_db():
         except TypeError:
             print(cls_name)
     print('bootstrap done')
+
+async def gen_users():
+    start = datetime.utcnow()
+
+    def text() :
+        rdata = list('qwertyuiopasdfghjklzxcvbnm')
+        random.shuffle(rdata)
+        rdata = ''.join(rdata)
+        return ' '.join([rdata[:random.randint(1, 9)] for _ in range(90)])
+
+    def gen_email():
+        rdata = list('qwertyuiopasdfghjklzxcvbnm')
+        random.shuffle(rdata)
+        rdata = ''.join(rdata)[:8]
+        return rdata
+    for _ in range(100):
+        email = gen_email()
+        new_user = {
+            'email': 'user_' + email +'@test.pl',
+            'password': 'test_1',
+            'img': '0000000001.jpg',
+            'description': text(),
+            'motivation': text(),
+            'what_can_you_bring': 'ciasteczka',
+            'experience': text(),
+            'mentor': False,
+            'active': True,
+            'organiser': False,
+            'admin': False,
+            'name': email[:8],
+            'surname': email[9:],
+            'linkedin': 'https://www.linkedin.com/in/' + email,
+            'twitter': 'https://twitter.com/' + email,
+            'facebook': 'https://www.facebook.com/' + email,
+        }
+        tbl = models.Users(**new_user)
+        await tbl.create()
+    print('Created 100 users in' + str(datetime.utcnow() - start))
 
 async def admin():
     new_user = {
@@ -219,4 +259,5 @@ if __name__ == '__main__':
     loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(add_question())
-    loop.run_until_complete(admin())
+    # loop.run_until_complete(admin())
+    loop.run_until_complete(gen_users())

@@ -165,6 +165,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     vm.filters = filters;
     vm.rate = rate;
     vm.accept = accept;
+    vm.unaccept = unaccept;
     vm.current_user_id = $scope.globals.currentUser.id;
 
     function rate(user) {
@@ -178,9 +179,22 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
             }
         );
     }
+
     function accept(user) {
         data = {
-            'users': user
+            'users': user,
+            'accept': true
+        };
+        $http.put('/api/review_attendees/', data).then(
+            function (response) {
+                $FlashService.SuccessNoReload('Score Accepted', false);
+            }
+        );
+    }
+    function unaccept(user) {
+        data = {
+            'users': user,
+            'accept': false
         };
         $http.put('/api/review_attendees/', data).then(
             function (response) {
@@ -191,50 +205,55 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
 
     function avg(obj) {
         var sum = 0;
+        var count = 0;
         obj.forEach(function (user, index) {
-           sum += user.score
+            sum += user.score;
+            if (user.score > 0) {
+                count += 1;
+            }
         });
-        return sum/obj.length;
+        return sum / count;
     }
 
     function filters() {
         vm.attendee.forEach(function (user, index) {
-        if (vm.filter === 'notrated'){
-            user.show = !!(user.reviews && user.reviews.length === 0);
-        }
-        else if (vm.filter === 'notratedbyme'){
-            user.show = !(vm.current_user_id in user.reviews);
-        }
-        else if (vm.filter === 'top200'){
-            user.show = (user.score >= vm.average)
-        }
-        else if (vm.filter === 'accepted'){
-            user.show = (user.accepted)
-        }
-        else if (vm.filter === 'confirmed'){
-            user.show = (user.accepted && user.confirmation === 'true')
-        }
-        else if (vm.filter === 'unconfirmed'){
-            user.show = (user.accepted && user.confirmation === 'noans')
-        }
-        else if (vm.filter === 'mentor'){
-            user.show = (user.mentor)
-        }
-        else if (vm.filter === 'all'){
-            user.show = true
-        }
+            if (vm.filter === 'notrated') {
+                user.show = (Object.keys(user.reviews).length === 0);
+            }
+            else if (vm.filter === 'notratedbyme') {
+                user.show = !(vm.current_user_id in user.reviews);
+            }
+            else if (vm.filter === 'top200') {
+                //TODO: above average for now
+                user.show = (user.score >= vm.average)
+            }
+            else if (vm.filter === 'accepted') {
+                user.show = (user.accepted)
+            }
+            else if (vm.filter === 'confirmed') {
+                user.show = (user.accepted && user.confirmation === 'true')
+            }
+            else if (vm.filter === 'unconfirmed') {
+                user.show = (user.accepted && user.confirmation === 'noans')
+            }
+            else if (vm.filter === 'mentor') {
+                user.show = (user.mentor)
+            }
+            else if (vm.filter === 'all') {
+                user.show = true
+            }
 
-    })
+        })
     }
 
     function get_all_users() {
         $UserService.GetAllAttendees().then(function (users) {
             vm.attendee = users;
             vm.average = avg(users);
-            console.log(vm.average);
             filters();
         });
     }
+
     get_all_users();
 }
 
@@ -271,7 +290,7 @@ function QuizCtrl($scope, $location, $AuthenticationService, $FlashService, $inj
         }
     );
     vm.start = start;
-    function start(id){
+    function start(id) {
         $location.path('/quiz/' + id);
     }
 }
@@ -309,7 +328,7 @@ function LiveQuizCtrl($scope, $location, $AuthenticationService, $FlashService, 
         }
     );
     vm.start = start;
-    function start(id){
+    function start(id) {
         $location.path('/live_quiz/' + id);
     }
 
@@ -389,14 +408,14 @@ function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashSe
         function (response) {
             vm.live_quiz = response.data;
             vm.live_quiz.questions.forEach(
-                function(a, b) {
+                function (a, b) {
                     get_question(a);
                 }
             );
             refresh();
         }
     );
-    function get_question (qid) {
+    function get_question(qid) {
         $http.get('/api/question/' + qid).then(
             function (response) {
                 vm.questions[qid] = response.data.question;
@@ -446,7 +465,7 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
             function (response) {
                 $FlashService.SuccessNoReload('Answare Saved', false);
                 vm.current_question += 1;
-                if (response.data.last){
+                if (response.data.last) {
                     vm.question.question = response.data.msg;
                     vm.question.last = response.data.last;
                 } else {
@@ -489,7 +508,7 @@ function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashServic
             function (response) {
                 $FlashService.SuccessNoReload('Answare Saved', false);
                 vm.current_question += 1;
-                if (response.data.last){
+                if (response.data.last) {
                     vm.question.question = response.data.msg;
                     vm.question.last = response.data.last;
                 } else {
@@ -710,7 +729,7 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
         };
 
         // set default auth header for http requests
-        $http.defaults.headers.common['Authorization'] =  authdata;
+        $http.defaults.headers.common['Authorization'] = authdata;
 
         // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
         var cookieExp = new Date();
