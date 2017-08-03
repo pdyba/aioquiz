@@ -774,8 +774,8 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 }
 
 app.factory('UserService', UserService);
-UserService.$inject = ['$http'];
-function UserService($http) {
+UserService.$inject = ['$http', 'FlashService'];
+function UserService($http, $FlashService) {
     var service = {};
 
     service.GetAll = GetAll;
@@ -787,6 +787,7 @@ function UserService($http) {
     service.Create = Create;
     service.Update = Update;
     service.Delete = Delete;
+    service.makeOrganiser = makeOrganiser;
 
     return service;
 
@@ -824,6 +825,21 @@ function UserService($http) {
 
     function Delete(id) {
         return $http.delete('/api/user/' + id).then(handleSuccess, handleError('Error deleting user'));
+    }
+
+    function makeOrganiser(user){
+        data = {
+            'organiser': true,
+            'uid': user.id
+        };
+        $http.post('/api/make_organiser', data).then(function (response) {
+            if (response.data.success) {
+                $FlashService.Success('Made an organiser: ' + user.name, true);;
+            } else {
+                $FlashService.Error(response.data.message);
+                vm.dataLoading = false;
+            }
+        });
     }
 
     function handleSuccess(res) {
@@ -906,13 +922,9 @@ function AdminController(UserService, $rootScope) {
     vm.user = null;
     vm.allUsers = [];
     vm.deleteUser = deleteUser;
+    vm.makeOrganiser = UserService.makeOrganiser;
 
-    initController();
-
-    function initController() {
-        loadCurrentUser();
-        loadAllUsers();
-    }
+    loadAllUsers();
 
     function loadCurrentUser() {
         UserService.GetByUsername($rootScope.globals.currentUser.username)
@@ -934,6 +946,7 @@ function AdminController(UserService, $rootScope) {
                 loadAllUsers();
             });
     }
+
 }
 
 run.$inject = ['$rootScope', '$location', '$cookies', '$http'];

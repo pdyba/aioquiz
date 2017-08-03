@@ -20,6 +20,7 @@ from views import LiveQuizManageView
 from views import ReviewAttendeesView
 from views import EmailView
 from views import ActivationView
+from views import MakeOrganiserView
 
 app = Sanic()
 
@@ -61,6 +62,8 @@ app.add_route(ReviewAttendeesView.as_view(), '/api/review_attendees')
 app.add_route(EmailView.as_view(), '/api/email')
 
 app.add_route(ActivationView.as_view(), '/api/activation/<uid:int>/<acode>')
+
+app.add_route(MakeOrganiserView.as_view(), '/api/make_organiser')
 
 app.error_handler.add(ServerError, handle_500s)
 app.error_handler.add(NotFound, handle_404s)

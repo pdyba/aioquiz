@@ -444,3 +444,15 @@ class ActivationView(HTTPMethodView):
             await user.update()
             return redirect('/')
         return json({'success': False, 'reson': 'wrong token'})
+
+
+class MakeOrganiserView(HTTPMethodView):
+    @user_required('admin')
+    async def post(self, request):
+        req = request.json
+        user = await Users.get_by_id(req['uid'])
+        if user:
+            user.organiser = req['organiser']
+            await user.update()
+            return json({'success': True})
+        return json({'success': False, 'reson': 'wrong token'})

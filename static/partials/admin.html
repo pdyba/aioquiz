@@ -1,5 +1,5 @@
 <!-- Page Content -->
-<div class="container" ng-show="vm.user.admin">
+<div class="container">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Admin
@@ -7,17 +7,18 @@
     </div>
 
 
-<h3>All registered users:</h3>
+<h3>All registered users x:</h3>
 <ul>
     <li ng-repeat="user in vm.allUsers">
-        {{user.email}} (admin:{{user.admin}} {{user.lastName}})
-        - <a ng-click="vm.deleteUser(user.id)">Delete</a>
+        {{user.email}} -{{user.name}} {{user.surname}}- (Admin:{{user.admin}} | Mentor: {{user.mentor}} | Organiser: {{user.organiser}})
+        <a ng-click="vm.deleteUser(user.id)" class="btn btn-xs btn-danger">Delete</a>
+        <a ng-click="vm.makeOrganiser(user)" class="btn btn-xs btn-primary">Make Organiser</a>
     </li>
 </ul>
 
 
 <p>&nbsp;</p>
-<p><a href="#!/login" class="btn btn-primary">Logout</a></p>
+<p><a href="#!/login" class="btn btn-xs btn-primary">Logout</a></p>
 </div>
 
 <!-- /.container -->
