@@ -6,14 +6,9 @@ import models
 import random
 import types
 
-from orm import Table
+import markdown
 
-psql_cfg = {
-    'user': 'aiopg',
-    'database': 'postgres',
-    'host': '127.0.0.1',
-    'password': 'aiopg'
-}
+from orm import Table
 
 
 async def bootstrap_db():
@@ -252,12 +247,32 @@ async def add_question():
         question='Czy podobal Ci sie quiz',
         qtype='bool',
     ).create()
-    print('question added')
+
+HEADER = """
+<link rel="stylesheet" href="css/codehilite.css">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+"""
+
+FOOTER = """
+        </div>
+    </div>
+</div>
+"""
+
+def create_html_lessons():
+    x = '{num:04d}'.format(num=1)
+    html = markdown.markdown(open('./lesson_source/{}/en.md'.format(x)).read(), extensions=['markdown.extensions.codehilite'])
+    with open('static/lessons/{}.html'.format(x), 'w') as file:
+        file.write(HEADER + html + FOOTER)
+
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(bootstrap_db())
+    create_html_lessons()
+    # loop = asyncio.get_event_loop()
+    # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(add_question())
     # loop.run_until_complete(admin())
-    loop.run_until_complete(gen_users())
+    # loop.run_until_complete(gen_users())

@@ -66,7 +66,7 @@ class Users(Table):
         Column('pyfunction', String(255), required=False),
 
         Column('confirmation', String(10), default='noans'),
-        Column('active', Boolean(), default=True),  #TODO: set proper validation over e-mail
+        Column('active', Boolean(), default=False),
         Column('accepted_rules', Boolean(), default=False),
         Column('accepted', Boolean(), default=False),
         Column('i_needed_help', Integer(), default=0),
@@ -77,7 +77,7 @@ class Users(Table):
 
     async def create(self):
         self.password = hash_password(self.password)
-        await super().create()
+        return await super().create()
 
     @classmethod
     async def get_user_by_session_uuid(cls, session_uuid):

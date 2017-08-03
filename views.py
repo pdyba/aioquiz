@@ -6,6 +6,7 @@ import logging
 from uuid import uuid4
 
 from sanic.response import json
+from sanic.response import redirect
 from sanic.views import HTTPMethodView
 
 from orm import DoesNoteExists
@@ -25,6 +26,8 @@ from utils import get_args
 from utils import safe_del_key
 from utils import hash_password
 from utils import send_email
+
+from config import REGEMAIL
 
 _users = {}
 _users_names = {}
@@ -70,7 +73,9 @@ class QuestionView(HTTPMethodView):
         try:
             req = request.json
             if req['qtype'] == 'abcd':
-                req['answares'] = jdumps([req['ans_a'], req['ans_b'], req['ans_c'], req['ans_d']])
+                req['answares'] = jdumps(
+                    [req['ans_a'], req['ans_b'], req['ans_c'], req['ans_d']]
+                )
                 del req['ans_a']
                 del req['ans_b']
                 del req['ans_c']
@@ -138,7 +143,18 @@ class UserView(HTTPMethodView):
         try:
             req = request.json
             user = Users(**req)
+            user.session_uuid = str(uuid4()).replace('-', '')
             uid = await user.create()
+            await send_email(
+                recipients=[user.email],
+                text=REGEMAIL.TEXT.format(
+                    acode=user.session_uuid,
+                    uid=uid,
+                    name=user.name,
+                    server=request.host
+                ),
+                subject=REGEMAIL.SUBJECT,
+            )
             return json({'success': True}, status=200)
         except:
             logging.exception('err user.post')
@@ -418,3 +434,13 @@ class EmailView(HTTPMethodView):
             subject=subject
         )
         return json({'success': resp})
+
+
+class ActivationView(HTTPMethodView):
+    async def get(self, request, uid, acode):
+        user = await Users.get_by_id(uid)
+        if user and user.session_uuid == acode:
+            user.active = True
+            await user.update()
+            return redirect('/')
+        return json({'success': False, 'reson': 'wrong token'})

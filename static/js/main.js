@@ -3,6 +3,11 @@ var app = angular.module('aioquiz', [
     'ngCookies'
 ]);
 
+function pad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length-size);
+}
+
 /**
  * Configure the Routes
  */
@@ -20,7 +25,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/lessons", {
             templateUrl: "partials/lessons.html",
-            controller: "LessonCtrl",
+            controller: "LessonsCtrl",
             controllerAs: 'vm'
         })
         .when("/about", {
@@ -41,6 +46,13 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/live_quiz_results/:id", {
             templateUrl: "partials/live_quiz_results.html",
             controller: "LiveQuizResultsCtrl",
+            controllerAs: 'vm'
+        })
+        .when("/lesson/:id", {
+            templateUrl: function(params) {
+                return 'lessons/' + pad(params.id, 4) +'.html';
+            },
+            controller: "LessonCtrl",
             controllerAs: 'vm'
         })
         .when("/create_live_quiz", {
@@ -257,9 +269,9 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     get_all_users();
 }
 
-app.controller('LessonCtrl', LessonCtrl);
-LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LessonCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+app.controller('LessonsCtrl', LessonsCtrl);
+LessonsCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
@@ -272,6 +284,23 @@ function LessonCtrl($scope, $location, $AuthenticationService, $FlashService, $i
             vm.lessons = response.data;
         }
     );
+}
+
+app.controller('LessonCtrl', LessonCtrl);
+LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function LessonCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    //$http.get('/api/lessons').then(
+    //    function (response) {
+    //        vm.lessons = response.data;
+    //    }
+    //);
 }
 
 app.controller('QuizCtrl', QuizCtrl);

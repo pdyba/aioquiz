@@ -87,3 +87,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+./static/lessons/*.html

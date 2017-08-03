@@ -72,6 +72,8 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 async def send_email(recipients=None, subject='', text=''):
+    if not isinstance(recipients, list):
+        recipients = [recipients]
     try:
         server = aiosmtplib.SMTP(hostname=EMAIL.SERVER, port=EMAIL.PORT)
         await server.connect(timeout=5, use_tls=True)

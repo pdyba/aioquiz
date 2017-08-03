@@ -1,6 +1,14 @@
 # !/usr/bin/python3.5
 from sanic import Sanic
 
+from sanic.exceptions import ServerError
+from sanic.exceptions import NotFound
+from sanic.exceptions import RequestTimeout
+
+from exception_handlers import handle_404s
+from exception_handlers import handle_500s
+from exception_handlers import handle_timeout
+
 from views import AuthenticateView
 from views import QuestionView
 from views import UserView
@@ -11,6 +19,7 @@ from views import QuizManageView
 from views import LiveQuizManageView
 from views import ReviewAttendeesView
 from views import EmailView
+from views import ActivationView
 
 app = Sanic()
 
@@ -22,6 +31,7 @@ app.static('/js', './static/js/')
 app.static('/images', './static/images')
 app.static('/partials', './static/partials')
 app.static('/templates', './static/templates')
+app.static('/lessons', './static/lessons')
 app.static('/favicon.ico', './static/images/favicon.ico')
 
 app.add_route(UserView.as_view(), '/api/user/')
@@ -49,6 +59,12 @@ app.add_route(LiveQuizManageView.as_view(), '/api/live_quiz_manage/<qid:int>')
 app.add_route(ReviewAttendeesView.as_view(), '/api/review_attendees')
 
 app.add_route(EmailView.as_view(), '/api/email')
+
+app.add_route(ActivationView.as_view(), '/api/activation/<uid:int>/<acode>')
+
+app.error_handler.add(ServerError, handle_500s)
+app.error_handler.add(NotFound, handle_404s)
+app.error_handler.add(RequestTimeout, handle_timeout)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=False)

@@ -3,3 +3,6 @@ pytest-asyncio
 sanic
 asyncpg
 aiosmtplib
+pyyaml
+markdown
+Pygments

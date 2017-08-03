@@ -262,7 +262,7 @@ class Table:
     @classmethod
     async def _delete(cls, data):
         resp = await make_a_querry(
-            """DELETE * FROM {}
+            """DELETE FROM {}
             WHERE id = {}
             ;""".format(cls._name, data.id))
         return resp
