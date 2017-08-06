@@ -1,7 +1,7 @@
 Instalacja
 ============
 
-Podczas naszego warsztatu będziesz potrzebowali interpretera Python 3.4. 
+Podczas naszego warsztatu będziecie potrzebowali interpretera Python 3.4. 
 Poniżej znajdziecie kilka wskazówek jak sprawdzić, czy macie już zainstalowany 
 ten interpreter i jak go zainstalować wraz z kilkoma innymi potrzebnymi narzędziami.
 
