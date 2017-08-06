@@ -34,18 +34,18 @@ Step Diagram
 Pseudo Code
 -----------
 
-``` {.sourceCode .python}
-ingredients = eggs, ham, onion, butter, peper, salt
-my_ingredients = get(ingredients)
-if len(my_ingredients) < ingredients then go shopping
-whisk(eggs, peper, salt)
-slice(ham)
-slice(onion)
-while butter.state != 'liquid': melt_using_skillet(butter)
-while onion.color != 'gold': fry(onion, ham)
-while eggs.state != desired_state: cook_and_stir(all)
-eat(all)
-```
+    :::python3
+    ingredients = eggs, ham, onion, butter, peper, salt
+    my_ingredients = get(ingredients)
+    if len(my_ingredients) < ingredients then go shopping
+    whisk(eggs, peper, salt)
+    slice(ham)
+    slice(onion)
+    while butter.state != 'liquid': melt_using_skillet(butter)
+    while onion.color != 'gold': fry(onion, ham)
+    while eggs.state != desired_state: cook_and_stir(all)
+    eat(all)
+
 
 Exercises
 ---------

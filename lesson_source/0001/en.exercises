@@ -1,8 +1,8 @@
 1:
-    title: moj fajny tytul 1
-    task: create an app
-    possible_answare: import sanic...
+    title: Check out Python version
+    task: What is your Python version.
+    possible_answare: 3.6.1
 2:
-    title: moj fajny tytul 2
-    task: xxx
-    possible_answare: import sanic...
+    title: Check out PIP version
+    task: What is your PIP version.
+    possible_answare: 8.1.1

@@ -12,7 +12,9 @@ You can download Python for Windows directly from [python.org]. After
 downloading the file `*.msi`, open it and follow the instructions. It is
 important to remember the path of installation – the directory – as we
 will need this information during the
-installation of tools &lt;tools&gt;.
+installation of tools <tools>.
+
+[Video guide on YouTube](https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s)
 
 Linux (Ubuntu, Fedora, etc.) or Mac
 -----------------------------------
