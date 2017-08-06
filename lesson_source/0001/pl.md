@@ -55,8 +55,8 @@ Użyjcie systemu palkietu zgodnego z Twoim systemem. Jeśli nie ma odpowiedniego
 systemu lub nie możecie znaleźć Pythona, możecie zainstalować go wykorzystując 
 źródła na stronie [python.org]. Będzie wymagany kompilator i biblioteka readline.
 
-Nieoficjalnie, zakąłdamy, że użytkowicy mniej popularnych (ale przeciez nie gorszych!)
-dystrybucji zdołąją wykonanie to zadanie bez większych problemów :).
+Nieoficjalnie - zakładamy, że użytkowicy mniej popularnych (ale przecież nie gorszych!)
+dystrybucji zdołają wykonać to zadanie bez większych problemów :).
 
 Narzędzia
 ---------
