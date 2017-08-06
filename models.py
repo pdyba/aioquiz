@@ -103,11 +103,12 @@ class Lesson(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=1),
-        Column('file', String(255)),
+        Column('author', ForeignKey('users'), default=1),
+        Column('file', String(255), required=False),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
         Column('quiz', ForeignKey('quiz'), required=False),
+        Column('live_quiz', ForeignKey('live_quiz'), required=False),
     ]
 
 
@@ -141,9 +142,11 @@ class Exercise(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
-        Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=1),
+        Column('task', CodeString(10000)),
+        Column('possible_answare', CodeString(1000)),
+        Column('author', ForeignKey('users'), default=1),
         Column('time_created', DateTime(), default=datetime.utcnow),
+        Column('lesson', ForeignKey('lesson')),
     ]
 
 
@@ -156,12 +159,12 @@ class LessonFeedback(Table):
     ]
 
 
-class LessonExercise(Table):
-    _name = 'lesson_exercise'
+class ExerciseStatus(Table):
+    _name = 'exercise_status'
     _schema = [
-        Column('lesson', ForeignKey('lesson')),
         Column('exercise', ForeignKey('exercise')),
-        Column('feedback', String(5000)),
+        Column('users', ForeignKey('users')),
+        Column('status', String(20)),
     ]
 
 
@@ -249,7 +252,6 @@ class LiveQuizAnsware(Table):
     ]
 
 
-
 class Seat(Table):
     _name = 'seat'
     _schema = [
@@ -270,3 +272,22 @@ class Feedback(Table):
         Column('users', ForeignKey('users')),
     ]
 
+
+class Absence(Table):
+    _name = 'absence'
+    _schema = [
+        Column('lesson', ForeignKey('lesson')),
+        Column('users', ForeignKey('users')),
+        Column('absent', Boolean(), default=True),
+    ]
+
+
+class AbsenceMeta(Table):
+    _name = 'absence_meta'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('row', String(255)),
+        Column('code', String(10)),
+        Column('active', Boolean(), default=True),
+        Column('users', ForeignKey('users')),
+    ]

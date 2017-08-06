@@ -3,10 +3,13 @@
 import asyncio
 from datetime import datetime
 import models
+import os
 import random
 import types
+import shutil
 
 import markdown
+import yaml
 
 from orm import Table
 
@@ -261,17 +264,47 @@ FOOTER = """
 </div>
 """
 
-def create_html_lessons():
-    x = '{num:04d}'.format(num=1)
-    html = markdown.markdown(open('./lesson_source/{}/en.md'.format(x)).read(), extensions=['markdown.extensions.codehilite'])
-    with open('static/lessons/{}.html'.format(x), 'w') as file:
-        file.write(HEADER + html + FOOTER)
 
+async def create_html_lessons(lang='en'):
+    for a_dir in os.listdir("./lesson_source/"):
+        if a_dir.startswith('.') or a_dir.startswith('_'):
+            continue
+        path = os.path.abspath('lesson_source/{}'.format(a_dir)) + '/'
+        images = path + 'images'
+        path += lang
+        l_path = path + '.md'
+        e_path = path + '.exercises'
+        m_path = path + '.meta'
+        with open(l_path) as file:
+            html = markdown.markdown(file.read(), extensions=['markdown.extensions.codehilite'])
+        with open('static/lessons/{}.html'.format(a_dir), 'w') as file:
+            file.write(HEADER + html + FOOTER)
+        with open(m_path) as file:
+            meta = yaml.load(file.read())
+        meta['author'] = 1
+        lesson = models.Lesson(**meta)
+        lid = await lesson.update_or_create(*meta.keys())
+        with open(e_path) as file:
+            exe = yaml.load(file.read())
+        if exe:
+            for _, val in exe.items():
+                exercise = models.Exercise(lesson=lid, **val)
+                await exercise.update_or_create(*val.keys())
+        dest = os.path.abspath('static/lessons/images/')
+        if os.path.exists(images):
+            for file in os.listdir(images):
+                src = os.path.join(images, file)
+                if os.path.isfile(src):
+                    dst = dest + '/' + file
+                    shutil.copy(src, dst)
+                    print(src + ' copied')
+                else:
+                    print(src + ' NOT copied')
 
 if __name__ == '__main__':
-    create_html_lessons()
-    # loop = asyncio.get_event_loop()
+    loop = asyncio.get_event_loop()
     # loop.run_until_complete(bootstrap_db())
+    loop.run_until_complete(create_html_lessons())
     # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(add_question())
     # loop.run_until_complete(admin())

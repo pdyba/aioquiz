@@ -100,17 +100,5 @@ entering `cd Documents`. If you execute the `dir` command, you will
 see something familiar. The command `cd..` will move you one level
 up in the directory tree, that is, to the directory that cont
 
-    :::python3
-    from sanic import Sanic
-    from sanic.response import json
-
-    app = Sanic()
-
-    @app.route("/")
-    async def test(request):
-        return json({"hello": "world"})
-
-    if __name__ == "__main__":
-        app.run(host="0.0.0.0", port=8000)
 
 [python.org](http://python.org)

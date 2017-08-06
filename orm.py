@@ -162,12 +162,14 @@ class Table:
         for prop in cls._schema:
             if prop.name != 'id':
                 keys.append(prop.name)
+                try:
+                    val = getattr(clsi, prop.name)
+                except AttributeError:
+                    if not prop.required:
+                        val = 'null'
+                    else:
+                        raise
                 if isinstance(prop.type, String):
-                    try:
-                        val = getattr(clsi, prop.name)
-                    except AttributeError:
-                        if not prop.required:
-                            val = ''
                     prop.type.validate(val)
                     ending = '"' if "'" in val else "'"
                     values += ending
@@ -179,13 +181,13 @@ class Table:
                     values += str(val)
                     values += "'"
                 else:
-                    values += (str(getattr(clsi, prop.name)))
+                    values += str(val)
                 values += ', '
         return ', '.join(keys), values[:-2]
 
     @classmethod
     async def _create(cls, data):
-        await make_a_querry(
+        resp = await make_a_querry(
             """INSERT INTO {} ({}) VALUES ({});""".format(
                 cls._name,
                 *cls._format_create(data)
@@ -196,7 +198,7 @@ class Table:
                 """SELECT id FROM {} ORDER BY id DESC limit 1""".format(cls._name)
             )
             return resp[0]['id']
-        return True
+        return resp
 
     async def create(self):
         try:
@@ -212,16 +214,22 @@ class Table:
 
     async def update_or_create(self, *args):
         kw = {arg: getattr(self, arg) for arg in args}
-        if await self.get_by_many_field_value(**kw):
-            await self.update(**kw)
+        try:
+            inst = await self.get_first_by_many_field_value(**kw)
+        except DoesNoteExists:
+            inst = None
+        if inst:
+            if await inst.update(**kw):
+                return inst.id
         else:
-            await self.create()
+            return await self.create()
+        return False
 
     @classmethod
     def _format_update(cls, clsi):
         return ', '.join([
             ("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name))))
-            for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id'
+            for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id' and prop.required
         ])
 
     @classmethod
@@ -244,8 +252,10 @@ class Table:
                 WHERE id = {}
                 ;""".format(cls._name, cls._format_update(data), data.id))
         else:
+            wheres = cls._format_kwargs(**kwargs)
             resp = await make_a_querry(
-                """UPDATE {} SET {} WHERE {}""".format(cls._name, cls._format_update(data), cls._format_kwargs(**kwargs)))
+                """UPDATE {} SET {} WHERE {}""".format(cls._name, cls._format_update(data), wheres)
+            )
         return resp
 
     async def update(self, **kwargs):
@@ -381,7 +391,7 @@ class DateTime(ColumnType):
 
 class ForeignKey(ColumnType):
     _type = 'integer references {} (id)'
-    _py_type = str
+    _py_type = int
 
     def __init__(self, f_key):
         self.f_key = f_key
