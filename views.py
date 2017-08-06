@@ -1,11 +1,12 @@
 # !/usr/bin/python3.5
 from collections import defaultdict
-from functools import wraps
 from json import dumps as jdumps
+from functools import wraps
 import logging
 from uuid import uuid4
 
 from sanic.response import json
+from sanic.response import redirect
 from sanic.views import HTTPMethodView
 
 from orm import DoesNoteExists
@@ -24,6 +25,9 @@ from models import UserReview
 from utils import get_args
 from utils import safe_del_key
 from utils import hash_password
+from utils import send_email
+
+from config import REGEMAIL
 
 _users = {}
 _users_names = {}
@@ -61,6 +65,7 @@ async def get_current_user(request):
     session_uid = request.headers.get('authorization')
     return _users.get(session_uid) or await Users.get_user_by_session_uuid(session_uid)
 
+
 # noinspection PyBroadException
 class QuestionView(HTTPMethodView):
     @user_required()
@@ -68,7 +73,9 @@ class QuestionView(HTTPMethodView):
         try:
             req = request.json
             if req['qtype'] == 'abcd':
-                req['answares'] = jdumps([req['ans_a'], req['ans_b'], req['ans_c'], req['ans_d']])
+                req['answares'] = jdumps(
+                    [req['ans_a'], req['ans_b'], req['ans_c'], req['ans_d']]
+                )
                 del req['ans_a']
                 del req['ans_b']
                 del req['ans_c']
@@ -136,7 +143,18 @@ class UserView(HTTPMethodView):
         try:
             req = request.json
             user = Users(**req)
+            user.session_uuid = str(uuid4()).replace('-', '')
             uid = await user.create()
+            await send_email(
+                recipients=[user.email],
+                text=REGEMAIL.TEXT.format(
+                    acode=user.session_uuid,
+                    uid=uid,
+                    name=user.name,
+                    server=request.host
+                ),
+                subject=REGEMAIL.SUBJECT,
+            )
             return json({'success': True}, status=200)
         except:
             logging.exception('err user.post')
@@ -355,7 +373,7 @@ class LogOutView(HTTPMethodView):
         return json({'success': False}, status=403)
 
 
-class ReviewAttendees(HTTPMethodView):
+class ReviewAttendeesView(HTTPMethodView):
     @user_required('organiser')
     async def get(self, request):
         allusers = await Users.get_by_many_field_value(
@@ -372,8 +390,7 @@ class ReviewAttendees(HTTPMethodView):
         users = []
         for u in allusers:
             ud = await u.to_dict(include_soft=True)
-            if reviews and reviews.get(u.id):
-                ud.update({'reviews': reviews.get(u.id)})
+            ud.update({'reviews': reviews.get(u.id, {})})
             users.append(ud)
         return json(users)
 
@@ -394,8 +411,48 @@ class ReviewAttendees(HTTPMethodView):
 
     @user_required('organiser')
     async def put(self, request):
+        try:
+            req = request.json
+            user = await Users.get_by_id(req['users'])
+            user.accepted = req['accept']
+            await user.update()
+            return json({'success': True})
+        except:
+            logging.exception('review_put')
+            return json({'success': False})
+
+
+class EmailView(HTTPMethodView):
+    @user_required('organiser')
+    async def get(self, request):
+        recipients = []
+        subject = '...'
+        text = "..."
+        resp = await send_email(
+            recipients=recipients,
+            text=text,
+            subject=subject
+        )
+        return json({'success': resp})
+
+
+class ActivationView(HTTPMethodView):
+    async def get(self, request, uid, acode):
+        user = await Users.get_by_id(uid)
+        if user and user.session_uuid == acode:
+            user.active = True
+            await user.update()
+            return redirect('/')
+        return json({'success': False, 'reson': 'wrong token'})
+
+
+class MakeOrganiserView(HTTPMethodView):
+    @user_required('admin')
+    async def post(self, request):
         req = request.json
-        user = await Users.get_by_id(req['users'])
-        user.accepted = True
-        await user.update()
-        return json({'success': True})
+        user = await Users.get_by_id(req['uid'])
+        if user:
+            user.organiser = req['organiser']
+            await user.update()
+            return json({'success': True})
+        return json({'success': False, 'reson': 'wrong token'})

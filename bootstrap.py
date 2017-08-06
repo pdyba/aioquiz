@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 import asyncio
-
+from datetime import datetime
 import models
+import os
+import random
 import types
-from orm import Table
+import shutil
 
-psql_cfg = {
-    'user': 'aiopg',
-    'database': 'postgres',
-    'host': '127.0.0.1',
-    'password': 'aiopg'
-}
+import markdown
+import yaml
+
+from orm import Table
 
 
 async def bootstrap_db():
@@ -28,6 +28,44 @@ async def bootstrap_db():
         except TypeError:
             print(cls_name)
     print('bootstrap done')
+
+async def gen_users():
+    start = datetime.utcnow()
+
+    def text() :
+        rdata = list('qwertyuiopasdfghjklzxcvbnm')
+        random.shuffle(rdata)
+        rdata = ''.join(rdata)
+        return ' '.join([rdata[:random.randint(1, 9)] for _ in range(90)])
+
+    def gen_email():
+        rdata = list('qwertyuiopasdfghjklzxcvbnm')
+        random.shuffle(rdata)
+        rdata = ''.join(rdata)[:8]
+        return rdata
+    for _ in range(100):
+        email = gen_email()
+        new_user = {
+            'email': 'user_' + email +'@test.pl',
+            'password': 'test_1',
+            'img': '0000000001.jpg',
+            'description': text(),
+            'motivation': text(),
+            'what_can_you_bring': 'ciasteczka',
+            'experience': text(),
+            'mentor': False,
+            'active': True,
+            'organiser': False,
+            'admin': False,
+            'name': email[:8],
+            'surname': email[9:],
+            'linkedin': 'https://www.linkedin.com/in/' + email,
+            'twitter': 'https://twitter.com/' + email,
+            'facebook': 'https://www.facebook.com/' + email,
+        }
+        tbl = models.Users(**new_user)
+        await tbl.create()
+    print('Created 100 users in' + str(datetime.utcnow() - start))
 
 async def admin():
     new_user = {
@@ -212,11 +250,62 @@ async def add_question():
         question='Czy podobal Ci sie quiz',
         qtype='bool',
     ).create()
-    print('question added')
+
+HEADER = """
+<link rel="stylesheet" href="css/codehilite.css">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+"""
+
+FOOTER = """
+        </div>
+    </div>
+</div>
+"""
+
+
+async def create_html_lessons(lang='en'):
+    for a_dir in os.listdir("./lesson_source/"):
+        if a_dir.startswith('.') or a_dir.startswith('_'):
+            continue
+        path = os.path.abspath('lesson_source/{}'.format(a_dir)) + '/'
+        images = path + 'images'
+        path += lang
+        l_path = path + '.md'
+        e_path = path + '.exercises'
+        m_path = path + '.meta'
+        with open(l_path) as file:
+            html = markdown.markdown(file.read(), extensions=['markdown.extensions.codehilite'])
+        with open('static/lessons/{}.html'.format(a_dir), 'w') as file:
+            file.write(HEADER + html + FOOTER)
+        with open(m_path) as file:
+            meta = yaml.load(file.read())
+        meta['author'] = 1
+        lesson = models.Lesson(**meta)
+        lid = await lesson.update_or_create(*meta.keys())
+        with open(e_path) as file:
+            exe = yaml.load(file.read())
+        if exe:
+            for _, val in exe.items():
+                exercise = models.Exercise(lesson=lid, **val)
+                await exercise.update_or_create(*val.keys())
+        dest = os.path.abspath('static/lessons/images/')
+        if os.path.exists(images):
+            for file in os.listdir(images):
+                src = os.path.join(images, file)
+                if os.path.isfile(src):
+                    dst = dest + '/' + file
+                    shutil.copy(src, dst)
+                    print(src + ' copied')
+                else:
+                    print(src + ' NOT copied')
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(bootstrap_db())
+    # loop.run_until_complete(bootstrap_db())
+    loop.run_until_complete(create_html_lessons())
     # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(add_question())
-    loop.run_until_complete(admin())
+    # loop.run_until_complete(admin())
+    # loop.run_until_complete(gen_users())

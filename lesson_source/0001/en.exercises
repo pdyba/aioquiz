@@ -1,0 +1,8 @@
+1:
+    title: Check out Python version
+    task: What is your Python version.
+    possible_answare: 3.6.1
+2:
+    title: Check out PIP version
+    task: What is your PIP version.
+    possible_answare: 8.1.1
