@@ -75,25 +75,27 @@ i kliknijcie 'OK'. Pojawi się nowe okienko z białym tekstem na czarnym tle:
 
 Tekst może się różnić, w zależności od wersji Windows, jaką używacie.
 
-`C:\Users\Name>` is a prompt. It informs us of the directory (or folder)
-in which we currently are and waits for a command. Later during the
-workshop `C:\Users\Name>` we will refer to it with `~$`, independently
-of your operating system (Windows, Linux, MacOS).
+`C:\Users\Name>` to prompt. Informuje nas o tym, na jakim obecnie dysku 
+(lub w jakim folderze) jesteśmy i oczekuje na naszą komendę.
+W dalszej części warsztatu zamiast `C:\Users\Name>` będziemy stosować `~$`, 
+niezależnie od tego, z jakiego systemu korzystacie (Windows, Linux, MacOS).
 
-Using the command line, you can move around the contents of the disc (in
-the same way as in `My Computer`). You can do that by entering commands
-and pressing `Enter`. Use the following commands:
+Dzięki wierszowi poleceń możiecie eksplorować zawartość swojego dysku (w ten
+sam sposób jak w 'Mój Komputer'). Możecie to robić wprowadzając komendę
+i naciskając `Enter`. Uzycie komendy:
 
 `dir`
 
-Displays the contents of the current directory. For example, if the
-`prompt` shows `C:\Users\Name`, the `dir` command displays the
-contents of our home directory.
+Wyświetla zawartość aktualnego foldera. Na przykła jeśli
+`prompt` pokazuje `C:\Users\Name`, komenda `dir` wyświetli zawartość twojego
+głównego foldera.
+
+Komenda: 
 
 `cd directory`
 
-Changes the current directory. For example, if you are in
-`C:\Users\Name`, you can access the directory with your documents by
+pozwala zmieniać aktualny folder na inny. Na przykład jeśli jesteście w
+`C:\Users\Name`, możeice wejść do foldera ze swoimi dokumentami by
 entering `cd Documents`. If you execute the `dir` command, you will
 see something familiar. The command `cd..` will move you one level
 up in the directory tree, that is, to the directory that cont
