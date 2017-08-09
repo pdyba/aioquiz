@@ -10,7 +10,7 @@ Windows
 
 Możecie ściągnąć Pythona dla Windows bezpośrednio ze strony [python.org].
 Po ściągnięciu pliku ".msi" otwórzcie go i wykonujcie kolejne instrukcje. 
-Ważne, żebyście zapamiętali ścieżkę dostępu - folder, w którym zainstalowaliście 
+Ważne, żebyście zapamiętali ścieżkę dostępu - katalog, w którym zainstalowaliście 
 Pythona - ponieważ będziemy potrzebowali tej informacji podczas instalacji
 narzędzi <Narzędzia>.
 
@@ -75,18 +75,18 @@ i kliknijcie 'OK'. Pojawi się nowe okienko z białym tekstem na czarnym tle:
 
 Tekst może się różnić, w zależności od wersji Windows, jaką używacie.
 
-`C:\Users\Name>` to prompt. Informuje nas o tym, na jakim obecnie dysku 
+`C:\Users\Name>` to prompt. Informuje nas o tym, na jakim obecnie katalogu
 (lub w jakim folderze) jesteśmy i oczekuje na naszą komendę.
 W dalszej części warsztatu zamiast `C:\Users\Name>` będziemy stosować `~$`, 
 niezależnie od tego, z jakiego systemu korzystacie (Windows, Linux, MacOS).
 
 Dzięki wierszowi poleceń możiecie eksplorować zawartość swojego dysku (w ten
 sam sposób jak w 'Mój Komputer'). Możecie to robić wprowadzając komendę
-i naciskając `Enter`. Uzycie komendy:
+i naciskając `Enter`. Użycie komendy:
 
 `dir`
 
-Wyświetla zawartość aktualnego foldera. Na przykła jeśli
+Wyświetla zawartość aktualnego katalogu. Na przykład jeśli
 `prompt` pokazuje `C:\Users\Name`, komenda `dir` wyświetli zawartość twojego
 głównego foldera.
 
@@ -95,9 +95,10 @@ Komenda:
 `cd directory`
 
 pozwala zmieniać aktualny folder na inny. Na przykład jeśli jesteście w
-`C:\Users\Name`, możeice wejść do foldera ze swoimi dokumentami by
-entering `cd Documents`. If you execute the `dir` command, you will
-see something familiar. The command `cd..` will move you one level
+`C:\Users\Name`, możecie wejść do foldera ze swoimi dokumentami wpisując
+`cd Documents`. Wykonując komendę `dir`, zobaczycie coś bardzo podobnego.
+Natomiast komenda `cd..` przeniesie Was o jeden poziom wyżej w drzewku
+katalogów..................................
 up in the directory tree, that is, to the directory that cont
 
 
