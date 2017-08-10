@@ -9,7 +9,7 @@ Windows
 -------
 
 Możecie ściągnąć Pythona dla Windows bezpośrednio ze strony [python.org].
-Po ściągnięciu pliku ".msi" otwórzcie go i wykonujcie kolejne instrukcje. 
+Po ściągnięciu pliku "*.msi" otwórzcie go i wykonujcie kolejne instrukcje. 
 Ważne, żebyście zapamiętali ścieżkę dostępu - katalog, w którym zainstalowaliście 
 Pythona - ponieważ będziemy potrzebowali tej informacji podczas instalacji
 narzędzi <Narzędzia>.
