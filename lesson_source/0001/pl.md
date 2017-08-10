@@ -47,11 +47,11 @@ Wprowadźcie w wierszu poleceń:
 
 ### OS X
 
-Ściągnijcie pakiet dla Twojego systemu z [python.org] .
+Ściągnijcie pakiet dla swojego systemu z [python.org] .
 
 ### Inne
 
-Użyjcie systemu palkietu zgodnego z Twoim systemem. Jeśli nie ma odpowiedniego 
+Użyjcie systemu pakietów zgodnego z Waszym systemem. Jeśli nie ma odpowiedniego 
 systemu lub nie możecie znaleźć Pythona, możecie zainstalować go wykorzystując 
 źródła na stronie [python.org]. Będzie wymagany kompilator i biblioteka readline.
 
@@ -88,17 +88,17 @@ i naciskając `Enter`. Użycie komendy:
 
 Wyświetla zawartość aktualnego katalogu. Na przykład jeśli
 `prompt` pokazuje `C:\Users\Name`, komenda `dir` wyświetli zawartość twojego
-głównego foldera.
+głównego katalogu.
 
 Komenda: 
 
-`cd directory`
+`cd katalog`
 
 pozwala zmieniać aktualny folder na inny. Na przykład jeśli jesteście w
-`C:\Users\Name`, możecie wejść do foldera ze swoimi dokumentami wpisując
+`C:\Users\Name`, możecie wejść do katalogu ze swoimi dokumentami wpisując
 `cd Documents`. Wykonując komendę `dir`, zobaczycie coś bardzo podobnego.
 Natomiast komenda `cd..` przeniesie Was o jeden poziom wyżej w drzewku
-katalogów..................................
+katalogów, czyli do katalogu, który..................................
 up in the directory tree, that is, to the directory that cont
 
 
