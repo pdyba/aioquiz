@@ -73,21 +73,21 @@ i kliknijcie 'OK'. Pojawi się nowe okienko z białym tekstem na czarnym tle:
 
     C:\Users\Name>
 
-Tekst może się różnić, w zależności od wersji Windows, jaką używacie.
+Tekst może się różnić, w zależności od wersji Windows, jakiej używacie.
 
-`C:\Users\Name>` to prompt. Informuje nas o tym, na jakim obecnie katalogu
-(lub w jakim folderze) jesteśmy i oczekuje na naszą komendę.
+`C:\Users\Name>` to prompt. Informuje o tym, w jakim obecnie katalogu
+(lub w jakim folderze) jesteście i oczekuje na Waszą komendę.
 W dalszej części warsztatu zamiast `C:\Users\Name>` będziemy stosować `~$`, 
 niezależnie od tego, z jakiego systemu korzystacie (Windows, Linux, MacOS).
 
-Dzięki wierszowi poleceń możiecie eksplorować zawartość swojego dysku (w ten
+Dzięki wierszowi poleceń możecie eksplorować zawartość swojego dysku (w ten
 sam sposób jak w 'Mój Komputer'). Możecie to robić wprowadzając komendę
 i naciskając `Enter`. Użycie komendy:
 
 `dir`
 
-Wyświetla zawartość aktualnego katalogu. Na przykład jeśli
-`prompt` pokazuje `C:\Users\Name`, komenda `dir` wyświetli zawartość twojego
+wyświetla zawartość aktualnego katalogu. Na przykład jeśli
+prompt pokazuje `C:\Users\Name`, komenda `dir` wyświetli zawartość Waszego
 głównego katalogu.
 
 Komenda: 
