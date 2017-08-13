@@ -42,8 +42,8 @@ Pseudokod
     jeśli długość(moje_składniki) < składniki - idź na zakupy
     roztrzep(jajka, pieprz, sól)
     pokroj(szynka)
-    pokroj(ocebula)
-    jeśli masło.stan != 'płynny': roztol_w_rondelku(masło)
+    pokroj(cebula)
+    jeśli masło.stan != 'płynny': roztop_w_rondelku(masło)
     jeśli cebula.kolor != 'złoty': podsmaż(cebula, szynka)
     jeśli jajka.stan != pożądany_stan: gotuj_i_mieszaj(wszystko)
     zjedz(wszystko)
