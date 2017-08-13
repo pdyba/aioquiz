@@ -60,43 +60,39 @@ Pseudokod
     lub ośmiokąt.
 3.  Podpiszcie swoją kartkę nazwą drużyny.
 4.  Roztasujcie kartki wśród wszystkich drużyn.
-5.  After receiving an image from other team: create instruction that
-    will allow another team to recreate the same figure as closely as
-    possible can be.
-6.  Sign the paper sheet with previous team names and add your team
-    name.
-7.  Shuffle only instructions across all teams.
-8.  After receiving instruction from other team, process the instruction
-    and create the image it provides.
-9.  Sign the paper sheet with previous team names and add your team
-    name.
+5.  Po otrzymaniu kartki od innej drużyny: stwórzcie instrukcję, która
+    pozwoli innej drużynie odtworzyć taką samą figurę jak najbardziej
+    podobną do pierwotnej figury.
+6.  Podpiszcie instrukcję nazwą poprzedniej drużyny i dodajcie nazwę 
+    swojej drużyny.
+7.  Roztasujcie wśród wszystkich drużyn tylko instrukcje.
+8.  Po otrzymaniu instrukcji od innej drużyny wykonajcie ją i narysujcie
+    według niej figurę geometryczną.
 
-Lets compare the images with originals, instructions. Think about the
-differences and why did they happen.
+9.  Podpiszcie rysunek nazwą poprzedniej drużyny i dodajcie nazwę swojej
+    drużyny.
 
-Deaf phone:
+Porównajcie rysunki z oryginałami i instrukcjami. Zwróćcie uwagę na różnice
+i zastanówcie się, jaka jest ich przyczyna.
 
-1.  Each team creates random sentence max 20 characters.
-2.  Sign the paper sheet with your team name.
-3.  Shuffle all sentence across all teams.
-4.  Each team creates an encoding (ciphering) algorithm. Not more then 6
-    steps.
-5.  Using the algorithm encode the received sentence and write the
-    secret message on paper with encoding algorithm.
-6.  Sign the paper sheet with previous team names and add your team
-    name.
-7.  Shuffle all encoded sentence with encoding mechanism across all
-    teams.
-8.  Each team decodes the sentence and writes down the decoding
-    algorithm on a new sheet of paper.
-9.  Write down the given encoded sentence on decoding algorithm paper
-10. Sign the paper sheet with previous team names and add your team
-    name.
-11. Each team decodes the sentence.
-12. Sign the paper sheet with previous team names and add your team
-    name.
-13. Now lets see if the sentences matches ? What have happened to them ?
+Głuchy telefon:
 
-Can You now feel how useful is to use algorithm and how often do You use
-them
+1.  Każda z drużyn tworzy dowolne zdanie o długości masymalnie 20 liter.
+2.  Podpiszcie kartkę nazwą swojej drużyny.
+3.  Roztasujcie zdania wśród wszystkich drużyn.
+4.  Każda z drużyn tworzy algortym kodujący (szyfrujący) nie dłuższy
+    niż 6 kroków.
+5.  Używająć algorytmu zakodujcie otrzymane zdanie i napiszcie sekretną
+    wiadomość na kartce zawierającej algorytm kodujący.
+6.  Podpiszcie kartkę nazwą poprzedniej drużyny i swojej drużyny.
+7.  Roztasujcie wszystkie zakodowane zdania i mechanizm kodujący pomiędzy drużyny.
+8.  Każda drużyna odkodowuje otrzymaną wiadomość i zapisuje algorytm dekodujący
+    na nowej kartce.
+9.  Zapiszcie otrzymane zakodowane zdanie na kartce z algorytmem rozkodowującym.
+10. Podpiszcie kartkę nazwami poprzednich drużyn i nazwą swojej drużyny.
+11. Każda drużyna rozszyfrowuje zdanie.
+12. Podpiszcie kartkę nazwami poprzednich drużyn i nazwą swojej drużyny.
+13. Sprawdźcie czy zdania pasują? Co się z nimi stało?
+
+Czy widzicie jak użyteczne są algorytmy i jak często ich używacie?
 
