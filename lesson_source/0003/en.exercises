@@ -4,7 +4,7 @@
     possible_answare: print(float(input())/float(input())**2)
 2:
     title: Pythagoras
-    task: Write a calculator that providing the edges next to 90 degree angle in triangle will out put the third one using famous mathematics solution: A to the power of two plus B to the power of two equals C to the power of two.
+    task: Write a calculator that providing the edges next to 90 degree angle in triangle will out put the third one using famous mathematics solution, A to the power of two plus B to the power of two equals C to the power of two.
     possible_answare: yey
 3:
     title: Oneliners

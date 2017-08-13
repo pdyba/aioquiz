@@ -1,5 +1,6 @@
 # !/usr/bin/python3.5
 from collections import defaultdict
+from datetime import datetime
 from json import dumps as jdumps
 from functools import wraps
 import logging
@@ -44,12 +45,12 @@ def user_required(access_level=None):
             if not authorization:
                 return NOTAUTHRISED
             user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
+            _users[authorization] = user
             if not user:
                 return NOTAUTHRISED
             if access_level:
                 if not getattr(user, access_level):
                     return NOTAUTHRISED
-            _users[authorization] = user
             return await func(self, *args, **kwargs)
         return func_wrapper
     return decorator
@@ -323,7 +324,10 @@ class LessonView(HTTPMethodView):
 
 # noinspection PyBroadException
 class AuthenticateView(HTTPMethodView):
-    user_error = {'success': False, 'msg': 'Wrong user name or password'}
+    user_error = json(
+        {'success': False, 'msg': 'Wrong user name or password'},
+        status=404
+    )
 
     async def post(self, request):
         try:
@@ -337,8 +341,8 @@ class AuthenticateView(HTTPMethodView):
             if not user.active:
                 return json({'msg': 'User not active'}, status=404)
             if hash_password(req.get('password', 'x')) == user.password:
-                print(user.password)
                 user.session_uuid = str(uuid4()).replace('-', '')
+                user.last_login = datetime.utcnow()
                 await user.update()
                 return json(
                     {
@@ -353,9 +357,9 @@ class AuthenticateView(HTTPMethodView):
                     status=200
                 )
             else:
-                return json(self.user_error, status=200)
+                return self.user_error
         except DoesNoteExists:
-            return json(self.user_error, status=200)
+            return self.user_error
         except:
             logging.exception('err authentication.post')
         return json({'msg': 'internal error'}, status=500)

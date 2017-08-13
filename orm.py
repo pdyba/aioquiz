@@ -14,17 +14,29 @@ psql_cfg = {
     'password': 'aiopg'
 }
 
+db = None
 
 # noinspection PyBroadException
-async def make_a_querry(querry):
+async def make_a_querry(querry, retry=False):
+    global db
+    if ';' in querry:
+        raise DeprecationWarning
     try:
-        db = await asyncpg.connect(**psql_cfg)
+        if not db:
+            db = await asyncpg.connect(**psql_cfg)
         try:
             return await db.fetch(querry)
-        except:
+        except (
+            asyncpg.exceptions.PostgresSyntaxError,
+            asyncpg.exceptions.DatatypeMismatchError,
+            asyncpg.exceptions.UndefinedColumnError,
+        ):
             logging.exception('queering db: %s', querry)
     except:
         logging.exception('connecting to db')
+        db = None
+        if not retry:
+            await make_a_querry(querry, retry=True)
     return False
 
 
@@ -85,7 +97,7 @@ class Table:
                     SELECT 1
                     FROM   information_schema.tables
                     WHERE  tables.table_name = '{}'
-                );
+                )
             """.format(cls._name)
         )
         return exists[0]['exists'] == True
@@ -188,7 +200,7 @@ class Table:
     @classmethod
     async def _create(cls, data):
         resp = await make_a_querry(
-            """INSERT INTO {} ({}) VALUES ({});""".format(
+            """INSERT INTO {} ({}) VALUES ({})""".format(
                 cls._name,
                 *cls._format_create(data)
             )
@@ -219,17 +231,16 @@ class Table:
         except DoesNoteExists:
             inst = None
         if inst:
-            if await inst.update(**kw):
-                return inst.id
+            await inst.update()
+            return inst.id
         else:
             return await self.create()
-        return False
 
     @classmethod
     def _format_update(cls, clsi):
         return ', '.join([
             ("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name))))
-            for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id' and prop.required
+            for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id' and (prop.required or getattr(clsi, prop.name))
         ])
 
     @classmethod
@@ -247,10 +258,11 @@ class Table:
     @classmethod
     async def _update(cls, data, **kwargs):
         if hasattr(data, 'id'):
-            resp = await make_a_querry(
-                """UPDATE {} SET {}
+            querry = """
+                UPDATE {} SET {}
                 WHERE id = {}
-                ;""".format(cls._name, cls._format_update(data), data.id))
+            """.format(cls._name, cls._format_update(data), data.id)
+            resp = await make_a_querry(querry)
         else:
             wheres = cls._format_kwargs(**kwargs)
             resp = await make_a_querry(
@@ -259,7 +271,7 @@ class Table:
         return resp
 
     async def update(self, **kwargs):
-        await self._update(self, **kwargs)
+        return await self._update(self, **kwargs)
 
     async def to_dict(self, include_soft=False):
         restricted_keys = self._restricted_keys if include_soft else self._restricted_keys + self._soft_restricted_keys
@@ -274,7 +286,7 @@ class Table:
         resp = await make_a_querry(
             """DELETE FROM {}
             WHERE id = {}
-            ;""".format(cls._name, data.id))
+            """.format(cls._name, data.id))
         return resp
 
     async def delete(self):

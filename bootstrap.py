@@ -303,7 +303,7 @@ async def create_html_lessons(lang='en'):
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    # loop.run_until_complete(bootstrap_db())
+    loop.run_until_complete(bootstrap_db())
     loop.run_until_complete(create_html_lessons())
     # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(add_question())
