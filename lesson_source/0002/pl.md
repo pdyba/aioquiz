@@ -52,7 +52,7 @@ Pseudokod
 Ćwiczenia
 ---------
 
-Ćwiczenia: Zabawa w kształt:
+Zabawa w kształt:
 
 1.  Nazwijcie swoją drużynę.
 2.  Każda drużyna niechaj stworzy na kartce dowolną zamkniętą 
