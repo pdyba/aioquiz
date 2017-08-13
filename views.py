@@ -319,6 +319,7 @@ class LessonView(HTTPMethodView):
             resp = []
             for l in lessons:
                 resp.append(await l.to_dict())
+            resp.sort(key=lambda a: a['id'])
             return json(resp)
 
 

@@ -291,3 +291,11 @@ class AbsenceMeta(Table):
         Column('active', Boolean(), default=True),
         Column('users', ForeignKey('users')),
     ]
+
+
+class Config(Table):
+    _name = 'config'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('reg_active', Boolean(), default=True),
+    ]

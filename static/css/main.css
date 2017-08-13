@@ -131,3 +131,9 @@ footer {
     margin: 5px;
     border-left: 1px solid #777;
 }
+
+img.center {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}

@@ -43,7 +43,7 @@ async def gen_users():
         random.shuffle(rdata)
         rdata = ''.join(rdata)[:8]
         return rdata
-    for _ in range(100):
+    for _ in range(10):
         email = gen_email()
         new_user = {
             'email': 'user_' + email +'@test.pl',
@@ -65,7 +65,7 @@ async def gen_users():
         }
         tbl = models.Users(**new_user)
         await tbl.create()
-    print('Created 100 users in' + str(datetime.utcnow() - start))
+    print('Created 10 users in ' + str(datetime.utcnow() - start))
 
 async def admin():
     new_user = {
@@ -304,8 +304,8 @@ async def create_html_lessons(lang='en'):
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.run_until_complete(bootstrap_db())
+    loop.run_until_complete(bootstrap_db())
     loop.run_until_complete(create_html_lessons())
-    # loop.run_until_complete(bootstrap_db())
     # loop.run_until_complete(add_question())
-    # loop.run_until_complete(admin())
-    # loop.run_until_complete(gen_users())
+    loop.run_until_complete(admin())
+    loop.run_until_complete(gen_users())

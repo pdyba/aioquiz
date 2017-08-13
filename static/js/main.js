@@ -139,7 +139,8 @@ app.controller('PageCtrl', PageCtrl);
 PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService'];
 function PageCtrl($scope, $location, $AuthenticationService, $FlashService) {
     $scope.logout = function () {
-        $AuthenticationService.ClearCredentials()
+        $AuthenticationService.ClearCredentials();
+        $location.path('/');
     };
 }
 
@@ -281,6 +282,12 @@ function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $
     });
     $http.get('/api/lessons').then(
         function (response) {
+            response.data.forEach(
+                function (a, b) {
+                    a.full_id = pad(a.id, 4);
+                }
+            );
+            console.log(response.data);
             vm.lessons = response.data;
         }
     );
@@ -634,9 +641,9 @@ function LoginController($location, AuthenticationService, FlashService) {
                 AuthenticationService.SetCredentials(vm.username, response.data.admin, response.data.mentor, response.data.id, response.data.session_uuid, response.data.name, response.data.surname);
                 $location.path('/');
             } else {
-                FlashService.Error(response.data.msg);
-                vm.dataLoading = false;
+                $location.path('/login');
             }
+            vm.dataLoading = false;
         });
     }
 }
@@ -719,8 +726,8 @@ function NewLessonController($scope, $location, $AuthenticationService, $FlashSe
 
 app.factory('AuthenticationService', AuthenticationService);
 
-AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService'];
-function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService) {
+AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService'];
+function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService) {
     var service = {};
 
     service.Login = Login;
@@ -733,13 +740,13 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
         $http.post('/api/authenticate', {
             email: username,
             password: password
-        }).catch(function (rejection) {
-            console.debug("error :" + rejection);
         }).then(
             function (response) {
                 callback(response);
-            });
-
+        }).catch(function (err) {
+            $FlashService.Error(err.data.msg);
+            callback(err);
+        });
     }
 
     function SetCredentials(username, admin, mentor, id, session_uuid, name, surname) {
