@@ -82,7 +82,7 @@ Głuchy telefon:
 3.  Roztasujcie zdania wśród wszystkich drużyn.
 4.  Każda z drużyn tworzy algortym kodujący (szyfrujący) nie dłuższy
     niż 6 kroków.
-5.  Używająć algorytmu zakodujcie otrzymane zdanie i napiszcie sekretną
+5.  Używając algorytmu zakodujcie otrzymane zdanie i napiszcie sekretną
     wiadomość na kartce zawierającej algorytm kodujący.
 6.  Podpiszcie kartkę nazwą poprzedniej drużyny i swojej drużyny.
 7.  Roztasujcie wszystkie zakodowane zdania i mechanizm kodujący pomiędzy drużyny.
