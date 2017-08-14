@@ -27,8 +27,15 @@ Policzmy coś, na przykład: `2 + 2`:
 
 Python jest świetny jako kalkulator:
 
-	>>>  6 \* 7 42 >>> 1252 - 38 \* 6 1024 >>>
-	>>>  (3 - 5) \* 7 -14 >>> 21 / 7 3.0 >>> 3\*\*2 9
+	>>>  6 * 7 
+	42 
+	>>> 1252 - 38 * 6 
+	1024
+	>>>  (3 - 5) * 7 
+	-14 
+	>>> 21 / 7 
+	3.0 
+	>>> 3\*\*2 9
 	>>>  5 / 2 2.5 >>> 5 % 2 1
 
 Zwróćcie proszę szczególną uwagę na zapis liczb dziesiętnych: używajcie
@@ -64,7 +71,7 @@ cudzysłowia nie są jego częścią, wskazują tylko, że jest to string
 (niestety, Python nie jest wystarczająco bystry, by to samemu odgadnąć).
 
 Wyświetlanie stringów
--------------------
+---------------------
 
 W jaki sposób prezentujemy wartości, by móc je przeczytać? Możemy to zrobić
 przy użyciu komendy print:
@@ -83,11 +90,11 @@ wszystko. W tej chwili jedynymi znanymi nam wartościami są liczby:
 	>>>  print("2 + 2 =", 2 + 2) 2 + 2 = 4
 
 Kończymy chwilowo z konsolą intraktywną. Aby z niej wyjść, wpiszcie
-\`quit()::
+quit():
 
     >>> quit()
 
-lub przytrzymajcie Ctrl+D\` (dla Linuxa) lub `Ctrl+Z` (dla Windows).
+lub przytrzymajcie `Ctrl+D` (dla Linuxa) lub `Ctrl+Z` (dla Windows).
 
 Pliki źródłowe
 ==============
@@ -134,7 +141,7 @@ wiadomości od jej zawartości i zakończenia.
 Kalkulator BMI
 ==============
 
-Napiszemy teraz prosty program do oblicznia BMI ([Body Mass
+Napiszemy teraz prosty program do ustalania BMI ([Body Mass
 Index](http://pl.wikipedia.org/wiki/Body_Mass_Index)). Formuła do
 jego obliczania wygląda następująco:
 
@@ -148,6 +155,10 @@ Uruchomcie nasz program przy użyciu:
     $ python bmi.py
 
 Otrzymujemy następujący wynik:
+
+.. testoutput::
+
+    Your BMI is: 21.387755102040817
 
 Jak widzicie, nasz program wymaga jeszcze poprawek:
 
@@ -183,18 +194,25 @@ interaktywnego i nadajmy nazwy kilku wartościom:
 
 Jedna wartość może mieć kilka nazw:
 
-	>>>  y = x >>> print(x, y) 42 42
+	>>> y = x 
+	>>> print(x, y) 
+	42 42
 
 Możemy również zmieniać wartość przypisaną do nazwy. Nowa wartość
 nie musi być tego samego typu, co poprzednia wartość:
 
-	>>>  x = 13 >>> print(x) 13 >>> x = "Scarab"
-	>>>  print(x) Scarab
+	>>> x = 13 
+	>>> print(x) 
+	13 
+	>>> x = "Scarab"
+	>>> print(x) 
+	Scarab
 
 Nazwy są od siebie niezależne. Właśnie przypisaliśmy nową wartość
 do `x`, ale wartość przypisana do `y` pozostała niezmieniona:
 
-	>>>  print(y) 42
+	>>> print(y) 
+	42
 
 <div class="admonition note">
 
@@ -219,19 +237,23 @@ liczby π na `3` - co zostało odrzucone przez Senat). Dlatego też `print(y)` d
 Jak zobaczyliśmy w naszym programie, możemy również nadawać nazwy wynikom 
 obliczeń i używać nazw w obliczeniach:
 
-	>>>  w = 65.5 >>> h = 175.0 / 100.0 >>> bmi
-	>>>  = w / h\*\*2 >>> print(w, h, bmi) 65.5 1.75
-	>>>  21.387755102040817
+	>>> w = 65.5 
+	>>> h = 175.0 / 100.0 
+	>>> bmi = w / (h**2)
+	>>> print(w, h, bmi) 
+	65.5 1.75 21.387755102040817
 
 Po obliczeniu wartość nie jest modyfikowana:
 
-	>>>  w = 64 >>> print(w, h, bmi) 64 1.75
-	>>>  21.387755102040817
+	>>>  w = 64 
+	>>> print(w, h, bmi)
+	64 1.75 21.387755102040817
 
 Dopóki nie podamy Pythonowi komendy, by powtórzył obliczenie:
 
-	>>>  bmi = w / h\*\*2 >>> print(w, h, bmi) 64 1.75
-	>>>  20.897959183673468
+	>>>  bmi = w / (h**2) 
+	>>> print(w, h, bmi) 
+	64 1.75 20.897959183673468
 
 Nadszedł czas, by dodać komentarze do naszego programu, aby użytkownik
 (i my też!) pamiętał, że waga ma być podana w kilogramach:
@@ -242,17 +264,17 @@ programu. Zostaną one zignorowane przez interpreter.
 Komentarzem w Pythonie jest wszystko, co wpiszemy po znaku `#` aż do
 końca wiersza:
 
-    # Weight in kilograms
+    # Waga w kilogramach
     weight = 65.5
 
-    # Height in meters
+    # Wzrost w metrach
     height = 1.75
 
-    bmi = weight / height**2 # Count BMI
-    print("Your BMI is:", bmi)
+    bmi = weight / (height**2) # Oblicz BMI
+    print("Twoje BMI wynosi:", bmi)
 
 Wywoływanie funckcji
-==================
+====================
 
 Nasz program wygląda dobrze, ale jeśli użytkownik zechce policzyć swój BMI, 
 musimy nadal jeszcze zmienić zawartość programu. Będzie wygodniej wprowadzać
