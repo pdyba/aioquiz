@@ -252,20 +252,19 @@ końca wiersza:
 Wywoływanie funckcji
 ==================
 
-Nasz program wygląda dobrze
-Our program looks good, but if a user wants to calculate his/her BMI,
-they still have to change the content of the program. It would be more
-convenient to enter the required values in the console after opening the
-program and get the BMI result.
+Nasz program wygląda dobrze, ale jeśli użytkownik zechce policzyć swój BMI, 
+musimy nadal jeszcze zmienić zawartość programu. Będzie wygodniej wprowadzać
+potrzebne wartości w konsoli po otwarciu programu i w ten sposób otrzymać
+wynik BMI.
 
-To write such a program, we need to learn how to use the functions. The
-first function we are going to learn is help:
+Aby napisać taki program, musimy nauczyć się używać funkcji. Pierwszą funcją,
+jakiej się nauczymy jest help:
 
 	>>>  help Type help() for interactive help, or help(object)
 	>>>  for help about object.
 
-The help function is very friendly and tells us how we should use it. It
-can also tell you how to use the other functions:
+Funkcja help jest bardzo przyjazna i mówi nam, jak powinniśmy jej używać.
+Może też powiedzieć Wam, jak używać innych funkcji:
 
 	>>>  help(input) Help on function input in module builtins:
 	>>>  <BLANKLINE> input(...) input(\[prompt\]) -> string
@@ -275,8 +274,8 @@ can also tell you how to use the other functions:
 	>>>  enabled. The prompt string, if given, is printed without a trailing
 	>>>  newline before reading. <BLANKLINE>
 
-We will use input to load data from the user. As we read in the
-description, input reads the string:
+Użyjemy funkcji input, by załadować dane podane przez użytkownika.
+W opisie czytamy, że dane użytkownika input odczytuje jako string:
 
     :::python3
     >>> input()
@@ -284,28 +283,27 @@ description, input reads the string:
     'Ala has a cat'
 
 
-Now you will learn what "calling a function" means. You can call a
-function using `()`, which is an information for the interpreter to call
-a function. Calling a function will run a function. If you forget to
-type `()` after the function name, the function is not called. In this
-situation, you will not get any informations about errors, because the
-command you typed is still correct.
+Teraz nauczycie się co oznacza wyrażenie "wywołać funkcję". Możecie 
+wywołać funkcję używając `()`. Jest to informacja dla interpretera, 
+by wywołał funkcję. Wywołanie funkcji uruchomi funkcję. Jeśli zapomnicie
+użyć `()` po nazwie funkcji, funkcja nie zostanie wywołana. W takiej
+sytuacji nie otrzymacie komunikatu o błędzie, ponieważ komenda, którą
+wpisaliście jest wciąż prawidłowa.
 
-Generally, function calls **return** some values. The input function
-returns a string, that’s why we can use it the same way that we used
-strings before.
+Ogólnie mówiąc, wywołana funkcja **zwraca** pewne wartości. Funkcja
+input zwraca string, a zatem możemy użyć jej w ten sam sposób, jak 
+wcześniej używaliśmy stringów.
 
-For example, we can use `input()` to save a given string as a name:
+Na przykłąd możemy użyć `input()` by zachować podany string jako nazwę:
 
-Is that enough to improve our program?
+Czy to wystarczy, by ulepszyć nasz program?
 
-As you can see, Python doesn’t know what result we expect. Both strings
-(`str`), and numbers (`int`) can't be added together. Python does not
-know if we are referring to the number `63.5` or to the string `"60.5"`.
-Only we know that, so we have to include this information in the
-program.
+Jak widzicie, Python nie wie, jakiego wyniku oczekujemy. Stringi (`str`)
+i liczby (`int`) mogą być dodawane. Python nie wie, czy odnosimy się do
+liczby `63.5` czy do stringa `"60.5"`.
+Tylko my to wiemy, a zatem musimy zawrzeć tę informację w programie.
 
-Let’s introduce two more functions:
+Wprowadźmy dwie nowe funkcje:
 
 	>>>  help(int) \# doctest: +NORMALIZE\_WHITESPACE Help on
 	>>>  class int in module builtins: <BLANKLINE> class int(object) |
@@ -314,20 +312,20 @@ Let’s introduce two more functions:
 	>>>  given. If x is a number, return x.\_\_int\_\_(). For floating point |
 	>>>  numbers, this truncates towards zero. | | ...
 
-and
+i
 
 	>>>  help(float) \# doctest: +NORMALIZE\_WHITESPACE Help on
 	>>>  class float in module builtins: <BLANKLINE> class float(object)
 	>>>  | float(x) -> floating point number | | Convert a string or number
 	>>>  to a floating point number, if possible. | | ...
 
-The help function does not hesitate to inform us that, in fact, int and
-float are not functions but classes (we will talk about those later),
-hence the information about all the other things that you can use them
-for. For now, we are only interested in the basic functionality of
-converting strings into numbers of a determined type.
+Funkcja help nie waha się poinformować nas, że w rzeczywistości int i float
+nie są funkcjami, ale klasami (będzie o tym mowa później), stąd dowiadujemy się
+dodatkowo, że możemy ich użyć również do wielu innych rzeczy. W tej chwili
+jednak potrzebujemy tylko ich podstawowej funkcjonalności - przekształcania
+stringów w liczby określonego typu.
 
-Let’s test int and float:
+Przetestujmy int i float:
 
 	>>>  int("0") 0 >>> int(" 63 ") 63 >>>
 	>>>  int("60.5") Traceback (most recent call last): File "<stdin>",
@@ -335,18 +333,17 @@ Let’s test int and float:
 	>>>  base 10: '60.5' >>> float("0") 0.0 >>> float(" 63 ")
 	>>>  63.0 >>> float("60.5") 60.5
 
-Before we use the newly learnt functions in our program, let’s make a
-plan of how it should work:
+Zanim użyjemy w naszym programie funkcji, których właśnie się nauczyliśmy,
+zaplanujmy, jak powinien on działać:
 
-1.  Ask the user to enter the height.
-2.  Load the string from the user and save it under the name `height`.
-3.  Change the string with the number to a number with a fraction.
-4.  Ask the user to enter the weight.
-5.  Load the string from the user and save it under the name of
-    `weight`.
-6.  Change the string with the number to a number with a fraction.
-7.  Using the remembered values calculate BMI and save as `bmi`.
-8.  Print the calculated BMI.
+1.  Zapytaj użytkownika o wzrost.
+2.  Uzyskaj string od użytkownika i zachowaj go pod nazwą `height`.
+3.  Przekształć string z liczbą w liczbę z ułamkiem.
+4.  Poproś użytkownika o wprowadzenie wagi.
+5.  Uzyskaj string od użytkowniak i zachowaj go pod nazwą `weight`.
+6.  Przekształć string z liczbą w liczbę z ułamkiem.
+7.  Oblicz BMI wykorzystując zapamiętane wartości i zachwaj BMI jako `bmi`.
+8.  Wyświetl obliczone BMI.
 
 It should not surprise us that these eight points can be directly
 translated into eight lines of our program (not counting spaces):
