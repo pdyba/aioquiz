@@ -75,7 +75,7 @@ i kliknijcie 'OK'. Pojawi się nowe okienko z białym tekstem na czarnym tle:
 
 Tekst może się różnić, w zależności od wersji Windows, jakiej używacie.
 
-`C:\Users\Name>` to prompt. Informuje o tym, w jakim obecnie katalogu
+`C:\Users\Name>` to znak zachęty. Informuje o tym, w jakim obecnie katalogu
 (lub w jakim folderze) jesteście i oczekuje na Waszą komendę.
 W dalszej części warsztatu zamiast `C:\Users\Name>` będziemy stosować `~$`, 
 niezależnie od tego, z jakiego systemu korzystacie (Windows, Linux, MacOS).
