@@ -35,8 +35,12 @@ Python jest świetny jako kalkulator:
 	-14 
 	>>> 21 / 7 
 	3.0 
-	>>> 3\*\*2 9
-	>>>  5 / 2 2.5 >>> 5 % 2 1
+	>>> 3**2 
+	9
+	>>>  5 / 2 
+	2.5 
+	>>> 5 % 2
+	1
 
 Zwróćcie proszę szczególną uwagę na zapis liczb dziesiętnych: używajcie
 kropki, a nie przecinka. Przecinki będą używane do definiowania tupli
