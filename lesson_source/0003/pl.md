@@ -294,7 +294,7 @@ Ogólnie mówiąc, wywołana funkcja **zwraca** pewne wartości. Funkcja
 input zwraca string, a zatem możemy użyć jej w ten sam sposób, jak 
 wcześniej używaliśmy stringów.
 
-Na przykłąd możemy użyć `input()` by zachować podany string jako nazwę:
+Na przykład możemy użyć `input()`, by zachować podany string jako nazwę:
 
 Czy to wystarczy, by ulepszyć nasz program?
 
@@ -360,28 +360,27 @@ informacja, że jest to funkcja:
 
 	>>>  input \# doctest: +SKIP <built-in function input>
 
-In order to call the function, we must put parentheses after its name:
+Aby wywołać funcję, musimy użyć nawiasów po nazwie funcji:
 
 	>>>  input() \# doctest: +SKIP
 
-Now Python will execute the function.
+Teraz Python wykona funkcję.
 
-All arguments are given in parentheses. To specify more than one,
-separate them with a comma:
+Wszystkie argumenty podajemy w nawiasach. Aby wyszczególnić więcej niż jeden,
+oddzielcie je przecinkiem:
 
 	>>>  int("FF", 16) 255
 
 
-Summary
-=======
+Podsumowanie
+============
 
-In this chapter we learned basics of Python syntax. We discovered how to
-print integers, floating-point numbers, strings and tuples.
+W tym rozdziale nauczyliśmy się podstaw składni Pythona. Odkryliśmy, jak 
+wyświetlać liczby całkowite, liczby dziesiętne, stringi i tuple.
 
-We learnt the function print, that prints information for the user and
-the function input, which reads it.
+Nauczyliśmy się funkcji print, która wyświetla informacje użytkownikowi
+oraz funckji input, która je pobiera.
 
-We successfully created a program stored in a file and ran it. Our
-program asks the user to answer a few simple questions, performs
-calculations and presents results in the form which is useful for the
-user.
+Pomyślnie stworzyliśmy przechowywany w pliku program i uruchomiliśmy go.
+Nasz program zadaje użytkownikowi kilka prostych pytań, wykonuje obliczenia
+i wyświetla wyniki w formie użytecznej dla użytkownika.
