@@ -136,11 +136,11 @@ Kalkulator BMI
 
 Napiszemy teraz prosty program do oblicznia BMI ([Body Mass
 Index](http://pl.wikipedia.org/wiki/Body_Mass_Index)). Formuła do
-jego obliczania wygląda nastepująco:
+jego obliczania wygląda następująco:
 
-    BMI = (mass (kg)) / (height (m)) do kwardratu
+    BMI = (mass (kg)) / (height (m)) do kwadratu
 
-Wiemy już jak dzielić, podnosić do potęgi i wyświetlać liczby.
+Wiemy już, jak dzielić, podnosić do potęgi i wyświetlać liczby.
 Stwórzmy nowy plik o nazwie `bmi.py` i napiszmy program, który oblicza BMI:
 
 Uruchomcie nasz program przy użyciu:
@@ -151,14 +151,14 @@ Otrzymujemy następujący wynik:
 
 Jak widzicie, nasz program wymaga jeszcze poprawek:
 
-1.  Jeśli ktoś chciałby używać tego programu, musimy zmienić zawartość
+1.  Gdyby ktoś inny chciał używać tego programu, musimy zmienić zawartość
     pliku `bmi.py`.
 2.  Dla kogoś, kto nie pamięta tabeli BMI, wartość 21.387755102 nie 
     będzie nic znaczyła.
 3.  Wyświetlanie tak wielu miejsc dziesiętnych nie jest konieczne.
     BMI jest mierzone z dokładnością do dwóch miejsc po przecinku.
 
-Programowanie jest sztuką rozwiązywania probelmów, a zatem... do pracy! 
+Programowanie jest sztuką rozwiązywania problemów, a zatem... do pracy! 
 Będziemy mieli możliwość nauczenia się kilku nowych właściwości Pythona.
 
 Nazwy
@@ -175,16 +175,18 @@ Wynik się nie zmienił:
 Aby lepiej zrozumieć, jak funcjonują nazwy, wróćmy na chwilę do trybu
 interaktywnego i nadajmy nazwy kilku wartościom:
 
-	>>>  x = 42 >>> PI = 3.1415 >>> name =
-	>>>  "Amelia" >>> print("Things:", x, PI, name) Things: 42 3.1415
-	>>>  Amelia
+	>>> x = 42 
+	>>> PI = 3.1415 
+	>>> name =  "Amelia" 
+	>>> print("Things:", x, PI, name) 
+	Things: 42 3.1415 Amelia
 
 Jedna wartość może mieć kilka nazw:
 
 	>>>  y = x >>> print(x, y) 42 42
 
 Możemy również zmieniać wartość przypisaną do nazwy. Nowa wartość
-nie musi być tego samego typu co poprzednia wartość:
+nie musi być tego samego typu, co poprzednia wartość:
 
 	>>>  x = 13 >>> print(x) 13 >>> x = "Scarab"
 	>>>  print(x) Scarab
@@ -198,17 +200,17 @@ do `x`, ale wartość przypisana do `y` pozostała niezmieniona:
 
 Dla tych, którzy znają już inne języki programowania:
 
-Na pewno zastanawiacie się dlaczego nie używamy wyrażenia "zmienna".
-Wynika to z tego, że nazwy w Pythonie nie funkcjonują w ten sam sposób
+Na pewno zastanawiacie się, dlaczego nie używamy wyrażenia "zmienna".
+Wynika to z tego, że nazwy w Pythonie nie funkcjonują w ten sam sposób,
 jak zmienne. W większości języków operacja `y = x` stworzy kopię `x` i wprowadzi
 ją do zmiennej `y`.
 
 W Pythonie nic nie jest sekretnie kopiowane.  `y` staje sie tylko alternatywną nazwą
 dla tej samej wartości. Jeśli zmienicie tę wartość, zarówno `x` jak i `y`
-pokaża tę samą rzecz.
+pokażą tę samą rzecz.
 
 W naszym przykładzie nie zmieniliśmy wartości liczby `42`, lecz tylko
-wartośc przypisaną do `x` (wartości liczb nie są modyfikowane, pomimo
+wartość przypisaną do `x` (wartości liczb nie są modyfikowane, pomimo
 faktu, że w 1897 roku izba niższa stanu Indiana głosowała za zmianą wartości
 liczby π na `3` - co zostało odrzucone przez Senat). Dlatego też `print(y)` da nam `42`.
 
