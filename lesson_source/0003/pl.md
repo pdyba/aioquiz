@@ -105,9 +105,8 @@ Aby napisać i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
 edytora tekstu, który działa w Waszym 
 
 
-OS (użyj [lista of text editors on
-Wikipedia](http://en.wikipedia.org/wiki/List_of_text_editors) for
-examples).
+OS (użyj [lista edytorów w 
+Wikipedii](http://en.wikipedia.org/wiki/List_of_text_editors) by znaleźć przykłady).
 
 
 OS (patrz: [lista edytorów tekstów w Wikipedii]
