@@ -142,6 +142,12 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService) {
         $AuthenticationService.ClearCredentials();
         $location.path('/');
     };
+    $scope.help = function () {
+        console.log('halp plox')
+    };
+    $scope.help_stop = function () {
+        console.log('stop halp plox')
+    };
 }
 
 app.component("exercises", {
@@ -161,7 +167,7 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
         $FlashService: $FlashService
     });
     vm.exercises = [];
-
+    vm.answare = answare;
 
     $http.get('/api/exercise/' + parseInt($routeParams.id)).then(
         function (response) {
@@ -169,7 +175,22 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
         }
     ).catch(function (response) {
             $FlashService.Error(response.data.msg);
-        });
+    });
+    function answare (qwa) {
+        data = {
+            "answare": qwa.answare,
+            "exercise": qwa.id,
+            "status": "Done"
+        };
+        $http.post('/api/exercise/', data).then(
+        function (response) {
+            vm.resp = response.data;
+            qwa.answared = true
+        }
+        ).catch(function (response) {
+            $FlashService.Error(response);
+    });
+    }
 }
 
 

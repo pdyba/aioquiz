@@ -195,7 +195,6 @@ valu to `x`, but the value assigned to `y` remains unchanged:
 
 	>>>  print(y) 42
 
-<div class="admonition note">
 
 For those who already know other programming languages.
 
@@ -214,7 +213,6 @@ despite the fact that in 1897 the lower house of the state of Indiana
 voted to change the value of the number π to `3` - which was rejected in
 the Senate). Therefore, `print(y)` will give us `42`.
 
-</div>
 
 As we have seen in our program, we can also give names to the results of
 calculations and use names in calculations:

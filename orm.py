@@ -7,11 +7,13 @@ import re
 
 import asyncpg
 
+from config import DB
+
 psql_cfg = {
-    'user': 'aiopg',
-    'database': 'postgres',
-    'host': '127.0.0.1',
-    'password': 'aiopg'
+    'user': DB.USER,
+    'database': DB.DB,
+    'host': DB.HOST,
+    'password': DB.USER
 }
 
 db = None

@@ -73,6 +73,7 @@ class Users(Table):
 
         Column('notes', String(5000), default=''),
         Column('score', Float(), default=0, required=False),
+        #TODO: add other questions
     ]
 
     async def create(self):
@@ -159,24 +160,6 @@ class LessonFeedback(Table):
     ]
 
 
-class ExerciseStatus(Table):
-    _name = 'exercise_status'
-    _schema = [
-        Column('exercise', ForeignKey('exercise')),
-        Column('users', ForeignKey('users')),
-        Column('status', String(20)),
-    ]
-
-
-class LessonStatus(Table):
-    _name = 'lesson_status'
-    _schema = [
-        Column('lesson', ForeignKey('lesson')),
-        Column('users', ForeignKey('users')),
-        Column('status', String(20)),
-    ]
-
-
 class QuestionAnsware(Table):
     _name = 'question_answare'
     _schema = [
@@ -188,7 +171,7 @@ class QuestionAnsware(Table):
 
 
 class ExerciseAnsware(Table):
-    _name = 'lesson_status'
+    _name = 'exercise_answare'
     _schema = [
         Column('exercise', ForeignKey('exercise')),
         Column('users', ForeignKey('users')),
@@ -264,10 +247,8 @@ class Seat(Table):
 
 
 class Feedback(Table):
-    _name = 'seat'
+    _name = 'feedback'
     _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('row', String(255)),
         Column('number', String(10000)),
         Column('users', ForeignKey('users')),
     ]

@@ -21,6 +21,7 @@ from models import LiveQuizQuestion
 from models import LiveQuizAnsware
 from models import QuestionAnsware
 from models import LessonStatus
+from models import ExerciseAnsware
 from models import UserReview
 from models import Exercise
 
@@ -467,18 +468,34 @@ class MakeOrganiserView(HTTPMethodView):
 # noinspection PyBroadException
 class ExercisesView(HTTPMethodView):
     @user_required()
-    async def get(self, _, lid=0):
+    async def get(self, request, lid=0):
         if not lid:
             return json({}, 404)
+        user = await get_current_user(request)
         exercises = await Exercise.get_by_field_value('lesson', lid)
         resp = []
         for ex in exercises:
             q = await ex.to_dict()
-
+            try:
+                ans = await ExerciseAnsware.get_first_by_many_field_value(
+                    users=user.id,
+                    exercise=ex.id
+                )
+            except DoesNoteExists:
+                ans = None
+            if ans:
+                q['answared'] = True
+                q['answare'] = ans.answare
+            else:
+                q['answared'] = False
             resp.append(q)
         return json(resp)
 
     @user_required()
     async def post(self, request):
         req = request.json
-        pass
+        user = await get_current_user(request)
+        req['users'] = user.id
+        ex = ExerciseAnsware(**req)
+        await ex.create()
+        return json({'success': True})

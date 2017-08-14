@@ -13,6 +13,17 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
 
+                <li ng-show="$parent.globals.currentUser">
+                    <a class="btn-s btn-danger"
+                       ng-click="help()"
+                       target="_self"
+                       style="background-position: 0 -1px;">HELP</a>
+                    <a class="btn-s btn-success"
+                       target="_self"
+                       ng-show="false"
+                       ng-click="stop_help()"
+                       tyle="background-position: 0 -1px;">THX</a>
+                </li>
                 <li ng-show="$parent.globals.currentUser"><a href="#/lessons">Lessons</a>
                 </li>
                 <li ng-show="$parent.globals.currentUser"><a
@@ -25,7 +36,8 @@
                 </li>
 
 
-    <li class="divider-vertical" ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin"></li>
+                <li class="divider-vertical"
+                    ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin"></li>
 
                 <li class="dropdown"
                     ng-show="$parent.globals.currentUser && $parent.globals.currentUser.mentor">
@@ -52,7 +64,8 @@
                        data-toggle="dropdown">Manage</a>
                     <ul class="dropdown-menu">
                         <li ng-show="$parent.globals.currentUser.mentor"><a
-                                href="#/question_list">Question: List & Manage</a>
+                                href="#/question_list">Question: List &
+                            Manage</a>
                         </li>
                         <li ng-show="$parent.globals.currentUser"><a
                                 href="#/question_create">Question: Create</a>
@@ -72,7 +85,8 @@
                                 href="#/create_live_quiz">Live Quiz: Create</a>
                         </li>
                         <li ng-show="$parent.globals.currentUser.mentor"><a
-                                href="#/live_quiz_mngt">Live Quiz: List & Manage</a>
+                                href="#/live_quiz_mngt">Live Quiz: List &
+                            Manage</a>
                         </li>
 
                     </ul>
@@ -99,13 +113,15 @@
                 </li>
 
 
-    <li ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin" class="divider-vertical"></li>
+                <li ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin"
+                    class="divider-vertical"></li>
 
-    <li class="dropdown"
+                <li class="dropdown"
                     ng-show="$parent.globals.currentUser">
                     <a class="dropdown-toggle"
-                       data-toggle="dropdown">{{ $parent.globals.currentUser.name }}
-                    {{ $parent.globals.currentUser.surname }}</a>
+                       data-toggle="dropdown">
+                        {{ $parent.globals.currentUser.name }}
+                        {{ $parent.globals.currentUser.surname }}</a>
                     <ul class="dropdown-menu">
                         <li ng-show="$parent.globals.currentUser.admin"><a
                                 href="#/profile">My Profile</a>
