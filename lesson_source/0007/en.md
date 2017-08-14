@@ -31,7 +31,9 @@ a guest list, exam results etc.) written on a paper and numbered.
 
 Let's start with a blank page by starting a new python interpreter:
 
-	>>>  L = \[\] >>> L \[\]
+	>>> L = []
+	>>> L
+	[]
 
 At any time we can check how many items we have saved on our list by
 using the function len.
@@ -41,7 +43,9 @@ using the function len.
 Let's make another list (which can have the same name or a different
 one):
 
-	>>>  L = \["Ala", "Ola", "Jacek"\] >>> len(L) 3
+	>>>  L = ["Ala", "Ola", "Jacek"]
+	>>> len(L)
+	3
 
 As in the case of tuples, consecutive elements of the list are separated
 by commas. Unlike tuples, brackets `[` and `]` are obligatory.
@@ -52,41 +56,58 @@ Accessing Values in Lists
 To preview a particular position of an element on the list (remember
 that we count the positions from 0 ):
 
-	>>>  L = \["Ala", "Ola", "Jacek"\] >>> L\[0\] 'Ala'
-	>>>  L\[1\] 'Ola' >>> L\[2\] 'Jacek' >>>
-	>>>  L\[3\] Traceback (most recent call last): File "<stdin>", line
+	>>>  L = ["Ala", "Ola", "Jacek"]
+	>>> L[0] 'Ala'
+	>>>  L[1] 'Ola' >>> L[2] 'Jacek'
+	>>>
+	>>>  L[3] Traceback (most recent call last): File "<stdin>", line
 	>>>  1, in <module> IndexError: list index out of range
 
 We can also use the loop for,to execute instructions for every element
 of the list:
 
-	>>>  for name in L: ... print("Name:", name) ... Name: Ala
-	>>>  Name: Ola Name: Jacek
+	>>>  for name in L:
+	... print("Name:", name)
+	Name: Ala
+	Name: Ola
+	Name: Jacek
 
 In the same way, we can print the first part of our half of the
 Christmas tree:
 
-	>>>  lst = \[1, 2, 3\] >>> for n in lst: ...
-	>>>  print("*"*n)
+	>>>  lst = [1, 2, 3]
+	>>> for n in lst:
+	... print("*"*n)
 
 Basic List Operations
 ---------------------
 
-Lists respond to the + and \* operators much like strings; they mean
+Lists respond to the + and * operators much like strings; they mean
 concatenation and repetition here too, except that the result is a new
 list, not a string.
 
 In fact, lists respond to all of the general sequence operations we used
 on strings in the prior chapter.
 
-	>>>  len(\[1, 2, 3\]) \# Length 3 >>> \[1, 2, 3\] +
-	>>>  \[4, 5, 6\] \# Concatenation \[1, 2, 3, 4, 5, 6\] >>>
-	>>>  \['Hi!'\] \* 4 \# Repetition \['Hi!', 'Hi!', 'Hi!', 'Hi!'\]
-	>>>  3 in \[1, 2, 3\] \# Membership True >>> L =
-	>>>  \["Ala", "Ola", "Jacek"\] >>> L\[1\] 'Ola' >>>
-	>>>  L\[-1\] 'Jacek' >>> L\[1:\] \['Ola', 'Jacek'\] >>>
-	>>>  L\[:1\] \['Ala'\] >>> L\[1:2\] \['Ola'\] >>>
-	>>>  L\[1:3\] \# L\[3\] will end up with error ! \['Ola', 'Jacek'\]
+	>>>  len([1, 2, 3]) # Length 3
+	>>> [1, 2, 3] + [4, 5, 6] # Concatenation
+	[1, 2, 3, 4, 5, 6]
+	>>> ['Hi!'] * 4 # Repetition
+	['Hi!', 'Hi!', 'Hi!', 'Hi!']
+	>>>  3 in [1, 2, 3] # Membership True
+	>>> L = ["Ala", "Ola", "Jacek"]
+	>>> L[1]
+	'Ola'
+	>>>  L[-1]
+	'Jacek'
+	>>> L[1:]
+	['Ola', 'Jacek']
+	>>>  L[:1]
+	['Ala']
+	>>> L[1:2]
+	['Ola']
+	>>>  L[1:3] # L[3] will end up with error !
+	['Ola', 'Jacek']
 
 Range
 -----
@@ -95,9 +116,12 @@ Well, unfortunately we still have to type the entire contents of the
 list. This problem can be solved by the function range. Check
 `help(range)` for the full story, or check these quick examples:
 
-	>>>  list(range(2)) \[0, 1\] >>> list(range(1, 11))
-	>>>  \[1, 2, 3, 4, 5, 6, 7, 8, 9, 10\] >>> list(range(1, 11, 2))
-	>>>  \[1, 3, 5, 7, 9\]
+	>>>  list(range(2))
+	[0, 1]
+	>>> list(range(1, 11))
+	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	>>> list(range(1, 11, 2))
+	[1, 3, 5, 7, 9]
 
     :::python3
     for i in range(10):
@@ -110,12 +134,14 @@ You can update single or multiple elements of lists by giving the slice
 on the left-hand side of the assignment operator, and you can add to
 elements in a list with the append() method.
 
-	>>>  list = \['physics', 'chemistry', 1997, 2000\]
-	>>>  print(list\[2\]) >>> list\[2\] = 2001
-	>>>  print(list\[2\])
->
-	>>>  list\_2 = \['a', 'b'\] >>> list\_2.append('c')
-	>>>  print(list\_2)
+	>>>  list = ['physics', 'chemistry', 1997, 2000]
+	>>>  print(list[2])
+	>>> list[2] = 2001
+	>>>  print(list[2])
+
+	>>>  list_2 = ['a', 'b']
+	>>> list_2.append('c')
+	>>>  print(list_2)
 
 Delete List Elements
 --------------------
@@ -124,8 +150,8 @@ To remove a list element, you can use either the del statement if you
 know exactly which element(s) you are deleting or the remove() method if
 you do not know. For example −
 
-	>>>  list1 = \['physics', 'chemistry', 1997, 2000\]
-	>>>  print(list1) >>> del list1\[2\] >>>
+	>>>  list1 = ['physics', 'chemistry', 1997, 2000]
+	>>>  print(list1) >>> del list1[2] >>>
 	>>>  print(list1)
 
 Dictionary
@@ -167,12 +193,12 @@ Updating Dictionary
 You can update a dictionary by adding a new entry or a key-value pair,
 modifying an existing entry as shown below in the simple example −
 
-	>>>  a\_dict = {'Name': 'Martha', 'Age': 21, 'Profession':
-	>>>  'Python Developer'} >>> a\_dict\['Age'\] = 8 \# update
-	>>>  existing entry >>> a\_dict\['Profession'\] = 'Student' \#
-	>>>  update existing entry >>> a\_dict\['School'\] = "Primary
-	>>>  School" \# Add new entry >>> print(a\_dict\['Age'\])
-	>>>  print(a\_dict\['School'\])
+	>>> a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
+	>>> a_dict['Age'] = 8 # update existing entry
+	>>> a_dict['Profession'] = 'Student' # update existing entry
+	>>> a_dict['School'] = "Primary School" # Add new entry
+	>>> print(a_dict['Age'])
+	>>> print(a_dict['School'])
 
 Delete Dictionary Elements
 --------------------------
@@ -184,11 +210,12 @@ single operation.
 To explicitly remove an entire dictionary, just use the del statement.
 Following is a simple example −
 
-	>>>  a\_dict = {'Name': 'Martha', 'Age': 21, 'Profession':
-	>>>  'Python Developer'} >>> del a\_dict\['Name'\] \# remove entry
-	>>>  with key 'Name' >>> print(a\_dict) >>>
-	>>>  a\_dict.clear() \# remove all entries in dict >>>
-	>>>  print(a\_dict) >>> del a\_dict \# delete entire dictionary
+	>>> a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
+	>>> del a_dict['Name'] # remove entry with key 'Name'
+	>>> print(a_dict)
+	>>> a_dict.clear() # remove all entries in dict
+	>>> print(a_dict)
+	>>> del a_dict # delete entire dictionary
 
 Nesting
 =======

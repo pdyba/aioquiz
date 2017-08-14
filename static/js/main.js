@@ -144,6 +144,35 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService) {
     };
 }
 
+app.component("exercises", {
+    templateUrl :'partials/exercises.html',
+    controller: ExercisesCtrl,
+    controllerAs: 'vm'
+});
+
+app.controller('ExercisesCtrl', ExercisesCtrl);
+ExercisesCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$routeParams'];
+function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $routeParams) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.exercises = [];
+
+
+    $http.get('/api/exercise/' + parseInt($routeParams.id)).then(
+        function (response) {
+            vm.exercises = response.data;
+        }
+    ).catch(function (response) {
+            $FlashService.Error(response.data.msg);
+        });
+}
+
+
 app.controller('AboutCtrl', AboutCtrl);
 AboutCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
 function AboutCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
@@ -287,7 +316,6 @@ function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $
                     a.full_id = pad(a.id, 4);
                 }
             );
-            console.log(response.data);
             vm.lessons = response.data;
         }
     );

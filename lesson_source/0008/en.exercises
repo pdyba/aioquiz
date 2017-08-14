@@ -1,6 +1,6 @@
 1:
     title: Decode a hidden message
-    task: Open file encoded\_msg.txt and try to decode the hidden message by joining all letters in side the text. a) copy + past the text and run the script. b) use open(file\_name) function
+    task: Open file encoded_msg.txt and try to decode the hidden message by joining all letters in side the text. a) copy + past the text and run the script. b) use open(file_name) function
     possible_answare: yey
 2:
     title: Guess a number game
@@ -8,7 +8,7 @@
     possible_answare: yey
 3:
     title: Create an application that allows to learn Japanese words.
-    task: Write a simple application that will allow you to learn basic Japanese words. There is a file jap\_dict.txt provided, your task is to a) copy + past the text or use open(file\_name) function to get the data b) change the string to data structure c) ask a question to translate from english to Japanese word or a phrase d) check if it was done correctly if yes don"t show this particular one anymore e) inform about how many words were guest and how many are left f) congratulate at the end optional g) show the difference in spelling
+    task: Write a simple application that will allow you to learn basic Japanese words. There is a file jap_dict.txt provided, your task is to a) copy + past the text or use open(file_name) function to get the data b) change the string to data structure c) ask a question to translate from english to Japanese word or a phrase d) check if it was done correctly if yes don"t show this particular one anymore e) inform about how many words were guest and how many are left f) congratulate at the end optional g) show the difference in spelling
     possible_answare: yey
 4:
     title: Lets play hangman
