@@ -63,7 +63,7 @@ wartość stringa, np. wpisanie `"Batman"` tworzy string `Batman` -
 cudzysłowia nie są jego częścią, wskazują tylko, że jest to string 
 (niestety, Python nie jest wystarczająco bystry, by to samemu odgadnąć).
 
-Drukowanie stringów
+Wyświetlanie stringów
 -------------------
 
 W jaki sposób prezentujemy wartości, by móc je przeczytać? Możemy to zrobić
