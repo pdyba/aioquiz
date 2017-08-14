@@ -12,14 +12,14 @@ zainstalowaliśmy w poprzednim rozdziale. Proszę uruchomcie:
     >>>
 
 
-Wcześniej pracowaliśmy w wierszu polecen systemu operacyjnego i mogliśmy
-wprowadzac komendy. Promptem był `~$`. Po uruchomieniu komendy `python`, 
-prompt zmienił się na `>>>`. Oznacza to dla nas, że od tej chwili możemy
-używac tylko komend języka Python. Wcześniej poznane komendy (takie jak
+Wcześniej pracowaliśmy w wierszu poleceń systemu operacyjnego i mogliśmy
+wprowadzać komendy. Znakiem zachęty był `~$`. Po uruchomieniu komendy `python`, 
+znak zachęty zmienił się na `>>>`. Oznacza to dla nas, że od tej chwili możemy
+używac tylko komend języka Python. Wcześniej poznane komendy (takie, jak
 'cd', 'mkdir') nie będą działały. Nadszedł moment rozpoczęcia nauki
 nowego języka!
 
-Nie wpisujemy prompta `>>>` (podobnie jak `~$`) - interpreter zrobi to za nas.
+Nie wpisujemy znaku zachęty `>>>` (podobnie jak `~$`) - interpreter zrobi to za nas.
 
 Policzmy coś, na przykład: `2 + 2`:
 
@@ -32,7 +32,7 @@ Python jest świetny jako kalkulator:
 	>>>  5 / 2 2.5 >>> 5 % 2 1
 
 Zwróćcie proszę szczególną uwagę na zapis liczb dziesiętnych: używajcie
-kropki,  anie przecinka. Przecinki będa używane do definiowania tupli
+kropki, a nie przecinka. Przecinki będą używane do definiowania tupli
 <bmi-tuples> (więcej o tym wkrótce). Operator % to modulo, czyli reszta
 z dzielenia.
 
@@ -49,7 +49,7 @@ musimy się nauczyć jak używać 'stringów'. Oto kilka przykładów:
 	>>>  Bar' >>> "Rock 'n' Roll" "Rock 'n' Roll" >>> 'My
 	>>>  name is "James"' 'My name is "James"'
 
-Strongi możecie dodawać w następujący sposób:
+Stringi możecie dodawać w następujący sposób:
 
 	>>>  'My name is ' + '"James"' 'My name is "James"'
 
@@ -93,7 +93,7 @@ Pliki źródłowe
 ==============
 
 Dotychczas nasz kod był wykonywany w sposób interaktywny. Podawaliśmy 
-osobne komendy i natychmiast otrzymywaliśmy odpowiedź. To świetny sposób,
+poszczególne komendy i natychmiast otrzymywaliśmy odpowiedź. To świetny sposób,
 by eksperymentować i uczyć się nowych składników języka, stąd ostatecznie
 wrócimy to tego sposobu.
 
@@ -101,10 +101,10 @@ Nasz pierwszy program będzie wyglądał tak:
 
     print("Hi, my name is Lucas")
 
-Aby napisac i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
-edytora tekstu, który działa w waszym OS (patrz: [list of text editors on
-Wikipedia](http://en.wikipedia.org/wiki/List_of_text_editors) by
-znaleźc przykłady). Rekomendujemy Wam PyCharm lub Sublime. Sublime jest
+Aby napisać i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
+edytora tekstu, który działa w Waszym OS (patrz: [lista edytorów tekstów w Wikipedii]
+(http://en.wikipedia.org/wiki/List_of_text_editors), by
+znaleźć przykłady). Rekomendujemy Wam PyCharm lub Sublime. Sublime jest
 napisany w Pythonie :). Wpiszcie w edytorze powyższy kod w Pythonie i zapiszcie
 go w nowym pliku o nazwie `visitingcard.py`. Następnie uruchomcie Wasz 
 pierwszy program w Pythonie w wierszu poleceń przy użyciu:
@@ -126,8 +126,8 @@ powinna być w osobnym wierszu. Na przykład:
     print()
     print("Bye.")
 
-Aby zwiększyć przejrzystość pliku `visitingcard.py` w dowolnym jego
-miejscu możemy wprowadzać puste wiersze. Tutaj, oddzieliśmy nagłówek
+Aby zwiększyć przejrzystość pliku `visitingcard.py`, w dowolnym jego
+miejscu możemy wprowadzać puste wiersze. Tutaj oddzieliśmy nagłówek
 wiadomości od jej zawartości i zakończenia.
 
 
@@ -140,7 +140,7 @@ jego obliczania wygląda nastepująco:
 
     BMI = (mass (kg)) / (height (m)) do kwardratu
 
-Wiemy już jak dzielić, podnosic do potęgi i wyświetlać liczby.
+Wiemy już jak dzielić, podnosić do potęgi i wyświetlać liczby.
 Stwórzmy nowy plik o nazwie `bmi.py` i napiszmy program, który oblicza BMI:
 
 Uruchomcie nasz program przy użyciu:
@@ -179,7 +179,7 @@ interaktywnego i nadajmy nazwy kilku wartościom:
 	>>>  "Amelia" >>> print("Things:", x, PI, name) Things: 42 3.1415
 	>>>  Amelia
 
-Jedna wartośc może mieć kilka nazw:
+Jedna wartość może mieć kilka nazw:
 
 	>>>  y = x >>> print(x, y) 42 42
 
@@ -190,13 +190,13 @@ nie musi być tego samego typu co poprzednia wartość:
 	>>>  print(x) Scarab
 
 Nazwy są od siebie niezależne. Właśnie przypisaliśmy nową wartość
-do `x`, ale wartośc przypisana do `y` pozostała niezmieniona:
+do `x`, ale wartość przypisana do `y` pozostała niezmieniona:
 
 	>>>  print(y) 42
 
 <div class="admonition note">
 
-Dla tych, którzy znają już inne języki programowania.
+Dla tych, którzy znają już inne języki programowania:
 
 Na pewno zastanawiacie się dlaczego nie używamy wyrażenia "zmienna".
 Wynika to z tego, że nazwy w Pythonie nie funkcjonują w ten sam sposób
@@ -204,7 +204,7 @@ jak zmienne. W większości języków operacja `y = x` stworzy kopię `x` i wpro
 ją do zmiennej `y`.
 
 W Pythonie nic nie jest sekretnie kopiowane.  `y` staje sie tylko alternatywną nazwą
-dla tej samej wartości. Jesli zmienicie tę wartość, zarówno `x` jak i `y`
+dla tej samej wartości. Jeśli zmienicie tę wartość, zarówno `x` jak i `y`
 pokaża tę samą rzecz.
 
 W naszym przykładzie nie zmieniliśmy wartości liczby `42`, lecz tylko
@@ -214,7 +214,7 @@ liczby π na `3` - co zostało odrzucone przez Senat). Dlatego też `print(y)` d
 
 </div>
 
-Jak zobaczyliśmy  wnaszym programie, możemy również nadawac nazwy wynikom 
+Jak zobaczyliśmy w naszym programie, możemy również nadawać nazwy wynikom 
 obliczeń i używać nazw w obliczeniach:
 
 	>>>  w = 65.5 >>> h = 175.0 / 100.0 >>> bmi
@@ -226,19 +226,19 @@ Po obliczeniu wartość nie jest modyfikowana:
 	>>>  w = 64 >>> print(w, h, bmi) 64 1.75
 	>>>  21.387755102040817
 
-Until we give the Python the command to repeat the calculation again:
+Dopóki nie podamy Pythonowi komendy, by powtórzył obliczenie:
 
 	>>>  bmi = w / h\*\*2 >>> print(w, h, bmi) 64 1.75
 	>>>  20.897959183673468
 
-Now is time to add some comments to our program so that the user (and us
-too!) remembers that the weight has to be given in kilograms.
+Nadszedł czas, by dodać komentarze do naszego programu, aby użytkownik
+(i my też!) pamiętał, że waga ma być podana w kilogramach:
 
-Comments allow us to put arbitrary text in our python program. Comments
-will be ignored by the interpreter.
+Komentarze pozwalają nam wpisać dowolny teskt do naszego pythonowego 
+programu. Zostaną one zignorowane przez interpreter.
 
-A comment in Python is everything after the character `#` until the end
-of the line:
+Komentarzem w Pythonie jest wszystko, co wpiszemy po znaku `#` aż do
+końca wiersza:
 
     # Weight in kilograms
     weight = 65.5
@@ -249,9 +249,10 @@ of the line:
     bmi = weight / height**2 # Count BMI
     print("Your BMI is:", bmi)
 
-Calling a function
+Wywoływanie funckcji
 ==================
 
+Nasz program wygląda dobrze
 Our program looks good, but if a user wants to calculate his/her BMI,
 they still have to change the content of the program. It would be more
 convenient to enter the required values in the console after opening the
