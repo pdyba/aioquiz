@@ -23,7 +23,8 @@ Nie wpisujemy znaku zachęty `>>>` (podobnie jak `~$`) - interpreter zrobi to za
 
 Policzmy coś, na przykład: `2 + 2`:
 
-	>>>  2 + 2 4
+	>>>  2 + 2 
+	4
 
 Python jest świetny jako kalkulator:
 
@@ -56,17 +57,24 @@ Stringi
 Jednakże liczby nie wystarczają, by efektywnie się komunikować. A zatem
 musimy się nauczyć jak używać 'stringów'. Oto kilka przykładów:
 
-	>>>  "Hello World" 'Hello World' >>> 'Foo Bar' 'Foo
-	>>>  Bar' >>> "Rock 'n' Roll" "Rock 'n' Roll" >>> 'My
-	>>>  name is "James"' 'My name is "James"'
+	>>> "Hello World" 
+	'Hello World' 
+	>>> 'Foo Bar' 
+	'Foo Bar' 
+	>>> "Rock 'n' Roll" 
+	"Rock 'n' Roll" 
+	>>> 'My name is "James"' 
+	'My name is "James"'
 
 Stringi możecie dodawać w następujący sposób:
 
-	>>>  'My name is ' + '"James"' 'My name is "James"'
+	>>> 'My name is ' + '"James"' 
+	'My name is "James"'
 
 lub mnożyć przez liczby całkowite:
 
-	>>>  'Hastur' \* 3 'HasturHasturHastur'
+	>>> 'Hastur' * 3 
+	'HasturHasturHastur'
 
 String zawsze musi zaczynać się i kończyć tym samym znakiem. Może to być 
 pojedynczy cudzysłów (`'`) lub podwójny cudzysłów (`"`). Nie ma to wpływu na
@@ -80,23 +88,29 @@ Wyświetlanie stringów
 W jaki sposób prezentujemy wartości, by móc je przeczytać? Możemy to zrobić
 przy użyciu komendy print:
 
-	>>>  print("Hello World") Hello World
+	>>> print("Hello World") 
+	Hello World
 
 W podobny sposób możemy napisać kilka stringów w tej samej linii bez
 konieczności dodawania ich do siebie. Będą one oddzielone spacjami:
 
-	>>>  print("Hi, my name is", "Łukasz") Hi, my name is Łukasz
+	>>> print("Hi, my name is", "Łukasz") 
+	Hi, my name is Łukasz
 
 Komenda print ma wiele więcej zastosowań, gdyż może wyświetlić prawie
 wszystko. W tej chwili jedynymi znanymi nam wartościami są liczby:
 
-	>>>  print(1) 1 >>> print(1, 2, 3) 1 2 3 >>>
-	>>>  print("2 + 2 =", 2 + 2) 2 + 2 = 4
+	>>> print(1)
+	1 
+	>>> print(1, 2, 3) 
+	1 2 3
+	>>> print("2 + 2 =", 2 + 2) 
+	2 + 2 = 4
 
 Kończymy chwilowo z konsolą intraktywną. Aby z niej wyjść, wpiszcie
 quit():
 
-    >>> quit()
+    	>>> quit()
 
 lub przytrzymajcie `Ctrl+D` (dla Linuxa) lub `Ctrl+Z` (dla Windows).
 
@@ -149,20 +163,20 @@ Napiszemy teraz prosty program do ustalania BMI ([Body Mass
 Index](http://pl.wikipedia.org/wiki/Body_Mass_Index)). Formuła do
 jego obliczania wygląda następująco:
 
-    BMI = (mass (kg)) / (height (m)) do kwadratu
+    BMI = mass (kg) / ((height (m) do kwadratu)
 
 Wiemy już, jak dzielić, podnosić do potęgi i wyświetlać liczby.
 Stwórzmy nowy plik o nazwie `bmi.py` i napiszmy program, który oblicza BMI:
 
-Uruchomcie nasz program przy użyciu:
+    print("Twój BMI wynosi:", 65.5 / (1.75 ** 2))
+
+Uruchomimy nasz program przy użyciu:
 
     $ python bmi.py
 
 Otrzymujemy następujący wynik:
 
-.. testoutput::
-
-    Your BMI is: 21.387755102040817
+    Twój BMI wynosi: 21.387755102040817
 
 Jak widzicie, nasz program wymaga jeszcze poprawek:
 
@@ -183,24 +197,32 @@ Spróbujmy rozwiązać pierwszy problem. Chcielibyśmy, aby nasz program był
 bardziej czytelny, tzn. gdy użytkownik będzie czytał wyniki, będzie dla 
 niego oczywiste, która wartość jest wagą, a która wzrostem.
 
-Oto dlaczego tym wartościom nadajemy nazwy​​:
+Oto dlaczego tym wartościom nadajemy nazwy:
+
+    weight = 65.5
+    height = 1.75
+
+    bmi = weight / (height**2)
+    print("Twój BMI wynosi:", bmi)
 
 Wynik się nie zmienił:
+
+    Twój BMI wynosi: 21.387755102040817
 
 Aby lepiej zrozumieć, jak funcjonują nazwy, wróćmy na chwilę do trybu
 interaktywnego i nadajmy nazwy kilku wartościom:
 
-	>>> x = 42 
-	>>> PI = 3.1415 
-	>>> name =  "Amelia" 
-	>>> print("Things:", x, PI, name) 
-	Things: 42 3.1415 Amelia
+    >>> x = 42 
+    >>> PI = 3.1415 
+    >>> name =  "Amelia" 
+    >>> print("Things:", x, PI, name) 
+    Things: 42 3.1415 Amelia
 
 Jedna wartość może mieć kilka nazw:
 
-	>>> y = x 
-	>>> print(x, y) 
-	42 42
+    >>> y = x 
+    >>> print(x, y) 
+    42 42
 
 Możemy również zmieniać wartość przypisaną do nazwy. Nowa wartość
 nie musi być tego samego typu, co poprzednia wartość:
@@ -241,26 +263,26 @@ liczby π na `3` - co zostało odrzucone przez Senat). Dlatego też `print(y)` d
 Jak zobaczyliśmy w naszym programie, możemy również nadawać nazwy wynikom 
 obliczeń i używać nazw w obliczeniach:
 
-	>>> w = 65.5 
-	>>> h = 175.0 / 100.0 
-	>>> bmi = w / (h**2)
-	>>> print(w, h, bmi) 
+	>>> weight = 65.5 
+	>>> height = 175.0 / 100.0 
+	>>> bmi = weight / (height**2)
+	>>> print(weight, height, bmi) 
 	65.5 1.75 21.387755102040817
 
 Po obliczeniu wartość nie jest modyfikowana:
 
-	>>>  w = 64 
-	>>> print(w, h, bmi)
+	>>>  weight = 64 
+	>>> print(weight, height, bmi)
 	64 1.75 21.387755102040817
 
 Dopóki nie podamy Pythonowi komendy, by powtórzył obliczenie:
 
-	>>>  bmi = w / (h**2) 
-	>>> print(w, h, bmi) 
+	>>>  bmi = weight / (height**2) 
+	>>> print(weight, height, bmi) 
 	64 1.75 20.897959183673468
 
 Nadszedł czas, by dodać komentarze do naszego programu, aby użytkownik
-(i my też!) pamiętał, że waga ma być podana w kilogramach:
+(i my też!) pamiętał, że waga ma być podana w kilogramach.
 
 Komentarze pozwalają nam wpisać dowolny teskt do naszego pythonowego 
 programu. Zostaną one zignorowane przez interpreter.
@@ -275,32 +297,33 @@ końca wiersza:
     height = 1.75
 
     bmi = weight / (height**2) # Oblicz BMI
-    print("Twoje BMI wynosi:", bmi)
+    print("Twój BMI wynosi:", bmi)
 
-Wywoływanie funckcji
-====================
+Wywoływanie funkcji
+===================
 
-Nasz program wygląda dobrze, ale jeśli użytkownik zechce policzyć swój BMI, 
+Nasz program wygląda dobrze, ale aby użytkownik mógł policzyć swój BMI, 
 musimy nadal jeszcze zmienić zawartość programu. Będzie wygodniej wprowadzać
 potrzebne wartości w konsoli po otwarciu programu i w ten sposób otrzymać
 wynik BMI.
 
-Aby napisać taki program, musimy nauczyć się używać funkcji. Pierwszą funcją,
+Aby napisać taki program, musimy nauczyć się używać funkcji. Pierwszą funkcją,
 jakiej się nauczymy jest help:
 
-	>>>  help Type help() for interactive help, or help(object)
-	>>>  for help about object.
+    >>>  help Type help() for interactive help, or help(object) for help about object.
 
 Funkcja help jest bardzo przyjazna i mówi nam, jak powinniśmy jej używać.
 Może też powiedzieć Wam, jak używać innych funkcji:
 
-	>>>  help(input) Help on function input in module builtins:
-	>>>  <BLANKLINE> input(...) input(\[prompt\]) -> string
-	>>>  <BLANKLINE> Read a string from standard input. The trailing
-	>>>  newline is stripped. If the user hits EOF (Unix: Ctl-D, Windows:
-	>>>  Ctl-Z+Return), raise EOFError. On Unix, GNU readline is used if
-	>>>  enabled. The prompt string, if given, is printed without a trailing
-	>>>  newline before reading. <BLANKLINE>
+	>>>  help(input) 
+	Help on function input in module builtins:
+	
+	input(...) input(\[prompt\]) -> string
+	Read a string from standard input. The trailing newline is stripped. 
+	
+	If the user hits EOF (Unix: Ctl-D, Windows: Ctl-Z+Return), raise EOFError. 
+	On Unix, GNU readline is used if enabled. The prompt string, if given, 
+	is printed without a trailing newline before reading.
 
 Użyjemy funkcji input, by załadować dane podane przez użytkownika.
 W opisie czytamy, że dane użytkownika input odczytuje jako string:
@@ -324,6 +347,13 @@ wcześniej używaliśmy stringów.
 
 Na przykład możemy użyć `input()`, by zachować podany string jako nazwę:
 
+    >>> name = input()
+    Joanna
+    >>> name
+    'Joanna'
+    >>> print("Masz na imię:", name)
+    Masz na imię: Joanna
+
 Czy to wystarczy, by ulepszyć nasz program?
 
 Jak widzicie, Python nie wie, jakiego wyniku oczekujemy. Stringi (`str`)
@@ -332,6 +362,10 @@ liczby `63.5` czy do stringa `"60.5"`.
 Tylko my to wiemy, a zatem musimy zawrzeć tę informację w programie.
 
 Wprowadźmy dwie nowe funkcje:
+
+========================================
+DOTĄD SPRAWDZIŁAM
+==========================
 
 	>>>  help(int) \# doctest: +NORMALIZE\_WHITESPACE Help on
 	>>>  class int in module builtins: <BLANKLINE> class int(object) |
