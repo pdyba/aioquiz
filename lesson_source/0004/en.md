@@ -17,8 +17,8 @@ short math lesson:
 The result of a comparison is always `True` or `False`. Comparisons can
 be combined into more complex conditions by using the words and and or:
 
-	>>>  x = 5 >>> x < 10 True >>> 2\*x >
-	>>>  x True >>> (x < 10) and (2\*x > x) True >>> (x
+	>>>  x = 5 >>> x < 10 True >>> 2*x >
+	>>>  x True >>> (x < 10) and (2*x > x) True >>> (x
 	>>>  != 5) and (x != 4) False >>> (x != 5) and (x != 4) or (x ==
 	>>>  5) True
 
@@ -52,13 +52,13 @@ Is same as == ?
 Lest make few test if 'is' is the same as '==':
 
     :::python3
-    >>> 1000 is 10\**3 >>> 1000 == 10*\*3
+    >>> 1000 is 10**3 >>> 1000 == 10**3
     >
-    >>> "a" is "a" >>> "aa" is "a" \* 2 >>> x =
-    > "a" >>> "aa" is x \* 2 >>> "aa" == x \* 2
+    >>> "a" is "a" >>> "aa" is "a" * 2 >>> x =
+    > "a" >>> "aa" is x * 2 >>> "aa" == x * 2
     >
-    >>> \[1, 2\] == \[1, 2\]
-    >>> \[1, 2\] is \[1, 2\]
+    >>> [1, 2] == [1, 2]
+    >>> [1, 2] is [1, 2]
 
 Conclusion: is will return True if two variables point to the same
 object, == if the objects referred to by the variables are equal.
@@ -84,12 +84,12 @@ Exercise simple python calculator
 ---------------------------------
 
 Write a simple calculator script that will take two numbers and
-calculation sign (+, -, \*, /). And output a nice string show whole
+calculation sign (+, -, *, /). And output a nice string show whole
 calculation and the solution. Remember: string + string = new string :-)
 Example:
 
 	>>>  'Enter first number' 10 >>> 'Enter first number
-	>>>  math sign (+, -, \*, /)' + >>> 'Enter second number' 5 '10 +
+	>>>  math sign (+, -, *, /)' + >>> 'Enter second number' 5 '10 +
 	>>>  5 = 15'
 
 Indentations

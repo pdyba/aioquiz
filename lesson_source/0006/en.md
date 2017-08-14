@@ -45,9 +45,9 @@ program in Python:
     print("All gifts delivered")
 
 Most of the things should look familiar to you. We are calling here two
-functions: people\_who\_deserve\_gifts and deliver\_gift - their inner
+functions: people_who_deserve_gifts and deliver_gift - their inner
 workings are only known by Santa Claus. The result of the first one can
-be named gift\_list, so that we could refer to this value later ( the
+be named gift_list, so that we could refer to this value later ( the
 same as described above).
 
 A new element is a loop itself, which consists of:
@@ -75,20 +75,20 @@ includes the end of the specified range.
 Then let’s print a larger Christmas tree:
 
 	>>>  lst = range(1, 11) >>> for i in lst: ...
-	>>>  print("*"*i) \* *\*\****\*\**\***\****\*****\***\***\*
+	>>>  print("*"*i) * ****************************
 
 range has saved a lot of our time. We can save even more if we omit
 naming the list:
 
-	>>>  for i in range(1, 5): ... print(i\*"\#") \# \#\# \#\#\#
-	>>>  \#\#\#\#
+	>>>  for i in range(1, 5): ... print(i*"#") # ## ###
+	>>>  ####
 
 When you use the keyword for, we do not have to use the list. for can
 handle the generator given by range. Hence, we can simplify our program
 even more:
 
-	>>>  for i in range(1, 5): ... print(i\*"\#") \# \#\# \#\#\#
-	>>>  \#\#\#\#
+	>>>  for i in range(1, 5): ... print(i*"#") # ## ###
+	>>>  ####
 
 Nothing prevents us to put one loop inside another loop, so let's do it!
 Just remember to use appropriate indentations and use different names
@@ -104,8 +104,8 @@ iteration of outer loop.
 
 Using this technique, we can repeat our piece of the Christmas tree:
 
-	>>>  for i in range(3): \# repeats 3 times ... for size in
-	>>>  range(1, 4): ... print(size\*"*")* *\*\** *\*\** *\**\*\*
+	>>>  for i in range(3): # repeats 3 times ... for size in
+	>>>  range(1, 4): ... print(size*"*")* **** **** *****
 
 Before proceeding to the next chapter, create `xmas.py` file with this
 program and try to modify it so that each of the three repetitions of
@@ -124,11 +124,11 @@ function that solves it for us.
 
 We can do it like this in Python:
 
-	>>>  def print\_triangle(n): ... for size in range(1, n+1):
-	>>>  ... print(size\*"*") ... >>> print\_triangle(3)* *\*\*
-	>>>  print\_triangle(5)* *\*\****\****\**
+	>>>  def print_triangle(n): ... for size in range(1, n+1):
+	>>>  ... print(size*"*") ... >>> print_triangle(3)* ***
+	>>>  print_triangle(5)* ************
 
-Let's have a closer look at the function print\_triangle:
+Let's have a closer look at the function print_triangle:
 
     def print_triangle(n):
         for size in range(1, n+1):
@@ -156,8 +156,8 @@ Note that the argument name is just a label. If we change the value
 attached to a label for another one, the other labels will not change –
 the same happens with the arguments:
 
-	>>>  def plus\_five(n): ... n = n + 5 ... print(n)
-	>>>  x = 43 >>> plus\_five(x) 48 >>> x 43
+	>>>  def plus_five(n): ... n = n + 5 ... print(n)
+	>>>  x = 43 >>> plus_five(x) 48 >>> x 43
 
 It is as normal names (variables) we saw before. There are only two
 differences:
@@ -169,7 +169,7 @@ argument names it just created.
 Secondly, the argument names are not available outside the function as
 they are created when the function is called and forgotten after the
 call. That is, if you try now to access the argument name `n` we defined
-in our plus\_five function outside of the function's code, Python tells
+in our plus_five function outside of the function's code, Python tells
 you it is not defined:
 
 	>>>  n Traceback (most recent call last): File
@@ -217,7 +217,7 @@ For the record:
     for i in range(2, 5):
         print_triangle(i)
 
-How can we improve the function print\_triangle, o display the entire
+How can we improve the function print_triangle, o display the entire
 segment of the Christmas tree, not just half of it?
 
 First of all, let’s determine how we want our result to look like for
@@ -226,7 +226,7 @@ be the width. Then for `n = 5`, we would expect:
 
     *
 
-	>>>  *\**
+	>>>  ***
 
 	>>>  ------------------------------------------------------------------------
 
@@ -237,24 +237,24 @@ It is not exactly what we have wanted, as it should be aligned in the
 centre. The method/function unicode.center mentioned in the previous
 section, helps us:
 
-	>>>  *\**
+	>>>  ***
 
 	>>>  ------------------------------------------------------------------------
 
 However, a new problem appears:
 
-	>>>  #### **\* \***\*
+	>>>  #### *** ****
 >
-	>>>  > \*
+	>>>  > *
 >
-	>>>  > *\**
+	>>>  > ***
 >
 	>>>  > ------------------------------------------------------------------------
 >
 	>>>  ------------------------------------------------------------------------
 
 If we know in advance, what size the widest segment is, we can add an
-additional argument to print\_segment, to align to the width. Combining
+additional argument to print_segment, to align to the width. Combining
 all of the knowledge we have acquired up to the moment:
 
 ---

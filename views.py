@@ -22,6 +22,7 @@ from models import LiveQuizAnsware
 from models import QuestionAnsware
 from models import LessonStatus
 from models import UserReview
+from models import Exercise
 
 from utils import get_args
 from utils import safe_del_key
@@ -461,3 +462,23 @@ class MakeOrganiserView(HTTPMethodView):
             await user.update()
             return json({'success': True})
         return json({'success': False, 'reson': 'wrong token'})
+
+
+# noinspection PyBroadException
+class ExercisesView(HTTPMethodView):
+    @user_required()
+    async def get(self, _, lid=0):
+        if not lid:
+            return json({}, 404)
+        exercises = await Exercise.get_by_field_value('lesson', lid)
+        resp = []
+        for ex in exercises:
+            q = await ex.to_dict()
+
+            resp.append(q)
+        return json(resp)
+
+    @user_required()
+    async def post(self, request):
+        req = request.json
+        pass

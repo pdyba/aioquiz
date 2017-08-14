@@ -28,8 +28,8 @@ Now we can count something, for example: `2 + 2`:
 
 Python is excellent as a calculator:
 
-	>>>  6 \* 7 42 >>> 1252 - 38 \* 6 1024 >>>
-	>>>  (3 - 5) \* 7 -14 >>> 21 / 7 3.0 >>> 3\*\*2 9
+	>>>  6 * 7 42 >>> 1252 - 38 * 6 1024 >>>
+	>>>  (3 - 5) * 7 -14 >>> 21 / 7 3.0 >>> 3**2 9
 	>>>  5 / 2 2.5 >>> 5 % 2 1
 
 Please pay special attention when writing decimals: use a period, not a
@@ -55,7 +55,7 @@ You can also add strings as follows:
 
 or they can be multiplied by whole numbers:
 
-	>>>  'Hastur' \* 3 'HasturHasturHastur'
+	>>>  'Hastur' * 3 'HasturHasturHastur'
 
 The string must always begin and end with the same character. This may
 be a single quote (`'`) or double quotes (`"`). It has no effect on the
@@ -220,7 +220,7 @@ As we have seen in our program, we can also give names to the results of
 calculations and use names in calculations:
 
 	>>>  w = 65.5 >>> h = 175.0 / 100.0 >>> bmi
-	>>>  = w / h\*\*2 >>> print(w, h, bmi) 65.5 1.75
+	>>>  = w / h**2 >>> print(w, h, bmi) 65.5 1.75
 	>>>  21.387755102040817
 
 Once a value is calculated, it is not modified:
@@ -230,7 +230,7 @@ Once a value is calculated, it is not modified:
 
 Until we give the Python the command to repeat the calculation again:
 
-	>>>  bmi = w / h\*\*2 >>> print(w, h, bmi) 64 1.75
+	>>>  bmi = w / h**2 >>> print(w, h, bmi) 64 1.75
 	>>>  20.897959183673468
 
 Now is time to add some comments to our program so that the user (and us
@@ -269,7 +269,7 @@ The help function is very friendly and tells us how we should use it. It
 can also tell you how to use the other functions:
 
 	>>>  help(input) Help on function input in module builtins:
-	>>>  <BLANKLINE> input(...) input(\[prompt\]) -> string
+	>>>  <BLANKLINE> input(...) input([prompt]) -> string
 	>>>  <BLANKLINE> Read a string from standard input. The trailing
 	>>>  newline is stripped. If the user hits EOF (Unix: Ctl-D, Windows:
 	>>>  Ctl-Z+Return), raise EOFError. On Unix, GNU readline is used if
@@ -308,16 +308,16 @@ program.
 
 Let’s introduce two more functions:
 
-	>>>  help(int) \# doctest: +NORMALIZE\_WHITESPACE Help on
+	>>>  help(int) # doctest: +NORMALIZE_WHITESPACE Help on
 	>>>  class int in module builtins: <BLANKLINE> class int(object) |
 	>>>  int(x=0) -> integer | int(x, base=10) -> integer | | Convert a
 	>>>  number or string to an integer, or return 0 if no arguments | are
-	>>>  given. If x is a number, return x.\_\_int\_\_(). For floating point |
+	>>>  given. If x is a number, return x.__int__(). For floating point |
 	>>>  numbers, this truncates towards zero. | | ...
 
 and
 
-	>>>  help(float) \# doctest: +NORMALIZE\_WHITESPACE Help on
+	>>>  help(float) # doctest: +NORMALIZE_WHITESPACE Help on
 	>>>  class float in module builtins: <BLANKLINE> class float(object)
 	>>>  | float(x) -> floating point number | | Convert a string or number
 	>>>  to a floating point number, if possible. | | ...
@@ -362,11 +362,11 @@ and what data it expects from us (called the list of arguments).
 Entering just the name does not activate the function. It will tell us
 only that it is a function:
 
-	>>>  input \# doctest: +SKIP <built-in function input>
+	>>>  input # doctest: +SKIP <built-in function input>
 
 In order to call the function, we must put parentheses after its name:
 
-	>>>  input() \# doctest: +SKIP
+	>>>  input() # doctest: +SKIP
 
 Now Python will execute the function.
 

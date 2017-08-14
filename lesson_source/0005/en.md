@@ -44,8 +44,8 @@ where `x` and `y` are numbers.
 We can refer to the grouped values by using their positions in the tuple
 (counting form zero) e.g.:
 
-	>>>  p = (10, 15) >>> p\[0\] \# first value 10
-	>>>  p\[1\] \# second value 15
+	>>>  p = (10, 15) >>> p[0] # first value 10
+	>>>  p[1] # second value 15
 
 Formatting plain
 ================
@@ -104,11 +104,11 @@ Formatting more Pythonic way
 String Slicing
 ==============
 
-Try it out: >>> text = “ala ma kota” >>> text\[0\] \#
-string\[int\] >>> text\[2:\] \# string\[int:\] >>>
-text\[:5\] \# string\[:int\] >>> text\[3:7\] \#
-string\[int:int\] >>> text\[::2\] \# stirng\[::int\]
-	>>>  text\[::-1\] \# stirng\[::int\]
+Try it out: >>> text = “ala ma kota” >>> text[0] #
+string[int] >>> text[2:] # string[int:] >>>
+text[:5] # string[:int] >>> text[3:7] #
+string[int:int] >>> text[::2] # stirng[::int]
+	>>>  text[::-1] # stirng[::int]
 
 Always remember computer counts from 0.
 
@@ -154,7 +154,7 @@ With string there is a lot of methods implemented already.
     str.
 19. min(str) - Returns the min alphabetical character from the string
     str.
-20. replace(old, new \[, max\]) - Replaces all occurrences of old in
+20. replace(old, new [, max]) - Replaces all occurrences of old in
     string with new or at most max occurrences if max given.
 21. rfind(str, beg=0,end=len(string)) - Same as find(), but search
     backwards in string.
@@ -170,7 +170,7 @@ With string there is a lot of methods implemented already.
     substring of string (if starting index beg and ending index end are
     given) starts with substring str; returns true if so and false
     otherwise.
-27. strip(\[chars\]) - Performs both lstrip() and rstrip() on string
+27. strip([chars]) - Performs both lstrip() and rstrip() on string
 28. swapcase() - Inverts case for all letters in string.
 29. title() - Returns "titlecased" version of string, that is, all words
     begin with uppercase and the rest are lowercase.

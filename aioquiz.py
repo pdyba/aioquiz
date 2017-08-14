@@ -21,6 +21,7 @@ from views import ReviewAttendeesView
 from views import EmailView
 from views import ActivationView
 from views import MakeOrganiserView
+from views import ExercisesView
 
 app = Sanic()
 
@@ -64,6 +65,9 @@ app.add_route(EmailView.as_view(), '/api/email')
 app.add_route(ActivationView.as_view(), '/api/activation/<uid:int>/<acode>')
 
 app.add_route(MakeOrganiserView.as_view(), '/api/make_organiser')
+
+app.add_route(ExercisesView.as_view(), '/api/exercise')
+app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')
 
 app.error_handler.add(ServerError, handle_500s)
 app.error_handler.add(NotFound, handle_404s)
