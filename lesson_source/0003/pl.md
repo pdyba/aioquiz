@@ -102,16 +102,9 @@ Nasz pierwszy program będzie wyglądał tak:
     print("Hi, my name is Lucas")
 
 Aby napisać i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
-edytora tekstu, który działa w Waszym 
-
-
-OS (użyj [lista edytorów w 
+edytora tekstu, który działa w Waszym OS (użyj [listy edytorów w 
 Wikipedii](http://en.wikipedia.org/wiki/List_of_text_editors) by znaleźć przykłady).
-
-
-OS (patrz: [lista edytorów tekstów w Wikipedii]
-(http://en.wikipedia.org/wiki/List_of_text_editors), by
-znaleźć przykłady). Rekomendujemy Wam PyCharm lub Sublime. Sublime jest
+Rekomendujemy Wam PyCharm lub Sublime. Sublime jest
 napisany w Pythonie :). Wpiszcie w edytorze powyższy kod w Pythonie i zapiszcie
 go w nowym pliku o nazwie `visitingcard.py`. Następnie uruchomcie Wasz 
 pierwszy program w Pythonie w wierszu poleceń przy użyciu:
