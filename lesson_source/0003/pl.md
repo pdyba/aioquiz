@@ -102,7 +102,15 @@ Nasz pierwszy program będzie wyglądał tak:
     print("Hi, my name is Lucas")
 
 Aby napisać i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
-edytora tekstu, który działa w Waszym OS (patrz: [lista edytorów tekstów w Wikipedii]
+edytora tekstu, który działa w Waszym 
+
+
+OS (użyj [lista of text editors on
+Wikipedia](http://en.wikipedia.org/wiki/List_of_text_editors) for
+examples).
+
+
+OS (patrz: [lista edytorów tekstów w Wikipedii]
 (http://en.wikipedia.org/wiki/List_of_text_editors), by
 znaleźć przykłady). Rekomendujemy Wam PyCharm lub Sublime. Sublime jest
 napisany w Pythonie :). Wpiszcie w edytorze powyższy kod w Pythonie i zapiszcie
