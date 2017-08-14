@@ -345,18 +345,18 @@ zaplanujmy, jak powinien on działać:
 7.  Oblicz BMI wykorzystując zapamiętane wartości i zachwaj BMI jako `bmi`.
 8.  Wyświetl obliczone BMI.
 
-It should not surprise us that these eight points can be directly
-translated into eight lines of our program (not counting spaces):
+Nie ma w tym nic zaskakującego, że te osiem punktów może być wprost
+przetłumaczone na osiem wierszy naszego programu (nie licząc spacji):
 
-You can save this program to `bmi.py` and run `python bmi.py`. The
-result should look like this:
+Możecie zapisać program do `bmi.py` i uruchomić `python bmi.py`. Resultat
+powinien wyglądać następująco:
 
-In conclusion, to call a function we need to know its name (until now we
-learnt a bunch of functions: print, help, input, int, float and quit),
-and what data it expects from us (called the list of arguments).
+Podsumowując, aby wywołać funckję, musimy znać jej nazwę (do tej chwli
+nauczyliśmy się szeregu funkcji: print, help, input, float i int) i jakich
+danych ta funkcja od nas oczekuje (nazywanych listą argumentów).
 
-Entering just the name does not activate the function. It will tell us
-only that it is a function:
+Wprowadzenie samej nazwy nie uruchamia funkcji. Zostanie wyłącznie wyświetlona
+informacja, że jest to funkcja:
 
 	>>>  input \# doctest: +SKIP <built-in function input>
 
