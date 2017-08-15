@@ -279,4 +279,6 @@ class Config(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('reg_active', Boolean(), default=True),
+        Column('room_raws', Integer(), default=10),
+        Column('room_columns', Integer(), default=10),
     ]
