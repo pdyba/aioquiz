@@ -1,5 +1,5 @@
 # !/usr/bin/python3.5
-from abc import abstractproperty
+from abc import abstractmethod
 from datetime import datetime
 import json
 import logging
@@ -14,7 +14,7 @@ psql_cfg = {
     'password': 'aiopg'
 }
 
-db = None
+db = None  # Perhaps make a 'db' class instead of using a global variable?
 
 # noinspection PyBroadException
 async def make_a_querry(querry, retry=False):
@@ -36,14 +36,14 @@ async def make_a_querry(querry, retry=False):
         logging.exception('connecting to db')
         db = None
         if not retry:
-            await make_a_querry(querry, retry=True)
+            return await make_a_querry(querry, retry=True)
     return False
 
 
-class DoesNoteExists(Exception):
+class DoesNotExist(Exception):
     @staticmethod
     async def to_dict():
-        return {'msg': 'User Does not Exists'}
+        return {'msg': 'User does not exist'}
 
 
 # noinspection PyProtectedMember
@@ -70,28 +70,26 @@ class Table:
 
     @classmethod
     def _gen_schema(cls):
-        alist = []
-        for field in cls._schema:
-            alist.append(str(field))
-        return ', '.join(alist)
+        return ', '.join(str(field) for field in cls._schema)
 
     @classmethod
     def _in_schema(cls, name):
-        for field in cls._schema:
-            if name == field.name:
-                return True
-        return False
+        return any(field.name == name for field in cls._schema)
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def _name(self):
         pass
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def _schema(self):
         pass
 
     @classmethod
     async def _table_exists(cls):
+        # Bardziej elegancko byłoby przekazać to cls._name jako parametr do zapytania. Dotyczy wszystkich zapytań typu
+        # ... WHERE X = <jakis_parametr>
         exists = await make_a_querry(
             """SELECT EXISTS (
                     SELECT 1
@@ -112,9 +110,9 @@ class Table:
                 unique
             )
             await make_a_querry(querry)
-            print('{} Table Done'.format(cls._name))
+            print('{} table created'.format(cls._name))
         else:
-            print('{} Table already exists'.format(cls._name))
+            print('{} table already exists'.format(cls._name))
 
     @classmethod
     async def get_by_id(cls, uid):
@@ -153,19 +151,21 @@ class Table:
 
     @classmethod
     async def get_first_by_many_field_value(cls, **kwargs):
+        # Lepiej byłoby już w samym zapytaniu dać coś w stylu LIMIT 1, poza tym przydałoby się ORDER BY
         data = await cls.get_by_many_field_value(**kwargs)
         try:
             return data[0]
         except Exception as err:
-            raise DoesNoteExists
+            raise DoesNotExist
 
     @classmethod
     async def get_first(cls, field, value):
+        # Jak wyżej
         data = await cls.get_by_field_value(field, value)
         try:
             return data[0]
         except Exception as err:
-            raise DoesNoteExists
+            raise DoesNotExist
 
     @classmethod
     def _format_create(cls, clsi):
@@ -215,20 +215,15 @@ class Table:
     async def create(self):
         try:
             return await self._create(self)
-        except TypeError:
-            logging.exception('Error creating {}'.format(self._name))
-            return True
-        except asyncpg.exceptions.UniqueViolationError:
-            logging.exception('Error creating {}'.format(self._name))
         except Exception as e:
             logging.exception('Error creating {}'.format(self._name))
-        return False
+            return isinstance(e, TypeError)
 
     async def update_or_create(self, *args):
         kw = {arg: getattr(self, arg) for arg in args}
         try:
             inst = await self.get_first_by_many_field_value(**kw)
-        except DoesNoteExists:
+        except DoesNotExist:
             inst = None
         if inst:
             await inst.update()
@@ -297,14 +292,14 @@ class Column:
     def __init__(
             self,
             name,
-            type,
+            type_,
             primary_key=False,
             required=True,
             default=None,
             unique=False
     ):
         self.name = name
-        self.type = type
+        self.type = type_
         self.primary_key = primary_key
         self.required = required
         self.unique = unique
@@ -323,11 +318,13 @@ class ColumnType:
     def __str__(cls):
         return cls._type
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def _type(self):
         pass
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def _py_type(self):
         pass
 
@@ -369,8 +366,8 @@ class String(ColumnType):
             if isinstance(data, str):
                 return data
             return json.dumps(data)
-        except Exception as err:
-            print(err)
+        except:
+            logging.exception('String formatting')
 
 
 class CodeString(String):

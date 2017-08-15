@@ -2,47 +2,48 @@
 # encoding: utf-8
 import asyncio
 from datetime import datetime
-import models
 import os
 import random
-import types
 import shutil
+import string
+import types
 
 import markdown
 import yaml
 
+import models
 from orm import Table
 
 
 async def bootstrap_db():
     for cls_name in dir(models):
-        try:
-            if cls_name.startswith('_'):
-                continue
-            cls = getattr(models, cls_name)
-            if isinstance(cls, types.FunctionType):
-                print('skipping: ' + cls_name)
-                continue
-            if issubclass(cls, Table) and cls != Table:
-                await cls.create_table()
-        except TypeError:
-            print(cls_name)
+        if not cls_name.startswith('_'):
+            try:
+                cls = getattr(models, cls_name)
+                if isinstance(cls, types.FunctionType):
+                    print('skipping: ' + cls_name)
+                    continue
+                if issubclass(cls, Table) and cls != Table:
+                    await cls.create_table()
+            except TypeError:
+                print(cls_name)
     print('bootstrap done')
 
 async def gen_users():
     start = datetime.utcnow()
 
-    def text() :
-        rdata = list('qwertyuiopasdfghjklzxcvbnm')
+    def text():
+        rdata = list(string.ascii_lowercase)
         random.shuffle(rdata)
         rdata = ''.join(rdata)
         return ' '.join([rdata[:random.randint(1, 9)] for _ in range(90)])
 
     def gen_email():
-        rdata = list('qwertyuiopasdfghjklzxcvbnm')
+        rdata = list(string.ascii_lowercase)
         random.shuffle(rdata)
         rdata = ''.join(rdata)[:8]
         return rdata
+
     for _ in range(10):
         email = gen_email()
         new_user = {
