@@ -1,17 +1,16 @@
 # !/usr/bin/python3.5
 from datetime import datetime
 
-from orm import Table
-from orm import DoesNoteExists
-from orm import Column
-from orm import Integer
-from orm import String
-from orm import CodeString
-from orm import DateTime
 from orm import Boolean
+from orm import CodeString
+from orm import Column
+from orm import DateTime
+from orm import DoesNotExist
 from orm import Float
 from orm import ForeignKey
-
+from orm import Integer
+from orm import String
+from orm import Table
 from utils import hash_password
 
 
@@ -83,7 +82,7 @@ class Users(Table):
     async def get_user_by_session_uuid(cls, session_uuid):
         try:
             return await cls.get_first('session_uuid', session_uuid)
-        except DoesNoteExists:
+        except DoesNotExist:
             return None
 
 
@@ -124,7 +123,7 @@ class Quiz(Table):
 
     async def get_question(self, question_order=0):
         if question_order + 1 >= await self.get_question_amount():
-            return {'last': True, 'msg': 'That was last question in the quiz.'}
+            return {'last': True, 'msg': 'That was the last question in the quiz.'}
         qq = await QuizQuestions.get_first_by_many_field_value(
             quiz=self.id,
             question_order=question_order
@@ -132,9 +131,7 @@ class Quiz(Table):
         return await Question.get_by_id(qq.question)
 
     async def get_question_amount(self):
-        return len(await QuizQuestions.get_by_field_value(
-            'quiz', self.id
-        ))
+        return len(await QuizQuestions.get_by_field_value('quiz', self.id))
 
 
 class Exercise(Table):
@@ -228,9 +225,7 @@ class LiveQuiz(Table):
         return await Question.get_by_id(lqq.question)
 
     async def get_question_amount(self):
-        return len(await LiveQuizQuestion.get_by_field_value(
-            'live_quiz', self.id
-        ))
+        return len(await LiveQuizQuestion.get_by_field_value('live_quiz', self.id))
 
 
 class LiveQuizQuestion(Table):

@@ -89,3 +89,4 @@ ENV/
 .ropeproject
 
 ./static/lessons/*.html
+.idea

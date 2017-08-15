@@ -1,27 +1,25 @@
 # !/usr/bin/python3.5
 from sanic import Sanic
-
-from sanic.exceptions import ServerError
 from sanic.exceptions import NotFound
 from sanic.exceptions import RequestTimeout
+from sanic.exceptions import ServerError
 
 from exception_handlers import handle_404s
 from exception_handlers import handle_500s
 from exception_handlers import handle_timeout
-
-from views import AuthenticateView
-from views import QuestionView
-from views import UserView
-from views import LessonView
-from views import LiveQuizView
-from views import QuizView
-from views import QuizManageView
-from views import LiveQuizManageView
-from views import ReviewAttendeesView
-from views import EmailView
 from views import ActivationView
-from views import MakeOrganiserView
+from views import AuthenticateView
+from views import EmailView
 from views import ExercisesView
+from views import LessonView
+from views import LiveQuizManageView
+from views import LiveQuizView
+from views import MakeOrganiserView
+from views import QuestionView
+from views import QuizManageView
+from views import QuizView
+from views import ReviewAttendeesView
+from views import UserView
 
 app = Sanic()
 
