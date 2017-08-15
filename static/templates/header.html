@@ -123,14 +123,17 @@
                         {{ $parent.globals.currentUser.name }}
                         {{ $parent.globals.currentUser.surname }}</a>
                     <ul class="dropdown-menu">
-                        <li ng-show="$parent.globals.currentUser.admin"><a
+                        <li ng-show="$parent.globals.currentUser"><a
                                 href="#/profile">My Profile</a>
                         </li>
                         <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/profile_edit">Edit Profile</a>
+                        </li>
+                        <li ng-show="$parent.globals.currentUser"><a
                                 href="#/seats">Seats</a>
                         </li>
 
-                        <li ng-show="$parent.globals.currentUser.admin"><a
+                        <li ng-show="$parent.globals.currentUser"><a
                                 href="#/attendance">Attendance</a>
                     </ul>
                 </li>

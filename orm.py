@@ -235,10 +235,13 @@ class Table:
 
     @classmethod
     def _format_update(cls, clsi):
-        return ', '.join([
-            ("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name))))
-            for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id' and (prop.required or getattr(clsi, prop.name))
-        ])
+        try:
+            return ', '.join([
+                ("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name))))
+                for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id' and (prop.required or getattr(clsi, prop.name))
+            ])
+        except:
+            import pdb; pdb.set_trace()
 
     @classmethod
     def _format_kwargs(cls, **kwargs):

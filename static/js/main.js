@@ -107,7 +107,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/profile", {
             templateUrl: "partials/profile.html",
-            controller: "PageCtrl",
+            controller: "ProfileCtrl",
             controllerAs: 'vm'
         })
         .when("/admin_users", {
@@ -123,6 +123,11 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/review_attendee", {
             templateUrl: "partials/attendee_review_list.html",
             controller: "ReviewAttendeeController",
+            controllerAs: 'vm'
+        })
+        .when("/lessons_mngt", {
+            templateUrl: "partials/lessons_mngt.html",
+            controller: "LessonMngtController",
             controllerAs: 'vm'
         })
         .otherwise("/404", {
@@ -342,6 +347,25 @@ function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $
     );
 }
 
+app.controller('LessonMngtController', LessonMngtController);
+LessonMngtController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function LessonMngtController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    $http.get('/api/lessons').then(
+        function (response) {
+            vm.lessons = response.data;
+            console.log(vm.lessons);
+        }
+    );
+}
+
+
 app.controller('LessonCtrl', LessonCtrl);
 LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function LessonCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
@@ -470,6 +494,25 @@ function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $i
         );
     }
 }
+
+
+app.controller('ProfileCtrl', ProfileCtrl);
+ProfileCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function ProfileCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    $http.get('/api/user/' + $scope.globals.currentUser.username).then(
+        function (response) {
+            vm.user_profile = response.data;
+        }
+    );
+}
+
 
 
 app.controller('LiveQuizResultsCtrl', LiveQuizResultsCtrl);

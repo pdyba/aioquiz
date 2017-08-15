@@ -12,7 +12,7 @@ from orm import Integer
 from orm import String
 from orm import Table
 from utils import hash_password
-
+from utils import safe_del_key
 
 class Question(Table):
     _name = 'question'
@@ -33,7 +33,7 @@ class Users(Table):
     _soft_restricted_keys = ['score', 'notes']
     _name = 'users'
     _schema = [
-        Column('id', Integer, primary_key=True),
+        Column('id', Integer(), primary_key=True),
         Column('email', String(255), unique=True),
         Column('name', String(255)),
         Column('surname', String(255)),
@@ -42,6 +42,7 @@ class Users(Table):
         Column('last_login', DateTime(), default=datetime.utcnow),
         Column('mentor', Boolean(), default=False),
         Column('organiser', Boolean(), default=False),
+
         Column('admin', Boolean(), default=False),
         Column('session_uuid', String(255), required=False),
 
@@ -54,7 +55,9 @@ class Users(Table):
         Column('education', String(255), required=False),
         Column('university', String(255), required=False),
         Column('t_shirt', String(10), required=False),
-        # Column('telephone', String(20), required=False),  #TODO: add everywhere
+        Column('age', Integer(), required=False, default=99),
+
+        Column('python', Boolean(), default=False),
         Column('operating_system', String(10), required=False),
         Column('description', String(5000), required=False),
         Column('motivation', String(5000), required=False),
@@ -72,7 +75,18 @@ class Users(Table):
 
         Column('notes', String(5000), default=''),
         Column('score', Float(), default=0, required=False),
-        #TODO: add other questions
+        Column('i_helped', Boolean(), default=False),
+        Column('helped', String(5000), required=False),
+    ]
+
+    _banned_user_keys = [
+        'i_needed_help', 'accepted_rules',
+    ]
+    _public_keys = _banned_user_keys + [
+        'education', 'university', 't_shirt',
+        'operating_system', 'motivation', 'experience',
+        'app_idea', 'accepted', 'confirmation',
+        'i_helped', 'helped',
     ]
 
     async def create(self):
@@ -85,6 +99,16 @@ class Users(Table):
             return await cls.get_first('session_uuid', session_uuid)
         except DoesNotExist:
             return None
+
+    async def get_public_data(self):
+        data = await self.to_dict()
+        data = safe_del_key(data, self._public_keys)
+        return data
+
+    async def get_my_user_data(self):
+        data = await self.to_dict()
+        data = safe_del_key(data, self._banned_user_keys)
+        return data
 
 
 class UserReview(Table):
