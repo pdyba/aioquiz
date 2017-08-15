@@ -1,8 +1,8 @@
 # !/usr/bin/python3.5
 from collections import defaultdict
 from datetime import datetime
-from json import dumps as jdumps
 from functools import wraps
+from json import dumps as jdumps
 import logging
 from uuid import uuid4
 
@@ -10,21 +10,21 @@ from sanic.response import json
 from sanic.response import redirect
 from sanic.views import HTTPMethodView
 
-from orm import DoesNoteExists
-from models import Quiz
-from models import Question
-from models import Users
-from models import LiveQuiz
+from config import REGEMAIL
+from models import Exercise
 from models import Lesson
-from models import QuizQuestions
-from models import LiveQuizQuestion
+from models import LiveQuiz
 from models import LiveQuizAnsware
+from models import LiveQuizQuestion
+from models import Question
 from models import QuestionAnsware
+from models import Quiz
+from models import QuizQuestions
 from models import LessonStatus
 from models import ExerciseAnsware
 from models import UserReview
-from models import Exercise
-
+from models import Users
+from orm import DoesNotExist
 from utils import get_args
 from utils import safe_del_key
 from utils import hash_password
@@ -65,6 +65,8 @@ async def get_user_name(uid):
     return _users_names[uid]
 
 async def get_current_user(request):
+    # Teoretycznie jeśli użytkownik przekaże pusty string w tym nagłówku, to jeśli w bazie jest jakiś user z pustym session_uid,
+    # to ta metoda może uznać, że to właśnie ten użytkownik jest zalogowany (aczkolwiek z tego co widzę to najpierw stosujesz @user_required, więc chyba jest ok).
     session_uid = request.headers.get('authorization')
     return _users.get(session_uid) or await Users.get_user_by_session_uuid(session_uid)
 
@@ -85,10 +87,10 @@ class QuestionView(HTTPMethodView):
                 del req['ans_d']
             question = Question(**req)
             await question.create()
-            return json({'success': True}, status=200)
+            return json({'success': True})
         except:
             logging.exception('err question.post')
-            return json({})
+            return json({}, status=500)
 
     @user_required()
     async def put(self, request, qid):
@@ -99,15 +101,15 @@ class QuestionView(HTTPMethodView):
             question.reviewer = user.id
             question.active = req['accept']
             await question.update()
-            return json({'success': True}, status=200)
+            return json({'success': True})
         except:
             logging.exception('err question.update')
-            return json({})
+            return json({}, status=500)
 
     @user_required()
     async def get(self, request, qid=0):
         if qid:
-            question = await Question.get_by_id( qid)
+            question = await Question.get_by_id(qid)
             return json(await question.to_dict())
         questions = await Question.get_all()
         resp = []
@@ -140,7 +142,7 @@ class UserView(HTTPMethodView):
 
     @user_required()
     async def put(self, _, id_name=None):
-        return json({'success': True}, status=200)
+        return json({'success': True})
 
     async def post(self, request):
         try:
@@ -158,10 +160,10 @@ class UserView(HTTPMethodView):
                 ),
                 subject=REGEMAIL.SUBJECT,
             )
-            return json({'success': True}, status=200)
+            return json({'success': True})
         except:
             logging.exception('err user.post')
-            return json({})
+            return json({}, status=500)
 
     @user_required('admin')
     async def delete(self, _, uid):
@@ -183,10 +185,10 @@ class QuizManageView(HTTPMethodView):
             for i, question in enumerate(questions):
                 qq = QuizQuestions(quiz=quiz_id, question=question, question_order=i)
                 await qq.create()
-            return json({'success': True}, status=200)
+            return json({'success': True})
         except:
             logging.exception('err quiz_manage.post')
-            return json({})
+            return json({}, status=500)
 
 
 # noinspection PyBroadException
@@ -209,7 +211,7 @@ class QuizView(HTTPMethodView):
             return json(q)
         except:
             logging.exception('err quiz.post')
-            return json({})
+            return json({}, status=500)
 
     @user_required()
     async def get(self, _, qid=0):
@@ -249,10 +251,10 @@ class LiveQuizManageView(HTTPMethodView):
                     question_order=i
                 )
                 await lqq.create()
-            return json({'success': True}, status=200)
+            return json({'success': True})
         except:
             logging.exception('err quiz_manage.post')
-            return json({})
+            return json({}, status=500)
 
 
 # noinspection PyBroadException
@@ -275,7 +277,7 @@ class LiveQuizView(HTTPMethodView):
             return json(q)
         except:
             logging.exception('err live_quiz.post')
-            return json({})
+            return json({}, status=500)
 
     @user_required()
     async def get(self, _, qid=0):
@@ -306,10 +308,10 @@ class LessonView(HTTPMethodView):
             req['creator'] = user.id
             lesson = Lesson(**req)
             await lesson.create()
-            return json({'success': True}, status=200)
+            return json({'success': True})
         except:
             logging.exception('err lesson.post')
-            return json({'message': 'error creating'})
+            return json({'message': 'error creating'}, status=500)
 
     @user_required()
     async def get(self, _, lid=None):
@@ -335,10 +337,7 @@ class AuthenticateView(HTTPMethodView):
     async def post(self, request):
         try:
             req = request.json
-            user = await Users.get_first(
-                'email',
-                req.get('email', '')
-            )
+            user = await Users.get_first('email', req.get('email', ''))
             if not user:
                 return json({'msg': 'User not found'}, status=404)
             if not user.active:
@@ -347,21 +346,18 @@ class AuthenticateView(HTTPMethodView):
                 user.session_uuid = str(uuid4()).replace('-', '')
                 user.last_login = datetime.utcnow()
                 await user.update()
-                return json(
-                    {
-                        'success': True,
-                        'admin': user.admin,
-                        'mentor': user.mentor,
-                        'name': user.name,
-                        'surname': user.surname,
-                        'id': user.id,
-                        'session_uuid': user.session_uuid
-                    },
-                    status=200
-                )
+                return json({
+                    'success': True,
+                    'admin': user.admin,
+                    'mentor': user.mentor,
+                    'name': user.name,
+                    'surname': user.surname,
+                    'id': user.id,
+                    'session_uuid': user.session_uuid
+                })
             else:
                 return self.user_error
-        except DoesNoteExists:
+        except DoesNotExist:
             return self.user_error
         except:
             logging.exception('err authentication.post')
@@ -426,7 +422,7 @@ class ReviewAttendeesView(HTTPMethodView):
             return json({'success': True})
         except:
             logging.exception('review_put')
-            return json({'success': False})
+            return json({'success': False}, status=500)
 
 
 class EmailView(HTTPMethodView):

@@ -6,6 +6,7 @@ var name = '';
 var gdata;
 
 function start(id) {
+    // Zamiast jquery polecam fetch ;)
     $.get("./api/live_quiz/" + id,
         function (data) {
             session_id = data.session_id;
@@ -17,11 +18,9 @@ function next_question(data) {
     gdata = data;
     if (data.qtype === 'end') {
         finish_quiz(data);
-    }
-    else if (data.qtype === 'abcd') {
+    } else if (data.qtype === 'abcd') {
         question_abcd(data);
-    }
-    else if (data.qtype === 'bool') {
+    } else if (data.qtype === 'bool') {
         question_bool(data);
     } else {
         question_plain(data);
@@ -42,7 +41,7 @@ function get_next_question(answare) {
 }
 
 function question_abcd(data) {
-    settings = {
+    var settings = {
         title: "Question: " + data.qid,
         text: data.question + '<p>' + data.answares,
         html: true,
@@ -59,18 +58,16 @@ function question_abcd(data) {
         settings.imageSize = "400x400";
     }
     swal(settings, function (inputValue) {
-            if (inputValue.length > 0) {
-                get_next_question(inputValue);
-            }
-            else {
-                question_abcd(data);
-            }
+        if (inputValue.length > 0) {
+            get_next_question(inputValue);
+        } else {
+            question_abcd(data);
         }
-    );
+    });
 }
 
 function question_bool(data) {
-    settings = {
+    var settings = {
         title: "Question: " + data.qid,
         text: data.question,
         html: true,
@@ -85,15 +82,13 @@ function question_bool(data) {
         settings.imageUrl = './images/' + data.qid + '.png';
         settings.imageSize = "400x400";
     }
-    swal(settings,
-        function (inputValue) {
-            get_next_question(inputValue);
-        }
-    );
+    swal(settings, function (inputValue) {
+        get_next_question(inputValue);
+    });
 }
 
 function question_plain(data) {
-    settings = {
+    var settings = {
         title: "Question: " + data.qid,
         type: "input",
         text: data.question,
@@ -111,20 +106,16 @@ function question_plain(data) {
         settings.imageUrl = './images/' + data.qid + '.png';
         settings.imageSize = "400x400";
     }
-    swal(settings,
-        function (inputValue) {
-
-            if (inputValue.length > 0) {
-                if (gdata.qid === 0) {
-                    name = inputValue;
-                }
-                get_next_question(inputValue);
+    swal(settings, function (inputValue) {
+        if (inputValue.length > 0) {
+            if (gdata.qid === 0) {
+                name = inputValue;
             }
-            else {
-                question_plain(data);
-            }
+            get_next_question(inputValue);
+        } else {
+            question_plain(data);
         }
-    );
+    });
 }
 
 function finish_quiz(data) {

@@ -232,7 +232,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     vm.current_user_id = $scope.globals.currentUser.id;
 
     function rate(user) {
-        data = {
+        var data = {
             'users': user.id,
             'score': user.new_review
         };
@@ -244,7 +244,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     }
 
     function accept(user) {
-        data = {
+        var data = {
             'users': user,
             'accept': true
         };
@@ -255,7 +255,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         );
     }
     function unaccept(user) {
-        data = {
+        var data = {
             'users': user,
             'accept': false
         };
@@ -442,7 +442,7 @@ function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $i
     );
     vm.accept = accept;
     function accept(id) {
-        data = {
+        var data = {
             'reviewer': vm.user,
             'accept': true
         };
@@ -457,7 +457,7 @@ function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $i
 
     vm.reject = reject;
     function reject(id) {
-        data = {
+        var data = {
             'reviewer': vm.user,
             'accept': false
         };
@@ -540,7 +540,7 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
 
     vm.answare_question = answare_question;
     function answare_question() {
-        data = {
+        var data = {
             'question': vm.question.id,
             'answare': vm.answare,
             'user_id': $scope.globals.currentUser.id,
@@ -583,7 +583,7 @@ function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashServic
 
     vm.answare_question = answare_question;
     function answare_question() {
-        data = {
+        var data = {
             'question': vm.question.id,
             'answare': vm.answare,
             'user_id': $scope.globals.currentUser.id,
@@ -845,6 +845,9 @@ function UserService($http, $FlashService) {
     service.Delete = Delete;
     service.makeOrganiser = makeOrganiser;
 
+    // Nie lepiej byłoby robić tak:
+    // service.GetAll = function() { ... }
+    // To definiowanie funkcji po return w ogóle nie powinno działać wg mnie, no ale JS :p
     return service;
 
     function GetAll() {
@@ -884,7 +887,7 @@ function UserService($http, $FlashService) {
     }
 
     function makeOrganiser(user){
-        data = {
+        var data = {
             'organiser': true,
             'uid': user.id
         };

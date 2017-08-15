@@ -5,7 +5,9 @@ import hashlib
 import logging
 
 import aiosmtplib
+
 from config import EMAIL
+
 
 async def format_dict_to_columns(adict):
     return [[a, adict[a]] for a in adict]
@@ -44,18 +46,18 @@ class SingletonDecorator:
         self.a_class = a_class
         self.instance = None
 
-    def __call__(self, args, *kwargs):
+    def __call__(self, *args, **kwargs):
         if not self.instance:
             self.instance = self.a_class(*args, **kwargs)
             self.instance.__wrapped__ = self
         return self.instance
 
 
-def error_catcher(function, default_return=False):
-    @wraps(function)
+def error_catcher(func, default_return=False):
+    @wraps(func)
     def wrapped(*args, **kwargs):
         try:
-            return function(*args, **kwargs)
+            return func(*args, **kwargs)
         except Exception as error:
             # Check if logger is in 'self'
             # If function is class method, use default logger from class
