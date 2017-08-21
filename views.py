@@ -148,25 +148,36 @@ class UserView(HTTPMethodView):
         return json({'success': True})
 
     async def post(self, request):
+        """
+        Registration handling.
+        :param request:
+        :return:
+        """
         try:
             req = request.json
             user = Users(**req)
             user.session_uuid = str(uuid4()).replace('-', '')
             uid = await user.create()
-            await send_email(
-                recipients=[user.email],
-                text=REGEMAIL.TEXT.format(
-                    acode=user.session_uuid,
-                    uid=uid,
-                    name=user.name,
-                    server=request.host
-                ),
-                subject=REGEMAIL.SUBJECT,
+            if uid:
+                await send_email(
+                    recipients=[user.email],
+                    text=REGEMAIL.TEXT.format(
+                        acode=user.session_uuid,
+                        uid=uid,
+                        name=user.name,
+                        server=request.host
+                    ),
+                    subject=REGEMAIL.SUBJECT,
+                )
+                return json({'success': True})
+        except DeprecationWarning:
+            return json(
+                {'msg': 'You probably used one of banned chars like ;'},
+                status=500
             )
-            return json({'success': True})
         except:
             logging.exception('err user.post')
-            return json({}, status=500)
+        return json({}, status=500)
 
     @user_required('admin')
     async def delete(self, _, uid):

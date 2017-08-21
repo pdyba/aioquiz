@@ -918,7 +918,9 @@ function UserService($http, $FlashService) {
     }
 
     function Create(user) {
-        return $http.post('/api/user/', user).then(handleSuccess, handleError('Error creating user'));
+        return $http.post('/api/user/', user).then(handleSuccess).catch(function (response) {
+            $FlashService.Error(response.data.msg);
+    });
     }
 
     function Update(user) {

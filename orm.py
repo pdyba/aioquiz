@@ -22,6 +22,7 @@ db = None  # Perhaps make a 'db' class instead of using a global variable?
 async def make_a_querry(querry, retry=False):
     global db
     if ';' in querry:
+        logging.error(querry)
         raise DeprecationWarning
     try:
         if not db:
