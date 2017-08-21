@@ -13,7 +13,7 @@ psql_cfg = {
     'user': DB.USER,
     'database': DB.DB,
     'host': DB.HOST,
-    'password': DB.USER
+    'password': DB.PASSWORD
 }
 
 db = None  # Perhaps make a 'db' class instead of using a global variable?

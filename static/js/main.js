@@ -1064,7 +1064,7 @@ function run($rootScope, $location, $cookies, $http) {
         var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
         if (restrictedPage && !loggedIn) {
-            $location.path('/login');
+            $location.path('/');
         }
     });
 }
