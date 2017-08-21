@@ -1,47 +1,118 @@
 <div class="container">
-
     <div class="row">
-
         <div class="col-lg-12">
-            <h1 class="page-header">Profile
-                <small>{{ globals.currentUser.username }}</small>
+            <h1 class="page-header">Profile<br>
+                <small>{{ globals.currentUser.name }} {{ globals.currentUser.surname }}
+                    ({{ globals.currentUser.username }})
+                </small>
             </h1>
-        </div>
 
+
+            <div class="col-sm-4">
+                <img ng-show="vm.user_profile.img" class="img-responsive"
+                     src="/images/{{ vm.user_profile.img }}">
+                <br>
+                <ul class="list-group">
+                    <li ng-show="vm.user_profile.admin"
+                        class="list-group-item list-group-item-danger">Admin
+                    </li>
+                    <li ng-show="vm.user_profile.organiser"
+                        class="list-group-item list-group-item-warning">
+                        Organiser
+                    </li>
+                    <li ng-show="vm.user_profile.mentor"
+                        class="list-group-item list-group-item-success">Mentor
+                    </li>
+                    <li ng-hide="vm.user_profile.mentor || vm.user_profile.admin || vm.user_profile.organiser"
+                        class="list-group-item list-group-item-info">Attendee
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                About:
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Description: </strong><br>
+                        {{ vm.user_profile.description }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Motivation: </strong><br>
+                        {{ vm.user_profile.motivation }}
+                    </li>
+                    <li class="list-group-item"  ng-show="vm.user_profile.app_idea && vm.user_profile.app_idea != 'null'">
+                        <strong>app_idea: </strong><br>
+                        {{ vm.user_profile.app_idea }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>what_can_you_bring: </strong><br>
+                        {{ vm.user_profile.what_can_you_bring }}
+                    </li>
+                    <li class="list-group-item"
+                        ng-show="vm.user_profile.i_helped">
+                        <strong>I helped with: </strong><br>
+                        {{ vm.user_profile.helped }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>City: </strong><br>
+                        {{ vm.user_profile.city }}
+                    </li>
+                    <li class="list-group-item">
+                    <strong>operating_system: </strong><br>
+                    {{ vm.user_profile.operating_system }}
+                </li>
+                </ul>
+                <ul class="list-unstyled list-inline list-social-icons">
+                    <li class="tooltip-social facebook-link"
+                        ng-show="vm.user_profile.facebook && vm.user_profile.facebook != 'null'"><a
+                            href="{{ vm.user_profile.facebook }}"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Facebook"><i
+                            class="fa fa-facebook-square fa-2x"></i></a>
+                    </li>
+                    <li class="tooltip-social linkedin-link"
+                        ng-show="vm.user_profile.linkedin && vm.user_profile.linkedin != 'null'"><a
+                            href="{{ vm.user_profile.linkedin }}"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="LinkedIn"><i
+                            class="fa fa-linkedin-square fa-2x"></i></a>
+                    </li>
+                    <li class="tooltip-social twitter-link"
+                        ng-show="vm.user_profile.twitter && vm.user_profile.twitter != 'null'"><a
+                            href="{{ vm.user_profile.twitter }}"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Twitter"><i
+                            class="fa fa-twitter-square fa-2x"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                Recrutation status:
+                <ul class="list-group">
+                    <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'confirmed'"
+                        class="list-group-item list-group-item-success">You
+                        confirmed Your arrival !
+                    </li>
+                    <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'noans'"
+                        class="list-group-item list-group-item-danger">You are
+                        accepted but You did not confirmed your arrival yet!
+                    </li>
+                    <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'rejected_by_user'"
+                        class="list-group-item list-group-item-warning">You are
+                        accepted but You did not confirmed your arrival in time
+                        or You rejected the invitation!
+                    </li>
+                    <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'rejected'"
+                        class="list-group-item list-group-item-warning">Sadly You were not chosen, but there maybe a spot open for you later on.
+                    </li>
+                    <li ng-hide="vm.user_profile.accepted && vm.user_profile.confirmation !== 'rejected'"
+                        class="list-group-item list-group-item-info">Your
+                        registration is complete.
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <form name="form" ng-submit="vm.register()" role="form">
-        <div class="form-group"
-             ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-            <label for="username">First name</label>
-            <input type="text" name="firstName" id="firstName"
-                   class="form-control" ng-model="vm.user.firstName" required/>
-            <span ng-show="form.firstName.$dirty && form.firstName.$error.required"
-                  class="help-block">First name is required</span>
-        </div>
-        <div class="form-group"
-             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
-            <label for="username">Last name</label>
-            <input type="text" name="lastName" id="Text2" class="form-control"
-                   ng-model="vm.user.lastName" required/>
-            <span ng-show="form.lastName.$dirty && form.lastName.$error.required"
-                  class="help-block">Last name is required</span>
-        </div>
-
-        <div class="form-group"
-             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
-            <label for="username">Description</label>
-            <textarea type="text" name="description" id="Text3" class="form-control"
-                   ng-model="vm.user.description" rows="5"></textarea>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
-                    class="btn btn-primary">Submit
-            </button>
-            <img ng-if="vm.dataLoading"
-                 src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-            <a href="#/login" class="btn btn-link">Cancel</a>
-        </div>
-    </form>
 </div>
-<!-- /.container -->

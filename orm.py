@@ -7,11 +7,13 @@ import re
 
 import asyncpg
 
+from config import DB
+
 psql_cfg = {
-    'user': 'aiopg',
-    'database': 'postgres',
-    'host': '127.0.0.1',
-    'password': 'aiopg'
+    'user': DB.USER,
+    'database': DB.DB,
+    'host': DB.HOST,
+    'password': DB.USER
 }
 
 db = None  # Perhaps make a 'db' class instead of using a global variable?
@@ -233,10 +235,13 @@ class Table:
 
     @classmethod
     def _format_update(cls, clsi):
-        return ', '.join([
-            ("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name))))
-            for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id' and (prop.required or getattr(clsi, prop.name))
-        ])
+        try:
+            return ', '.join([
+                ("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name))))
+                for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id' and (prop.required or getattr(clsi, prop.name))
+            ])
+        except:
+            import pdb; pdb.set_trace()
 
     @classmethod
     def _format_kwargs(cls, **kwargs):

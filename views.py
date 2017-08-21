@@ -20,10 +20,12 @@ from models import Question
 from models import QuestionAnsware
 from models import Quiz
 from models import QuizQuestions
+from models import ExerciseAnsware
 from models import UserReview
 from models import Users
 from orm import DoesNotExist
 from utils import get_args
+from utils import safe_del_key
 from utils import hash_password
 from utils import send_email
 
@@ -119,12 +121,15 @@ class QuestionView(HTTPMethodView):
 class UserView(HTTPMethodView):
     @user_required()
     async def get(self, request, id_name=None):
-        if isinstance(id_name, int):
-            user = await Users.get_by_id(id_name)
-            user = await user.to_dict()
-        elif isinstance(id_name, str):
-            user = await Users.get_first('email', id_name)
-            user = await user.to_dict()
+        current_user = await get_current_user(request)
+        if id_name:
+            if id_name.isnumeric():
+                user = await Users.get_by_id(int(id_name))
+            else:
+                user = await Users.get_first('email', id_name)
+            if current_user.id == user.id:
+                return json(await user.get_my_user_data())
+            return json(await user.get_public_data())
         else:
             if request.args:
                 users = await Users.get_by_many_field_value(**get_args(request.args))
@@ -132,7 +137,10 @@ class UserView(HTTPMethodView):
                 users = await Users.get_all()
             user = []
             for u in users:
-                user.append(await u.to_dict())
+                if current_user.admin or current_user.organiser:
+                    user.append(await u.to_dict())
+                else:
+                    user.append(await u.get_public_data())
         return json(user)
 
     @user_required()
@@ -459,18 +467,34 @@ class MakeOrganiserView(HTTPMethodView):
 # noinspection PyBroadException
 class ExercisesView(HTTPMethodView):
     @user_required()
-    async def get(self, _, lid=0):
+    async def get(self, request, lid=0):
         if not lid:
             return json({}, 404)
+        user = await get_current_user(request)
         exercises = await Exercise.get_by_field_value('lesson', lid)
         resp = []
         for ex in exercises:
             q = await ex.to_dict()
-
+            try:
+                ans = await ExerciseAnsware.get_first_by_many_field_value(
+                    users=user.id,
+                    exercise=ex.id
+                )
+            except DoesNotExist:
+                ans = None
+            if ans:
+                q['answared'] = True
+                q['answare'] = ans.answare
+            else:
+                q['answared'] = False
             resp.append(q)
         return json(resp)
 
     @user_required()
     async def post(self, request):
         req = request.json
-        pass
+        user = await get_current_user(request)
+        req['users'] = user.id
+        ex = ExerciseAnsware(**req)
+        await ex.create()
+        return json({'success': True})

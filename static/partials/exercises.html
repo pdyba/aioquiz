@@ -8,7 +8,15 @@
             <ul class="list-group">
                 <li class="list-group-item">{{ ex.task }}</li>
                 <li class="list-group-item">
-                    <a class="btn btn-success" ng-click="vm.start( ex.id )">Submit !</a>
+                    <div class="form-group" ng-hide="ex.answared">
+                    <label class='left' for="answare_{{ ex.id }}">Answare:</label>
+                        <textarea type="text" name="answare" id="answare" class="form-control" ng-model="ex.answare"  required />
+                    <a class="btn btn-success" ng-click="vm.answare( ex )">Submit !</a>
+                    </div>
+                    <div ng-show="ex.answared">
+                        <p>{{ ex.answare }}</p>
+                    <span class="badge badge-default">Done</span>
+                        </div>
                 </li>
             </ul>
         </div>
