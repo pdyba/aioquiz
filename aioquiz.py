@@ -1,4 +1,8 @@
 # !/usr/bin/python3.5
+from os.path import abspath
+from os.path import dirname
+from os.path import join
+
 from sanic import Sanic
 from sanic.exceptions import NotFound
 from sanic.exceptions import RequestTimeout
@@ -21,18 +25,20 @@ from views import QuizView
 from views import ReviewAttendeesView
 from views import UserView
 
+dir_name = dirname(abspath(__file__))
 app = Sanic()
 
-app.static('/', './static/index.html')
-app.static('/sum', './static/summary.html')
-app.static('/js/vendor/', './static/js/vendor/')
-app.static('/css/', './static/css')
-app.static('/js', './static/js/')
-app.static('/images', './static/images')
-app.static('/partials', './static/partials')
-app.static('/templates', './static/templates')
-app.static('/lessons', './static/lessons')
-app.static('/favicon.ico', './static/images/favicon.ico')
+
+app.static('/', join(dir_name, 'static/index.html'))
+app.static('/sum', join(dir_name, 'static/summary.html'))
+app.static('/js/vendor/', join(dir_name, 'static/js/vendor/'))
+app.static('/css/', join(dir_name, 'static/css'))
+app.static('/js', join(dir_name, 'static/js/'))
+app.static('/images', join(dir_name, 'static/images'))
+app.static('/partials', join(dir_name, 'static/partials'))
+app.static('/templates', join(dir_name, 'static/templates'))
+app.static('/lessons', join(dir_name, 'static/lessons'))
+app.static('/favicon.ico', join(dir_name, 'static/images/favicon.ico'))
 
 app.add_route(UserView.as_view(), '/api/user/')
 app.add_route(UserView.as_view(), '/api/user/<id_name>')

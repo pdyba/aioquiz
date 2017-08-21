@@ -55,6 +55,7 @@ class Users(Table):
         Column('education', String(255), required=False),
         Column('university', String(255), required=False),
         Column('t_shirt', String(10), required=False),
+        Column('lang', String(20), required=False),
         Column('age', Integer(), required=False, default=99),
 
         Column('python', Boolean(), default=False),
@@ -71,6 +72,8 @@ class Users(Table):
         Column('active', Boolean(), default=False),
         Column('accepted_rules', Boolean(), default=False),
         Column('accepted', Boolean(), default=False),
+        Column('bring_power_cord', Boolean(), default=False),
+        Column('attend_weekly', Boolean(), default=False),
         Column('i_needed_help', Integer(), default=0),
 
         Column('notes', String(5000), default=''),
