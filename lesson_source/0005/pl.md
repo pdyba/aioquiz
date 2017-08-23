@@ -6,7 +6,7 @@ wieloma cyframi po przecinku w otrzymanym BMI. Z trzech problemów, jakie
 mieliśmy, ten jest najłatwiejszy do rozwiązania.
 
 Dlatego właśnie zostawiliśmy go na koniec naszej "przygody" 
-z kalkulatorem BMI. Wiemy, że stringi można dodawac do siebie i mnożyć
+z kalkulatorem BMI. Wiemy, że stringi można dodawać do siebie i mnożyć
 przez liczby całkowite. Zobaczycie, że możemy je także formatować.
 Ale zanim to zrobimy, potrzebny jest nam jeszcze jeden typ danych 
 (poza stringami i liczbami, które już poznaliśmy).
