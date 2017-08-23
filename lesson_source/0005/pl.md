@@ -1,74 +1,116 @@
-Strings and how to play with them
-=================================
+Stringi i jak się nimi bawić
+============================
 
-The last issue which we have mentioned above was the problem with too
-many digits in a printed BMI. Out of the three problems we had, this one
-is the easiest to solve.
+Ostatnią kwestią, o której wspomnieliśmy wcześniej był problem ze zbyt
+wieloma cyframi po przecinku w otrzymanym BMI. Z trzech problemów, jakie
+mieliśmy, ten jest najłatwiejszy do rozwiązania.
 
-That’s why we left it for the end of our "adventure" with the BMI
-calculator. We already know that we can add strings to each other and
-multiply them by integers. You will see that we can also format them.
-But first we will need one more type of data (except the strings and the
-numbers we already know).
+Dlatego własnie zostawiliśmy go na koniec naszej "przygody" 
+z kalkulatorem BMI. Wiemy, że stringi można dodawac do siebie i mnożyć
+przez liczby całkowite. Zobaczycie, że możemy je także formatować.
+Ale zanim to zrobimy, potrzebny jest nam jeszcze jeden typ danych 
+(poza stringami i liczbami, które już poznaliśmy).
 
-Tuples
-======
+Tuple
+=====
 
-At the beginning we mentioned that we can not use commas in numbers,
-because we will need them later while using tuples. And here they are:
+Na początku wspomnieliśmy, że nie możemy używać przecinków w liczbach,
+bo będziemy potrzebowali ich w tuplach. Doszliśmy właśnie do tego
+momentu:
 
-	>>>  1, 2, 3 (1, 2, 3) >>> ("Ala", 15) ('Ala', 15)
-	>>>  x = 1,5 >>> print(x) (1, 5)
+	>>>  1, 2, 3
+	(1, 2, 3) 
+	>>> ("Ala", 15)
+	('Ala', 15)
+	>>>  x = 1,5 
+	>>> print(x) 
+	(1, 5)
 
-A tuple is nothing more than a few values grouped into one. The values
-we want to group should be separated by commas. The whole thing can be
-enclosed in parentheses to make it more clear, but it is not required.
-Except when we want to group none of the elements (however strange it
-may sound):
+Tupla to nic innego, jak zbiór kilku wartości. Wartości te odddzielamy
+przecinkami. Zbiór zwykle otaczamy nawiasami zwykłymi, ale nie jest to
+konieczne. Chyba, że chcemy objąć zbiorem zero elementów (jakkolwiek 
+dziwnie to może brzmieć):
 
-	>>>  () ()
+	>>> () 
+	()
 
-Tuples can be combined:
+Tuple możemy łączyć:
 
-	>>>  names = ("Paulina", "Kowalska") >>> details =
-	>>>  (27, 1.70) >>> names + details ('Paulina', 'Kowalska', 27,
-	>>>  1.7)
+	>>> names = ("Paulina", "Kowalska") 
+	>>> details = (27, 1.70) 
+	>>> names + details ('Paulina', 'Kowalska', 27, 1.7)
 
-They may also contain other tuples e.g. information on a point on the
-map can be grouped as follows:
+Możemy w nich także zawrzeć inne tuple, np. punkty na mapie możemy
+zgrupować nastepująco:
 
-	>>>  point = ("Name of point", (x, y))
+	>>>  punkt = ("Nazwa punktu", (x, y))
 
-where `x` and `y` are numbers.
+gdzie `x` i `y` to liczby.
 
-We can refer to the grouped values by using their positions in the tuple
-(counting form zero) e.g.:
+Możemy odwoływać się do tak zgrupowanych wartości poprzez ich kolejną
+pozycję w tupli (zaczynając od zera), np.:
 
-	>>>  p = (10, 15) >>> p\[0\] \# first value 10
-	>>>  p\[1\] \# second value 15
+	>>> p = (10, 15)
+	>>> p[0] # pierwsza wartość 
+	10
+	>>> p[1] # druga wartość
+	15
 
-Formatting plain
-================
+Proste formatowanie
+===================
 
-Going back to our program: currently the result is reduced to a single
-line. Now we want to write the BMI as a number and the interval in which
-it is located, that is to say:
+Wracając do naszego programu: obecnie wynik jest zredukowany do
+pojedynczej linii. Chcemy zaś stworzyć taki kalkulator BMI, który
+poda nam wynik oraz przedział, w którym się sie on mieści, czyli:
 
-    Your BMI is equal: 21.39 (normal weight)
+    Twoje BMI wynosi: 21.39 (prawidłowa waga)
 
-Modify the current program so that the calculated BMI would be available
-under the name of `bmi`,and the name of the interval under the name of
-`category`. Then we can use print and obtain the required result:
+Zmodyfikuj swój istniejący program tak, by obliczone BMI było dostępne
+pod zmienną `bmi`, a nazwa przedziału pod nazwą `kategoria`.  Użyj print,
+aby wyświetlić otrzymany wynik:
+
+    .. testsetup::
+
+    bmi = 21.387755102040817
+    kategoria = "prawidłowa waga"
+    
+    .. testcode::
+
+    print("Twój BMI wynosi:", bmi, "(" + kategoria + ")")
+    
+    .. testoutput::
+    :hide:
+
+    Twój BMI wynosi: 21.387755102040817 (prawidłowa waga)
+
+
+Cóż, prawie... Naal mamy zbyt wiele liczb po przecinku. Napotkamy
+także problem, jeśli będziemy chcieli utworzyć taki string i nadać 
+mu nazwę, bo użyliśmy funkcji print oddzielając składniki. Na szczęście
+jest lepszy sposób:
 
 Well, almost….We still have too many digits. We would also have a
 problem if we wanted to generate such a string and save with a name,
 because we use print to separate the elements. Fortunately, there is a
 better way:
 
-	>>>  bmi = 21.387755102040817 >>> category = "normal
-	>>>  weight" >>> result = "Your BMI: %f (%s)" % (bmi, category)
-	>>>  result 'Your BMI: 21.387755 (normal weight)' >>>
-	>>>  print(result) Your BMI: 21.387755 (normal weight)
+    >>> bmi = 21.387755102040817
+    >>> kategoria = "prawidłowa waga"
+    >>> wynik = "Twój BMI wynosi: %f (%s)" % (bmi, kategoria)
+    >>> wynik
+    'Twój BMi wynosi: 21.387755 (prawidłowa waga)'
+    >>> print(wynik)
+    Twój BMI wynosi: 21.387755 (normal weight)
+
+Użyliśmy tutaj stringa i tupli połączonych znakiem `%`. String jest 
+szablonem, który zostaje uzupełniony wartościami z tupli. Miejsca,
+które mają być uzupełnione są oznaczone znakiem procentu (`%`). Litera
+następująca po nim definiuje typ zmiennej, jaką chcemy wstawić. Liczby
+całkowite sa tu reprezentowane przez `i` (ang. **integer**). Możemy 
+również użyć `d` jako **decimal** (z ang. liczba dziesiętna). Stringi są
+reprezentowane jako `s` od **string**, a liczby zmiennoprzecinkowe
+jako `f` od **float** (ang. pływać, unosić się):
+
 
 We have here a string and a tuple joined by `%`. The string is a
 template which will be completed with values from the tuple. The spaces
@@ -78,52 +120,106 @@ are represented by `i` as **integer** (we can also use `d` as
 **decimal**), strings are represented by `s` as **string**, and
 floating-point numbers are represented by `f` for **float**:
 
-	>>>  "String: %s, Numbers: %d %f" % ("Ala", 10, 3.1415)
-	>>>  'String: Ala, Numbers: 10 3.141500'
+	>>>  "String: %s, Numery: %d %f" % ("Ala", 10, 3.1415)
+	'String: Ala, Numery: 10 3.141500'
 
+Teraz zamiast dziewięciu miejsc po przecinku za każdym razem otrzymamy 
+sześć, ale formatowanie ma tę zaletę, że umożliwia nam na kontrolę nad
+tym, poprzez wstawianie dodatkowej informacji pomiędzy znak `%` i literę
+`f`, np. jesli chcielibyśmy wyświetlać tylko dwa miejsca po przecinku,
+zamiast sześciu:
 Now instead of nine decimal places we always get six, but the formatting
 has the advantage that it allows us to have more control by putting
 between `%` and `f` additional information, e.g. if you want to display
 only two places after the decimal point:
 
-	>>>  "%.2f" % 3.1415 '3.14' >>> "%.2f" %
-	>>>  21.387755102040817 '21.39'
+	>>> "%.2f" % 3.1415 
+	'3.14' 
+	>>> "%.2f" % 21.387755102040817 
+	'21.39'
 
-There are plenty options of formatting, so we will not show them all
-here. One of the most useful is the option of aligning to a specific
-number of characters:
+Istenieje mnóstwo opcji formatowania. Nie pokażemy ich tu wszystkich.
+Jdna z najbardziej użytecznych to wyrównywanie do określonej ilości
+znaków:
 
-We can also align the string `-` to the left by putting before the
-number of characters:
+    .. testcode::
 
-Aligning towards the centre is an additional exercise for you :).
+    WIDTH = 28
 
-Formatting more Pythonic way
-============================
+    print("-" * WIDTH)
+    print("| Name and last name |  Weight  |")
+    print("-" * WIDTH)
+    print("| %15s | %6.2f |" % ("Łukasz", 67.5))
+    print("| %15s | %6.2f |" % ("Pudzian", 123))
+    print("-" * WIDTH)
+    
+    .. testoutput::
+
+    --------------------------------
+    | Name and last name  |  Weight|
+    --------------------------------
+    |              Łukasz |  67.50 |
+    |             Pudzian | 123.00 |
+    --------------------------------
+
+
+Możemy również wyrównać string do lewej, umieszczając `-` przed
+ilością liter:
+
+    .. testcode::
+
+    WIDTH = 28
+
+    print("-" * WIDTH)
+    print("| Name and last name |  Weight |")
+    print("-" * WIDTH)
+    print("| %-15s | %6.2f |" % ("Łukasz", 67.5))
+    print("| %-15s | %6.2f |" % ("Pudzian", 123))
+    print("-" * WIDTH)
+    
+    .. testoutput::
+
+    -------------------------------
+    | Name and last name|  Weight |
+    -------------------------------
+    | Łukasz            |  67.50  |
+    | Pudzian           | 123.00  |
+    -------------------------------
+
+
+Wyrównanie do centurm pozostawiamy Tobie :).
+
+Formatowanie bardziej po Pythonowemu
+====================================
 
 String Slicing
 ==============
 
-Try it out: >>> text = “ala ma kota” >>> text\[0\] \#
-string\[int\] >>> text\[2:\] \# string\[int:\] >>>
-text\[:5\] \# string\[:int\] >>> text\[3:7\] \#
-string\[int:int\] >>> text\[::2\] \# stirng\[::int\]
-	>>>  text\[::-1\] \# stirng\[::int\]
+Spróbuj: 
 
-Always remember computer counts from 0.
+    >>> text = “ala ma kota” 
+    >>> text[0] #string[int] 
+    >>> text[2:] # string[int:] 
+    >>> text[:5] # string[:int] 
+    >>> text[3:7] #string[int:int] 
+    >>> text[::2] # string[::int]
+    >>>  text[::-1] # string[::int]
 
-Methods
-=======
+Pamiętaj! Twój komputer zawsze liczy od 0.
 
-With string there is a lot of methods implemented already.
 
-1.  capitalize() - Capitalizes first letter of string
-2.  count(str, beg= 0,end=len(string)) - Counts how many times str
-    occurs in string or in a substring of string if starting index beg
-    and ending index end are given.
-3.  endswith(suffix, beg=0, end=len(string)) - Determines if string or a
-    substring of string (if starting index beg and ending index end are
-    given) ends with suffix; returns true if so and false otherwise.
+Metody
+======
+
+Istnieje obecnie mnóstwo metod formatowania stringów:
+
+1.  capitalize() - Zamienia pierwszą literę stringa z małej na wielką
+2.  count(str, beg= 0,end=len(string)) - Liczy, ile razy str pojawia się
+    w stringu lub opodstringu stringa, gdzie beg to początowy index, a end
+    to index kończący.
+3.  endswith(suffix, beg=0, end=len(string)) - ustala, czy string lub
+    podstring striga kończy się podanym przyrostkiem (suffix), zwraca 
+    true, jeśli tak lub false, jeśli nie.
 4.  find(str, beg=0 end=len(string)) - Determine if str occurs in string
     or in a substring of string if starting index beg and ending index
     end are given returns index if found and -1 otherwise.
