@@ -36,9 +36,9 @@ dziwnie to może brzmieć):
 
 Tuple możemy łączyć:
 
-	>>> names = ("Paulina", "Kowalska") 
-	>>> details = (27, 1.70) 
-	>>> names + details ('Paulina', 'Kowalska', 27, 1.7)
+	>>> mazwy = ("Paulina", "Kowalska") 
+	>>> szczegóły = (27, 1.70) 
+	>>> nazwy + szczegóły ('Paulina', 'Kowalska', 27, 1.7)
 
 Możemy w nich także zawrzeć inne tuple, np. punkty na mapie możemy
 zgrupować nastepująco:
