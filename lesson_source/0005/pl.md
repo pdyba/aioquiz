@@ -5,7 +5,7 @@ Ostatnią kwestią, o której wspomnieliśmy wcześniej był problem ze zbyt
 wieloma cyframi po przecinku w otrzymanym BMI. Z trzech problemów, jakie
 mieliśmy, ten jest najłatwiejszy do rozwiązania.
 
-Dlatego własnie zostawiliśmy go na koniec naszej "przygody" 
+Dlatego właśnie zostawiliśmy go na koniec naszej "przygody" 
 z kalkulatorem BMI. Wiemy, że stringi można dodawac do siebie i mnożyć
 przez liczby całkowite. Zobaczycie, że możemy je także formatować.
 Ale zanim to zrobimy, potrzebny jest nam jeszcze jeden typ danych 
