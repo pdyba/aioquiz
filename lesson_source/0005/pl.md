@@ -61,7 +61,7 @@ Proste formatowanie
 
 Wracając do naszego programu: obecnie wynik jest zredukowany do
 pojedynczej linii. Chcemy zaś stworzyć taki kalkulator BMI, który
-poda nam wynik oraz przedział, w którym się sie on mieści, czyli:
+poda nam wynik oraz przedział, w którym się on mieści, czyli:
 
     Twoje BMI wynosi: 21.39 (prawidłowa waga)
 
@@ -84,15 +84,10 @@ aby wyświetlić otrzymany wynik:
     Twój BMI wynosi: 21.387755102040817 (prawidłowa waga)
 
 
-Cóż, prawie... Naal mamy zbyt wiele liczb po przecinku. Napotkamy
+Cóż, prawie... Nadal mamy zbyt wiele liczb po przecinku. Napotkamy
 także problem, jeśli będziemy chcieli utworzyć taki string i nadać 
 mu nazwę, bo użyliśmy funkcji print oddzielając składniki. Na szczęście
 jest lepszy sposób:
-
-Well, almost….We still have too many digits. We would also have a
-problem if we wanted to generate such a string and save with a name,
-because we use print to separate the elements. Fortunately, there is a
-better way:
 
     >>> bmi = 21.387755102040817
     >>> kategoria = "prawidłowa waga"
@@ -100,46 +95,33 @@ better way:
     >>> wynik
     'Twój BMi wynosi: 21.387755 (prawidłowa waga)'
     >>> print(wynik)
-    Twój BMI wynosi: 21.387755 (normal weight)
+    Twój BMI wynosi: 21.387755 (prawidłowa waga)
 
 Użyliśmy tutaj stringa i tupli połączonych znakiem `%`. String jest 
 szablonem, który zostaje uzupełniony wartościami z tupli. Miejsca,
 które mają być uzupełnione są oznaczone znakiem procentu (`%`). Litera
 następująca po nim definiuje typ zmiennej, jaką chcemy wstawić. Liczby
-całkowite sa tu reprezentowane przez `i` (ang. **integer**). Możemy 
+całkowite sś tu reprezentowane przez `i` (ang. **integer**). Możemy 
 również użyć `d` jako **decimal** (z ang. liczba dziesiętna). Stringi są
 reprezentowane jako `s` od **string**, a liczby zmiennoprzecinkowe
 jako `f` od **float** (ang. pływać, unosić się):
 
-
-We have here a string and a tuple joined by `%`. The string is a
-template which will be completed with values from the tuple. The spaces
-to be filled are also labeled with the percentage (`%`). . The letter
-that follows defines the type of a value we want to insert. The integers
-are represented by `i` as **integer** (we can also use `d` as
-**decimal**), strings are represented by `s` as **string**, and
-floating-point numbers are represented by `f` for **float**:
-
 	>>>  "String: %s, Numery: %d %f" % ("Ala", 10, 3.1415)
 	'String: Ala, Numery: 10 3.141500'
 
-Teraz zamiast dziewięciu miejsc po przecinku za każdym razem otrzymamy 
-sześć, ale formatowanie ma tę zaletę, że umożliwia nam na kontrolę nad
+Teraz, zamiast dziewięciu miejsc po przecinku, za każdym razem otrzymamy 
+sześć, ale formatowanie ma tę zaletę, że umożliwia nam kontrolę nad
 tym, poprzez wstawianie dodatkowej informacji pomiędzy znak `%` i literę
-`f`, np. jesli chcielibyśmy wyświetlać tylko dwa miejsca po przecinku,
+`f`, np. jeśli chcielibyśmy wyświetlać tylko dwa miejsca po przecinku,
 zamiast sześciu:
-Now instead of nine decimal places we always get six, but the formatting
-has the advantage that it allows us to have more control by putting
-between `%` and `f` additional information, e.g. if you want to display
-only two places after the decimal point:
 
 	>>> "%.2f" % 3.1415 
 	'3.14' 
 	>>> "%.2f" % 21.387755102040817 
 	'21.39'
 
-Istenieje mnóstwo opcji formatowania. Nie pokażemy ich tu wszystkich.
-Jdna z najbardziej użytecznych to wyrównywanie do określonej ilości
+Istnieje mnóstwo opcji formatowania. Niestety nie pokażemy ich tu wszystkich.
+Jedna z najbardziej użytecznych to wyrównywanie do określonej ilości
 znaków:
 
     .. testcode::
@@ -213,16 +195,16 @@ Metody
 
 Istnieje obecnie mnóstwo metod formatowania stringów:
 
-1.  capitalize() - Zamienia pierwszą literę stringa z małej na wielką
-2.  count(str, beg= 0,end=len(string)) - Liczy, ile razy str pojawia się
+1.  capitalize() - zamienia pierwszą literę stringa z małej na wielką
+2.  count(str, beg= 0,end=len(string)) - liczy, ile razy str pojawia się
     w stringu lub opodstringu stringa, gdzie beg to początowy index, a end
     to index kończący.
 3.  endswith(suffix, beg=0, end=len(string)) - ustala, czy string lub
     podstring striga kończy się podanym przyrostkiem (suffix), zwraca 
     true, jeśli tak lub false, jeśli nie.
-4.  find(str, beg=0 end=len(string)) - Determine if str occurs in string
-    or in a substring of string if starting index beg and ending index
-    end are given returns index if found and -1 otherwise.
+4.  find(str, beg=0 end=len(string)) - ustala, czy str pojawia się w stringu
+    lub w podstringu stringa, gdy poano index początkowy beg i index końcowy
+    end, zwraca index, jeśli odnajdzie str lub -1 w przeciwnym razie
 5.  index(str, beg=0, end=len(string)) - Same as find(), but raises an
     exception if str not found.
 6.  isalnum() - Returns true if string has at least 1 character and all
