@@ -356,6 +356,15 @@ Na przykład możemy użyć `input()`, by zachować podany string jako nazwę:
 
 Czy to wystarczy, by ulepszyć nasz program?
 
+    >>> weight = input()
+    60.5
+    >>> weight 
+    '60.5'
+    >>> print(w + 3)
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    TypeError: Can't convert 'int' object to str implicitly
+
 Jak widzicie, Python nie wie, jakiego wyniku oczekujemy. Stringi (`str`)
 i liczby (`int`) mogą być dodawane. Python nie wie, czy odnosimy się do
 liczby `63.5` czy do stringa `"60.5"`.
@@ -363,23 +372,32 @@ Tylko my to wiemy, a zatem musimy zawrzeć tę informację w programie.
 
 Wprowadźmy dwie nowe funkcje:
 
-========================================
-DOTĄD SPRAWDZIŁAM
-==========================
+    >>> help(int)  # doctest: +NORMALIZE_WHITESPACE
+    Help on class int in module builtins:
+    <BLANKLINE>
+    class int(object)
+    |  int(x=0) -> integer
+    |  int(x, base=10) -> integer
+    |
+    |  Convert a number or string to an integer, or return 0 if no arguments
+    |  are given.  If x is a number, return x.__int__().  For floating point
+    |  numbers, this truncates towards zero.
+    |
+    |  ...
 
-	>>>  help(int) \# doctest: +NORMALIZE\_WHITESPACE Help on
-	>>>  class int in module builtins: <BLANKLINE> class int(object) |
-	>>>  int(x=0) -> integer | int(x, base=10) -> integer | | Convert a
-	>>>  number or string to an integer, or return 0 if no arguments | are
-	>>>  given. If x is a number, return x.\_\_int\_\_(). For floating point |
-	>>>  numbers, this truncates towards zero. | | ...
 
-i
+oraz
 
-	>>>  help(float) \# doctest: +NORMALIZE\_WHITESPACE Help on
-	>>>  class float in module builtins: <BLANKLINE> class float(object)
-	>>>  | float(x) -> floating point number | | Convert a string or number
-	>>>  to a floating point number, if possible. | | ...
+    >>> help(float)  # doctest: +NORMALIZE_WHITESPACE
+    Help on class float in module builtins:
+    <BLANKLINE>
+    class float(object)
+    |  float(x) -> floating point number
+    |
+    |  Convert a string or number to a floating point number, if possible.
+    |
+    |  ...
+
 
 Funkcja help nie waha się poinformować nas, że w rzeczywistości int i float
 nie są funkcjami, ale klasami (będzie o tym mowa później), stąd dowiadujemy się
@@ -389,11 +407,20 @@ stringów w liczby określonego typu.
 
 Przetestujmy int i float:
 
-	>>>  int("0") 0 >>> int(" 63 ") 63 >>>
-	>>>  int("60.5") Traceback (most recent call last): File "<stdin>",
-	>>>  line 1, in <module> ValueError: invalid literal for int() with
-	>>>  base 10: '60.5' >>> float("0") 0.0 >>> float(" 63 ")
-	>>>  63.0 >>> float("60.5") 60.5
+    >>> int("0")
+    0
+    >>> int(" 63 ")
+    63
+    >>> int("60.5")
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    ValueError: invalid literal for int() with base 10: '60.5'
+    >>> float("0")
+    0.0
+    >>> float(" 63 ")
+    63.0
+    >>> float("60.5")
+    60.5
 
 Zanim użyjemy w naszym programie funkcji, których właśnie się nauczyliśmy,
 zaplanujmy, jak powinien on działać:
@@ -402,18 +429,44 @@ zaplanujmy, jak powinien on działać:
 2.  Uzyskaj string od użytkownika i zachowaj go pod nazwą `height`.
 3.  Przekształć string z liczbą w liczbę z ułamkiem.
 4.  Poproś użytkownika o wprowadzenie wagi.
-5.  Uzyskaj string od użytkowniak i zachowaj go pod nazwą `weight`.
+5.  Uzyskaj string od użytkownika i zachowaj go pod nazwą `weight`.
 6.  Przekształć string z liczbą w liczbę z ułamkiem.
-7.  Oblicz BMI wykorzystując zapamiętane wartości i zachwaj BMI jako `bmi`.
+7.  Oblicz BMI, wykorzystując zapamiętane wartości i zachowaj wynik jako `bmi`.
 8.  Wyświetl obliczone BMI.
 
-Nie ma w tym nic zaskakującego, że te osiem punktów może być wprost
+Nie powinno nas dziwić, że te osiem punktów może być wprost
 przetłumaczone na osiem wierszy naszego programu (nie licząc spacji):
+
+    .. testsetup::
+
+    input.queue.append("1.75")
+    input.queue.append("65.5")
+
+    .. testcode::
+
+    print("Wprowadź wzrost w metrach:")
+    height = input()
+    height = float(height)
+
+    print("Wprowadź wagę w kilogramach:")
+    weight = input()
+    weight = float(weight)
+
+    bmi = weight / (height**2) #oblicz BMI
+    print("Twoje BMI wynosi:", bmi)
 
 Możecie zapisać program do `bmi.py` i uruchomić `python bmi.py`. Resultat
 powinien wyglądać następująco:
 
-Podsumowując, aby wywołać funckję, musimy znać jej nazwę (do tej chwli
+.. testoutput::
+
+    Wprowadź wzrost w metrach:
+    1.75
+    Wprowadź wagę w kilogramach:
+    65.5
+    Twoje BMI wynosi: 21.387755102040817
+
+Podsumowując, aby wywołać funckję, musimy znać jej nazwę (do tej pory
 nauczyliśmy się szeregu funkcji: print, help, input, float i int) i jakich
 danych ta funkcja od nas oczekuje (nazywanych listą argumentów).
 
@@ -431,7 +484,8 @@ Teraz Python wykona funkcję.
 Wszystkie argumenty podajemy w nawiasach. Aby wyszczególnić więcej niż jeden,
 oddzielcie je przecinkiem:
 
-	>>>  int("FF", 16) 255
+	>>>  int("FF", 16) 
+	255
 
 
 Podsumowanie
@@ -441,7 +495,7 @@ W tym rozdziale nauczyliśmy się podstaw składni Pythona. Odkryliśmy, jak
 wyświetlać liczby całkowite, liczby dziesiętne, stringi i tuple.
 
 Nauczyliśmy się funkcji print, która wyświetla informacje użytkownikowi
-oraz funckji input, która je pobiera.
+oraz funkcji input, która je pobiera.
 
 Pomyślnie stworzyliśmy przechowywany w pliku program i uruchomiliśmy go.
 Nasz program zadaje użytkownikowi kilka prostych pytań, wykonuje obliczenia
