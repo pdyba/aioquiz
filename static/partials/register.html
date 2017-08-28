@@ -1,18 +1,19 @@
 ﻿<div class="container" xmlns="http://www.w3.org/1999/html">
 
     <div class="col-md-6 col-md-offset-3">
-        <h3>Language:</h3>
+        <h3 ng-hide="vm.user.lang === 'pl'">Language:</h3>
+        <h3 ng-show="vm.user.lang === 'pl'">Język:</h3>
         <form name="form" ng-submit="vm.register()" role="form">
             <div class="form-group">
                 <label for="lang">
                     <input class="form-inline text-left" type="radio"
                            name="lang" id="lang" value="pl"
                            ng-model="vm.user.lang"
-                           required/> PL
+                           required/> Polski
                     <input class="form-inline float-right" type="radio"
                            name="lang" id="lang" value="en"
                            ng-model="vm.user.lang"
-                           required/> ENG
+                           required/> English
                 </label>
             </div>
             <div ng-show="vm.user.lang">
@@ -25,8 +26,7 @@
                 </div>
                 <div ng-if="vm.user.lang === 'pl'">
                 Poniższe informacje są potrzebne, żeby się z Tobą skontaktować
-                i poinformować o wynikach rekrutacji oraz żebyś mogł(a) się
-                zalogować do tej aplikacji.
+                i poinformować o wynikach rekrutacji oraz żebyś mogła/mogł się zalogować do tej aplikacji.
                     </div>
             </p>
 
@@ -60,16 +60,18 @@
 
 
             <div class="form-group"
-                 ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+                 ng-class="{ 'has-error': form.name.$dirty && form.name.$invalid }">
                 <label for="name" ng-if="vm.user.lang === 'en'">First name</label>
-                <label for="name" ng-if="vm.user.lang === 'pl'"> Imie</label>
+                <label for="name" ng-if="vm.user.lang === 'pl'"> Imię</label>
                 <span ng-show="form.name.$error.required"
                       class="help-inline alert-danger">&#10060; Required</span>
                 <span ng-show="form.name.$error.minlength "
                       class="help-inline alert-danger">Minimal length 3</span>
                 <span ng-show="form.name.$dirty && form.name.$valid"
                       class="help-inline alert-success">&#10003;</span>
-                <input ng-minlength="3" type="text" name="name" id="name"
+                <span ng-show="form.name.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters</span>
+                <input ng-minlength="3" type="text" name="name" id="name" ng-pattern="/^[a-zA-Z \-]*$/"
                        class="form-control" ng-model="vm.user.name" required/>
             </div>
 
@@ -83,7 +85,9 @@
                       class="help-inline alert-danger">Minimal length 3</span>
                 <span ng-show="form.surname.$dirty && form.surname.$valid"
                       class="help-inline alert-success">&#10003;</span>
-                <input ng-minlength="3" type="text" name="surname" id="surname"
+                <span ng-show="form.surname.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters</span>
+                <input ng-minlength="3" type="text" name="surname" id="surname" ng-pattern="/^[a-zA-Z \-]*$/"
                        class="form-control" ng-model="vm.user.surname"
                        required/>
             </div>
@@ -101,14 +105,16 @@
             <div class="form-group"
                  ng-class="{ 'has-error': form.city.$dirty && form.password.$error.required }">
                 <label for="city" ng-if="vm.user.lang === 'en'">City</label>
-                <label for="city" ng-if="vm.user.lang === 'pl'">Miasto</label>
+                <label for="city" ng-if="vm.user.lang === 'pl'">Miejscowość</label>
                 <span ng-show="form.city.$error.required"
                       class="help-inline alert-danger">&#10060; Required</span>
                 <span ng-show="form.city.$error.minlength "
                       class="help-inline alert-danger">Minimal length 3</span>
                 <span ng-show="form.city.$dirty && form.city.$valid"
                       class="help-inline alert-success">&#10003;</span>
-                <input ng-minlength="3" type="text" name="city" id="city"
+                <span ng-show="form.city.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters</span>
+                <input ng-minlength="3" type="text" name="city" id="city" ng-pattern="/^[a-zA-Z \-]*$/"
                        class="form-control" ng-model="vm.user.city" required/>
             </div>
 
@@ -129,20 +135,17 @@
                  ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
                 <label for="education" ng-if="vm.user.lang === 'en'">Education</label>
                 <label for="education" ng-if="vm.user.lang === 'pl'">Edukacja</label>
-                <select ng-options="x for x in ['Elementary', 'Gymnasium', 'Vocational', 'Technician', 'High School', 'Baccalaureate', 'Engineer', 'Master', 'PHD']"
-                        ng-model="vm.user.education" ngValue="x">
-                </select>
+                <select class="form-control" ng-if="vm.user.lang === 'en'" ng-options="x for x in ['Elementary', 'Gymnasium', 'Vocational', 'Technician', 'High School', 'Baccalaureate', 'Engineer', 'Master', 'PHD']"  ng-model="vm.user.education" ngValue="x"></select >
+                <select class="form-control" ng-if="vm.user.lang === 'pl'" ng-options="x for x in ['Podstawowe', 'Gimnzajalne', 'Zawodowe', 'Techniczne', 'Średnie', 'Licencjat', 'Inżynier', 'Magister', 'Doktor']"  ng-model="vm.user.education" ngValue="x"></select >
             </div>
 
             <div class="form-group"
                  ng-class="{ 'has-error': form.university.$dirty && form.university.$error.required }">
-                <label for="university" ng-if="vm.user.lang === 'en'">University</label>
-                <label for="university" ng-if="vm.user.lang === 'pl'">Uniwersytet</label>
-                                <span ng-show="form.operating_system.$error"
-                      class="help-inline alert-danger">{{ form.operating_system.$error }}</span>
-                <select ng-options="x for x in ['None', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER']"
+                <label for="university" ng-if="vm.user.lang === 'en'">University - ongoing or graduate</label>
+                <label for="university" ng-if="vm.user.lang === 'pl'">Szkoła wyższa - aktualna lub ukończona</label>
+                <select class="form-control" ng-options="x for x in ['None', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER']"
                         ng-model="vm.user.university" ngValue="x"
-                        required></select>
+                        required></select >
                 <span ng-show="form.university.$dirty && form.university.$error.required"
                       class="help-block">Password is required</span>
             </div>
@@ -150,12 +153,10 @@
             <div class="form-group"
                  ng-class="{ 'has-error': form.t_shirt.$dirty && form.t_shirt.$error.required }">
                 <label for="t_shirt">T-shirt*</label>
-                <span ng-show="form.t_shirt.$error"
-                      class="help-inline alert-danger">{{ form.t_shirt.$error }}</span>
-                <select ng-options="x for x in
+                <select class="form-control" ng-options="x for x in
                 ['Female-XXS', 'Female-XS', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL']"
                         ng-model="vm.user.t_shirt" ngValue="x" required>
-                </select>
+                </select >
             </div>
 
             <div class="form-group"
@@ -166,12 +167,10 @@
                       class="help-inline alert-danger">&#10060; Required</span>
                 <span ng-show="form.operating_system.$dirty && form.operating_system.$valid"
                       class="help-inline alert-success">&#10003;</span>
-                <span ng-show="form.operating_system.$error"
-                      class="help-inline alert-danger">{{ form.operating_system.$error }}</span>
-                <select ng-options="x for x in ['MacOS', 'Linux', 'Windows']"
+                <select class="form-control" ng-options="x for x in ['MacOS', 'Linux', 'Windows']"
                         ng-model="vm.user.operating_system" ngValue="x"
                         required>
-                </select>
+                </select >
             </div>
 
                 <h4  ng-if="vm.user.lang === 'en'">About You</h4>
@@ -180,18 +179,19 @@
                      <strong>Attendee</strong><br>
                 Here we woulde like to know about your motivation behind the
                 decision to start learning programming
+                <br><strong>Mentor:</strong><br>
+                If You are new with us we would like to know you a little bit better, if you are our old fellow please provide Your short bio :)
+
                 </p>
+
                 <p ng-if="vm.user.lang === 'pl'">
                     <strong>Uczestnik</strong> <br>
                 Przede wszystkim chcemy poznać Twoje motywy podjęcia decyzji o
-                rozpoczęciu kursu programowania w Python'ie, jak i Twoich
+                rozpoczęciu kursu programowania w Pythonie, jak i Twoich
                 doświadczeniach.
+                <br><strong>Mentor:</strong><br>
+                    Jeśli dopiero zaczynasz przygodę z PyLadies - chcielibyśmy Cię bliżej poznać, a jeśli już z nami współpracowałeś, zamieść tutaj swoje krótkie bio :)
                 </p>
-                <p><strong>Mentor:</strong><br>
-                If You are new with us we would like to know you a little bit
-                better, if you are our old fellow please provide Your short bio
-                :)
-            </p>
 
 
             <div class="form-group"
@@ -216,16 +216,18 @@
 
             <div class="form-group"
                  ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-                <label for="description" ng-if="vm.user.lang === 'en'">Description</label>
-                <label for="description" ng-if="vm.user.lang === 'pl'">Opis</label>
+                <label for="description" ng-if="vm.user.lang === 'en'">Write something about yourself</label>
+                <label for="description" ng-if="vm.user.lang === 'pl'">Napisz coś o sobie.</label>
                 <span ng-show="form.description.$error.required"
                       class="help-inline alert-danger">&#10060; Required</span>
                 <span ng-show="form.description.$error.minlength "
                       class="help-inline alert-danger">Minimal length 65</span>
                 <span ng-show="form.description.$dirty && form.description.$valid"
                       class="help-inline alert-success">&#10003;</span>
+                <span ng-show="form.description.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
                 <textarea ng-minlength="65" type="text" name="description"
-                          id="description" class="form-control"
+                          id="description" class="form-control" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
                           ng-model="vm.user.description" required/>
             </div>
 
@@ -252,19 +254,28 @@
                       class="help-inline alert-danger">&#10060; Required</span>
                 <span ng-show="form.experience.$dirty && form.experience.$valid"
                       class="help-inline alert-success">&#10003;</span>
-                <span ng-show="form.experience.$error"
-                      class="help-inline alert-danger">{{ form.experience.$error }}</span>
-                <select ng-options="x for x in [
-                'I have none - Nie posiadam wcale',
-                'I had somthing but I do not remember anything - coś tam robiłam/em ale nic nie pamiętam',
-                'I know the basics - Znam podstawy',
-                'I can program - Umiem programować',
-                'I know well other programming language - Znam dobrze inny język programowania',
-                'I am an exprienced programmer - jestem doświadczonym programistą'
+                <select class="form-control" ng-if="vm.user.lang === 'en'" ng-options="x for x in [
+                'I have none',
+                'I had some but I do not remember anything',
+                'I know the basics',
+                'I can program',
+                'I know well other programming language',
+                'I am an experienced programmer'
                 ]"
                         ng-model="vm.user.experience" ngValue="x"
                         required>
-                    </select>
+                    </select >
+                <select class="form-control" ng-if="vm.user.lang === 'pl'" ng-options="x for x in [
+                'Nie posiadam wcale',
+                'Coś tam robiłam/em, ale nic nie pamiętam',
+                'Znam podstawy',
+                'Umiem programować',
+                'Znam dobrze inny język programowania',
+                'Jestem doświadczonym programistą'
+                ]"
+                        ng-model="vm.user.experience" ngValue="x"
+                        required>
+                    </select >
             </div>
             <br>
             <div class="checkbox"
@@ -292,8 +303,8 @@
                 <label for="attend_weekly"><input type="checkbox" name="attend_weekly"
                                            id="attend_weekly"
                                            ng-model="vm.user.attend_weekly">
-                <p ng-if="vm.user.lang === 'en'">Will you attend weekly meetings after this weekend workshop ?</p>
-                <p ng-if="vm.user.lang === 'pl'">Czy zamierzasz kontynuować naukę co tydzień po warsztacie weeekendowym ?</p>
+                <p ng-if="vm.user.lang === 'en'">Will you attend weekly meetings after this weekend workshop with us?</p>
+                <p ng-if="vm.user.lang === 'pl'">Czy zamierzasz kontynuować naukę z nami co tydzień po warsztacie weeekendowym ?</p>
                 </label>
             </div>
 
@@ -301,10 +312,11 @@
             <div class="form-group"
                  ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }"
                  ng-hide="vm.user.mentor == 'mentor'">
-                    <label for="app_idea" ng-if="vm.user.lang === 'en'">What kind of application would you like to create?</label>
-                <label for="app_idea" ng-if="vm.user.lang === 'pl'">Jaką aplikację chiałbyś/chciałabyś stworzyć?</label>
-
-                <textarea type="text" name="app_idea" id="app_idea"
+                <label for="app_idea" ng-if="vm.user.lang === 'en'">What are you going to use the knowledge obtained on the workshops? Do you have an idea for app.</label>
+                <label for="app_idea" ng-if="vm.user.lang === 'pl'">Do czego chciałabyś/chciałbyś wykorzystać wiedzę z warsztatów? Czy masz pomysł na własną aplikację?</label>
+                                <span ng-show="form.app_idea.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <textarea type="text" name="app_idea" id="app_idea" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
                           class="form-control" ng-model="vm.user.app_idea"/>
             </div>
 
@@ -317,7 +329,9 @@
                 <label for="what_can_you_bring" ng-if="vm.user.lang === 'pl'">Co przyniesisz do podzielenia się do jedzenia i
                     picia. To jest warsztat społeczny, każdy jest proszony o dołączenie się.
                     Możesz coś upiec, zrobić kanapki, kupić przekąski lub soki/napoje - jesteśmy otwarci pod tym względem.</label>
-                                <input type="text" name="what_can_you_bring"
+                                <span ng-show="form.what_can_you_bring.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                                <input type="text" name="what_can_you_bring" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
                        id="what_can_you_bring" class="form-control"
                        ng-model="vm.user.what_can_you_bring"/>
             </div>
@@ -329,7 +343,7 @@
                                              id="i_helped"
                                              ng-model="vm.user.i_helped">
                     <p ng-if="vm.user.lang === 'en'">I helped with organisation !</p>
-                <p ng-if="vm.user.lang === 'pl'">Pomogłem przy organizacji !</p>
+                <p ng-if="vm.user.lang === 'pl'">Pomogłam/Pomogłem przy organizacji !</p>
 
                 </label>
             </div>
@@ -337,8 +351,11 @@
             <div class="form-group"
                  ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }"
                  ng-show="vm.user.i_helped">
-                <label for="helped">Helped with | Pomogłem z</label>
-                <textarea type="text" name="helped" id="helped"
+                <label for="helped" ng-if="vm.user.lang === 'en'">Helped with</label>
+                <label for="helped" ng-if="vm.user.lang === 'pl'">Pomogłem z</label>
+                <span ng-show="form.helped.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <textarea type="text" name="helped" id="helped" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
                           class="form-control" ng-model="vm.user.helped"/>
             </div>
 
@@ -372,9 +389,6 @@
                 </label>
             </div>
 
-            <br>
-
-
             <div class="form-actions">
                 <button type="submit"
                         ng-disabled="form.$invalid || vm.dataLoading"
@@ -385,11 +399,10 @@
                 <a href="#/login" class="btn btn-link">Cancel</a>
             </div>
                 <p ng-if="vm.user.lang === 'en'">*At this point we are not sure if there will be any t-shirts for attendees.</p>
-                <p ng-if="vm.user.lang === 'pl'">*Na chwile obecna nie możemy obiecać że będą koszulki dla uczestników.</p>
+                <p ng-if="vm.user.lang === 'pl'">*Na chwilę obecną nie możemy obiecać, że będą koszulki dla uczestników.</p>
             </h4>
             </div>
         </form>
     </div>
 
 </div>
-<!-- /.container -->
