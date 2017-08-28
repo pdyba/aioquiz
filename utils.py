@@ -5,6 +5,8 @@ import hashlib
 import logging
 
 import aiosmtplib
+from aiosmtplib.errors import SMTPTimeoutError
+
 
 from config import EMAIL
 
@@ -84,8 +86,11 @@ async def send_email(recipients=None, subject='', text=''):
         message['From'] = 'PyLadies Poznan <pyladies@dyba.it>'
         message['Subject'] = subject
         sender = 'pyladies@dyba.it'
-        await server.sendmail(sender, recipients, message.as_string())
+        await server.sendmail(sender, recipients, message.as_string(), timeout=10)
         return True
+    except SMTPTimeoutError:
+        logging.exception('error sending email')
+        logging.error(EMAIL.SERVER)
     except:
         logging.exception('error sending email')
         return False

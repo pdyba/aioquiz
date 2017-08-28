@@ -166,12 +166,14 @@ class UserView(HTTPMethodView):
                         name=user.name,
                         server=request.host
                 )
-                await send_email(
+                resp = await send_email(
                     recipients=[user.email],
                     text=text,
                     subject=REGEMAIL.SUBJECT_PL if user.lang == 'pl' else REGEMAIL.SUBJECT_EN,
                 )
-                return json({'success': True})
+                if resp:
+                    return json({'success': True})
+                return json({'success': False, 'msg': 'error sending e-mail'})
         except DeprecationWarning:
             return json(
                 {'msg': 'You probably used one of banned chars like ;'},
