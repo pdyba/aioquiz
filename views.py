@@ -158,6 +158,9 @@ class UserView(HTTPMethodView):
             user = Users(**req)
             user.session_uuid = str(uuid4()).replace('-', '')
             uid = await user.create()
+            if not isinstance(uid, int):
+                usr = Users.get_first('session_uuid', user.session_uuid)
+                uid = usr.id
             if uid:
                 text = REGEMAIL.TEXT_PL if user.lang == 'pl' else REGEMAIL.TEXT_EN
                 text = text.format(
