@@ -27,7 +27,7 @@ except Exception as err:
         Dziękujemy za rejestrację na warsztat weekendowy PyLadies.start() w Poznaniu w dniach 23-24 września.
         Proszę potwierdź swój adres mailowy klikając w poniższy link:
 
-        http://{server}/api/activation/{uid}/{acode}
+        https://{server}/api/activation/{uid}/{acode}
 
         Zapraszamy do śledzenia wydarzenia na FB:
 
@@ -41,7 +41,7 @@ except Exception as err:
         Hi {name},
         Thanks for registering for PyLadies.Start() workshop in Poznan on 23-24.09.2017.
         Please confirm your e-mail clicking this link:
-        http://{server}/api/activation/{uid}/{acode}
+        https://{server}/api/activation/{uid}/{acode}
 
         Follow facebook event for the latest infatuation:
 
