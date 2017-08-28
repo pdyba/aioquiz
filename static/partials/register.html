@@ -110,8 +110,7 @@
                       class="help-inline alert-danger">&#10060; Required</span>
                 <span ng-show="form.city.$error.minlength "
                       class="help-inline alert-danger">Minimal length 3</span>
-                <span ng-show="form.city.$dirty && form.city.$valid"
-                      class="help-inline alert-success">&#10003;</span>
+                <span ng-show="form.city.$dirty && form.city.$valid" class="help-inline alert-success">&#10003;</span>
                 <span ng-show="form.city.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters</span>
                 <input ng-minlength="3" type="text" name="city" id="city" ng-pattern="/^[a-zA-Z \-]*$/"
@@ -138,29 +137,32 @@
                  ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
                 <label for="education" ng-if="vm.user.lang === 'en'">Education</label>
                 <label for="education" ng-if="vm.user.lang === 'pl'">Edukacja</label>
-                <select class="form-control" ng-if="vm.user.lang === 'en'" ng-options="x for x in ['Elementary', 'Gymnasium', 'Vocational', 'Technician', 'High School', 'Baccalaureate', 'Engineer', 'Master', 'PHD']"  ng-model="vm.user.education" ngValue="x"></select >
-                <select class="form-control" ng-if="vm.user.lang === 'pl'" ng-options="x for x in ['Podstawowe', 'Gimnazjalne', 'Zawodowe', 'Techniczne', 'Średnie', 'Licencjat', 'Inżynier', 'Magister', 'Doktor']"  ng-model="vm.user.education" ngValue="x"></select >
+                <select class="form-control" ng-if="vm.user.lang === 'en'" ng-options="x for x in ['Elementary', 'Gymnasium', 'Vocational', 'Technician', 'High School', 'Baccalaureate', 'Engineer', 'Master', 'PHD']"  ng-model="vm.user.education" ngValue="x"></select>
+                <select class="form-control" ng-if="vm.user.lang === 'pl'" ng-options="x for x in ['Podstawowe', 'Gimnazjalne', 'Zawodowe', 'Techniczne', 'Średnie', 'Licencjat', 'Inżynier', 'Magister', 'Doktor']"  ng-model="vm.user.education" ngValue="x"></select>
             </div>
 
-            <div class="form-group"
-                 ng-class="{ 'has-error': form.university.$dirty && form.university.$error.required }">
-                <span ng-show="form.university.$dirty && form.university.$error.required" class="help-block">Szkoła jest wymagana</span>
+            <div class="form-group" ng-class="{ 'has-error': form.university.$dirty && form.university.$error.required }">
                 <label for="university" ng-if="vm.user.lang === 'en'">University - ongoing or graduate</label>
                 <label for="university" ng-if="vm.user.lang === 'pl'">Szkoła wyższa - aktualna lub ukończona</label>
-                <select class="form-control" ng-options="x for x in ['None', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER']"
-                        ng-model="vm.user.university" ngValue="x"
-                        required></select >
+                <span ng-show="form.university.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.university.$dirty && form.university.$valid" class="help-inline alert-success">&#10003;</span>
+                <select class="form-control" ng-options="x for x in ['None-Brak', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER']"
+                        ng-model="vm.user.university" ngValue="x" required name="university" id="university">
+                    <option></option>
+                </select>
 
             </div>
 
             <div class="form-group"
                  ng-class="{ 'has-error': form.t_shirt.$dirty && form.t_shirt.$error.required }">
                 <label for="t_shirt">T-shirt*</label>
-                <span ng-show="form.t_shirt.$dirty && form.t_shirt.$error.required" class="help-block">Rozmiar Koszulki jest wymagany</span>
+                <span ng-show="form.t_shirt.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.t_shirt.$dirty && form.t_shirt.$valid" class="help-inline alert-success">&#10003;</span>
                 <select class="form-control" ng-options="x for x in
                 ['Female-XXS', 'Female-XS', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL']"
-                        ng-model="vm.user.t_shirt" ngValue="x" required>
-                </select >
+                        ng-model="vm.user.t_shirt" ngValue="x" required name="t_shirt" id="t_shirt">
+                    <option></option>
+                </select>
             </div>
 
             <div class="form-group"
@@ -172,8 +174,8 @@
                 <span ng-show="form.operating_system.$dirty && form.operating_system.$valid"
                       class="help-inline alert-success">&#10003;</span>
                 <select class="form-control" ng-options="x for x in ['MacOS', 'Linux', 'Windows']"
-                        ng-model="vm.user.operating_system" ngValue="x"
-                        required>
+                        ng-model="vm.user.operating_system" ngValue="x" name="operating_system" id="operating_system"
+                        required><option></option>
                 </select >
             </div>
 
@@ -183,9 +185,9 @@
                      <strong>Attendee</strong><br>
                 Here we woulde like to know about your motivation behind the
                 decision to start learning programming
+
                 <br><strong>Mentor:</strong><br>
                 If You are new with us we would like to know you a little bit better, if you are our old fellow please provide Your short bio :)
-
                 </p>
 
                 <p ng-if="vm.user.lang === 'pl'">
@@ -265,7 +267,7 @@
                 'I am an experienced programmer'
                 ]"
                         ng-model="vm.user.experience" ngValue="x"
-                        required>
+                        required name="experience" id="experience">
                     </select >
                 <select class="form-control" ng-if="vm.user.lang === 'pl'" ng-options="x for x in [
                 'Nie posiadam wcale',
@@ -276,7 +278,7 @@
                 'Jestem doświadczonym programistą'
                 ]"
                         ng-model="vm.user.experience" ngValue="x"
-                        required>
+                        required name="experience" id="experience">
                     </select >
             </div>
             <br>
@@ -286,8 +288,8 @@
                 <label for="python"><input type="checkbox" name="i_helped"
                                            id="python"
                                            ng-model="vm.user.python">
-                <xxxx ng-if="vm.user.lang === 'en'">Did you already install Python using following link:</xxxx>
-                <xxxx ng-if="vm.user.lang === 'pl'">Czy zainstalowałeś już Pythona używajac tego linku:</xxxx>
+                <p ng-if="vm.user.lang === 'en'">Did you already install Python using following link:</p>
+                <p ng-if="vm.user.lang === 'pl'">Czy zainstalowałeś już Pythona używajac tego linku:</p>
                     <a href="https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s">https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s</a>
                 </label>
             </div>
@@ -354,7 +356,7 @@
                  ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }"
                  ng-show="vm.user.i_helped">
                 <label for="helped" ng-if="vm.user.lang === 'en'">Helped with</label>
-                <label for="helped" ng-if="vm.user.lang === 'pl'">PPomogłam/pomogłem w</label>
+                <label for="helped" ng-if="vm.user.lang === 'pl'">Pomogłam/pomogłem w</label>
                 <span ng-show="form.helped.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
                 <textarea type="text" name="helped" id="helped" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
