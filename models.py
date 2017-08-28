@@ -55,7 +55,7 @@ class Users(Table):
         Column('education', String(255), required=False),
         Column('university', String(255), required=False),
         Column('t_shirt', String(10), required=False),
-        Column('lang', String(20), required=False),
+        Column('lang', String(20), required=False, default='pl'),
         Column('age', Integer(), required=False, default=99),
 
         Column('python', Boolean(), default=False),
@@ -304,3 +304,8 @@ class Config(Table):
         Column('room_raws', Integer(), default=10),
         Column('room_columns', Integer(), default=10),
     ]
+
+
+"""
+ALTER TABLE users ADD COLUMN lang character varying(20) NOT NULL DEFAULT 'pl';
+"""
