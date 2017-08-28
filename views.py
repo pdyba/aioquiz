@@ -159,15 +159,17 @@ class UserView(HTTPMethodView):
             user.session_uuid = str(uuid4()).replace('-', '')
             uid = await user.create()
             if uid:
-                await send_email(
-                    recipients=[user.email],
-                    text=REGEMAIL.TEXT.format(
+                text = REGEMAIL.TEXT_PL if user.lang == 'pl' else REGEMAIL.TEXT_EN
+                text = text.format(
                         acode=user.session_uuid,
                         uid=uid,
                         name=user.name,
                         server=request.host
-                    ),
-                    subject=REGEMAIL.SUBJECT,
+                )
+                await send_email(
+                    recipients=[user.email],
+                    text=text,
+                    subject=REGEMAIL.SUBJECT_PL if user.lang == 'pl' else REGEMAIL.SUBJECT_EN,
                 )
                 return json({'success': True})
         except DeprecationWarning:
