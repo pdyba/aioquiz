@@ -120,6 +120,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "SeatController",
             controllerAs: 'vm'
         })
+        .when("/rules", {
+            templateUrl: "partials/rules.html",
+            controller: "PageCtrl",
+            controllerAs: 'vm'
+        })
         .when("/review_attendee", {
             templateUrl: "partials/attendee_review_list.html",
             controller: "ReviewAttendeeController",
@@ -1063,7 +1068,7 @@ function run($rootScope, $location, $cookies, $http) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
         if (restrictedPage && !loggedIn) {
             $location.path('/');
