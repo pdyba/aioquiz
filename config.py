@@ -1,11 +1,13 @@
 try:
     from config_dev import *
     print('using dev config')
-except:
+except Exception as err:
+    print(err)
     try:
         from config_prod import *
         print('using prod config')
-    except:
+    except Exception as err:
+        print(err)
         class EMAIL:
             SERVER = ''
             PORT = 465
