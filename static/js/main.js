@@ -560,7 +560,7 @@ function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashSe
         $http.get('/api/live_quiz/' + $routeParams.id).then(
             function (response) {
                 vm.live_quiz.answares = response.data.answares;
-                $timeout(refresh, 2000);
+                //$timeout(refresh, 2000);
             }
         );
     }
@@ -999,10 +999,10 @@ function FlashService($rootScope, $route) {
             type: 'success',
             keepAfterLocationChange: keepAfterLocationChange
         };
-        setTimeout(function () {
-            delete $rootScope.flash;
-            $route.reload();
-        }, 3000);
+        //setTimeout(function () {
+        //    delete $rootScope.flash;
+        //    $route.reload();
+        //}, 3000);
     }
 
     function SuccessNoReload(message, keepAfterLocationChange) {
