@@ -70,7 +70,7 @@
                       class="help-inline alert-success">&#10003;</span>
                 <span ng-show="form.name.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters</span>
-                <input ng-minlength="3" type="text" name="name" id="name" ng-pattern="/^[a-zA-Z \-]*$/"
+                <input ng-minlength="3" type="text" name="name" id="name" ng-pattern="/^[a-zA-Z \-ęóąłżźńść]*$/"
                        class="form-control" ng-model="vm.user.name" required/>
             </div>
 
@@ -86,7 +86,7 @@
                       class="help-inline alert-success">&#10003;</span>
                 <span ng-show="form.surname.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters</span>
-                <input ng-minlength="3" type="text" name="surname" id="surname" ng-pattern="/^[a-zA-Z \-]*$/"
+                <input ng-minlength="3" type="text" name="surname" id="surname" ng-pattern="/^[a-zA-Z \-ęóąłżźńść]*$/"
                        class="form-control" ng-model="vm.user.surname"
                        required/>
             </div>
@@ -112,7 +112,7 @@
                 <span ng-show="form.city.$dirty && form.city.$valid" class="help-inline alert-success">&#10003;</span>
                 <span ng-show="form.city.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters</span>
-                <input ng-minlength="3" type="text" name="city" id="city" ng-pattern="/^[a-zA-Z \-]*$/"
+                <input ng-minlength="3" type="text" name="city" id="city" ng-pattern="/^[a-zA-Z \-ęóąłżźńść]*$/"
                        class="form-control" ng-model="vm.user.city" required/>
             </div>
 
@@ -229,7 +229,7 @@
                 <span ng-show="form.description.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
                 <textarea ng-minlength="65" type="text" name="description"
-                          id="description" class="form-control" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
+                          id="description" class="form-control" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
                           ng-model="vm.user.description" required/>
             </div>
 
@@ -318,7 +318,7 @@
                 <label for="app_idea" ng-if="vm.user.lang === 'pl'">Do czego chciałabyś/chciałbyś wykorzystać wiedzę z warsztatów? Czy masz pomysł na własną aplikację?</label>
                                 <span ng-show="form.app_idea.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                <textarea type="text" name="app_idea" id="app_idea" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
+                <textarea type="text" name="app_idea" id="app_idea" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
                           class="form-control" ng-model="vm.user.app_idea"/>
             </div>
 
@@ -333,7 +333,7 @@
                     Możesz coś upiec, zrobić kanapki, kupić przekąski lub soki/napoje - jesteśmy otwarci pod tym względem.</label>
                                 <span ng-show="form.what_can_you_bring.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                                <input type="text" name="what_can_you_bring" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
+                                <input type="text" name="what_can_you_bring" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
                        id="what_can_you_bring" class="form-control"
                        ng-model="vm.user.what_can_you_bring"/>
             </div>
@@ -357,7 +357,7 @@
                 <label for="helped" ng-if="vm.user.lang === 'pl'">Pomogłam/pomogłem w</label>
                 <span ng-show="form.helped.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                <textarea type="text" name="helped" id="helped" ng-pattern="/^[a-zA-Z0-9!:*., \-]*$/"
+                <textarea type="text" name="helped" id="helped" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
                           class="form-control" ng-model="vm.user.helped"/>
             </div>
 
