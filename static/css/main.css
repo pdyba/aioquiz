@@ -129,11 +129,57 @@ footer {
 .divider-vertical {
     height: 40px;
     margin: 5px;
-    border-left: 1px solid #777;
+    border-left: 1px solid #E51E41;
 }
 
 img.center {
     display: block;
     margin: 0 auto;
     text-align: center;
+}
+
+div.section-colored {
+    background-color: #E51E41;
+    color: #efefef
+}
+div.section {
+    background-color: #efefef;
+}
+nav.navbar {
+    background-color: #efefef;
+    border-bottom: 0px;
+    border-color: #efefef;
+    background-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(240, 240, 240) 100%);
+}
+
+.navbar-inverse .navbar-brand {
+    text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px;
+    color: #E51E41;
+}
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    color: #777;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px;
+    color: #E51E41;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus {
+    color: #777;
+}
+
+.need-help {
+    background-color: #E51E41;
+    color: #efefef !important;
+    background-image: linear-gradient(rgb(229, 30, 65) 0px, rgb(229, 30, 65) 100%);
+}
+
+.need-help:hover {
+    background-color: #777;
+    color: #E51E41 !important;
+    border: 2px !important;
+    border-left-width: 4px;
+    border-color: #E51E41;
+    background-image: radial-gradient(rgb(205, 205, 205) 0px, rgb(250, 250, 250) 70%);
 }
