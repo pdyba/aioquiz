@@ -27,15 +27,17 @@ from views import QuizView
 from views import ReviewAttendeesView
 from views import UserView
 
+from config import SERVER
+
 dir_name = dirname(abspath(__file__))
 app = Sanic()
 
 try:
     context = ssl.create_default_context(purpose=ssl.Purpose.CLIENT_AUTH)
     context.load_cert_chain("/opt/aioquiz/cert.pem", keyfile="/opt/aioquiz/privkey.pem")
-    port = 443
+    port = SERVER.PORT_HTTPS
 except:
-    port = 80
+    port = SERVER.PORT_HTTP
     context = None
 
 app.static('/', join(dir_name, 'static/index.html'))
@@ -87,4 +89,4 @@ app.error_handler.add(NotFound, handle_404s)
 app.error_handler.add(RequestTimeout, handle_timeout)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=port, debug=False, ssl=context)
+    app.run(host=SERVER.IP, port=port, debug=SERVER.DEBUG, ssl=context)
