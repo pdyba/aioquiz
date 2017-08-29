@@ -1,3 +1,10 @@
+class SERVER:
+    IP = '0.0.0.0'
+    PORT_HTTP = 80
+    PORT_HTTPS = 443
+    DEBUG = False
+
+
 class EMAIL:
     SERVER = ''
     PORT = 465
