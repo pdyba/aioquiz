@@ -149,7 +149,7 @@ nav.navbar {
     background-color: #efefef;
     border-bottom: 0px;
     border-color: #efefef;
-    background-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(240, 240, 240) 100%);
+    background-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(239, 239, 239) 100%);
 }
 
 .navbar-inverse .navbar-brand {
@@ -176,10 +176,7 @@ nav.navbar {
 }
 
 .need-help:hover {
-    background-color: #777;
+    background-color: #efefef;
     color: #E51E41 !important;
-    border: 2px !important;
-    border-left-width: 4px;
-    border-color: #E51E41;
-    background-image: radial-gradient(rgb(205, 205, 205) 0px, rgb(250, 250, 250) 70%);
+    background-image: None;
 }
