@@ -61,9 +61,6 @@ def error_catcher(func, default_return=False):
         try:
             return func(*args, **kwargs)
         except Exception as error:
-            # Check if logger is in 'self'
-            # If function is class method, use default logger from class
-            # Otherwise use default logger from this module
             if args and hasattr(args[0], 'logger'):
                 args[0].logger.exception(error)
             else:
