@@ -280,7 +280,6 @@ class Table:
                 setattr(self, key, value)
         return await self.update()
 
-
     async def to_dict(self, include_soft=False):
         restricted_keys = self._restricted_keys if include_soft else self._restricted_keys + self._soft_restricted_keys
         return {
@@ -288,6 +287,21 @@ class Table:
             for field in self._schema
             if field.name not in restricted_keys
         }
+
+    @classmethod
+    async def count_all(cls):
+        resp = await make_a_querry(
+            """SELECT COUNT(*) FROM {}""".format(cls._name)
+        )
+        return dict(resp[0])['count']
+
+    @classmethod
+    async def count_by_field(cls, **kwargs):
+        resp = await make_a_querry(
+            """SELECT COUNT(*) FROM {} WHERE """.format(cls._name) + cls._format_kwargs(**kwargs)
+        )
+        return dict(resp[0])['count']
+
 
     @classmethod
     async def _delete(cls, data):

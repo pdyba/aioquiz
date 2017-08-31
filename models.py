@@ -68,7 +68,7 @@ class Users(Table):
 
         Column('pyfunction', String(255), required=False),
 
-        Column('confirmation', String(10), default='noans'),
+        Column('confirmationconfirmation', String(10), default='noans'),
         Column('active', Boolean(), default=False),
         Column('accepted_rules', Boolean(), default=False),
         Column('accepted', Boolean(), default=False),
