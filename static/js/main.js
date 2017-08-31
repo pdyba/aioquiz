@@ -953,6 +953,7 @@ function UserService($http, $FlashService) {
     service.Create = Create;
     service.Update = Update;
     service.Delete = Delete;
+    service.GetStats = GetStats;
     service.makeOrganiser = makeOrganiser;
 
     // Nie lepiej byłoby robić tak:
@@ -978,6 +979,10 @@ function UserService($http, $FlashService) {
 
     function GetById(id) {
         return $http.get('/api/user/' + id).then(handleSuccess, handleError('Error getting user by id'));
+    }
+
+    function GetStats(id) {
+        return $http.get('/api/users_stats').then(handleSuccess, handleError('Error getting user by id'));
     }
 
     function GetByUsername(username) {
@@ -1092,15 +1097,17 @@ function AdminController(UserService, $rootScope) {
 
     vm.user = null;
     vm.allUsers = [];
+    vm.users_stats = {};
     vm.deleteUser = deleteUser;
     vm.makeOrganiser = UserService.makeOrganiser;
 
     loadAllUsers();
+    getStats();
 
-    function loadCurrentUser() {
-        UserService.GetByUsername($rootScope.globals.currentUser.username)
-            .then(function (user) {
-                vm.user = user;
+    function getStats() {
+        UserService.GetStats()
+            .then(function (stats) {
+                vm.users_stats = stats;
             });
     }
 

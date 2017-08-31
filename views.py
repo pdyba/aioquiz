@@ -116,7 +116,7 @@ class QuestionView(HTTPMethodView):
             data = await q.to_dict()
             data['creator'] = await get_user_name(data['users'])
             resp.append(data)
-        return json(resp)
+        return json(resp, sort_keys=True)
 
 
 # noinspection PyBroadException
@@ -148,7 +148,8 @@ class UserView(HTTPMethodView):
                     user.append(await u.to_dict())
                 else:
                     user.append(await u.get_public_data())
-        return json(user)
+            user.sort(key=lambda a: a['id'])
+        return json(user, sort_keys=True)
 
     @user_required()
     async def put(self, request):
@@ -156,7 +157,6 @@ class UserView(HTTPMethodView):
             current_user = await get_current_user(request)
             req = request.json
             await current_user.update_from_dict(req)
-            resp = await current_user.to_dict()
             return json({'success': True})
         except:
             logging.exception('err users.put')
@@ -244,7 +244,7 @@ class QuizView(HTTPMethodView):
             if isinstance(question, dict):
                 return json(question)
             q = await question.to_dict()
-            return json(q)
+            return json(q, sort_keys=True)
         except:
             logging.exception('err quiz.post')
             return json({}, status=500)
@@ -256,7 +256,7 @@ class QuizView(HTTPMethodView):
             question = await quiz.get_question()
             q = await question.to_dict()
             q['quiz_title'] = quiz.title
-            return json(q)
+            return json(q, sort_keys=True)
         else:
             quizes = await Quiz.get_all()
             resp = []
@@ -265,7 +265,7 @@ class QuizView(HTTPMethodView):
                 q['creator'] = await get_user_name(q['users'])
                 q['amount'] = await quiz.get_question_amount()
                 resp.append(q)
-            return json(resp)
+            return json(resp, sort_keys=True)
 
 
 # noinspection PyBroadException
@@ -360,7 +360,7 @@ class LessonView(HTTPMethodView):
             for l in lessons:
                 resp.append(await l.to_dict())
             resp.sort(key=lambda a: a['id'])
-            return json(resp)
+            return json(resp, sort_keys=True)
 
 
 # noinspection PyBroadException
@@ -436,7 +436,7 @@ class ReviewAttendeesView(HTTPMethodView):
             ud = await u.to_dict(include_soft=True)
             ud.update({'reviews': reviews.get(u.id, {})})
             users.append(ud)
-        return json(users)
+        return json(users, sort_keys=True)
 
     @user_required('organiser')
     async def post(self, request):
@@ -526,7 +526,7 @@ class ExercisesView(HTTPMethodView):
             else:
                 q['answared'] = False
             resp.append(q)
-        return json(resp)
+        return json(resp, sort_keys=True)
 
     @user_required()
     async def post(self, request):
@@ -537,6 +537,17 @@ class ExercisesView(HTTPMethodView):
         await ex.create()
         return json({'success': True})
 
+
+class UserStatsView(HTTPMethodView):
+    async def get(self, _):
+        resp = {
+            'all': await Users.count_all(),
+            'mentors': await Users.count_by_field(mentor=True, organiser=False, admin=False),
+            'atendees': await Users.count_by_field(mentor=False),
+            'organisers': await Users.count_by_field(organiser=True, admin=False),
+            'admins': await Users.count_by_field(admin=True),
+        }
+        return json(resp, sort_keys=True)
 
 class ReviewRulesView(HTTPMethodView):
     @user_required('organiser')

@@ -28,6 +28,7 @@ from views import QuizView
 from views import ReviewAttendeesView
 from views import ReviewRulesView
 from views import UserView
+from views import UserStatsView
 
 from config import SERVER
 
@@ -88,6 +89,8 @@ app.add_route(ActivationView.as_view(), '/api/activation/<uid:int>/<acode>')
 app.add_route(MakeOrganiserView.as_view(), '/api/make_organiser')
 
 app.add_route(ReviewRulesView.as_view(), '/api/review_rules')
+
+app.add_route(UserStatsView.as_view(), '/api/users_stats')
 
 app.add_route(ExercisesView.as_view(), '/api/exercise')
 app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')
