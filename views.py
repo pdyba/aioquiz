@@ -543,11 +543,12 @@ class UserStatsView(HTTPMethodView):
         resp = {
             'all': await Users.count_all(),
             'mentors': await Users.count_by_field(mentor=True, organiser=False, admin=False),
-            'atendees': await Users.count_by_field(mentor=False),
+            'atendees': await Users.count_by_field(mentor=False, organiser=False),
             'organisers': await Users.count_by_field(organiser=True, admin=False),
             'admins': await Users.count_by_field(admin=True),
         }
         return json(resp, sort_keys=True)
+
 
 class ReviewRulesView(HTTPMethodView):
     @user_required('organiser')
