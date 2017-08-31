@@ -826,12 +826,12 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
         UserService.Update(vm.user)
             .then(function (response) {
                 if (response.success) {
-                    FlashService.Success('Update sucesfull', true);
+                    $FlashService.Success('Update sucesfull', true);
                     $location.path('/profile');
                 } else {
-                    FlashService.Error(response.message);
-                    vm.dataLoading = false;
+                    $FlashService.Error(response.message);
                 }
+                vm.dataLoading = false;
             });
     }
     get_user_data()
@@ -991,7 +991,7 @@ function UserService($http, $FlashService) {
     }
 
     function Update(user) {
-        return $http.put('/api/user/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
+        return $http.put('/api/user/', user).then(handleSuccess, handleError('Error updating user'));
     }
 
     function Delete(id) {
