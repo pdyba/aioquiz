@@ -127,8 +127,13 @@ class UserView(HTTPMethodView):
         if id_name:
             if id_name.isnumeric():
                 user = await Users.get_by_id(int(id_name))
+            elif id_name == 'undefined':
+                return json({'msg': 'wrong username'}, 404)
             else:
-                user = await Users.get_first('email', id_name)
+                try:
+                    user = await Users.get_first('email', id_name)
+                except DoesNotExist:
+                    logging.error('Wrong e-mail or smth: ' + id_name)
             if current_user.id == user.id:
                 return json(await user.get_my_user_data())
             return json(await user.get_public_data())
@@ -376,6 +381,7 @@ class AuthenticateView(HTTPMethodView):
                     'admin': user.admin,
                     'mentor': user.mentor,
                     'name': user.name,
+                    'email': user.email,
                     'surname': user.surname,
                     'lang': user.lang,
                     'organiser': user.organiser,

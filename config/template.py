@@ -3,6 +3,7 @@ class SERVER:
     PORT_HTTP = 80
     PORT_HTTPS = 443
     DEBUG = False
+    WORKERS = 1
 
 
 class EMAIL:

@@ -6,6 +6,7 @@ from os.path import join
 import ssl
 
 from sanic import Sanic
+from sanic.config import LOGGING
 from sanic.exceptions import NotFound
 from sanic.exceptions import RequestTimeout
 from sanic.exceptions import ServerError
@@ -29,6 +30,10 @@ from views import ReviewRulesView
 from views import UserView
 
 from config import SERVER
+
+if not SERVER.DEBUG:
+    LOGGING['loggers']['network']['level'] = 'WARNING'
+    LOGGING['loggers']['sanic']['level'] = 'WARNING'
 
 dir_name = dirname(abspath(__file__))
 app = Sanic()
@@ -92,4 +97,11 @@ app.error_handler.add(NotFound, handle_404s)
 app.error_handler.add(RequestTimeout, handle_timeout)
 
 if __name__ == "__main__":
-    app.run(host=SERVER.IP, port=port, debug=SERVER.DEBUG, ssl=context)
+    app.run(
+        host=SERVER.IP,
+        port=port,
+        debug=SERVER.DEBUG,
+        ssl=context,
+        log_config=LOGGING,
+        workers=SERVER.WORKERS
+    )
