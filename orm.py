@@ -274,6 +274,13 @@ class Table:
     async def update(self, **kwargs):
         return await self._update(self, **kwargs)
 
+    async def update_from_dict(self, data_dict):
+        for key, value in data_dict.items():
+            if self._in_schema(key) and not key in  self._restricted_keys + ['create_date', 'last_login']:
+                setattr(self, key, value)
+        return await self.update()
+
+
     async def to_dict(self, include_soft=False):
         restricted_keys = self._restricted_keys if include_soft else self._restricted_keys + self._soft_restricted_keys
         return {

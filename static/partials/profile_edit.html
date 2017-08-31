@@ -3,7 +3,7 @@
     <div class="col-md-6 col-md-offset-3">
         <h3 ng-hide="vm.user.lang === 'pl'">Language:</h3>
         <h3 ng-show="vm.user.lang === 'pl'">Język:</h3>
-        <form name="form" ng-submit="vm.register()" role="form">
+        <form name="form" ng-submit="vm.update_user()" role="form">
             <div class="form-group">
                 <label for="lang">
                     <input class="form-inline text-left" type="radio"
@@ -36,11 +36,57 @@
             </div>
 
 
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.experience.$dirty && form.password.$error.required }">
+                <label for="img" ng-if="vm.user.lang === 'en'">Photo</label>
+                <label for="img" ng-if="vm.user.lang === 'pl'">Zdjcie</label>
+                <span ng-show="form.img.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="img" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="img" class="form-control"  ng-model="vm.user.img"/>
+            </div>
+
+            <div class="form-group">
+                <label for="linkedin" ng-if="vm.user.lang === 'en'">Linkedin</label>
+                <label for="linkedin" ng-if="vm.user.lang === 'pl'">Linkedin</label>
+                <span ng-show="form.linkedin.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="linkedin" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="linkedin" class="form-control"  ng-model="vm.user.linkedin"/>
+            </div>
+
+            <div class="form-group">
+                <label for="facebook" ng-if="vm.user.lang === 'en'">Facebook</label>
+                <label for="facebook" ng-if="vm.user.lang === 'pl'">Facebook</label>
+                <span ng-show="form.facebook.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="facebook" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="facebook" class="form-control"  ng-model="vm.user.facebook"/>
+            </div>
+
+            <div class="form-group">
+                <label for="twitter" ng-if="vm.user.lang === 'en'">Twitter</label>
+                <label for="twitter" ng-if="vm.user.lang === 'pl'">Twitter</label>
+                <span ng-show="form.twitter.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="twitter" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="twitter" class="form-control"  ng-model="vm.user.twitter"/>
+            </div>
+
+            <div class="form-group">
+                <label for="pyfunction" ng-if="vm.user.lang === 'en'">PyFunction</label>
+                <label for="pyfunction" ng-if="vm.user.lang === 'pl'">PyFunction</label>
+                <span ng-show="form.pyfunction.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="pyfunction" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="pyfunction" class="form-control"  ng-model="vm.user.pyfunction"/>
+            </div>
+
 
             <div class="form-actions">
                 <button type="submit"
                         ng-disabled="form.$invalid || vm.dataLoading"
-                        class="btn btn-primary">Register
+                        class="btn btn-primary">Update
                 </button>
                 <img ng-if="vm.dataLoading"
                      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
@@ -51,3 +97,4 @@
     </div>
 
 </div>
+

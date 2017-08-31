@@ -151,8 +151,16 @@ class UserView(HTTPMethodView):
         return json(user)
 
     @user_required()
-    async def put(self, _, id_name=None):
-        return json({'success': True})
+    async def put(self, request):
+        try:
+            current_user = await get_current_user(request)
+            req = request.json
+            await current_user.update_from_dict(req)
+            resp = await current_user.to_dict()
+            return json({'success': True})
+        except:
+            logging.exception('err users.put')
+            return json({}, status=500)
 
     async def post(self, request):
         """
