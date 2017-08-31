@@ -11,6 +11,8 @@ from sanic.response import redirect
 from sanic.views import HTTPMethodView
 
 from config import REGEMAIL
+from config import MAINCONFIG
+
 from models import Exercise
 from models import Lesson
 from models import LiveQuiz
@@ -356,6 +358,7 @@ class AuthenticateView(HTTPMethodView):
     )
 
     async def post(self, request):
+        global _users
         try:
             req = request.json
             user = await Users.get_first('email', req.get('email', ''))
@@ -367,12 +370,15 @@ class AuthenticateView(HTTPMethodView):
                 user.session_uuid = str(uuid4()).replace('-', '')
                 user.last_login = datetime.utcnow()
                 await user.update()
+                _users[user.session_uuid] = user
                 return json({
                     'success': True,
                     'admin': user.admin,
                     'mentor': user.mentor,
                     'name': user.name,
                     'surname': user.surname,
+                    'lang': user.lang,
+                    'organiser': user.organiser,
                     'id': user.id,
                     'session_uuid': user.session_uuid
                 })
@@ -466,7 +472,7 @@ class ActivationView(HTTPMethodView):
         if user and user.session_uuid == acode:
             user.active = True
             await user.update()
-            return redirect('/')
+            return redirect('/#/regconfirmed')
         return json({'success': False, 'reson': 'wrong token'})
 
 
@@ -516,3 +522,10 @@ class ExercisesView(HTTPMethodView):
         ex = ExerciseAnsware(**req)
         await ex.create()
         return json({'success': True})
+
+
+class ReviewRulesView(HTTPMethodView):
+    @user_required('organiser')
+    async def get(self, _):
+        rules = [x.strip() for x in MAINCONFIG.CIRITERIA.split('\n') if x]
+        return json(rules)

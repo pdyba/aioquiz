@@ -125,6 +125,16 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "PageCtrl",
             controllerAs: 'vm'
         })
+        .when("/regconfirmed", {
+            templateUrl: "partials/regconfirmed.html",
+            controller: "PageCtrl",
+            controllerAs: 'vm'
+        })
+        .when("/program", {
+            templateUrl: "partials/program.html",
+            controller: "PageCtrl",
+            controllerAs: 'vm'
+        })
         .when("/review_attendee", {
             templateUrl: "partials/attendee_review_list.html",
             controller: "ReviewAttendeeController",
@@ -235,6 +245,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         $FlashService: $FlashService
     });
     vm.filter = 'notrated';
+    vm.rules = [];
     vm.filters = filters;
     vm.rate = rate;
     vm.accept = accept;
@@ -249,6 +260,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         $http.post('/api/review_attendees/', data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Score Saved', false);
+                user.score = user.score + user.new_review;
             }
         );
     }
@@ -261,6 +273,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         $http.put('/api/review_attendees/', data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Score Accepted', false);
+                user.accept = true;
             }
         );
     }
@@ -272,6 +285,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         $http.put('/api/review_attendees/', data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Score Accepted', false);
+                user.accept = false;
             }
         );
     }
@@ -327,7 +341,17 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         });
     }
 
+    function get_rules() {
+        $http.get('/api/review_rules').then(
+            function (response) {
+                vm.rules = response.data;
+                console.log(vm.rules)
+            }
+        );
+    }
+
     get_all_users();
+    get_rules()
 }
 
 app.controller('LessonsCtrl', LessonsCtrl);
@@ -365,7 +389,6 @@ function LessonMngtController($scope, $location, $AuthenticationService, $FlashS
     $http.get('/api/lessons').then(
         function (response) {
             vm.lessons = response.data;
-            console.log(vm.lessons);
         }
     );
 }
@@ -735,7 +758,7 @@ function LoginController($location, AuthenticationService, FlashService) {
         vm.dataLoading = true;
         AuthenticationService.Login(vm.username, vm.password, function (response) {
             if (response.data.success) {
-                AuthenticationService.SetCredentials(vm.username, response.data.admin, response.data.mentor, response.data.id, response.data.session_uuid, response.data.name, response.data.surname);
+                AuthenticationService.SetCredentials(response.data, response.data.session_uuid);
                 $location.path('/');
             } else {
                 $location.path('/login');
@@ -756,7 +779,7 @@ function RegisterController(UserService, $location, $rootScope, FlashService) {
         UserService.Create(vm.user)
             .then(function (response) {
                 if (response.success) {
-                    FlashService.Success('Registration successful', true);
+                    FlashService.Success('Registration successful, please confirm it using link provided in e-mail', true);
                     $location.path('/login');
                 } else {
                     FlashService.Error(response.message);
@@ -846,27 +869,18 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
         });
     }
 
-    function SetCredentials(username, admin, mentor, id, session_uuid, name, surname) {
+    function SetCredentials(data, session_uuid) {
         var authdata = session_uuid;
 
         $rootScope.globals = {
-            currentUser: {
-                username: username,
-                authdata: authdata,
-                admin: admin,
-                mentor: mentor,
-                name: name,
-                surname: surname,
-                id: id
-            }
+            currentUser: data
         };
-
         // set default auth header for http requests
         $http.defaults.headers.common['Authorization'] = authdata;
 
         // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
         var cookieExp = new Date();
-        cookieExp.setDate(cookieExp.getDate() + 7);
+        cookieExp.setDate(cookieExp.getDate() + 10);
         $cookies.putObject('globals', $rootScope.globals, {expires: cookieExp});
     }
 
@@ -1063,12 +1077,12 @@ function run($rootScope, $location, $cookies, $http) {
     // keep user logged in after page refresh
     $rootScope.globals = $cookies.getObject('globals') || {};
     if ($rootScope.globals.currentUser) {
-        $http.defaults.headers.common['Authorization'] = $rootScope.globals.currentUser.authdata;
+        $http.defaults.headers.common['Authorization'] = $rootScope.globals.currentUser.session_uuid;
     }
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules', '/regconfirmed']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
         if (restrictedPage && !loggedIn) {
             $location.path('/');
