@@ -1,46 +1,53 @@
-<div class="container">
+<div class="container" xmlns="http://www.w3.org/1999/html">
 
-    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h3 ng-hide="vm.user.lang === 'pl'">Language:</h3>
+        <h3 ng-show="vm.user.lang === 'pl'">Język:</h3>
+        <form name="form" ng-submit="vm.register()" role="form">
+            <div class="form-group">
+                <label for="lang">
+                    <input class="form-inline text-left" type="radio"
+                           name="lang" id="lang" value="pl"
+                           ng-model="vm.user.lang"
+                           required/> Polski
+                    <input class="form-inline float-right" type="radio"
+                           name="lang" id="lang" value="en"
+                           ng-model="vm.user.lang"
+                           required/> English
+                </label>
+            </div>
 
-        <div class="col-lg-12">
-            <h1 class="page-header">Profile
-                <small>{{ globals.currentUser.username }}</small>
-            </h1>
-        </div>
 
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
+                <label for="description" ng-if="vm.user.lang === 'en'">Description</label>
+                <label for="description" ng-if="vm.user.lang === 'pl'">Opis</label>
+                <span ng-show="form.description.$error.required"
+                      class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.description.$error.minlength "
+                      class="help-inline alert-danger">Minimal length 65</span>
+                <span ng-show="form.description.$dirty && form.description.$valid"
+                      class="help-inline alert-success">&#10003;</span>
+                <span ng-show="form.description.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <textarea ng-minlength="65" type="text" name="description"
+                          id="description" class="form-control" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
+                          ng-model="vm.user.description" required/>
+            </div>
+
+
+
+            <div class="form-actions">
+                <button type="submit"
+                        ng-disabled="form.$invalid || vm.dataLoading"
+                        class="btn btn-primary">Register
+                </button>
+                <img ng-if="vm.dataLoading"
+                     src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+                <a href="#/login" class="btn btn-link">Cancel</a>
+            </div>
+
+        </form>
     </div>
-    <form name="form" ng-submit="vm.register()" role="form">
-        <div class="form-group"
-             ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-            <label for="username">First name</label>
-            <input type="text" name="firstName" id="firstName"
-                   class="form-control" ng-model="vm.user.firstName" required/>
-            <span ng-show="form.firstName.$dirty && form.firstName.$error.required"
-                  class="help-block">First name is required</span>
-        </div>
-        <div class="form-group"
-             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
-            <label for="username">Last name</label>
-            <input type="text" name="lastName" id="Text2" class="form-control"
-                   ng-model="vm.user.lastName" required/>
-            <span ng-show="form.lastName.$dirty && form.lastName.$error.required"
-                  class="help-block">Last name is required</span>
-        </div>
 
-        <div class="form-group"
-             ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
-            <label for="username">Description</label>
-            <textarea type="text" name="description" id="Text3" class="form-control"
-                   ng-model="vm.user.description" rows="5"></textarea>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
-                    class="btn btn-primary">Submit
-            </button>
-            <img ng-if="vm.dataLoading"
-                 src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-            <a href="#/login" class="btn btn-link">Cancel</a>
-        </div>
-    </form>
 </div>

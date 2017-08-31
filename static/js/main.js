@@ -110,6 +110,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "ProfileCtrl",
             controllerAs: 'vm'
         })
+        .when("/profile_edit", {
+            templateUrl: "partials/profile_edit.html",
+            controller: "ProfileEditCtrl",
+            controllerAs: 'vm'
+        })
         .when("/admin_users", {
             templateUrl: "partials/admin.html",
             controller: "AdminController",
@@ -261,6 +266,9 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
             function (response) {
                 $FlashService.SuccessNoReload('Score Saved', false);
                 user.score = user.score + user.new_review;
+                if (vm.filter === 'notrated' || vm.filter === 'notratedbyme') {
+                    user.show = false;
+                }
             }
         );
     }
@@ -337,7 +345,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         $UserService.GetAllAttendees().then(function (users) {
             vm.attendee = users;
             vm.average = avg(users);
-            filters();
+            filters()
         });
     }
 
@@ -345,13 +353,13 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         $http.get('/api/review_rules').then(
             function (response) {
                 vm.rules = response.data;
-                console.log(vm.rules)
             }
         );
     }
 
     get_all_users();
-    get_rules()
+    get_rules();
+
 }
 
 app.controller('LessonsCtrl', LessonsCtrl);
@@ -534,7 +542,7 @@ function ProfileCtrl($scope, $location, $AuthenticationService, $FlashService, $
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
-    $http.get('/api/user/' + $scope.globals.currentUser.username).then(
+    $http.get('/api/user/' + $scope.globals.currentUser.id).then(
         function (response) {
             vm.user_profile = response.data;
         }
@@ -787,6 +795,46 @@ function RegisterController(UserService, $location, $rootScope, FlashService) {
                 }
             });
     }
+}
+
+
+app.controller('ProfileEditCtrl', ProfileEditCtrl);
+ProfileEditCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'UserService'];
+function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.user = {};
+    vm.update_user = update_user;
+    uid = $scope.globals.currentUser.id;
+
+
+    function get_user_data(){
+    UserService.GetById(uid).then(
+        function (resp) {
+            vm.user = resp;
+        }
+    )
+    }
+
+    function update_user() {
+        vm.dataLoading = true;
+        UserService.Update(vm.user)
+            .then(function (response) {
+                if (response.success) {
+                    FlashService.Success('Update sucesfull', true);
+                    $location.path('/profile');
+                } else {
+                    FlashService.Error(response.message);
+                    vm.dataLoading = false;
+                }
+            });
+    }
+    get_user_data()
 }
 
 app.controller('NewQuestionController', NewQuestionController);
