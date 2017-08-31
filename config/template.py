@@ -20,6 +20,9 @@ class DB:
 
 
 class REGEMAIL:
+    '''
+    move to DB
+    '''
     TEXT_PL = """
     Cześć {name}!
     Dziękujemy za rejestrację na warsztat weekendowy PyLadies.start() w Poznaniu w dniach 23-24 września.
@@ -50,3 +53,13 @@ class REGEMAIL:
     """
     SUBJECT_PL = 'PyLadies.start() Potwierdzenie rejestarcji'
     SUBJECT_EN = 'PyLadies.start() Workshops Registration Confirmation'
+
+
+class MAINCONFIG:
+    '''
+    move to DB
+    '''
+    REGISTRATION_OPEN = True
+    CIRITERIA = """
+    how we should judge
+    """

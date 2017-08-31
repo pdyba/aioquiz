@@ -1,8 +1,11 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Attendee: Review
-            </h1>
+            <h1 class="page-header">Attendee: Review</h1>
+            <p>Rules</p>
+            <ol>
+                <li ng-repeat="x in vm.rules" ng-if="x">{{ x }}</li>
+            </ol>
         </div>
 
     </div>
@@ -54,10 +57,6 @@
             </div>
             <ul class="list-group">
                 <li class="list-group-item">
-                   <b>City:</b>
-                    {{ u.city }}
-                </li>
-                <li class="list-group-item">
                     <b>Operating system:</b>
                     {{ u.operating_system }}
                 </li>
@@ -81,6 +80,15 @@
                     <b>App Idea:</b>
                     <p>{{ u.app_idea }}</p>
                 </li>
+                <li class="list-group-item" ng-if="u.i_helped">
+                    <b>Helped with:</b>
+                    <p class="text-success">{{ u.helped }}</p>
+                </li>
+
+                <li class="list-group-item">
+                    <p ng-class="{'text-danger': !u.python, 'text-success': u.python}">Python</p>
+                    <p ng-class="{'text-danger': !u.attend_weekly, 'text-success': u.attend_weekly}">I will continue weekly</p>
+                </li>
                 <li class="list-group-item">
                     <b>Score:</b>
                     {{ u.score }}
@@ -89,9 +97,11 @@
                     <b>Reviews:</b>
                     <p ng-repeat="s in u.reviews">{{ s.name }}: {{ s.score }}</p>
                 </li>
+
                 <li class="list-group-item">
-                    <b>Accepted: </b>{{ u.accepted }}  ||
-                    <b>Confirmation: </b>{{ u.confirmation }}
+                    <c ng-class="{'text-danger': !u.active, 'text-success': u.active}">Active</c>
+                    <c ng-class="{'text-danger': !u.accepted, 'text-success': u.accepted}">Accepted</c>
+                    <p><b>Confirmation: </b>{{ u.confirmation }}</p>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group" ng-hide="u.reviews && u.reviews[vm.current_user_id]">
