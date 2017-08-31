@@ -779,7 +779,7 @@ function RegisterController(UserService, $location, $rootScope, FlashService) {
         UserService.Create(vm.user)
             .then(function (response) {
                 if (response.success) {
-                    FlashService.Success('Registration successful, please confirm it using link provided in e-mail', true);
+                    FlashService.Success('Registration successful, please check your e-mail to confirm your account', true);
                     $location.path('/login');
                 } else {
                     FlashService.Error(response.message);
