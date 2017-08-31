@@ -307,12 +307,12 @@ class Table:
     async def _delete(cls, data):
         resp = await make_a_querry(
             """DELETE FROM {}
-            WHERE id = {}
+            WHERE id={}
             """.format(cls._name, data.id))
         return resp
 
     async def delete(self):
-        await self._update(self)
+        await self._delete(self)
 
 
 class Column:
