@@ -539,6 +539,7 @@ class ExercisesView(HTTPMethodView):
 
 
 class UserStatsView(HTTPMethodView):
+    @user_required('admin')
     async def get(self, _):
         resp = {
             'all': await Users.count_all(),
