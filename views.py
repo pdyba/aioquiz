@@ -435,6 +435,8 @@ class ReviewAttendeesView(HTTPMethodView):
         for u in allusers:
             ud = await u.to_dict(include_soft=True)
             ud.update({'reviews': reviews.get(u.id, {})})
+            usr = reviews.get(u.id, {})
+            ud['score'] = sum([x.get('score', 0) for _, x in usr.items()])
             users.append(ud)
         return json(users, sort_keys=True)
 
