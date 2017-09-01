@@ -1,11 +1,12 @@
 var app = angular.module('aioquiz', [
     'ngRoute',
-    'ngCookies'
+    'ngCookies',
+    'oitozero.ngSweetAlert'
 ]);
 
 function pad(num, size) {
     var s = "000000000" + num;
-    return s.substr(s.length-size);
+    return s.substr(s.length - size);
 }
 
 /**
@@ -49,8 +50,8 @@ app.config(['$routeProvider', function ($routeProvider) {
             controllerAs: 'vm'
         })
         .when("/lesson/:id", {
-            templateUrl: function(params) {
-                return 'lessons/' + pad(params.id, 4) +'.html';
+            templateUrl: function (params) {
+                return 'lessons/' + pad(params.id, 4) + '.html';
             },
             controller: "LessonCtrl",
             controllerAs: 'vm'
@@ -181,7 +182,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService) {
 }
 
 app.component("exercises", {
-    templateUrl :'partials/exercises.html',
+    templateUrl: 'partials/exercises.html',
     controller: ExercisesCtrl,
     controllerAs: 'vm'
 });
@@ -204,22 +205,22 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
             vm.exercises = response.data;
         }
     ).catch(function (response) {
-            $FlashService.Error(response.data.msg);
+        $FlashService.Error(response.data.msg);
     });
-    function answare (qwa) {
+    function answare(qwa) {
         data = {
             "answare": qwa.answare,
             "exercise": qwa.id,
             "status": "Done"
         };
         $http.post('/api/exercise/', data).then(
-        function (response) {
-            vm.resp = response.data;
-            qwa.answared = true
-        }
+            function (response) {
+                vm.resp = response.data;
+                qwa.answared = true
+            }
         ).catch(function (response) {
             $FlashService.Error(response);
-    });
+        });
     }
 }
 
@@ -238,6 +239,9 @@ function AboutCtrl($scope, $location, $AuthenticationService, $FlashService, $in
     function loadAllUsers() {
         $UserService.GetAllOrganisers().then(function (users) {
             vm.allUsers = users;
+        });
+        $UserService.GetAllMentors().then(function (users) {
+            vm.mentors = users;
         });
     }
 
@@ -290,6 +294,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
             }
         );
     }
+
     function unaccept(user) {
         var data = {
             'users': user,
@@ -555,7 +560,6 @@ function ProfileCtrl($scope, $location, $AuthenticationService, $FlashService, $
 }
 
 
-
 app.controller('LiveQuizResultsCtrl', LiveQuizResultsCtrl);
 LiveQuizResultsCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams', '$timeout'];
 function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams, $timeout) {
@@ -723,8 +727,8 @@ function CreateQuizCtrl($scope, $location, $AuthenticationService, $FlashService
 }
 
 app.controller('SeatController', SeatController);
-SeatController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function SeatController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+SeatController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'SweetAlert'];
+function SeatController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, SweetAlert) {
     var vm = this;
     vm.questions = [];
     $injector.invoke(PageCtrl, this, {
@@ -733,36 +737,99 @@ function SeatController($scope, $location, $AuthenticationService, $FlashService
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
+    vm.seats = false;
+    vm.user_seat = $scope.globals.currentUser.seat;
+    vm.take_or_relese_seat = take_or_relese_seat;
     $http.get('/api/seats').then(
         function (response) {
             vm.seats = response.data;
         }
     );
-    vm.take_seat = take_seat;
-    vm.release_seat = release_seat;
-
-    function take_seat() {
-        vm.lesson.creator = $scope.globals.currentUser.username;
-        $http.post('/api/seats', seat).then(function (response) {
-            if (response.data.success) {
-                $FlashService.Success('Seat taken', true);
-            } else {
-                $FlashService.Error(response.data.msg);
+    if (!vm.user_seat) {
+        $http.get('/api/seats/' + $scope.globals.currentUser.id).then(
+            function (response) {
+                vm.user_seat = response.data;
             }
-        });
+        );
     }
-    function release_seat() {
-        vm.lesson.creator = $scope.globals.currentUser.username;
-        $http.post('/api/seats', seat).then(function (response) {
-            if (response.data.success) {
-                $FlashService.Success('Seat released', true);
-            } else {
-                $FlashService.Error(response.data.msg);
-            }
-        });
+    function take_or_relese_seat(raw, number, user){
+        if (vm.user_seat.users && user.user_id === vm.user_seat.users){
+            release_seat(raw, number)
+        } else {
+            take_seat(raw, number)
+        }
+    }
+    function take_seat(raw, number) {
+        var seat = {
+            'row': raw,
+            'number': number,
+            'users': $scope.globals.currentUser.id
+        };
+        SweetAlert.swal({
+                title: "Are you sure?",
+                text: "You are taking seat: " + raw + number,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $http.post('/api/seats', seat).then(function (response) {
+                        if (response.data.success) {
+                            SweetAlert.swal("Success!", "Seat taken", "success");
+                            $scope.globals.currentUser.seat = {
+                                'raw': raw,
+                                'number': number
+                            };
+                            vm.user_seat = seat;
+                            vm.seats[raw][number].user = $scope.globals.currentUser.name + ' ' + $scope.globals.currentUser.surname;
+                            vm.seats[raw][number].user_id = seat.users;
+                        } else {
+                            SweetAlert.swal("Cancelled", response.data.msg, "error");
+                        }
+                    });
+                } else {
+                    SweetAlert.swal("Cancelled", "OK pick another", "error");
+                }
+            });
+    }
+
+    function release_seat(raw, number) {
+        SweetAlert.swal({
+                title: "Are you sure ?",
+                text: "You are leaving seat: " + raw + number,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $http.delete('/api/seats').then(function (response) {
+                        if (response.data.success) {
+                            SweetAlert.swal("Success!", "Seat released", "success");
+                            $scope.globals.currentUser.seat = {};
+                            vm.user_seat = {};
+                            vm.seats[raw][number].user = false;
+                            vm.seats[raw][number].user_id = false;
+                        } else {
+                            SweetAlert.swal("Cancelled", response.data.msg, "error");
+                        }
+                    });
+                } else {
+                    SweetAlert.swal("Cancelled", "OK pick another", "error");
+                }
+            });
+
     }
 }
-
 
 
 app.controller('AdminConfigController', AdminConfigController);
@@ -779,7 +846,6 @@ function AdminConfigController($scope, $location, $AuthenticationService, $Flash
     $http.get('/api/admin_config').then(
         function (response) {
             vm.config = response.data;
-            console.log(vm.config)
         }
     );
     vm.save_config = save_config;
@@ -787,13 +853,13 @@ function AdminConfigController($scope, $location, $AuthenticationService, $Flash
     function save_config() {
         vm.dataLoading = true;
         $http.post('/api/admin_config', vm.config).then(function (response) {
-                if (response.data.success) {
-                    $FlashService.SuccessNoReload(response.data.msg);
-                } else {
-                    $FlashService.Error(response.data.msg);
-                }
-                vm.dataLoading = false;
-            });
+            if (response.data.success) {
+                $FlashService.SuccessNoReload(response.data.msg);
+            } else {
+                $FlashService.Error(response.data.msg);
+            }
+            vm.dataLoading = false;
+        });
     }
 }
 
@@ -892,12 +958,12 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
     uid = $scope.globals.currentUser.id;
 
 
-    function get_user_data(){
-    UserService.GetById(uid).then(
-        function (resp) {
-            vm.user = resp;
-        }
-    )
+    function get_user_data() {
+        UserService.GetById(uid).then(
+            function (resp) {
+                vm.user = resp;
+            }
+        )
     }
 
     function update_user() {
@@ -913,6 +979,7 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
                 vm.dataLoading = false;
             });
     }
+
     get_user_data()
 }
 
@@ -990,7 +1057,7 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
         }).then(
             function (response) {
                 callback(response);
-        }).catch(function (err) {
+            }).catch(function (err) {
             $FlashService.Error(err.data.msg);
             callback(err);
         });
@@ -998,7 +1065,11 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 
     function SetCredentials(data, session_uuid) {
         var authdata = session_uuid;
-
+        $http.get('/api/seats/' + data.id).then(
+            function (response) {
+                data.seat = response.data;
+            }
+        );
         $rootScope.globals = {
             currentUser: data
         };
@@ -1071,7 +1142,7 @@ function UserService($http, $FlashService) {
     function Create(user) {
         return $http.post('/api/user/', user).then(handleSuccess).catch(function (response) {
             $FlashService.Error(response.data.msg);
-    });
+        });
     }
 
     function Update(user) {
@@ -1082,14 +1153,14 @@ function UserService($http, $FlashService) {
         return $http.delete('/api/user/' + id).then(handleSuccess, handleError('Error deleting user'));
     }
 
-    function makeOrganiser(user){
+    function makeOrganiser(user) {
         var data = {
             'organiser': true,
             'uid': user.id
         };
         $http.post('/api/make_organiser', data).then(function (response) {
             if (response.data.success) {
-                $FlashService.Success('Made an organiser: ' + user.name, true);;
+                $FlashService.Success('Made an organiser: ' + user.name, true);
             } else {
                 $FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
@@ -1103,7 +1174,7 @@ function UserService($http, $FlashService) {
 
     function handleError(error) {
         return function () {
-            return {success: false, msg: error};
+            return {success: false, msg: error.msg};
         };
     }
 }

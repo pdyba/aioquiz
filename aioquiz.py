@@ -96,6 +96,7 @@ app.add_route(ReviewRulesView.as_view(), '/api/review_rules')
 app.add_route(UserStatsView.as_view(), '/api/users_stats')
 
 app.add_route(SeatView.as_view(), '/api/seats')
+app.add_route(SeatView.as_view(), '/api/seats/<uid:int>')
 
 app.add_route(ConfigView.as_view(), '/api/admin_config')
 

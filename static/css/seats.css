@@ -70,7 +70,6 @@ ol {
   animation-fill-mode: both;
 }
 .seat input[type=checkbox]:disabled + label {
-  background: #00a0f4;
   overflow: hidden;
 }
 .seat input[type=checkbox]:disabled + label:after {
@@ -80,11 +79,19 @@ ol {
   left: 50%;
   transform: translate(-50%, 0%);
 }
-
+.my_seat {
+  background: #bada55 !important;
+}
+.taken {
+ background: #00a0f4 !important;
+}
 .i_need_help {
   background: #F42536 !important;
 }
-
+.empty_raw {
+  content: " ";
+  background: #FFFFFF !important;
+}
 .seat input[type=checkbox]:disabled + label:hover {
   box-shadow: none;
   cursor: not-allowed;

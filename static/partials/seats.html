@@ -3,26 +3,32 @@
 <div class="container">
     <div class="row">
 
-<div class="col-md-12">
-    <h1>Wybierz swoje miejsce !</h1>
-<br>
-  <div class="exit">
-  </div>
-    <div class="plane">
-  <ol>
-    <li class="row" ng-repeat="(raw, y) in vm.seats">
-      <ol class="seats" type="A">
-        <li class="seat" ng-repeat="(number, user) in y">
-          <input type="checkbox" id="{{ raw }}{{ number }}" ng-disabled="user.user"/>
-          <label for="{{ raw }}{{ number }}" ng-class="{'i_need_help': user.i_need_help}">{{ raw }}{{ number }}</label>
-        </li>
-      </ol>
-    </li>
+        <div class="col-md-12">
+            <h1>Wybierz swoje miejsce !</h1>
+            <br>
+            <div class="exit">
+            </div>
+            <div class="plane">
+                <ol>
+                    <li class="row" ng-repeat="(raw, y) in vm.seats">
+                        <ol class="seats" type="A">
+                            <li class="seat" ng-repeat="(number, user) in y">
+                                <input ng-click="vm.take_or_relese_seat(raw, number, user)"
+                                       type="checkbox"
+                                       id="{{ raw }}{{ number }}"
+                                       ng-disabled="vm.user_seat.users && (vm.user_seat.row != raw || vm.user_seat.number != number) || user.empty_raw"
+                                       ng-checked="vm.user_seat.raw === raw && vm.user_seat.number === number"/>
+                                <label for="{{ raw }}{{ number }}"
+                                       ng-class="{'empty_raw': user.empty_raw, 'i_need_help': user.i_need_help, 'taken': user.user && vm.user_seat.users != user.user_id, 'my_seat': user.user_id && vm.user_seat.users === user.user_id}">
+                                    <x ng-hide="user.empty_raw">{{ raw }}{{ number }}</x></label>
+                            </li>
+                        </ol>
+                    </li>
 
-  </ol>
+                </ol>
 
-</div>
+            </div>
 
-</div>
+        </div>
     </div>
 </div>

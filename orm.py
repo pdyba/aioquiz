@@ -6,6 +6,10 @@ import logging
 import re
 
 import asyncpg
+from asyncpg.exceptions import DatatypeMismatchError
+from asyncpg.exceptions import PostgresSyntaxError
+from asyncpg.exceptions import UndefinedColumnError
+from asyncpg.exceptions import UniqueViolationError
 
 from config import DB
 
@@ -30,11 +34,13 @@ async def make_a_querry(querry, retry=False):
         try:
             return await db.fetch(querry)
         except (
-            asyncpg.exceptions.PostgresSyntaxError,
-            asyncpg.exceptions.DatatypeMismatchError,
-            asyncpg.exceptions.UndefinedColumnError,
+            PostgresSyntaxError,
+            DatatypeMismatchError,
+            UndefinedColumnError,
         ):
             logging.exception('queering db: %s', querry)
+    except UniqueViolationError:
+        raise
     except:
         if retry:
             logging.exception('connecting to db')
@@ -219,6 +225,8 @@ class Table:
     async def create(self):
         try:
             return await self._create(self)
+        except UniqueViolationError:
+            raise
         except Exception as e:
             logging.exception('Error creating {}'.format(self._name))
             return isinstance(e, TypeError)

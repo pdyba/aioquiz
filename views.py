@@ -6,6 +6,8 @@ from json import dumps as jdumps
 import logging
 from uuid import uuid4
 
+from asyncpg.exceptions import UniqueViolationError
+
 from sanic.response import json
 from sanic.response import redirect
 from sanic.views import HTTPMethodView
@@ -574,36 +576,69 @@ class ReviewRulesView(HTTPMethodView):
 
 class SeatView(HTTPMethodView):
     @user_required()
-    async def get(self, _, current_user):
-        if not current_user.mentor:
-            pass
+    async def get(self, _, current_user, uid=None):
+        if uid:
+            try:
+                seats = await Seat.get_first('users', uid)
+                resp = await seats.to_dict()
+            except DoesNotExist:
+                return json({})
         else:
-            pass
-        seats = await Seat.get_all()
-        used_seats = defaultdict(dict)
-        for seat in seats:
-            used_seats[seat['row']][seat['number']] = {
-                'user': seat['users'],
-                'i_need_help': seat['i_need_help']
-            }
-        config = await Config.get_by_id(1)
-        resp = defaultdict(dict)
-        empty = {'user': False, 'i_need_help': False}
-        empty_raw = {'user': False, 'i_need_help': False, 'empty_raw': True}
-        for x in range(config.room_raws):
-            raw = chr(65 + x)
-            for y in range(config.room_columns):
-                if x + 1 // 3 == 0:
-                    resp[raw][y] = empty_raw
-                else:
-                    resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
+            seats = await Seat.get_all()
+            config = await Config.get_by_id(1)
+            used_seats = defaultdict(dict)
+            for seat in seats:
+                used_seats[seat.row][seat.number] = {
+                    'user_id': seat.users,
+                    'user': await get_user_name(seat.users),
+                    'i_need_help': seat.i_need_help
+                }
+            resp = defaultdict(dict)
+            empty = {'user': False, 'i_need_help': False}
+            empty_raw = {'user': False, 'i_need_help': False, 'empty_raw': True}
+            for x in range(config.room_raws):
+                raw = chr(65 + x)
+                for y in range(config.room_columns):
+                    if (x + 1) % 3 == 0:
+                        resp[raw][y] = empty_raw
+                    else:
+                        resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
         return json(resp, sort_keys=True)
 
     @user_required()
     async def post(self, request, current_user):
         req = request.json
-        seat = await Seat.create(**req)
-        return json(sort_keys=True)
+        try:
+            seat = Seat(**req)
+            await seat.create()
+            return json(
+                {
+                    'success': True,
+                    'msg': 'Seat taken'
+                },
+                sort_keys=True
+            )
+        except UniqueViolationError:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'You already have taken a seat'
+                },
+                sort_keys=True
+            )
+
+
+    @user_required()
+    async def delete(self, _, current_user):
+        seat = await Seat.get_first('users', current_user.id)
+        await seat.delete()
+        return json(
+            {
+                'success': True,
+                'msg': 'Seat taken'
+            },
+            sort_keys=True
+        )
 
 
 class ConfigView(HTTPMethodView):
