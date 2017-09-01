@@ -262,8 +262,8 @@ class Seat(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('row', String(255)),
-        Column('number', String(10000)),
-        Column('users', ForeignKey('users')),
+        Column('number', Integer()),
+        Column('users', ForeignKey('users'), unique=True),
         Column('i_need_help', Boolean(), default=False),
     ]
 
@@ -304,8 +304,3 @@ class Config(Table):
         Column('room_raws', Integer(), default=10),
         Column('room_columns', Integer(), default=10),
     ]
-
-
-"""
-ALTER TABLE users ADD COLUMN lang character varying(20) NOT NULL DEFAULT 'pl';
-"""

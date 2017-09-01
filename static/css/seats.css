@@ -11,28 +11,28 @@ html {
 }
 
 .exit {
-  position: relative;
+  /*position: relative;*/
   height: 50px;
 }
-.exit:before, .exit:after {
-  content: "EXIT";
+.exit:before {
+  content: "SCENA";
   font-size: 14px;
   line-height: 18px;
   padding: 0px 2px;
   font-family: "Arial Narrow", Arial, sans-serif;
   display: block;
-  position: absolute;
+  /*position: absolute;*/
   background: green;
   color: white;
   top: 50%;
   transform: translate(0, -50%);
 }
-.exit:before {
-  left: 0;
-}
-.exit:after {
-  right: 0;
-}
+/*.exit:before {*/
+  /*left: 0;*/
+/*}*/
+/*.exit:after {*/
+  /*right: 0;*/
+/*}*/
 
 .fuselage {
   border-right: 5px solid #d8d8d8;
@@ -58,9 +58,6 @@ ol {
   padding: 5px;
   position: relative;
 }
-.seat:nth-child(3) {
-  margin-right: 14.28571428571429%;
-}
 .seat input[type=checkbox] {
   position: absolute;
   opacity: 0;
@@ -73,17 +70,27 @@ ol {
   animation-fill-mode: both;
 }
 .seat input[type=checkbox]:disabled + label {
-  background: #dddddd;
-  text-indent: -9999px;
   overflow: hidden;
 }
 .seat input[type=checkbox]:disabled + label:after {
-  content: "X";
   text-indent: 0;
   position: absolute;
   top: 4px;
   left: 50%;
   transform: translate(-50%, 0%);
+}
+.my_seat {
+  background: #bada55 !important;
+}
+.taken {
+ background: #00a0f4 !important;
+}
+.i_need_help {
+  background: #F42536 !important;
+}
+.empty_raw {
+  content: " ";
+  background: #FFFFFF !important;
 }
 .seat input[type=checkbox]:disabled + label:hover {
   box-shadow: none;
@@ -98,7 +105,7 @@ ol {
   font-weight: bold;
   line-height: 1.5rem;
   padding: 4px 0;
-  background: #F42536;
+  background: #dddddd;
   border-radius: 5px;
   animation-duration: 300ms;
   animation-fill-mode: both;

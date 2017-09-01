@@ -229,7 +229,7 @@
                 <span ng-show="form.description.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
                 <textarea ng-minlength="65" type="text" name="description"
-                          id="description" class="form-control" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
+                          id="description" class="form-control" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
                           ng-model="vm.user.description" required/>
             </div>
 
@@ -318,7 +318,7 @@
                 <label for="app_idea" ng-if="vm.user.lang === 'pl'">Do czego chciałabyś/chciałbyś wykorzystać wiedzę z warsztatów? Czy masz pomysł na własną aplikację?</label>
                                 <span ng-show="form.app_idea.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                <textarea type="text" name="app_idea" id="app_idea" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
+                <textarea type="text" name="app_idea" id="app_idea" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
                           class="form-control" ng-model="vm.user.app_idea"/>
             </div>
 
@@ -333,7 +333,7 @@
                     Możesz coś upiec, zrobić kanapki, kupić przekąski lub soki/napoje - jesteśmy otwarci pod tym względem.</label>
                                 <span ng-show="form.what_can_you_bring.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                                <input type="text" name="what_can_you_bring" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
+                                <input type="text" name="what_can_you_bring" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
                        id="what_can_you_bring" class="form-control"
                        ng-model="vm.user.what_can_you_bring"/>
             </div>
@@ -357,7 +357,7 @@
                 <label for="helped" ng-if="vm.user.lang === 'pl'">Pomogłam/pomogłem w</label>
                 <span ng-show="form.helped.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                <textarea type="text" name="helped" id="helped" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
+                <textarea type="text" name="helped" id="helped" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
                           class="form-control" ng-model="vm.user.helped"/>
             </div>
 

@@ -6,6 +6,10 @@ import logging
 import re
 
 import asyncpg
+from asyncpg.exceptions import DatatypeMismatchError
+from asyncpg.exceptions import PostgresSyntaxError
+from asyncpg.exceptions import UndefinedColumnError
+from asyncpg.exceptions import UniqueViolationError
 
 from config import DB
 
@@ -30,13 +34,16 @@ async def make_a_querry(querry, retry=False):
         try:
             return await db.fetch(querry)
         except (
-            asyncpg.exceptions.PostgresSyntaxError,
-            asyncpg.exceptions.DatatypeMismatchError,
-            asyncpg.exceptions.UndefinedColumnError,
+            PostgresSyntaxError,
+            DatatypeMismatchError,
+            UndefinedColumnError,
         ):
             logging.exception('queering db: %s', querry)
+    except UniqueViolationError:
+        raise
     except:
-        logging.exception('connecting to db')
+        if retry:
+            logging.exception('connecting to db')
         db = None
         if not retry:
             return await make_a_querry(querry, retry=True)
@@ -218,6 +225,8 @@ class Table:
     async def create(self):
         try:
             return await self._create(self)
+        except UniqueViolationError:
+            raise
         except Exception as e:
             logging.exception('Error creating {}'.format(self._name))
             return isinstance(e, TypeError)
@@ -314,6 +323,12 @@ class Table:
     async def delete(self):
         await self._delete(self)
 
+    @classmethod
+    async def detele_by_id(cls, uid):
+        resp = await make_a_querry(
+            """DELETE FROM {} WHERE id={}""".format(cls._name, uid)
+        )
+        return resp
 
 class Column:
     def __init__(

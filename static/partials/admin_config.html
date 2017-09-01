@@ -1,0 +1,58 @@
+<div class="container" xmlns="http://www.w3.org/1999/html">
+
+    <div class="col-md-6 col-md-offset-3">
+        <h3>Config:</h3>
+        <form name="form" ng-submit="vm.save_config()" role="form">
+
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.room_raws.$dirty && form.room_raws.$error.required }">
+                <label for="room_raws">Raws</label>
+                <span ng-show="form.room_raws.$error.pattern"
+                      class="help-inline alert-danger">
+                    <p>You need to input 1 and 9999</p>
+                </span>
+                <span ng-show="form.room_raws.$error.number"
+                      class="help-inline alert-danger">Must be a positive number</span>
+                <input name="room_raws" id="room_raws" type="number" ng-model="vm.config.room_raws"
+                       ng-pattern="/^[0-9]{1,4}$/"/>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.room_columns.$dirty && room_columns.age.$error.required }">
+                <label for="room_columns">Columns</label>
+                <span ng-show="form.room_columns.$error.pattern"
+                      class="help-inline alert-danger">
+                    <p>You need to input 1 and 9999</p>
+                </span>
+                <span ng-show="form.room_columns.$error.number"
+                      class="help-inline alert-danger">Must be a positive number</span>
+                <input name="room_columns" id="room_columns" type="number" ng-model="vm.config.room_columns"
+                       ng-pattern="/^[0-9]{1,4}$/"/>
+            </div>
+
+
+            <div class="checkbox">
+                <label for="reg_active">
+                    <input type="checkbox" name="reg_active"
+                           id="reg_active"
+                           ng-model="vm.config.reg_active"/>
+                <p>Rejetracja aktywna !</p>
+                </label>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit"
+                        ng-disabled="form.$invalid || vm.dataLoading"
+                        class="btn btn-primary">Update
+                </button>
+                <img ng-if="vm.dataLoading"
+                     src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+                <a href="#/login" class="btn btn-link">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+

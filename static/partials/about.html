@@ -100,10 +100,7 @@
             <div class="col-sm-4" ng-repeat="user in vm.allUsers" ng-if="user.admin">
                 <img class="img-responsive" src="/images/{{ user.img }}">
                 <h3>{{ user.name }} {{ user.surname }}<br>
-                    <small ng-show="user.admin">Admin</small>
-                    <small ng-show="user.moderator" ng-hide="user.admin">
-                        Moderator
-                    </small>
+                    <small ng-show="user.admin">Admin, {{ user.pyfunction }}</small>
                     <br>
                     <small>{{ user.email }}</small>
                 </h3>
@@ -174,7 +171,7 @@
             <div class="col-lg-12">
             <h2 class="page-header">Mentorzy</h2>
                 </div>
-            <div class="col-sm-4" ng-repeat="user in vm.allUsers" ng-if="user.mentor && !user.admin &&user.organiser">
+            <div class="col-sm-4" ng-repeat="user in vm.mentors" ng-if="user.mentor && !user.admin &&user.organiser">
                 <img class="img-responsive" src="/images/{{ user.img }}">
                 <h3>{{ user.name }} {{ user.surname }}<br>
                     <small> Mentor </small>
