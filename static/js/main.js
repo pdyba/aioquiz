@@ -120,6 +120,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "AdminController",
             controllerAs: 'vm'
         })
+        .when("/admin_config", {
+            templateUrl: "partials/admin_config.html",
+            controller: "AdminConfigController",
+            controllerAs: 'vm'
+        })
         .when("/seats", {
             templateUrl: "partials/seats.html",
             controller: "SeatController",
@@ -710,13 +715,87 @@ function CreateQuizCtrl($scope, $location, $AuthenticationService, $FlashService
                 $FlashService.Success('New Quiz added successful', true);
                 $location.path('/quiz');
             } else {
-                $FlashService.Error(response.data.message);
+                $FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
             }
         });
     }
 }
 
+app.controller('SeatController', SeatController);
+SeatController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function SeatController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    vm.questions = [];
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    $http.get('/api/seats').then(
+        function (response) {
+            vm.seats = response.data;
+        }
+    );
+    vm.take_seat = take_seat;
+    vm.release_seat = release_seat;
+
+    function take_seat() {
+        vm.lesson.creator = $scope.globals.currentUser.username;
+        $http.post('/api/seats', seat).then(function (response) {
+            if (response.data.success) {
+                $FlashService.Success('Seat taken', true);
+            } else {
+                $FlashService.Error(response.data.msg);
+            }
+        });
+    }
+    function release_seat() {
+        vm.lesson.creator = $scope.globals.currentUser.username;
+        $http.post('/api/seats', seat).then(function (response) {
+            if (response.data.success) {
+                $FlashService.Success('Seat released', true);
+            } else {
+                $FlashService.Error(response.data.msg);
+            }
+        });
+    }
+}
+
+
+
+app.controller('AdminConfigController', AdminConfigController);
+AdminConfigController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function AdminConfigController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    vm.questions = [];
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    $http.get('/api/admin_config').then(
+        function (response) {
+            vm.config = response.data;
+            console.log(vm.config)
+        }
+    );
+    vm.save_config = save_config;
+
+    function save_config() {
+        vm.dataLoading = true;
+        $http.post('/api/admin_config', vm.config).then(function (response) {
+                if (response.data.success) {
+                    $FlashService.SuccessNoReload(response.data.msg);
+                } else {
+                    $FlashService.Error(response.data.msg);
+                }
+                vm.dataLoading = false;
+            });
+    }
+}
 
 app.controller('LiveQuizCreateCtrl', LiveQuizCreateCtrl);
 LiveQuizCreateCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
@@ -744,7 +823,7 @@ function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashSer
                 $FlashService.Success('New Live Quiz added successful', true);
                 $location.path('/live_quiz');
             } else {
-                $FlashService.Error(response.data.message);
+                $FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -790,7 +869,7 @@ function RegisterController(UserService, $location, $rootScope, FlashService) {
                     FlashService.Success('Registration successful, please check your e-mail to confirm your account', true);
                     $location.path('/login');
                 } else {
-                    FlashService.Error(response.message);
+                    FlashService.Error(response.msg);
                     vm.dataLoading = false;
                 }
             });
@@ -826,10 +905,10 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
         UserService.Update(vm.user)
             .then(function (response) {
                 if (response.success) {
-                    $FlashService.Success('Update sucesfull', true);
+                    $FlashService.Success(response.msg, true);
                     $location.path('/profile');
                 } else {
-                    $FlashService.Error(response.message);
+                    $FlashService.Error(response.msg);
                 }
                 vm.dataLoading = false;
             });
@@ -858,7 +937,7 @@ function NewQuestionController($scope, $location, $AuthenticationService, $Flash
                 $location.path('/question_create');
                 vm.dataLoading = false;
             } else {
-                $FlashService.Error(response.message);
+                $FlashService.Error(response.msg);
                 vm.dataLoading = false;
             }
         });
@@ -885,7 +964,7 @@ function NewLessonController($scope, $location, $AuthenticationService, $FlashSe
                 $FlashService.Success('New Lesson added successful', true);
                 $location.path('/lessons');
             } else {
-                $FlashService.Error(response.data.message);
+                $FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1012,7 +1091,7 @@ function UserService($http, $FlashService) {
             if (response.data.success) {
                 $FlashService.Success('Made an organiser: ' + user.name, true);;
             } else {
-                $FlashService.Error(response.data.message);
+                $FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1024,7 +1103,7 @@ function UserService($http, $FlashService) {
 
     function handleError(error) {
         return function () {
-            return {success: false, message: error};
+            return {success: false, msg: error};
         };
     }
 }
@@ -1044,10 +1123,10 @@ function FlashService($rootScope, $route) {
 
     function initService() {
         $rootScope.$on('$locationChangeStart', function () {
-            clearFlashMessage();
+            clearFlashmsg();
         });
 
-        function clearFlashMessage() {
+        function clearFlashmsg() {
             var flash = $rootScope.flash;
             if (flash) {
                 if (!flash.keepAfterLocationChange) {
@@ -1060,9 +1139,9 @@ function FlashService($rootScope, $route) {
         }
     }
 
-    function Success(message, keepAfterLocationChange) {
+    function Success(msg, keepAfterLocationChange) {
         $rootScope.flash = {
-            message: message,
+            msg: msg,
             type: 'success',
             keepAfterLocationChange: keepAfterLocationChange
         };
@@ -1072,17 +1151,17 @@ function FlashService($rootScope, $route) {
         //}, 3000);
     }
 
-    function SuccessNoReload(message, keepAfterLocationChange) {
+    function SuccessNoReload(msg, keepAfterLocationChange) {
         $rootScope.flash = {
-            message: message,
+            msg: msg,
             type: 'success',
             keepAfterLocationChange: keepAfterLocationChange
         };
     }
 
-    function Error(message, keepAfterLocationChange) {
+    function Error(msg, keepAfterLocationChange) {
         $rootScope.flash = {
-            message: message,
+            msg: msg,
             type: 'error',
             keepAfterLocationChange: keepAfterLocationChange
         };

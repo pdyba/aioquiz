@@ -36,7 +36,8 @@ async def make_a_querry(querry, retry=False):
         ):
             logging.exception('queering db: %s', querry)
     except:
-        logging.exception('connecting to db')
+        if retry:
+            logging.exception('connecting to db')
         db = None
         if not retry:
             return await make_a_querry(querry, retry=True)
@@ -314,6 +315,12 @@ class Table:
     async def delete(self):
         await self._delete(self)
 
+    @classmethod
+    async def detele_by_id(cls, uid):
+        resp = await make_a_querry(
+            """DELETE FROM {} WHERE id={}""".format(cls._name, uid)
+        )
+        return resp
 
 class Column:
     def __init__(

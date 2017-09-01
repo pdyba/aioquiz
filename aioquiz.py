@@ -14,8 +14,10 @@ from sanic.exceptions import ServerError
 from exception_handlers import handle_404s
 from exception_handlers import handle_500s
 from exception_handlers import handle_timeout
+
 from views import ActivationView
 from views import AuthenticateView
+from views import ConfigView
 from views import EmailView
 from views import ExercisesView
 from views import LessonView
@@ -27,6 +29,7 @@ from views import QuizManageView
 from views import QuizView
 from views import ReviewAttendeesView
 from views import ReviewRulesView
+from views import SeatView
 from views import UserView
 from views import UserStatsView
 
@@ -91,6 +94,10 @@ app.add_route(MakeOrganiserView.as_view(), '/api/make_organiser')
 app.add_route(ReviewRulesView.as_view(), '/api/review_rules')
 
 app.add_route(UserStatsView.as_view(), '/api/users_stats')
+
+app.add_route(SeatView.as_view(), '/api/seats')
+
+app.add_route(ConfigView.as_view(), '/api/admin_config')
 
 app.add_route(ExercisesView.as_view(), '/api/exercise')
 app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')

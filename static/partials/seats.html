@@ -5,36 +5,16 @@
 
 <div class="col-md-12">
     <h1>Wybierz swoje miejsce !</h1>
-        <div class="plane">
-  <div class="exit exit--front fuselage">
-
+<br>
+  <div class="exit">
   </div>
-  <ol class="cabin fuselage">
-    <li class="row row--1">
+    <div class="plane">
+  <ol>
+    <li class="row" ng-repeat="(raw, y) in vm.seats">
       <ol class="seats" type="A">
-        <li class="seat">
-          <input type="checkbox" id="1A" />
-          <label for="1A">1A</label>
-        </li>
-        <li class="seat">
-          <input type="checkbox" id="1B" />
-          <label for="1B">1B</label>
-        </li>
-        <li class="seat">
-          <input type="checkbox" id="1C" />
-          <label for="1C">1C</label>
-        </li>
-        <li class="seat">
-          <input type="checkbox" disabled id="1D" />
-          <label for="1D">Occupied</label>
-        </li>
-        <li class="seat">
-          <input type="checkbox" id="1E" />
-          <label for="1E">1E</label>
-        </li>
-        <li class="seat">
-          <input type="checkbox" id="1F" />
-          <label for="1F">1F</label>
+        <li class="seat" ng-repeat="(number, user) in y">
+          <input type="checkbox" id="{{ raw }}{{ number }}" ng-disabled="user.user"/>
+          <label for="{{ raw }}{{ number }}" ng-class="{'i_need_help': user.i_need_help}">{{ raw }}{{ number }}</label>
         </li>
       </ol>
     </li>

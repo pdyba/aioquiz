@@ -17,6 +17,21 @@
                 </label>
             </div>
 
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.city.$dirty && form.password.$error.required }">
+                <label for="city" ng-if="vm.user.lang === 'en'">City</label>
+                <label for="city" ng-if="vm.user.lang === 'pl'">Miejscowość</label>
+                <span ng-show="form.city.$error.required"
+                      class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.city.$error.minlength "
+                      class="help-inline alert-danger">Minimal length 3</span>
+                <span ng-show="form.city.$dirty && form.city.$valid" class="help-inline alert-success">&#10003;</span>
+                <span ng-show="form.city.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters</span>
+                <input ng-minlength="3" type="text" name="city" id="city" ng-pattern="/^[a-zA-Z \-ęóąłżźńść]*$/"
+                       class="form-control" ng-model="vm.user.city"/>
+            </div>
+
 
             <div class="form-group"
                  ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
@@ -33,6 +48,33 @@
                 <textarea ng-minlength="65" type="text" name="description"
                           id="description" class="form-control" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńść]*$/"
                           ng-model="vm.user.description" required/>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.t_shirt.$dirty && form.t_shirt.$error.required }">
+                <label for="t_shirt">T-shirt*</label>
+                <span ng-show="form.t_shirt.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.t_shirt.$dirty && form.t_shirt.$valid" class="help-inline alert-success">&#10003;</span>
+                <select class="form-control" ng-options="x for x in
+                ['Female-XXS', 'Female-XS', 'Female-S', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-S', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL']"
+                        ng-model="vm.user.t_shirt" ngValue="x" required name="t_shirt" id="t_shirt">
+                    <option></option>
+                </select>
+            </div>
+
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.operating_system.$dirty && form.operating_system.$error.required }">
+                <label for="operating_system" ng-if="vm.user.lang === 'en'">Operating System</label>
+                <label for="operating_system" ng-if="vm.user.lang === 'pl'">System Operacyjny</label>
+                <span ng-show="form.operating_system.$error.required"
+                      class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.operating_system.$dirty && form.operating_system.$valid"
+                      class="help-inline alert-success">&#10003;</span>
+                <select class="form-control" ng-options="x for x in ['MacOS', 'Linux', 'Windows']"
+                        ng-model="vm.user.operating_system" ngValue="x" name="operating_system" id="operating_system"
+                        required><option></option>
+                </select >
             </div>
 
 

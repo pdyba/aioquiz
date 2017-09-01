@@ -13,6 +13,7 @@ from sanic.views import HTTPMethodView
 from config import REGEMAIL
 from config import MAINCONFIG
 
+from models import Config
 from models import Exercise
 from models import Lesson
 from models import LiveQuiz
@@ -25,6 +26,7 @@ from models import QuizQuestions
 from models import ExerciseAnsware
 from models import UserReview
 from models import Users
+from models import Seat
 from orm import DoesNotExist
 from utils import get_args
 from utils import safe_del_key
@@ -52,6 +54,9 @@ def user_required(access_level=None):
             if access_level:
                 if not getattr(user, access_level):
                     return NOTAUTHRISED
+            args = list(args)
+            args.append(user)
+            args = tuple(args)
             return await func(self, *args, **kwargs)
         return func_wrapper
     return decorator
@@ -63,17 +68,11 @@ async def get_user_name(uid):
         _users_names[uid] = '{} {}'.format(user.name, user.surname)
     return _users_names[uid]
 
-async def get_current_user(request):
-    # Teoretycznie jeśli użytkownik przekaże pusty string w tym nagłówku, to jeśli w bazie jest jakiś user z pustym session_uid,
-    # to ta metoda może uznać, że to właśnie ten użytkownik jest zalogowany (aczkolwiek z tego co widzę to najpierw stosujesz @user_required, więc chyba jest ok).
-    session_uid = request.headers.get('authorization')
-    return _users.get(session_uid) or await Users.get_user_by_session_uuid(session_uid)
-
 
 # noinspection PyBroadException
 class QuestionView(HTTPMethodView):
     @user_required()
-    async def post(self, request):
+    async def post(self, request, current_user):
         try:
             req = request.json
             if req['qtype'] == 'abcd':
@@ -92,7 +91,7 @@ class QuestionView(HTTPMethodView):
             return json({}, status=500)
 
     @user_required()
-    async def put(self, request, qid):
+    async def put(self, request, qid, current_user):
         try:
             req = request.json
             user = await Users.get_first('email', req['reviewer'])
@@ -106,7 +105,7 @@ class QuestionView(HTTPMethodView):
             return json({}, status=500)
 
     @user_required()
-    async def get(self, request, qid=0):
+    async def get(self, request, current_user, qid=0):
         if qid:
             question = await Question.get_by_id(qid)
             return json(await question.to_dict())
@@ -122,8 +121,7 @@ class QuestionView(HTTPMethodView):
 # noinspection PyBroadException
 class UserView(HTTPMethodView):
     @user_required()
-    async def get(self, request, id_name=None):
-        current_user = await get_current_user(request)
+    async def get(self, request, current_user, id_name=None):
         if id_name:
             if id_name.isnumeric():
                 user = await Users.get_by_id(int(id_name))
@@ -152,12 +150,14 @@ class UserView(HTTPMethodView):
         return json(user, sort_keys=True)
 
     @user_required()
-    async def put(self, request):
+    async def put(self, request, current_user):
         try:
-            current_user = await get_current_user(request)
             req = request.json
             await current_user.update_from_dict(req)
-            return json({'success': True})
+            return json({
+                'success': True,
+                'msg': 'Update successful'
+            })
         except:
             logging.exception('err users.put')
             return json({}, status=500)
@@ -190,7 +190,9 @@ class UserView(HTTPMethodView):
                     subject=REGEMAIL.SUBJECT_PL if user.lang == 'pl' else REGEMAIL.SUBJECT_EN,
                 )
                 if resp:
-                    return json({'success': True})
+                    return json({
+                        'success': True
+                    })
                 return json({'success': False, 'msg': 'error sending e-mail'})
         except DeprecationWarning:
             return json(
@@ -202,14 +204,15 @@ class UserView(HTTPMethodView):
         return json({}, status=500)
 
     @user_required('admin')
-    async def delete(self, _, uid):
-        pass
+    async def delete(self, _, current_user, id_name=None):
+        await Users.detele_by_id(id_name)
+        return json({'success': True})
 
 
 # noinspection PyBroadException
 class QuizManageView(HTTPMethodView):
     @user_required()
-    async def post(self, request):
+    async def post(self, request, current_user):
         try:
             req = request.json
             user = await Users.get_first('email', req['creator'])
@@ -230,7 +233,7 @@ class QuizManageView(HTTPMethodView):
 # noinspection PyBroadException
 class QuizView(HTTPMethodView):
     @user_required()
-    async def post(self, request, qid=0):
+    async def post(self, request, current_user, qid=0):
         try:
             req = request.json
             qa = QuestionAnsware(
@@ -250,7 +253,7 @@ class QuizView(HTTPMethodView):
             return json({}, status=500)
 
     @user_required()
-    async def get(self, _, qid=0):
+    async def get(self, _, current_user, qid=0):
         if qid:
             quiz = await Quiz.get_by_id(qid)
             question = await quiz.get_question()
@@ -271,7 +274,7 @@ class QuizView(HTTPMethodView):
 # noinspection PyBroadException
 class LiveQuizManageView(HTTPMethodView):
     @user_required()
-    async def post(self, request):
+    async def post(self, request, current_user):
         try:
             req = request.json
             user = await Users.get_first('email', req['creator'])
@@ -296,7 +299,7 @@ class LiveQuizManageView(HTTPMethodView):
 # noinspection PyBroadException
 class LiveQuizView(HTTPMethodView):
     @user_required()
-    async def post(self, request, qid=0):
+    async def post(self, request, current_user, qid=0):
         try:
             req = request.json
             qa = LiveQuizAnsware(
@@ -316,7 +319,7 @@ class LiveQuizView(HTTPMethodView):
             return json({}, status=500)
 
     @user_required()
-    async def get(self, _, qid=0):
+    async def get(self, _, current_user, qid=0):
         if qid:
             quiz = await LiveQuiz.get_by_id(qid)
             question = await quiz.get_question()
@@ -337,7 +340,7 @@ class LiveQuizView(HTTPMethodView):
 # noinspection PyBroadException
 class LessonView(HTTPMethodView):
     @user_required()
-    async def post(self, request):
+    async def post(self, request, current_user):
         try:
             req = request.json
             user = await Users.get_first('email', req['creator'])
@@ -347,10 +350,10 @@ class LessonView(HTTPMethodView):
             return json({'success': True})
         except:
             logging.exception('err lesson.post')
-            return json({'message': 'error creating'}, status=500)
+            return json({'msg': 'error creating'}, status=500)
 
     @user_required()
-    async def get(self, _, lid=None):
+    async def get(self, _, current_user, lid=None):
         if lid:
             lesson = await Lesson.get_by_id(lid)
             return json(await lesson.to_dict())
@@ -407,7 +410,7 @@ class AuthenticateView(HTTPMethodView):
 
 class LogOutView(HTTPMethodView):
     @user_required()
-    async def post(self, request):
+    async def post(self, request, current_user):
         session_uid = request.headers.get('authorization')
         user = await Users.get_user_by_session_uuid(session_uid)
         if user:
@@ -419,7 +422,7 @@ class LogOutView(HTTPMethodView):
 
 class ReviewAttendeesView(HTTPMethodView):
     @user_required('organiser')
-    async def get(self, request):
+    async def get(self, request, current_user):
         allusers = await Users.get_by_many_field_value(
             admin=False,
             organiser=False
@@ -441,8 +444,7 @@ class ReviewAttendeesView(HTTPMethodView):
         return json(users, sort_keys=True)
 
     @user_required('organiser')
-    async def post(self, request):
-        current_user = await get_current_user(request)
+    async def post(self, request, current_user):
         req = request.json
         req['reviewer'] = current_user.id
         ur = UserReview(**req)
@@ -456,7 +458,7 @@ class ReviewAttendeesView(HTTPMethodView):
         return json({'success': True})
 
     @user_required('organiser')
-    async def put(self, request):
+    async def put(self, request, current_user):
         try:
             req = request.json
             user = await Users.get_by_id(req['users'])
@@ -470,7 +472,7 @@ class ReviewAttendeesView(HTTPMethodView):
 
 class EmailView(HTTPMethodView):
     @user_required('organiser')
-    async def get(self, request):
+    async def get(self, request, current_user):
         recipients = []
         subject = '...'
         text = "..."
@@ -494,7 +496,7 @@ class ActivationView(HTTPMethodView):
 
 class MakeOrganiserView(HTTPMethodView):
     @user_required('admin')
-    async def post(self, request):
+    async def post(self, request, current_user):
         req = request.json
         user = await Users.get_by_id(req['uid'])
         if user:
@@ -504,20 +506,31 @@ class MakeOrganiserView(HTTPMethodView):
         return json({'success': False, 'reson': 'wrong token'})
 
 
+class MakeMentorView(HTTPMethodView):
+    @user_required('admin')
+    async def post(self, request, current_user):
+        req = request.json
+        user = await Users.get_by_id(req['uid'])
+        if user:
+            user.mentor = req['mentor']
+            await user.update()
+            return json({'success': True})
+        return json({'success': False, 'msg': 'wrong token'})
+
+
 # noinspection PyBroadException
 class ExercisesView(HTTPMethodView):
     @user_required()
-    async def get(self, request, lid=0):
+    async def get(self, request, current_user, lid=0):
         if not lid:
             return json({}, 404)
-        user = await get_current_user(request)
         exercises = await Exercise.get_by_field_value('lesson', lid)
         resp = []
         for ex in exercises:
             q = await ex.to_dict()
             try:
                 ans = await ExerciseAnsware.get_first_by_many_field_value(
-                    users=user.id,
+                    users=current_user.id,
                     exercise=ex.id
                 )
             except DoesNotExist:
@@ -531,10 +544,9 @@ class ExercisesView(HTTPMethodView):
         return json(resp, sort_keys=True)
 
     @user_required()
-    async def post(self, request):
+    async def post(self, request, current_user):
         req = request.json
-        user = await get_current_user(request)
-        req['users'] = user.id
+        req['users'] = current_user.id
         ex = ExerciseAnsware(**req)
         await ex.create()
         return json({'success': True})
@@ -542,7 +554,7 @@ class ExercisesView(HTTPMethodView):
 
 class UserStatsView(HTTPMethodView):
     @user_required('admin')
-    async def get(self, _):
+    async def get(self, _, current_user):
         resp = {
             'all': await Users.count_all(),
             'mentors': await Users.count_by_field(mentor=True, organiser=False, admin=False),
@@ -555,6 +567,65 @@ class UserStatsView(HTTPMethodView):
 
 class ReviewRulesView(HTTPMethodView):
     @user_required('organiser')
-    async def get(self, _):
+    async def get(self, _, current_user):
         rules = [x.strip() for x in MAINCONFIG.CIRITERIA.split('\n') if x]
         return json(rules)
+
+
+class SeatView(HTTPMethodView):
+    @user_required()
+    async def get(self, _, current_user):
+        if not current_user.mentor:
+            pass
+        else:
+            pass
+        seats = await Seat.get_all()
+        used_seats = defaultdict(dict)
+        for seat in seats:
+            used_seats[seat['row']][seat['number']] = {
+                'user': seat['users'],
+                'i_need_help': seat['i_need_help']
+            }
+        config = await Config.get_by_id(1)
+        resp = defaultdict(dict)
+        empty = {'user': False, 'i_need_help': False}
+        empty_raw = {'user': False, 'i_need_help': False, 'empty_raw': True}
+        for x in range(config.room_raws):
+            raw = chr(65 + x)
+            for y in range(config.room_columns):
+                if x + 1 // 3 == 0:
+                    resp[raw][y] = empty_raw
+                else:
+                    resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
+        return json(resp, sort_keys=True)
+
+    @user_required()
+    async def post(self, request, current_user):
+        req = request.json
+        seat = await Seat.create(**req)
+        return json(sort_keys=True)
+
+
+class ConfigView(HTTPMethodView):
+    @user_required('admin')
+    async def get(self, request, current_user):
+        config = await Config.get_by_id(1)
+        resp = await config.to_dict()
+        return json(resp, sort_keys=True)
+
+    @user_required('admin')
+    async def post(self, request, current_user):
+        req = request.json
+        try:
+            config = await Config.get_by_id(1)
+            await config.update_from_dict(req)
+        except IndexError:
+            config = Config(**req)
+            await config.create()
+        return json(
+            {
+                'success': True,
+                'msg': 'Config updated'
+            },
+            sort_keys=True
+        )

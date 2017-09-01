@@ -304,8 +304,3 @@ class Config(Table):
         Column('room_raws', Integer(), default=10),
         Column('room_columns', Integer(), default=10),
     ]
-
-
-"""
-ALTER TABLE users ADD COLUMN lang character varying(20) NOT NULL DEFAULT 'pl';
-"""
