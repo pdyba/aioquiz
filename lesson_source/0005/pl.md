@@ -203,15 +203,15 @@ Istnieje obecnie mnóstwo metod formatowania stringów:
     podstring striga kończy się podanym przyrostkiem (suffix), zwraca 
     true, jeśli tak lub false, jeśli nie.
 4.  find(str, beg=0 end=len(string)) - ustala, czy str pojawia się w stringu
-    lub w podstringu stringa, gdy poano index początkowy beg i index końcowy
+    lub w podstringu stringa, gdy podano index początkowy beg i index końcowy
     end, zwraca index, jeśli odnajdzie str lub -1 w przeciwnym razie
-5.  index(str, beg=0, end=len(string)) - Same as find(), but raises an
-    exception if str not found.
-6.  isalnum() - Returns true if string has at least 1 character and all
-    characters are alphanumeric and false otherwise.
-7.  isalpha() - Returns true if string has at least 1 character and all
-    characters are alphabetic and false otherwise.
-8.  isdigit() - Returns true if string contains only digits and false
+5.  index(str, beg=0, end=len(string)) - podobna do metody find(), ale zgłasza błąd,
+    gdy nie znajdzie str.
+6.  isalnum() - Zwraca true, jeśli string ma conajmniej jeden znak i wszystkie
+    znaki są alfanumeryczne, jeśli nie - zwraca false.
+7.  isalpha() - Zwraca true, jeśli string ma conajmniej jeden znak i wszystkie 
+    znaki sa literami, jeśli nie - zwraca false.
+8.  isdigit() - Zwraca true, jeśli string Returns true if string contains only digits and false
     otherwise.
 9.  islower() - Returns true if string has at least 1 cased character
     and all cased characters are in lowercase and false otherwise.
