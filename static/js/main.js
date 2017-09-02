@@ -131,6 +131,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "SeatController",
             controllerAs: 'vm'
         })
+        .when("/seats_overview", {
+            templateUrl: "partials/seats.html",
+            controller: "SeatOverViewController",
+            controllerAs: 'vm'
+        })
         .when("/rules", {
             templateUrl: "partials/rules.html",
             controller: "PageCtrl",
@@ -167,17 +172,58 @@ app.config(['$locationProvider', function ($locationProvider) {
 }]);
 
 app.controller('PageCtrl', PageCtrl);
-PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService'];
-function PageCtrl($scope, $location, $AuthenticationService, $FlashService) {
+PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', 'SweetAlert', '$http'];
+function PageCtrl($scope, $location, $AuthenticationService, $FlashService, SweetAlert, $http) {
+    user_seat = $scope.globals.currentUser.seat;
+    if (!user_seat) {
+        $http.get('/api/seats/' + $scope.globals.currentUser.id).then(
+            function (response) {
+                user_seat = response.data;
+                $scope.globals.currentUser.seat = response.data;
+            }
+        );
+    }
     $scope.logout = function () {
         $AuthenticationService.ClearCredentials();
         $location.path('/');
     };
     $scope.help = function () {
-        console.log('halp plox')
+        if (!user_seat) {
+            SweetAlert.swal({
+                title: "Nope",
+                text: "You need to pickup a seat before calling for help",
+                type: "error",
+                timer: 2000,
+                showConfirmButton: false
+            })
+        } else {
+            $http.get('/api/i_need_help/').then(
+                function (response) {
+                    $scope.globals.currentUser.seat.i_need_help = true;
+                    SweetAlert.swal({
+                        title: "Yey",
+                        text: response.data.msg,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    })
+                }
+            )
+        };
     };
     $scope.help_stop = function () {
-        console.log('stop halp plox')
+        $http.delete('/api/i_need_help/').then(
+            function (response) {
+                $scope.globals.currentUser.seat.i_need_help = false;
+                SweetAlert.swal({
+                    title: "Yey",
+                    text: response.data.msg,
+                    type: "success",
+                    timer: 2000,
+                    showConfirmButton: false
+                })
+            }
+        )
     };
 }
 
@@ -730,7 +776,6 @@ app.controller('SeatController', SeatController);
 SeatController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'SweetAlert'];
 function SeatController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, SweetAlert) {
     var vm = this;
-    vm.questions = [];
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
@@ -829,6 +874,31 @@ function SeatController($scope, $location, $AuthenticationService, $FlashService
             });
 
     }
+}
+
+
+app.controller('SeatOverViewController', SeatOverViewController);
+SeatOverViewController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$interval'];
+function SeatOverViewController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $interval) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.overview = true;
+    vm.seats = {};
+    function refresh_seats() {
+        $http.get('/api/seats').then(
+            function (response) {
+                vm.seats = response.data;
+            }
+        )
+    }
+    refresh_seats();
+    $interval(refresh_seats, 3000)
+
 }
 
 

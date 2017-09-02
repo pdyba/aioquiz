@@ -17,11 +17,14 @@
                     <a class="need-help"
                        ng-click="help()"
                        target="_self"
+                       ng-hide="$parent.globals.currentUser.seat.i_need_help"
+                       href=""
                        style="background-position: 0 -1px;">HELP</a>
-                    <a class="btn-s btn-success"
+                    <a class="need-help-clicked"
                        target="_self"
-                       ng-show="false"
-                       ng-click="stop_help()"
+                       ng-show="$parent.globals.currentUser.seat.i_need_help"
+                       ng-click="help_stop()"
+                       href=""
                        tyle="background-position: 0 -1px;">THX</a>
                 </li>
                 <li ng-show="$parent.globals.currentUser"><a href="#/lessons">Lessons</a>
@@ -45,7 +48,7 @@
                        data-toggle="dropdown">Overview</a>
                     <ul class="dropdown-menu">
                         <li ng-show="$parent.globals.currentUser.mentor"><a
-                                href="#/overview_seats">Seats</a>
+                                href="#/seats_overview">Seats</a>
                         </li>
                         <li ng-show="$parent.globals.currentUser.mentor"><a
                                 href="#/overview_lesson">Lesson</a>
@@ -109,6 +112,8 @@
 
                         <li ng-show="$parent.globals.currentUser.admin"><a
                                 href="#/admin_users">Users: Admin</a>
+                        <li ng-show="$parent.globals.currentUser.admin"><a
+                                href="#/admin_config">Config: Admin</a>
                     </ul>
                 </li>
 

@@ -588,9 +588,11 @@ class SeatView(HTTPMethodView):
             config = await Config.get_by_id(1)
             used_seats = defaultdict(dict)
             for seat in seats:
+                full_user_name = await get_user_name(seat.users)
                 used_seats[seat.row][seat.number] = {
                     'user_id': seat.users,
-                    'user': await get_user_name(seat.users),
+                    'user': full_user_name,
+                    'name': full_user_name.split(' ')[0],
                     'i_need_help': seat.i_need_help
                 }
             resp = defaultdict(dict)
@@ -627,7 +629,6 @@ class SeatView(HTTPMethodView):
                 sort_keys=True
             )
 
-
     @user_required()
     async def delete(self, _, current_user):
         seat = await Seat.get_first('users', current_user.id)
@@ -639,6 +640,53 @@ class SeatView(HTTPMethodView):
             },
             sort_keys=True
         )
+
+
+class INeedHelpView(HTTPMethodView):
+    @user_required()
+    async def get(self, _, current_user):
+        try:
+            seats = await Seat.get_first('users', current_user.id)
+            seats.i_need_help = True
+            await seats.update()
+            current_user.i_needed_help += 1
+            await current_user.update()
+            return json(
+                {
+                    'success': True,
+                    'msg': 'Help is on the way'
+                },
+            )
+        except DoesNotExist:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'You need to pick a seat before asking for help'
+                },
+                sort_keys=True
+            )
+
+    @user_required()
+    async def delete(self, _, current_user):
+        try:
+            seats = await Seat.get_first('users', current_user.id)
+            seats.i_need_help = False
+            await seats.update()
+            return json(
+                {
+                    'success': True,
+                    'msg': 'You are welcome'
+                },
+            )
+        except DoesNotExist:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'You need to pick a seat before asking for help'
+                },
+                sort_keys=True
+            )
+
 
 
 class ConfigView(HTTPMethodView):
