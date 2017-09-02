@@ -211,39 +211,38 @@ Istnieje obecnie mnóstwo metod formatowania stringów:
     znaki są alfanumeryczne, jeśli nie - zwraca false.
 7.  isalpha() - Zwraca true, jeśli string ma conajmniej jeden znak i wszystkie 
     znaki sa literami, jeśli nie - zwraca false.
-8.  isdigit() - Zwraca true, jeśli string Returns true if string contains only digits and false
-    otherwise.
-9.  islower() - Returns true if string has at least 1 cased character
-    and all cased characters are in lowercase and false otherwise.
-10. isnumeric() - Returns true if a unicode string contains only numeric
-    characters and false otherwise.
-11. isspace() - Returns true if string contains only whitespace
-    characters and false otherwise.
-12. istitle() - Returns true if string is properly "titlecased" and
-    false otherwise.
-13. isupper() - Returns true if string has at least one cased character
-    and all cased characters are in uppercase and false otherwise.
-14. join(seq) - Merges (concatenates) the string representations of
-    elements in sequence seq into a string, with separator string.
-15. len(string) - Returns the length of the string
-16. lower() - Converts all uppercase letters in string to lowercase.
-17. lstrip() - Removes all leading whitespace in string.
-18. max(str) - Returns the max alphabetical character from the string
-    str.
-19. min(str) - Returns the min alphabetical character from the string
-    str.
-20. replace(old, new \[, max\]) - Replaces all occurrences of old in
-    string with new or at most max occurrences if max given.
-21. rfind(str, beg=0,end=len(string)) - Same as find(), but search
-    backwards in string.
-22. rindex( str, beg=0, end=len(string)) - Same as index(), but search
-    backwards in string.
-23. rstrip() - Removes all trailing whitespace of string.
-24. split(str="", num=string.count(str)) - Splits string according to
-    delimiter str (space if not provided) and returns list of
-    substrings; split into at most num substrings if given.
-25. splitlines( num=string.count('n')) - Splits string at all (or num)
-    NEWLINEs and returns a list of each line with NEWLINEs removed.
+8.  isdigit() - Zwraca true, jeśli string zawira tylko cyfry lub false,
+    jeśli nie zawiera.
+9.  islower() - Zwraca true, jeśli string zawiera co najmniej jedną literę
+    i wszystkie litery są małe. W przeciwnym razie zwraca false.
+10. isnumeric() - Zwraca true, jeśli string unicode zawiera tylko cyfry,
+    zaś false w przeciwnym razie.
+11. isspace() - Zwraca true, jeśli string zawiera wyłącznie spacje, zaś false
+    w przeciwnym razie.
+12. istitle() - Zwraca true, jeśli wielkość liter w stringu odpowiada zasadom
+    tworzenia tytułów, zaś false w przeciwnym wypadku.
+13. isupper() - Zwraca true, jeśli string zawiera co najmniej jedną literę
+    i wszystkie litery są wielkie. W przeciwnym razie zwraca false.
+14. join(seq) - Scala (łączy) sekwencję stringów dodając pomiędzy te stringi
+    wybrany separator.
+15. len(string) - Zwraca długość stringa.
+16. lower() - Zamienia wszystkie wielkie litery stringa na małe.
+17. lstrip() - Usuwa wszystkie spacje z początku stringa.
+18. max(str) - Zwraca najwyższą literę alfabetu ze stringa str.
+19. min(str) - Zwraca najniższą literę alfabetu ze stringa str.
+20. replace(old, new \[, max\]) - Zastępuje wszystkie wystąpienia stringa old
+    stringiem new, a w przypadku podania ilości wystąpień max, zastępuje 
+    wystąpienia w ilości max.
+21. rfind(str, beg=0,end=len(string)) - podobna do metody find(), ale przeszukuje
+    od końca stringa wstecz.
+22. rindex( str, beg=0, end=len(string)) - podobna do metody index(), ale 
+    przeszukuje od końca stringa wstecz.
+23. rstrip() - Usuwa wszystkie spacje na końcu stringa.
+24. split(str="", num=string.count(str)) - Rozbija string na podstawie
+    podanego rozgranicznika (domyślnie spacji) i zwraca listę podstringów.
+    Po podaniu parametru num rozbija string tylko do ilości num podstringów.
+25. splitlines( num=string.count('n')) - Rozbija string na wszystkie (lub 
+    na podaną ilość num) NOWE LINIE i zwraca listę linii z uusniętym znakiem NOWA LINIA.
 26. startswith(str, beg=0,end=len(string)) - Determines if string or a
     substring of string (if starting index beg and ending index end are
     given) starts with substring str; returns true if so and false
