@@ -243,30 +243,29 @@ Istnieje obecnie mnóstwo metod formatowania stringów:
     Po podaniu parametru num rozbija string tylko do ilości num podstringów.
 25. splitlines( num=string.count('n')) - Rozbija string na wszystkie (lub 
     na podaną ilość num) NOWE LINIE i zwraca listę linii z uusniętym znakiem NOWA LINIA.
-26. startswith(str, beg=0,end=len(string)) - Determines if string or a
-    substring of string (if starting index beg and ending index end are
-    given) starts with substring str; returns true if so and false
-    otherwise.
-27. strip(\[chars\]) - Performs both lstrip() and rstrip() on string
-28. swapcase() - Inverts case for all letters in string.
-29. title() - Returns "titlecased" version of string, that is, all words
-    begin with uppercase and the rest are lowercase.
-30. upper() - Converts lowercase letters in string to uppercase.
+26. startswith(str, beg=0,end=len(string)) - Ustala, czy string pod podstring stringa
+    (jeśli początkowy index beg in końcowy index end zostały podane) zaczyna się 
+    od podstringu str; zwraca true, a w przeciwnym razie zwraca false.
+27. strip(\[chars\]) - Przeprowadza jednocześnie metody lstrip() i rstrip() na stringu
+28. swapcase() - Zamienia litery wielkie na małe, a małe na wielkie.
+29. title() - Zwraca "tytułową" wersję stringu, czyli wszystkie słowa zaczynające się 
+    wielką literą, a pozostałe elementy małą literą (według anglojęzycznej ortografii).
+30. upper() - Zamienia wszystkie małe litery stringa na wielkie.
 
-There is over 10 more methods but they are much more advanced.
+Istnieje jeszcze ponad 10 innych metod, ale są one znacznie bardziej zaawansowane.
 
 
-Summary
-=======
+Podsumowanie
+============
 
-We also know now that indentations can be important, especially when we
-want to use the instruction if (also in connection with else and elif).
+Dowiedzieliśmy się, jak ważna jest indentacja, zwłaszcza jeśli chcemy użyć
+instrukcji if (również w połączeniu z else i elif).
 
-This is quite a lot like for a first program. We still have a lot of
-work, anyhow you can be proud of what we have done so far!
+To dość dużo, jak na pierwszy program. Mamy jeszcze wiele do zrobienia, mimo to
+możecie być dumni z tego, co zrobiliśmy do tej pory!
 
-And if You did the obligatory task 1 You know there are some easter eggs
-in python and thats not all of them. Here is one more:
+A jesli zrobiliście obowiązkowe zadanie nr 1, przekonaliście się, że w Pythonie
+wystepują jajeczka-niespodzianki i jest ich więcej. Oto kolejne:
 
 	>>>  True + True
 
