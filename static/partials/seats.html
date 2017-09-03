@@ -4,7 +4,8 @@
     <div class="row">
 
         <div class="col-md-12">
-            <h1>Wybierz swoje miejsce !</h1>
+            <h1 ng-hide="vm.overview">Wybierz swoje miejsce!</h1>
+            <h1 ng-show="vm.overview">Miejsca uczestników</h1>
             <br>
             <div class="exit">
             </div>
@@ -18,9 +19,11 @@
                                        id="{{ raw }}{{ number }}"
                                        ng-disabled="vm.user_seat.users && (vm.user_seat.row != raw || vm.user_seat.number != number) || user.empty_raw"
                                        ng-checked="vm.user_seat.raw === raw && vm.user_seat.number === number"/>
-                                <label for="{{ raw }}{{ number }}"
+                                <label for="{{ raw }}{{ number }}" data-toggle="tooltip" data-placement="top" title="{{ user.user }}"
                                        ng-class="{'empty_raw': user.empty_raw, 'i_need_help': user.i_need_help, 'taken': user.user && vm.user_seat.users != user.user_id, 'my_seat': user.user_id && vm.user_seat.users === user.user_id}">
-                                    <x ng-hide="user.empty_raw">{{ raw }}{{ number }}</x></label>
+                                    <x ng-hide="user.empty_raw || user.i_need_help">{{ raw }}{{ number }}</x>
+                                    <x ng-show="user.i_need_help">{{ user.name }}</x>
+                                </label>
                             </li>
                         </ol>
                     </li>

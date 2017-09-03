@@ -180,3 +180,14 @@ nav.navbar {
     color: #E51E41 !important;
     background-image: None;
 }
+.need-help-clicked {
+    background-color: #8ce554;
+    color: #efefef !important;
+    background-image: linear-gradient(rgb(140, 229, 84) 0px, rgb(140, 229, 84) 100%);
+}
+
+.need-help-clicked:hover {
+    background-color: #efefef;
+    color: #8ce554 !important;
+    background-image: None;
+}

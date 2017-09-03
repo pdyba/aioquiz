@@ -88,6 +88,7 @@ ol {
 .i_need_help {
   background: #F42536 !important;
 }
+
 .empty_raw {
   content: " ";
   background: #FFFFFF !important;
@@ -191,3 +192,6 @@ ol {
   animation-name: rubberBand;
 }
 
+label.i_need_help:before{
+  background: None !important;
+}

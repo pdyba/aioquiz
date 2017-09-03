@@ -14,6 +14,7 @@ from orm import Table
 from utils import hash_password
 from utils import safe_del_key
 
+
 class Question(Table):
     _name = 'question'
     _schema = [
@@ -289,10 +290,12 @@ class AbsenceMeta(Table):
     _name = 'absence_meta'
     _schema = [
         Column('id', Integer, primary_key=True),
-        Column('row', String(255)),
+        Column('lesson', ForeignKey('lesson')),
         Column('code', String(10)),
         Column('active', Boolean(), default=True),
         Column('users', ForeignKey('users')),
+        Column('time_created', DateTime(), default=datetime.utcnow),
+        Column('time_ended', DateTime()),
     ]
 
 

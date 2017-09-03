@@ -15,6 +15,8 @@ from sanic.views import HTTPMethodView
 from config import REGEMAIL
 from config import MAINCONFIG
 
+from models import Absence
+from models import AbsenceMeta
 from models import Config
 from models import Exercise
 from models import Lesson
@@ -588,9 +590,11 @@ class SeatView(HTTPMethodView):
             config = await Config.get_by_id(1)
             used_seats = defaultdict(dict)
             for seat in seats:
+                full_user_name = await get_user_name(seat.users)
                 used_seats[seat.row][seat.number] = {
                     'user_id': seat.users,
-                    'user': await get_user_name(seat.users),
+                    'user': full_user_name,
+                    'name': full_user_name.split(' ')[0],
                     'i_need_help': seat.i_need_help
                 }
             resp = defaultdict(dict)
@@ -606,7 +610,7 @@ class SeatView(HTTPMethodView):
         return json(resp, sort_keys=True)
 
     @user_required()
-    async def post(self, request, current_user):
+    async def post(self, request, _):
         req = request.json
         try:
             seat = Seat(**req)
@@ -627,7 +631,6 @@ class SeatView(HTTPMethodView):
                 sort_keys=True
             )
 
-
     @user_required()
     async def delete(self, _, current_user):
         seat = await Seat.get_first('users', current_user.id)
@@ -641,15 +644,61 @@ class SeatView(HTTPMethodView):
         )
 
 
+class INeedHelpView(HTTPMethodView):
+    @user_required()
+    async def get(self, _, current_user):
+        try:
+            seats = await Seat.get_first('users', current_user.id)
+            seats.i_need_help = True
+            await seats.update()
+            current_user.i_needed_help += 1
+            await current_user.update()
+            return json(
+                {
+                    'success': True,
+                    'msg': 'Help is on the way'
+                },
+            )
+        except DoesNotExist:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'You need to pick a seat before asking for help'
+                },
+                sort_keys=True
+            )
+
+    @user_required()
+    async def delete(self, _, current_user):
+        try:
+            seats = await Seat.get_first('users', current_user.id)
+            seats.i_need_help = False
+            await seats.update()
+            return json(
+                {
+                    'success': True,
+                    'msg': 'You are welcome'
+                },
+            )
+        except DoesNotExist:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'You need to pick a seat before asking for help'
+                },
+                sort_keys=True
+            )
+
+
 class ConfigView(HTTPMethodView):
     @user_required('admin')
-    async def get(self, request, current_user):
+    async def get(self, *_):
         config = await Config.get_by_id(1)
         resp = await config.to_dict()
         return json(resp, sort_keys=True)
 
     @user_required('admin')
-    async def post(self, request, current_user):
+    async def post(self, request, _):
         req = request.json
         try:
             config = await Config.get_by_id(1)
@@ -661,6 +710,75 @@ class ConfigView(HTTPMethodView):
             {
                 'success': True,
                 'msg': 'Config updated'
+            },
+            sort_keys=True
+        )
+
+
+class AbsenceView(HTTPMethodView):
+    @user_required('admin')
+    async def get(self, request, current_user, lid=None):
+        abmeta = await AbsenceMeta.get_first('lesson', lid)
+        resp = await abmeta.to_dict()
+        return json(resp)
+
+    @user_required()
+    async def put(self, request, current_user):
+        req = request.json
+        lesson = req.get('lesson')
+        code = req.get('code')
+        if not lesson or not code:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'Absence accepted'
+                },
+                sort_keys=True
+            )
+        abmeta = await AbsenceMeta.get_first('lesson', lesson)
+        if code != abmeta.code:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'Wrong code'
+                },
+                sort_keys=True
+            )
+        now = datetime.utcnow()
+        if now > abmeta.time_ended:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'You were too late'
+                },
+                sort_keys=True
+            )
+        absence = Absence(lesson=lesson, users=current_user.id, absent=True)
+        await absence.update_or_create('lesson', 'users')
+        return json(
+            {
+                'success': True,
+                'msg': 'Absence accepted'
+            },
+            sort_keys=True
+        )
+
+    @user_required('admin')
+    async def post(self, request, current_user):
+        req = request.json
+        code = str(uuid4()).split('-')[0]
+        time_ended = datetime.utcnow()
+        time_ended = time_ended.replace(minute=time_ended.minute+2)
+        req['code'] = code
+        req['time_ended'] = time_ended
+        abmeta = AbsenceMeta(**req)
+        await abmeta.create()
+        return json(
+            {
+                'success': True,
+                'msg': 'Created',
+                'code': code,
+                'valid_till': time_ended
             },
             sort_keys=True
         )
