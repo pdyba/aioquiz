@@ -191,7 +191,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
         if (!user_seat) {
             SweetAlert.swal({
                 title: "Nope",
-                text: "You need to pickup a seat before calling for help",
+                text: "You need to pick a seat before calling for help",
                 type: "error",
                 timer: 2000,
                 showConfirmButton: false
