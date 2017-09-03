@@ -27,7 +27,7 @@ momentu:
 	(1, 5)
 
 Tupla to nic innego, jak zbiór kilku wartości. Wartości te odddzielamy
-przecinkami. Zbiór najczęsśiej otaczamy nawiasami zwykłymi, ale nie jest to
+przecinkami. Zbiór najczęściej otaczamy nawiasami zwykłymi, ale nie jest to
 konieczne. Chyba, że chcemy objąć zbiorem zero elementów (jakkolwiek 
 dziwnie to może brzmieć):
 
