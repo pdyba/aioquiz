@@ -265,7 +265,7 @@ To dość dużo, jak na pierwszy program. Mamy jeszcze wiele do zrobienia, mimo 
 możecie być dumni z tego, co zrobiliśmy do tej pory!
 
 A jesli zrobiliście obowiązkowe zadanie nr 1, przekonaliście się, że w Pythonie
-wystepują jajeczka-niespodzianki i jest ich więcej. Oto kolejne:
+występują jajeczka-niespodzianki i jest ich więcej. Oto kolejne:
 
 	>>>  True + True
 
