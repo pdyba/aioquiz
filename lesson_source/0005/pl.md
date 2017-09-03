@@ -36,12 +36,13 @@ dziwnie to może brzmieć):
 
 Tuple możemy łączyć:
 
-	>>> mazwy = ("Paulina", "Kowalska") 
+	>>> nazwy = ("Paulina", "Kowalska") 
 	>>> szczegóły = (27, 1.70) 
-	>>> nazwy + szczegóły ('Paulina', 'Kowalska', 27, 1.7)
+	>>> nazwy + szczegóły 
+	('Paulina', 'Kowalska', 27, 1.7)
 
 Możemy w nich także zawrzeć inne tuple, np. punkty na mapie możemy
-zgrupować nastepująco:
+zgrupować następująco:
 
 	>>>  punkt = ("Nazwa punktu", (x, y))
 
@@ -63,7 +64,7 @@ Wracając do naszego programu: obecnie wynik jest zredukowany do
 pojedynczej linii. Chcemy zaś stworzyć taki kalkulator BMI, który
 poda nam wynik oraz przedział, w którym się on mieści, czyli:
 
-    Twoje BMI wynosi: 21.39 (prawidłowa waga)
+    Twój BMI wynosi: 21.39 (prawidłowa waga)
 
 Zmodyfikuj swój istniejący program tak, by obliczone BMI było dostępne
 pod zmienną `bmi`, a nazwa przedziału pod nazwą `kategoria`.  Użyj print,
@@ -101,7 +102,7 @@ Użyliśmy tutaj stringa i tupli połączonych znakiem `%`. String jest
 szablonem, który zostaje uzupełniony wartościami z tupli. Miejsca,
 które mają być uzupełnione są oznaczone znakiem procentu (`%`). Litera
 następująca po nim definiuje typ zmiennej, jaką chcemy wstawić. Liczby
-całkowite sś tu reprezentowane przez `i` (ang. **integer**). Możemy 
+całkowite są tu reprezentowane przez `i` (ang. **integer**). Możemy 
 również użyć `d` jako **decimal** (z ang. liczba dziesiętna). Stringi są
 reprezentowane jako `s` od **string**, a liczby zmiennoprzecinkowe
 jako `f` od **float** (ang. pływać, unosić się):
@@ -111,7 +112,7 @@ jako `f` od **float** (ang. pływać, unosić się):
 
 Teraz, zamiast dziewięciu miejsc po przecinku, za każdym razem otrzymamy 
 sześć, ale formatowanie ma tę zaletę, że umożliwia nam kontrolę nad
-tym, poprzez wstawianie dodatkowej informacji pomiędzy znak `%` i literę
+tym, poprzez wstawianie dodatkowej informacji pomiędzy znak `%` a literę
 `f`, np. jeśli chcielibyśmy wyświetlać tylko dwa miejsca po przecinku,
 zamiast sześciu:
 
@@ -129,7 +130,7 @@ znaków:
     WIDTH = 28
 
     print("-" * WIDTH)
-    print("| Name and last name |  Weight  |")
+    print("| Imię i nazwisko |  Waga  |")
     print("-" * WIDTH)
     print("| %15s | %6.2f |" % ("Łukasz", 67.5))
     print("| %15s | %6.2f |" % ("Pudzian", 123))
@@ -138,7 +139,7 @@ znaków:
     .. testoutput::
 
     --------------------------------
-    | Name and last name  |  Weight|
+    |    Imię nazwisko    |  Waga  |
     --------------------------------
     |              Łukasz |  67.50 |
     |             Pudzian | 123.00 |
@@ -153,7 +154,7 @@ ilością liter:
     WIDTH = 28
 
     print("-" * WIDTH)
-    print("| Name and last name |  Weight |")
+    print("| Imię i nazwisko |  Waga  |")
     print("-" * WIDTH)
     print("| %-15s | %6.2f |" % ("Łukasz", 67.5))
     print("| %-15s | %6.2f |" % ("Pudzian", 123))
@@ -162,7 +163,7 @@ ilością liter:
     .. testoutput::
 
     -------------------------------
-    | Name and last name|  Weight |
+    |    Imię nazwisko  |   Waga  |
     -------------------------------
     | Łukasz            |  67.50  |
     | Pudzian           | 123.00  |
@@ -180,12 +181,13 @@ String Slicing
 Spróbuj: 
 
     >>> text = “ala ma kota” 
-    >>> text[0] #string[int] 
-    >>> text[2:] # string[int:] 
-    >>> text[:5] # string[:int] 
-    >>> text[3:7] #string[int:int] 
-    >>> text[::2] # string[::int]
-    >>>  text[::-1] # string[::int]
+    >>> text[0]     # string[int] 
+    >>> text[2:]    # string[int:] 
+    >>> text[:5]    # string[:int] 
+    >>> text[3:7]   # string[int:int] 
+    >>> text[::2]   # string[::int]
+    >>> text[::-1]  # string[::int]
+    >>> text[4:100] # string[int:int] :)
 
 Pamiętaj! Twój komputer zawsze liczy od 0.
 
@@ -197,60 +199,60 @@ Istnieje obecnie mnóstwo metod formatowania stringów:
 
 1.  capitalize() - zamienia pierwszą literę stringa z małej na wielką
 2.  count(str, beg= 0,end=len(string)) - liczy, ile razy str pojawia się
-    w stringu lub opodstringu stringa, gdzie beg to początowy index, a end
+    w stringu lub podstringu stringa, gdzie beg to początowy index, a end
     to index kończący.
 3.  endswith(suffix, beg=0, end=len(string)) - ustala, czy string lub
     podstring striga kończy się podanym przyrostkiem (suffix), zwraca 
     true, jeśli tak lub false, jeśli nie.
 4.  find(str, beg=0 end=len(string)) - ustala, czy str pojawia się w stringu
     lub w podstringu stringa, gdy podano index początkowy beg i index końcowy
-    end, zwraca index, jeśli odnajdzie str lub -1 w przeciwnym razie
+    end; zwraca index, jeśli odnajdzie str, a w przeciwnym razie zwraca -1.
 5.  index(str, beg=0, end=len(string)) - podobna do metody find(), ale zgłasza błąd,
     gdy nie znajdzie str.
-6.  isalnum() - Zwraca true, jeśli string ma conajmniej jeden znak i wszystkie
+6.  isalnum() - zwraca true, jeśli string ma co najmniej jeden znak i wszystkie
     znaki są alfanumeryczne, jeśli nie - zwraca false.
-7.  isalpha() - Zwraca true, jeśli string ma conajmniej jeden znak i wszystkie 
-    znaki sa literami, jeśli nie - zwraca false.
-8.  isdigit() - Zwraca true, jeśli string zawira tylko cyfry lub false,
+7.  isalpha() - zwraca true, jeśli string ma conajmniej jeden znak i wszystkie 
+    znaki są literami, jeśli nie - zwraca false.
+8.  isdigit() - zwraca true, jeśli string zawiera tylko cyfry lub false,
     jeśli nie zawiera.
-9.  islower() - Zwraca true, jeśli string zawiera co najmniej jedną literę
+9.  islower() - zwraca true, jeśli string zawiera co najmniej jedną literę
     i wszystkie litery są małe. W przeciwnym razie zwraca false.
-10. isnumeric() - Zwraca true, jeśli string unicode zawiera tylko cyfry,
+10. isnumeric() - zwraca true, jeśli string unicode zawiera tylko cyfry,
     zaś false w przeciwnym razie.
-11. isspace() - Zwraca true, jeśli string zawiera wyłącznie spacje, zaś false
+11. isspace() - zwraca true, jeśli string zawiera wyłącznie spacje, zaś false
     w przeciwnym razie.
-12. istitle() - Zwraca true, jeśli wielkość liter w stringu odpowiada zasadom
-    tworzenia tytułów, zaś false w przeciwnym wypadku.
-13. isupper() - Zwraca true, jeśli string zawiera co najmniej jedną literę
+12. istitle() - zwraca true, jeśli wielkość liter w stringu odpowiada zasadom
+    tworzenia tytułów (w ortografii anglojęzycznej), zaś false w przeciwnym wypadku.
+13. isupper() - zwraca true, jeśli string zawiera co najmniej jedną literę
     i wszystkie litery są wielkie. W przeciwnym razie zwraca false.
-14. join(seq) - Scala (łączy) sekwencję stringów dodając pomiędzy te stringi
+14. join(seq) - scala (łączy) sekwencję stringów dodając pomiędzy te stringi
     wybrany separator.
-15. len(string) - Zwraca długość stringa.
-16. lower() - Zamienia wszystkie wielkie litery stringa na małe.
-17. lstrip() - Usuwa wszystkie spacje z początku stringa.
-18. max(str) - Zwraca najwyższą literę alfabetu ze stringa str.
-19. min(str) - Zwraca najniższą literę alfabetu ze stringa str.
-20. replace(old, new \[, max\]) - Zastępuje wszystkie wystąpienia stringa old
+15. len(string) - zwraca długość stringa.
+16. lower() - zamienia wszystkie wielkie litery stringa na małe.
+17. lstrip() - usuwa wszystkie spacje z początku stringa.
+18. max(str) - zwraca najwyższą literę alfabetu ze stringa str.
+19. min(str) - zwraca najniższą literę alfabetu ze stringa str.
+20. replace(old, new \[, max\]) - zastępuje wszystkie wystąpienia stringa old
     stringiem new, a w przypadku podania ilości wystąpień max, zastępuje 
     wystąpienia w ilości max.
 21. rfind(str, beg=0,end=len(string)) - podobna do metody find(), ale przeszukuje
     od końca stringa wstecz.
 22. rindex( str, beg=0, end=len(string)) - podobna do metody index(), ale 
     przeszukuje od końca stringa wstecz.
-23. rstrip() - Usuwa wszystkie spacje na końcu stringa.
-24. split(str="", num=string.count(str)) - Rozbija string na podstawie
+23. rstrip() - usuwa wszystkie spacje na końcu stringa.
+24. split(str="", num=string.count(str)) - rozbija string na podstawie
     podanego rozgranicznika (domyślnie spacji) i zwraca listę podstringów.
     Po podaniu parametru num rozbija string tylko do ilości num podstringów.
-25. splitlines( num=string.count('n')) - Rozbija string na wszystkie (lub 
-    na podaną ilość num) NOWE LINIE i zwraca listę linii z uusniętym znakiem NOWA LINIA.
-26. startswith(str, beg=0,end=len(string)) - Ustala, czy string pod podstring stringa
-    (jeśli początkowy index beg in końcowy index end zostały podane) zaczyna się 
+25. splitlines( num=string.count('n')) - rozbija string na wszystkie (lub 
+    na podaną ilość num) NOWE LINIE i zwraca listę linii z usuniętym znakiem NOWA LINIA.
+26. startswith(str, beg=0,end=len(string)) - dstala, czy string lub podstring stringa
+    (jeśli początkowy index beg i końcowy index end zostały podane) zaczyna się 
     od podstringu str; zwraca true, a w przeciwnym razie zwraca false.
-27. strip(\[chars\]) - Przeprowadza jednocześnie metody lstrip() i rstrip() na stringu
-28. swapcase() - Zamienia litery wielkie na małe, a małe na wielkie.
-29. title() - Zwraca "tytułową" wersję stringu, czyli wszystkie słowa zaczynające się 
+27. strip(\[chars\]) - przeprowadza jednocześnie metody lstrip() i rstrip() na stringu.
+28. swapcase() - zamienia litery wielkie na małe, a małe na wielkie.
+29. title() - zwraca "tytułową" wersję stringu, czyli wszystkie słowa zaczynające się 
     wielką literą, a pozostałe elementy małą literą (według anglojęzycznej ortografii).
-30. upper() - Zamienia wszystkie małe litery stringa na wielkie.
+30. upper() - zamienia wszystkie małe litery stringa na wielkie.
 
 Istnieje jeszcze ponad 10 innych metod, ale są one znacznie bardziej zaawansowane.
 
@@ -265,7 +267,7 @@ To dość dużo, jak na pierwszy program. Mamy jeszcze wiele do zrobienia, mimo 
 możecie być dumni z tego, co zrobiliśmy do tej pory!
 
 A jesli zrobiliście obowiązkowe zadanie nr 1, przekonaliście się, że w Pythonie
-występują jajeczka-niespodzianki i jest ich więcej. Oto kolejne:
+występują jajeczka-niespodzianki i wierzcie nam - jest ich więcej. Oto kolejne:
 
 	>>>  True + True
 
