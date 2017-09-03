@@ -17,52 +17,58 @@ Sprzedawca pochyla się nad nią, uśmiecha i pyta:
 
 "Chciałabyś ślicznego puszystego białego króliczka, 
 czy słodkiego kudłatego brązowego króliczka?"
-Would you like a lovely fluffy little white rabbit, or a cutesy
-wootesly little brown rabbit?"
 
-"Actually", says the little girl, "I don't think my python would
-notice."
+"Właściwie", odpowiada dziewczynka, "Nie sądzę, by mój pyton zauważył różnicę."
 
-Now lets get back to learning :)
+A teraz wracajmy do nauki :)
 
-List
-====
+Lista
+=====
 
-Still we haven’t said anything about lists, as they do not differ much
-from the intuitive concept of lists in the everyday life. We can easily
-think of lists in Python as we think of any other list (a shopping list,
-a guest list, exam results etc.) written on a paper and numbered.
+Nie wspomnieliśmy dotychczas o listach, bo nie różnią się one od intuicyjnej
+koncepcji list znanej z codziennego życia. Możemy myśleć o listach w Pythonie
+tak samo, jak myślimy o każdej innej liście (liście zakupoów, liście gości,
+wynikach egzaminu itd.) spisanej na papierze i ponumerowanej.
 
-Let's start with a blank page by starting a new python interpreter:
+Zacznijmy od czystej strony w interpreterze Pythona:
 
-	>>>  L = \[\] >>> L \[\]
 
-At any time we can check how many items we have saved on our list by
-using the function len.
+	>>> L = [] 
+	>>> L
 
-	>>>  len(L) 0
+W każdej chwili możemy sprawdzić, ile elementów przechowujemy w liście
+stosując funkcję len:
 
-Let's make another list (which can have the same name or a different
-one):
+	>>> len(L) 
+	0
 
-	>>>  L = \["Ala", "Ola", "Jacek"\] >>> len(L) 3
+Stwórzmy kolejną listę (o takiej samej lub innej nazwie, niż poprzednia lista):
 
-As in the case of tuples, consecutive elements of the list are separated
-by commas. Unlike tuples, brackets `[` and `]` are obligatory.
+	>>> L = ["Ala", "Ola", "Jacek"] 
+	>>> len(L)
+	3
 
-Accessing Values in Lists
--------------------------
+Tak, jak w przypadku tupli, kolejne elementy listy są oddzielone przecinkami. 
+Zaś w odróżnieniu od tupli, nawiasy `[` i `]` są obowiązkowe.
 
-To preview a particular position of an element on the list (remember
-that we count the positions from 0 ):
+Dostęp do wartości w liście
+---------------------------
 
-	>>>  L = \["Ala", "Ola", "Jacek"\] >>> L\[0\] 'Ala'
-	>>>  L\[1\] 'Ola' >>> L\[2\] 'Jacek' >>>
-	>>>  L\[3\] Traceback (most recent call last): File "<stdin>", line
-	>>>  1, in <module> IndexError: list index out of range
+By wyświetlić określony element listy (pamiętajcie, że liczymy od zera):
 
-We can also use the loop for,to execute instructions for every element
-of the list:
+	>>> L = ["Ala", "Ola", "Jacek"] 
+	>>> L[0]
+	'Ala'
+	>>>  L[1]
+	'Ola' 
+	>>> L[2] 
+	'Jacek' 
+	>>>  L[3]
+	Traceback (most recent call last): File "<stdin>", line
+	1, in <module> IndexError: list index out of range
+
+Możemy również użyć pętli, by wykonac instrukcję dla każdego elementu
+listy:
 
 	>>>  for name in L: ... print("Name:", name) ... Name: Ala
 	>>>  Name: Ola Name: Jacek
