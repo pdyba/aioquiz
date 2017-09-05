@@ -510,13 +510,25 @@ class MakeOrganiserView(HTTPMethodView):
         return json({'success': False, 'reson': 'wrong token'})
 
 
-class MakeMentorView(HTTPMethodView):
+class ChangeMentorView(HTTPMethodView):
     @user_required('admin')
     async def post(self, request, current_user):
         req = request.json
         user = await Users.get_by_id(req['uid'])
         if user:
             user.mentor = req['mentor']
+            await user.update()
+            return json({'success': True})
+        return json({'success': False, 'msg': 'wrong token'})
+
+
+class ChangeActiveView(HTTPMethodView):
+    @user_required('admin')
+    async def post(self, request, current_user):
+        req = request.json
+        user = await Users.get_by_id(req['uid'])
+        if user:
+            user.active = req['active']
             await user.update()
             return json({'success': True})
         return json({'success': False, 'msg': 'wrong token'})
@@ -718,9 +730,13 @@ class ConfigView(HTTPMethodView):
 class AbsenceView(HTTPMethodView):
     @user_required('admin')
     async def get(self, request, current_user, lid=None):
-        abmeta = await AbsenceMeta.get_first('lesson', lid)
-        resp = await abmeta.to_dict()
-        return json(resp)
+        try:
+            abmeta = await AbsenceMeta.get_first('lesson', lid)
+            resp = await abmeta.to_dict()
+            resp['time_ended'] = str(resp['time_ended']).split('.')[0]
+            return json(resp)
+        except DoesNotExist:
+            return await self.generate_code(current_user.id, lid)
 
     @user_required()
     async def put(self, request, current_user):
@@ -731,7 +747,7 @@ class AbsenceView(HTTPMethodView):
             return json(
                 {
                     'success': False,
-                    'msg': 'Absence accepted'
+                    'msg': 'Missing lesson number or code'
                 },
                 sort_keys=True
             )
@@ -763,11 +779,11 @@ class AbsenceView(HTTPMethodView):
             sort_keys=True
         )
 
-    @user_required('admin')
-    async def post(self, request, current_user):
-        req = request.json
+    @staticmethod
+    async def generate_code(uid, lid):
+        req = {'lesson': lid, 'users': uid}
         code = str(uuid4()).split('-')[0]
-        time_ended = datetime.utcnow()
+        time_ended = datetime.now()
         time_ended = time_ended.replace(minute=time_ended.minute+2)
         req['code'] = code
         req['time_ended'] = time_ended
@@ -778,7 +794,19 @@ class AbsenceView(HTTPMethodView):
                 'success': True,
                 'msg': 'Created',
                 'code': code,
-                'valid_till': time_ended
+                'time_ended': str(time_ended).split('.')[0]
             },
             sort_keys=True
         )
+
+    @user_required('admin')
+    async def post(self, request, current_user, lid=None):
+        abmeta = await AbsenceMeta.get_first('lesson', lid)
+        time_ended = datetime.now()
+        time_ended = time_ended.replace(minute=time_ended.minute+2)
+        abmeta.time_ended = time_ended
+        await abmeta.update()
+        resp = await abmeta.to_dict()
+        resp['time_ended'] = str(time_ended).split('.')[0]
+        return json(resp)
+

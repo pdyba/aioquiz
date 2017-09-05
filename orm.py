@@ -248,10 +248,10 @@ class Table:
         try:
             return ', '.join([
                 ("{}='{}'".format(prop.name, prop.type.format(getattr(clsi, prop.name))))
-                for prop in cls._schema if not prop.name.startswith('time') and prop.name != 'id' and (prop.required or getattr(clsi, prop.name))
+                for prop in cls._schema if not prop.name.startswith('time_created') and prop.name != 'id' and (prop.required or getattr(clsi, prop.name))
             ])
         except:
-            import pdb; pdb.set_trace()
+            logging.exception('_format_update' + str(clsi))
 
     @classmethod
     def _format_kwargs(cls, **kwargs):
@@ -438,6 +438,9 @@ class DateTime(ColumnType):
         if super().validate(data):
             return re.match("^[0-9\.\:\/]*$", data)
         return False
+
+    def format(self, data):
+        return str(data).split('.')[0]
 
 
 class ForeignKey(ColumnType):

@@ -18,7 +18,7 @@
                 <p>Nad agendą weekendowych warsztatów jeszcze pracujemy <a href="#/agenda"></a></p>
 
 
-                <h2>Program warsztatów:</h2>
+                <h2>Workshops Program:</h2>
                 <p>Complete educational program for the whole years is accesable here: <a href="#/program">Program</a></p></p>
                 <p>We are still working on kickoff weekend workshops we are still working<a href="#/agenda"></a></p>
             </div>
@@ -171,7 +171,7 @@
             <div class="col-lg-12">
             <h2 class="page-header">Mentorzy</h2>
                 </div>
-            <div class="col-sm-4" ng-repeat="user in vm.mentors" ng-if="user.mentor && !user.admin &&user.organiser">
+            <div class="col-sm-4" ng-repeat="user in vm.mentors" ng-if="user.mentor && !user.admin && !user.organiser">
                 <img class="img-responsive" src="/images/{{ user.img }}">
                 <h3>{{ user.name }} {{ user.surname }}<br>
                     <small> Mentor </small>
