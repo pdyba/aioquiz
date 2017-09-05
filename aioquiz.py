@@ -15,8 +15,11 @@ from exception_handlers import handle_404s
 from exception_handlers import handle_500s
 from exception_handlers import handle_timeout
 
+from views import AbsenceView
 from views import ActivationView
 from views import AuthenticateView
+from views import ChangeMentorView
+from views import ChangeActiveView
 from views import ConfigView
 from views import EmailView
 from views import ExercisesView
@@ -91,6 +94,8 @@ app.add_route(EmailView.as_view(), '/api/email')
 app.add_route(ActivationView.as_view(), '/api/activation/<uid:int>/<acode>')
 
 app.add_route(MakeOrganiserView.as_view(), '/api/make_organiser')
+app.add_route(ChangeMentorView.as_view(), '/api/change_mentor')
+app.add_route(ChangeActiveView.as_view(), '/api/change_active')
 
 app.add_route(ReviewRulesView.as_view(), '/api/review_rules')
 
@@ -105,6 +110,9 @@ app.add_route(INeedHelpView.as_view(), '/api/i_need_help')
 
 app.add_route(ExercisesView.as_view(), '/api/exercise')
 app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')
+
+app.add_route(AbsenceView.as_view(), '/api/absence')
+app.add_route(AbsenceView.as_view(), '/api/absence/<lid:int>')
 
 app.error_handler.add(ServerError, handle_500s)
 app.error_handler.add(NotFound, handle_404s)

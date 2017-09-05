@@ -19,9 +19,9 @@
 
 
                 <h2>Educational program:</h2>
-                <p>Complete educational program for the whole year is accesable here: <a href="#/program">Program</a></p></p>
-                <p>We are still working on kickoff weekend workshops agenda<a href="#/agenda"></a>.</p>
-            </div>
+                <p>Complete educational program for the whole year is accesable here: <a href="#/program">Program</a></p>
+                <p>We are still working on kickoff weekend workshops agenda <a href="#/agenda"></a>.</p>
+             </div>
 
         </div>
         <br>
@@ -171,7 +171,7 @@
             <div class="col-lg-12">
             <h2 class="page-header">Mentorzy</h2>
                 </div>
-            <div class="col-sm-4" ng-repeat="user in vm.mentors" ng-if="user.mentor && !user.admin &&user.organiser">
+            <div class="col-sm-4" ng-repeat="user in vm.mentors" ng-if="user.mentor && !user.admin && !user.organiser">
                 <img class="img-responsive" src="/images/{{ user.img }}">
                 <h3>{{ user.name }} {{ user.surname }}<br>
                     <small> Mentor </small>

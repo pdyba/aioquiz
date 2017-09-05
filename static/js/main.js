@@ -116,6 +116,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "ProfileEditCtrl",
             controllerAs: 'vm'
         })
+        .when("/edit_user/:uid", {
+            templateUrl: "partials/profile_edit.html",
+            controller: "UserEditCtrl",
+            controllerAs: 'vm'
+        })
         .when("/admin_users", {
             templateUrl: "partials/admin.html",
             controller: "AdminController",
@@ -159,6 +164,11 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/lessons_mngt", {
             templateUrl: "partials/lessons_mngt.html",
             controller: "LessonMngtController",
+            controllerAs: 'vm'
+        })
+        .when("/attendance", {
+            templateUrl: "partials/attendance.html",
+            controller: "AttendanceController",
             controllerAs: 'vm'
         })
         .otherwise("/404", {
@@ -310,6 +320,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     vm.rate = rate;
     vm.accept = accept;
     vm.unaccept = unaccept;
+    vm.edit_mentor = edit_mentor;
     vm.current_user_id = $scope.globals.currentUser.id;
 
     function rate(user) {
@@ -326,6 +337,9 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
                 }
             }
         );
+    }
+    function edit_mentor(uid) {
+         $location.path('/edit_user/' + uid);
     }
 
     function accept(user) {
@@ -418,6 +432,33 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
 
 }
 
+app.controller('AttendanceController', AttendanceController);
+AttendanceController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function AttendanceController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.attendance = {};
+    vm.send_attendance = send_attendance;
+    //TODO: Finish this
+    function send_attendance() {
+        $http.put('/api/lessons', vm.attendance).then(
+            function (response) {
+                response.data.forEach(
+                    function (a, b) {
+                        a.full_id = pad(a.id, 4);
+                    }
+                );
+                vm.lessons = response.data;
+            }
+        );
+    }
+}
+
 app.controller('LessonsCtrl', LessonsCtrl);
 LessonsCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
@@ -441,8 +482,8 @@ function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $
 }
 
 app.controller('LessonMngtController', LessonMngtController);
-LessonMngtController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LessonMngtController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+LessonMngtController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'SweetAlert'];
+function LessonMngtController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, SweetAlert) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
@@ -450,6 +491,41 @@ function LessonMngtController($scope, $location, $AuthenticationService, $FlashS
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
+    vm.activate = activate;
+    vm.deactivate = deactivate;
+    vm.absence = absence;
+    vm.extend = extend;
+
+    function activate(lid){}
+    function deactivate(lid){}
+
+    function absence(lid) {
+        $http.get('/api/absence/' + lid).then(
+            function (response) {
+                SweetAlert.swal({
+                        title: "Lesson Code",
+                        text: "<h1>" + response.data.code + "</h1><h3><br>will expire at:<br>" + response.data.time_ended + "</h3>",
+                        type: "success",
+                        html: true
+                    })
+            }
+        );
+    }
+
+    function extend(lid) {
+        $http.post('/api/absence/' + lid, {}).then(
+            function (response) {
+                SweetAlert.swal({
+                        title: "Lesson Code",
+                        text: "<h1>" + response.data.code + "</h1><h3><br>will expire at:<br>" + response.data.time_ended + "</h3>",
+                        type: "success",
+                        html: true
+                    })
+            }
+        );
+    }
+
+
     $http.get('/api/lessons').then(
         function (response) {
             vm.lessons = response.data;
@@ -468,11 +544,11 @@ function LessonCtrl($scope, $location, $AuthenticationService, $FlashService, $i
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
-    //$http.get('/api/lessons').then(
-    //    function (response) {
-    //        vm.lessons = response.data;
-    //    }
-    //);
+    $http.get('/api/lessons').then(
+        function (response) {
+            vm.lessons = response.data;
+        }
+    );
 }
 
 app.controller('QuizCtrl', QuizCtrl);
@@ -738,6 +814,37 @@ function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashServic
     }
 }
 
+app.controller('UserEditCtrl', UserEditCtrl);
+UserEditCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams', 'UserService'];
+function UserEditCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams, UserService) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.update_user = update_user;
+    vm.user = {};
+
+    $http.get('/api/user/' + $routeParams.uid).then(
+        function (response) {
+            vm.user = response.data;
+        }
+    );
+    function update_user() {
+        vm.dataLoading = true;
+        UserService.Update(vm.user)
+            .then(function (response) {
+                if (response.success) {
+                    $FlashService.Success(response.msg, true);
+                } else {
+                    $FlashService.Error(response.msg);
+                }
+                vm.dataLoading = false;
+            });
+    }
+}
 
 app.controller('CreateQuizCtrl', CreateQuizCtrl);
 CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
@@ -1108,8 +1215,51 @@ function NewLessonController($scope, $location, $AuthenticationService, $FlashSe
     }
 }
 
-app.factory('AuthenticationService', AuthenticationService);
 
+
+app.controller('AdminController', AdminController);
+AdminController.$inject = ['UserService', '$rootScope'];
+function AdminController(UserService, $rootScope) {
+    var vm = this;
+
+    vm.user = null;
+    vm.allUsers = [];
+    vm.users_stats = {};
+    vm.deleteUser = deleteUser;
+    vm.makeOrganiser = UserService.makeOrganiser;
+    vm.removeOrganiser = UserService.removeOrganiser;
+    vm.makeActive = UserService.makeActive;
+    vm.makeInactive = UserService.makeInactive;
+    vm.makeMentor = UserService.makeMentor;
+    vm.removeMentor = UserService.removeMentor;
+
+    loadAllUsers();
+    getStats();
+
+    function getStats() {
+        UserService.GetStats()
+            .then(function (stats) {
+                vm.users_stats = stats;
+            });
+    }
+
+    function loadAllUsers() {
+        UserService.GetAll()
+            .then(function (users) {
+                vm.allUsers = users;
+            });
+    }
+
+    function deleteUser(id) {
+        UserService.Delete(id)
+            .then(function () {
+                loadAllUsers();
+            });
+    }
+
+}
+
+app.factory('AuthenticationService', AuthenticationService);
 AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService'];
 function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService) {
     var service = {};
@@ -1175,10 +1325,13 @@ function UserService($http, $FlashService) {
     service.Delete = Delete;
     service.GetStats = GetStats;
     service.makeOrganiser = makeOrganiser;
+    service.removeOrganiser = removeOrganiser;
+    service.makeActive = makeActive;
+    service.makeInactive = makeInactive;
+    service.makeMentor = makeMentor;
+    service.removeMentor = removeMentor;
 
-    // Nie lepiej byłoby robić tak:
-    // service.GetAll = function() { ... }
-    // To definiowanie funkcji po return w ogóle nie powinno działać wg mnie, no ale JS :p
+
     return service;
 
     function GetAll() {
@@ -1231,6 +1384,87 @@ function UserService($http, $FlashService) {
         $http.post('/api/make_organiser', data).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('Made an organiser: ' + user.name, true);
+                user.organiser = true;
+            } else {
+                $FlashService.Error(response.data.msg);
+                vm.dataLoading = false;
+            }
+        });
+    }
+
+    function removeOrganiser(user) {
+        var data = {
+            'organiser': false,
+            'uid': user.id
+        };
+        $http.post('/api/make_organiser', data).then(function (response) {
+            if (response.data.success) {
+                $FlashService.Success('Made an organiser: ' + user.name, true);
+                user.organiser = false;
+            } else {
+                $FlashService.Error(response.data.msg);
+                vm.dataLoading = false;
+            }
+        });
+    }
+
+    function makeActive(user) {
+        var data = {
+            'active': true,
+            'uid': user.id
+        };
+        $http.post('/api/change_active', data).then(function (response) {
+            if (response.data.success) {
+                $FlashService.Success('Made active: ' + user.name, true);
+                user.active = true;
+            } else {
+                $FlashService.Error(response.data.msg);
+                vm.dataLoading = false;
+            }
+        });
+    }
+
+    function makeInactive(user) {
+        var data = {
+            'active': false,
+            'uid': user.id
+        };
+        $http.post('/api/change_active', data).then(function (response) {
+            if (response.data.success) {
+                $FlashService.Success('Made inactive: ' + user.name, true);
+                user.active = false;
+            } else {
+                $FlashService.Error(response.data.msg);
+                vm.dataLoading = false;
+            }
+        });
+    }
+
+    function makeMentor(user) {
+        var data = {
+            'mentor': true,
+            'uid': user.id
+        };
+        $http.post('/api/change_mentor', data).then(function (response) {
+            if (response.data.success) {
+                $FlashService.Success('Made mentor of: ' + user.name, true);
+                user.mentor = true;
+            } else {
+                $FlashService.Error(response.data.msg);
+                vm.dataLoading = false;
+            }
+        });
+    }
+
+    function removeMentor(user) {
+        var data = {
+            'mentor': false,
+            'uid': user.id
+        };
+        $http.post('/api/change_mentor', data).then(function (response) {
+            if (response.data.success) {
+                $FlashService.Success('Removed mentor from: ' + user.name, true);
+                user.mentor = false;
             } else {
                 $FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
@@ -1307,44 +1541,6 @@ function FlashService($rootScope, $route) {
             keepAfterLocationChange: keepAfterLocationChange
         };
     }
-}
-
-
-app.controller('AdminController', AdminController);
-AdminController.$inject = ['UserService', '$rootScope'];
-function AdminController(UserService, $rootScope) {
-    var vm = this;
-
-    vm.user = null;
-    vm.allUsers = [];
-    vm.users_stats = {};
-    vm.deleteUser = deleteUser;
-    vm.makeOrganiser = UserService.makeOrganiser;
-
-    loadAllUsers();
-    getStats();
-
-    function getStats() {
-        UserService.GetStats()
-            .then(function (stats) {
-                vm.users_stats = stats;
-            });
-    }
-
-    function loadAllUsers() {
-        UserService.GetAll()
-            .then(function (users) {
-                vm.allUsers = users;
-            });
-    }
-
-    function deleteUser(id) {
-        UserService.Delete(id)
-            .then(function () {
-                loadAllUsers();
-            });
-    }
-
 }
 
 run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
