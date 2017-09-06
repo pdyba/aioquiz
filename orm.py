@@ -26,8 +26,7 @@ db = None  # Perhaps make a 'db' class instead of using a global variable?
 async def make_a_querry(querry, retry=False):
     global db
     if ';' in querry:
-        logging.error(querry)
-        raise DeprecationWarning
+        querry = querry.replace(';', '')
     try:
         if not db:
             db = await asyncpg.connect(**psql_cfg)
