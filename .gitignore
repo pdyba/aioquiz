@@ -90,3 +90,9 @@ ENV/
 
 ./static/lessons/*.html
 .idea
+
+./static/templates.js
+
+node_modules
+
+

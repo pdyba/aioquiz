@@ -8,3 +8,6 @@ It is written in Python using asynchronous framework Sanic, PostgresSQL and Angu
 
 * Python 3.5+
 * PostgresSQL
+
+
+## build fronttemplates
