@@ -109,7 +109,7 @@
                         <select ng-options="x for x in [1, 2, 3, 4, 5, 6, 7 ,8, 9, 10]"
                                 ng-model="u.new_review" ngValue="x"
                                 required></select>
-                        <a class="btn btn-danger" ng-if="u.mentor"
+                        <a class="btn btn-danger" ng-if="!u.mentor"
                            ng-click="vm.rate( u )">Rate</a>
                     </div>
                     <div ng-hide="u.accepted">
