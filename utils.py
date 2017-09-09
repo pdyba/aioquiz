@@ -69,7 +69,7 @@ def error_catcher(func, default_return=False):
     return wrapped
 
 
-def hash_password(password):
+def hash_string(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 async def send_email(recipients=None, subject='', text=''):

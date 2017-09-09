@@ -14,7 +14,7 @@ from sanic.views import HTTPMethodView
 
 from config import REGEMAIL
 from config import MAINCONFIG
-
+from config import ALL_EMAILS
 from models import Absence
 from models import AbsenceMeta
 from models import Config
@@ -34,7 +34,7 @@ from models import Seat
 from orm import DoesNotExist
 from utils import get_args
 from utils import safe_del_key
-from utils import hash_password
+from utils import hash_string
 from utils import send_email
 
 _users = {}
@@ -395,7 +395,7 @@ class AuthenticateView(HTTPMethodView):
                 return json({'msg': 'User not found'}, status=404)
             if not user.active:
                 return json({'msg': 'User not active'}, status=404)
-            if hash_password(req.get('password', 'x')) == user.password:
+            if hash_string(req.get('password', 'x')) == user.password:
                 user.session_uuid = str(uuid4()).replace('-', '')
                 user.last_login = datetime.utcnow()
                 await user.update()
@@ -485,16 +485,54 @@ class ReviewAttendeesView(HTTPMethodView):
 
 
 class EmailView(HTTPMethodView):
-    @user_required('organiser')
+    recipients = {
+        'all': 'Do Wszystkich',
+        'accepted': 'Do Zakcpetowanych',
+        'ack': 'Do Zakcpetowanych, ktorzy przyjeli',
+        'noans': 'Do Zakcpetowanych, ktorzy jeszcze przyjeli - przypomnienie',
+        'rejected': 'Do tych co odrzucili',
+        'not_accpeted': 'Do tych ktorzy nie zostali zakceptowaniu - druga runda',
+        'organiser': 'Do organizatorów',
+        'mentor': 'Do mentorów',
+    }
+
+    @user_required('admin')
     async def get(self, request, current_user):
-        recipients = []
-        subject = '...'
-        text = "..."
-        resp = await send_email(
-            recipients=recipients,
-            text=text,
-            subject=subject
-        )
+        resp = {
+            'recipients': self.recipients,
+            'possible_emails': ALL_EMAILS
+        }
+        return json(resp)
+
+    @user_required('admin')
+    async def post(self, request, current_user):
+        req = request.json
+        link = 'https://{}/api/confirm/'.format(request.host)
+        if req['email_type'] == 'other':
+            users = Users.get_by_many_field_value(**req['recipients'])
+            subject = req['subject']
+            text = req['text'].format()
+            resp = await send_email(
+                recipients=[u.email for u in users],
+                text=text,
+                subject=subject
+            )
+        else:
+            users = Users.get_by_many_field_value(**req['recipients'])
+            for user in users:
+                uhash = hash_string(user.name + str(user.id) + user.emial)
+                email_data = {
+                    "link_yes": link + user.id + '/' + uhash + '/' + 'yes',
+                    "link_no": link + user.id + '/' + uhash + '/' + 'no',
+                    "name": user.name
+                }
+                subject = req['subject']
+                text = req['text'].format(**email_data)
+                resp = await send_email(
+                    recipients=[user.email],
+                    text=text,
+                    subject=subject
+                )
         return json({'success': resp})
 
 

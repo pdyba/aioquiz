@@ -11,7 +11,7 @@ from orm import ForeignKey
 from orm import Integer
 from orm import String
 from orm import Table
-from utils import hash_password
+from utils import hash_string
 from utils import safe_del_key
 
 
@@ -94,7 +94,7 @@ class Users(Table):
     ]
 
     async def create(self):
-        self.password = hash_password(self.password)
+        self.password = hash_string(self.password)
         return await super().create()
 
     @classmethod

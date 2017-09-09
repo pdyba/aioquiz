@@ -60,7 +60,6 @@ class MAINCONFIG:
     '''
     move to DB
     '''
-    REGISTRATION_OPEN = True
     CIRITERIA = """
     how we should judge
     """

@@ -129,6 +129,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "AdminConfigController",
             controllerAs: 'vm'
         })
+        .when("/admin_email", {
+            templateUrl: "partials/admin_email.html",
+            controller: "AdminEmailController",
+            controllerAs: 'vm'
+        })
         .when("/seats", {
             templateUrl: "partials/seats.html",
             controller: "SeatController",
@@ -1031,6 +1036,38 @@ function AdminConfigController($scope, $location, $AuthenticationService, $Flash
     function save_config() {
         vm.dataLoading = true;
         $http.post('/api/admin_config', vm.config).then(function (response) {
+            if (response.data.success) {
+                $FlashService.SuccessNoReload(response.data.msg);
+            } else {
+                $FlashService.Error(response.data.msg);
+            }
+            vm.dataLoading = false;
+        });
+    }
+}
+
+app.controller('AdminEmailController', AdminEmailController);
+AdminEmailController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function AdminEmailController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    vm.questions = [];
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    $http.get('/api/email').then(
+        function (response) {
+            vm.email_options = response.data;
+        }
+    );
+    vm.email = {};
+    vm.send_email = send_email;
+
+    function send_email() {
+        vm.dataLoading = true;
+        $http.post('/api/email', vm.email).then(function (response) {
             if (response.data.success) {
                 $FlashService.SuccessNoReload(response.data.msg);
             } else {
