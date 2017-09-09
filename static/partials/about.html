@@ -90,6 +90,18 @@
         <div class="row">
 
             <div class="col-lg-12">
+                <h1 class="page-header">O nas w mediach !</h1>
+                <ul>
+                    <li><a href="http://www.gloswielkopolski.pl/wiadomosci/poznan/a/poznan-bezplatne-zajecia-z-programowania-w-jezyku-python,12456846/">Głoś Wielkopolski</a></li>
+                    <li><a href="http://mamstartup.pl/programowanie/11901/nie-mam-talentu-do-programowania-ale-nie-przeszkodzilo-mi-to-w-nauce">MamStartup</a></li>
+                    <li><a href="https://www.facebook.com/lepszypoz/posts/10156595946846040">Lepszy Poznań</a> </li>
+                </ul>
+            </div>
+
+            </div>
+        <div class="row">
+
+            <div class="col-lg-12">
                 <h1 class="page-header">Nasz Zespół</h1>
             </div>
 
@@ -98,7 +110,7 @@
                 </div>
 
             <div class="col-sm-4" ng-repeat="user in vm.allUsers" ng-if="user.admin">
-                <img class="img-responsive" src="/images/{{ user.img }}">
+                <img class="img-responsive" src="/images/{{ user.img }}" ng-if="user.img">
                 <h3>{{ user.name }} {{ user.surname }}<br>
                     <small ng-show="user.admin">Admin, {{ user.pyfunction }}</small>
                     <br>
@@ -134,7 +146,7 @@
             <h2 class="page-header">Organizatorzy</h2>
     </div>
             <div class="col-sm-4" ng-repeat="user in vm.allUsers" ng-if="user.organiser && !user.admin">
-                <img class="img-responsive" src="/images/{{ user.img }}">
+                <img class="img-responsive" src="/images/{{ user.img }}" ng-if="user.img">
                 <h3>{{ user.name }} {{ user.surname }}<br>
                     <small ng-show="user.admin">Admin</small>
                     <small ng-show="user.organiser" ng-hide="user.admin">
@@ -172,7 +184,7 @@
             <h2 class="page-header">Mentorzy</h2>
                 </div>
             <div class="col-sm-4" ng-repeat="user in vm.mentors" ng-if="user.mentor && !user.admin && !user.organiser">
-                <img class="img-responsive" src="/images/{{ user.img }}">
+                <img class="img-responsive" src="/images/{{ user.img }}" ng-if="user.img">
                 <h3>{{ user.name }} {{ user.surname }}<br>
                     <small> Mentor </small>
                     <br>
