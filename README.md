@@ -8,3 +8,14 @@ It is written in Python using asynchronous framework Sanic, PostgresSQL and Angu
 
 * Python 3.5+
 * PostgresSQL
+
+
+## build front
+
+###### install node modules
+`npm install`
+
+###### build bundle.js
+`./build_front.sh`
+###### update bundle hash in static/index.html
+
