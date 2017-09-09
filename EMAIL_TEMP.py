@@ -3,20 +3,20 @@ Z przyjemnością informujemy, że Twoje zgłoszenie na warsztat weekendowy PyLa
 Przypominamy, że wydarzenie odbędzie się w dniach 23-24 września 2017 r. (sobota-niedziela).
 
 Przypominamy, że bardzo ważnym warunkiem uczestnictwa jest przyniesienie własnego sprawnego laptopa z ładowarką oraz wcześniej zainstalowanym środowiskiem (Python 3.6.2 oraz PyCharm).
-Instalację wspierają nasi mentorzy na wydarzniue Facebookowym.
-Żeby wziąć udział w warsztatach, oczekujemy od Ciebie potwierdzenia. Musisz kliknąć w link poniżej lub skopiować go i wkleić w pasek przeglądarki (link jest jednorazowego użycia).
+Instalację wspierają nasi mentorzy na wydarzniu Facebookowym.
+Oczekujemy od Ciebie potwierdzenia, że weźmiesz udział w warsztatach. Musisz kliknąć w link poniżej lub skopiować go i wkleić w pasek przeglądarki (link jest jednorazowego użycia).
 
-UWAGA TEJ OPERACJI NIE MOŻNA COFNĄĆ !
+UWAGA, TEJ OPERACJI NIE MOŻNA COFNĄĆ!
 {link_yes}
 
-Jeśli jednak nie możesz dotrzeć, kliknij proszę lub skopiuj link poniżej:
+Jeżeli jednak nie możesz dotrzeć, kliknij proszę lub skopiuj link poniżej:
 
-UWAGA TEJ OPERACJI NIE MOŻNA COFNĄĆ !
+UWAGA, TEJ OPERACJI NIE MOŻNA COFNĄĆ!
 {link_no}
 
 
 Masz 72 godziny na potwierdzenie swojego uczestnictwa w warsztacie. W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy osobę z listy rezerwowej.
-Jeśli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
+Jeżeli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
 https://www.facebook.com/events/817378328361206/
@@ -37,24 +37,24 @@ Pozdrawiamy,
 PyLadies Poznań Team'''
 
 EMAIL_REMINDER = '''Cześć {name}!
-Czy pamiętacie o pilnej konieczności potwierdzenia swojego udziału w warsztacie weekendowym PyLadies.start() w Poznaniu, 23-24 września.
-Jeśli jeszcze tego nie zrobiliście - czekamy.
+Czy pamiętacie o pilnej konieczności potwierdzenia swojego udziału w warsztacie weekendowym PyLadies.start() w Poznaniu, 23-24 września?
+Jeżeli jeszcze tego nie zrobiliście - czekamy.
 Aby potwierdzić swój udział, kliknij w link poniżej lub skopiuj go i wklej w pasek przeglądarki (link jest jednorazowego użycia).
 
-UWAGA TEJ OPERACJI NIE MOŻNA COFNĄĆ !
+UWAGA, TEJ OPERACJI NIE MOŻNA COFNĄĆ!
 {link_yes}
 
-Jeśli jednak nie możesz dotrzeć, kliknij proszę lub skopiuj link poniżej:
+Jeżeli jednak nie możesz dotrzeć, kliknij proszę lub skopiuj link poniżej:
 
-UWAGA TEJ OPERACJI NIE MOŻNA COFNĄĆ !
+UWAGA, TEJ OPERACJI NIE MOŻNA COFNĄĆ!
 {link_no}
 
 
 Przypominamy, że bardzo ważnym warunkiem uczestnictwa jest przyniesienie własnego sprawnego laptopa z ładowarką oraz wcześniej zainstalowanym środowiskiem (Python 3.6.2 i wybrany edytor tekstu).
-Instalację wspierają nasi mentorzy na wydarzniue Facebookowym.
+Instalację wspierają nasi mentorzy na wydarzniu Facebookowym.
 
-Masz 72 godziny od poprzedniego maila na potwierdzenie Swojego uczestnictwa w warsztacie.
- W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy osobę z listy rezerwowej. Jeśli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
+Masz 72 godziny od poprzedniego maila na potwierdzenie swojego uczestnictwa w warsztacie.
+W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy osobę z listy rezerwowej. Jeżeli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 
 Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
@@ -71,7 +71,7 @@ Nie wpłynęło do nas Twoje potwierdzenie udziału, ale wierzymy, że mimo to T
 Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
 https://www.facebook.com/events/817378328361206/
 
-Jeszcze raz dziękujemy za zainteresowanie i rejestrację.
+Jeszcze raz dziękujemy za zainteresowanie i rejestrację!
 
 Pozdrawiamy,
 PyLadies Poznań Team'''
@@ -83,18 +83,18 @@ Zapraszamy zatem!
 
 Aby potwierdzić swój udział, kliknij w link poniżej lub skopiuj go i wklej w pasek przeglądarki (link jest jednorazowego użycia).
 
-UWAGA TEJ OPERACJI NIE MOŻNA COFNĄĆ !
+UWAGA, TEJ OPERACJI NIE MOŻNA COFNĄĆ!
 {link_yes}
 
-Jeśli jednak nie możesz dotrzeć, kliknij proszę lub skopiuj link poniżej:
+Jeżeli jednak nie możesz dotrzeć, kliknij proszę lub skopiuj link poniżej:
 
-UWAGA TEJ OPERACJI NIE MOŻNA COFNĄĆ !
+UWAGA, TEJ OPERACJI NIE MOŻNA COFNĄĆ!
 {link_no}
 
 Przypominamy, że bardzo ważnym warunkiem uczestnictwa jest przyniesienie własnego sprawnego laptopa z ładowarką oraz wcześniej zainstalowanym środowiskiem (Python 3.6.2 i wybrany edytor tekstu).
-Instalację wspierają nasi mentorzy na wydarzniue Facebookowym.
+Instalację wspierają nasi mentorzy na wydarzniu Facebookowym.
 
-Masz 24 godzin na potwierdzenie Swojego uczestnictwa w warsztacie. W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy inną osobę z listy rezerwowej.
+Masz 24 godziny na potwierdzenie swojego uczestnictwa w warsztacie. W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy inną osobę z listy rezerwowej.
 Jeśli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 
