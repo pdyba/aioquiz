@@ -184,6 +184,7 @@ app.config(['$locationProvider', function ($locationProvider) {
 app.controller('PageCtrl', PageCtrl);
 PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', 'SweetAlert', '$http'];
 function PageCtrl($scope, $location, $AuthenticationService, $FlashService, SweetAlert, $http) {
+    if ($scope.globals.currentUser) {
     user_seat = $scope.globals.currentUser.seat;
     if (!user_seat) {
         $http.get('/api/seats/' + $scope.globals.currentUser.id).then(
@@ -193,6 +194,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
             }
         );
     }
+        }
     $scope.logout = function () {
         $AuthenticationService.ClearCredentials();
         $location.path('/');

@@ -29,7 +29,7 @@
                 <span ng-show="form.city.$dirty && form.city.$valid" class="help-inline alert-success">&#10003;</span>
                 <span ng-show="form.city.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters</span>
-                <input ng-minlength="3" type="text" name="city" id="city" ng-pattern="/^[a-zA-Z \-ęóąłżźńść]*$/"
+                <input ng-minlength="3" type="text" name="city" id="city" ng-pattern="/^[a-zA-Z \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
                        class="form-control" ng-model="vm.user.city"/>
             </div>
 
@@ -121,7 +121,7 @@
                 <label for="pyfunction" ng-if="vm.user.lang === 'pl'">PyFunction</label>
                 <span ng-show="form.pyfunction.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                <input type="text" name="pyfunction" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                <input type="text" name="pyfunction" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
                        id="pyfunction" class="form-control"  ng-model="vm.user.pyfunction"/>
             </div>
 
