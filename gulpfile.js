@@ -13,8 +13,8 @@ const outputDir = './static/dist';
 
 const scripts = [
     './node_modules/angular/angular.min.js',
-    './node_modules/bootstrap/js/bootstrap.min.js',
     './node_modules/jquery/dist/jquery.min.js',
+    './node_modules/bootstrap/js/bootstrap.min.js',
     './node_modules/angular-route/angular-route.min.js',
     './node_modules/angular-cookies/angular-cookies.js',
 
@@ -31,16 +31,6 @@ gulp.task('concatPartials', () => {
         .pipe(templateCache({
             module: 'aioquiz', // must be the same as main module name
             root: 'partials'
-        }))
-        .pipe(gulp.dest('static/js'));
-});
-
-
-gulp.task('concatTemplates', () => {
-    return gulp.src('static/templates/*html')
-        .pipe(templateCache({
-            module: 'aioquiz', // must be the same as main module name
-            root: 'templates'
         }))
         .pipe(gulp.dest('static/js'));
 });

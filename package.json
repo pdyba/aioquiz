@@ -4,7 +4,7 @@
   "description": "",
   "main": "js/main.js",
   "scripts": {
-    "build": "gulp concatTemplates && gulp concatPartials && gulp concatPartials && gulp build"
+    "build": "gulp concatPartials  && gulp build"
   },
   "author": "Happy pyLadies family",
   "license": "MIT",

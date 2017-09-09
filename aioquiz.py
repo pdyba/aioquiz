@@ -64,6 +64,7 @@ app.static('/partials', join(dir_name, 'static/partials'))
 app.static('/templates', join(dir_name, 'static/templates'))
 app.static('/lessons', join(dir_name, 'static/lessons'))
 app.static('/favicon.ico', join(dir_name, 'static/images/favicon.ico'))
+app.static('/dist', join(dir_name, 'static/dist')) 
 
 app.add_route(UserView.as_view(), '/api/user/')
 app.add_route(UserView.as_view(), '/api/user/<id_name>')
