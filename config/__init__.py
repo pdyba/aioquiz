@@ -11,3 +11,5 @@ except Exception as err:
     print(err)
     print('error with config quitting')
     quit()
+
+from config.emails_pl import ALL_EMAILS

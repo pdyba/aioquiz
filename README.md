@@ -9,6 +9,15 @@ It is written in Python using asynchronous framework Sanic, PostgresSQL and Angu
 * Python 3.5+
 * PostgresSQL
 
+python3.5 -m pip install -r requirements
+
+
+## bootstrap DB
+
+1. Edit bottom of bootstrap.py
+2. Edit admin adding function ;)
+3. python3.5 bootstrap.py
+
 
 ## build front
 

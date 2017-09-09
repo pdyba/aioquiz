@@ -11,7 +11,7 @@ from orm import ForeignKey
 from orm import Integer
 from orm import String
 from orm import Table
-from utils import hash_password
+from utils import hash_string
 from utils import safe_del_key
 
 
@@ -94,7 +94,7 @@ class Users(Table):
     ]
 
     async def create(self):
-        self.password = hash_password(self.password)
+        self.password = hash_string(self.password)
         return await super().create()
 
     @classmethod
@@ -307,3 +307,8 @@ class Config(Table):
         Column('room_raws', Integer(), default=10),
         Column('room_columns', Integer(), default=10),
     ]
+
+    @classmethod
+    async def get_registration(cls):
+        config = await cls.get_by_id(1)
+        return config.reg_active

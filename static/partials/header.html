@@ -101,19 +101,22 @@
                 <li class="dropdown"
                     ng-show="$parent.globals.currentUser && $parent.globals.currentUser.organiser">
                     <a class="dropdown-toggle"
-                       data-toggle="dropdown">Admin</a>
+                       data-toggle="dropdown">
+                        <x ng-if="!$parent.globals.currentUser.admin">Organiser</x>
+                        <x ng-if="$parent.globals.currentUser.admin">Admin</x>
+                    </a>
                     <ul class="dropdown-menu">
                         <li ng-show="$parent.globals.currentUser.organiser"><a
                                 href="#/review_attendee">Attendee: Review</a>
                         </li>
                         <li ng-show="$parent.globals.currentUser.admin"><a
-                                href="#/group_email">Group e-mail</a>
+                                href="#/admin_email">E-mail</a>
                         </li>
 
                         <li ng-show="$parent.globals.currentUser.admin"><a
-                                href="#/admin_users">Users: Admin</a>
+                                href="#/admin_users">Users</a>
                         <li ng-show="$parent.globals.currentUser.admin"><a
-                                href="#/admin_config">Config: Admin</a>
+                                href="#/admin_config">Config</a>
                     </ul>
                 </li>
 

@@ -14,7 +14,7 @@ from sanic.views import HTTPMethodView
 
 from config import REGEMAIL
 from config import MAINCONFIG
-
+from config import ALL_EMAILS
 from models import Absence
 from models import AbsenceMeta
 from models import Config
@@ -34,14 +34,13 @@ from models import Seat
 from orm import DoesNotExist
 from utils import get_args
 from utils import safe_del_key
-from utils import hash_password
+from utils import hash_string
 from utils import send_email
 
 _users = {}
 _users_names = {}
 
 NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
-
 
 def user_required(access_level=None):
     def decorator(func):
@@ -172,6 +171,11 @@ class UserView(HTTPMethodView):
         :param request:
         :return:
         """
+        if not await Config.get_registration():
+            return json(
+                {'msg': 'Registartion is already closed'},
+                status=401
+            )
         try:
             req = request.json
             user = Users(**req)
@@ -202,6 +206,11 @@ class UserView(HTTPMethodView):
             return json(
                 {'msg': 'You probably used one of banned chars like ;'},
                 status=500
+            )
+        except UniqueViolationError:
+            return json(
+                {'msg': 'You already registered, try loging in !'},
+                status=400
             )
         except:
             logging.exception('err user.post')
@@ -386,7 +395,7 @@ class AuthenticateView(HTTPMethodView):
                 return json({'msg': 'User not found'}, status=404)
             if not user.active:
                 return json({'msg': 'User not active'}, status=404)
-            if hash_password(req.get('password', 'x')) == user.password:
+            if hash_string(req.get('password', 'x')) == user.password:
                 user.session_uuid = str(uuid4()).replace('-', '')
                 user.last_login = datetime.utcnow()
                 await user.update()
@@ -401,7 +410,8 @@ class AuthenticateView(HTTPMethodView):
                     'lang': user.lang,
                     'organiser': user.organiser,
                     'id': user.id,
-                    'session_uuid': user.session_uuid
+                    'session_uuid': user.session_uuid,
+                    'confirmation': user.confirmation
                 })
             else:
                 return self.user_error
@@ -475,16 +485,54 @@ class ReviewAttendeesView(HTTPMethodView):
 
 
 class EmailView(HTTPMethodView):
-    @user_required('organiser')
+    recipients = {
+        'all': 'Do Wszystkich',
+        'accepted': 'Do Zakcpetowanych',
+        'ack': 'Do Zakcpetowanych, ktorzy przyjeli',
+        'noans': 'Do Zakcpetowanych, ktorzy jeszcze przyjeli - przypomnienie',
+        'rejected': 'Do tych co odrzucili',
+        'not_accpeted': 'Do tych ktorzy nie zostali zakceptowaniu - druga runda',
+        'organiser': 'Do organizatorów',
+        'mentor': 'Do mentorów',
+    }
+
+    @user_required('admin')
     async def get(self, request, current_user):
-        recipients = []
-        subject = '...'
-        text = "..."
-        resp = await send_email(
-            recipients=recipients,
-            text=text,
-            subject=subject
-        )
+        resp = {
+            'recipients': self.recipients,
+            'possible_emails': ALL_EMAILS
+        }
+        return json(resp)
+
+    @user_required('admin')
+    async def post(self, request, current_user):
+        req = request.json
+        link = 'https://{}/api/confirm/'.format(request.host)
+        if req['email_type'] == 'other':
+            users = Users.get_by_many_field_value(**req['recipients'])
+            subject = req['subject']
+            text = req['text'].format()
+            resp = await send_email(
+                recipients=[u.email for u in users],
+                text=text,
+                subject=subject
+            )
+        else:
+            users = Users.get_by_many_field_value(**req['recipients'])
+            for user in users:
+                uhash = hash_string(user.name + str(user.id) + user.emial)
+                email_data = {
+                    "link_yes": link + user.id + '/' + uhash + '/' + 'yes',
+                    "link_no": link + user.id + '/' + uhash + '/' + 'no',
+                    "name": user.name
+                }
+                subject = req['subject']
+                text = req['text'].format(**email_data)
+                resp = await send_email(
+                    recipients=[user.email],
+                    text=text,
+                    subject=subject
+                )
         return json({'success': resp})
 
 
@@ -810,3 +858,7 @@ class AbsenceView(HTTPMethodView):
         resp['time_ended'] = str(time_ended).split('.')[0]
         return json(resp)
 
+
+class RegistrationActiveView(HTTPMethodView):
+    async def get(self, _):
+        return json({'registration': await Config.get_registration()})

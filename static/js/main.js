@@ -9,9 +9,7 @@ function pad(num, size) {
     return s.substr(s.length - size);
 }
 
-/**
- * Configure the Routes
- */
+
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when("/", {
@@ -129,6 +127,11 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/admin_config", {
             templateUrl: "partials/admin_config.html",
             controller: "AdminConfigController",
+            controllerAs: 'vm'
+        })
+        .when("/admin_email", {
+            templateUrl: "partials/admin_email.html",
+            controller: "AdminEmailController",
             controllerAs: 'vm'
         })
         .when("/seats", {
@@ -891,6 +894,7 @@ function SeatController($scope, $location, $AuthenticationService, $FlashService
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
+    vm.current_user = $scope.globals.currentUser
     vm.seats = false;
     vm.user_seat = $scope.globals.currentUser.seat;
     vm.take_or_relese_seat = take_or_relese_seat;
@@ -1042,6 +1046,38 @@ function AdminConfigController($scope, $location, $AuthenticationService, $Flash
     }
 }
 
+app.controller('AdminEmailController', AdminEmailController);
+AdminEmailController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
+function AdminEmailController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+    var vm = this;
+    vm.questions = [];
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    $http.get('/api/email').then(
+        function (response) {
+            vm.email_options = response.data;
+        }
+    );
+    vm.email = {};
+    vm.send_email = send_email;
+
+    function send_email() {
+        vm.dataLoading = true;
+        $http.post('/api/email', vm.email).then(function (response) {
+            if (response.data.success) {
+                $FlashService.SuccessNoReload(response.data.msg);
+            } else {
+                $FlashService.Error(response.data.msg);
+            }
+            vm.dataLoading = false;
+        });
+    }
+}
+
 app.controller('LiveQuizCreateCtrl', LiveQuizCreateCtrl);
 LiveQuizCreateCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
@@ -1100,9 +1136,14 @@ function LoginController($location, AuthenticationService, FlashService) {
     }
 }
 app.controller('RegisterController', RegisterController);
-RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
-function RegisterController(UserService, $location, $rootScope, FlashService) {
+RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService', '$http'];
+function RegisterController(UserService, $location, $rootScope, FlashService, $http) {
     var vm = this;
+
+    $http.get('/api/reg_active').then(function (response) {
+          vm.reg = response.data.registration;
+        console.log(response.data)
+        });
 
     vm.register = register;
 

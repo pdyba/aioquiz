@@ -10,6 +10,7 @@ from asyncpg.exceptions import DatatypeMismatchError
 from asyncpg.exceptions import PostgresSyntaxError
 from asyncpg.exceptions import UndefinedColumnError
 from asyncpg.exceptions import UniqueViolationError
+from asyncpg.exceptions import ForeignKeyViolationError
 
 from config import DB
 
@@ -313,21 +314,34 @@ class Table:
 
     @classmethod
     async def _delete(cls, data):
-        resp = await make_a_querry(
-            """DELETE FROM {}
-            WHERE id={}
-            """.format(cls._name, data.id))
-        return resp
+        try:
+            resp = await make_a_querry(
+                """DELETE FROM {}
+                WHERE id={}
+                """.format(cls._name, data.id))
+            return resp
+        except ForeignKeyViolationError:
+            logging.error('Could not delete {} id: {}'.format(cls._name, data.id))
+        except:
+            logging.exception('Could not delete')
+        return False
 
     async def delete(self):
         await self._delete(self)
 
     @classmethod
     async def detele_by_id(cls, uid):
-        resp = await make_a_querry(
-            """DELETE FROM {} WHERE id={}""".format(cls._name, uid)
-        )
-        return resp
+        try:
+            resp = await make_a_querry(
+                """DELETE FROM {} WHERE id={}""".format(cls._name, uid)
+            )
+            return resp
+        except ForeignKeyViolationError:
+            logging.error('Could not delete {} id: {}'.format(cls._name, uid))
+        except:
+            logging.exception('Could not delete')
+        return False
+
 
 class Column:
     def __init__(

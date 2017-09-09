@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-md-12">
+        <div class="col-md-12" ng-if="vm.current_user.confirmation === 'ack' || vm.overview">
             <h1 ng-hide="vm.overview">Wybierz swoje miejsce!</h1>
             <h1 ng-show="vm.overview">Miejsca uczestników</h1>
             <br>
@@ -33,5 +33,10 @@
             </div>
 
         </div>
+
+        <div class="col-md-12" ng-if="vm.current_user.confirmation != 'ack' && !vm.overview">
+        <h3>Tylko użytkownicy którzy zostali przyjęci i potwierdzili swoją obecność będą mieć dostęp do wyboru miejsc.</h3>
+        </div>
+
     </div>
 </div>
