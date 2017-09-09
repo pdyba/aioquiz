@@ -810,3 +810,6 @@ class AbsenceView(HTTPMethodView):
         resp['time_ended'] = str(time_ended).split('.')[0]
         return json(resp)
 
+class RegistrationActive(HTTPMethodView):
+    async def get(self, _):
+        
