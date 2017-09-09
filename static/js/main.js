@@ -9,9 +9,7 @@ function pad(num, size) {
     return s.substr(s.length - size);
 }
 
-/**
- * Configure the Routes
- */
+
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when("/", {
@@ -891,6 +889,7 @@ function SeatController($scope, $location, $AuthenticationService, $FlashService
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
+    vm.current_user = $scope.globals.currentUser
     vm.seats = false;
     vm.user_seat = $scope.globals.currentUser.seat;
     vm.take_or_relese_seat = take_or_relese_seat;
@@ -1100,9 +1099,14 @@ function LoginController($location, AuthenticationService, FlashService) {
     }
 }
 app.controller('RegisterController', RegisterController);
-RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
-function RegisterController(UserService, $location, $rootScope, FlashService) {
+RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService', '$http'];
+function RegisterController(UserService, $location, $rootScope, FlashService, $http) {
     var vm = this;
+
+    $http.get('/api/reg_active').then(function (response) {
+          vm.reg = response.data.registration;
+        console.log(response.data)
+        });
 
     vm.register = register;
 

@@ -307,3 +307,8 @@ class Config(Table):
         Column('room_raws', Integer(), default=10),
         Column('room_columns', Integer(), default=10),
     ]
+
+    @classmethod
+    async def get_registration(cls):
+        config = await cls.get_by_id(1)
+        return config.reg_active

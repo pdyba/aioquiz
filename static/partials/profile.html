@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <h1 class="page-header">Profile<br>
                 <small>{{ globals.currentUser.name }} {{ globals.currentUser.surname }}
-                    ({{ globals.currentUser.username }})
+                    ({{ globals.currentUser.email }})
                 </small>
             </h1>
 
@@ -91,7 +91,7 @@
             <div class="col-sm-4">
                 Recrutation status:
                 <ul class="list-group">
-                    <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'confirmed'"
+                    <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'ack'"
                         class="list-group-item list-group-item-success">You
                         confirmed Your arrival !
                     </li>

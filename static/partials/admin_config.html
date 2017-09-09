@@ -37,7 +37,8 @@
                     <input type="checkbox" name="reg_active"
                            id="reg_active"
                            ng-model="vm.config.reg_active"/>
-                <p>Rejetracja aktywna !</p>
+                <p ng-if="vm.config.reg_active">Rejetracja jest teraz aktywna !</p>
+                <p ng-if="!vm.config.reg_active">Rejetracja nie jest teraz aktywna !</p>
                 </label>
             </div>
 

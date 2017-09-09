@@ -42,7 +42,6 @@ _users_names = {}
 
 NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
 
-
 def user_required(access_level=None):
     def decorator(func):
         @wraps(func)
@@ -172,6 +171,11 @@ class UserView(HTTPMethodView):
         :param request:
         :return:
         """
+        if not await Config.get_registration():
+            return json(
+                {'msg': 'Registartion is already closed'},
+                status=401
+            )
         try:
             req = request.json
             user = Users(**req)
@@ -202,6 +206,11 @@ class UserView(HTTPMethodView):
             return json(
                 {'msg': 'You probably used one of banned chars like ;'},
                 status=500
+            )
+        except UniqueViolationError:
+            return json(
+                {'msg': 'You already registered, try loging in !'},
+                status=400
             )
         except:
             logging.exception('err user.post')
@@ -401,7 +410,8 @@ class AuthenticateView(HTTPMethodView):
                     'lang': user.lang,
                     'organiser': user.organiser,
                     'id': user.id,
-                    'session_uuid': user.session_uuid
+                    'session_uuid': user.session_uuid,
+                    'confirmation': user.confirmation
                 })
             else:
                 return self.user_error
@@ -810,6 +820,7 @@ class AbsenceView(HTTPMethodView):
         resp['time_ended'] = str(time_ended).split('.')[0]
         return json(resp)
 
-class RegistrationActive(HTTPMethodView):
+
+class RegistrationActiveView(HTTPMethodView):
     async def get(self, _):
-        
+        return json({'registration': await Config.get_registration()})

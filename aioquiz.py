@@ -31,6 +31,7 @@ from views import MakeOrganiserView
 from views import QuestionView
 from views import QuizManageView
 from views import QuizView
+from views import RegistrationActiveView
 from views import ReviewAttendeesView
 from views import ReviewRulesView
 from views import SeatView
@@ -108,6 +109,8 @@ app.add_route(SeatView.as_view(), '/api/seats/<uid:int>')
 app.add_route(ConfigView.as_view(), '/api/admin_config')
 
 app.add_route(INeedHelpView.as_view(), '/api/i_need_help')
+
+app.add_route(RegistrationActiveView.as_view(), '/api/reg_active')
 
 app.add_route(ExercisesView.as_view(), '/api/exercise')
 app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')
