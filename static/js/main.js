@@ -9,7 +9,6 @@ function pad(num, size) {
     return s.substr(s.length - size);
 }
 
-
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when("/", {
