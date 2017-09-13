@@ -454,9 +454,11 @@ class ReviewAttendeesView(HTTPMethodView):
             ud = await u.to_dict(include_soft=True)
             ud.update({'reviews': reviews.get(u.id, {})})
             usr = reviews.get(u.id, {})
-            ud['score'] = sum([x.get('score', 0) for _, x in usr.items()])
+            review_amount = len(usr) or 1
+            ud['score'] = sum([x.get('score', 0) for _, x in usr.items()])/review_amount
             users.append(ud)
-        return json(users, sort_keys=True)
+        users.sort(key=lambda a: a['score'], reverse=True)
+        return json(users)
 
     @user_required('organiser')
     async def post(self, request, current_user):

@@ -376,12 +376,17 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     function avg(obj) {
         var sum = 0;
         var count = 0;
+        if (obj.lenght > 200){
+            console.log('using 200');
+            return obj[200].score;
+        }
         obj.forEach(function (user, index) {
             sum += user.score;
             if (user.score > 0) {
                 count += 1;
             }
         });
+        console.log('using avg');
         return sum / count;
     }
 
@@ -394,7 +399,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
                 user.show = !(vm.current_user_id in user.reviews);
             }
             else if (vm.filter === 'top200') {
-                //TODO: above average for now
                 user.show = (user.score >= vm.average)
             }
             else if (vm.filter === 'accepted') {
