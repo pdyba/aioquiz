@@ -1,7 +1,7 @@
 Pythonowe typy przechowywania danych
 ====================================
 
-Python ma pięc podstawowych typów danych:
+Python ma pięć podstawowych typów danych:
 - Liczba
 - String
 - Lista
