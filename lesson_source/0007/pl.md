@@ -7,6 +7,7 @@ Python ma pięć podstawowych typów danych:
 - Lista
 - Tupla
 - Słownik
+
 Używaliśmy już liczb (całkowitych int i zmiennoprzecinkowych float), stringów i tupli. Nadszedł czas, by poznać
 listy i słowniki.
 
