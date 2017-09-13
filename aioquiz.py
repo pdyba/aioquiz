@@ -16,6 +16,7 @@ from exception_handlers import handle_500s
 from exception_handlers import handle_timeout
 
 from views import AbsenceView
+from views import AbsenceConfirmation
 from views import ActivationView
 from views import AuthenticateView
 from views import ChangeMentorView
@@ -117,6 +118,13 @@ app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')
 
 app.add_route(AbsenceView.as_view(), '/api/absence')
 app.add_route(AbsenceView.as_view(), '/api/absence/<lid:int>')
+
+app.add_route(AbsenceConfirmation.as_view(), '/api/workshopabsence')
+
+app.add_route(
+    AbsenceConfirmation.as_view(),
+    '/api/workshopabsence/<uid>/<rhash>/<answare>'
+)
 
 app.error_handler.add(ServerError, handle_500s)
 app.error_handler.add(NotFound, handle_404s)

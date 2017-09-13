@@ -14,7 +14,7 @@ class EmailData:
 
 
 class EmailAccepted(EmailData):
-    recipients = {'accepted': True}
+    recipients = {'accepted': True, 'organiser': True} #TODO: remove organiser after prod test
     subject = 'Zostałaś przyjete na warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Z przyjemnością informujemy, że Twoje zgłoszenie na warsztat weekendowy PyLadies.start() w Poznaniu zostało zaakceptowane.

@@ -56,8 +56,7 @@
                 <label for="t_shirt">T-shirt*</label>
                 <span ng-show="form.t_shirt.$error.required" class="help-inline alert-danger">&#10060; Required</span>
                 <span ng-show="form.t_shirt.$dirty && form.t_shirt.$valid" class="help-inline alert-success">&#10003;</span>
-                <select class="form-control" ng-options="x for x in
-                ['Female-XXS', 'Female-XS', 'Female-S', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-S', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL']"
+                <select class="form-control" ng-options="x for x in ['Female-XXS', 'Female-XS', 'Female-S', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-S', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL']"
                         ng-model="vm.user.t_shirt" ngValue="x" required name="t_shirt" id="t_shirt">
                     <option></option>
                 </select>

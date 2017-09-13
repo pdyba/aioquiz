@@ -1065,9 +1065,9 @@ function AdminEmailController($scope, $location, $AuthenticationService, $FlashS
     vm.email = {};
     vm.send_email = send_email;
 
-    function send_email() {
+    function send_email(mail) {
         vm.dataLoading = true;
-        $http.post('/api/email', vm.email).then(function (response) {
+        $http.post('/api/email', mail).then(function (response) {
             if (response.data.success) {
                 $FlashService.SuccessNoReload(response.data.msg);
             } else {
