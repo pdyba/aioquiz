@@ -34,14 +34,14 @@ from models import Users
 from models import Seat
 from orm import DoesNotExist
 from utils import get_args
-from utils import safe_del_key
 from utils import hash_string
 from utils import send_email
+
+NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
 
 _users = {}
 _users_names = {}
 
-NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
 
 def user_required(access_level=None):
     def decorator(func):
@@ -426,11 +426,9 @@ class AuthenticateView(HTTPMethodView):
 class LogOutView(HTTPMethodView):
     @user_required()
     async def post(self, request, current_user):
-        session_uid = request.headers.get('authorization')
-        user = await Users.get_user_by_session_uuid(session_uid)
-        if user:
-            user.session_uuid = ''
-            await user.update()
+        if current_user:
+            current_user.session_uuid = ''
+            await current_user.update()
             return json({'success': True})
         return json({'success': False}, status=403)
 
@@ -455,7 +453,7 @@ class ReviewAttendeesView(HTTPMethodView):
             ud.update({'reviews': reviews.get(u.id, {})})
             usr = reviews.get(u.id, {})
             review_amount = len(usr) or 1
-            ud['score'] = sum([x.get('score', 0) for _, x in usr.items()])/review_amount
+            ud['score'] = sum([x.get('score', 0) for _, x in usr.items()]) / review_amount
             users.append(ud)
         users.sort(key=lambda a: a['score'], reverse=True)
         return json(users)
@@ -625,9 +623,19 @@ class UserStatsView(HTTPMethodView):
     async def get(self, _, current_user):
         resp = {
             'all': await Users.count_all(),
-            'mentors': await Users.count_by_field(mentor=True, organiser=False, admin=False),
-            'atendees': await Users.count_by_field(mentor=False, organiser=False),
-            'organisers': await Users.count_by_field(organiser=True, admin=False),
+            'mentors': await Users.count_by_field(
+                mentor=True,
+                organiser=False,
+                admin=False
+            ),
+            'atendees': await Users.count_by_field(
+                mentor=False,
+                organiser=False
+            ),
+            'organisers': await Users.count_by_field(
+                organiser=True,
+                admin=False
+            ),
             'admins': await Users.count_by_field(admin=True),
             'accepted': await Users.count_by_field(accepted=True),
             'confirmed': await Users.count_by_field(confirmation='ack'),
@@ -783,7 +791,7 @@ class ConfigView(HTTPMethodView):
 
 class AbsenceView(HTTPMethodView):
     @user_required('admin')
-    async def get(self, request, current_user, lid=None):
+    async def get(self, _, current_user, lid=None):
         try:
             abmeta = await AbsenceMeta.get_first('lesson', lid)
             resp = await abmeta.to_dict()
@@ -854,7 +862,7 @@ class AbsenceView(HTTPMethodView):
         )
 
     @user_required('admin')
-    async def post(self, request, current_user, lid=None):
+    async def post(self, _, current_user, lid=None):
         abmeta = await AbsenceMeta.get_first('lesson', lid)
         time_ended = datetime.now()
         time_ended = time_ended.replace(minute=time_ended.minute+2)
@@ -865,25 +873,28 @@ class AbsenceView(HTTPMethodView):
         return json(resp)
 
 
+# noinspection PyBroadException
 class AbsenceConfirmation(HTTPMethodView):
-    async def get(self, request, uid, rhash, answare):
+    async def get(self, _, uid, rhash, answer):
         try:
             user = await Users.get_by_id(int(uid))
             uhash = hash_string(user.name + str(user.id) + user.email)
             if not user.accepted:
                 logging.error('{} was trying to hack us'.format(user.email))
-                return json({'msg': 'Nice try but nope'})
+                return json({'msg': 'Nice try! But nope.'})
             if user.confirmation != 'noans':
-                return json({'msg': 'Sorry there is no option to change your mind now'})
+                return json({
+                    'msg': 'Sorry, it is not possible to change your mind now'
+                })
             if uhash == rhash:
-                if answare == 'yes':
+                if answer == 'yes':
                     user.confirmation = 'ack'
                     await user.update()
-                    return json({'msg': 'Widzmy się w Poniedzialek !'})
-                elif answare == 'no':
+                    return json({'msg': 'Widzimy się w poniedziałek!'})
+                elif answer == 'no':
                     user.confirmation = 'rej_user'
                     await user.update()
-                    return json({'msg': 'Szkoda że się już nie zobaczymy'})
+                    return json({'msg': 'Szkoda, że się już nie zobaczymy'})
             else:
                 return json({'msg': 'wrong hash'})
         except:
@@ -892,22 +903,33 @@ class AbsenceConfirmation(HTTPMethodView):
 
     @user_required()
     async def post(self, request, current_user):
-        answare = request.json.get('answare')
+        answer = request.json.get('answer')
         if not current_user.accepted:
-            logging.error('{} was trying to hack us'.format(user.email))
+            logging.error('{} was trying to hack us'.format(current_user.email))
             return json({'msg': 'Nice try but nope'})
         if current_user.confirmation != 'noans':
-            return json({'msg': 'Sorry there is no option to change your mind now'})
-        if answare == 'yes':
+            return json({
+                'msg': 'Sorry there is no option to change your mind now'
+            })
+        if answer == 'yes':
             current_user.confirmation = 'ack'
             await current_user.update()
-            return json({'success': True, 'msg': 'Widzmy się w Poniedzialek !'})
-        elif answare == 'no':
+            return json({
+                'success': True,
+                'msg': 'Widzmy się w Poniedzialek !'
+            })
+        elif answer == 'no':
             current_user.confirmation = 'rej_user'
             await current_user.update()
-            return json({'success': True, 'msg': 'Szkoda że się już nie zobaczymy'})
+            return json({
+                'success': True,
+                'msg': 'Szkoda że się już nie zobaczymy'
+            })
         else:
-            return json({'success': False, 'msg': 'wrong answare must be yes or no'})
+            return json({
+                'success': False,
+                'msg': 'Answer must be yes or no'
+            })
 
 
 class RegistrationActiveView(HTTPMethodView):
