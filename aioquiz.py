@@ -123,7 +123,7 @@ app.add_route(AbsenceConfirmation.as_view(), '/api/workshopabsence')
 
 app.add_route(
     AbsenceConfirmation.as_view(),
-    '/api/workshopabsence/<uid>/<rhash>/<answare>'
+    '/api/workshopabsence/<uid>/<rhash>/<answer>'
 )
 
 app.error_handler.add(ServerError, handle_500s)
