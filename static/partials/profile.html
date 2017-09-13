@@ -90,6 +90,7 @@
             </div>
             <div class="col-sm-4">
                 Recrutation status:
+                {{ vm.user_profile.confirmation }}
                 <ul class="list-group">
                     <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'ack'"
                         class="list-group-item list-group-item-success">You
@@ -99,7 +100,7 @@
                         class="list-group-item list-group-item-danger">You are
                         accepted but You did not confirmed your arrival yet!
                     </li>
-                    <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'rejected_by_user'"
+                    <li ng-show="vm.user_profile.accepted && vm.user_profile.confirmation == 'rej_user'"
                         class="list-group-item list-group-item-warning">You are
                         accepted but You did not confirmed your arrival in time
                         or You rejected the invitation!

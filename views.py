@@ -1,4 +1,5 @@
 # !/usr/bin/python3.5
+import asyncio
 from collections import defaultdict
 from datetime import datetime
 from functools import wraps
@@ -33,14 +34,14 @@ from models import Users
 from models import Seat
 from orm import DoesNotExist
 from utils import get_args
-from utils import safe_del_key
 from utils import hash_string
 from utils import send_email
+
+NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
 
 _users = {}
 _users_names = {}
 
-NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
 
 def user_required(access_level=None):
     def decorator(func):
@@ -425,11 +426,9 @@ class AuthenticateView(HTTPMethodView):
 class LogOutView(HTTPMethodView):
     @user_required()
     async def post(self, request, current_user):
-        session_uid = request.headers.get('authorization')
-        user = await Users.get_user_by_session_uuid(session_uid)
-        if user:
-            user.session_uuid = ''
-            await user.update()
+        if current_user:
+            current_user.session_uuid = ''
+            await current_user.update()
             return json({'success': True})
         return json({'success': False}, status=403)
 
@@ -453,9 +452,11 @@ class ReviewAttendeesView(HTTPMethodView):
             ud = await u.to_dict(include_soft=True)
             ud.update({'reviews': reviews.get(u.id, {})})
             usr = reviews.get(u.id, {})
-            ud['score'] = sum([x.get('score', 0) for _, x in usr.items()])
+            review_amount = len(usr) or 1
+            ud['score'] = sum([x.get('score', 0) for _, x in usr.items()]) / review_amount
             users.append(ud)
-        return json(users, sort_keys=True)
+        users.sort(key=lambda a: a['score'], reverse=True)
+        return json(users)
 
     @user_required('organiser')
     async def post(self, request, current_user):
@@ -507,9 +508,9 @@ class EmailView(HTTPMethodView):
     @user_required('admin')
     async def post(self, request, current_user):
         req = request.json
-        link = 'https://{}/api/confirm/'.format(request.host)
+        link = 'https://{}/api/workshopabsence/'.format(request.host)
         if req['email_type'] == 'other':
-            users = Users.get_by_many_field_value(**req['recipients'])
+            users = await Users.get_by_many_field_value(**req['recipients'])
             subject = req['subject']
             text = req['text'].format()
             resp = await send_email(
@@ -518,12 +519,12 @@ class EmailView(HTTPMethodView):
                 subject=subject
             )
         else:
-            users = Users.get_by_many_field_value(**req['recipients'])
+            users = await Users.get_by_many_field_value(**req['recipients'])
             for user in users:
-                uhash = hash_string(user.name + str(user.id) + user.emial)
+                uhash = hash_string(user.name + str(user.id) + user.email)
                 email_data = {
-                    "link_yes": link + user.id + '/' + uhash + '/' + 'yes',
-                    "link_no": link + user.id + '/' + uhash + '/' + 'no',
+                    "link_yes": link + str(user.id) + '/' + uhash + '/' + 'yes',
+                    "link_no": link + str(user.id) + '/' + uhash + '/' + 'no',
                     "name": user.name
                 }
                 subject = req['subject']
@@ -533,7 +534,8 @@ class EmailView(HTTPMethodView):
                     text=text,
                     subject=subject
                 )
-        return json({'success': resp})
+                await asyncio.sleep(0.05)
+        return json({'success': True, 'count': len(users)})
 
 
 class ActivationView(HTTPMethodView):
@@ -621,10 +623,22 @@ class UserStatsView(HTTPMethodView):
     async def get(self, _, current_user):
         resp = {
             'all': await Users.count_all(),
-            'mentors': await Users.count_by_field(mentor=True, organiser=False, admin=False),
-            'atendees': await Users.count_by_field(mentor=False, organiser=False),
-            'organisers': await Users.count_by_field(organiser=True, admin=False),
+            'mentors': await Users.count_by_field(
+                mentor=True,
+                organiser=False,
+                admin=False
+            ),
+            'atendees': await Users.count_by_field(
+                mentor=False,
+                organiser=False
+            ),
+            'organisers': await Users.count_by_field(
+                organiser=True,
+                admin=False
+            ),
             'admins': await Users.count_by_field(admin=True),
+            'accepted': await Users.count_by_field(accepted=True),
+            'confirmed': await Users.count_by_field(confirmation='ack'),
         }
         return json(resp, sort_keys=True)
 
@@ -777,7 +791,7 @@ class ConfigView(HTTPMethodView):
 
 class AbsenceView(HTTPMethodView):
     @user_required('admin')
-    async def get(self, request, current_user, lid=None):
+    async def get(self, _, current_user, lid=None):
         try:
             abmeta = await AbsenceMeta.get_first('lesson', lid)
             resp = await abmeta.to_dict()
@@ -848,7 +862,7 @@ class AbsenceView(HTTPMethodView):
         )
 
     @user_required('admin')
-    async def post(self, request, current_user, lid=None):
+    async def post(self, _, current_user, lid=None):
         abmeta = await AbsenceMeta.get_first('lesson', lid)
         time_ended = datetime.now()
         time_ended = time_ended.replace(minute=time_ended.minute+2)
@@ -857,6 +871,65 @@ class AbsenceView(HTTPMethodView):
         resp = await abmeta.to_dict()
         resp['time_ended'] = str(time_ended).split('.')[0]
         return json(resp)
+
+
+# noinspection PyBroadException
+class AbsenceConfirmation(HTTPMethodView):
+    async def get(self, _, uid, rhash, answer):
+        try:
+            user = await Users.get_by_id(int(uid))
+            uhash = hash_string(user.name + str(user.id) + user.email)
+            if not user.accepted:
+                logging.error('{} was trying to hack us'.format(user.email))
+                return json({'msg': 'Nice try! But nope.'})
+            if user.confirmation != 'noans':
+                return json({
+                    'msg': 'Sorry, it is not possible to change your mind now'
+                })
+            if uhash == rhash:
+                if answer == 'yes':
+                    user.confirmation = 'ack'
+                    await user.update()
+                    return json({'msg': 'Widzimy się w poniedziałek!'})
+                elif answer == 'no':
+                    user.confirmation = 'rej_user'
+                    await user.update()
+                    return json({'msg': 'Szkoda, że się już nie zobaczymy'})
+            else:
+                return json({'msg': 'wrong hash'})
+        except:
+            logging.exception('AbsenceConfirmation')
+            return json({'msg': 'wrong data'})
+
+    @user_required()
+    async def post(self, request, current_user):
+        answer = request.json.get('answer')
+        if not current_user.accepted:
+            logging.error('{} was trying to hack us'.format(current_user.email))
+            return json({'msg': 'Nice try but nope'})
+        if current_user.confirmation != 'noans':
+            return json({
+                'msg': 'Sorry there is no option to change your mind now'
+            })
+        if answer == 'yes':
+            current_user.confirmation = 'ack'
+            await current_user.update()
+            return json({
+                'success': True,
+                'msg': 'Widzmy się w Poniedzialek !'
+            })
+        elif answer == 'no':
+            current_user.confirmation = 'rej_user'
+            await current_user.update()
+            return json({
+                'success': True,
+                'msg': 'Szkoda że się już nie zobaczymy'
+            })
+        else:
+            return json({
+                'success': False,
+                'msg': 'Answer must be yes or no'
+            })
 
 
 class RegistrationActiveView(HTTPMethodView):

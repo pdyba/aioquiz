@@ -14,9 +14,10 @@ python3.5 -m pip install -r requirements
 
 ## bootstrap DB
 
-1. Edit bottom of bootstrap.py
-2. Edit admin adding function ;)
-3. python3.5 bootstrap.py
+1. Create config_dev or config_prod in config dir basing on config/template.py
+2. Edit bottom of bootstrap.py
+3. Edit admin adding function ;)
+4. python3.5 bootstrap.py
 
 
 ## build front
