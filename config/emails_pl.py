@@ -14,7 +14,7 @@ class EmailData:
 
 
 class EmailAccepted(EmailData):
-    recipients = {'accepted': True, 'organiser': True} #TODO: remove organiser after prod test
+    recipients = {'accepted': True, 'organiser': False, 'mentor': False}
     subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Z przyjemnością informujemy, że Twoje zgłoszenie na warsztat weekendowy PyLadies.start() w Poznaniu zostało zaakceptowane.
@@ -44,7 +44,7 @@ class EmailAccepted(EmailData):
 
 
 class EmailRejected(EmailData):
-    recipients = {'accepted': False}
+    recipients = {'accepted': False, 'mentor': False}
     subject = 'Jesteś na liście rezerwowej - warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Ponownie dziękujemy za rejestrację na warsztat weekendowy PyLadies.start() w Poznaniu w dniach 23-24 września.

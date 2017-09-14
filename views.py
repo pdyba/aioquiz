@@ -890,7 +890,7 @@ class AbsenceConfirmation(HTTPMethodView):
                 if answer == 'yes':
                     user.confirmation = 'ack'
                     await user.update()
-                    return json({'msg': 'Widzimy się w poniedziałek!'})
+                    return json({'msg': 'Widzimy się w Sobotę 23.09.2017!'})
                 elif answer == 'no':
                     user.confirmation = 'rej_user'
                     await user.update()
