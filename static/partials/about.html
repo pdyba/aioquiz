@@ -14,14 +14,18 @@
             </div>
             <div class="col-md-9">
                 <h2>Program warsztatów:</h2>
-                <p>Pełen program edukacyjny na cały rok jest już dostępny tutaj: <a href="#/program">Program</a></p>
-                <p>Nad agendą weekendowych warsztatów jeszcze pracujemy <a href="#/agenda"></a>.</p>
+                <p>Pełen program edukacyjny na cały rok jest już dostępny tutaj:
+                    <a href="#/program">Program</a></p>
+                <p>Nad agendą weekendowych warsztatów jeszcze pracujemy <a
+                        href="#/agenda"></a>.</p>
 
 
                 <h2>Educational program:</h2>
-                <p>Complete educational program for the whole year is accesable here: <a href="#/program">Program</a></p>
-                <p>We are still working on kickoff weekend workshops agenda <a href="#/agenda"></a>.</p>
-             </div>
+                <p>Complete educational program for the whole year is accesable
+                    here: <a href="#/program">Program</a></p>
+                <p>We are still working on kickoff weekend workshops agenda <a
+                        href="#/agenda"></a>.</p>
+            </div>
 
         </div>
         <br>
@@ -34,10 +38,14 @@
             </div>
             <div class="col-md-9">
                 <h2>AioQuiz</h2>
-                <p>AioQuiz jest naszą autorską aplikacją do przeprowadzania warsztatów rozwijaną pod skrzydłami naszego głównego mentora Piotr Dyby. Wszystkie uwagi można kierować do niego, najlepiej tworząc Issue na Githubie.</p>
+                <p>AioQuiz jest naszą autorską aplikacją do przeprowadzania
+                    warsztatów rozwijaną pod skrzydłami naszego głównego mentora
+                    Piotr Dyby. Wszystkie uwagi można kierować do niego,
+                    najlepiej tworząc Issue na Githubie.</p>
                 <p>Aplikacja jest napisana w Pythonie i wykorzystuje Sanic,
                     PostgresSQL oraz AngularJS.</p>
-                <p>AioQuiz is our own opensource application for recruitment and execution of workshops.</p>
+                <p>AioQuiz is our own opensource application for recruitment and
+                    execution of workshops.</p>
                 <p>It is written in Python using asynchronous framework Sanic,
                     PostgresSQL and AngularJS.</p>
             </div>
@@ -65,7 +73,8 @@
                     Jeśli czyjeś zachowanie sprawiło, że poczuliście się
                     komfortowo, skontaktujcie się proszę bezpośrednio z
                     organizatorem spotkania, lub mailowo (także jeśli wolicie
-                    zachować anonimowość), z Moniką (moniaj@pyladiesstart.pl) lub Piotrem
+                    zachować anonimowość), z Moniką (moniaj@pyladiesstart.pl)
+                    lub Piotrem
                     (piotr@pyladiesstart.pl).
                 </p>
                 <p>
@@ -80,7 +89,8 @@
                     Code of Conduct</a>, which has been
                     adopted by many other conferences and groups.
                     In case of Code of Conduct violation or other similar
-                    problems please contact Monika by email moniaj@pyladiesstart.pl or
+                    problems please contact Monika by email
+                    moniaj@pyladiesstart.pl or
                     Piotr by email piotr@pyladiesstart.pl
                 </p>
             </div>
@@ -92,13 +102,21 @@
             <div class="col-lg-12">
                 <h1 class="page-header">O nas w mediach !</h1>
                 <ul>
-                    <li><a href="http://www.gloswielkopolski.pl/wiadomosci/poznan/a/poznan-bezplatne-zajecia-z-programowania-w-jezyku-python,12456846/">Głoś Wielkopolski</a></li>
-                    <li><a href="http://mamstartup.pl/programowanie/11901/nie-mam-talentu-do-programowania-ale-nie-przeszkodzilo-mi-to-w-nauce">MamStartup</a></li>
-                    <li><a href="https://www.facebook.com/lepszypoz/posts/10156595946846040">Lepszy Poznań</a> </li>
+                    <li>
+                        <a href="http://www.gloswielkopolski.pl/wiadomosci/poznan/a/poznan-bezplatne-zajecia-z-programowania-w-jezyku-python,12456846/">Głoś
+                            Wielkopolski</a></li>
+                    <li>
+                        <a href="http://mamstartup.pl/programowanie/11901/nie-mam-talentu-do-programowania-ale-nie-przeszkodzilo-mi-to-w-nauce">MamStartup</a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/lepszypoz/posts/10156595946846040">Lepszy
+                            Poznań</a></li>
+                    <li><a href="https://bulldogjob.pl/news/261-pyladies-start">Bulldogjob</a>
+                    </li>
                 </ul>
             </div>
 
-            </div>
+        </div>
         <div class="row">
 
             <div class="col-lg-12">
@@ -106,13 +124,16 @@
             </div>
 
             <div class="col-lg-12">
-            <h2 class="page-header">Główni organizatorzy</h2>
-                </div>
+                <h2 class="page-header">Główni organizatorzy</h2>
+            </div>
 
-            <div class="col-sm-4" ng-repeat="user in vm.allUsers" ng-if="user.admin">
-                <img class="img-responsive" src="/images/{{ user.img }}" ng-if="user.img">
+            <div class="col-sm-4" ng-repeat="user in vm.allUsers"
+                 ng-if="user.admin">
+                <img class="img-responsive" src="/images/{{ user.img }}"
+                     ng-if="user.img">
                 <h3>{{ user.name }} {{ user.surname }}<br>
-                    <small ng-show="user.admin">Admin, {{ user.pyfunction }}</small>
+                    <small ng-show="user.admin">Admin, {{ user.pyfunction }}
+                    </small>
                     <br>
                     <small>{{ user.email }}</small>
                 </h3>
@@ -142,11 +163,13 @@
                 </ul>
             </div>
 
-<div class="col-lg-12">
-            <h2 class="page-header">Organizatorzy</h2>
-    </div>
-            <div class="col-sm-4" ng-repeat="user in vm.allUsers" ng-if="user.organiser && !user.admin">
-                <img class="img-responsive" src="/images/{{ user.img }}" ng-if="user.img">
+            <div class="col-lg-12">
+                <h2 class="page-header">Organizatorzy</h2>
+            </div>
+            <div class="col-sm-4" ng-repeat="user in vm.allUsers"
+                 ng-if="user.organiser && !user.admin">
+                <img class="img-responsive" src="/images/{{ user.img }}"
+                     ng-if="user.img">
                 <h3>{{ user.name }} {{ user.surname }}<br>
                     <small ng-show="user.admin">Admin</small>
                     <small ng-show="user.organiser" ng-hide="user.admin">
@@ -181,12 +204,14 @@
                 </ul>
             </div>
             <div class="col-lg-12">
-            <h2 class="page-header">Mentorzy</h2>
-                </div>
-            <div class="col-sm-4" ng-repeat="user in vm.mentors" ng-if="user.mentor && !user.admin && !user.organiser">
-                <img class="img-responsive" src="/images/{{ user.img }}" ng-if="user.img">
+                <h2 class="page-header">Mentorzy</h2>
+            </div>
+            <div class="col-sm-4" ng-repeat="user in vm.mentors"
+                 ng-if="user.mentor && !user.admin && !user.organiser">
+                <img class="img-responsive" src="/images/{{ user.img }}"
+                     ng-if="user.img">
                 <h3>{{ user.name }} {{ user.surname }}<br>
-                    <small> Mentor </small>
+                    <small> Mentor</small>
                     <br>
                     <small>{{ user.email }}</small>
                 </h3>
