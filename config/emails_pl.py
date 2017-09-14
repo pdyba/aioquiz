@@ -45,7 +45,7 @@ class EmailAccepted(EmailData):
 
 class EmailRejected(EmailData):
     recipients = {'accepted': False}
-    subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
+    subject = 'Jesteś na liście rezerwowej - warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Ponownie dziękujemy za rejestrację na warsztat weekendowy PyLadies.start() w Poznaniu w dniach 23-24 września.
     Niestety, z uwagi na dużą ilość zgłoszeń Twoja aplikacja trafiła na listę rezerwową. Nie możemy w tej chwili zapewnić Ci miejsca na zajęciach.
@@ -61,7 +61,7 @@ class EmailRejected(EmailData):
 
 class EmailReminder(EmailData):
     recipients = {'accepted': True, 'confirmation': 'noans'}
-    subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
+    subject = 'Potwierdź swój udział w warsztatach PyLadies Start'
     text = '''Cześć {name}!
     Czy pamiętacie o pilnej konieczności potwierdzenia swojego udziału w warsztacie weekendowym PyLadies.start() w Poznaniu, 23-24 września?
     Jeżeli jeszcze tego nie zrobiliście - czekamy.
@@ -91,7 +91,7 @@ class EmailReminder(EmailData):
 
 class EmailTooLate(EmailData):
     recipients = {'accepted': True, 'confirmation': 'rej'}
-    subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
+    subject = 'Dziękujemy za zainteresowanie warsztatami PyLadies Start'
     text = '''Cześć {name}!
     Przykro nam, że nie zobaczymy się na warsztacie weekendowym PyLadies.start() 23-24 września!
     Nie wpłynęło do nas Twoje potwierdzenie udziału, ale wierzymy, że mimo to Twoje zainteresowanie programowaniem przerodzi się wkrótce w pasję.
