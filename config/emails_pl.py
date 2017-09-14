@@ -15,13 +15,13 @@ class EmailData:
 
 class EmailAccepted(EmailData):
     recipients = {'accepted': True, 'organiser': True} #TODO: remove organiser after prod test
-    subject = 'Zostałaś przyjete na warsztaty PyLadies Start'
+    subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Z przyjemnością informujemy, że Twoje zgłoszenie na warsztat weekendowy PyLadies.start() w Poznaniu zostało zaakceptowane.
     Przypominamy, że wydarzenie odbędzie się w dniach 23-24 września 2017 r. (sobota-niedziela).
 
     Przypominamy, że bardzo ważnym warunkiem uczestnictwa jest przyniesienie własnego sprawnego laptopa z ładowarką oraz wcześniej zainstalowanym środowiskiem (Python 3.6.2 oraz PyCharm).
-    Instalację wspierają nasi mentorzy na wydarzniu Facebookowym.
+    Instalację wspierają nasi mentorzy na wydarzeniu Facebookowym.
     Oczekujemy od Ciebie potwierdzenia, że weźmiesz udział w warsztatach. Musisz kliknąć w link poniżej lub skopiować go i wkleić w pasek przeglądarki (link jest jednorazowego użycia).
 
     UWAGA, TEJ OPERACJI NIE MOŻNA COFNĄĆ!
@@ -37,7 +37,7 @@ class EmailAccepted(EmailData):
     Jeżeli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
     Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/817378328361206/
+    https://www.facebook.com/events/518360511838646
 
     Pozdrawiamy,
     PyLadies Poznań Team'''
@@ -45,7 +45,7 @@ class EmailAccepted(EmailData):
 
 class EmailRejected(EmailData):
     recipients = {'accepted': False}
-    subject = 'Zostałaś przyjete na warsztaty PyLadies Start'
+    subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Ponownie dziękujemy za rejestrację na warsztat weekendowy PyLadies.start() w Poznaniu w dniach 23-24 września.
     Niestety, z uwagi na dużą ilość zgłoszeń Twoja aplikacja trafiła na listę rezerwową. Nie możemy w tej chwili zapewnić Ci miejsca na zajęciach.
@@ -53,7 +53,7 @@ class EmailRejected(EmailData):
     Otrzymasz maila w tej sprawie 17 września.
 
     Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/817378328361206/
+    https://www.facebook.com/events/518360511838646
 
     Pozdrawiamy,
     PyLadies Poznań Team'''
@@ -61,7 +61,7 @@ class EmailRejected(EmailData):
 
 class EmailReminder(EmailData):
     recipients = {'accepted': True, 'confirmation': 'noans'}
-    subject = 'Zostałaś przyjete na warsztaty PyLadies Start'
+    subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Czy pamiętacie o pilnej konieczności potwierdzenia swojego udziału w warsztacie weekendowym PyLadies.start() w Poznaniu, 23-24 września?
     Jeżeli jeszcze tego nie zrobiliście - czekamy.
@@ -76,14 +76,14 @@ class EmailReminder(EmailData):
     {link_no}
 
     Przypominamy, że bardzo ważnym warunkiem uczestnictwa jest przyniesienie własnego sprawnego laptopa z ładowarką oraz wcześniej zainstalowanym środowiskiem (Python 3.6.2 i wybrany edytor tekstu).
-    Instalację wspierają nasi mentorzy na wydarzniu Facebookowym.
+    Instalację wspierają nasi mentorzy na wydarzeniu Facebookowym.
 
     Masz 72 godziny od poprzedniego maila na potwierdzenie swojego uczestnictwa w warsztacie.
     W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy osobę z listy rezerwowej. Jeżeli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 
     Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/817378328361206/
+    https://www.facebook.com/events/518360511838646
 
     Pozdrawiamy,
     PyLadies Poznań Team'''
@@ -91,13 +91,13 @@ class EmailReminder(EmailData):
 
 class EmailTooLate(EmailData):
     recipients = {'accepted': True, 'confirmation': 'rej'}
-    subject = 'Zostałaś przyjete na warsztaty PyLadies Start'
+    subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Przykro nam, że nie zobaczymy się na warsztacie weekendowym PyLadies.start() 23-24 września!
     Nie wpłynęło do nas Twoje potwierdzenie udziału, ale wierzymy, że mimo to Twoje zainteresowanie programowaniem przerodzi się wkrótce w pasję.
 
     Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/817378328361206/
+    https://www.facebook.com/events/518360511838646
 
     Jeszcze raz dziękujemy za zainteresowanie i rejestrację!
 
@@ -107,7 +107,7 @@ class EmailTooLate(EmailData):
 
 class EmailSeconChance(EmailData):
     recipients = {'accepted': True, 'confirmation': 'noans'}
-    subject = 'Zostałaś przyjete na warsztaty PyLadies Start'
+    subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
     text = '''Cześć {name}!
     Miło nam zawiadomić, że zwolniły się miejsca na liście uczestników warsztatu weekendowego PyLadies.start(), na który aplikowałaś/aplikowałeś!
     Na pewno nadal masz ochotę na wzięcie udziału w tym fajnym wydarzeniu.
@@ -124,14 +124,14 @@ class EmailSeconChance(EmailData):
     {link_no}
 
     Przypominamy, że bardzo ważnym warunkiem uczestnictwa jest przyniesienie własnego sprawnego laptopa z ładowarką oraz wcześniej zainstalowanym środowiskiem (Python 3.6.2 i wybrany edytor tekstu).
-    Instalację wspierają nasi mentorzy na wydarzniu Facebookowym.
+    Instalację wspierają nasi mentorzy na wydarzeniu Facebookowym.
 
     Masz 24 godziny na potwierdzenie swojego uczestnictwa w warsztacie. W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy inną osobę z listy rezerwowej.
     Jeśli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 
     Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/817378328361206/
+    https://www.facebook.com/events/518360511838646
 
     Pozdrawiamy,
     PyLadies Poznań Team'''
