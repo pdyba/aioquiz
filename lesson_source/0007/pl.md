@@ -87,7 +87,7 @@ W ten sam sposób możemy wydrukować pierwszą część choinki bożonarodzenio
 Podstawowe operacje na listach
 ------------------------------
 
-Listy reagują na operatory + i \* podobnie jak stringi. Znaki te oznaczają
+Listy reagują na operatory + i \* podobnie, jak stringi. Znaki te oznaczają
 również tutaj konkatenację (łączenie tekstów) i powtórzenie, ale rezultatem
 jest lista, a nie string.
 
