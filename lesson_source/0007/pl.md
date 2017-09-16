@@ -68,25 +68,31 @@ By wyświetlić określony element listy (pamiętajcie, że liczymy od zera):
 	Traceback (most recent call last): File "<stdin>", line
 	1, in <module> IndexError: list index out of range
 
-Możemy również użyć pętli, by wykonac instrukcję dla każdego elementu
+Możemy również użyć pętli, by wykonać instrukcję dla każdego elementu
 listy:
 
-	>>>  for name in L: ... print("Name:", name) ... Name: Ala
-	>>>  Name: Ola Name: Jacek
+	>>>  for imię in L: 
+	 ... print ("Imię:", imię) 
+	Imię: Ala
+	Imię: Ola 
+	Imię: Jacek
 
-In the same way, we can print the first part of our half of the
-Christmas tree:
+W ten sam sposób możemy wydrukować pierwszą część choinki bożonarodzeniowej:
 
-	>>>  lst = \[1, 2, 3\] >>> for n in lst: ...
-	>>>  print("*"*n)
 
-Basic List Operations
----------------------
+	>>>  lista = [1, 2, 3] 
+	>>> for n in lista: 
+	... print("*"*n)
 
-Lists respond to the + and \* operators much like strings; they mean
-concatenation and repetition here too, except that the result is a new
-list, not a string.
+Podstawowe operacje na listach
+------------------------------
 
+Listy reagują na operatory + i \* podobnie jak stringi. Znaki te oznaczają
+również tutaj konkatenację (łączenie tekstów) i powtórzenie, ale rezultatem
+jest lista, a nie string.
+
+Faktycznie, listy reagują na wszystkie ogólne operacje dla sekwencji, które
+używalismy na stringach w poprzednim rozdziale.
 In fact, lists respond to all of the general sequence operations we used
 on strings in the prior chapter.
 
