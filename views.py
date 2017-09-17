@@ -935,3 +935,35 @@ class AbsenceConfirmation(HTTPMethodView):
 class RegistrationActiveView(HTTPMethodView):
     async def get(self, _):
         return json({'registration': await Config.get_registration()})
+
+
+class FeedbackView(HTTPMethodView):
+    @user_required()
+    async def get(self, _, current_user, lid=None):
+        if lid:
+            if lid.isnumeric():
+                user = await Users.get_by_id(int(lid))
+            elif lid == 'undefined':
+                return json({'msg': 'wrong username'}, 404)
+            else:
+                try:
+                    user = await Users.get_first('email', lid)
+                except DoesNotExist:
+                    logging.error('Wrong e-mail or smth: ' + lid)
+            if current_user.id == user.id:
+                return json(await user.get_my_user_data())
+            return json(await user.get_public_data())
+        else:
+            feedbacks = await Feedback.get_all()
+            user = []
+            for u in users:
+                if current_user.admin or current_user.organiser:
+                    user.append(await u.to_dict())
+                else:
+                    user.append(await u.get_public_data())
+            user.sort(key=lambda a: a['id'])
+        return json(user, sort_keys=True)
+
+    @user_required()
+    async def post(self, _, current_user, lid=None):
+        pass
