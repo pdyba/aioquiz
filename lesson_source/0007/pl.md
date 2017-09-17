@@ -38,13 +38,13 @@ Zacznijmy od czystej strony w interpreterze Pythona:
 	>>> L = [] 
 	>>> L
 
-W każdej chwili możemy sprawdzić, ile elementów przechowujemy w liście
+W każdej chwili możemy sprawdzić, ile elementów przechowujemy w liście,
 stosując funkcję len:
 
 	>>> len(L) 
 	0
 
-Stwórzmy kolejną listę (o takiej samej lub innej nazwie, niż poprzednia lista):
+Stwórzmy kolejną listę (o takiej samej lub innej, niż poprzednia lista nazwie):
 
 	>>> L = ["Ala", "Ola", "Jacek"] 
 	>>> len(L)
@@ -56,7 +56,7 @@ Zaś w odróżnieniu od tupli, nawiasy `[` i `]` są obowiązkowe.
 Dostęp do wartości w liście
 ---------------------------
 
-By wyświetlić określony element listy (pamiętajcie, że liczymy od zera):
+Tak możemy wyświetlić określony element listy (pamiętajcie, że liczymy od zera):
 
 	>>> L = ["Ala", "Ola", "Jacek"] 
 	>>> L[0]
