@@ -1,29 +1,45 @@
-Python Logic
-===================
+Logika Pythona
+==============
 
-Checking conditions
--------------------
+Sprawdzanie warunków
+--------------------
 
-Comparisons: true or false?
----------------------------
+Porównanie: prawda, czy fałsz?
+------------------------------
 
-Let us now talk about comparisons. Let's look at how they behave in a
-short math lesson:
+Porozmawiajmy o porównaniach. Spójrzmy, jak się one zachowują podczas
+krótkiej lekcji matematyki:
 
-	>>>  2 > 1 True >>> 1 == 2 False >>> 1 ==
-	>>>  1.0 True >>> 10 >= 10 True >>> 13 <= 1 + 3
-	>>>  False >>> -1 != 0 True
+	>>>  2 > 1 
+	True 
+	>>> 1 == 2 
+	False 
+	>>> 1 == 1.0 
+	True 
+	>>> 10 >= 10 
+	True 
+	13 <= 1 + 3
+	False 
+	>>> -1 != 0 
+	True
 
-The result of a comparison is always `True` or `False`. Comparisons can
-be combined into more complex conditions by using the words and and or:
+Rezultatem porównania jest zawsze `True` lub `False`. Porównania mogą
+być włączone w bardziej złożone wyrażenia przy użyciu słów and i or:
 
-	>>>  x = 5 >>> x < 10 True >>> 2\*x >
-	>>>  x True >>> (x < 10) and (2\*x > x) True >>> (x
-	>>>  != 5) and (x != 4) False >>> (x != 5) and (x != 4) or (x ==
-	>>>  5) True
+	>>>  x = 5 
+	>>>  x < 10 
+	True 
+	>>>  2*x > x 
+	True 
+	>>>  (x < 10) and (2*x > x) 
+	True 
+	>>>  (x != 5) and (x != 4)
+	False 
+	>>>  (x != 5) and (x != 4) or (x == 5) 
+	True
 
-Python Love - exercise
-----------------------
+Python Love - ćwiczenie
+-----------------------
 
 Now lest talk about love with our wonderful snake. Write this in your
 interpreter.
