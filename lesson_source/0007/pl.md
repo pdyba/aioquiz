@@ -11,7 +11,8 @@ Python ma pięć podstawowych typów danych:
 Używaliśmy już liczb (całkowitych int i zmiennoprzecinkowych float), stringów i tupli. Nadszedł czas, by poznać
 listy i słowniki.
 
-Słodki Kłólik
+
+'Słodki Kłólik'
 
 Dziewczynka idzie do sklepu ze zwierzątkami domowymi i pyta o kłólika.
 Sprzedawca pochyla się nad nią, uśmiecha i pyta:
@@ -263,3 +264,4 @@ W Pythonie możesz tworzyć obiekty zagnieżdżone, na przykład:
     }
 
 Jak widzicie, słownik może zawierać na przykład słowniki słowników i listy.
+'
