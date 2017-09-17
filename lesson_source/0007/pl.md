@@ -162,41 +162,42 @@ Na przykład:
 	>>>  del lista1[2]
 	>>>  print(lista1)
 
-Dictionary
-==========
+Słownik
+=======
 
-Dictionary is an data type composed of a collection of (key, value)
-pairs, such that each possible key appears just once in the collection.
-Except the unique condition it is very similar to normal dictionary.
+Słownik jest typem danych złożonym z zestawu par (klucz, wartość) takim, 
+że każdy klucz pojawia się tylko jeden raz w zestawie. Poza tym jedynym
+warunkiem słownik pythonowy jest bardzo podobny do zwykłego słownika.
 
-Each key is separated from its value by a colon (:), the items are
-separated by commas, and the whole thing is enclosed in curly braces. An
-empty dictionary without any items is written with just two curly
-braces, like this: {}.
+Każdy klucz jest oddzielony od wartości dwukropkiem (:), elementy słownika
+są oddzielone przecinkami, a cały zestaw jest otoczony nawiasami klamrowymi.
+Pusty słownik, nie posiadający elementów jest zapisywany jako dwa nawiasy
+klamrowe, czyli {}.
 
-Keys are unique within a dictionary while values may not be. The values
-of a dictionary can be of any type, but the keys must be of an immutable
-data type such as strings, numbers, or tuples.
+Klucze w obrębie słownika są unikatowe, ale wartości nie muszą. Wartości
+słownika mogą być dowolnym typem danych, ale klucze muszą być niezmiennymi
+typami danych, takimi jak stringi, liczby lub tuple.
 
-Accessing Values in Dictionary:
--------------------------------
+Dostęp do wartości w słowniku
+-----------------------------
 
-To access dictionary elements, you can use the familiar square brackets
-along with the key to obtain its value. Following is a simple example −
+Aby uzyskać dostęp do wartości słownika, należy podać klucz ujęty w znanych Ci
+już nawiasach kwadratowych. Oto przykład:
 
     :::python3
-    a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
-    print(a_dict['Name'])
-    print(a_dict['Age'])
-    print(a_dict['Profession'])
+    słownik = {'Imię': 'Marta', 'Wiek': 21, 'Zawód': 'Python Developer'}
+    print(słownik['Imię'])
+    print(słownik['Wiek'])
+    print(słownik['Zawód'])
 
+Po wykonaniu powyższego kodu uzyskujemy następujący rezultat:
 
-When the above code is executed, it produces the following result:
+	Martha
+	21
+	Python Developer
 
-	>>>  Martha >>> 21 >>> Python Developer
-
-Updating Dictionary
--------------------
+Zmienianie zawartości słownika
+------------------------------
 
 You can update a dictionary by adding a new entry or a key-value pair,
 modifying an existing entry as shown below in the simple example −
