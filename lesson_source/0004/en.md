@@ -56,7 +56,7 @@ W Pytonie możemy porównywać używając kilku różnych operatorów:
 -   is
 -   !=
 -   not
--   >=
+-   \>=
 -   <=
 -   in
 
