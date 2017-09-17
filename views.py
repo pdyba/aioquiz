@@ -673,7 +673,7 @@ class UserStatsView(HTTPMethodView):
                 accepted=True
             ),
             'attendee_rej_time': await Users.count_by_field(
-                confirmation='rej_user',
+                confirmation='rej_time',
                 mentor=False,
                 accepted=True
             ),
