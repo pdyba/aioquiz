@@ -509,15 +509,31 @@ class EmailView(HTTPMethodView):
     async def post(self, request, current_user):
         req = request.json
         link = 'https://{}/api/workshopabsence/'.format(request.host)
-        if req['email_type'] == 'other':
+        if req['email_type'] == 'EmailCustom':
             users = await Users.get_by_many_field_value(**req['recipients'])
             subject = req['subject']
             text = req['text'].format()
-            resp = await send_email(
+            await send_email(
                 recipients=[u.email for u in users],
                 text=text,
                 subject=subject
             )
+        elif req['email_type'] == 'EmailTooLate':
+            users = await Users.get_by_many_field_value(**req['recipients'])
+            for user in users:
+                user.confirmation = 'rej_time'
+                await user.update()
+                email_data = {
+                    "name": user.name
+                }
+                subject = req['subject']
+                text = req['text'].format(**email_data)
+                await send_email(
+                    recipients=[user.email],
+                    text=text,
+                    subject=subject
+                )
+                await asyncio.sleep(0.05)
         else:
             users = await Users.get_by_many_field_value(**req['recipients'])
             for user in users:
@@ -529,7 +545,7 @@ class EmailView(HTTPMethodView):
                 }
                 subject = req['subject']
                 text = req['text'].format(**email_data)
-                resp = await send_email(
+                await send_email(
                     recipients=[user.email],
                     text=text,
                     subject=subject
