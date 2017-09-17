@@ -153,13 +153,14 @@ nowe elementy używając metody append().
 Usuwanie elementów listy
 ------------------------
 
-To remove a list element, you can use either the del statement if you
-know exactly which element(s) you are deleting or the remove() method if
-you do not know. For example −
+Aby usunąć element z listy, możesz użyć komendy del, jeśli wiesz dokładnie,
+który element chcesz usunąć lub metody remove(), jeśli tego nie wiesz.
+Na przykład:
 
-	>>>  list1 = \['physics', 'chemistry', 1997, 2000\]
-	>>>  print(list1) >>> del list1\[2\] >>>
-	>>>  print(list1)
+	>>>  lista1 = \['fizyka', 'chemia', 1997, 2000\]
+	>>>  print(lista1) 
+	>>>  del lista1[2]
+	>>>  print(lista1)
 
 Dictionary
 ==========
