@@ -83,40 +83,42 @@ Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
 
 Wniosek: 'is' zwróci True, jeśli dwie zmienne wskazują na ten sam obiekt,
 a '==' zwróci True jesli obiekty, do których odnoszą się zmienne są równe.
-Conclusion: is will return True if two variables point to the same
-object, == if the objects referred to by the variables are equal.
 
-BMI: Fat or not ? let the python decide for You
------------------------------------------------
+BMI: Gruby, czy nie? Niechaj Python zadecyduje za Ciebie
+--------------------------------------------------------
 
-Let’s go to our next problem. We want our program to print the
-appropriate classification for the calculated BMI by using the table
-below:
+Przejdźmy do naszego kolejnego problemu. Chcemy aby program wydrukował
+właściwą klasyfikację dla obliczonego BMI, przy użyciu poniższej tabeli:
 
-  BMI            Classification
+  BMI              Klasyfikacja
   -------------- ----------------
-  < 18,5      underweight
-  18,5 – 24,99   normal weight
-  25,0 – 29,99   overweight
-  ≥ 30,0         obesity
+  < 18,5         niedowaga
+  18,5 – 24,99   prawidłowa waga
+  25,0 – 29,99   nadwaga
+  ≥ 30,0         otyłość
 
-We need to use the “conditional statement” if. It will execute the rest
-of the program depending on a given condition:
+Musimy użyć "komendy warunkowej' if. Wykona ona dalszy ciąg programu
+zależnie od podanego warunku:
 
-Exercise simple python calculator
----------------------------------
+Ćwiczenie - prosty pythonowy kalkulator
+---------------------------------------
 
-Write a simple calculator script that will take two numbers and
-calculation sign (+, -, \*, /). And output a nice string show whole
-calculation and the solution. Remember: string + string = new string :-)
-Example:
+Napiszcie skrypt stanowiący prosty kalkulator, który pobierze dwie
+liczby oraz znak operacji matematycznej (+, -, \*, /) i wyświetli
+przyjemny string, który pokaże całe równanie oraz rozwiązanie. 
+Pamiętajcie: string + string = nowy string :-)
+Przykład:
 
-	>>>  'Enter first number' 10 >>> 'Enter first number
-	>>>  math sign (+, -, \*, /)' + >>> 'Enter second number' 5 '10 +
-	>>>  5 = 15'
+	>>>  'Wprowadź pierwszą liczbę' 
+	10 
+	>>> 'Wprowadź drugą liczbę'
+	5
+	>>>  "Wprowadź znak operacji matematycznej (+, -, \*, /)" 
+	+ 
+	'10 + 5 = 15'
 
-Indentations
-------------
+Indentacja
+----------
 
 Another thing you should pay attention to is the indentation in the
 code. Open the interactive mode and enter a simple condition such as:
