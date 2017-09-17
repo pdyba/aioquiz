@@ -111,15 +111,16 @@ Przykład:
 
 	>>>  'Wprowadź pierwszą liczbę' 
 	10 
-	>>> 'Wprowadź drugą liczbę'
-	5
 	>>>  "Wprowadź znak operacji matematycznej (+, -, \*, /)" 
 	+ 
+	>>> 'Wprowadź drugą liczbę'
+	5
 	'10 + 5 = 15'
 
 Indentacja
 ----------
 
+Rzecz, na którą powinniście zwrócić uwagę w kodzie jest indentacja.
 Another thing you should pay attention to is the indentation in the
 code. Open the interactive mode and enter a simple condition such as:
 
