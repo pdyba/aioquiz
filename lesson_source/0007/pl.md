@@ -134,22 +134,24 @@ tych kilka przykładów:
     	for i in range(10):
         	print(i)
 
-Aktualizaowanie list
---------------------
+Aktualizowanie list
+-------------------
 
-You can update single or multiple elements of lists by giving the slice
-on the left-hand side of the assignment operator, and you can add to
-elements in a list with the append() method.
+Możesz zmienić jeden lub wiele elementów listy poprzez wybranie elementu,
+który chcesz zmienić i nadanie mu nowej wartości. Możesz również dodawać do listy
+nowe elementy używając metody append().
 
-	>>>  list = \['physics', 'chemistry', 1997, 2000\]
-	>>>  print(list\[2\]) >>> list\[2\] = 2001
-	>>>  print(list\[2\])
->
-	>>>  list\_2 = \['a', 'b'\] >>> list\_2.append('c')
-	>>>  print(list\_2)
+	>>>  lista = ['fizyka', 'chemia', 1997, 2000\]
+	>>>  print(lista[2]) 
+	>>>  lista[2] = 2001
+	>>>  print(list[2])
 
-Delete List Elements
---------------------
+	>>>  lista_2 = ['a', 'b'] 
+	>>>  lista_2.append('c')
+	>>>  print(lista_2)
+
+Usuwanie elementów listy
+------------------------
 
 To remove a list element, you can use either the del statement if you
 know exactly which element(s) you are deleting or the remove() method if
