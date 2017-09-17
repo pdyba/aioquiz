@@ -90,7 +90,7 @@ class EmailReminder(EmailData):
 
 
 class EmailTooLate(EmailData):
-    recipients = {'accepted': True, 'confirmation': 'rej'}
+    recipients = {'accepted': True, 'confirmation': 'noans'}
     subject = 'Dziękujemy za zainteresowanie warsztatami PyLadies Start'
     text = '''Cześć {name}!
     Przykro nam, że nie zobaczymy się na warsztacie weekendowym PyLadies.start() 23-24 września!
@@ -105,7 +105,7 @@ class EmailTooLate(EmailData):
     PyLadies Poznań Team'''
 
 
-class EmailSeconChance(EmailData):
+class EmailSecondChance(EmailData):
     recipients = {'accepted': True, 'confirmation': 'noans'}
     subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLadies Start'
     text = '''Cześć {name}!
@@ -148,6 +148,6 @@ ALL_EMAILS = [
     EmailRejected.to_dict(),
     EmailReminder.to_dict(),
     EmailTooLate.to_dict(),
-    EmailSeconChance.to_dict(),
+    EmailSecondChance.to_dict(),
     EmailCustom.to_dict(),
 ]
