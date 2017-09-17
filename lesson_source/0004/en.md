@@ -81,6 +81,8 @@ Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
     >>> [1, 2] == [1, 2]
     >>> [1, 2] is [1, 2]
 
+Wniosek: 'is' zwróci True, jeśli dwie zmienne wskazują na ten sam obiekt,
+a '==' zwróci True jesli obiekty, do których odnoszą się zmienne są równe.
 Conclusion: is will return True if two variables point to the same
 object, == if the objects referred to by the variables are equal.
 
