@@ -653,8 +653,30 @@ class UserStatsView(HTTPMethodView):
                 admin=False
             ),
             'admins': await Users.count_by_field(admin=True),
-            'accepted': await Users.count_by_field(accepted=True),
-            'confirmed': await Users.count_by_field(confirmation='ack'),
+            'attendee_accepted': await Users.count_by_field(
+                accepted=True,
+                mentor=False)
+            ,
+            'attendee_confirmed': await Users.count_by_field(
+                confirmation='ack',
+                mentor=False,
+                accepted=True
+            ),
+            'attendee_noans_accepted': await Users.count_by_field(
+                confirmation='noans',
+                mentor=False,
+                accepted=True
+            ),
+            'attendee_rej_user': await Users.count_by_field(
+                confirmation='rej_user',
+                mentor=False,
+                accepted=True
+            ),
+            'attendee_rej_time': await Users.count_by_field(
+                confirmation='rej_user',
+                mentor=False,
+                accepted=True
+            ),
         }
         return json(resp, sort_keys=True)
 
