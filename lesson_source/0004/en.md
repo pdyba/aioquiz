@@ -41,11 +41,15 @@ być włączone w bardziej złożone wyrażenia przy użyciu słów and i or:
 Python Love - ćwiczenie
 -----------------------
 
-Now lest talk about love with our wonderful snake. Write this in your
-interpreter.
+Porozmawiajmy o miłości z naszym cudownym wężem. Napiszcie to w swoim 
+interpreterze.
 
-	>>>  import this >>> love = this >>> love is
-	>>>  this >>> love is not True or False >>> love is love
+	>>>  import this 
+	>>>  love = this 
+	>>>  love is
+	>>>  this 
+	>>>  love is not True or False 
+	>>>  love is love
 
 In python we can compere using few different operators:
 
