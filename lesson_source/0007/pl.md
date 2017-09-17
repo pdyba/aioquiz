@@ -29,7 +29,7 @@ Lista
 
 Nie wspomnieliśmy dotychczas o listach, bo nie różnią się one od intuicyjnej
 koncepcji list znanej z codziennego życia. Możemy myśleć o listach w Pythonie
-tak samo, jak myślimy o każdej innej liście (liście zakupoów, liście gości,
+tak samo, jak myślimy o każdej innej liście (liście zakupów, liście gości,
 wynikach egzaminu itd.) spisanej na papierze i ponumerowanej.
 
 Zacznijmy od czystej strony w interpreterze Pythona:
