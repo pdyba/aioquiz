@@ -46,12 +46,11 @@ interpreterze.
 
 	>>>  import this 
 	>>>  love = this 
-	>>>  love is
-	>>>  this 
+	>>>  love is this 
 	>>>  love is not True or False 
 	>>>  love is love
 
-In python we can compere using few different operators:
+W Pytonie możemy porównywać używając kilku różnych operatorów:
 
 -   ==
 -   is
@@ -61,24 +60,26 @@ In python we can compere using few different operators:
 -   <=
 -   in
 
-and connect the expressions with:
+i łączyć wyrażenia za pomocą:
 
 -   and
 -   or
 
-Is same as == ?
----------------
+Czy is to to samo co == ?
+-------------------------
 
-Lest make few test if 'is' is the same as '==':
+Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
 
     :::python3
-    >>> 1000 is 10\**3 >>> 1000 == 10*\*3
-    >
-    >>> "a" is "a" >>> "aa" is "a" \* 2 >>> x =
-    > "a" >>> "aa" is x \* 2 >>> "aa" == x \* 2
-    >
-    >>> \[1, 2\] == \[1, 2\]
-    >>> \[1, 2\] is \[1, 2\]
+    >>> 1000 is 10**3 
+    >>> 1000 == 10**3
+    >>> "a" is "a" 
+    >>> "aa" is "a" * 2 
+    >>> x = "a" 
+    >>> "aa" is x * 2 
+    >>> "aa" == x * 2
+    >>> [1, 2] == [1, 2]
+    >>> [1, 2] is [1, 2]
 
 Conclusion: is will return True if two variables point to the same
 object, == if the objects referred to by the variables are equal.
