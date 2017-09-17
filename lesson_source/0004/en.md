@@ -1,88 +1,65 @@
-Logika Pythona
-==============
+Python Logic
+===================
 
-Sprawdzanie warunków
---------------------
+Checking conditions
+-------------------
 
-Porównanie: prawda, czy fałsz?
-------------------------------
+Comparisons: true or false?
+---------------------------
 
-Porozmawiajmy o porównaniach. Spójrzmy, jak się one zachowują podczas
-krótkiej lekcji matematyki:
+Let us now talk about comparisons. Let's look at how they behave in a
+short math lesson:
 
-	>>>  2 > 1 
-	True 
-	>>> 1 == 2 
-	False 
-	>>> 1 == 1.0 
-	True 
-	>>> 10 >= 10 
-	True 
-	13 <= 1 + 3
-	False 
-	>>> -1 != 0 
-	True
+	>>>  2 > 1 True >>> 1 == 2 False >>> 1 ==
+	>>>  1.0 True >>> 10 >= 10 True >>> 13 <= 1 + 3
+	>>>  False >>> -1 != 0 True
 
-Rezultatem porównania jest zawsze `True` lub `False`. Porównania mogą
-być włączone w bardziej złożone wyrażenia przy użyciu słów and i or:
+The result of a comparison is always `True` or `False`. Comparisons can
+be combined into more complex conditions by using the words and and or:
 
-	>>>  x = 5 
-	>>>  x < 10 
-	True 
-	>>>  2*x > x 
-	True 
-	>>>  (x < 10) and (2*x > x) 
-	True 
-	>>>  (x != 5) and (x != 4)
-	False 
-	>>>  (x != 5) and (x != 4) or (x == 5) 
-	True
+	>>>  x = 5 >>> x < 10 True >>> 2*x >
+	>>>  x True >>> (x < 10) and (2*x > x) True >>> (x
+	>>>  != 5) and (x != 4) False >>> (x != 5) and (x != 4) or (x ==
+	>>>  5) True
 
-Python Love - ćwiczenie
------------------------
+Python Love - exercise
+----------------------
 
-Porozmawiajmy o miłości z naszym cudownym wężem. Napiszcie to w swoim 
-interpreterze.
+Now lest talk about love with our wonderful snake. Write this in your
+interpreter.
 
-	>>>  import this 
-	>>>  love = this 
-	>>>  love is this 
-	>>>  love is not True or False 
-	>>>  love is love
+	>>>  import this >>> love = this >>> love is
+	>>>  this >>> love is not True or False >>> love is love
 
-W Pytonie możemy porównywać używając kilku różnych operatorów:
+In python we can compere using few different operators:
 
 -   ==
 -   is
 -   !=
 -   not
--   \>=
+-   >=
 -   <=
 -   in
 
-i łączyć wyrażenia za pomocą:
+and connect the expressions with:
 
 -   and
 -   or
 
-Czy is to to samo co == ?
--------------------------
+Is same as == ?
+---------------
 
-Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
+Lest make few test if 'is' is the same as '==':
 
     :::python3
-    >>> 1000 is 10**3 
-    >>> 1000 == 10**3
-    >>> "a" is "a" 
-    >>> "aa" is "a" * 2 
-    >>> x = "a" 
-    >>> "aa" is x * 2 
-    >>> "aa" == x * 2
+    >>> 1000 is 10**3 >>> 1000 == 10**3
+    >
+    >>> "a" is "a" >>> "aa" is "a" * 2 >>> x =
+    > "a" >>> "aa" is x * 2 >>> "aa" == x * 2
+    >
     >>> [1, 2] == [1, 2]
     >>> [1, 2] is [1, 2]
 
-Wniosek: 'is' zwróci True, jeśli dwie zmienne wskazują na ten sam obiekt,
-a '==' zwróci True jesli obiekty, do których odnoszą się zmienne są równe.
 Conclusion: is will return True if two variables point to the same
 object, == if the objects referred to by the variables are equal.
 
@@ -107,12 +84,12 @@ Exercise simple python calculator
 ---------------------------------
 
 Write a simple calculator script that will take two numbers and
-calculation sign (+, -, \*, /). And output a nice string show whole
+calculation sign (+, -, *, /). And output a nice string show whole
 calculation and the solution. Remember: string + string = new string :-)
 Example:
 
 	>>>  'Enter first number' 10 >>> 'Enter first number
-	>>>  math sign (+, -, \*, /)' + >>> 'Enter second number' 5 '10 +
+	>>>  math sign (+, -, *, /)' + >>> 'Enter second number' 5 '10 +
 	>>>  5 = 15'
 
 Indentations
