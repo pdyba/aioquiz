@@ -91,37 +91,51 @@ Listy reagują na operatory + i \* podobnie, jak stringi. Znaki te oznaczają
 również tutaj konkatenację (łączenie tekstów) i powtórzenie, ale rezultatem
 jest lista, a nie string.
 
-Faktycznie, listy reagują na wszystkie ogólne operacje dla sekwencji, które
+Okazuje się, listy reagują na wszystkie ogólne operacje dla sekwencji, które
 używalismy na stringach w poprzednim rozdziale.
-In fact, lists respond to all of the general sequence operations we used
-on strings in the prior chapter.
 
-	>>>  len(\[1, 2, 3\]) \# Length 3 >>> \[1, 2, 3\] +
-	>>>  \[4, 5, 6\] \# Concatenation \[1, 2, 3, 4, 5, 6\] >>>
-	>>>  \['Hi!'\] \* 4 \# Repetition \['Hi!', 'Hi!', 'Hi!', 'Hi!'\]
-	>>>  3 in \[1, 2, 3\] \# Membership True >>> L =
-	>>>  \["Ala", "Ola", "Jacek"\] >>> L\[1\] 'Ola' >>>
-	>>>  L\[-1\] 'Jacek' >>> L\[1:\] \['Ola', 'Jacek'\] >>>
-	>>>  L\[:1\] \['Ala'\] >>> L\[1:2\] \['Ola'\] >>>
-	>>>  L\[1:3\] \# L\[3\] will end up with error ! \['Ola', 'Jacek'\]
+	>>>  len([1, 2, 3])   # Długość 
+	>>> [1, 2, 3] + [4, 5, 6]     # Konkatenacja
+	[1, 2, 3, 4, 5, 6]
+	>>>  ['Hi!'] * 4    # Powtórzenie 
+	['Hi!', 'Hi!', 'Hi!', 'Hi!']
+	>>>  3 in [1, 2, 3]   # Zawieranie się 
+	True 
+	>>> L = ["Ala", "Ola", "Jacek"] 
+	>>> L[1] 
+	'Ola'
+	>>>  L[-1] 
+	'Jacek' 
+	>>> L[1:] 
+	['Ola', 'Jacek'] 
+	>>>  L[:1] 
+	['Ala'] 
+	>>> L[1:2] 
+	['Ola'] 
+	>>>  L[1:3] # komenda L[3] wywoła błąd! 
+	['Ola', 'Jacek']
 
-Range
------
-
-Well, unfortunately we still have to type the entire contents of the
-list. This problem can be solved by the function range. Check
-`help(range)` for the full story, or check these quick examples:
-
-	>>>  list(range(2)) \[0, 1\] >>> list(range(1, 11))
-	>>>  \[1, 2, 3, 4, 5, 6, 7, 8, 9, 10\] >>> list(range(1, 11, 2))
-	>>>  \[1, 3, 5, 7, 9\]
-
-    :::python3
-    for i in range(10):
-        print(i)
-
-Updating Lists
+Range (Zakres)
 --------------
+
+Cóż, niestety ciągle musimy sami pisać całą zawartość listy. Ten problem
+może być rozwiązany dzięki użyciu funkcji range. Wypróbuj komendę
+`help(range)`, aby zapoznać się z wszystkimi możliwościami funkcji range lub wykonaj
+tych kilka przykładów: 
+
+	>>>  list(range(2)) 
+	[0, 1] 
+	>>> list(range(1, 11))
+	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
+	>>> list(range(1, 11, 2))
+	[1, 3, 5, 7, 9]
+
+    	:::python3
+    	for i in range(10):
+        	print(i)
+
+Aktualizaowanie list
+--------------------
 
 You can update single or multiple elements of lists by giving the slice
 on the left-hand side of the assignment operator, and you can add to
