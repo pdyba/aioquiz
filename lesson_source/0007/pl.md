@@ -227,40 +227,39 @@ Aby całkowicie usunąć cały słownik, możesz użyć komendy del. Oto przykł
 Zagnieżdżanie
 =============
 
-In Python You can create nested objects like:
+W Pythonie możesz tworzyć obiekty zagnieżdżone, na przykład:
 
     :::python3
     ZOO = {
-        'animals': {
-            'python': {
-                'food': [
-                    'mice',
-                    'rabbits',
-                    'rats',
+        'zwierzęta': {
+            'pyton': {
+                'jedzenie': [
+                    'myszy',
+                    'króliki',
+                    'szczury',
                 ]
-                'environment': {
-                    'temp': 25,
-                    'humidity': 80,
+                'środowisko': {
+                    'temperatura': 25,
+                    'wilgotność': 80,
                 }
-                'location': 'cage',
+                'pomieszczenie': 'klatka',
             },
-            'cute_little_rabbit': {
-                'food': [
-                    'carrots',
-                    'carrots',
-                    'carrots',
+            'słodki_króliczek': {
+                'jedzenie': [
+                    'marchewki',
+                    'marchewki',
+                    'marchewki',
                 ]
-                'environment': {
-                    'temp': 20,
-                    'humidity': 35,
+                'środowisko': {
+                    'temperatura': 20,
+                    'wilgotność': 35,
                 }
-                'location': 'run free',
+                'pomieszczenie': 'na wolności',
             },
-        'contact': {
-            'telphone': 0 700 800 900,
+        'kontakt': {
+            'telefon': 0 700 800 900,
             'email': 'zoo@zoo.zoo'
         }
     }
 
-
-As You can see there can be a dict or a list inside of a dict of dicts.
+Jak widzicie, słownik może zawierać na przykład słowniki słowników i listy.
