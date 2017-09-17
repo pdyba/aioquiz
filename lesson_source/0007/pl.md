@@ -199,34 +199,33 @@ Po wykonaniu powyższego kodu uzyskujemy następujący rezultat:
 Zmienianie zawartości słownika
 ------------------------------
 
-You can update a dictionary by adding a new entry or a key-value pair,
-modifying an existing entry as shown below in the simple example −
+Możesz zmienić zawartość słownika poprzez dodanie do niego nowego elementu
+lub pary klucz-wartość. Prześledź poniższe przykłady:
 
-	>>>  a\_dict = {'Name': 'Martha', 'Age': 21, 'Profession':
-	>>>  'Python Developer'} >>> a\_dict\['Age'\] = 8 \# update
-	>>>  existing entry >>> a\_dict\['Profession'\] = 'Student' \#
-	>>>  update existing entry >>> a\_dict\['School'\] = "Primary
-	>>>  School" \# Add new entry >>> print(a\_dict\['Age'\])
-	>>>  print(a\_dict\['School'\])
+	>>>  słownik = {'Imię': 'Marta', 'Wiek': 21, 'Zawód':'Python Developer'} 
+	>>>  słownik['Wiek'] = 8  # zmiana wartości w istniejącym elemencie
+	>>>  słownik['Zawód'] = 'Uczeń'  # zmiana wartości w istniejącym elemencie
+	>>>  słownik['Szkoła'] = "Szkoła podstawowa"  # Dodanie nowego elementu do słownika
+	>>>  print(słownik['Wiek'])
+	>>>  print(słownik['School'])
 
-Delete Dictionary Elements
---------------------------
+Usuwanie elementów słownika
+---------------------------
 
-You can either remove individual dictionary elements or clear the entire
-contents of a dictionary. You can also delete entire dictionary in a
-single operation.
+Możesz zarówno usuwać poszczególne elementy słownika, jak i usunąc całą zawartość
+słownika. Możesz także usunąć cały słownik przy pomocy jednej operacji.
 
-To explicitly remove an entire dictionary, just use the del statement.
-Following is a simple example −
+Aby całkowicie usunąć cały słownik, możesz użyć komendy del. Oto przykład:
 
-	>>>  a\_dict = {'Name': 'Martha', 'Age': 21, 'Profession':
-	>>>  'Python Developer'} >>> del a\_dict\['Name'\] \# remove entry
-	>>>  with key 'Name' >>> print(a\_dict) >>>
-	>>>  a\_dict.clear() \# remove all entries in dict >>>
-	>>>  print(a\_dict) >>> del a\_dict \# delete entire dictionary
+	>>>  słownik = {'Imię': 'Marta', 'Wiek': 8, 'Zawód':'Uczeń', 'Szkoła':'Szkoła podstawowa'}
+	>>>  del słownik['Imię'] # usuwanie elementu o kluczu 'Imię'
+	>>>  print(słownik) 
+	>>>  słownik.clear() # usuwanie wszystkich elementów słownika 
+	>>>  print(słownik) 
+	>>>  del słownik # usuwanie całego słownika
 
-Nesting
-=======
+Zagnieżdżanie
+=============
 
 In Python You can create nested objects like:
 
