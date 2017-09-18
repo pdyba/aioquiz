@@ -146,7 +146,7 @@ W tym celu musimy w kodzie zastosować indentację:
 
 
 	>>>  if 2 > 1: 
-	... print("OK") 
+	..... print("OK") 
 	OK
 
 Wystarczy, że wpiszemy jedną spację lub naciśniemy `TAB`. Ważne jest jednak,
