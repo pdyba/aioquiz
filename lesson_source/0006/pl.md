@@ -1,8 +1,7 @@
-The for loop: Christmas Tree
-============================
+Pętla for: Drzewko Bożonarodzeniowe
+===================================
 
-Christmas are coming, Christmas presents time and, at least for
-Christmas trees :) in every shopping center. As an exercise, we will try
+Idą święta, czas prezentów i choinki. As an exercise, we will try
 to draw a tree in the console.
 
 We are going to start from the most basic version of this exercise so
