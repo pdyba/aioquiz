@@ -87,15 +87,15 @@ a '==' zwróci True jeśli obiekty, do których odnoszą się zmienne są równe
 BMI: Gruby, czy nie? Niechaj Python zadecyduje za Ciebie
 --------------------------------------------------------
 
-Przejdźmy do naszego kolejnego problemu. Chcemy aby program wydrukował
+Przejdźmy do naszego kolejnego problemu. Chcemy, aby program wydrukował
 właściwą klasyfikację dla obliczonego BMI, przy użyciu poniższej tabeli:
 
-  BMI              Klasyfikacja
-  -------------- ----------------
-  < 18,5         niedowaga
-  18,5 – 24,99   prawidłowa waga
-  25,0 – 29,99   nadwaga
-  ≥ 30,0         otyłość
+  	BMI              Klasyfikacja
+  	-------------- ----------------
+  	< 18,5         niedowaga
+  	18,5 – 24,99   prawidłowa waga
+  	25,0 – 29,99   nadwaga
+  	≥ 30,0         otyłość
 
 Musimy użyć "komendy warunkowej' if. Wykona ona dalszy ciąg programu
 zależnie od podanego warunku:
