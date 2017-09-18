@@ -127,10 +127,11 @@ code. Open the interactive mode and enter a simple condition such as:
     >>> if 2 > 1:
     ...
 
-So far nothing has happened, as evidenced by dots `...` instead of a
-prompt `>>>`, which we have seen so far. Python expects us to give
-further instructions that are supposed to be executed if the condition
-`2 > 1` turns out to be true. Let’s try to make Python print "OK":
+Do tej pory nic się nie wydarzyło, na co wskazują kropki `...`, zamiast
+znaku ponaglenia `>>>`, który widzieliśmy do tej pory. Python spodziewa się,
+że podamy dalsze instrukcje, które mają być wykonane, gdy warunek
+`2 > 1` okaże się prawdziwy. Spróbujmy sprawić, by Python wydrukował "OK":
+
 
     :::python3
     >>> if 2 > 1:
@@ -140,16 +141,19 @@ further instructions that are supposed to be executed if the condition
             ^
     IndentationError: expected an indented block
 
-Unfortunately, we did not succeed. Python needs to know whether the
-instruction we have written is a continuation of if or it is the next
-instruction not covered by the condition. To this purpose, we need to
-indent our code:
+Niestety, nie powiodło się. Python musi wiedzieć, czy instrukcja, którą wpisaliśmy
+jest kontynuacją warunku if, czy jest kolejną instrukcją nie związaną z warunkiem.
+W tym celu musimy w kodzie zastosować indentację:
 
-	>>>  if 2 > 1: ... print("OK") ... OK
 
-All you need is one space or `TAB`. However, all the lines that are
-supposed to be executed one after another should be indented the same
-way:
+	>>>  if 2 > 1: 
+	... print("OK") 
+	OK
+
+Wystarczy, że wpiszemy jedną spację lub naciśniemy `TAB`. Ważne jest jednak,
+żeby wszystkie linie, które chcemy, by były wykonane po kolei miały identyczną
+indentację:
+
 
     :::python3
     >>> if -1 < 0:
@@ -175,90 +179,92 @@ way:
     A
     B
 
-To avoid chaos, most Python programmers use four spaces for each level
-of indentation. We will do the same:
+By uniknąć chaosu, większość programistów używa czterech spacji dla
+każdego poziomu indentacji. Zróbmy tak samo:
 
-	>>>  if 2 > 1: ... if 3 > 2: ... print("OK") ... else:
-	>>>  ... print("FAIL") ... print("DONE") OK DONE
+	>>>  if 2 > 1: 
+	....... if 3 > 2: 
+	.......... print("OK") 
+	....... else:
+	.......... print("FAIL") 
+	.... print("DONE") 
+	OK 
+	DONE
 
-What if not?
-------------
+A co, jeśli nie?
+----------------
 
-Actually, we could write our program just by using if :
+Właściwie moglibyśmy napisać nasz program tylko używając if:
 
     :::python3
     if bmi < 18.5:
-        print("underweight")
+        print("niedowaga")
     if bmi >= 18.5:
         if bmi < 25.0:
-            print("normal weight")
+            print("prawidłowa waga")
     if bmi >= 25.0:
-        print("overweight")
+        print("nadwaga")
 
-We can also use else and elif to avoid repeating similar conditions and
-increase readability. In more complex programs it may not be obvious
-from the beginning that a certain condition is the opposite of the
-previous one.
+Możemy także użyć else I elif, aby uniknąć powtarzania takich samych warunków
+i poprawić czytelność kodu. W bardziej złożonych programach może nie być
+od początku oczywiste, że pewien warunek jest przeciwnością poprzedniego.
 
-Using else , we have the guarantee that the given instructions will be
-executed only if the instructions printed under if haven’t been
-executed:
+Używając else mamy gwarancję, że podane instrukcje będą wykonane tylko,
+jeśli instrukcje podane pod if nie zostały wykonane:
 
     :::python3
     if bmi < 18.5:
-        print("underweight")
+        print("niedowaga")
     else:
-        # If your program executes this instruction,
-        # for sure bmi >= 18.5 !
+        # Jeśli Twój program wykona tę istrukcję, bmi na pewno jest >= 18.5!
         if bmi < 25.0:
-            print("normal weight")
+            print("prawidłowa waga")
         else:
-            # now for sure bmi >= 25.0, we don’t have to
-            # check it
-            print("overweight")
+            # teraz już na pewno bmi jest >= 25.0, nawet nie musimy sprawdzać
+            print("nadwaga")
 
-Pay particular attention to the indentations. Every use of else, will
-cause an increased indentation of our code. It is very annoying when you
-have to check a few or a dozen or so conditions which exclude one
-another . Therefore the authors of Python added a little 'improvement'
-in the form of elif, instruction, which allows you to check another
-condition immediately:
+Zwróć szczególną uwagę na wszystkie indentacje. Każde użycie else spowoduje
+zwiększenie indentacji w Twoim kodzie. 
+To bardzo irytujące, gdy musisz sprawdzać kilka lub jakiś tuzin warunków, 
+które się wzajemnie wykluczają. Stąd twórcy Pythona dodali małe 
+'ulepszenie' w formie elif - instrukcję, która pozwala Ci sprawdzić
+niezwłocznie kolejny warunek:
 
     :::python3
     if n < 1:
-        print("one")
+        print("jeden")
     elif n < 2:
-        # if it wasn’t n < 1, and now it is n < 2
-        print("two")
+        # jeśli n nie było < 1, a teraz n jest < 2
+        print("dwa")
     elif n < 3:
-        # ,if none of the previous condition was true.
-        # n >= 1 i n>= 2, ale n < 3
-        print("three")
+        # jeśli żaden z dwóch wcześniejszych warunków nie był prawdziwy,
+        # czyli n >= 1 i n>= 2, ale n < 3
+        print("trzy")
     else:
-        # trolls can count only to three
-        print("more")
+        # trole liczą tylko do trzech
+        print("więcej")
 
-Exercised data:
-===============
-
-
-| BMI          | WOMEN         |
-|--------------|---------------|
-| < 17,5       | underweight   |
-| 17,5 – 22,49 | normal weight |
-| 22,5 – 27,49 | overweight    |
-| ≥ 27,5       | obesity    |
+Dane do zadań:
+==============
 
 
-| BMI          | MEN           |
-|--------------|---------------|
-| < 19.99      | underweight   |
-| 20 – 24,99   | normal weight |
-| 25,0 – 29,99 | overweight    |
-| ≥ 30,0       | obesity       |
+| BMI          | KOBIETY         |
+|--------------|-----------------|
+| < 17,5       | niedowaga       |
+| 17,5 – 22,49 | prawidłowa waga |
+| 22,5 – 27,49 | nadwaga         |
+| ≥ 27,5       | otyłość         |
 
-Summary
-=======
 
-We now know some basic python logic, and we can use it.
+| BMI          | MĘŻCZYŹNI       |
+|--------------|-----------------|
+| < 19.99      | niedowaga       |
+| 20 – 24,99   | prawidłowa waga |
+| 25,0 – 29,99 | nadwaga         |
+| ≥ 30,0       | otyłość         |
+
+Podsumowanie
+============
+
+A zatem poznaliśmy trochę podstawowej logiki pythonowej i możemy zacząć jej używać.
 
