@@ -42,7 +42,7 @@ Python Love - ćwiczenie
 -----------------------
 
 Porozmawiajmy o miłości z naszym cudownym wężem. Napiszcie to w swoim 
-interpreterze.
+interpreterze:
 
 	>>>  import this 
 	>>>  love = this 
