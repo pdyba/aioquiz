@@ -82,7 +82,7 @@ Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
     >>> [1, 2] is [1, 2]
 
 Wniosek: 'is' zwróci True, jeśli dwie zmienne wskazują na ten sam obiekt,
-a '==' zwróci True jesli obiekty, do których odnoszą się zmienne są równe.
+a '==' zwróci True jeśli obiekty, do których odnoszą się zmienne są równe.
 
 BMI: Gruby, czy nie? Niechaj Python zadecyduje za Ciebie
 --------------------------------------------------------
