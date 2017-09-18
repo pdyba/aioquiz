@@ -203,7 +203,7 @@ Właściwie moglibyśmy napisać nasz program tylko używając if:
     if bmi >= 25.0:
         print("nadwaga")
 
-Możemy także użyć else I elif, aby uniknąć powtarzania takich samych warunków
+Możemy także użyć else i elif, aby uniknąć powtarzania takich samych warunków
 i poprawić czytelność kodu. W bardziej złożonych programach może nie być
 od początku oczywiste, że pewien warunek jest przeciwnością poprzedniego.
 
