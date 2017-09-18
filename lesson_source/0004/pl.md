@@ -120,9 +120,8 @@ Przykład:
 Indentacja
 ----------
 
-Rzecz, na którą powinniście zwrócić uwagę w kodzie jest indentacja.
-Another thing you should pay attention to is the indentation in the
-code. Open the interactive mode and enter a simple condition such as:
+Kolejną rzeczą, na którą powinniście zwrócić uwagę w kodzie jest indentacja.
+Otwórzcie interpreter i wprowadźcie taki warunek:
 
     >>> if 2 > 1:
     ...
