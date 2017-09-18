@@ -214,7 +214,7 @@ jeśli instrukcje podane pod if nie zostały wykonane:
     if bmi < 18.5:
         print("niedowaga")
     else:
-        # Jeśli Twój program wykona tę istrukcję, bmi na pewno jest >= 18.5!
+        # jeśli Twój program wykona tę istrukcję, bmi na pewno jest >= 18.5!
         if bmi < 25.0:
             print("prawidłowa waga")
         else:
