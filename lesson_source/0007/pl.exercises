@@ -1,0 +1,12 @@
+1:
+    title: Magazyn danych
+    task: Zaprojektuj i stwórz magazyn danych, który będzie obejmował dane członków Twojej grupy, takie jak: imię, wiek, zawód, ulubiony kolor wskaźnika myszki, itp. Porównajcie Wasze rozwiązania i zapytajcie Waszego mentora, które jest najlepsze i dlaczego. Stwórzcie razem najlepsze rozwiązanie.
+    possible_answare: yey
+2:
+    title: Zdania
+    task: Czy pamiętasz, jak sformatować string przy użyciu ''.format()? Zapytaj mentora o Ask mentor about magic \*\* dictionary unpack and write a scrip that will print out a sentence for each team member (in "" should be data from the 1. exercise): Option a) "name" is "age" old and is working as "occupation". "name" prefers "fav\_mouse\_color\_point" mouse pointer. Option b) (harder) "name" is "age" old and is working as "occupation". "He/She - based on gender" prefers "x" operating system: MacOS = Black, Linux = White, other = Windows.
+    possible_answare: yey
+3:
+    title: Metody słownikowe
+    task: Wypróbuj: .get(klucz), .has_key(klucz), .items(), .keys(), .update(słownik), .values() Opcja a) Ustal, jaka jest różnica między słownik[klucz] a słownik.get(klucz) Opcja b) Co oznacza słownik.get(klucz, 'Python') i do czego może służyć?
+    possible_answare: yey
