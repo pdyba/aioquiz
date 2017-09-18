@@ -172,9 +172,8 @@ indentację:
     IndentationError: unindent does not match any outer indentation level
 
     >>> if -1 < 0:
-    ...   print("A")
-    ...   print("B")
-    ...
+    ...... print("A")
+    ...... print("B")
     A
     B
 
@@ -182,10 +181,10 @@ By uniknąć chaosu, większość programistów używa czterech spacji dla
 każdego poziomu indentacji. Zróbmy tak samo:
 
 	>>>  if 2 > 1: 
-	....... if 3 > 2: 
-	.......... print("OK") 
-	....... else:
-	.......... print("FAIL") 
+	........ if 3 > 2: 
+	............ print("OK") 
+	........ else:
+	............ print("FAIL") 
 	.... print("DONE") 
 	OK 
 	DONE
