@@ -79,44 +79,66 @@ przechowywania w pamięci całej sekwencji. W celu uzyskania listy sekwencji,
 używamy funkcji list. Jeśli opuścimy wywołanie funkcji list, rezultat będzie
 wyglądał tak:
 
-	>>>  range(1, 4) range(1, 4)
+	>>>  range(1, 4) 
+	range(1, 4)
 
-The range function has three forms. The most basic and most used one
-creates a sequence from 0 to the given number. The other forms allow you
-to specify the start of the range and a step. The created sequence never
-includes the end of the specified range.
+Funkcja range może przybierać trzy formy. Najbardziej podstawowa i najczęściej
+używana tworzy sekwencję od zera do podanej liczby. Kolejna forma pozwala
+rozpocząć zakres od wybranej liczby i ustalić tzw. krok. Utworzona przez range 
+sekwencja nigdy nie zawiera liczby podanej jako górna granica zakresu.
 
-Then let’s print a larger Christmas tree:
+Wydrukujmy zatem większą choinkę:
 
-	>>>  lst = range(1, 11) >>> for i in lst: ...
-	>>>  print("*"*i) \* *\*\****\*\**\***\****\*****\***\***\*
+	>>>  lst = range(1, 11) 
+	>>> for i in lst: 
+	.... print("*"*i) 
+	*
+	**
+	***
+	****
+	*****
+	******
+	*******
+	********
+	*********
+	**********
 
-range has saved a lot of our time. We can save even more if we omit
-naming the list:
+Funkcja range zaoszczędziła nam mnóstwo czasu. Możemy go zaoszczędzić
+jeszcze więcej, jesli pominiemy nazwanie listy:
 
-	>>>  for i in range(1, 5): ... print(i\*"\#") \# \#\# \#\#\#
-	>>>  \#\#\#\#
+	>>>  for i in range(1, 5):
+	... print(i\*"\#")
+	#
+	##
+	###
+	####
 
-When you use the keyword for, we do not have to use the list. for can
-handle the generator given by range. Hence, we can simplify our program
-even more:
+Gdy używamy słowa kluczowego for, nie musim uzywac listy. for obsługuje
+generator podany przez range. Dlatego możemy tak bardzo uprościć nasz program.
 
-	>>>  for i in range(1, 5): ... print(i\*"\#") \# \#\# \#\#\#
-	>>>  \#\#\#\#
-
+Nic nie stoi na przeszkodzie, by umieścić pętlę w innej pętli, a zatem zróbmy to!
+Pamiętajcie tylko, by użyć własciwej indentacji i zastosowac różne nazwy, np.
 Nothing prevents us to put one loop inside another loop, so let's do it!
-Just remember to use appropriate indentations and use different names
-e.g. `i` and `j` (or more associated with the list content):
+`i` i `j` (lub też lepiej odzwierciedlające zawartość listy):
 
-	>>>  for i in range(1, 3): ... for j in range(11, 14): ...
-	>>>  print(i, j) 1 11 1 12 1 13 2 11 2 12 2 13
+	>>>  for i in range(1, 3): 
+	.... for j in range(11, 14): 
+	........print(i, j) 
+	1 11 
+	1 12 
+	1 13 
+	2 11 
+	2 12 
+	2 13
 
-Here we have inner loop that iterates from 11 to 13 (remember, 14 is not
-included when using `range`) and outer loop that iterates from 1 to 2.
-As you can see, items from inner loop are printed twice, for each
-iteration of outer loop.
 
-Using this technique, we can repeat our piece of the Christmas tree:
+Mamy tu wewnętrzną pętlę iterującą od 11 do 13 (pamiętajcie, że 14 nie
+jest zawarte w sekwencji w przypadku funcji `range`) i zewnętrzną pętlę
+, która iteruje od 1 do 2.
+Ja widzicie, elementy z wewętrznej pętli są wydrukowane dwukrotnie, dla
+każdej iteracji pętli zewnętrznej.
+
+Używając tej techniki, możemy powtórzyć fragment naszej choinki:
 
 	>>>  for i in range(3): \# repeats 3 times ... for size in
 	>>>  range(1, 4): ... print(size\*"*")* *\*\** *\*\** *\**\*\*
