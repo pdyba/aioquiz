@@ -1318,7 +1318,6 @@ UserSummaryController.$inject = ['UserService', '$rootScope'];
 function UserSummaryController(UserService, $rootScope) {
     var vm = this;
     vm.allUsers = [];
-    vm.index = 0
 
     loadAllAcceptedUsers();
 
