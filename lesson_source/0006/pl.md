@@ -140,83 +140,109 @@ każdej iteracji pętli zewnętrznej.
 
 Używając tej techniki, możemy powtórzyć fragment naszej choinki:
 
-	>>>  for i in range(3): \# repeats 3 times ... for size in
-	>>>  range(1, 4): ... print(size\*"*")* *\*\** *\*\** *\**\*\*
+	>>>  for i in range(3):     # powtarzamy 3 razy 
+	.... for rozmiar in range(1, 4): 
+	........ print(rozmiar *"*")
+	*
+	**
+	***
+	*
+	**
+	***
+	*
+	**
+	***
 
-Before proceeding to the next chapter, create `xmas.py` file with this
-program and try to modify it so that each of the three repetitions of
-the first (external) loop, the second one was executed one more time.
-This way, we should get our half of the Christmas tree described at the
-beginning of the chapter.
+Zanim przejdziemy do kolejnego rozdziału, stwórzcie plik `choinka.py` 
+z powyższym programem i spróbujcie go tak zmodyfikować, by dla każdego
+z trzech powtórzeń pierwszej (zewnętrznej pętli), drugie było wykonane powtórnie.
+W ten sposób powinnysmy otrzymać choinkę opisaną na początku rozdziału.
 
-Defining a function
-===================
+Definiowanie funkcji
+====================
 
-We have already seen how functions solve many of our problems. However,
-they do not solve all our problems – or at least not exactly the way we
-would like functions to solve them. Sometimes we must solve a problem on
-our own. If it occurs often in our program, it would be nice to have a
-function that solves it for us.
+Zobaczyliśmy, w jaki sposób funkcje mogą rozwiązać wiele problemów. Jednakże
+nie rozwiązują one wszystkich - a przynajmniej nie w sposób, w jaki chcielibyśmy,
+by je rozwiązały. Czasami problem musimy rozwiązać sami. Jesli taka sytuacja powtarza
+się często, byłoby miło mieć funcję, która temu zaradzi.
 
-We can do it like this in Python:
+Możemy zrobić to w Pythonie w ten sposób:
 
-	>>>  def print\_triangle(n): ... for size in range(1, n+1):
-	>>>  ... print(size\*"*") ... >>> print\_triangle(3)* *\*\*
-	>>>  print\_triangle(5)* *\*\****\****\**
+	>>>  def wydrukuj_trójkąt(n):
+	.... for rozmiar in range(1, n+1):
+	........ print(rozmiar*"*") 
+	>>> wydrukuj_trójkąt(3)
+	*
+	**
+	***
+	>>> wydrukuj_trójkąt(5)
+	*
+	**
+	***
+	****
+	*****
 
-Let's have a closer look at the function print\_triangle:
+Przyjrzyjmy się bliżej funkcji wydrukuj_trójkąt:
 
-    def print_triangle(n):
-        for size in range(1, n+1):
-            print(size*"*")
+    def wydrukuj_trójkąt(n):
+        for rozmiar in range(1, n+1):
+            print(rozmiar*"*")
 
-The definition of a function always starts with the word def. Next, we
-give the name to our function. Between the parenthesizes, we indicate
-what names should be given to its arguments when the function is called.
-In the following lines we provide instructions to be executed when we
-use the function.
+Definicja funkcji zawsze zaczyna się od słowa def. Nastwpniw, musimy
+nadać nazwę naszej funkcji. W nawiasach wskazujemy, jakie nazwy powinny mieć 
+jej argumenty, gdy funkcja jest wywoływana. W kolejnych wierszach podajemy
+instrukcje do wykonania przez funkcję.
 
-As shown in the example, the instructions in the function may include
-names that we have given as the names of the arguments. The principle of
-operation is as follows - if you create a function with three arguments:
+Jak pokazano w przykładzie, instrukcje w funkcji mogą zawierać nazwy, które
+podaliśmy jako nazwy argumentów. Zasada działania wygląda następująco - 
+przykład dla funkcji z trzema argumentami:
 
-	>>>  def foo(a, b, c): ... print("FOO", a, b, c)
+	>>>  def foo(a, b, c): 
+	.... print("FOO", a, b, c)
 
-When you call this new function, you need to specify a value for each
-argument. This just like all the functions we called before:
+Gdy wywołasz tę nową funckję, musisz wskazać wartości każdego argumentu.
+Podobnie, jak w przypadku funkcji, które wywoływaliśmy wcześniej:
 
-	>>>  foo(1, "Ala", 2 + 3 + 4) FOO 1 Ala 9 >>> x = 42
-	>>>  foo(x, x + 1, x + 2) FOO 42 43 44
+	>>>  foo(1, "Ala", 2 + 3 + 4) 
+	FOO 1 Ala 9 
+	>>>  x = 42
+	>>>  foo(x, x + 1, x + 2) 
+	FOO 42 43 44
 
-Note that the argument name is just a label. If we change the value
-attached to a label for another one, the other labels will not change –
-the same happens with the arguments:
+Zauważcie, że nazwa argumentu to tylko etykieta. Gdy zmienimy wartość powiązaną 
+z etykietą na inną, pozostałe etykiety się nie zmienią. To samo dzieje
+się w przypadku argumentów:
 
-	>>>  def plus\_five(n): ... n = n + 5 ... print(n)
-	>>>  x = 43 >>> plus\_five(x) 48 >>> x 43
+	>>>  def dodaj_pięć(n): 
+	.... n = n + 5 
+	.... print(n)
+	>>>  x = 43 
+	>>> dodaj_pięć(x) 
+	48 
+	>>> x 
+	43
 
-It is as normal names (variables) we saw before. There are only two
-differences:
+Są to zwykłe nazwy (zmienne), które widzieliśmy wcześniej. Sa tylko
+dwie różnice:
 
-Firstly, argument names of a function are defined at each function call,
-and Python attaches the corresponding argument value to to each of the
-argument names it just created.
+Po pierwsze, nazwy argumentów funkcji sa definiowane przy każdym wywołaniu funkcji, 
+a Python łączy odpowiednią wartość argumentu z każdą nazwą argumentu, jaką
+właśnie stworzył.
 
-Secondly, the argument names are not available outside the function as
-they are created when the function is called and forgotten after the
-call. That is, if you try now to access the argument name `n` we defined
-in our plus\_five function outside of the function's code, Python tells
-you it is not defined:
+Po drugie, nazwy argumentów nie są dostępne na zewnątrz funkcji, ponieważ
+są tworzone, gdy funkcja jest wywoływana i zapominane, gdy funkcja zakończy
+swe działanie. Czyli, jeśli spróbujesz teraz powołać się na nazwę argumentu 
+`n` zdefiniowaną w funkcji dodaj_pięć poza kodem funkcji, Python poinformuje 
+Cię, że nie jest ona zdefiniowana:
 
 	>>>  n Traceback (most recent call last): File
 	>>>  "<stdin>", line 1, in <module> NameError: name 'n' is not
 	>>>  defined
 
-That is, our prim and proper Python cleans up his room at the end of a
-function call :)
+Czyli nasz porządnicki Python sprząta swój pokój po każdym wywołaniu funkcji :)
 
-Returning values
-----------------
+Zwracanie wartości
+------------------
 
 The functions which we have previously used had one important property
 that is missing in the functions created by ourselves - they gave back
