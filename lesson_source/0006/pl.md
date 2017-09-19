@@ -1,68 +1,83 @@
 Pętla for: Drzewko Bożonarodzeniowe
 ===================================
 
-Idą święta, czas prezentów i choinki. As an exercise, we will try
-to draw a tree in the console.
+Idą święta, czas prezentów i choinki. Żeby poćwiczyć, spróbujemy narysować
+drzewko w naszej konsoli.
 
-We are going to start from the most basic version of this exercise so
-that we can later extend it to a more functional version. As an
-incentive, let’s make a half of the Christmas tree:
+Zaczniemy od najbardziej podstawowej wersji ćwiczenia, aby potem rozszerzyć
+je do bardziej funkcjonalnej wersji. Na pczątek zróbmy połowę choinki:
 
-It doesn’t look bad, but we have had to do a lot of typing. What if we
-would like to have a smaller tree? Or a bigger one, composed of hundreds
-of elements to be printed on a page size A0? Definitely too much typing,
-even if we would do it by multiplying strings (`"*" * 100`, and so on.).
-Obviously it is such a repetitive activity that the program can do it
-for us.
+    .. testcode::
 
-The `for` loop
-==============
+    print("*")
+    print("**")
+    print("***")
+    print("*")
+    print("**")
+    print("***")
+    print("****")
+    print("*")
+    print("**")
+    print("***")
+    print("****")
+    print("*****")
+    print("******")
 
-Loops will serve us to deal with such repetitive actions. Staying in the
-Christmas atmosphere, imagine for a moment that we are the Santa Claus
-and we have to deliver Christmas gifts to everyone.
 
-As you know, Santa has a list of people who deserve gifts. The simplest
-approach to guarantee that no one is omitted, will be to check
-sequentially the list and deliver their gifts to one after another.
-Aside from the physical aspects of the task, the procedure of delivering
-the gifts could look like this:
+Wygląda nieźle, ale musieliśmy dużo pisać. I co, gdybyśmy chcieli mniejsze drzewko?
+Albo większe, zbudowane z setek elementów na stronie rozmiaru A0?
+Zdecydowanie za dużo pisania, nawet jesli chcielibyśmy wykorzystać
+mnożenie stringów  (`"*" * 100`, i tak dalej).
+Ale przecież jest to tak powtarzalna czynność, że możemy sprawić, by
+program zrobił to za nas.
 
-    Let the People List contain people who should receive gifts.
+Pętla `for`
+===========
 
-    For each person (known as the Person), which is on the list of people:
-        Provide a gift to the Person
+Pętle służa do poradzenia sobie z takimi powtarzalnymi czynnościami.
+Pozostając w świątecznej atmosferze, wyobraźmy sobie, że jesteśmy Świętym
+Mikołajem i musimy przynieść każdemu prezent.
 
-Formatting of text above is not accidental. This is actually a disguised
-program in Python:
+Jak wiecie, Święty Mikołaj ma listę osób, które zasługują na prezent.
+Najprostszy sposób, by upewnić się, że nikt nie zostanie pominięty, to
+sprawdzanie kolejno listy i dostarczanie prezentów po kolei.
+Poza fizycznym aspektem tego zadania, procedura dostarczania prezentów 
+mogłaby wyglądać tak:
 
-    gift_list = people_who_deserve_gifts()
+    Niechaj Lista Ludzi zawiera ludzi, którzy powinni dostać prezenty.
 
-    for person in gift_list:
-        deliver_gift(person)
-        print("Gift delivered to:", person)
-    print("All gifts delivered")
+    Dla każdej osoby (zwanej Osobą), która jest na Liście Ludzi:
+    	Dostarcz prezent do Osoby
+    
+Formatowanie powyższego tekstu nie jest przypadkowe. Jest to mianowicie
+program Pythona w przebraniu:
 
-Most of the things should look familiar to you. We are calling here two
-functions: people\_who\_deserve\_gifts and deliver\_gift - their inner
-workings are only known by Santa Claus. The result of the first one can
-be named gift\_list, so that we could refer to this value later ( the
-same as described above).
+    Lista_Ludzi = ludzie_którzy_zasłużyli_na_prezenty()
 
-A new element is a loop itself, which consists of:
+    for osoba in lista_ludzi:
+        dostarcz_prezent(osoba)
+        print("Prezent dostarczony do:", osoba)
+    print("Dostarczono wszystkie prezenty")
 
--   the word for,
--   names we want to give to the next elements,
--   the word in,
--   the value of a list or the name that refers to it.
--   the content indented of one level (the same way as in the case of
-    if).
+Większość rzeczy powinna być Ci znajoma. Uruchamiamy tutaj dwie funkcje:
+ludzie_którzy_zasłużyli_na_prezenty() i dostarcz_prezent. Ich działanie
+jest znane tylko Świętemu Mikołajowi. Rezultat pierwszej funkcji możemy nazwać
+lista_prezentów, abyśmy mogli odwołać się do niej później (tak jak opisaliśmy
+powyżej).
 
-The range function does not directly create a list, but it returns a
-generator. Generators generate the elements of a sequence one at a time,
-thereby avoiding to store the full sequence in memory. In order to
-obtain a list of the sequence, we use the function list. If we skip list
-call, the result will look like this:
+Nowym dla nas elementem jest sama pętla, która składa się z:
+
+-   słowa for,
+-   nazwy, jaką chcemy nadać kolejnym elementów,
+-   słowa in,
+-   wartości listy lub nazwie, która się do niej odnosi,
+-   zawartości wciętej o jeden poziom (w taki sam sposób jak w przypadku if).
+
+Funcja range nie tworzy listy bezpośrednio, ale zwraca tzw. generator.
+Generatory generują jeden na raz element sekwencji, dzięki czemu unikamy 
+przechowywania w pamięci całej sekwencji. W celu uzyskania listy sekwencji, 
+używamy funkcji list. Jeśli opuścimy wywołanie funkcji list, rezultat będzie
+wyglądał tak:
 
 	>>>  range(1, 4) range(1, 4)
 
