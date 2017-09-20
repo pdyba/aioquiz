@@ -1,7 +1,7 @@
 Instalacja
 ============
 
-Podczas naszego warsztatu będziecie potrzebowali interpretera Python 3.4. 
+Podczas naszego warsztatu będziecie potrzebowali interpretera Python 3.6. 
 Poniżej znajdziecie kilka wskazówek jak sprawdzić, czy macie już zainstalowany 
 ten interpreter i jak go zainstalować wraz z kilkoma innymi potrzebnymi narzędziami.
 
@@ -24,7 +24,7 @@ wierszu poleceń:
 
     :::bash
     $ python --version
-    Python 3.5.0
+    Python 3.6.2
 
 Jesli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
 
@@ -33,7 +33,7 @@ Jesli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
 Wprowadźcie w wierszu poleceń:
 
     :::bash
-    sudo apt-get install python3.4
+    sudo apt-get install python3.6
 
 
 ### Fedora
@@ -41,7 +41,7 @@ Wprowadźcie w wierszu poleceń:
 Wprowadźcie w wierszu poleceń:
 
     :::bash
-    sudo yum install python3.4
+    sudo yum install python3.6
 ****
 
 ### OS X
@@ -97,8 +97,163 @@ pozwala zmieniać aktualny folder na inny. Na przykład jeśli jesteście w
 `C:\Users\Name`, możecie wejść do katalogu ze swoimi dokumentami wpisując
 `cd Documents`. Wykonując komendę `dir`, zobaczycie coś bardzo podobnego.
 Natomiast komenda `cd..` przeniesie Was o jeden poziom wyżej w drzewku
-katalogów, czyli do katalogu, który..................................
-up in the directory tree, that is, to the directory that cont
+katalogów, czyli do katalogu, który zawiera Twój bieżący katalog.
+
+``mkdir directory``
+tworzy nowy katalog.
+
+
+Środowisko wirtualne
+--------------------
+
+Musimy teraz wybrać katalog dla naszego wirtualnego środowiska. Srodowisko wirtualne pozwoli nam
+odizolować naszą pracę od reszty systemu. Na przykład możecie wybrać swój katalog domowy (użytkownika).
+
+ Dla Windows 7 ścieżka do katalogu domowego użytkownika ``Ala`` będzie wyglądać tak:
+``C:\Users\Ala\`` . Możecie wybrać inny katalog, ale ważne, aby zapamiętać, gdzie zachowaliście plik.
+Musi być łatwo dostępny, bo będziemy go często używać.
+
+Na przykład jeśli wasz domowy katalog to: ``C:\Users\lrekucki``, wiersz poleceń będzie wyglądał tak:
+
+.. code-block:: bat
+
+    :: Windows
+    C:\Users\lrekucki> C:\Python34\python -m venv workshops
+
+.. code-block:: sh
+
+    # Linux or Mac
+    ~$ python3.4 -m venv workshops
+
+.. Uwaga::
+    Ubuntu 14.04 ma błąd (https://bugs.launchpad.net/ubuntu/+source/python3.4/+bug/1290847), który sprawia
+    że moduł `venv` Pythona 3.4 nie działa podczas instalacji za pomocą `pip`.
+    Aby ominąć ten kłopot, użyjcie następujących komend, by stworzyć środowisko wirtualne:
+    
+        ~$ python -m venv --without-pip workshops
+        ~$ source workshops/bin/activate
+        ~$ wget https://bootstrap.pypa.io/get-pip.py
+        ~$ python get-pip.py
+        ~$ pip --version
+
+    Sprawdźcie _`https://pip.pypa.io/en/latest/installing.html` aby uzyskać więcej informacji o instalacji pip.
+
+W waszym katalogu domowym stworzymy katalog ``workshops`` zawierający tak zwane  “wirtualne środowisko”.
+Musimy je teraz aktywować:
+
+.. code-block:: bat
+
+    :: Windows
+    C:\Users\lrekucki> workshops\Scripts\activate
+
+.. code-block:: sh
+
+    # Linux or Mac
+    ~$ source workshops/bin/activate
+
+Komenda ``python`` uruchimi właściwą wersję Pythona, więc nie będziemy musieli wprowadzać
+pełnej ścieżki, ani wersji.
+
+Upewnij się, że uzyskałeś prawidłową konfigurację:
+
+
+.. code-block:: bat
+
+    :: Windows
+    (workshops) C:\Users\lrekucki>where python
+    C:\Users\lrekucki\workshops\Scripts\python.exe
+    ...
+
+    (workshops) C:\Users\lrekucki>where pip
+    C:\Users\lrekucki\workshops\Scripts\pip.exe
+    ...
+
+    (workshops) C:\Users\lrekucki>python --version
+    3.6.2
+
+.. code-block:: sh
+
+    # Linux or Mac
+    (workshops) ~$ which python
+    /home/lrekucki/workshops/bin/python
+    (workshops) ~$ which pip
+    /home/lrekucki/workshops/bin/pip
+    ...
+
+    (workshops) ~$ python --version
+    3.6.2
+
+
+.. _python.org: http://python.org/download/releases/3.6.2/
+
+.. Uwaga::
+    Być może masz już w swoim systemie dostępną komendę ``pip``. Pamiętaj o sprawdzaniu, którą wersję pip używasz
+    przy pomocy komendy: ``pip --version``.
+    Możesz to wykonac uruchamiając jedną z tych komend:
+    
+    .. code-block:: sh
+
+        ~$ pip --version
+        ~$ pip3 --version
+        ~$ pip3.4 --version
+
+    Otrzymasz wersję pip oraz ścieżkę do katalogu twojego środowiska wirtualnego.
+    
+    Jeśli nie możesz odszukać swojego ``pip`` albo masz problem po wpisaniu ``which pip`` (``where pip`` na windows),
+    byc może musisz re-instalować pip:
+
+    .. code-block:: sh
+
+        ~$ python -m pip uninstall pip
+        ~$ python -m ensurepip
+
+
+Podsumowanie
+------------
+
+Instalacja nowego środowiska wirtualnego:
+
+.. code-block:: bat
+
+    :: Windows
+    C:\Users\lrekucki> C:\Python34\python -m venv workshops
+
+.. code-block:: sh
+
+    # Linux or Mac
+    ~$ python3.4 -m venv workshops
+
+Aktywacja środowiska wirtualnego:
+
+.. code-block:: bat
+
+    :: Windows
+    C:\Users\lrekucki> workshops\Scripts\activate
+
+.. code-block:: sh
+
+    # Linux or Mac
+    ~$ source workshops/bin/activate
+
+Upewnij się, że używasz prawidłowej wersji Pythona:
+
+.. code-block:: sh
+
+    (workshops) ~$ python --version
+    3.6.2
+
+
+IPython
+-------
+
+Opcjonalnie, możesz zainstalować ``IPython``, który oferuje większą przejrzystość
+i wyższy komfort korzystania z Pythona w konsoli.
+
+Instalacja ``IPython``:
+
+.. code-block:: sh
+
+    (workshops) ~$ pip install ipython
 
 
 [python.org](http://python.org)
