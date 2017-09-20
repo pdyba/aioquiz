@@ -92,6 +92,8 @@ ENV/
 
 ./static/templates.js
 
+./config/config_dev.py
+./config/config_prod.py
+
+
 node_modules
-
-
