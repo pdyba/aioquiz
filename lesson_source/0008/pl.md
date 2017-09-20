@@ -1,0 +1,1 @@
+Podsumowanie: ćwiczenia
