@@ -161,6 +161,8 @@ class UserView(HTTPMethodView):
     async def put(self, request, current_user):
         try:
             req = request.json
+            if 'admin' in req:
+                del req['admin']
             await current_user.update_from_dict(req)
             return json({
                 'success': True,
