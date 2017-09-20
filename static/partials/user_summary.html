@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row" ng-show="$parent.globals.currentUser.mentor || $parent.globals.currentUser.organiser">
+        <div class="col-lg-12">
+            <h1 class="page-header">Users Summary</h1>
+        </div>
+        <h3>All confirmed users:</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Surname</th>
+                    <th>Name</th>
+                    <th>OS</th>
+                    <th>What_can_you_bring</th>
+                    <th>E-mail</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="user in vm.allUsers"
+                    ng-class="{'danger': user.organiser, 'success': user.operating_system === 'MacOS', 'warning': user.operating_system === 'Linux'}">
+                    <td>{{ $index +1}}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>{{ user.name }} </td>
+                    <td>{{ user.operating_system }}</td>
+                    <td>{{ user.what_can_you_bring }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

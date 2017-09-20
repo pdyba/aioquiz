@@ -24,6 +24,7 @@ from views import ChangeActiveView
 from views import ConfigView
 from views import EmailView
 from views import ExercisesView
+from views import ForgotPasswordView
 from views import INeedHelpView
 from views import LessonView
 from views import LiveQuizManageView
@@ -112,6 +113,8 @@ app.add_route(ConfigView.as_view(), '/api/admin_config')
 app.add_route(INeedHelpView.as_view(), '/api/i_need_help')
 
 app.add_route(RegistrationActiveView.as_view(), '/api/reg_active')
+
+app.add_route(ForgotPasswordView.as_view(), '/api/forgot_password')
 
 app.add_route(ExercisesView.as_view(), '/api/exercise')
 app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')

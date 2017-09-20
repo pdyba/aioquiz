@@ -97,6 +97,9 @@ class Users(Table):
         self.password = hash_string(self.password)
         return await super().create()
 
+    async def set_password(self, password):
+        self.password = hash_string(password)
+
     @classmethod
     async def get_user_by_session_uuid(cls, session_uuid):
         try:
