@@ -26,7 +26,6 @@ wierszu poleceń:
     $ python --version
     Python 3.5.0
 
-
 Jesli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
 
 ### Ubuntu
