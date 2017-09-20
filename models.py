@@ -153,7 +153,7 @@ class Quiz(Table):
         Column('time_created', DateTime(), default=datetime.utcnow),
     ]
 
-    async def get_question(self, question_order=0):
+    async def get_question(self, question_order=1):
         if question_order + 1 >= await self.get_question_amount():
             return {'last': True, 'msg': 'That was the last question in the quiz.'}
         qq = await QuizQuestions.get_first_by_many_field_value(
@@ -215,7 +215,6 @@ class QuizQuestions(Table):
         Column('question', ForeignKey('question')),
         Column('question_order', Integer(), default=0),
     ]
-    _unique = ['quiz', 'question_order']
 
 
 class LiveQuiz(Table):

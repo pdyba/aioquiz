@@ -1,274 +1,268 @@
-Stringi i jak się nimi bawić
-============================
-
-Ostatnią kwestią, o której wspomnieliśmy wcześniej był problem ze zbyt
-wieloma cyframi po przecinku w otrzymanym BMI. Z trzech problemów, jakie
-mieliśmy, ten jest najłatwiejszy do rozwiązania.
-
-Dlatego właśnie zostawiliśmy go na koniec naszej "przygody" 
-z kalkulatorem BMI. Wiemy, że stringi można dodawać do siebie i mnożyć
-przez liczby całkowite. Zobaczycie, że możemy je także formatować.
-Ale zanim to zrobimy, potrzebny jest nam jeszcze jeden typ danych 
-(poza stringami i liczbami, które już poznaliśmy).
-
-Tuple
-=====
-
-Na początku wspomnieliśmy, że nie możemy używać przecinków w liczbach,
-bo będziemy potrzebowali ich w tuplach. Doszliśmy właśnie do tego
-momentu:
-
-	>>>  1, 2, 3
-	(1, 2, 3) 
-	>>> ("Ala", 15)
-	('Ala', 15)
-	>>>  x = 1,5 
-	>>> print(x) 
-	(1, 5)
-
-Tupla to nic innego, jak zbiór kilku wartości. Wartości te odddzielamy
-przecinkami. Zbiór najczęściej otaczamy nawiasami zwykłymi, ale nie jest to
-konieczne. Chyba, że chcemy objąć zbiorem zero elementów (jakkolwiek 
-dziwnie to może brzmieć):
-
-	>>> () 
-	()
-
-Tuple możemy łączyć:
-
-	>>> nazwy = ("Paulina", "Kowalska") 
-	>>> szczegóły = (27, 1.70) 
-	>>> nazwy + szczegóły 
-	('Paulina', 'Kowalska', 27, 1.7)
-
-Możemy w nich także zawrzeć inne tuple, np. punkty na mapie możemy
-zgrupować następująco:
-
-	>>>  punkt = ("Nazwa punktu", (x, y))
-
-gdzie `x` i `y` to liczby.
-
-Możemy odwoływać się do tak zgrupowanych wartości poprzez ich kolejną
-pozycję w tupli (zaczynając od zera), np.:
-
-	>>> p = (10, 15)
-	>>> p[0] # pierwsza wartość 
-	10
-	>>> p[1] # druga wartość
-	15
-
-Proste formatowanie
-===================
-
-Wracając do naszego programu: obecnie wynik jest zredukowany do
-pojedynczej linii. Chcemy zaś stworzyć taki kalkulator BMI, który
-poda nam wynik oraz przedział, w którym się on mieści, czyli:
-
-    Twój BMI wynosi: 21.39 (prawidłowa waga)
-
-Zmodyfikuj swój istniejący program tak, by obliczone BMI było dostępne
-pod zmienną `bmi`, a nazwa przedziału pod nazwą `kategoria`.  Użyj print,
-aby wyświetlić otrzymany wynik:
-
-    .. testsetup::
-
-    bmi = 21.387755102040817
-    kategoria = "prawidłowa waga"
-    
-    .. testcode::
-
-    print("Twój BMI wynosi:", bmi, "(" + kategoria + ")")
-    
-    .. testoutput::
-    :hide:
-
-    Twój BMI wynosi: 21.387755102040817 (prawidłowa waga)
-
-
-Cóż, prawie... Nadal mamy zbyt wiele liczb po przecinku. Napotkamy
-także problem, jeśli będziemy chcieli utworzyć taki string i nadać 
-mu nazwę, bo użyliśmy funkcji print oddzielając składniki. Na szczęście
-jest lepszy sposób:
-
-    >>> bmi = 21.387755102040817
-    >>> kategoria = "prawidłowa waga"
-    >>> wynik = "Twój BMI wynosi: %f (%s)" % (bmi, kategoria)
-    >>> wynik
-    'Twój BMi wynosi: 21.387755 (prawidłowa waga)'
-    >>> print(wynik)
-    Twój BMI wynosi: 21.387755 (prawidłowa waga)
-
-Użyliśmy tutaj stringa i tupli połączonych znakiem `%`. String jest 
-szablonem, który zostaje uzupełniony wartościami z tupli. Miejsca,
-które mają być uzupełnione są oznaczone znakiem procentu (`%`). Litera
-następująca po nim definiuje typ zmiennej, jaką chcemy wstawić. Liczby
-całkowite są tu reprezentowane przez `i` (ang. **integer**). Możemy 
-również użyć `d` jako **decimal** (z ang. liczba dziesiętna). Stringi są
-reprezentowane jako `s` od **string**, a liczby zmiennoprzecinkowe
-jako `f` od **float** (ang. pływać, unosić się):
-
-	>>>  "String: %s, Numery: %d %f" % ("Ala", 10, 3.1415)
-	'String: Ala, Numery: 10 3.141500'
-
-Teraz, zamiast dziewięciu miejsc po przecinku, za każdym razem otrzymamy 
-sześć, ale formatowanie ma tę zaletę, że umożliwia nam kontrolę nad
-tym, poprzez wstawianie dodatkowej informacji pomiędzy znak `%` a literę
-`f`, np. jeśli chcielibyśmy wyświetlać tylko dwa miejsca po przecinku,
-zamiast sześciu:
-
-	>>> "%.2f" % 3.1415 
-	'3.14' 
-	>>> "%.2f" % 21.387755102040817 
-	'21.39'
-
-Istnieje mnóstwo opcji formatowania. Niestety nie pokażemy ich tu wszystkich.
-Jedna z najbardziej użytecznych to wyrównywanie do określonej ilości
-znaków:
-
-    .. testcode::
-
-    WIDTH = 28
-
-    print("-" * WIDTH)
-    print("| Imię i nazwisko |  Waga  |")
-    print("-" * WIDTH)
-    print("| %15s | %6.2f |" % ("Łukasz", 67.5))
-    print("| %15s | %6.2f |" % ("Pudzian", 123))
-    print("-" * WIDTH)
-    
-    .. testoutput::
-
-    --------------------------------
-    |    Imię nazwisko    |  Waga  |
-    --------------------------------
-    |              Łukasz |  67.50 |
-    |             Pudzian | 123.00 |
-    --------------------------------
-
-
-Możemy również wyrównać string do lewej, umieszczając `-` przed
-ilością liter:
-
-    .. testcode::
-
-    WIDTH = 28
-
-    print("-" * WIDTH)
-    print("| Imię i nazwisko |  Waga  |")
-    print("-" * WIDTH)
-    print("| %-15s | %6.2f |" % ("Łukasz", 67.5))
-    print("| %-15s | %6.2f |" % ("Pudzian", 123))
-    print("-" * WIDTH)
-    
-    .. testoutput::
-
-    -------------------------------
-    |    Imię nazwisko  |   Waga  |
-    -------------------------------
-    | Łukasz            |  67.50  |
-    | Pudzian           | 123.00  |
-    -------------------------------
-
-
-Wyrównanie do centurm pozostawiamy Tobie :).
-
-Formatowanie bardziej po Pythonowemu
-====================================
-
-String Slicing
+Logika Pythona
 ==============
 
-Spróbuj: 
+Sprawdzanie warunków
+--------------------
 
-    >>> text = “ala ma kota” 
-    >>> text[0]     # string[int] 
-    >>> text[2:]    # string[int:] 
-    >>> text[:5]    # string[:int] 
-    >>> text[3:7]   # string[int:int] 
-    >>> text[::2]   # string[::int]
-    >>> text[::-1]  # string[::int]
-    >>> text[4:100] # string[int:int] :)
+Porównanie: prawda, czy fałsz?
+------------------------------
 
-Pamiętaj! Twój komputer zawsze liczy od 0.
+Porozmawiajmy o porównaniach. Spójrzmy, jak się one zachowują podczas
+krótkiej lekcji matematyki:
+
+	>>>  2 > 1 
+	True 
+	>>> 1 == 2 
+	False 
+	>>> 1 == 1.0 
+	True 
+	>>> 10 >= 10 
+	True 
+	13 <= 1 + 3
+	False 
+	>>> -1 != 0 
+	True
+
+Rezultatem porównania jest zawsze `True` lub `False`. Porównania mogą
+być włączone w bardziej złożone wyrażenia przy użyciu słów and i or:
+
+	>>>  x = 5 
+	>>>  x < 10 
+	True 
+	>>>  2*x > x 
+	True 
+	>>>  (x < 10) and (2*x > x) 
+	True 
+	>>>  (x != 5) and (x != 4)
+	False 
+	>>>  (x != 5) and (x != 4) or (x == 5) 
+	True
+
+Python Love - ćwiczenie
+-----------------------
+
+Porozmawiajmy o miłości z naszym cudownym wężem. Napiszcie to w swoim 
+interpreterze:
+
+	>>>  import this 
+	>>>  love = this 
+	>>>  love is this 
+	>>>  love is not True or False 
+	>>>  love is love
+
+W Pytonie możemy porównywać używając kilku różnych operatorów:
+
+-   ==
+-   is
+-   !=
+-   not
+-   \>=
+-   <=
+-   in
+
+i łączyć wyrażenia za pomocą:
+
+-   and
+-   or
+
+Czy is to to samo co == ?
+-------------------------
+
+Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
+
+    :::python3
+    >>> 1000 is 10**3 
+    >>> 1000 == 10**3
+    >>> "a" is "a" 
+    >>> "aa" is "a" * 2 
+    >>> x = "a" 
+    >>> "aa" is x * 2 
+    >>> "aa" == x * 2
+    >>> [1, 2] == [1, 2]
+    >>> [1, 2] is [1, 2]
+
+Wniosek: 'is' zwróci True, jeśli dwie zmienne wskazują na ten sam obiekt,
+a '==' zwróci True jeśli obiekty, do których odnoszą się zmienne są równe.
+
+BMI: Gruby, czy nie? Niechaj Python zadecyduje za Ciebie
+--------------------------------------------------------
+
+Przejdźmy do naszego kolejnego problemu. Chcemy, aby program wydrukował
+właściwą klasyfikację dla obliczonego BMI, przy użyciu poniższej tabeli:
+
+  	BMI              Klasyfikacja
+  	-------------- ----------------
+  	< 18,5         niedowaga
+  	18,5 – 24,99   prawidłowa waga
+  	25,0 – 29,99   nadwaga
+  	≥ 30,0         otyłość
+
+Musimy użyć "komendy warunkowej' if. Wykona ona dalszy ciąg programu
+zależnie od podanego warunku:
+
+Ćwiczenie - prosty pythonowy kalkulator
+---------------------------------------
+
+Napiszcie skrypt stanowiący prosty kalkulator, który pobierze dwie
+liczby oraz znak operacji matematycznej (+, -, \*, /) i wyświetli
+przyjemny string, który pokaże całe równanie oraz rozwiązanie. 
+Pamiętajcie: string + string = nowy string :-)
+Przykład:
+
+	>>>  'Wprowadź pierwszą liczbę' 
+	10 
+	>>>  "Wprowadź znak operacji matematycznej (+, -, \*, /)" 
+	+ 
+	>>> 'Wprowadź drugą liczbę'
+	5
+	'10 + 5 = 15'
+
+Indentacja
+----------
+
+Kolejną rzeczą, na którą powinniście zwrócić uwagę w kodzie jest indentacja.
+Otwórzcie interpreter i wprowadźcie taki warunek:
+
+    >>> if 2 > 1:
+    ...
+
+Do tej pory nic się nie wydarzyło, na co wskazują kropki `...`, zamiast
+znaku ponaglenia `>>>`, który widzieliśmy do tej pory. Python spodziewa się,
+że podamy dalsze instrukcje, które mają być wykonane, gdy warunek
+`2 > 1` okaże się prawdziwy. Spróbujmy sprawić, by Python wydrukował "OK":
 
 
-Metody
-======
+    :::python3
+    >>> if 2 > 1:
+    ... print("OK")
+      File "<stdin>", line 2
+        print("OK")
+            ^
+    IndentationError: expected an indented block
 
-Istnieje obecnie mnóstwo metod formatowania stringów:
+Niestety, nie powiodło się. Python musi wiedzieć, czy instrukcja, którą wpisaliśmy
+jest kontynuacją warunku if, czy jest kolejną instrukcją nie związaną z warunkiem.
+W tym celu musimy w kodzie zastosować indentację:
 
-1.  capitalize() - zamienia pierwszą literę stringa z małej na wielką
-2.  count(str, beg= 0,end=len(string)) - liczy, ile razy str pojawia się
-    w stringu lub podstringu stringa, gdzie beg to początowy index, a end
-    to index kończący.
-3.  endswith(suffix, beg=0, end=len(string)) - ustala, czy string lub
-    podstring striga kończy się podanym przyrostkiem (suffix), zwraca 
-    true, jeśli tak lub false, jeśli nie.
-4.  find(str, beg=0 end=len(string)) - ustala, czy str pojawia się w stringu
-    lub w podstringu stringa, gdy podano index początkowy beg i index końcowy
-    end; zwraca index, jeśli odnajdzie str, a w przeciwnym razie zwraca -1.
-5.  index(str, beg=0, end=len(string)) - podobna do metody find(), ale zgłasza błąd,
-    gdy nie znajdzie str.
-6.  isalnum() - zwraca true, jeśli string ma co najmniej jeden znak i wszystkie
-    znaki są alfanumeryczne, jeśli nie - zwraca false.
-7.  isalpha() - zwraca true, jeśli string ma conajmniej jeden znak i wszystkie 
-    znaki są literami, jeśli nie - zwraca false.
-8.  isdigit() - zwraca true, jeśli string zawiera tylko cyfry lub false,
-    jeśli nie zawiera.
-9.  islower() - zwraca true, jeśli string zawiera co najmniej jedną literę
-    i wszystkie litery są małe. W przeciwnym razie zwraca false.
-10. isnumeric() - zwraca true, jeśli string unicode zawiera tylko cyfry,
-    zaś false w przeciwnym razie.
-11. isspace() - zwraca true, jeśli string zawiera wyłącznie spacje, zaś false
-    w przeciwnym razie.
-12. istitle() - zwraca true, jeśli wielkość liter w stringu odpowiada zasadom
-    tworzenia tytułów (w ortografii anglojęzycznej), zaś false w przeciwnym wypadku.
-13. isupper() - zwraca true, jeśli string zawiera co najmniej jedną literę
-    i wszystkie litery są wielkie. W przeciwnym razie zwraca false.
-14. join(seq) - scala (łączy) sekwencję stringów dodając pomiędzy te stringi
-    wybrany separator.
-15. len(string) - zwraca długość stringa.
-16. lower() - zamienia wszystkie wielkie litery stringa na małe.
-17. lstrip() - usuwa wszystkie spacje z początku stringa.
-18. max(str) - zwraca najwyższą literę alfabetu ze stringa str.
-19. min(str) - zwraca najniższą literę alfabetu ze stringa str.
-20. replace(old, new \[, max\]) - zastępuje wszystkie wystąpienia stringa old
-    stringiem new, a w przypadku podania ilości wystąpień max, zastępuje 
-    wystąpienia w ilości max.
-21. rfind(str, beg=0,end=len(string)) - podobna do metody find(), ale przeszukuje
-    od końca stringa wstecz.
-22. rindex( str, beg=0, end=len(string)) - podobna do metody index(), ale 
-    przeszukuje od końca stringa wstecz.
-23. rstrip() - usuwa wszystkie spacje na końcu stringa.
-24. split(str="", num=string.count(str)) - rozbija string na podstawie
-    podanego rozgranicznika (domyślnie spacji) i zwraca listę podstringów.
-    Po podaniu parametru num rozbija string tylko do ilości num podstringów.
-25. splitlines( num=string.count('n')) - rozbija string na wszystkie (lub 
-    na podaną ilość num) NOWE LINIE i zwraca listę linii z usuniętym znakiem NOWA LINIA.
-26. startswith(str, beg=0,end=len(string)) - dstala, czy string lub podstring stringa
-    (jeśli początkowy index beg i końcowy index end zostały podane) zaczyna się 
-    od podstringu str; zwraca true, a w przeciwnym razie zwraca false.
-27. strip(\[chars\]) - przeprowadza jednocześnie metody lstrip() i rstrip() na stringu.
-28. swapcase() - zamienia litery wielkie na małe, a małe na wielkie.
-29. title() - zwraca "tytułową" wersję stringu, czyli wszystkie słowa zaczynające się 
-    wielką literą, a pozostałe elementy małą literą (według anglojęzycznej ortografii).
-30. upper() - zamienia wszystkie małe litery stringa na wielkie.
 
-Istnieje jeszcze ponad 10 innych metod, ale są one znacznie bardziej zaawansowane.
+	>>>  if 2 > 1: 
+	..... print("OK") 
+	OK
 
+Wystarczy, że wpiszemy jedną spację lub naciśniemy `TAB`. Ważne jest jednak,
+żeby wszystkie linie, które chcemy, by były wykonane po kolei miały identyczną
+indentację:
+
+
+    :::python3
+    >>> if -1 < 0:
+    ...  print("A")
+    ...   print("B")
+      File "<stdin>", line 3
+        print("B")
+        ^
+    IndentationError: unexpected indent
+
+    >>> if -1 < 0:
+    ...     print("A")
+    ...   print("B")
+      File "<stdin>", line 3
+        print("B")
+                ^
+    IndentationError: unindent does not match any outer indentation level
+
+    >>> if -1 < 0:
+    ...... print("A")
+    ...... print("B")
+    A
+    B
+
+By uniknąć chaosu, większość programistów używa czterech spacji dla
+każdego poziomu indentacji. Zróbmy tak samo:
+
+	>>>  if 2 > 1: 
+	........ if 3 > 2: 
+	............ print("OK") 
+	........ else:
+	............ print("FAIL") 
+	.... print("DONE") 
+	OK 
+	DONE
+
+A co, jeśli nie?
+----------------
+
+Właściwie moglibyśmy napisać nasz program tylko używając if:
+
+    :::python3
+    if bmi < 18.5:
+        print("niedowaga")
+    if bmi >= 18.5:
+        if bmi < 25.0:
+            print("prawidłowa waga")
+    if bmi >= 25.0:
+        print("nadwaga")
+
+Możemy także użyć else i elif, aby uniknąć powtarzania takich samych warunków
+i poprawić czytelność kodu. W bardziej złożonych programach może nie być
+od początku oczywiste, że pewien warunek jest przeciwnością poprzedniego.
+
+Używając else mamy gwarancję, że podane instrukcje będą wykonane tylko,
+jeśli instrukcje podane pod if nie zostały wykonane:
+
+    :::python3
+    if bmi < 18.5:
+        print("niedowaga")
+    else:
+        # jeśli Twój program wykona tę istrukcję, bmi na pewno jest >= 18.5!
+        if bmi < 25.0:
+            print("prawidłowa waga")
+        else:
+            # teraz już na pewno bmi jest >= 25.0, nawet nie musimy sprawdzać
+            print("nadwaga")
+
+Zwróć szczególną uwagę na wszystkie indentacje. Każde użycie else spowoduje
+zwiększenie indentacji w Twoim kodzie. 
+To bardzo irytujące, gdy musisz sprawdzać kilka lub jakiś tuzin warunków, 
+które się wzajemnie wykluczają. Stąd twórcy Pythona dodali małe 
+'ulepszenie' w formie elif - instrukcję, która pozwala Ci sprawdzić
+niezwłocznie kolejny warunek:
+
+    :::python3
+    if n < 1:
+        print("jeden")
+    elif n < 2:
+        # jeśli n nie było < 1, a teraz n jest < 2
+        print("dwa")
+    elif n < 3:
+        # jeśli żaden z dwóch wcześniejszych warunków nie był prawdziwy,
+        # czyli n >= 1 i n>= 2, ale n < 3
+        print("trzy")
+    else:
+        # trole liczą tylko do trzech
+        print("więcej")
+
+Dane do zadań:
+==============
+
+
+| BMI          | KOBIETY         |
+|--------------|-----------------|
+| < 17,5       | niedowaga       |
+| 17,5 – 22,49 | prawidłowa waga |
+| 22,5 – 27,49 | nadwaga         |
+| ≥ 27,5       | otyłość         |
+
+
+| BMI          | MĘŻCZYŹNI       |
+|--------------|-----------------|
+| < 19.99      | niedowaga       |
+| 20 – 24,99   | prawidłowa waga |
+| 25,0 – 29,99 | nadwaga         |
+| ≥ 30,0       | otyłość         |
 
 Podsumowanie
 ============
 
-Dowiedzieliśmy się, jak ważna jest indentacja, zwłaszcza jeśli chcemy użyć
-instrukcji if (również w połączeniu z else i elif).
+A zatem poznaliśmy trochę podstawowej logiki pythonowej i możemy zacząć jej używać.
 
-To dość dużo, jak na pierwszy program. Mamy jeszcze wiele do zrobienia, mimo to
-możecie być dumni z tego, co zrobiliśmy do tej pory!
-
-A jesli zrobiliście obowiązkowe zadanie nr 1, przekonaliście się, że w Pythonie
-występują jajeczka-niespodzianki i wierzcie nam - jest ich więcej. Oto kolejne:
-
-	>>>  True + True
-
-:-)

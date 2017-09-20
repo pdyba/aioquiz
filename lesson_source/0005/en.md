@@ -1,196 +1,237 @@
-Strings and how to play with them
-=================================
+Python Logic
+===================
 
-The last issue which we have mentioned above was the problem with too
-many digits in a printed BMI. Out of the three problems we had, this one
-is the easiest to solve.
+Checking conditions
+-------------------
 
-That’s why we left it for the end of our "adventure" with the BMI
-calculator. We already know that we can add strings to each other and
-multiply them by integers. You will see that we can also format them.
-But first we will need one more type of data (except the strings and the
-numbers we already know).
+Comparisons: true or false?
+---------------------------
 
-Tuples
-======
+Let us now talk about comparisons. Let's look at how they behave in a
+short math lesson:
 
-At the beginning we mentioned that we can not use commas in numbers,
-because we will need them later while using tuples. And here they are:
+	>>>  2 > 1 True >>> 1 == 2 False >>> 1 ==
+	>>>  1.0 True >>> 10 >= 10 True >>> 13 <= 1 + 3
+	>>>  False >>> -1 != 0 True
 
-	>>>  1, 2, 3 (1, 2, 3) >>> ("Ala", 15) ('Ala', 15)
-	>>>  x = 1,5 >>> print(x) (1, 5)
+The result of a comparison is always `True` or `False`. Comparisons can
+be combined into more complex conditions by using the words and and or:
 
-A tuple is nothing more than a few values grouped into one. The values
-we want to group should be separated by commas. The whole thing can be
-enclosed in parentheses to make it more clear, but it is not required.
-Except when we want to group none of the elements (however strange it
-may sound):
+	>>>  x = 5 >>> x < 10 True >>> 2*x >
+	>>>  x True >>> (x < 10) and (2*x > x) True >>> (x
+	>>>  != 5) and (x != 4) False >>> (x != 5) and (x != 4) or (x ==
+	>>>  5) True
 
-	>>>  () ()
+Python Love - exercise
+----------------------
 
-Tuples can be combined:
+Now lest talk about love with our wonderful snake. Write this in your
+interpreter.
 
-	>>>  names = ("Paulina", "Kowalska") >>> details =
-	>>>  (27, 1.70) >>> names + details ('Paulina', 'Kowalska', 27,
-	>>>  1.7)
+	>>>  import this >>> love = this >>> love is
+	>>>  this >>> love is not True or False >>> love is love
 
-They may also contain other tuples e.g. information on a point on the
-map can be grouped as follows:
+In python we can compere using few different operators:
 
-	>>>  point = ("Name of point", (x, y))
+-   ==
+-   is
+-   !=
+-   not
+-   >=
+-   <=
+-   in
 
-where `x` and `y` are numbers.
+and connect the expressions with:
 
-We can refer to the grouped values by using their positions in the tuple
-(counting form zero) e.g.:
+-   and
+-   or
 
-	>>>  p = (10, 15) >>> p[0] # first value 10
-	>>>  p[1] # second value 15
+Is same as == ?
+---------------
 
-Formatting plain
-================
+Lest make few test if 'is' is the same as '==':
 
-Going back to our program: currently the result is reduced to a single
-line. Now we want to write the BMI as a number and the interval in which
-it is located, that is to say:
+    :::python3
+    >>> 1000 is 10**3 >>> 1000 == 10**3
+    >
+    >>> "a" is "a" >>> "aa" is "a" * 2 >>> x =
+    > "a" >>> "aa" is x * 2 >>> "aa" == x * 2
+    >
+    >>> [1, 2] == [1, 2]
+    >>> [1, 2] is [1, 2]
 
-    Your BMI is equal: 21.39 (normal weight)
+Conclusion: is will return True if two variables point to the same
+object, == if the objects referred to by the variables are equal.
 
-Modify the current program so that the calculated BMI would be available
-under the name of `bmi`,and the name of the interval under the name of
-`category`. Then we can use print and obtain the required result:
+BMI: Fat or not ? let the python decide for You
+-----------------------------------------------
 
-Well, almost….We still have too many digits. We would also have a
-problem if we wanted to generate such a string and save with a name,
-because we use print to separate the elements. Fortunately, there is a
-better way:
+Let’s go to our next problem. We want our program to print the
+appropriate classification for the calculated BMI by using the table
+below:
 
-	>>>  bmi = 21.387755102040817 >>> category = "normal
-	>>>  weight" >>> result = "Your BMI: %f (%s)" % (bmi, category)
-	>>>  result 'Your BMI: 21.387755 (normal weight)' >>>
-	>>>  print(result) Your BMI: 21.387755 (normal weight)
+  BMI            Classification
+  -------------- ----------------
+  < 18,5      underweight
+  18,5 – 24,99   normal weight
+  25,0 – 29,99   overweight
+  ≥ 30,0         obesity
 
-We have here a string and a tuple joined by `%`. The string is a
-template which will be completed with values from the tuple. The spaces
-to be filled are also labeled with the percentage (`%`). . The letter
-that follows defines the type of a value we want to insert. The integers
-are represented by `i` as **integer** (we can also use `d` as
-**decimal**), strings are represented by `s` as **string**, and
-floating-point numbers are represented by `f` for **float**:
+We need to use the “conditional statement” if. It will execute the rest
+of the program depending on a given condition:
 
-	>>>  "String: %s, Numbers: %d %f" % ("Ala", 10, 3.1415)
-	>>>  'String: Ala, Numbers: 10 3.141500'
+Exercise simple python calculator
+---------------------------------
 
-Now instead of nine decimal places we always get six, but the formatting
-has the advantage that it allows us to have more control by putting
-between `%` and `f` additional information, e.g. if you want to display
-only two places after the decimal point:
+Write a simple calculator script that will take two numbers and
+calculation sign (+, -, *, /). And output a nice string show whole
+calculation and the solution. Remember: string + string = new string :-)
+Example:
 
-	>>>  "%.2f" % 3.1415 '3.14' >>> "%.2f" %
-	>>>  21.387755102040817 '21.39'
+	>>>  'Enter first number' 10 >>> 'Enter first number
+	>>>  math sign (+, -, *, /)' + >>> 'Enter second number' 5 '10 +
+	>>>  5 = 15'
 
-There are plenty options of formatting, so we will not show them all
-here. One of the most useful is the option of aligning to a specific
-number of characters:
+Indentations
+------------
 
-We can also align the string `-` to the left by putting before the
-number of characters:
+Another thing you should pay attention to is the indentation in the
+code. Open the interactive mode and enter a simple condition such as:
 
-Aligning towards the centre is an additional exercise for you :).
+    >>> if 2 > 1:
+    ...
 
-Formatting more Pythonic way
-============================
+So far nothing has happened, as evidenced by dots `...` instead of a
+prompt `>>>`, which we have seen so far. Python expects us to give
+further instructions that are supposed to be executed if the condition
+`2 > 1` turns out to be true. Let’s try to make Python print "OK":
 
-String Slicing
-==============
+    :::python3
+    >>> if 2 > 1:
+    ... print("OK")
+      File "<stdin>", line 2
+        print("OK")
+            ^
+    IndentationError: expected an indented block
 
-Try it out: >>> text = “ala ma kota” >>> text[0] #
-string[int] >>> text[2:] # string[int:] >>>
-text[:5] # string[:int] >>> text[3:7] #
-string[int:int] >>> text[::2] # stirng[::int]
-	>>>  text[::-1] # stirng[::int]
+Unfortunately, we did not succeed. Python needs to know whether the
+instruction we have written is a continuation of if or it is the next
+instruction not covered by the condition. To this purpose, we need to
+indent our code:
 
-Always remember computer counts from 0.
+	>>>  if 2 > 1: ... print("OK") ... OK
 
-Methods
-=======
+All you need is one space or `TAB`. However, all the lines that are
+supposed to be executed one after another should be indented the same
+way:
 
-With string there is a lot of methods implemented already.
+    :::python3
+    >>> if -1 < 0:
+    ...  print("A")
+    ...   print("B")
+      File "<stdin>", line 3
+        print("B")
+        ^
+    IndentationError: unexpected indent
 
-1.  capitalize() - Capitalizes first letter of string
-2.  count(str, beg= 0,end=len(string)) - Counts how many times str
-    occurs in string or in a substring of string if starting index beg
-    and ending index end are given.
-3.  endswith(suffix, beg=0, end=len(string)) - Determines if string or a
-    substring of string (if starting index beg and ending index end are
-    given) ends with suffix; returns true if so and false otherwise.
-4.  find(str, beg=0 end=len(string)) - Determine if str occurs in string
-    or in a substring of string if starting index beg and ending index
-    end are given returns index if found and -1 otherwise.
-5.  index(str, beg=0, end=len(string)) - Same as find(), but raises an
-    exception if str not found.
-6.  isalnum() - Returns true if string has at least 1 character and all
-    characters are alphanumeric and false otherwise.
-7.  isalpha() - Returns true if string has at least 1 character and all
-    characters are alphabetic and false otherwise.
-8.  isdigit() - Returns true if string contains only digits and false
-    otherwise.
-9.  islower() - Returns true if string has at least 1 cased character
-    and all cased characters are in lowercase and false otherwise.
-10. isnumeric() - Returns true if a unicode string contains only numeric
-    characters and false otherwise.
-11. isspace() - Returns true if string contains only whitespace
-    characters and false otherwise.
-12. istitle() - Returns true if string is properly "titlecased" and
-    false otherwise.
-13. isupper() - Returns true if string has at least one cased character
-    and all cased characters are in uppercase and false otherwise.
-14. join(seq) - Merges (concatenates) the string representations of
-    elements in sequence seq into a string, with separator string.
-15. len(string) - Returns the length of the string
-16. lower() - Converts all uppercase letters in string to lowercase.
-17. lstrip() - Removes all leading whitespace in string.
-18. max(str) - Returns the max alphabetical character from the string
-    str.
-19. min(str) - Returns the min alphabetical character from the string
-    str.
-20. replace(old, new [, max]) - Replaces all occurrences of old in
-    string with new or at most max occurrences if max given.
-21. rfind(str, beg=0,end=len(string)) - Same as find(), but search
-    backwards in string.
-22. rindex( str, beg=0, end=len(string)) - Same as index(), but search
-    backwards in string.
-23. rstrip() - Removes all trailing whitespace of string.
-24. split(str="", num=string.count(str)) - Splits string according to
-    delimiter str (space if not provided) and returns list of
-    substrings; split into at most num substrings if given.
-25. splitlines( num=string.count('n')) - Splits string at all (or num)
-    NEWLINEs and returns a list of each line with NEWLINEs removed.
-26. startswith(str, beg=0,end=len(string)) - Determines if string or a
-    substring of string (if starting index beg and ending index end are
-    given) starts with substring str; returns true if so and false
-    otherwise.
-27. strip([chars]) - Performs both lstrip() and rstrip() on string
-28. swapcase() - Inverts case for all letters in string.
-29. title() - Returns "titlecased" version of string, that is, all words
-    begin with uppercase and the rest are lowercase.
-30. upper() - Converts lowercase letters in string to uppercase.
+    >>> if -1 < 0:
+    ...     print("A")
+    ...   print("B")
+      File "<stdin>", line 3
+        print("B")
+                ^
+    IndentationError: unindent does not match any outer indentation level
 
-There is over 10 more methods but they are much more advanced.
+    >>> if -1 < 0:
+    ...   print("A")
+    ...   print("B")
+    ...
+    A
+    B
 
+To avoid chaos, most Python programmers use four spaces for each level
+of indentation. We will do the same:
+
+	>>>  if 2 > 1: ... if 3 > 2: ... print("OK") ... else:
+	>>>  ... print("FAIL") ... print("DONE") OK DONE
+
+What if not?
+------------
+
+Actually, we could write our program just by using if :
+
+    :::python3
+    if bmi < 18.5:
+        print("underweight")
+    if bmi >= 18.5:
+        if bmi < 25.0:
+            print("normal weight")
+    if bmi >= 25.0:
+        print("overweight")
+
+We can also use else and elif to avoid repeating similar conditions and
+increase readability. In more complex programs it may not be obvious
+from the beginning that a certain condition is the opposite of the
+previous one.
+
+Using else , we have the guarantee that the given instructions will be
+executed only if the instructions printed under if haven’t been
+executed:
+
+    :::python3
+    if bmi < 18.5:
+        print("underweight")
+    else:
+        # If your program executes this instruction,
+        # for sure bmi >= 18.5 !
+        if bmi < 25.0:
+            print("normal weight")
+        else:
+            # now for sure bmi >= 25.0, we don’t have to
+            # check it
+            print("overweight")
+
+Pay particular attention to the indentations. Every use of else, will
+cause an increased indentation of our code. It is very annoying when you
+have to check a few or a dozen or so conditions which exclude one
+another . Therefore the authors of Python added a little 'improvement'
+in the form of elif, instruction, which allows you to check another
+condition immediately:
+
+    :::python3
+    if n < 1:
+        print("one")
+    elif n < 2:
+        # if it wasn’t n < 1, and now it is n < 2
+        print("two")
+    elif n < 3:
+        # ,if none of the previous condition was true.
+        # n >= 1 i n>= 2, ale n < 3
+        print("three")
+    else:
+        # trolls can count only to three
+        print("more")
+
+Exercised data:
+===============
+
+
+| BMI          | WOMEN         |
+|--------------|---------------|
+| < 17,5       | underweight   |
+| 17,5 – 22,49 | normal weight |
+| 22,5 – 27,49 | overweight    |
+| ≥ 27,5       | obesity    |
+
+
+| BMI          | MEN           |
+|--------------|---------------|
+| < 19.99      | underweight   |
+| 20 – 24,99   | normal weight |
+| 25,0 – 29,99 | overweight    |
+| ≥ 30,0       | obesity       |
 
 Summary
 =======
 
-We also know now that indentations can be important, especially when we
-want to use the instruction if (also in connection with else and elif).
-
-This is quite a lot like for a first program. We still have a lot of
-work, anyhow you can be proud of what we have done so far!
-
-And if You did the obligatory task 1 You know there are some easter eggs
-in python and thats not all of them. Here is one more:
-
-	>>>  True + True
-
-:-)
+We now know some basic python logic, and we can use it.

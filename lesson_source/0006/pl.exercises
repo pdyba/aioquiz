@@ -1,0 +1,22 @@
+1:
+    title: To magia!
+    task: Wpisz w interpreterze Pythona: import antigravity
+    To bardzo ważna biblioteka, używaj jej mądrze :)
+    possible_answare: yey
+2:
+    title: Plac zabaw z metodami i kombinacjami
+    task: Utwórz string i użyj wszystkich poznanych metod. Spróbuj przeprowadzić reakcję łańcuchową.
+    possible_answare: yey
+3:
+    title: Palindrom
+    task: Napisz kod (spróbuj zrobić to w jednej linii), który sprawdza, czy string jest palindromem - stringiem, który czytamy tak samo wstecz. Na przykład: "kajak", "kobyła ma mały bok", "a mus z okna da nam rabuś, u barmana danko z suma", www.palindromy.pl
+    possible_answare: yey
+4:
+    title: BMI po ludzku
+    task: Zmodyfikuj wersję 2.0 Twojego kalkulatora BMI, aby dawał przykładowo taki wynik: "Zakładając, że ważysz 80kg i masz 1.8m wzrostu, Twój BMI wynosi 22 punkty. Tak trzymać! Odżywiasz się zdrowo."
+    possible_answare: yey
+5:
+    title: BMI AntyTroll Edition
+    task: Używając kalkulatora BMI z zadania powyżej dodaj mechanizm: 1. Zapobiegający wprowadzeniu tekstu w pytaniach o wagę i wzrost. 2. Tolerujący wprowadzanie płci K/M zarówno wielkimi jak i małymi literami. 3. Zapobiegający wprowadzeniu oznaczenia płci innego niż K/M (lub innego oczekiwanego) dla płci.
+    possible_answare: yey
+
