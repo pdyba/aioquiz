@@ -185,6 +185,8 @@ class UserView(HTTPMethodView):
             )
         try:
             req = request.json
+            if 'admin' in req:
+                del req['admin']
             user = Users(**req)
             user.session_uuid = str(uuid4()).replace('-', '')
             uid = await user.create()
