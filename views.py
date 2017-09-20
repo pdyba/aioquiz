@@ -977,3 +977,32 @@ class AbsenceConfirmation(HTTPMethodView):
 class RegistrationActiveView(HTTPMethodView):
     async def get(self, _):
         return json({'registration': await Config.get_registration()})
+
+
+class ForgotPasswordView(HTTPMethodView):
+    async def post(self, request):
+        try:
+            req = request.json
+            try:
+                user = await Users.get_first_by_many_field_value(email=req.get('email'))
+            except DoesNotExist:
+                user = False
+            if not user:
+                return json({'msg': 'wrong email or user does not exists'})
+            password = str(uuid4()).replace('-', '')
+            await user.set_password(password)
+            await user.update()
+            resp = await send_email(
+                recipients=[user.email],
+                text=password,
+                subject="Your new PyLadies.start() password"
+            )
+            if resp:
+                return json({
+                    'success': True,
+                    'msg': 'Check Your e-mail for new password'
+                })
+            return json({'success': False, 'msg': 'error sending e-mail'})
+        except:
+            logging.exception('err user.post')
+        return json({'msg': 'wrong email or user does not exists'}, status=404)

@@ -1121,11 +1121,12 @@ function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashSer
 }
 
 app.controller('LoginController', LoginController);
-LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-function LoginController($location, AuthenticationService, FlashService) {
+LoginController.$inject = ['$location', 'AuthenticationService', 'SweetAlert', '$http'];
+function LoginController($location, AuthenticationService, SweetAlert, $http) {
     var vm = this;
 
     vm.login = login;
+    vm.forgotPassword = forgotPassword;
 
     (function initController() {
         AuthenticationService.ClearCredentials();
@@ -1143,7 +1144,25 @@ function LoginController($location, AuthenticationService, FlashService) {
             vm.dataLoading = false;
         });
     }
+
+    function forgotPassword() {
+        SweetAlert.swal({
+            title: "Password recovery",
+            text: "Please provide valid email",
+            element: "input",
+            type: "input",
+            showConfirmButton: true
+        }, function (value) {
+            var data = {'email': value};
+            $http.post('/api/forgot_password', data).then(function (response) {
+                var txt = response.data.msg;
+                SweetAlert.swal({text: txt, title: ''});
+            })
+        });
+    }
+
 }
+
 app.controller('RegisterController', RegisterController);
 RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService', '$http'];
 function RegisterController(UserService, $location, $rootScope, FlashService, $http) {
