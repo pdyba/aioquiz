@@ -1,3 +1,3 @@
-Funkcje wbudowane
+Zabawy ze stringami
 ======================
 

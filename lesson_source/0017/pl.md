@@ -1,3 +1,3 @@
-Funkcje wbudowane
+nasza_funkcja()
 ======================
 

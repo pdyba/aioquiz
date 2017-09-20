@@ -1,5 +1,5 @@
-Co to jest programowanie, Python, i do czego można go wykorzystać
-==================================================================
+Pierwsze kroki z interpreterem Pythona i IDE Pycharma
+=====================================================
 
 Rozpocznijmy od uruchomienia interpretera Pythona, którego
 zainstalowaliśmy w poprzednim rozdziale. Proszę uruchomcie:
