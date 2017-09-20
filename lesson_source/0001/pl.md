@@ -27,7 +27,7 @@ wierszu poleceń:
     Python 3.5.0
 
 
-Jesli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
+Jeśli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
 
 ### Ubuntu
 
