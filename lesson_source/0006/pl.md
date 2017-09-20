@@ -346,72 +346,95 @@ Pomoże nam tutaj metoda/funkcja unicode.center:
      ***
     *****
 
-However, a new problem appears:
+Jednak pojawił się nowy problem:
 
-	>>>  #### **\* \***\*
->
-	>>>  > \*
->
-	>>>  > *\**
->
-	>>>  > ------------------------------------------------------------------------
->
-	>>>  ------------------------------------------------------------------------
+      *
+     ***
+       *
+      ***
+     *****
+        *
+       ***
+      *****
+     *******
+     
+Gdybyśmy wiedzieli zawczasu, jaki rozmiar ma nadszerszy segment, moglibyśmy
+wykorzystać dodatkowy argument w funckji wydrukuj_segment, by wyrównać
+choinkę do tej szerokości. Podsumujmy wiedzę, jaą zdobyliśmy do tej pory:
 
-If we know in advance, what size the widest segment is, we can add an
-additional argument to print\_segment, to align to the width. Combining
-all of the knowledge we have acquired up to the moment:
+def wydrukuj_segment(n, łączna_szerokość):
+        for rozmiar in range(1, n+1, 2):
+            print((rozmiar * "*").center(łączna_szerokość))
 
----
-title: while loop
----
+    def wydrukuj_choinkę(rozmiar):
+        for i in range(3, rozmiar+1, 2):
+            wydrukuj_segment(i, rozmiar)
 
-We discoused the for loop, but there is also a while loop
+    print("Wybierz rozmiar choinki:")
+    n = int(input())
+    wydrukuj_choinkę(n)
+    
+    Wybierz rozmiar choinki:
+    7
+       *
+      ***
+       *
+      ***
+     *****
+       *
+      ***
+     *****
+    *******
+
+
+
+Pętla while
+-----------
+
+Omówiliśmy pętlę for, ale istnieje jeszcze pętla while:
 
 :::python3
-while expression:
-    statement(s)
+while wyrażenie:
+    komenda(y)
 
     :::python3
-    number = 0
-    while (number < 9):
-       print('Number:', count)
-       number = number + 1
+    liczba = 0
+    while (liczba < 9):
+       print('Liczba:', liczba)
+       liczba = liczba + 1
 
-    print("Finished!")
+    print("Koniec!")
 
 
-A loop becomes infinite loop if a condition never becomes FALSE. You
-must use caution when using while loops because of the possibility that
-this condition never resolves to a FALSE value. This results in a loop
-that never ends. Such a loop is called an infinite loop.
-
+Pętla staje się pętlą nieskończoną, gdy warunek nigdy nie przybiera wartości 
+FALSE. Musisz uważać, używając pętli while z uwagi na ryzyko, że pętla nigdy
+nie osiągnie wartości FALSE. Wynikiem tego jest pętla, która nigdy się nie
+kończy. Taką pętlę nazywamy nieskończoną pętlą.
 
 
     :::python3
-    number = 1
-    while number:
-       print('Number:', count)
-       number = number + 1
+    liczba = 1
+    while liczba:
+       print('Liczba:', liczba)
+       liczba = liczba + 1
 
-    print("Finished!")
+    print("Koniec!")
 
+Powyższy przykład generuje pętlę nieskończoną i musisz użyć CTRL+C (lub
+CTRL+D), by wyjść z programu.
 
-Above example goes in an infinite loop and you need to use CTRL+C (or
-CTRL+D) to exit the program.
-
-Else in while loop:
+EElse w pętli while
 ===================
 
-If the else statement is used with a while loop, the else statement is
-executed when the condition becomes false.
+W przypadku użycia komendy else w pętli while, komenda else zostanie
+Wykonana, gdy warunek przybierze wartość FALSE.
 
     :::python3
-    number = 0
-    while number < 6:
-       print(number, " is  less than 6")
-       number = number + 1
+    liczba = 0
+    while liczba < 6:
+       print(liczba, " jest mniejsze niż 6")
+       liczba = liczba + 1
     else:
-       print(number, " is not less than 6")
+       print(liczba, " nie jest mniejsze niż 6")
 
-    print("Finished!")
+    print("Koniec!")
