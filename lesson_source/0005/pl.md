@@ -1,268 +1,130 @@
-Logika Pythona
+Co to jest programowanie, Python, i do czego można go wykorzystać
+==================================================================
+
+Rozpocznijmy od uruchomienia interpretera Pythona, którego
+zainstalowaliśmy w poprzednim rozdziale. Proszę uruchomcie:
+
+    :::bash
+    (workshops) ~$ python
+    Python 3.4.0 (...)
+    Type "copyright", "credits" or "license" for more information.
+
+    >>>
+
+
+Wcześniej pracowaliśmy w wierszu poleceń systemu operacyjnego i mogliśmy
+wprowadzać komendy. Znakiem zachęty był `~$`. Po uruchomieniu komendy `python`, 
+znak zachęty zmienił się na `>>>`. Oznacza to dla nas, że od tej chwili możemy
+używac tylko komend języka Python. Wcześniej poznane komendy (takie, jak
+'cd', 'mkdir') nie będą działały. Nadszedł moment rozpoczęcia nauki
+nowego języka!
+
+Nie wpisujemy znaku zachęty `>>>` (podobnie jak `~$`) - interpreter zrobi to za nas.
+
+
+Przedstaw się
+=============
+
+Stringi
+-------
+
+Jednakże liczby nie wystarczają, by efektywnie się komunikować. A zatem
+musimy się nauczyć jak używać 'stringów'. Oto kilka przykładów:
+
+	>>> "Hello World" 
+	'Hello World' 
+	>>> 'Foo Bar' 
+	'Foo Bar' 
+	>>> "Rock 'n' Roll" 
+	"Rock 'n' Roll" 
+	>>> 'My name is "James"' 
+	'My name is "James"'
+
+Stringi możecie dodawać w następujący sposób:
+
+	>>> 'My name is ' + '"James"' 
+	'My name is "James"'
+
+lub mnożyć przez liczby całkowite:
+
+	>>> 'Hastur' * 3 
+	'HasturHasturHastur'
+
+String zawsze musi zaczynać się i kończyć tym samym znakiem. Może to być 
+pojedynczy cudzysłów (`'`) lub podwójny cudzysłów (`"`). Nie ma to wpływu na
+wartość stringa, np. wpisanie `"Batman"` tworzy string `Batman` -
+cudzysłowia nie są jego częścią, wskazują tylko, że jest to string 
+(niestety, Python nie jest wystarczająco bystry, by to samemu odgadnąć).
+
+Wyświetlanie stringów
+---------------------
+
+W jaki sposób prezentujemy wartości, by móc je przeczytać? Możemy to zrobić
+przy użyciu komendy print:
+
+	>>> print("Hello World") 
+	Hello World
+
+W podobny sposób możemy napisać kilka stringów w tej samej linii bez
+konieczności dodawania ich do siebie. Będą one oddzielone spacjami:
+
+	>>> print("Hi, my name is", "Łukasz") 
+	Hi, my name is Łukasz
+
+Komenda print ma wiele więcej zastosowań, gdyż może wyświetlić prawie
+wszystko. W tej chwili jedynymi znanymi nam wartościami są liczby:
+
+	>>> print(1)
+	1 
+	>>> print(1, 2, 3) 
+	1 2 3
+	>>> print("2 + 2 =", 2 + 2) 
+	2 + 2 = 4
+
+Kończymy chwilowo z konsolą intraktywną. Aby z niej wyjść, wpiszcie
+quit():
+
+    	>>> quit()
+
+lub przytrzymajcie `Ctrl+D` (dla Linuxa) lub `Ctrl+Z` (dla Windows).
+
+Pliki źródłowe
 ==============
 
-Sprawdzanie warunków
---------------------
+Dotychczas nasz kod był wykonywany w sposób interaktywny. Podawaliśmy 
+poszczególne komendy i natychmiast otrzymywaliśmy odpowiedź. To świetny sposób,
+by eksperymentować i uczyć się nowych składników języka, stąd ostatecznie
+wrócimy to tego sposobu.
 
-Porównanie: prawda, czy fałsz?
-------------------------------
+Nasz pierwszy program będzie wyglądał tak:
 
-Porozmawiajmy o porównaniach. Spójrzmy, jak się one zachowują podczas
-krótkiej lekcji matematyki:
+    print("Hi, my name is Lucas")
 
-	>>>  2 > 1 
-	True 
-	>>> 1 == 2 
-	False 
-	>>> 1 == 1.0 
-	True 
-	>>> 10 >= 10 
-	True 
-	13 <= 1 + 3
-	False 
-	>>> -1 != 0 
-	True
+Aby napisać i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
+edytora tekstu, który działa w Waszym OS (użyj [listy edytorów w 
+Wikipedii](http://en.wikipedia.org/wiki/List_of_text_editors), by znaleźć przykłady).
+Rekomendujemy Wam PyCharm lub Sublime. Sublime jest
+napisany w Pythonie :). Wpiszcie w edytorze powyższy kod w Pythonie i zapiszcie
+go w nowym pliku o nazwie `visitingcard.py`. Następnie uruchomcie Wasz 
+pierwszy program w Pythonie w wierszu poleceń przy użyciu:
 
-Rezultatem porównania jest zawsze `True` lub `False`. Porównania mogą
-być włączone w bardziej złożone wyrażenia przy użyciu słów and i or:
+    :::bash
+    (workshops) ~$ python visitingcard.py
+    Hi, my name is Lucas
+    (workshops) ~$
 
-	>>>  x = 5 
-	>>>  x < 10 
-	True 
-	>>>  2*x > x 
-	True 
-	>>>  (x < 10) and (2*x > x) 
-	True 
-	>>>  (x != 5) and (x != 4)
-	False 
-	>>>  (x != 5) and (x != 4) or (x == 5) 
-	True
-
-Python Love - ćwiczenie
------------------------
-
-Porozmawiajmy o miłości z naszym cudownym wężem. Napiszcie to w swoim 
-interpreterze:
-
-	>>>  import this 
-	>>>  love = this 
-	>>>  love is this 
-	>>>  love is not True or False 
-	>>>  love is love
-
-W Pytonie możemy porównywać używając kilku różnych operatorów:
-
--   ==
--   is
--   !=
--   not
--   \>=
--   <=
--   in
-
-i łączyć wyrażenia za pomocą:
-
--   and
--   or
-
-Czy is to to samo co == ?
--------------------------
-
-Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
+Pojedynczy program może zawierać więcej niż jedną komendę. Każda z nich
+powinna być w osobnym wierszu. Na przykład:
 
     :::python3
-    >>> 1000 is 10**3 
-    >>> 1000 == 10**3
-    >>> "a" is "a" 
-    >>> "aa" is "a" * 2 
-    >>> x = "a" 
-    >>> "aa" is x * 2 
-    >>> "aa" == x * 2
-    >>> [1, 2] == [1, 2]
-    >>> [1, 2] is [1, 2]
+    print("Hi,")
+    print()
 
-Wniosek: 'is' zwróci True, jeśli dwie zmienne wskazują na ten sam obiekt,
-a '==' zwróci True jeśli obiekty, do których odnoszą się zmienne są równe.
+    print("my name is Lucas")
 
-BMI: Gruby, czy nie? Niechaj Python zadecyduje za Ciebie
---------------------------------------------------------
+    print()
+    print("Bye.")
 
-Przejdźmy do naszego kolejnego problemu. Chcemy, aby program wydrukował
-właściwą klasyfikację dla obliczonego BMI, przy użyciu poniższej tabeli:
-
-  	BMI              Klasyfikacja
-  	-------------- ----------------
-  	< 18,5         niedowaga
-  	18,5 – 24,99   prawidłowa waga
-  	25,0 – 29,99   nadwaga
-  	≥ 30,0         otyłość
-
-Musimy użyć "komendy warunkowej' if. Wykona ona dalszy ciąg programu
-zależnie od podanego warunku:
-
-Ćwiczenie - prosty pythonowy kalkulator
----------------------------------------
-
-Napiszcie skrypt stanowiący prosty kalkulator, który pobierze dwie
-liczby oraz znak operacji matematycznej (+, -, \*, /) i wyświetli
-przyjemny string, który pokaże całe równanie oraz rozwiązanie. 
-Pamiętajcie: string + string = nowy string :-)
-Przykład:
-
-	>>>  'Wprowadź pierwszą liczbę' 
-	10 
-	>>>  "Wprowadź znak operacji matematycznej (+, -, \*, /)" 
-	+ 
-	>>> 'Wprowadź drugą liczbę'
-	5
-	'10 + 5 = 15'
-
-Indentacja
-----------
-
-Kolejną rzeczą, na którą powinniście zwrócić uwagę w kodzie jest indentacja.
-Otwórzcie interpreter i wprowadźcie taki warunek:
-
-    >>> if 2 > 1:
-    ...
-
-Do tej pory nic się nie wydarzyło, na co wskazują kropki `...`, zamiast
-znaku ponaglenia `>>>`, który widzieliśmy do tej pory. Python spodziewa się,
-że podamy dalsze instrukcje, które mają być wykonane, gdy warunek
-`2 > 1` okaże się prawdziwy. Spróbujmy sprawić, by Python wydrukował "OK":
-
-
-    :::python3
-    >>> if 2 > 1:
-    ... print("OK")
-      File "<stdin>", line 2
-        print("OK")
-            ^
-    IndentationError: expected an indented block
-
-Niestety, nie powiodło się. Python musi wiedzieć, czy instrukcja, którą wpisaliśmy
-jest kontynuacją warunku if, czy jest kolejną instrukcją nie związaną z warunkiem.
-W tym celu musimy w kodzie zastosować indentację:
-
-
-	>>>  if 2 > 1: 
-	..... print("OK") 
-	OK
-
-Wystarczy, że wpiszemy jedną spację lub naciśniemy `TAB`. Ważne jest jednak,
-żeby wszystkie linie, które chcemy, by były wykonane po kolei miały identyczną
-indentację:
-
-
-    :::python3
-    >>> if -1 < 0:
-    ...  print("A")
-    ...   print("B")
-      File "<stdin>", line 3
-        print("B")
-        ^
-    IndentationError: unexpected indent
-
-    >>> if -1 < 0:
-    ...     print("A")
-    ...   print("B")
-      File "<stdin>", line 3
-        print("B")
-                ^
-    IndentationError: unindent does not match any outer indentation level
-
-    >>> if -1 < 0:
-    ...... print("A")
-    ...... print("B")
-    A
-    B
-
-By uniknąć chaosu, większość programistów używa czterech spacji dla
-każdego poziomu indentacji. Zróbmy tak samo:
-
-	>>>  if 2 > 1: 
-	........ if 3 > 2: 
-	............ print("OK") 
-	........ else:
-	............ print("FAIL") 
-	.... print("DONE") 
-	OK 
-	DONE
-
-A co, jeśli nie?
-----------------
-
-Właściwie moglibyśmy napisać nasz program tylko używając if:
-
-    :::python3
-    if bmi < 18.5:
-        print("niedowaga")
-    if bmi >= 18.5:
-        if bmi < 25.0:
-            print("prawidłowa waga")
-    if bmi >= 25.0:
-        print("nadwaga")
-
-Możemy także użyć else i elif, aby uniknąć powtarzania takich samych warunków
-i poprawić czytelność kodu. W bardziej złożonych programach może nie być
-od początku oczywiste, że pewien warunek jest przeciwnością poprzedniego.
-
-Używając else mamy gwarancję, że podane instrukcje będą wykonane tylko,
-jeśli instrukcje podane pod if nie zostały wykonane:
-
-    :::python3
-    if bmi < 18.5:
-        print("niedowaga")
-    else:
-        # jeśli Twój program wykona tę istrukcję, bmi na pewno jest >= 18.5!
-        if bmi < 25.0:
-            print("prawidłowa waga")
-        else:
-            # teraz już na pewno bmi jest >= 25.0, nawet nie musimy sprawdzać
-            print("nadwaga")
-
-Zwróć szczególną uwagę na wszystkie indentacje. Każde użycie else spowoduje
-zwiększenie indentacji w Twoim kodzie. 
-To bardzo irytujące, gdy musisz sprawdzać kilka lub jakiś tuzin warunków, 
-które się wzajemnie wykluczają. Stąd twórcy Pythona dodali małe 
-'ulepszenie' w formie elif - instrukcję, która pozwala Ci sprawdzić
-niezwłocznie kolejny warunek:
-
-    :::python3
-    if n < 1:
-        print("jeden")
-    elif n < 2:
-        # jeśli n nie było < 1, a teraz n jest < 2
-        print("dwa")
-    elif n < 3:
-        # jeśli żaden z dwóch wcześniejszych warunków nie był prawdziwy,
-        # czyli n >= 1 i n>= 2, ale n < 3
-        print("trzy")
-    else:
-        # trole liczą tylko do trzech
-        print("więcej")
-
-Dane do zadań:
-==============
-
-
-| BMI          | KOBIETY         |
-|--------------|-----------------|
-| < 17,5       | niedowaga       |
-| 17,5 – 22,49 | prawidłowa waga |
-| 22,5 – 27,49 | nadwaga         |
-| ≥ 27,5       | otyłość         |
-
-
-| BMI          | MĘŻCZYŹNI       |
-|--------------|-----------------|
-| < 19.99      | niedowaga       |
-| 20 – 24,99   | prawidłowa waga |
-| 25,0 – 29,99 | nadwaga         |
-| ≥ 30,0       | otyłość         |
-
-Podsumowanie
-============
-
-A zatem poznaliśmy trochę podstawowej logiki pythonowej i możemy zacząć jej używać.
-
+Aby zwiększyć przejrzystość pliku `visitingcard.py`, w dowolnym jego
+miejscu możemy wprowadzać puste wiersze. Tutaj oddzieliśmy nagłówek
+wiadomości od jej zawartości i zakończenia.

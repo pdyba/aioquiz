@@ -1,5 +1,5 @@
-Wprowadzenie do algorytmów
-==========================
+Przyjazne wprowadzenie do algorytmiki
+=====================================
 
 Algorytm jest zestawem operacji do wykonania krok po kroku. 
 Jak przepis kucharski.
