@@ -162,3 +162,51 @@ Na przykład:
 	>>>  print(lista1) 
 	>>>  del lista1[2]
 	>>>  print(lista1)
+
+
+
+Tuple
+=====
+
+Na początku wspomnieliśmy, że nie możemy używać przecinków w liczbach,
+bo będziemy potrzebowali ich w tuplach. Doszliśmy właśnie do tego
+momentu:
+
+	>>>  1, 2, 3
+	(1, 2, 3)
+	>>> ("Ala", 15)
+	('Ala', 15)
+	>>>  x = 1,5
+	>>> print(x)
+	(1, 5)
+
+Tupla to nic innego, jak zbiór kilku wartości. Wartości te odddzielamy
+przecinkami. Zbiór najczęściej otaczamy nawiasami zwykłymi, ale nie jest to
+konieczne. Chyba, że chcemy objąć zbiorem zero elementów (jakkolwiek
+dziwnie to może brzmieć):
+
+	>>> ()
+	()
+
+Tuple możemy łączyć:
+
+	>>> nazwy = ("Paulina", "Kowalska")
+	>>> szczegóły = (27, 1.70)
+	>>> nazwy + szczegóły
+	('Paulina', 'Kowalska', 27, 1.7)
+
+Możemy w nich także zawrzeć inne tuple, np. punkty na mapie możemy
+zgrupować następująco:
+
+	>>>  punkt = ("Nazwa punktu", (x, y))
+
+gdzie `x` i `y` to liczby.
+
+Możemy odwoływać się do tak zgrupowanych wartości poprzez ich kolejną
+pozycję w tupli (zaczynając od zera), np.:
+
+	>>> p = (10, 15)
+	>>> p[0] # pierwsza wartość
+	10
+	>>> p[1] # druga wartość
+	15
