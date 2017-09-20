@@ -244,40 +244,61 @@ Czyli nasz porządnicki Python sprząta swój pokój po każdym wywołaniu funkc
 Zwracanie wartości
 ------------------
 
-The functions which we have previously used had one important property
-that is missing in the functions created by ourselves - they gave back
-the value they computed instead of printing it immediately. To achieve
-the same effect, you need to use the instruction return. This is a
-special instruction that can be found only in functions.
+Funkcje, których wcześniej używaliśmy posiadają jedną ważną cechę, której brakuje 
+funkcjom stworzonym przez nas - oddają wartość, którą wyliczyły, zamiast ją
+drukować. Aby osiągnąć taki sam efekt, musisz użyć instrukcji return.
+Jest to specjalna instrukcja, którą można znaleźć tylko w funkcjach.
 
-We can now improve our BMI calculator by adding a function to compute
-BMI:
+Możemy poprawić teraz nasz kalkulator BMI dodając funkcję, która zwróci BMI:
 
     :::python3
-    def calc_bmi(height, weight):
-        return weight / height ** 2
+    def oblicz_bmi(wzrost, waga):
+        return waga / (wzrost ** 2)
 
+Na koniec, jako ostatni przykład funkcji, podajemy rozwiązanie problemu
+z końca poprzedniego rozdziału:
 
-Finally, as a last example on functions, here is a solution to the
-problem from the end of the previous chapter:
+    .. testcode::
 
-The Entire Christmas tree
-=========================
+    # choinka.py
 
-The previous chapter was fairly theoretical, so now we'll use some of
-this new knowledge to complete our program to display a Christmas tree.
-
-For the record:
-
-    :::python3
-    # xmas.py
-
-    def print_triangle(n):
-        for size in range(1, n+1):
-            print(size * "*")
+    def wydrukuj_trójkąt(n):
+        for rozmiar in range(1, n+1):
+            print(rozmiar * "*")
 
     for i in range(2, 5):
-        print_triangle(i)
+        wydrukuj_trójkąt(i)
+
+    .. testoutput::
+
+    *
+    **
+    *
+    **
+    ***
+    *
+    **
+    ***
+    ****
+
+
+Kompletna choinka
+=================
+
+Poprzedni rozdział był dość teoretyczny, wykorzystamy zatem teraz tę wiedzę,
+aby ukończyć nasz program wyświetlający choinkę.
+
+A zatem:
+
+    :::python3
+    # choinka.py
+
+    def wydrukuj_trójkąt(n):
+        for rozmiar in range(1, n+1):
+            print(rozmiar * "*")
+
+    for i in range(2, 5):
+        wydrukuj_trójkąt(i)
 
 How can we improve the function print\_triangle, o display the entire
 segment of the Christmas tree, not just half of it?
