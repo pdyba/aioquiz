@@ -1336,16 +1336,32 @@ app.controller('UserSummaryController', UserSummaryController);
 UserSummaryController.$inject = ['UserService', '$rootScope'];
 function UserSummaryController(UserService, $rootScope) {
     var vm = this;
-    vm.allUsers = [];
+    vm.allAttendes = [];
+    vm.pymocniks = [];
+    vm.mentors = [];
+    vm.admin = [];
 
     loadAllAcceptedUsers();
 
     function loadAllAcceptedUsers() {
         UserService.GetAllAccepted()
             .then(function (users) {
-                vm.allUsers = users;
+                vm.allAttendes = users;
+            });
+        UserService.GetAllOrganisers()
+            .then(function (users) {
+                vm.pymocniks = users;
+            });
+        UserService.GetAllMentors()
+            .then(function (users) {
+                vm.mentors = users;
+            });
+        UserService.GetAllAdmins()
+            .then(function (users) {
+                vm.admins = users;
             });
     }
+
 }
 
 app.factory('AuthenticationService', AuthenticationService);
@@ -1420,6 +1436,7 @@ function UserService($http, $FlashService) {
     service.makeMentor = makeMentor;
     service.removeMentor = removeMentor;
     service.GetAllAccepted = GetAllAccepted;
+    service.GetAllAdmins = GetAllAdmins;
 
 
     return service;
@@ -1429,7 +1446,11 @@ function UserService($http, $FlashService) {
     }
 
     function GetAllOrganisers() {
-        return $http.get('/api/user/?organiser=True').then(handleSuccess, handleError('Error getting all users'));
+        return $http.get('/api/user/?organiser=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
+    }
+
+    function GetAllAdmins() {
+        return $http.get('/api/user/?admin=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
     }
     function GetAllAccepted() {
         return $http.get('/api/user/?mentor=False&confirmation=ack&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
