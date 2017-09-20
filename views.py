@@ -140,7 +140,11 @@ class UserView(HTTPMethodView):
                 return json(await user.get_my_user_data())
             return json(await user.get_public_data())
         else:
+            sort_by = 'id'
             if request.args:
+                if 'sort_by' in request.args:
+                    sort_by = request.args['sort_by'][0]
+                    del request.args['sort_by']
                 users = await Users.get_by_many_field_value(**get_args(request.args))
             else:
                 users = await Users.get_all()
@@ -150,7 +154,7 @@ class UserView(HTTPMethodView):
                     user.append(await u.to_dict())
                 else:
                     user.append(await u.get_public_data())
-            user.sort(key=lambda a: a['id'])
+            user.sort(key=lambda a: a[sort_by])
         return json(user, sort_keys=True)
 
     @user_required()

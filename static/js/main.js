@@ -174,6 +174,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "AttendanceController",
             controllerAs: 'vm'
         })
+        .when("/user_summary", {
+            templateUrl: "partials/user_summary.html",
+            controller: "UserSummaryController",
+            controllerAs: 'vm'
+        })
         .otherwise("/404", {
             templateUrl: "partials/404.html",
             controller: "PageCtrl",
@@ -1306,6 +1311,24 @@ function AdminController(UserService, $rootScope) {
 
 }
 
+
+
+app.controller('UserSummaryController', UserSummaryController);
+UserSummaryController.$inject = ['UserService', '$rootScope'];
+function UserSummaryController(UserService, $rootScope) {
+    var vm = this;
+    vm.allUsers = [];
+
+    loadAllAcceptedUsers();
+
+    function loadAllAcceptedUsers() {
+        UserService.GetAllAccepted()
+            .then(function (users) {
+                vm.allUsers = users;
+            });
+    }
+}
+
 app.factory('AuthenticationService', AuthenticationService);
 AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService'];
 function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService) {
@@ -1377,6 +1400,7 @@ function UserService($http, $FlashService) {
     service.makeInactive = makeInactive;
     service.makeMentor = makeMentor;
     service.removeMentor = removeMentor;
+    service.GetAllAccepted = GetAllAccepted;
 
 
     return service;
@@ -1387,6 +1411,9 @@ function UserService($http, $FlashService) {
 
     function GetAllOrganisers() {
         return $http.get('/api/user/?organiser=True').then(handleSuccess, handleError('Error getting all users'));
+    }
+    function GetAllAccepted() {
+        return $http.get('/api/user/?mentor=False&confirmation=ack&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetAllAttendees() {
