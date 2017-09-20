@@ -1,0 +1,312 @@
+The for loop: Christmas Tree
+============================
+
+Christmas are coming, Christmas presents time and, at least for
+Christmas trees :) in every shopping center. As an exercise, we will try
+to draw a tree in the console.
+
+We are going to start from the most basic version of this exercise so
+that we can later extend it to a more functional version. As an
+incentive, let’s make a half of the Christmas tree:
+
+It doesn’t look bad, but we have had to do a lot of typing. What if we
+would like to have a smaller tree? Or a bigger one, composed of hundreds
+of elements to be printed on a page size A0? Definitely too much typing,
+even if we would do it by multiplying strings (`"*" * 100`, and so on.).
+Obviously it is such a repetitive activity that the program can do it
+for us.
+
+The `for` loop
+==============
+
+Loops will serve us to deal with such repetitive actions. Staying in the
+Christmas atmosphere, imagine for a moment that we are the Santa Claus
+and we have to deliver Christmas gifts to everyone.
+
+As you know, Santa has a list of people who deserve gifts. The simplest
+approach to guarantee that no one is omitted, will be to check
+sequentially the list and deliver their gifts to one after another.
+Aside from the physical aspects of the task, the procedure of delivering
+the gifts could look like this:
+
+    Let the People List contain people who should receive gifts.
+
+    For each person (known as the Person), which is on the list of people:
+        Provide a gift to the Person
+
+Formatting of text above is not accidental. This is actually a disguised
+program in Python:
+
+    gift_list = people_who_deserve_gifts()
+
+    for person in gift_list:
+        deliver_gift(person)
+        print("Gift delivered to:", person)
+    print("All gifts delivered")
+
+Most of the things should look familiar to you. We are calling here two
+functions: people_who_deserve_gifts and deliver_gift - their inner
+workings are only known by Santa Claus. The result of the first one can
+be named gift_list, so that we could refer to this value later ( the
+same as described above).
+
+A new element is a loop itself, which consists of:
+
+-   the word for,
+-   names we want to give to the next elements,
+-   the word in,
+-   the value of a list or the name that refers to it.
+-   the content indented of one level (the same way as in the case of
+    if).
+
+The range function does not directly create a list, but it returns a
+generator. Generators generate the elements of a sequence one at a time,
+thereby avoiding to store the full sequence in memory. In order to
+obtain a list of the sequence, we use the function list. If we skip list
+call, the result will look like this:
+
+	>>>  range(1, 4) range(1, 4)
+
+The range function has three forms. The most basic and most used one
+creates a sequence from 0 to the given number. The other forms allow you
+to specify the start of the range and a step. The created sequence never
+includes the end of the specified range.
+
+Then let’s print a larger Christmas tree:
+
+	>>>  lst = range(1, 11) >>> for i in lst: ...
+	>>>  print("*"*i) * ****************************
+
+range has saved a lot of our time. We can save even more if we omit
+naming the list:
+
+	>>>  for i in range(1, 5): ... print(i*"#") # ## ###
+	>>>  ####
+
+When you use the keyword for, we do not have to use the list. for can
+handle the generator given by range. Hence, we can simplify our program
+even more:
+
+	>>>  for i in range(1, 5): ... print(i*"#") # ## ###
+	>>>  ####
+
+Nothing prevents us to put one loop inside another loop, so let's do it!
+Just remember to use appropriate indentations and use different names
+e.g. `i` and `j` (or more associated with the list content):
+
+	>>>  for i in range(1, 3): ... for j in range(11, 14): ...
+	>>>  print(i, j) 1 11 1 12 1 13 2 11 2 12 2 13
+
+Here we have inner loop that iterates from 11 to 13 (remember, 14 is not
+included when using `range`) and outer loop that iterates from 1 to 2.
+As you can see, items from inner loop are printed twice, for each
+iteration of outer loop.
+
+Using this technique, we can repeat our piece of the Christmas tree:
+
+	>>>  for i in range(3): # repeats 3 times ... for size in
+	>>>  range(1, 4): ... print(size*"*")* **** **** *****
+
+Before proceeding to the next chapter, create `xmas.py` file with this
+program and try to modify it so that each of the three repetitions of
+the first (external) loop, the second one was executed one more time.
+This way, we should get our half of the Christmas tree described at the
+beginning of the chapter.
+
+Defining a function
+===================
+
+We have already seen how functions solve many of our problems. However,
+they do not solve all our problems – or at least not exactly the way we
+would like functions to solve them. Sometimes we must solve a problem on
+our own. If it occurs often in our program, it would be nice to have a
+function that solves it for us.
+
+We can do it like this in Python:
+
+	>>>  def print_triangle(n): ... for size in range(1, n+1):
+	>>>  ... print(size*"*") ... >>> print_triangle(3)* ***
+	>>>  print_triangle(5)* ************
+
+Let's have a closer look at the function print_triangle:
+
+    def print_triangle(n):
+        for size in range(1, n+1):
+            print(size*"*")
+
+The definition of a function always starts with the word def. Next, we
+give the name to our function. Between the parenthesizes, we indicate
+what names should be given to its arguments when the function is called.
+In the following lines we provide instructions to be executed when we
+use the function.
+
+As shown in the example, the instructions in the function may include
+names that we have given as the names of the arguments. The principle of
+operation is as follows - if you create a function with three arguments:
+
+	>>>  def foo(a, b, c): ... print("FOO", a, b, c)
+
+When you call this new function, you need to specify a value for each
+argument. This just like all the functions we called before:
+
+	>>>  foo(1, "Ala", 2 + 3 + 4) FOO 1 Ala 9 >>> x = 42
+	>>>  foo(x, x + 1, x + 2) FOO 42 43 44
+
+Note that the argument name is just a label. If we change the value
+attached to a label for another one, the other labels will not change –
+the same happens with the arguments:
+
+	>>>  def plus_five(n): ... n = n + 5 ... print(n)
+	>>>  x = 43 >>> plus_five(x) 48 >>> x 43
+
+It is as normal names (variables) we saw before. There are only two
+differences:
+
+Firstly, argument names of a function are defined at each function call,
+and Python attaches the corresponding argument value to to each of the
+argument names it just created.
+
+Secondly, the argument names are not available outside the function as
+they are created when the function is called and forgotten after the
+call. That is, if you try now to access the argument name `n` we defined
+in our plus_five function outside of the function's code, Python tells
+you it is not defined:
+
+	>>>  n Traceback (most recent call last): File
+	>>>  "<stdin>", line 1, in <module> NameError: name 'n' is not
+	>>>  defined
+
+That is, our prim and proper Python cleans up his room at the end of a
+function call :)
+
+Returning values
+----------------
+
+The functions which we have previously used had one important property
+that is missing in the functions created by ourselves - they gave back
+the value they computed instead of printing it immediately. To achieve
+the same effect, you need to use the instruction return. This is a
+special instruction that can be found only in functions.
+
+We can now improve our BMI calculator by adding a function to compute
+BMI:
+
+    :::python3
+    def calc_bmi(height, weight):
+        return weight / height ** 2
+
+
+Finally, as a last example on functions, here is a solution to the
+problem from the end of the previous chapter:
+
+The Entire Christmas tree
+=========================
+
+The previous chapter was fairly theoretical, so now we'll use some of
+this new knowledge to complete our program to display a Christmas tree.
+
+For the record:
+
+    :::python3
+    # xmas.py
+
+    def print_triangle(n):
+        for size in range(1, n+1):
+            print(size * "*")
+
+    for i in range(2, 5):
+        print_triangle(i)
+
+How can we improve the function print_triangle, o display the entire
+segment of the Christmas tree, not just half of it?
+
+First of all, let’s determine how we want our result to look like for
+the exact value of argument `n`. It seems to make sense that, `n` would
+be the width. Then for `n = 5`, we would expect:
+
+    *
+
+	>>>  ***
+
+	>>>  ------------------------------------------------------------------------
+
+It is worth noting that each line consists of two asterix more than the
+previous one. So we can use the third argument range:
+
+It is not exactly what we have wanted, as it should be aligned in the
+centre. The method/function unicode.center mentioned in the previous
+section, helps us:
+
+	>>>  ***
+
+	>>>  ------------------------------------------------------------------------
+
+However, a new problem appears:
+
+	>>>  #### *** ****
+>
+	>>>  > *
+>
+	>>>  > ***
+>
+	>>>  > ------------------------------------------------------------------------
+>
+	>>>  ------------------------------------------------------------------------
+
+If we know in advance, what size the widest segment is, we can add an
+additional argument to print_segment, to align to the width. Combining
+all of the knowledge we have acquired up to the moment:
+
+---
+title: while loop
+---
+
+We discoused the for loop, but there is also a while loop
+
+:::python3
+while expression:
+    statement(s)
+
+    :::python3
+    number = 0
+    while (number < 9):
+       print('Number:', count)
+       number = number + 1
+
+    print("Finished!")
+
+
+A loop becomes infinite loop if a condition never becomes FALSE. You
+must use caution when using while loops because of the possibility that
+this condition never resolves to a FALSE value. This results in a loop
+that never ends. Such a loop is called an infinite loop.
+
+
+
+    :::python3
+    number = 1
+    while number:
+       print('Number:', count)
+       number = number + 1
+
+    print("Finished!")
+
+
+Above example goes in an infinite loop and you need to use CTRL+C (or
+CTRL+D) to exit the program.
+
+Else in while loop:
+===================
+
+If the else statement is used with a while loop, the else statement is
+executed when the condition becomes false.
+
+    :::python3
+    number = 0
+    while number < 6:
+       print(number, " is  less than 6")
+       number = number + 1
+    else:
+       print(number, " is not less than 6")
+
+    print("Finished!")
