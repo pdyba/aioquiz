@@ -300,29 +300,51 @@ A zatem:
     for i in range(2, 5):
         wydrukuj_trójkąt(i)
 
-How can we improve the function print\_triangle, o display the entire
-segment of the Christmas tree, not just half of it?
+W jaki sposób możemy poprawić funkcję wydrukuj_trójkąt, aby wyświetlić
+cały segment choinki, a nie tylko jego połowę?
 
-First of all, let’s determine how we want our result to look like for
-the exact value of argument `n`. It seems to make sense that, `n` would
-be the width. Then for `n = 5`, we would expect:
+Przede wszystkim, ustalmy jak chcemy aby wyglądał rezultat dla określonej
+wartości argumentu `n`. Wydaje się mieć sens, że `n` byłby szerokością
+A zatem dla `n = 5` oczekiwalibyśmy:
+
+      *
+     ***
+    *****
+
+Warto zauważyć, że każdy kolejny wiersz zawiera o dwie więcej gwiazdki, niż
+poprzedni wiersz. Możemy użyć tu trzeciego argumentu funkcji range:
+
+    .. testcode::
+
+    def wydrukuj_segment(n):
+        for rozmiar in range(1, n+1, 2):
+            print(rozmiar * "*")
+
+    wydrukuj_segment(5)
+    
+    .. testoutput::
 
     *
+    ***
+    *****
 
-	>>>  *\**
+Nie jest to dokładnie to, czego chcieliśmy, bo segment powinien być wyśrodkowany.
+Pomoże nam tutaj metoda/funkcja unicode.center:
 
-	>>>  ------------------------------------------------------------------------
+    .. testcode::
 
-It is worth noting that each line consists of two asterix more than the
-previous one. So we can use the third argument range:
+    def wydrukuj_segment(n):
+        for rozmiar in range(1, n+1, 2):
+            print((rozmiar * "*").center(n))
 
-It is not exactly what we have wanted, as it should be aligned in the
-centre. The method/function unicode.center mentioned in the previous
-section, helps us:
+    print_segment(5)
+    
+    .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
-	>>>  *\**
-
-	>>>  ------------------------------------------------------------------------
+      *
+     ***
+    *****
 
 However, a new problem appears:
 
