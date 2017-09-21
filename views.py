@@ -549,7 +549,8 @@ class EmailView(HTTPMethodView):
                 email_data = {
                     "link_yes": link + str(user.id) + '/' + uhash + '/' + 'yes',
                     "link_no": link + str(user.id) + '/' + uhash + '/' + 'no',
-                    "name": user.name
+                    "name": user.name,
+                    "what_can_you_bring": user.what_can_you_bring
                 }
                 subject = req['subject']
                 text = req['text'].format(**email_data)
