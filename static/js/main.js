@@ -32,6 +32,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "AboutCtrl",
             controllerAs: 'vm'
         })
+        .when("/agenda", {
+            templateUrl: "partials/agenda.html",
+            controller: "PageCtrl",
+            controllerAs: 'vm'
+        })
         .when("/live_quiz", {
             templateUrl: "partials/live_quiz_list.html",
             controller: "LiveQuizCtrl",
