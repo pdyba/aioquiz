@@ -18,4 +18,5 @@
 5:
     title: BMI AntyTroll Edition
     task: Używając kalkulatora BMI z zadania powyżej dodaj mechanizm: 1. Zapobiegający wprowadzeniu tekstu w pytaniach o wagę i wzrost. 2. Tolerujący wprowadzanie płci K/M zarówno wielkimi jak i małymi literami. 3. Zapobiegający wprowadzeniu oznaczenia płci innego niż K/M (lub innego oczekiwanego) dla płci.
-possible_answare: yey
+    possible_answare: yey
+
