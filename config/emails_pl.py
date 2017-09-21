@@ -159,13 +159,13 @@ class EmailWorkshopInfo(EmailData):
     8:15 Otwarcie bramek w MTP Wejście Wschodnie (ul. Roosevelta)
     8:15 – 8:45 Rejestracja uczestników w Pawilonie 14, wejście B
     9:00 – 18:00 Warsztaty
-    18:30 – 22:00 Afterparty w Tandem Pub
+    18:30 – 22:00 Afterparty w Tandem Pub (ul. Gwarna 9)
     
     24.09.2017 NIEDZIELA
     8:30 Otwarcie bramek - MTP Wejście Wschodnie (ul. Roosevelta)
     9:00-18:00 Watsztaty
     
-    Pełna agendę warsztatów znajdziesz na: https://pyladiesstart.pl/#/agenda
+    Pełną agendę warsztatów znajdziesz na: https://pyladiesstart.pl/#/agenda
     
     WAŻNE!
      
@@ -175,7 +175,7 @@ class EmailWorkshopInfo(EmailData):
     
     PAMIĘTAJ BY PRZYNIEŚĆ PRZEDŁUŻACZ ORAZ ZADEKLAROWANE PRZEKĄSKI - my zapewnimy do picia wodę, kawę oraz herbatę. Ty deklarowałaś/deklarowałeś, że przyniesziesz: {what_can_you_bring}
     
-    NIE ZAPOMNIJ IDENTYFIKATORA – wręczymy Ci go podczas rejestracji. Wyjście podczas trwania warsztatów z terenów MTP oraz ponowne wejście na podstawie otrzymanego identyfikatora na hasło PYLADIES.
+    NIE ZAPOMNIJ IDENTYFIKATORA – wręczymy Ci go podczas rejestracji. Wyjście podczas trwania warsztatów z terenów MTP oraz ponowne wejście na podstawie otrzymanego identyfikatora na hasło PYLADIES. Idetyfikator zabierz też na afterparty - upoważani Cię on do 20% zniżki w Tandem Pub!
     
     JESTEŚ NA KÓŁKACH? Jeśli chcesz przyjechać własnym samochodem i zaparkować go na terenie MTP to całodzieny pobyt kosztuje 20 zł, dostępność miejsc parkingowych można uzyskać na bramkach przy wjeździe od ul. Śniadeckich.
     
@@ -196,4 +196,5 @@ ALL_EMAILS = [
     EmailTooLate.to_dict(),
     EmailSecondChance.to_dict(),
     EmailCustom.to_dict(),
+    EmailWorkshopInfo.to_dict(),
 ]

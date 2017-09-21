@@ -34,7 +34,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/agenda", {
             templateUrl: "partials/agenda.html",
-            controller: "AgendaCtrl",
+            controller: "PageCtrl",
             controllerAs: 'vm'
         })
         .when("/live_quiz", {
