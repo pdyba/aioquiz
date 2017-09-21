@@ -145,9 +145,9 @@ class EmailCustom(EmailData):
 class EmailWorkshopInfo(EmailData):
     recipients = {'accepted': True}
     subject = 'Najważniejsze informacje przed warsztatem PyLadies Start'
-    text = ''' Cześć {name}!
+    text = ''' Cześć, {name}!
 
-    Bardzo się cieszymy, że będziesz z nami na PyLadies Start! Widzimy się już w najbliższą sobotę! Poniżej znajdziesz wszystkie najważniejsze informacje - zapoznaj się z nimi przed warsztatami.
+    Bardzo się cieszymy, że będziesz z nami na PyLadies.start()! Widzimy się już w najbliższą sobotę! Poniżej znajdziesz wszystkie najważniejsze informacje - zapoznaj się z nimi przed warsztatami.
 
     Miejsce warsztatów: Międzynarodowe Targi Poznańskie, Pawilon 14, wejście B
 
@@ -170,25 +170,23 @@ class EmailWorkshopInfo(EmailData):
     WAŻNE!
 
     PIERWSZEGO DNIA PRZYJDŹ PRĘDZEJ – potrzebujemy czasu, by wręczyć Ci pakiet rejestracyjny, odłożyć Twoje przekąski na szwedzki stół, podłączyć Twój komputer do zasilania i sprawdzić czy wszystko jest OK :)
-
-    ZAINSTALUJ PYTHONA - Uprzednia instalacja Pythona zapewni gładki start i szybsze przejście do głównych treści warsztatu. Instrukcje instalacji znajdziesz tu: https://pyladiesstart.pl/#/agenda
-
-    PAMIĘTAJ BY PRZYNIEŚĆ PRZEDŁUŻACZ ORAZ ZADEKLAROWANE PRZEKĄSKI - my zapewnimy do picia wodę, kawę oraz herbatę. Ty deklarowałaś/deklarowałeś, że przyniesiesz: {what_can_you_bring}
+    
+    ZAINSTALUJ PYTHONA I PYCHARM IDE - Uprzednia instalacja Pythona i PyCharm IDE
+    
+    PAMIĘTAJ, BY PRZYNIEŚĆ PRZEDŁUŻACZ ORAZ ZADEKLAROWANE PRZEKĄSKI - my zapewnimy do picia wodę, kawę oraz herbatę. Ty deklarowałaś/deklarowałeś, że przyniesiesz: {what_can_you_bring}
 
     NIE ZAPOMNIJ IDENTYFIKATORA – wręczymy Ci go podczas rejestracji. Wyjście podczas trwania warsztatów z terenów MTP oraz ponowne wejście na podstawie otrzymanego identyfikatora na hasło PYLADIES. Identyfikator zabierz też na afterparty - upoważni Cię on do 20% zniżki w Tandem Pub!
 
     JESTEŚ NA KÓŁKACH? Jeśli chcesz przyjechać własnym samochodem i zaparkować go na terenie MTP to całodzienny pobyt kosztuje 20 zł, dostępność miejsc parkingowych można uzyskać na bramkach przy wjeździe od ul. Śniadeckich.
 
-    POTRZEBUJESZ POMOCY? Jeśli jesteś osobą z ograniczeniami ruchowymi (lub po prostu potrzebujesz pomocy), to napisz do Weroniki (Weronika@Pyladiesstar.pl) –  ona postara się, by wszystko było dla Ciebie gotowe, ponieważ obiekt jest dostosowany do osób na z ograniczeniami ruchowymi.
+    POTRZEBUJESZ POMOCY? Jeśli jesteś osobą z ograniczeniami ruchowymi (lub po prostu potrzebujesz pomocy), to napisz do Weroniki (Weronika@pyladiesstart.pl) –  ona postara się, by wszystko było dla Ciebie gotowe, ponieważ obiekt jest dostosowany do osób na z ograniczeniami ruchowymi.
 
     W razie pytań, pisz do nas na Facebooku:
     https://www.facebook.com/events/518360511838646
 
     Do zobaczenia!
     PyLadies Poznań Team
-
     '''
-
 
 ALL_EMAILS = [
     EmailAccepted.to_dict(),
