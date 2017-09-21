@@ -6,11 +6,12 @@ zainstalowaliśmy w poprzednim rozdziale. Proszę uruchomcie:
 
     :::bash
     (workshops) ~$ python
-    Python 3.4.0 (...)
+    Python 3.6.0 (...)
     Type "copyright", "credits" or "license" for more information.
 
     >>>
 
+![interpreter Pythona w terminalu](images/terminal_python.png)
 
 Wcześniej pracowaliśmy w wierszu poleceń systemu operacyjnego i mogliśmy
 wprowadzać komendy. Znakiem zachęty był `~$`. Po uruchomieniu komendy `python`, 
@@ -128,3 +129,24 @@ powinna być w osobnym wierszu. Na przykład:
 Aby zwiększyć przejrzystość pliku `visitingcard.py`, w dowolnym jego
 miejscu możemy wprowadzać puste wiersze. Tutaj oddzieliśmy nagłówek
 wiadomości od jej zawartości i zakończenia.
+
+Tworzenie i uruchomienie pliku w edytorze PyCharm
+================================
+
+Aby utworzyć plik, wciśnij prawy przycisk myszy na nazwie projektu i wybierz "New" ("Nowy") a następnie "File" ("Plik").
+
+W oknie, które się pojawi wpisz nazwę pliku (na przykład `visitingcard.py`).
+
+![tworzenie pliku](images/pycharm_new_file_project.png)
+
+![nazwa pliku](images/pycharm_new_file_name.png)
+
+Wypełnij teraz plik treścią skryptu.
+
+Aby go uruchomić, wybierz "Run" ("Uruchom"), a następnie opcję o nazwie takiej jak uruchamiany plik (`visitingcard.py`).
+
+Wynik skryptu zostanie wyświetlony (domyślnie) w oknie na dole ekranu.
+
+![uruchom plik](images/pycharm_run_file.png)
+
+![uruchom plik](images/pycharm_run_result.png)
