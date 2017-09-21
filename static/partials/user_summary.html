@@ -11,6 +11,7 @@
                     <th>ID</th>
                     <th>Surname</th>
                     <th>Name</th>
+                    <th>PyMocnik</th>
                     <th>OS</th>
                     <th>What_can_you_bring</th>
                     <th>E-mail</th>
@@ -18,8 +19,97 @@
                 </thead>
 
                 <tbody>
-                <tr ng-repeat="user in vm.allUsers"
+                <tr ng-repeat="user in vm.allAttendes"
                     ng-class="{'danger': user.organiser, 'success': user.operating_system === 'MacOS', 'warning': user.operating_system === 'Linux'}">
+                    <td>{{ $index +1}}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>{{ user.name }} </td>
+                    <td ng-if="user.organiser"><b>PyMocnik</b></td>
+                    <td ng-if="!user.organiser">-</td>
+                    <td>{{ user.operating_system }}</td>
+                    <td>{{ user.what_can_you_bring }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <h3>All confirmed PyMocniks:</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Surname</th>
+                    <th>Name</th>
+                    <th>OS</th>
+                    <th>What_can_you_bring</th>
+                    <th>E-mail</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="user in vm.pymocniks">
+                    <td>{{ $index +1}}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>{{ user.name }} </td>
+                    <td>{{ user.operating_system }}</td>
+                    <td>{{ user.what_can_you_bring }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <h3>All confirmed Mentors:</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Surname</th>
+                    <th>Name</th>
+                    <th>OS</th>
+                    <th>What_can_you_bring</th>
+                    <th>E-mail</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="user in vm.mentors">
+                    <td>{{ $index +1}}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>{{ user.name }} </td>
+                    <td>{{ user.operating_system }}</td>
+                    <td>{{ user.what_can_you_bring }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <h3>All confirmed Admin:</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Surname</th>
+                    <th>Name</th>
+                    <th>OS</th>
+                    <th>What_can_you_bring</th>
+                    <th>E-mail</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="user in vm.admins">
                     <td>{{ $index +1}}</td>
                     <td>{{ user.surname }}</td>
                     <td>{{ user.name }} </td>

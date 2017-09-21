@@ -1,0 +1,13 @@
+1:
+    question: Jak masz na imie ?
+2:
+    question: Czy lubisz czekolade ?
+    qtype: bool
+3:
+    question: Jakie jest twoje ulubione zwierze ?
+    answares:
+        - pyton
+        - pies
+        - kot
+        - krolik
+    qtype: abcd
