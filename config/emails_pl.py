@@ -151,7 +151,7 @@ class EmailWorkshopInfo(EmailData):
     
     Miejsce warsztatów: Międzynarodowe Targi Poznańskie, Pawilon 14, wejście B
     
-    Mapkę z zaznaczonym miejscem warsztatów znajdziesz na: https://pyladiesstart.pl/#/agenda
+    Mapkę z zaznaczonym miejscem warsztatów znajdziesz na: https://pyladiesstart.pl/agenda
     
     Skrócony plan warsztatów:
     
@@ -165,13 +165,13 @@ class EmailWorkshopInfo(EmailData):
     8:30 Otwarcie bramek - MTP Wejście Wschodnie (ul. Roosevelta)
     9:00-18:00 Watsztaty
     
-    Pełną agendę warsztatów znajdziesz na: https://pyladiesstart.pl/#/agenda
+    Pełną agendę warsztatów znajdziesz na: https://pyladiesstart.pl/agenda
     
     WAŻNE!
      
     PIERWSZEGO DNIA PRZYJDŹ PRĘDZEJ – potrzebujemy czasu, by wręczyć Ci pakiet rejestracyjny, odłożyć Twoje przekąski na szwedzki stół, podłączyć Twój komputer do zasilania i sprawdzić czy wszystko jest OK :)
     
-    ZAINSTALUJ PYTHONA - Uprzednia instalacja Pythona zapewni gładki start i szybsze przejście do głównych treści warsztatu. Instrukcje instalacji znajdziesz tu: https://pyladiesstart.pl/#/agenda
+    ZAINSTALUJ PYTHONA - Uprzednia instalacja Pythona zapewni gładki start i szybsze przejście do głównych treści warsztatu. Instrukcje instalacji znajdziesz tu: https://pyladiesstart.pl/agenda
     
     PAMIĘTAJ BY PRZYNIEŚĆ PRZEDŁUŻACZ ORAZ ZADEKLAROWANE PRZEKĄSKI - my zapewnimy do picia wodę, kawę oraz herbatę. Ty deklarowałaś/deklarowałeś, że przyniesziesz: {what_can_you_bring}
     
