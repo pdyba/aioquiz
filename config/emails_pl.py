@@ -143,7 +143,7 @@ class EmailCustom(EmailData):
     recipients = {}
 
 class EmailWorkshopInfo(EmailData):
-    recipients = {'accepted': True}
+    recipients = {'accepted': True, 'confirmation': 'ack'}
     subject = 'Najważniejsze informacje przed warsztatem PyLadies Start'
     text = ''' Cześć, {name}!
 
