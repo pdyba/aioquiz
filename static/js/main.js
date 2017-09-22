@@ -149,6 +149,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "SeatOverViewController",
             controllerAs: 'vm'
         })
+        .when("/overview_lesson", {
+            templateUrl: "partials/overview_lesson.html",
+            controller: "ExerciseOverviewController",
+            controllerAs: 'vm'
+        })
         .when("/rules", {
             templateUrl: "partials/rules.html",
             controller: "PageCtrl",
@@ -1027,6 +1032,32 @@ function SeatOverViewController($scope, $location, $AuthenticationService, $Flas
     $interval(refresh_seats, 3000)
 
 }
+
+
+app.controller('ExerciseOverviewController', ExerciseOverviewController);
+ExerciseOverviewController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$interval'];
+function ExerciseOverviewController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $interval) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.overview = true;
+    vm.exercises_overview = {};
+    function refresh_seats() {
+        $http.get('/api/exercises_overview').then(
+            function (response) {
+                vm.exercises_overview = response.data;
+            }
+        )
+    }
+    refresh_seats();
+    $interval(refresh_seats, 3000)
+
+}
+
 
 
 app.controller('AdminConfigController', AdminConfigController);

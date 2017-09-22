@@ -316,6 +316,16 @@ class Table:
         )
         return dict(resp[0])['count']
 
+    @classmethod
+    async def group_by_field(cls, name, **kwargs):
+        query = """SELECT {name}, COUNT(*) FROM {table} """.format(table=cls._name, name=name)
+        if kwargs:
+            query += ' WHERE ' + cls._format_kwargs(**kwargs)
+        query += """ GROUP BY {name}""".format(name=name)
+        resp = await make_a_querry(
+            query
+        )
+        return dict(resp)
 
     @classmethod
     async def _delete(cls, data):
