@@ -24,6 +24,7 @@ from views import ChangeActiveView
 from views import ConfigView
 from views import EmailView
 from views import ExercisesView
+from views import ExerciseOverview
 from views import ForgotPasswordView
 from views import INeedHelpView
 from views import LessonView
@@ -104,6 +105,8 @@ app.add_route(ChangeActiveView.as_view(), '/api/change_active')
 app.add_route(ReviewRulesView.as_view(), '/api/review_rules')
 
 app.add_route(UserStatsView.as_view(), '/api/users_stats')
+
+app.add_route(ExerciseOverview.as_view(), '/api/exercises_overview')
 
 app.add_route(SeatView.as_view(), '/api/seats')
 app.add_route(SeatView.as_view(), '/api/seats/<uid:int>')

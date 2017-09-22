@@ -724,7 +724,7 @@ class SeatView(HTTPMethodView):
             for x in range(config.room_raws):
                 raw = chr(65 + x)
                 for y in range(config.room_columns):
-                    if (x + 1) % 3 == 0:
+                    if (y + 1) % 13 == 0:
                         resp[raw][y] = empty_raw
                     else:
                         resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
@@ -1011,3 +1011,16 @@ class ForgotPasswordView(HTTPMethodView):
         except:
             logging.exception('err user.post')
         return json({'msg': 'wrong email or user does not exists'}, status=404)
+
+
+class ExerciseOverview(HTTPMethodView):
+    # @user_required('mentor')
+    async def get(self, request):
+        exercises = await Exercise.get_all()
+        resp = {}
+        for ex in exercises:
+            if not resp.get(ex.lesson):
+                resp[ex.lesson] = {}
+            resp[ex.lesson][ex.id] = await ex.to_dict()
+            resp[ex.lesson][ex.id]['exercise_answare'] = await ExerciseAnsware.group_by_field('status', exercise=ex.id)
+        return json(resp)
