@@ -25,7 +25,7 @@ W kubku lub małej miseczce roztrzep widelcem jajka z pieprzem i solą.
 Pokroj szynkę i cebulę na drobne kawałki. Roztop masło w rondelku na
 małym ogniu.
 Podsmażaj cebulę i szynkę, aż cebula się zezłoci.
-Wlej jajka i mieszaj podrzewając, aż do otrzymania pożądanej konsystencji.
+Wlej jajka i mieszaj podgrzewając, aż do otrzymania pożądanej konsystencji.
 Nie gotuj za długo.
 
 Schemat blokowy
