@@ -124,7 +124,7 @@ ilością liter:
     -------------------------------
 
 
-Wyrównanie do centurm pozostawiamy Tobie :).
+Wyrównanie do centrum pozostawiamy Tobie :).
 
 Formatowanie bardziej po Pythonowemu
 ====================================
