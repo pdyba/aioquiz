@@ -28,6 +28,14 @@ kropki, a nie przecinka. Przecinki będą używane do definiowania tupli
 <bmi-tuples> (więcej o tym wkrótce). Operator % to modulo, czyli reszta
 z dzielenia.
 
+* \+ - dodawania
+* \- - odejmowanie
+* \* - mnożenie
+* / - dzielenie
+* ** - potęgowanie
+* // - dzielenie do części całych zaokrąglając zawsze w dół
+* % - modulo czyli reszta z dzielenia
+
 
 Kalkulator BMI
 ==============

@@ -224,3 +224,23 @@ A jesli zrobiliście obowiązkowe zadanie nr 1, przekonaliście się, że w Pyth
 występują jajeczka-niespodzianki i wierzcie nam - jest ich więcej. Oto kolejne:
 
 	>>>  True + True
+cwiczenia
+=========
+Korzystając printa i inputa napisz funkcje która pobierze i policzy BMI lub pole prostokąta:
+BMI waga podzielona przez kwadrat wzrostu
+bmi = m / h*h     (h**2)
+Pole prostokątna bok * bok
+p = a * b
+
+1. Usuń błąd z poprzedniego zadania:
+print('Twoje BMI wynosi: ' + input('Podaj wage: ') / input('Podaj  wzrost: ')**2)
+print(’Pole prostkoat: ' + input(’Bok A: ') * input(’Bok B: ’))
+2. Zamień string ‘123.12’ na int.
+
+1. Sprawdź czy len działa na intach lub floatach
+2. Zmień przykład wykorzystując len aby pobierał imię:
+>>> print('x' * input('ile liter ma twoje imie? '))
+ile liter ma twoje imie? 5
+xxxxx
+
+
