@@ -7,7 +7,7 @@
     task: Napisz tak stringa żeby wypisał: AaAaAaAaAaAaAaAaAaAaAaAa
     possible_answare: print(‘Aa’ * 12)
 3:
-    title: Uciekcza_1
+    title: Ucieczka_1
     task: Napisz tak stringa żeby wypisał: Nowy film Ama’deusza pt. „xyz”
     possible_answare: print(„Nowy film Ama’deusza pt. \„xyz\””)
 4:

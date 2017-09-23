@@ -20,8 +20,8 @@ To nie jest aplikacja !
 To nie jest program !
 To nie jest framework !
 
-Python: używany min:
---------------------
+Python - używany m.in.:
+-----------------------
 
 * Apture
 * Disqus
@@ -59,8 +59,8 @@ Programista: Kto to jest ?
 
 ![image](./images/python_gods.jpeg)
 
-Programista: Jak zostac?
----------------------------
+Programista: Jak zostać?
+------------------------
 
 * Angielski, angielski, angielski.
 * Umiejętność kodowania w danym języku.
@@ -74,7 +74,7 @@ Co może pomóc:
 Programista w pracy:zagadki
 ------------------------------
 
-* „Dlaczego ten kod działa”?
+* „Dlaczego ten kod działa?”
 * „Jakim cudem nie działa?!”
 * „O co chodziło autorowi?”
 
@@ -85,10 +85,10 @@ Programista w pracy:Warunki
 * Elastyczne (bardzo) godziny pracy
 * Zadaniowy czas pracy
 * Integracje
-* Okresy wypowiedzenia wg. zyczenia pracownika
+* Okresy wypowiedzenia wg. życzenia pracownika
 * $$$
 * [Kozy](https://www.youtube.com/watch?v=oHkqamFRTKI)
 
-Python: kompedium
+Python: kompendium
 ------------------
 https://python.zeef.com/
