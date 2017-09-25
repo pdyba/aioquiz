@@ -188,6 +188,20 @@ class EmailWorkshopInfo(EmailData):
     PyLadies Poznań Team
     '''
 
+
+class EmailUserFeedback(EmailData):
+    recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False, 'organiser': False}
+    subject = 'Feedback dla PyLadies Start'
+    text = ''' Cześć, {name}!
+
+Warsztaty PyLadies.start() dobiegły końca... Bardzo chcielibyśmy dostać Twój feedback, żeby wiedzieć co ulepszyć przy okazji następnej edycji!
+
+Wejdź proszę tutaj: https://goo.gl/forms/XbtGgW8MEnZ8TaPT2 i wypełnij tę bardzo krótką ankietę - zrób to tak szybko, jak tylko możesz, byś miała/miał jeszcze świeże wspomnienia z warsztatów :)
+
+Z góry bardzo dziękujemy!
+PyLadies Poznań Team    
+    '''
+
 ALL_EMAILS = [
     EmailAccepted.to_dict(),
     EmailRejected.to_dict(),
@@ -196,4 +210,5 @@ ALL_EMAILS = [
     EmailSecondChance.to_dict(),
     EmailCustom.to_dict(),
     EmailWorkshopInfo.to_dict(),
+    EmailUserFeedback.to_dict(),
 ]
