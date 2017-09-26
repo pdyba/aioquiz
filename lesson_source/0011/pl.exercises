@@ -5,4 +5,4 @@
 2:
     title: Gruby i co, jeśli facet?
     task: Stwórz kalkulator BMI, który powie Ci, czy masz niedowagę, czy nadwagę według powyższej tabeli, zależnie od płci.
-possible_answare: yey
+    possible_answare: yey

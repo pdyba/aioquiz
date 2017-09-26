@@ -92,7 +92,7 @@ async def admin():
 
     tbl = models.Users(**new_user)
     await tbl.create()
-    await models.Users.get_by_id(1)
+    await models.Users.get_by_id(14)
     print('Admin Created')
 
 async def add_question():
@@ -290,7 +290,7 @@ async def create_html_lessons(lang='pl'):
                 questions = False
                 print(err)
             if questions:
-                quiz = models.Quiz(title=meta['title'], users=1, description=meta['description'])
+                quiz = models.Quiz(title=meta['title'], users=14, description=meta['description'])
                 quiz_id = await quiz.update_or_create('title')
                 meta['quiz'] = quiz_id
                 question_order = 1

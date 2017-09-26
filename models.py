@@ -24,7 +24,7 @@ class Question(Table):
         Column('possible_answare', String(1000), default=''),
         Column('qtype', String(50), default='plain'),
         Column('img', String(255), required=False, default=''),
-        Column('users', ForeignKey('users'), default=1),
+        Column('users', ForeignKey('users'), default=14),
         Column('time_created', DateTime(), default=datetime.utcnow),
     ]
 
@@ -134,7 +134,7 @@ class Lesson(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('author', ForeignKey('users'), default=1),
+        Column('author', ForeignKey('users'), default=14),
         Column('file', String(255), required=False),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
@@ -149,7 +149,7 @@ class Quiz(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=1),
+        Column('users', ForeignKey('users'), default=14),
         Column('time_created', DateTime(), default=datetime.utcnow),
     ]
 
@@ -173,7 +173,7 @@ class Exercise(Table):
         Column('title', String(255)),
         Column('task', CodeString(10000)),
         Column('possible_answare', CodeString(1000), required=False),
-        Column('author', ForeignKey('users'), default=1),
+        Column('author', ForeignKey('users'), default=14),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('lesson', ForeignKey('lesson')),
     ]
@@ -223,7 +223,7 @@ class LiveQuiz(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=1),
+        Column('users', ForeignKey('users'), default=14),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
     ]

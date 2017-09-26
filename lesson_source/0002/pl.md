@@ -26,7 +26,7 @@ Kontrakt
 --------
 
 1. Co: nauka programowania.
-2. Gdzie: MTP / …
+2. Gdzie: MTP / ...
 3. Kiedy: 23-24.09.2017 9:00-18:00
 4. Kto: Mentorzy odpowiadają za naukę, a uczestnicy za wchłanianie wiedzy.
 5. Jak:
