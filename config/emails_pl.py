@@ -215,6 +215,23 @@ Pozdrawiamy
 Zespół Pyladies.start()   
     '''
 
+
+class EmailG4R(EmailData):
+    recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False, 'organiser': False}
+    subject = 'Dla zwycięzców voucherów Go4Robot - potwierdźcie swój udział'
+    text = ''' "Cześć! 
+    
+Informacja od @GO4Robot:
+Pamiętacie o naszych warsztatach w dzień chłopaka? Prosimy o potwierdzenia swojego uczestnictwa w warsztatach do czwartku 28.09 do godziny 18.00 na biuro@g4r.pl. Każdy voucher to tylko jedno miejsce. Jeśli ktoś chce przyjść ze swoim dzieckiem, to prosimy o taką informację. Poinformujemy o dodatkowym miejscu w piątek. 
+Mail: biuro@g4r.pl, tel. 794 529 886
+
+Terminy: 
+-30.09 Godzina 17.00
+-30.09 Godzina 18.30
+
+Do zobaczenia!" 
+    '''
+
 ALL_EMAILS = [
     EmailAccepted.to_dict(),
     EmailRejected.to_dict(),
@@ -225,4 +242,5 @@ ALL_EMAILS = [
     EmailWorkshopInfo.to_dict(),
     EmailUserFeedback.to_dict(),
     EmailKCF.to_dict(),
+    EmailG4R.to_dict(),
 ]
