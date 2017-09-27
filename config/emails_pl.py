@@ -202,6 +202,19 @@ Z góry bardzo dziękujemy!
 PyLadies Poznań Team    
     '''
 
+class EmailKCF(EmailData):
+    recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False, 'organiser': False}
+    subject = 'Zniżka na warsztaty w Kids Code Fun'
+    text = ''' Drodzy uczestnicy Pyladies.start()
+    
+Dziękujemy Wam bardzo za udział w warsztatach.
+
+Nasz brązowy partner Kids Code Fun ma dla Was wszystkich 10% zniżkę na warsztaty programowania dla dzieci w wieku 5-7 lat (ScratchJr) i 8-12 lat (Scratch) startujące już 30 września. W celu uzyskania zniżki prosimy przy zapisach (na stronie kidscodefun.com) podać pyladies przy imieniu dziecka. Więcej informacji na stronie Kids Code Fun lub pod mailem poznan@kidscodefun.com. Serdecznie zapraszamy!
+
+Pozdrawiamy
+Zespół Pyladies.start()   
+    '''
+
 ALL_EMAILS = [
     EmailAccepted.to_dict(),
     EmailRejected.to_dict(),
@@ -211,4 +224,5 @@ ALL_EMAILS = [
     EmailCustom.to_dict(),
     EmailWorkshopInfo.to_dict(),
     EmailUserFeedback.to_dict(),
+    EmailKCF.to_dict(),
 ]
