@@ -170,9 +170,9 @@ class EmailWorkshopInfo(EmailData):
     WAŻNE!
 
     PIERWSZEGO DNIA PRZYJDŹ PRĘDZEJ – potrzebujemy czasu, by wręczyć Ci pakiet rejestracyjny, odłożyć Twoje przekąski na szwedzki stół, podłączyć Twój komputer do zasilania i sprawdzić czy wszystko jest OK :)
-    
+
     ZAINSTALUJ PYTHONA I PYCHARM IDE - Uprzednia instalacja Pythona i PyCharm IDE zapewni gładki start i szybsze przejście do głównych treści warsztatu. Instrukcje instalacji znajdziesz tu: https://pyladiesstart.pl/#/agenda
-    
+
     PAMIĘTAJ, BY PRZYNIEŚĆ PRZEDŁUŻACZ ORAZ ZADEKLAROWANE PRZEKĄSKI - my zapewnimy do picia wodę, kawę oraz herbatę. Ty deklarowałaś/deklarowałeś, że przyniesiesz: {what_can_you_bring}
 
     NIE ZAPOMNIJ IDENTYFIKATORA – wręczymy Ci go podczas rejestracji. Wyjście podczas trwania warsztatów z terenów MTP oraz ponowne wejście na podstawie otrzymanego identyfikatora na hasło PYLADIES. Identyfikator zabierz też na afterparty - upoważni Cię on do 20% zniżki w Tandem Pub!
@@ -199,38 +199,66 @@ Warsztaty PyLadies.start() dobiegły końca... Bardzo chcielibyśmy dostać Twó
 Wejdź proszę tutaj: https://goo.gl/forms/XbtGgW8MEnZ8TaPT2 i wypełnij tę bardzo krótką ankietę - zrób to tak szybko, jak tylko możesz, byś miała/miał jeszcze świeże wspomnienia z warsztatów :)
 
 Z góry bardzo dziękujemy!
-PyLadies Poznań Team    
+PyLadies Poznań Team
     '''
 
 class EmailKCF(EmailData):
     recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False, 'organiser': False}
     subject = 'Zniżka na warsztaty w Kids Code Fun'
     text = ''' Drodzy uczestnicy Pyladies.start()
-    
+
 Dziękujemy Wam bardzo za udział w warsztatach.
 
 Nasz brązowy partner Kids Code Fun ma dla Was wszystkich 10% zniżkę na warsztaty programowania dla dzieci w wieku 5-7 lat (ScratchJr) i 8-12 lat (Scratch) startujące już 30 września. W celu uzyskania zniżki prosimy przy zapisach (na stronie kidscodefun.com) podać pyladies przy imieniu dziecka. Więcej informacji na stronie Kids Code Fun lub pod mailem poznan@kidscodefun.com. Serdecznie zapraszamy!
 
 Pozdrawiamy
-Zespół Pyladies.start()   
+Zespół Pyladies.start()
     '''
 
 
 class EmailG4R(EmailData):
     recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False, 'organiser': False}
     subject = 'Dla zwycięzców voucherów Go4Robot - potwierdźcie swój udział'
-    text = ''' "Cześć! 
-    
+    text = ''' "Cześć!
+
 Informacja od @GO4Robot:
-Pamiętacie o naszych warsztatach w dzień chłopaka? Prosimy o potwierdzenia swojego uczestnictwa w warsztatach do czwartku 28.09 do godziny 18.00 na biuro@g4r.pl. Każdy voucher to tylko jedno miejsce. Jeśli ktoś chce przyjść ze swoim dzieckiem, to prosimy o taką informację. Poinformujemy o dodatkowym miejscu w piątek. 
+Pamiętacie o naszych warsztatach w dzień chłopaka? Prosimy o potwierdzenia swojego uczestnictwa w warsztatach do czwartku 28.09 do godziny 18.00 na biuro@g4r.pl. Każdy voucher to tylko jedno miejsce. Jeśli ktoś chce przyjść ze swoim dzieckiem, to prosimy o taką informację. Poinformujemy o dodatkowym miejscu w piątek.
 Mail: biuro@g4r.pl, tel. 794 529 886
 
-Terminy: 
+Terminy:
 -30.09 Godzina 17.00
 -30.09 Godzina 18.30
 
-Do zobaczenia!" 
+Do zobaczenia!"
     '''
+
+
+class EmailPytrening(EmailData):
+    recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False, 'organiser': False}
+    subject = 'Ruszamy z kontynuacją PyLadies.start()!'
+    text = """
+Zapraszamy wszystkie osoby, które brały udział w warsztacie weekendowym oraz pozostałe, które chcą dołączyć do uczestnictwa w spotkaniach będących kontynuacją warsztatów PyLadies.start()
+
+Pierwsze spotkanie PyLadies z grupą "continued" odbędzie się 17.10 w Collegium Da Vinci przy ulicy Kutrzeby 10 w Poznaniu.
+
+Na pierwszych zajęciach czeka Was przede wszystkim powtóreczka materiału przerobionego podczas warsztatów PyLadies.start().
+
+CO JEST POTRZEBNE?
+Znajomość i umiejętność zastosowania w praktyce:
+- def, for, while, if, elif, else, print, return, import
+- umiejętność posługiwania się: stringami, listami, słownikami, tuplami
+- umiejętność samodzielnego kodowania niezbyt skomplikowanych zadań
+- zainstalowany Python 3.4+ (3.5 lub 3.6 (https://www.python.org/downloads/)
+- PyCharm
+- NAŁADOWANY laptop - prąd i garść przedłużaczy mamy, ale gniazd dla każdego oczywiście nie starczy
+- dowolny sposób prezentacji swojego imienia, aby mentor nie musiał stosowac zwrotu "ej, ty..." - logistycznie: pamiętaj, że mentor stoi nie od frontu, ale za Twoimi plecami, twarzą ku Twojemu ekranowi. Będą dostępne nalepki PyLadies Poznan :)
+- PyLadiesowy uśmiech na ryjku
+
+PROSIMY O WCZEŚNIEJSZĄ REJESTRACJĘ POD LINKIEM https://pyladies-continued-1.evenea.pl/
+
+WAŻNA INFROMACJA! Mamy tylko 200 miejsc na sali, a rejestracja jest obowiązkowa ze względu na przepisy BHP.
+    """
+
 
 ALL_EMAILS = [
     EmailAccepted.to_dict(),
@@ -243,4 +271,5 @@ ALL_EMAILS = [
     EmailUserFeedback.to_dict(),
     EmailKCF.to_dict(),
     EmailG4R.to_dict(),
+    EmailPytrening.to_dict(),
 ]
