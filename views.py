@@ -850,9 +850,9 @@ class AbsenceView(HTTPMethodView):
     @user_required()
     async def put(self, request, current_user):
         req = request.json
-        lesson = req.get('lesson')
         code = req.get('code')
-        if not lesson or not code:
+        import pdb; pdb.set_trace()
+        if not code:
             return json(
                 {
                     'success': False,
@@ -860,7 +860,8 @@ class AbsenceView(HTTPMethodView):
                 },
                 sort_keys=True
             )
-        abmeta = await AbsenceMeta.get_first('lesson', lesson)
+        logging.error(code)
+        abmeta = await AbsenceMeta.get_first('code', code)
         if code != abmeta.code:
             return json(
                 {
@@ -878,7 +879,7 @@ class AbsenceView(HTTPMethodView):
                 },
                 sort_keys=True
             )
-        absence = Absence(lesson=lesson, users=current_user.id, absent=True)
+        absence = Absence(lesson=abmeta.lesson, users=current_user.id, absent=True)
         await absence.update_or_create('lesson', 'users')
         return json(
             {
@@ -893,7 +894,9 @@ class AbsenceView(HTTPMethodView):
         req = {'lesson': lid, 'users': uid}
         code = str(uuid4()).split('-')[0]
         time_ended = datetime.now()
-        time_ended = time_ended.replace(minute=time_ended.minute+2)
+        new_min = time_ended.minute + 2 if time_ended.minute < 58 else 2
+        new_hour = time_ended.hour + 1 if time_ended.minute > 57 else time_ended.hour
+        time_ended = time_ended.replace(minute=new_min, hour=new_hour)
         req['code'] = code
         req['time_ended'] = time_ended
         abmeta = AbsenceMeta(**req)
