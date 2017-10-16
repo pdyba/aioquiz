@@ -277,13 +277,14 @@ class Feedback(Table):
         Column('lesson_review', String(10000)),
         Column('teacher_review', String(10000)),
         Column('material', Integer()),
-        Column('teacher', Integer()),
+        Column('teacher', ForeignKey('users')),
         Column('users', ForeignKey('users')),
         # O tym czy dobrze było zorganizowane
         # Czy polecilbys nasze warsztaty znajomym
         # Czy moglibyśmy lepiej się reklamować
         # Czy jakieś zagadnienia były za mało poruszone Albo za dużo
         # Czego brakowało
+        # https://docs.google.com/forms/d/e/1FAIpQLSctlgSwoKQoB_3Hc5bfu3RYLbz0TNKQmg23jnc8MJ3wwRJn7g/viewform
     ]
 
 
