@@ -255,6 +255,22 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
             }
         )
     };
+
+    $scope.save_attendence = function () {
+        SweetAlert.swal({
+            title: "Attendence",
+            text: "Please provide lesson code",
+            element: "input",
+            type: "input",
+            showConfirmButton: true
+        }, function (value) {
+            var data = {'email': value};
+            $http.post('/api/', data).then(function (response) {
+                var txt = response.data.msg;
+                SweetAlert.swal({text: txt, title: ''});
+            })
+        });
+    }
 }
 
 app.component("exercises", {
@@ -454,33 +470,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     get_all_users();
     get_rules();
 
-}
-
-app.controller('AttendanceController', AttendanceController);
-AttendanceController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function AttendanceController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
-    var vm = this;
-    $injector.invoke(PageCtrl, this, {
-        $scope: $scope,
-        $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
-    });
-    vm.attendance = {};
-    vm.send_attendance = send_attendance;
-    //TODO: Finish this
-    function send_attendance() {
-        $http.put('/api/lessons', vm.attendance).then(
-            function (response) {
-                response.data.forEach(
-                    function (a, b) {
-                        a.full_id = pad(a.id, 4);
-                    }
-                );
-                vm.lessons = response.data;
-            }
-        );
-    }
 }
 
 app.controller('LessonsCtrl', LessonsCtrl);
@@ -913,7 +902,7 @@ function SeatController($scope, $location, $AuthenticationService, $FlashService
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
-    vm.current_user = $scope.globals.currentUser
+    vm.current_user = $scope.globals.currentUser;
     vm.seats = false;
     vm.user_seat = $scope.globals.currentUser.seat;
     vm.take_or_relese_seat = take_or_relese_seat;

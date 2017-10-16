@@ -1,0 +1,141 @@
+<div class="container" xmlns="http://www.w3.org/1999/html">
+
+    <div class="col-md-6 col-md-offset-3">
+        <h1>{{ vm.user.name }} {{ vm.user.surname }}</h1><small>{{ vm.user.email }}</small>
+        <h3 ng-hide="vm.user.lang === 'pl'">Language:</h3>
+        <h3 ng-show="vm.user.lang === 'pl'">Język:</h3>
+        <form name="form" ng-submit="vm.update_user()" role="form">
+            <div class="form-group">
+                <label for="lang">
+                    <input class="form-inline text-left" type="radio"
+                           name="lang" id="lang" value="pl"
+                           ng-model="vm.user.lang"
+                           required/> Polski
+                    <input class="form-inline float-right" type="radio"
+                           name="lang" id="lang" value="en"
+                           ng-model="vm.user.lang"
+                           required/> English
+                </label>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.city.$dirty && form.password.$error.required }">
+                <label for="city" ng-if="vm.user.lang === 'en'">City</label>
+                <label for="city" ng-if="vm.user.lang === 'pl'">Miejscowość</label>
+                <span ng-show="form.city.$error.required"
+                      class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.city.$error.minlength "
+                      class="help-inline alert-danger">Minimal length 3</span>
+                <span ng-show="form.city.$dirty && form.city.$valid" class="help-inline alert-success">&#10003;</span>
+                <span ng-show="form.city.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters</span>
+                <input ng-minlength="3" type="text" name="city" id="city" ng-pattern="/^[a-zA-Z \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
+                       class="form-control" ng-model="vm.user.city"/>
+            </div>
+
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
+                <label for="description" ng-if="vm.user.lang === 'en'">Description</label>
+                <label for="description" ng-if="vm.user.lang === 'pl'">Opis</label>
+                <span ng-show="form.description.$error.required"
+                      class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.description.$error.minlength "
+                      class="help-inline alert-danger">Minimal length 65</span>
+                <span ng-show="form.description.$dirty && form.description.$valid"
+                      class="help-inline alert-success">&#10003;</span>
+                <span ng-show="form.description.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <textarea ng-minlength="65" type="text" name="description"
+                          id="description" class="form-control" ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
+                          ng-model="vm.user.description" required/>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.t_shirt.$dirty && form.t_shirt.$error.required }">
+                <label for="t_shirt">T-shirt*</label>
+                <span ng-show="form.t_shirt.$error.required" class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.t_shirt.$dirty && form.t_shirt.$valid" class="help-inline alert-success">&#10003;</span>
+                <select class="form-control" ng-options="x for x in ['Female-XXS', 'Female-XS', 'Female-S', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-S', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL']"
+                        ng-model="vm.user.t_shirt" ngValue="x" required name="t_shirt" id="t_shirt">
+                    <option></option>
+                </select>
+            </div>
+
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.operating_system.$dirty && form.operating_system.$error.required }">
+                <label for="operating_system" ng-if="vm.user.lang === 'en'">Operating System</label>
+                <label for="operating_system" ng-if="vm.user.lang === 'pl'">System Operacyjny</label>
+                <span ng-show="form.operating_system.$error.required"
+                      class="help-inline alert-danger">&#10060; Required</span>
+                <span ng-show="form.operating_system.$dirty && form.operating_system.$valid"
+                      class="help-inline alert-success">&#10003;</span>
+                <select class="form-control" ng-options="x for x in ['MacOS', 'Linux', 'Windows']"
+                        ng-model="vm.user.operating_system" ngValue="x" name="operating_system" id="operating_system"
+                        required><option></option>
+                </select >
+            </div>
+
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': form.experience.$dirty && form.password.$error.required }">
+                <label for="img" ng-if="vm.user.lang === 'en'">Photo</label>
+                <label for="img" ng-if="vm.user.lang === 'pl'">Zdjcie</label>
+                <span ng-show="form.img.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="img" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="img" class="form-control"  ng-model="vm.user.img"/>
+            </div>
+
+            <div class="form-group">
+                <label for="linkedin" ng-if="vm.user.lang === 'en'">Linkedin</label>
+                <label for="linkedin" ng-if="vm.user.lang === 'pl'">Linkedin</label>
+                <span ng-show="form.linkedin.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="linkedin" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="linkedin" class="form-control"  ng-model="vm.user.linkedin"/>
+            </div>
+
+            <div class="form-group">
+                <label for="facebook" ng-if="vm.user.lang === 'en'">Facebook</label>
+                <label for="facebook" ng-if="vm.user.lang === 'pl'">Facebook</label>
+                <span ng-show="form.facebook.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="facebook" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="facebook" class="form-control"  ng-model="vm.user.facebook"/>
+            </div>
+
+            <div class="form-group">
+                <label for="twitter" ng-if="vm.user.lang === 'en'">Twitter</label>
+                <label for="twitter" ng-if="vm.user.lang === 'pl'">Twitter</label>
+                <span ng-show="form.twitter.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="twitter" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"
+                       id="twitter" class="form-control"  ng-model="vm.user.twitter"/>
+            </div>
+
+            <div class="form-group">
+                <label for="pyfunction" ng-if="vm.user.lang === 'en'">PyFunction</label>
+                <label for="pyfunction" ng-if="vm.user.lang === 'pl'">PyFunction</label>
+                <span ng-show="form.pyfunction.$error.pattern"
+                      class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
+                <input type="text" name="pyfunction" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
+                       id="pyfunction" class="form-control"  ng-model="vm.user.pyfunction"/>
+            </div>
+
+
+            <div class="form-actions">
+                <button type="submit"
+                        ng-disabled="form.$invalid || vm.dataLoading"
+                        class="btn btn-primary">Update
+                </button>
+                <img ng-if="vm.dataLoading"
+                     src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
