@@ -859,7 +859,6 @@ class AbsenceView(HTTPMethodView):
                 },
                 sort_keys=True
             )
-        logging.error(code)
         abmeta = await AbsenceMeta.get_first('code', code)
         if code != abmeta.code:
             return json(
