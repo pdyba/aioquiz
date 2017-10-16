@@ -851,7 +851,6 @@ class AbsenceView(HTTPMethodView):
     async def put(self, request, current_user):
         req = request.json
         code = req.get('code')
-        import pdb; pdb.set_trace()
         if not code:
             return json(
                 {
