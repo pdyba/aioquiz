@@ -1,3 +1,5 @@
+DEFAULT_USER = 1
+
 class SERVER:
     IP = '0.0.0.0'
     PORT_HTTP = 80

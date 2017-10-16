@@ -15,6 +15,7 @@ import yaml
 import models
 from orm import Table
 
+from config import DEFAULT_USER
 
 async def bootstrap_db():
     for cls_name in dir(models):
@@ -280,7 +281,7 @@ async def create_html_lessons(lang='pl'):
             file.write(HEADER + html + FOOTER)
         with open(m_path) as file:
             meta = yaml.load(file.read())
-        meta['author'] = 1
+        meta['author'] = DEFAULT_USER
         meta['file'] = '{}.html'.format(a_dir)
         meta['lesson_no'] = int(a_dir)
         try:
@@ -291,7 +292,7 @@ async def create_html_lessons(lang='pl'):
             questions = False
             print(err)
         if questions:
-            quiz = models.Quiz(title=meta['title'], users=1, description=meta['description'])
+            quiz = models.Quiz(title=meta['title'], users=DEFAULT_USER, description=meta['description'])
             quiz_id = await quiz.update_or_create('title')
             meta['quiz'] = quiz_id
             question_order = 1

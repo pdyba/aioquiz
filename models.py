@@ -1,6 +1,7 @@
 # !/usr/bin/python3.5
 from datetime import datetime
 
+from config import DEFAULT_USER
 from orm import Boolean
 from orm import CodeString
 from orm import Column
@@ -24,7 +25,7 @@ class Question(Table):
         Column('possible_answare', String(1000), default=''),
         Column('qtype', String(50), default='plain'),
         Column('img', String(255), required=False, default=''),
-        Column('users', ForeignKey('users'), default=14),
+        Column('users', ForeignKey('users'), default=DEFAULT_USER),
         Column('time_created', DateTime(), default=datetime.utcnow),
     ]
 
@@ -135,7 +136,7 @@ class Lesson(Table):
         Column('lesson_no', Integer()),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('author', ForeignKey('users'), default=1),
+        Column('author', ForeignKey('users'), default=DEFAULT_USER),
         Column('file', String(255), required=False),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
@@ -150,7 +151,7 @@ class Quiz(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=14),
+        Column('users', ForeignKey('users'), default=DEFAULT_USER),
         Column('time_created', DateTime(), default=datetime.utcnow),
     ]
 
@@ -174,7 +175,7 @@ class Exercise(Table):
         Column('title', String(255)),
         Column('task', CodeString(10000)),
         Column('possible_answare', CodeString(1000), required=False),
-        Column('author', ForeignKey('users'), default=1),
+        Column('author', ForeignKey('users'), default=DEFAULT_USER),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('lesson', ForeignKey('lesson')),
     ]
@@ -224,7 +225,7 @@ class LiveQuiz(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=14),
+        Column('users', ForeignKey('users'), default=DEFAULT_USER),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
     ]
