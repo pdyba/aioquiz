@@ -173,7 +173,7 @@ class Exercise(Table):
         Column('title', String(255)),
         Column('task', CodeString(10000)),
         Column('possible_answare', CodeString(1000), required=False),
-        Column('author', ForeignKey('users'), default=14),
+        Column('author', ForeignKey('users'), default=1),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('lesson', ForeignKey('lesson')),
     ]
