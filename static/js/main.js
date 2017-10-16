@@ -497,7 +497,7 @@ function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $
         function (response) {
             response.data.forEach(
                 function (a, b) {
-                    a.full_id = pad(a.id, 4);
+                    a.full_id = pad(a.lesson_no, 4);
                 }
             );
             vm.lessons = response.data;
