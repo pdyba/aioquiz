@@ -11,12 +11,12 @@
                         <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" target="_self"
                                data-parent="#accordion"
-                               href="#collapse_{{ x.id }}">
-                               {{ x.id }}.  {{ x.title }}
+                               href="#collapse_{{ x.lesson_no }}">
+                               {{ x.lesson_no }}.  {{ x.title }}
                             </a>
                         </h4>
                     </div>
-                    <div id="collapse_{{ x.id }}" class="panel-collapse collapse">
+                    <div id="collapse_{{ x.lesson_no }}" class="panel-collapse collapse">
                         <div class="panel-body">
                             {{ x.description }}
                             <br>

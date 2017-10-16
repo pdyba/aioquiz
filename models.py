@@ -132,9 +132,10 @@ class Lesson(Table):
     _name = 'lesson'
     _schema = [
         Column('id', Integer, primary_key=True),
+        Column('lesson_no', Integer()),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('author', ForeignKey('users'), default=14),
+        Column('author', ForeignKey('users'), default=1),
         Column('file', String(255), required=False),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
@@ -173,7 +174,7 @@ class Exercise(Table):
         Column('title', String(255)),
         Column('task', CodeString(10000)),
         Column('possible_answare', CodeString(1000), required=False),
-        Column('author', ForeignKey('users'), default=14),
+        Column('author', ForeignKey('users'), default=1),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('lesson', ForeignKey('lesson')),
     ]
