@@ -32,6 +32,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "AboutCtrl",
             controllerAs: 'vm'
         })
+        .when("/agenda", {
+            templateUrl: "partials/agenda.html",
+            controller: "PageCtrl",
+            controllerAs: 'vm'
+        })
         .when("/live_quiz", {
             templateUrl: "partials/live_quiz_list.html",
             controller: "LiveQuizCtrl",
@@ -144,6 +149,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "SeatOverViewController",
             controllerAs: 'vm'
         })
+        .when("/overview_lesson", {
+            templateUrl: "partials/overview_lesson.html",
+            controller: "ExerciseOverviewController",
+            controllerAs: 'vm'
+        })
         .when("/rules", {
             templateUrl: "partials/rules.html",
             controller: "PageCtrl",
@@ -172,6 +182,11 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/attendance", {
             templateUrl: "partials/attendance.html",
             controller: "AttendanceController",
+            controllerAs: 'vm'
+        })
+        .when("/user_summary", {
+            templateUrl: "partials/user_summary.html",
+            controller: "UserSummaryController",
             controllerAs: 'vm'
         })
         .otherwise("/404", {
@@ -240,6 +255,22 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
             }
         )
     };
+
+    $scope.save_attendence = function () {
+        SweetAlert.swal({
+            title: "Attendence",
+            text: "Please provide lesson code",
+            element: "input",
+            type: "input",
+            showConfirmButton: true
+        }, function (value) {
+            var data = {'email': value};
+            $http.post('/api/', data).then(function (response) {
+                var txt = response.data.msg;
+                SweetAlert.swal({text: txt, title: ''});
+            })
+        });
+    }
 }
 
 app.component("exercises", {
@@ -439,33 +470,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     get_all_users();
     get_rules();
 
-}
-
-app.controller('AttendanceController', AttendanceController);
-AttendanceController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function AttendanceController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
-    var vm = this;
-    $injector.invoke(PageCtrl, this, {
-        $scope: $scope,
-        $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
-    });
-    vm.attendance = {};
-    vm.send_attendance = send_attendance;
-    //TODO: Finish this
-    function send_attendance() {
-        $http.put('/api/lessons', vm.attendance).then(
-            function (response) {
-                response.data.forEach(
-                    function (a, b) {
-                        a.full_id = pad(a.id, 4);
-                    }
-                );
-                vm.lessons = response.data;
-            }
-        );
-    }
 }
 
 app.controller('LessonsCtrl', LessonsCtrl);
@@ -898,7 +902,7 @@ function SeatController($scope, $location, $AuthenticationService, $FlashService
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
-    vm.current_user = $scope.globals.currentUser
+    vm.current_user = $scope.globals.currentUser;
     vm.seats = false;
     vm.user_seat = $scope.globals.currentUser.seat;
     vm.take_or_relese_seat = take_or_relese_seat;
@@ -1019,6 +1023,32 @@ function SeatOverViewController($scope, $location, $AuthenticationService, $Flas
 }
 
 
+app.controller('ExerciseOverviewController', ExerciseOverviewController);
+ExerciseOverviewController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$interval'];
+function ExerciseOverviewController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $interval) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    vm.overview = true;
+    vm.exercises_overview = {};
+    function refresh_seats() {
+        $http.get('/api/exercises_overview').then(
+            function (response) {
+                vm.exercises_overview = response.data;
+            }
+        )
+    }
+    refresh_seats();
+    $interval(refresh_seats, 3000)
+
+}
+
+
+
 app.controller('AdminConfigController', AdminConfigController);
 AdminConfigController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
 function AdminConfigController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
@@ -1116,11 +1146,12 @@ function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashSer
 }
 
 app.controller('LoginController', LoginController);
-LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-function LoginController($location, AuthenticationService, FlashService) {
+LoginController.$inject = ['$location', 'AuthenticationService', 'SweetAlert', '$http'];
+function LoginController($location, AuthenticationService, SweetAlert, $http) {
     var vm = this;
 
     vm.login = login;
+    vm.forgotPassword = forgotPassword;
 
     (function initController() {
         AuthenticationService.ClearCredentials();
@@ -1138,7 +1169,25 @@ function LoginController($location, AuthenticationService, FlashService) {
             vm.dataLoading = false;
         });
     }
+
+    function forgotPassword() {
+        SweetAlert.swal({
+            title: "Password recovery",
+            text: "Please provide valid email",
+            element: "input",
+            type: "input",
+            showConfirmButton: true
+        }, function (value) {
+            var data = {'email': value};
+            $http.post('/api/forgot_password', data).then(function (response) {
+                var txt = response.data.msg;
+                SweetAlert.swal({text: txt, title: ''});
+            })
+        });
+    }
+
 }
+
 app.controller('RegisterController', RegisterController);
 RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService', '$http'];
 function RegisterController(UserService, $location, $rootScope, FlashService, $http) {
@@ -1306,6 +1355,40 @@ function AdminController(UserService, $rootScope) {
 
 }
 
+
+
+app.controller('UserSummaryController', UserSummaryController);
+UserSummaryController.$inject = ['UserService', '$rootScope'];
+function UserSummaryController(UserService, $rootScope) {
+    var vm = this;
+    vm.allAttendes = [];
+    vm.pymocniks = [];
+    vm.mentors = [];
+    vm.admin = [];
+
+    loadAllAcceptedUsers();
+
+    function loadAllAcceptedUsers() {
+        UserService.GetAllAccepted()
+            .then(function (users) {
+                vm.allAttendes = users;
+            });
+        UserService.GetAllOrganisers()
+            .then(function (users) {
+                vm.pymocniks = users;
+            });
+        UserService.GetAllMentors()
+            .then(function (users) {
+                vm.mentors = users;
+            });
+        UserService.GetAllAdmins()
+            .then(function (users) {
+                vm.admins = users;
+            });
+    }
+
+}
+
 app.factory('AuthenticationService', AuthenticationService);
 AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService'];
 function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService) {
@@ -1377,6 +1460,8 @@ function UserService($http, $FlashService) {
     service.makeInactive = makeInactive;
     service.makeMentor = makeMentor;
     service.removeMentor = removeMentor;
+    service.GetAllAccepted = GetAllAccepted;
+    service.GetAllAdmins = GetAllAdmins;
 
 
     return service;
@@ -1386,7 +1471,14 @@ function UserService($http, $FlashService) {
     }
 
     function GetAllOrganisers() {
-        return $http.get('/api/user/?organiser=True').then(handleSuccess, handleError('Error getting all users'));
+        return $http.get('/api/user/?organiser=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
+    }
+
+    function GetAllAdmins() {
+        return $http.get('/api/user/?admin=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
+    }
+    function GetAllAccepted() {
+        return $http.get('/api/user/?mentor=False&confirmation=ack&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetAllAttendees() {
@@ -1600,7 +1692,7 @@ function run($rootScope, $location, $cookies, $http) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules',  '/program', '/regconfirmed']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/agenda', '/', '/rules',  '/program', '/regconfirmed']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
         if (restrictedPage && !loggedIn) {
             $location.path('/');
