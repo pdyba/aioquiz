@@ -239,7 +239,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
                     })
                 }
             )
-        };
+        }
     };
     $scope.help_stop = function () {
         $http.delete('/api/i_need_help/').then(
@@ -264,8 +264,8 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
             type: "input",
             showConfirmButton: true
         }, function (value) {
-            var data = {'email': value};
-            $http.post('/api/', data).then(function (response) {
+            var data = {'code': value};
+            $http.put('/api/absence', data).then(function (response) {
                 var txt = response.data.msg;
                 SweetAlert.swal({text: txt, title: ''});
             })
