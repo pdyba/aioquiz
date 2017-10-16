@@ -162,6 +162,19 @@ class Table:
         return [cls(**dict(r)) for r in resp]
 
     @classmethod
+    async def delete_by_many_fields(cls, **kwargs):
+        query = """DELETE FROM {} WHERE """.format(cls._name)
+        for i, key in enumerate(kwargs):
+            query += """ {}='{}'""".format(key, kwargs[key])
+
+            if i + 1 < len(kwargs):
+                query += """ OR """
+        resp = await make_a_querry(query)
+        if not resp:
+            return resp
+        return []
+
+    @classmethod
     async def get_first_by_many_field_value(cls, **kwargs):
         # Lepiej byłoby już w samym zapytaniu dać coś w stylu LIMIT 1, poza tym przydałoby się ORDER BY
         data = await cls.get_by_many_field_value(**kwargs)

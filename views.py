@@ -227,6 +227,17 @@ class UserView(HTTPMethodView):
 
     @user_required('admin')
     async def delete(self, _, current_user, id_name=None):
+        reviews = await UserReview.get_by_field_value(reviewer=id_name)
+        
+        await UserReview.delete_by_many_fields(
+            reviewer=id_name,
+            users=id_name
+        )
+        await Lesson.delete_by_many_fields(author=id_name)
+        
+        for cls in [LessonFeedback, QuestionAnsware, ExerciseAnsware, Feedback, Absence, Seat]:
+            await cls.delete_by_many_fields(users=id_name)
+
         await Users.detele_by_id(id_name)
         return json({'success': True})
 
