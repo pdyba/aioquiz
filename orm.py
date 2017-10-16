@@ -170,9 +170,6 @@ class Table:
             if i + 1 < len(kwargs):
                 query += """ OR """
         resp = await make_a_querry(query)
-        if not resp:
-            return resp
-        return []
 
     @classmethod
     async def get_first_by_many_field_value(cls, **kwargs):

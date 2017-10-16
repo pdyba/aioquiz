@@ -227,8 +227,6 @@ class UserView(HTTPMethodView):
 
     @user_required('admin')
     async def delete(self, _, current_user, id_name=None):
-        reviews = await UserReview.get_by_field_value(reviewer=id_name)
-        
         await UserReview.delete_by_many_fields(
             reviewer=id_name,
             users=id_name
