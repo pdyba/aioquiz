@@ -24,7 +24,7 @@ class Question(Table):
         Column('possible_answare', String(1000), default=''),
         Column('qtype', String(50), default='plain'),
         Column('img', String(255), required=False, default=''),
-        Column('users', ForeignKey('users'), default=1),
+        Column('users', ForeignKey('users'), default=14),
         Column('time_created', DateTime(), default=datetime.utcnow),
     ]
 
@@ -97,6 +97,9 @@ class Users(Table):
         self.password = hash_string(self.password)
         return await super().create()
 
+    async def set_password(self, password):
+        self.password = hash_string(password)
+
     @classmethod
     async def get_user_by_session_uuid(cls, session_uuid):
         try:
@@ -131,7 +134,7 @@ class Lesson(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('author', ForeignKey('users'), default=1),
+        Column('author', ForeignKey('users'), default=14),
         Column('file', String(255), required=False),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
@@ -146,11 +149,11 @@ class Quiz(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=1),
+        Column('users', ForeignKey('users'), default=14),
         Column('time_created', DateTime(), default=datetime.utcnow),
     ]
 
-    async def get_question(self, question_order=0):
+    async def get_question(self, question_order=1):
         if question_order + 1 >= await self.get_question_amount():
             return {'last': True, 'msg': 'That was the last question in the quiz.'}
         qq = await QuizQuestions.get_first_by_many_field_value(
@@ -170,7 +173,7 @@ class Exercise(Table):
         Column('title', String(255)),
         Column('task', CodeString(10000)),
         Column('possible_answare', CodeString(1000), required=False),
-        Column('author', ForeignKey('users'), default=1),
+        Column('author', ForeignKey('users'), default=14),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('lesson', ForeignKey('lesson')),
     ]
@@ -212,7 +215,6 @@ class QuizQuestions(Table):
         Column('question', ForeignKey('question')),
         Column('question_order', Integer(), default=0),
     ]
-    _unique = ['quiz', 'question_order']
 
 
 class LiveQuiz(Table):
@@ -221,7 +223,7 @@ class LiveQuiz(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=1),
+        Column('users', ForeignKey('users'), default=14),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('active', Boolean(), default=False),
     ]

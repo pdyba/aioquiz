@@ -32,7 +32,7 @@
                 <li ng-show="$parent.globals.currentUser"><a
                         href="#/quiz">Quiz</a>
                 </li>
-                <li ng-show="$parent.globals.currentUser"><a
+                <li ng-show="$parent.globals.currentUser.admin"><a
                         href="#/live_quiz">Live Quiz</a>
                 </li>
                 <li><a href="#/about">About</a>
@@ -43,7 +43,7 @@
                     ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin"></li>
 
                 <li class="dropdown"
-                    ng-show="$parent.globals.currentUser && $parent.globals.currentUser.mentor">
+                    ng-show="$parent.globals.currentUser && ($parent.globals.currentUser.mentor || $parent.globals.currentUser.organiser)">
                     <a class="dropdown-toggle"
                        data-toggle="dropdown">Overview</a>
                     <ul class="dropdown-menu">
@@ -54,15 +54,20 @@
                                 href="#/overview_lesson">Lesson</a>
                         </li>
 
-                        <li ng-show="$parent.globals.currentUser.mentor"><a
+                        <li ng-show="$parent.globals.currentUser.admin"><a
                                 href="#/overview_quiz">Quiz</a>
-                        <li ng-show="$parent.globals.currentUser.mentor"><a
+                        <li ng-show="$parent.globals.currentUser.admin"><a
                                 href="#/overview_live_quiz">Live Quiz</a>
+
+                         <li ng-show="$parent.globals.currentUser.mentor || $parent.globals.currentUser.organiser"><a
+                                href="#/user_summary">Users List</a>
+
+
                     </ul>
                 </li>
 
                 <li class="dropdown"
-                    ng-show="$parent.globals.currentUser && $parent.globals.currentUser.mentor">
+                    ng-show="$parent.globals.currentUser && $parent.globals.currentUser.admin">
                     <a class="dropdown-toggle"
                        data-toggle="dropdown">Manage</a>
                     <ul class="dropdown-menu">

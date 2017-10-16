@@ -140,7 +140,11 @@ class UserView(HTTPMethodView):
                 return json(await user.get_my_user_data())
             return json(await user.get_public_data())
         else:
+            sort_by = 'id'
             if request.args:
+                if 'sort_by' in request.args:
+                    sort_by = request.args['sort_by'][0]
+                    del request.args['sort_by']
                 users = await Users.get_by_many_field_value(**get_args(request.args))
             else:
                 users = await Users.get_all()
@@ -150,13 +154,15 @@ class UserView(HTTPMethodView):
                     user.append(await u.to_dict())
                 else:
                     user.append(await u.get_public_data())
-            user.sort(key=lambda a: a['id'])
+            user.sort(key=lambda a: a[sort_by])
         return json(user, sort_keys=True)
 
     @user_required()
     async def put(self, request, current_user):
         try:
             req = request.json
+            if 'admin' in req:
+                del req['admin']
             await current_user.update_from_dict(req)
             return json({
                 'success': True,
@@ -179,6 +185,8 @@ class UserView(HTTPMethodView):
             )
         try:
             req = request.json
+            if 'admin' in req:
+                del req['admin']
             user = Users(**req)
             user.session_uuid = str(uuid4()).replace('-', '')
             uid = await user.create()
@@ -509,15 +517,31 @@ class EmailView(HTTPMethodView):
     async def post(self, request, current_user):
         req = request.json
         link = 'https://{}/api/workshopabsence/'.format(request.host)
-        if req['email_type'] == 'other':
+        if req['email_type'] == 'EmailCustom':
             users = await Users.get_by_many_field_value(**req['recipients'])
             subject = req['subject']
             text = req['text'].format()
-            resp = await send_email(
+            await send_email(
                 recipients=[u.email for u in users],
                 text=text,
                 subject=subject
             )
+        elif req['email_type'] == 'EmailTooLate':
+            users = await Users.get_by_many_field_value(**req['recipients'])
+            for user in users:
+                user.confirmation = 'rej_time'
+                await user.update()
+                email_data = {
+                    "name": user.name
+                }
+                subject = req['subject']
+                text = req['text'].format(**email_data)
+                await send_email(
+                    recipients=[user.email],
+                    text=text,
+                    subject=subject
+                )
+                await asyncio.sleep(0.05)
         else:
             users = await Users.get_by_many_field_value(**req['recipients'])
             for user in users:
@@ -525,11 +549,12 @@ class EmailView(HTTPMethodView):
                 email_data = {
                     "link_yes": link + str(user.id) + '/' + uhash + '/' + 'yes',
                     "link_no": link + str(user.id) + '/' + uhash + '/' + 'no',
-                    "name": user.name
+                    "name": user.name,
+                    "what_can_you_bring": user.what_can_you_bring
                 }
                 subject = req['subject']
                 text = req['text'].format(**email_data)
-                resp = await send_email(
+                await send_email(
                     recipients=[user.email],
                     text=text,
                     subject=subject
@@ -637,8 +662,30 @@ class UserStatsView(HTTPMethodView):
                 admin=False
             ),
             'admins': await Users.count_by_field(admin=True),
-            'accepted': await Users.count_by_field(accepted=True),
-            'confirmed': await Users.count_by_field(confirmation='ack'),
+            'attendee_accepted': await Users.count_by_field(
+                accepted=True,
+                mentor=False)
+            ,
+            'attendee_confirmed': await Users.count_by_field(
+                confirmation='ack',
+                mentor=False,
+                accepted=True
+            ),
+            'attendee_noans_accepted': await Users.count_by_field(
+                confirmation='noans',
+                mentor=False,
+                accepted=True
+            ),
+            'attendee_rej_user': await Users.count_by_field(
+                confirmation='rej_user',
+                mentor=False,
+                accepted=True
+            ),
+            'attendee_rej_time': await Users.count_by_field(
+                confirmation='rej_time',
+                mentor=False,
+                accepted=True
+            ),
         }
         return json(resp, sort_keys=True)
 
@@ -677,7 +724,7 @@ class SeatView(HTTPMethodView):
             for x in range(config.room_raws):
                 raw = chr(65 + x)
                 for y in range(config.room_columns):
-                    if (x + 1) % 3 == 0:
+                    if (y + 1) % 13 == 0:
                         resp[raw][y] = empty_raw
                     else:
                         resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
@@ -967,3 +1014,45 @@ class FeedbackView(HTTPMethodView):
     @user_required()
     async def post(self, _, current_user, lid=None):
         pass
+
+
+class ForgotPasswordView(HTTPMethodView):
+    async def post(self, request):
+        try:
+            req = request.json
+            try:
+                user = await Users.get_first_by_many_field_value(email=req.get('email'))
+            except DoesNotExist:
+                user = False
+            if not user:
+                return json({'msg': 'wrong email or user does not exists'})
+            password = str(uuid4()).replace('-', '')
+            await user.set_password(password)
+            await user.update()
+            resp = await send_email(
+                recipients=[user.email],
+                text=password,
+                subject="Your new PyLadies.start() password"
+            )
+            if resp:
+                return json({
+                    'success': True,
+                    'msg': 'Check Your e-mail for new password'
+                })
+            return json({'success': False, 'msg': 'error sending e-mail'})
+        except:
+            logging.exception('err user.post')
+        return json({'msg': 'wrong email or user does not exists'}, status=404)
+
+
+class ExerciseOverview(HTTPMethodView):
+    # @user_required('mentor')
+    async def get(self, request):
+        exercises = await Exercise.get_all()
+        resp = {}
+        for ex in exercises:
+            if not resp.get(ex.lesson):
+                resp[ex.lesson] = {}
+            resp[ex.lesson][ex.id] = await ex.to_dict()
+            resp[ex.lesson][ex.id]['exercise_answare'] = await ExerciseAnsware.group_by_field('status', exercise=ex.id)
+        return json(resp)

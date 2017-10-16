@@ -1,274 +1,152 @@
-Stringi i jak się nimi bawić
-============================
+Pierwsze kroki z interpreterem Pythona i IDE Pycharma
+=====================================================
 
-Ostatnią kwestią, o której wspomnieliśmy wcześniej był problem ze zbyt
-wieloma cyframi po przecinku w otrzymanym BMI. Z trzech problemów, jakie
-mieliśmy, ten jest najłatwiejszy do rozwiązania.
+Rozpocznijmy od uruchomienia interpretera Pythona, którego
+zainstalowaliśmy w poprzednim rozdziale. Proszę uruchomcie:
 
-Dlatego właśnie zostawiliśmy go na koniec naszej "przygody" 
-z kalkulatorem BMI. Wiemy, że stringi można dodawać do siebie i mnożyć
-przez liczby całkowite. Zobaczycie, że możemy je także formatować.
-Ale zanim to zrobimy, potrzebny jest nam jeszcze jeden typ danych 
-(poza stringami i liczbami, które już poznaliśmy).
+    :::bash
+    (workshops) ~$ python
+    Python 3.6.0 (...)
+    Type "copyright", "credits" or "license" for more information.
 
-Tuple
-=====
+    >>>
 
-Na początku wspomnieliśmy, że nie możemy używać przecinków w liczbach,
-bo będziemy potrzebowali ich w tuplach. Doszliśmy właśnie do tego
-momentu:
+![interpreter Pythona w terminalu](images/terminal_python.png)
 
-	>>>  1, 2, 3
-	(1, 2, 3) 
-	>>> ("Ala", 15)
-	('Ala', 15)
-	>>>  x = 1,5 
-	>>> print(x) 
-	(1, 5)
+Wcześniej pracowaliśmy w wierszu poleceń systemu operacyjnego i mogliśmy
+wprowadzać komendy. Znakiem zachęty był `~$`. Po uruchomieniu komendy `python`, 
+znak zachęty zmienił się na `>>>`. Oznacza to dla nas, że od tej chwili możemy
+używac tylko komend języka Python. Wcześniej poznane komendy (takie, jak
+'cd', 'mkdir') nie będą działały. Nadszedł moment rozpoczęcia nauki
+nowego języka!
 
-Tupla to nic innego, jak zbiór kilku wartości. Wartości te odddzielamy
-przecinkami. Zbiór najczęściej otaczamy nawiasami zwykłymi, ale nie jest to
-konieczne. Chyba, że chcemy objąć zbiorem zero elementów (jakkolwiek 
-dziwnie to może brzmieć):
-
-	>>> () 
-	()
-
-Tuple możemy łączyć:
-
-	>>> nazwy = ("Paulina", "Kowalska") 
-	>>> szczegóły = (27, 1.70) 
-	>>> nazwy + szczegóły 
-	('Paulina', 'Kowalska', 27, 1.7)
-
-Możemy w nich także zawrzeć inne tuple, np. punkty na mapie możemy
-zgrupować następująco:
-
-	>>>  punkt = ("Nazwa punktu", (x, y))
-
-gdzie `x` i `y` to liczby.
-
-Możemy odwoływać się do tak zgrupowanych wartości poprzez ich kolejną
-pozycję w tupli (zaczynając od zera), np.:
-
-	>>> p = (10, 15)
-	>>> p[0] # pierwsza wartość 
-	10
-	>>> p[1] # druga wartość
-	15
-
-Proste formatowanie
-===================
-
-Wracając do naszego programu: obecnie wynik jest zredukowany do
-pojedynczej linii. Chcemy zaś stworzyć taki kalkulator BMI, który
-poda nam wynik oraz przedział, w którym się on mieści, czyli:
-
-    Twój BMI wynosi: 21.39 (prawidłowa waga)
-
-Zmodyfikuj swój istniejący program tak, by obliczone BMI było dostępne
-pod zmienną `bmi`, a nazwa przedziału pod nazwą `kategoria`.  Użyj print,
-aby wyświetlić otrzymany wynik:
-
-    .. testsetup::
-
-    bmi = 21.387755102040817
-    kategoria = "prawidłowa waga"
-    
-    .. testcode::
-
-    print("Twój BMI wynosi:", bmi, "(" + kategoria + ")")
-    
-    .. testoutput::
-    :hide:
-
-    Twój BMI wynosi: 21.387755102040817 (prawidłowa waga)
+Nie wpisujemy znaku zachęty `>>>` (podobnie jak `~$`) - interpreter zrobi to za nas.
 
 
-Cóż, prawie... Nadal mamy zbyt wiele liczb po przecinku. Napotkamy
-także problem, jeśli będziemy chcieli utworzyć taki string i nadać 
-mu nazwę, bo użyliśmy funkcji print oddzielając składniki. Na szczęście
-jest lepszy sposób:
+Przedstaw się
+=============
 
-    >>> bmi = 21.387755102040817
-    >>> kategoria = "prawidłowa waga"
-    >>> wynik = "Twój BMI wynosi: %f (%s)" % (bmi, kategoria)
-    >>> wynik
-    'Twój BMi wynosi: 21.387755 (prawidłowa waga)'
-    >>> print(wynik)
-    Twój BMI wynosi: 21.387755 (prawidłowa waga)
+Stringi
+-------
 
-Użyliśmy tutaj stringa i tupli połączonych znakiem `%`. String jest 
-szablonem, który zostaje uzupełniony wartościami z tupli. Miejsca,
-które mają być uzupełnione są oznaczone znakiem procentu (`%`). Litera
-następująca po nim definiuje typ zmiennej, jaką chcemy wstawić. Liczby
-całkowite są tu reprezentowane przez `i` (ang. **integer**). Możemy 
-również użyć `d` jako **decimal** (z ang. liczba dziesiętna). Stringi są
-reprezentowane jako `s` od **string**, a liczby zmiennoprzecinkowe
-jako `f` od **float** (ang. pływać, unosić się):
+Jednakże liczby nie wystarczają, by efektywnie się komunikować. A zatem
+musimy się nauczyć jak używać 'stringów'. Oto kilka przykładów:
 
-	>>>  "String: %s, Numery: %d %f" % ("Ala", 10, 3.1415)
-	'String: Ala, Numery: 10 3.141500'
+	>>> "Hello World" 
+	'Hello World' 
+	>>> 'Foo Bar' 
+	'Foo Bar' 
+	>>> "Rock 'n' Roll" 
+	"Rock 'n' Roll" 
+	>>> 'My name is "James"' 
+	'My name is "James"'
 
-Teraz, zamiast dziewięciu miejsc po przecinku, za każdym razem otrzymamy 
-sześć, ale formatowanie ma tę zaletę, że umożliwia nam kontrolę nad
-tym, poprzez wstawianie dodatkowej informacji pomiędzy znak `%` a literę
-`f`, np. jeśli chcielibyśmy wyświetlać tylko dwa miejsca po przecinku,
-zamiast sześciu:
+Stringi możecie dodawać w następujący sposób:
 
-	>>> "%.2f" % 3.1415 
-	'3.14' 
-	>>> "%.2f" % 21.387755102040817 
-	'21.39'
+	>>> 'My name is ' + '"James"' 
+	'My name is "James"'
 
-Istnieje mnóstwo opcji formatowania. Niestety nie pokażemy ich tu wszystkich.
-Jedna z najbardziej użytecznych to wyrównywanie do określonej ilości
-znaków:
+lub mnożyć przez liczby całkowite:
 
-    .. testcode::
+	>>> 'Hastur' * 3 
+	'HasturHasturHastur'
 
-    WIDTH = 28
+String zawsze musi zaczynać się i kończyć tym samym znakiem. Może to być 
+pojedynczy cudzysłów (`'`) lub podwójny cudzysłów (`"`). Nie ma to wpływu na
+wartość stringa, np. wpisanie `"Batman"` tworzy string `Batman` -
+cudzysłowia nie są jego częścią, wskazują tylko, że jest to string 
+(niestety, Python nie jest wystarczająco bystry, by to samemu odgadnąć).
 
-    print("-" * WIDTH)
-    print("| Imię i nazwisko |  Waga  |")
-    print("-" * WIDTH)
-    print("| %15s | %6.2f |" % ("Łukasz", 67.5))
-    print("| %15s | %6.2f |" % ("Pudzian", 123))
-    print("-" * WIDTH)
-    
-    .. testoutput::
+Wyświetlanie stringów
+---------------------
 
-    --------------------------------
-    |    Imię nazwisko    |  Waga  |
-    --------------------------------
-    |              Łukasz |  67.50 |
-    |             Pudzian | 123.00 |
-    --------------------------------
+W jaki sposób prezentujemy wartości, by móc je przeczytać? Możemy to zrobić
+przy użyciu komendy print:
 
+	>>> print("Hello World") 
+	Hello World
 
-Możemy również wyrównać string do lewej, umieszczając `-` przed
-ilością liter:
+W podobny sposób możemy napisać kilka stringów w tej samej linii bez
+konieczności dodawania ich do siebie. Będą one oddzielone spacjami:
 
-    .. testcode::
+	>>> print("Hi, my name is", "Łukasz") 
+	Hi, my name is Łukasz
 
-    WIDTH = 28
+Komenda print ma wiele więcej zastosowań, gdyż może wyświetlić prawie
+wszystko. W tej chwili jedynymi znanymi nam wartościami są liczby:
 
-    print("-" * WIDTH)
-    print("| Imię i nazwisko |  Waga  |")
-    print("-" * WIDTH)
-    print("| %-15s | %6.2f |" % ("Łukasz", 67.5))
-    print("| %-15s | %6.2f |" % ("Pudzian", 123))
-    print("-" * WIDTH)
-    
-    .. testoutput::
+	>>> print(1)
+	1 
+	>>> print(1, 2, 3) 
+	1 2 3
+	>>> print("2 + 2 =", 2 + 2) 
+	2 + 2 = 4
 
-    -------------------------------
-    |    Imię nazwisko  |   Waga  |
-    -------------------------------
-    | Łukasz            |  67.50  |
-    | Pudzian           | 123.00  |
-    -------------------------------
+Kończymy chwilowo z konsolą intraktywną. Aby z niej wyjść, wpiszcie
+quit():
 
+    	>>> quit()
 
-Wyrównanie do centurm pozostawiamy Tobie :).
+lub przytrzymajcie `Ctrl+D` (dla Linuxa) lub `Ctrl+Z` (dla Windows).
 
-Formatowanie bardziej po Pythonowemu
-====================================
-
-String Slicing
+Pliki źródłowe
 ==============
 
-Spróbuj: 
+Dotychczas nasz kod był wykonywany w sposób interaktywny. Podawaliśmy 
+poszczególne komendy i natychmiast otrzymywaliśmy odpowiedź. To świetny sposób,
+by eksperymentować i uczyć się nowych składników języka, stąd ostatecznie
+wrócimy to tego sposobu.
 
-    >>> text = “ala ma kota” 
-    >>> text[0]     # string[int] 
-    >>> text[2:]    # string[int:] 
-    >>> text[:5]    # string[:int] 
-    >>> text[3:7]   # string[int:int] 
-    >>> text[::2]   # string[::int]
-    >>> text[::-1]  # string[::int]
-    >>> text[4:100] # string[int:int] :)
+Nasz pierwszy program będzie wyglądał tak:
 
-Pamiętaj! Twój komputer zawsze liczy od 0.
+    print("Hi, my name is Lucas")
 
+Aby napisać i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
+edytora tekstu, który działa w Waszym OS (użyj [listy edytorów w 
+Wikipedii](http://en.wikipedia.org/wiki/List_of_text_editors), by znaleźć przykłady).
+Rekomendujemy Wam PyCharm lub Sublime. Sublime jest
+napisany w Pythonie :). Wpiszcie w edytorze powyższy kod w Pythonie i zapiszcie
+go w nowym pliku o nazwie `visitingcard.py`. Następnie uruchomcie Wasz 
+pierwszy program w Pythonie w wierszu poleceń przy użyciu:
 
-Metody
-======
+    :::bash
+    (workshops) ~$ python visitingcard.py
+    Hi, my name is Lucas
+    (workshops) ~$
 
-Istnieje obecnie mnóstwo metod formatowania stringów:
+Pojedynczy program może zawierać więcej niż jedną komendę. Każda z nich
+powinna być w osobnym wierszu. Na przykład:
 
-1.  capitalize() - zamienia pierwszą literę stringa z małej na wielką
-2.  count(str, beg= 0,end=len(string)) - liczy, ile razy str pojawia się
-    w stringu lub podstringu stringa, gdzie beg to początowy index, a end
-    to index kończący.
-3.  endswith(suffix, beg=0, end=len(string)) - ustala, czy string lub
-    podstring striga kończy się podanym przyrostkiem (suffix), zwraca 
-    true, jeśli tak lub false, jeśli nie.
-4.  find(str, beg=0 end=len(string)) - ustala, czy str pojawia się w stringu
-    lub w podstringu stringa, gdy podano index początkowy beg i index końcowy
-    end; zwraca index, jeśli odnajdzie str, a w przeciwnym razie zwraca -1.
-5.  index(str, beg=0, end=len(string)) - podobna do metody find(), ale zgłasza błąd,
-    gdy nie znajdzie str.
-6.  isalnum() - zwraca true, jeśli string ma co najmniej jeden znak i wszystkie
-    znaki są alfanumeryczne, jeśli nie - zwraca false.
-7.  isalpha() - zwraca true, jeśli string ma conajmniej jeden znak i wszystkie 
-    znaki są literami, jeśli nie - zwraca false.
-8.  isdigit() - zwraca true, jeśli string zawiera tylko cyfry lub false,
-    jeśli nie zawiera.
-9.  islower() - zwraca true, jeśli string zawiera co najmniej jedną literę
-    i wszystkie litery są małe. W przeciwnym razie zwraca false.
-10. isnumeric() - zwraca true, jeśli string unicode zawiera tylko cyfry,
-    zaś false w przeciwnym razie.
-11. isspace() - zwraca true, jeśli string zawiera wyłącznie spacje, zaś false
-    w przeciwnym razie.
-12. istitle() - zwraca true, jeśli wielkość liter w stringu odpowiada zasadom
-    tworzenia tytułów (w ortografii anglojęzycznej), zaś false w przeciwnym wypadku.
-13. isupper() - zwraca true, jeśli string zawiera co najmniej jedną literę
-    i wszystkie litery są wielkie. W przeciwnym razie zwraca false.
-14. join(seq) - scala (łączy) sekwencję stringów dodając pomiędzy te stringi
-    wybrany separator.
-15. len(string) - zwraca długość stringa.
-16. lower() - zamienia wszystkie wielkie litery stringa na małe.
-17. lstrip() - usuwa wszystkie spacje z początku stringa.
-18. max(str) - zwraca najwyższą literę alfabetu ze stringa str.
-19. min(str) - zwraca najniższą literę alfabetu ze stringa str.
-20. replace(old, new \[, max\]) - zastępuje wszystkie wystąpienia stringa old
-    stringiem new, a w przypadku podania ilości wystąpień max, zastępuje 
-    wystąpienia w ilości max.
-21. rfind(str, beg=0,end=len(string)) - podobna do metody find(), ale przeszukuje
-    od końca stringa wstecz.
-22. rindex( str, beg=0, end=len(string)) - podobna do metody index(), ale 
-    przeszukuje od końca stringa wstecz.
-23. rstrip() - usuwa wszystkie spacje na końcu stringa.
-24. split(str="", num=string.count(str)) - rozbija string na podstawie
-    podanego rozgranicznika (domyślnie spacji) i zwraca listę podstringów.
-    Po podaniu parametru num rozbija string tylko do ilości num podstringów.
-25. splitlines( num=string.count('n')) - rozbija string na wszystkie (lub 
-    na podaną ilość num) NOWE LINIE i zwraca listę linii z usuniętym znakiem NOWA LINIA.
-26. startswith(str, beg=0,end=len(string)) - dstala, czy string lub podstring stringa
-    (jeśli początkowy index beg i końcowy index end zostały podane) zaczyna się 
-    od podstringu str; zwraca true, a w przeciwnym razie zwraca false.
-27. strip(\[chars\]) - przeprowadza jednocześnie metody lstrip() i rstrip() na stringu.
-28. swapcase() - zamienia litery wielkie na małe, a małe na wielkie.
-29. title() - zwraca "tytułową" wersję stringu, czyli wszystkie słowa zaczynające się 
-    wielką literą, a pozostałe elementy małą literą (według anglojęzycznej ortografii).
-30. upper() - zamienia wszystkie małe litery stringa na wielkie.
+    :::python3
+    print("Hi,")
+    print()
 
-Istnieje jeszcze ponad 10 innych metod, ale są one znacznie bardziej zaawansowane.
+    print("my name is Lucas")
 
+    print()
+    print("Bye.")
 
-Podsumowanie
-============
+Aby zwiększyć przejrzystość pliku `visitingcard.py`, w dowolnym jego
+miejscu możemy wprowadzać puste wiersze. Tutaj oddzieliśmy nagłówek
+wiadomości od jej zawartości i zakończenia.
 
-Dowiedzieliśmy się, jak ważna jest indentacja, zwłaszcza jeśli chcemy użyć
-instrukcji if (również w połączeniu z else i elif).
+Tworzenie i uruchomienie pliku w edytorze PyCharm
+================================
 
-To dość dużo, jak na pierwszy program. Mamy jeszcze wiele do zrobienia, mimo to
-możecie być dumni z tego, co zrobiliśmy do tej pory!
+Aby utworzyć plik, wciśnij prawy przycisk myszy na nazwie projektu i wybierz "New" ("Nowy") a następnie "File" ("Plik").
 
-A jesli zrobiliście obowiązkowe zadanie nr 1, przekonaliście się, że w Pythonie
-występują jajeczka-niespodzianki i wierzcie nam - jest ich więcej. Oto kolejne:
+W oknie, które się pojawi wpisz nazwę pliku (na przykład `visitingcard.py`).
 
-	>>>  True + True
+![tworzenie pliku](images/pycharm_new_file_project.png)
 
-:-)
+![nazwa pliku](images/pycharm_new_file_name.png)
+
+Wypełnij teraz plik treścią skryptu.
+
+Aby go uruchomić, wybierz "Run" ("Uruchom"), a następnie opcję o nazwie takiej jak uruchamiany plik (`visitingcard.py`).
+
+Wynik skryptu zostanie wyświetlony (domyślnie) w oknie na dole ekranu.
+
+![uruchom plik](images/pycharm_run_file.png)
+
+![uruchom plik](images/pycharm_run_result.png)

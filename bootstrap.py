@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 import random
 import shutil
+import json
 import string
 import types
 
@@ -91,18 +92,10 @@ async def admin():
 
     tbl = models.Users(**new_user)
     await tbl.create()
-    await models.Users.get_by_id(1)
+    await models.Users.get_by_id(14)
     print('Admin Created')
 
 async def add_question():
-    await models.Question(question='Jak masz na imie ?').create()
-    await models.Question(question='Czy lubisz czekolade ?', qtype='bool').create(
-        )
-    await models.Question(
-        question='Jakie jest twoje ulubione zwierze ?',
-        answares=['pyton', 'pies', 'kot', 'krolik'],
-        qtype='abcd'
-    ).create()
     await models.Question(
         question='Jakie rozszerzenie zwyczajową mają pliki z kodem Pythonowym ?',
     ).create()
@@ -277,22 +270,55 @@ async def create_html_lessons(lang='pl'):
             l_path = path + '.md'
             e_path = path + '.exercises'
             m_path = path + '.meta'
-            with open(l_path) as file:
-                html = markdown.markdown(file.read(), extensions=['markdown.extensions.codehilite'])
+            q_path = path + '.quiz'
+            try:
+                with open(l_path) as file:
+                    html = markdown.markdown(file.read(), extensions=['markdown.extensions.codehilite'])
+            except FileNotFoundError:
+                return
             with open('static/lessons/{}.html'.format(a_dir), 'w') as file:
                 file.write(HEADER + html + FOOTER)
             with open(m_path) as file:
                 meta = yaml.load(file.read())
             meta['author'] = 1
+            meta['file'] = '{}.html'.format(a_dir)
+            try:
+                with open(q_path) as file:
+                    questions = yaml.load(file.read())
+                print('found quiz')
+            except Exception as err:
+                questions = False
+                print(err)
+            if questions:
+                quiz = models.Quiz(title=meta['title'], users=14, description=meta['description'])
+                quiz_id = await quiz.update_or_create('title')
+                meta['quiz'] = quiz_id
+                question_order = 1
+                for _, val in questions.items():
+                    qustion = models.Question(**val)
+                    qid = await qustion.update_or_create(*val.keys())
+                    qq = models.QuizQuestions(quiz=quiz_id, question=qid, question_order=question_order)
+                    question_order += 1
+                    await qq.update_or_create('question', 'quiz')
+                    print('question created')
             lesson = models.Lesson(**meta)
             lid = await lesson.update_or_create(*meta.keys())
-            with open(e_path) as file:
-                exe = yaml.load(file.read())
+            try:
+                with open(e_path) as file:
+                    exe = yaml.load(file.read())
+            except:
+                exe = False
             if exe:
-                for _, val in exe.items():
-                    exercise = models.Exercise(lesson=lid, **val)
-                    await exercise.update_or_create(*val.keys())
-            dest = os.path.abspath('static/lessons/images/')
+                try:
+                    for _, val in exe.items():
+                        exercise = models.Exercise(lesson=lid, **val)
+                        await exercise.update_or_create(*val.keys())
+                except Exception as err:
+                    print('error creating exercise')
+                    print(exe)
+                    print(val)
+                    print(err)
+            dest = os.path.abspath('static/images/')
             if os.path.exists(images):
                 for file in os.listdir(images):
                     src = os.path.join(images, file)
@@ -302,18 +328,18 @@ async def create_html_lessons(lang='pl'):
                         print(src + ' copied')
                     else:
                         print(src + ' NOT copied')
+
         for a_dir in os.listdir("./lesson_source/"):
             try:
                 await process(a_dir)
             except Exception as err:
                 print(err)
-                await process(a_dir, lang='en')
+                await process(a_dir, lang='pl')
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
+    # loop.run_until_complete(bootstrap_db())
     loop.run_until_complete(bootstrap_db())
-    loop.run_until_complete(bootstrap_db())
-    # loop.run_until_complete(create_html_lessons())
-    # loop.run_until_complete(add_question())
+    loop.run_until_complete(create_html_lessons())
     # loop.run_until_complete(admin())
     # loop.run_until_complete(gen_users())

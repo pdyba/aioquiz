@@ -148,6 +148,8 @@ class Table:
     async def get_by_many_field_value(cls, **kwargs):
         querry = """SELECT * FROM {} WHERE """.format(cls._name)
         for i, kw in enumerate(kwargs):
+            if isinstance(kwargs[kw], (dict, list)):
+                kwargs[kw] = json.dumps(kwargs[kw])
             if isinstance(kwargs[kw], str):
                 querry += """ {}='{}'""".format(kw, kwargs[kw])
             else:
@@ -191,11 +193,11 @@ class Table:
                         val = 'null'
                     else:
                         raise
-                if isinstance(prop.type, String):
-                    prop.type.validate(val)
+                if isinstance(prop.type, (String, CodeString)):
+                    val = prop.type.format(val)
                     ending = '"' if "'" in val else "'"
                     values += ending
-                    values += prop.type.format(val)
+                    values += val
                     values += ending
                 elif isinstance(prop.type, DateTime):
                     val = getattr(clsi, prop.name)
@@ -238,8 +240,11 @@ class Table:
         except DoesNotExist:
             inst = None
         if inst:
-            await inst.update()
-            return inst.id
+            await inst.update(**kw)
+            if hasattr(inst, 'id'):
+                return inst.id
+            else:
+                return True
         else:
             return await self.create()
 
@@ -311,6 +316,16 @@ class Table:
         )
         return dict(resp[0])['count']
 
+    @classmethod
+    async def group_by_field(cls, name, **kwargs):
+        query = """SELECT {name}, COUNT(*) FROM {table} """.format(table=cls._name, name=name)
+        if kwargs:
+            query += ' WHERE ' + cls._format_kwargs(**kwargs)
+        query += """ GROUP BY {name}""".format(name=name)
+        resp = await make_a_querry(
+            query
+        )
+        return dict(resp)
 
     @classmethod
     async def _delete(cls, data):

@@ -1,0 +1,3 @@
+Zmienna niczym kobieta
+======================
+
