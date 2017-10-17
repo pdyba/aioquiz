@@ -273,6 +273,7 @@ class EmailFeedback(EmailData):
     - regulamin warsztatow: https://pyladiesstart.pl/#/rules
     - dla tych co czują, że trzeba utrwalić podstawy: https://www.codecademy.com/learn/learn-python
     
+    Super było Was wszystkich zobaczyć!
     Do zobaczenia za tydzień!
     PyLadies Poznan Team
     """
