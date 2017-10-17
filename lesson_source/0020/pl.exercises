@@ -8,7 +8,7 @@
     possible_answare: yey
 3:
     title: Stwórz aplikację, która służy do nauki japońskich słówek.
-    task: Napisz prostą aplikację, która pozwoli Ci uczyć się podstawowych słówek w języku japońskim. Skorzystaj z pliku jap\_dict.txt, Twoim zadaniem jest: a) skopiowanie i wklejenie tekstu lub użycie funkcji open(nazwa_pliku), by pozyskać dane b) zamiana stringa na strukturę danych c) zadanie pytania o przetłumaczenie słowa lub wyrażenia z angielskiego na japońskie d) sprawdzenie, czy tłumaczenie wykonano prawidłowo, a jeśli tak, niechaj program nie zadaje już tego samego zadania e) informacja, ile słówek odgadywano i ile pozostało do odgadnięciaf) pogratulowanie na końcu, opcjonalnie:  g) pokazanie różnicy w pisowni
+    task: Napisz prostą aplikację, która pozwoli Ci uczyć się podstawowych słówek w języku japońskim. Skorzystaj z pliku jap\_dict.txt, Twoim zadaniem jest a) skopiowanie i wklejenie tekstu lub użycie funkcji open(nazwa_pliku), by pozyskać dane b) zamiana stringa na strukturę danych c) zadanie pytania o przetłumaczenie słowa lub wyrażenia z angielskiego na japońskie d) sprawdzenie, czy tłumaczenie wykonano prawidłowo, a jeśli tak, niechaj program nie zadaje już tego samego zadania e) informacja, ile słówek odgadywano i ile pozostało do odgadnięciaf) pogratulowanie na końcu, opcjonalnie  g) pokazanie różnicy w pisowni
     possible_answare: yey
 4:
     title: Wisielec

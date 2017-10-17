@@ -33,16 +33,16 @@ Typ tekstowy
 
 
 	:::python3
-    “Ala ma kota”
-	"Kot ma ale"
-	“””Nie Kot	Ma
-	Nie Ale“””
+    'Ala ma kota'
+	'Kot ma ale'
+	'''Nie Kot	Ma
+	Nie Ale'''
 
 Można z nimi robić wiele rzeczy!
 
     :::python3
-    "Ala" + "Ma" + "kota"
-    “{} ma {}”.format("Pies", "wilka")
+    'Ala' + 'Ma' + 'kota'
+    '{} ma {}'.format('Pies', 'wilka')
 
 
 zmienna
@@ -52,7 +52,7 @@ zmienna
 C:
 
     :::python3
-    dane = "kot"
+    dane = 'kot'
 R:
 
     :::python3
@@ -60,13 +60,13 @@ R:
 U:
 
     :::python3
-    dane = "pies"
+    dane = 'pies'
 D: nie ma potrzeby Python zrobi to za nas.
 
 
     :::python3
-    moja_lista = ["x", "y", "ciecz"]
-    moj_string = "PyLadies"
+    moja_lista = ['x', 'y', 'ciecz']
+    moj_string = 'PyLadies'
     moja_liczba = 1.23
 
 lista
@@ -76,12 +76,12 @@ Przykłady:
 
 
     :::python3
-	["piotr", 20, 185]
+	['piotr', 20, 185]
 	[1, 3, 6]
 C:
 
     :::python3
-    moja_lista = [["magda", 22], ["zosia", 23]]
+    moja_lista = [['magda', 22], ['zosia', 23]]
 R:
 
     :::python3
@@ -91,21 +91,21 @@ R:
 U:
 
     :::python3
-    moja_lista[1] = ["cecylia", 55]
-    moja_lista[1][0] = "weronika"
+    moja_lista[1] = ['cecylia', 55]
+    moja_lista[1][0] = 'weronika'
 D:
 
     :::python3
     moja_lista.pop()
-    moja_lista[0].remove("magda")
+    moja_lista[0].remove('magda')
 
 
 slice - kawałek
 ---------------
 
     :::python3
-    moja_torebka = ["szminka", "pomadka", "portfel", "okulary"]
-    moj_string = "PyLadies.start()"
+    moja_torebka = ['szminka', 'pomadka', 'portfel', 'okulary']
+    moj_string = 'PyLadies.start()'
     moja_torebka[0:2]
     moja_torebka[::2]
     moj_string[2:4]
@@ -118,30 +118,30 @@ slownik
 Przykłady:
 
     :::python3
-	{“klucz”: “wartosc”, “klucz_2”: “wartosc”}
-	{1: “jeden”, 2: “dwa”, 3: “trzy”}
+	{'klucz': 'wartosc', 'klucz_2': 'wartosc'}
+	{1: 'jeden', 2: 'dwa', 3: 'trzy'}
 
 
 C:
 
     :::python3
-    moj_slownik = {“imie”: “piotr”, “wiek”: 99}
-	moj_slownik[“plec”] = “M”
+    moj_slownik = {'imie': 'piotr', 'wiek': 99}
+	moj_slownik['plec'] = 'M'
 R:
 
     :::python3
-    moj_slownik[“imie”]	moj_slownik.get(“imie”)
-	moj_slownik[“wiek”]
+    moj_slownik['imie']	moj_slownik.get('imie')
+	moj_slownik['wiek']
 U:
 
     :::python3
-    moj_slownik[“imie”] = "cecylia"
-	moj_slownik[“wiek”] = 22
+    moj_slownik['imie'] = 'cecylia'
+	moj_slownik['wiek'] = 22
 
 D:
 
     :::python3
-    del moj_slownik[“wiek”]
+    del moj_slownik['wiek']
 
 funkcje wbudowane
 -----------------
@@ -173,8 +173,8 @@ Funkcje do zmiany typu:
 Przykłady:
 
     :::python3
-    str(int(float("123123.123123")))
-    list("ala ma kota")
+    str(int(float('123123.123123')))
+    list('ala ma kota')
 
 typ bool i if
 -------------
@@ -187,23 +187,23 @@ Składnia funkcji warunkej if:
 
     :::python3
     if 3 > 5:	
-        print("alternatywna matematyka")
+        print('alternatywna matematyka')
     elif 3 == 5:
-        print("chyba zmienilismy wszechswiat")
+        print('chyba zmienilismy wszechswiat')
     elif 1 <= 0 or 1 >= 5 and True:
-        print("ehhh...")
+        print('ehhh...')
     else:
-        print("wszystko jest ok")
+        print('wszystko jest ok')
 
 
 pętla for
 ---------
 
     :::python3
-    for letter in in "Ala ma Kota":
+    for letter in in 'Ala ma Kota':
         print(letter)
 
-    moja_lista = ["x", "y", "ciecz"]
+    moja_lista = ['x', 'y', 'ciecz']
     for rzecz in moja_lista:
         print(rzecz)
 
@@ -218,8 +218,8 @@ pętla while
     :::python3
     czy_zakonczyc_program = False
     while not czy_zakonczyc_program:
-        odp = input("czy zakonczyc program T/N")
-        if odp == "T":
+        odp = input('czy zakonczyc program T/N')
+        if odp == 'T':
             czy_zakonczyc_program = True
 
 
@@ -258,7 +258,7 @@ funkcje - def
         try:
             return alist[1]
         except IndexError:
-            print("Obiekt nie ma tylu elementow")
+            print('Obiekt nie ma tylu elementow')
 
 
 Przygotowanie do zadań

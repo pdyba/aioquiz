@@ -307,9 +307,11 @@ async def create_html_lessons(lang='pl'):
         lid = await lesson.update_or_create(*meta.keys())
         try:
             with open(e_path) as file:
-                exe = yaml.load(file.read())
-        except:
+                exe = yaml.load(file)
+        except Exception as err:
             exe = False
+            print("No exercise for " + e_path)
+            print(err)
         if exe:
             try:
                 for _, val in exe.items():
