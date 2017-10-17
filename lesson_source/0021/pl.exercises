@@ -1,0 +1,107 @@
+1:
+    title: Liczenie słów
+    task: |
+        Napisz funkcję, która policzy słowa w tekście. Każde słowo jest oddzielone spacją. Przykład działania
+        >>> policz_slowa("Ala ma kota")
+        3
+        >>> policz_slowa("Pies psu niedzwiedziem, bo tak")
+        5
+    possible_answare: yey
+
+2:
+    title: Liczenie samogłosek
+    task: |
+        Napisz funkcję, która policzy wszystkie samogłoski w tekście. Przykład działania
+        >>> policz_samogloski("Ala ma kota")
+        5
+        >>> policz_samogloski("Pies psu niedzwiedziem")
+        9
+    possible_answare: yey
+
+3:
+    title: xoxo
+    task: |
+        Napisz funkcję, która sprawdzi, czy liczba znaków "x" i "o" w stringu jest taka sama i zwróci True/False. Jeśli string zawiera coś innego niż "x" lub "o", to wypisze błąd.
+        >>> xo_checker("xoxoxoxoxoxo")
+        True
+        >>> xo_checker("xxxoooxxxxxxxo")
+        False
+        >>> xo_checker("xpd")
+        "Illegal letters in text"
+    possible_answare: yey
+
+4:
+    title: Cenzura cyfr
+    task: |
+        Napisz funkcję, która zamieni wszystkie cyfry na "#" w tekście (stringu)
+        >>> cenzura_cyfr("password12345")
+        "password#####"
+        >>> cenzura_cyfr("a1a ma k0ta")
+        "a#a ma k#ta"
+    possible_answare: yey
+
+5:
+    title: Kraje Ameryki Północnej
+    task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje w Ameryce Północnej. (Northern America).
+    possible_answare: yey
+6:
+    title: Kraje nie Afrykanskie
+    task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje niebędące w Afryce (Africa).
+    possible_answare: yey
+7:
+    title: Wiele walut
+    task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje, które mają więcej niż jedną walutę (currency) oraz wypisz te waluty.
+    possible_answare: yey
+
+8:
+    title: Stolice na W
+    task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje i ich stolice, jeśli stolica zaczyna się od litery W.
+    possible_answare: yey
+9:
+    title: Najwieksza powierzchnia
+    task: Korzystając w ze ściągniętego pliku z bazą krajów. Znajdź kraj o największej powierzchni i wyświetl jego nazwę i powierzchnię.
+    possible_answare: yey
+
+10:
+    title: Najwiecej sasiadow
+    task: Korzystając w ze ściągniętego pliku z bazą krajów. Znajdź kraj, który graniczy z największą ilością innych krajów (borders) i wyświetl jego nazwę oraz ilość granic
+    possible_answare: yey
+11:
+    title: Odwazniki
+    task: |
+        Napisz funkcję, która znajdzie liczbę odważników o wadze A aby zrównoważyć szale wagi z odważnikami o wadze B. Przykład działania:
+        >>> odwazniki(2, 8)
+        4, 1
+        >>> odwazniki(4, 6)
+        3, 2
+    possible_answare: yey
+
+12:
+    title: Droga w ruchu przyspieszonym
+    task: |
+        Napisz funkcję, która policzy drogę pokonaną przez samochód w czasie t i przyspieszeniu a z opcjonalną prędkością początkową, domyślnie równą 0.
+        >>> droga(5, 5)
+        62.5
+        >>> droga(10, 10, vs=100)
+        1500
+    possible_answare: yey
+
+13:
+    title: Szyfr cezara
+    task: |
+        Wykorzystując dwie nowe wbudowane
+        char() 		ord()
+        >>> ord("a")
+        97
+        >>> chr(98)
+        "b"
+        funkcje zaimplementuj szyfr cezara, który jako drugi parametr będzie brał przesunięcie.
+        Przykłady szyfr cezaraz o parametrze 3 podmieni każd literka alfabetu na trzecią z kolei np A na D a Z na C.
+        >>> cezar("abc", 2)
+        "cde"
+        >>> cezar("abc", -2)
+        "yza"
+        Pamiętaj żeby znaki inne niż litery nie zmieniać.
+        uwzględnij dodatkowo wielkie litery
+    possible_answare: yey
+
