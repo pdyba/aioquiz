@@ -261,7 +261,7 @@ WAŻNA INFROMACJA! Mamy tylko 200 miejsc na sali, a rejestracja jest obowiązkow
 
 class EmailFeedback(EmailData):
     recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False, 'organiser': False}
-    subject = "Ankieta oceniąjącą i parę przydatnych linków"
+    subject = "Ankieta i parę przydatnych linków"
     text = """
     Cześć!
     
@@ -271,6 +271,7 @@ class EmailFeedback(EmailData):
     - prezentacja z zajęć: [LINK]
     - program warsztatów do końca roku: https://pyladiesstart.pl/#/program
     - regulamin warsztatow: https://pyladiesstart.pl/#/rules
+    - dla tych co czują, że trzeba utrwalić podstawy: https://www.codecademy.com/learn/learn-python
     
     Do zobaczenia za tydzień!
     PyLadies Poznan Team
