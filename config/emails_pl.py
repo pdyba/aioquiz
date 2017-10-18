@@ -259,6 +259,24 @@ PROSIMY O WCZEŚNIEJSZĄ REJESTRACJĘ POD LINKIEM https://pyladies-continued-1.e
 WAŻNA INFROMACJA! Mamy tylko 200 miejsc na sali, a rejestracja jest obowiązkowa ze względu na przepisy BHP.
     """
 
+class EmailFeedback(EmailData):
+    recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False, 'organiser': False}
+    subject = "Ankieta i parę przydatnych linków"
+    text = """
+    Cześć!
+    
+    Parę przydatnych linków:
+    - ankieta do oceny zajęć (coś czujemy, że będziecie dla nas mieli parę wskazówek ;p): https://goo.gl/forms/1fF5WXQjNe13CpKV2
+    - ściąga i zadania z zajęć: https://pyladiesstart.pl/#/lesson/0021
+    - prezentacja z zajęć: [LINK]
+    - program warsztatów do końca roku: https://pyladiesstart.pl/#/program
+    - regulamin warsztatow: https://pyladiesstart.pl/#/rules
+    - dla tych co czują, że trzeba utrwalić podstawy: https://www.codecademy.com/learn/learn-python
+    
+    Super było Was zobaczyć!
+    Do zobaczenia za tydzień!
+    PyLadies Poznan Team
+    """
 
 ALL_EMAILS = [
     EmailAccepted.to_dict(),
@@ -272,4 +290,5 @@ ALL_EMAILS = [
     EmailKCF.to_dict(),
     EmailG4R.to_dict(),
     EmailPytrening.to_dict(),
+    EmailFeedback.to_dict(),
 ]
