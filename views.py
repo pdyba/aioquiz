@@ -17,11 +17,13 @@ from sanic.views import HTTPMethodView
 from config import REGEMAIL
 from config import MAINCONFIG
 from config import ALL_EMAILS
-from models import Absence, LessonFeedback, Feedback
+from models import Absence
 from models import AbsenceMeta
 from models import Config
 from models import Exercise
+from models import Feedback
 from models import Lesson
+from models import LessonFeedback
 from models import LiveQuiz
 from models import LiveQuizAnsware
 from models import LiveQuizQuestion
