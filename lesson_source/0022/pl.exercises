@@ -1,0 +1,58 @@
+1:
+    title: 2.1
+    task: |
+        2.1	Wczytaj plik i stwórz słownik w którym kluczem będzie imię (i
+        nazwisko) a wartością będzie słownik z kluczami kolor oczu i wzrost
+        Przykład: {"Yoda": {"height": 66, "eyes": "brown"}}
+    possible_answare: yey
+
+2:
+    title: 2.2
+    task: |
+        2.2 	Zapisz wszystkie osoby wyższe niż 200 cm do pliku hero_200_plus a
+        resztę do pliku hero_short.
+    possible_answare: yey
+
+3:
+    title: 2.3
+    task: |
+        2.3*Zapisz średni wzrost postaci dla każdego z kolorów w osobnych
+        linijkach w formie:
+        Średni wzrost osób z kolorem oczu blue wynosi 123,12 cm.
+
+4:
+    title: 2.4
+    task: |
+        2.4* Przetłumacz nazwy kolorów do zdania w zadaniu 2.3
+
+5:
+    title: 2.5
+    task: |
+        2.5 Znajdź i zapisz wszystkie imiona kobiet do pliku sw_women a
+        wszystkich mężczyzn do sw_men
+    possible_answare: yey
+
+6:
+    title: 2.6
+    task: |
+        2.6 Zapisz plik sw_all_heros z bohaterami w zdaniach:
+        <Imie> wazy <waga> kg jest <plec> i pochodzi z <Planeta>.
+        Przykład:
+        Anakin Skywakaer waży 90 kg jest mężczyzną i pochodzi z Tatuin.
+    possible_answare: yey
+
+7:
+    title: 2.7
+    task: |
+        2.7 Wczytaj zawarty w pliku json.
+        Stwórz plik który będzie posiadał wszystkie statki w
+        zdaniach od najdroższego do najtańszego:
+        <Nazwa> kosztuje <123> credits.
+    possible_answare: yey
+
+
+
+
+
+
+
