@@ -8,6 +8,7 @@ import logging
 from uuid import uuid4
 
 from asyncpg.exceptions import UniqueViolationError
+from asyncpg.exceptions import PostgresSyntaxError
 
 from sanic.response import json
 from sanic.response import redirect
@@ -20,7 +21,9 @@ from models import Absence
 from models import AbsenceMeta
 from models import Config
 from models import Exercise
+from models import Feedback
 from models import Lesson
+from models import LessonFeedback
 from models import LiveQuiz
 from models import LiveQuizAnsware
 from models import LiveQuizQuestion
@@ -648,8 +651,14 @@ class ExercisesView(HTTPMethodView):
         req = request.json
         req['users'] = current_user.id
         ex = ExerciseAnsware(**req)
-        await ex.create()
-        return json({'success': True})
+        try:
+            await ex.create()
+            return json({'success': True})
+        except PostgresSyntaxError:
+            ex.answare = ex.answare.replace("'", '"')
+            await ex.create()
+        return json({'success': False})
+
 
 
 class UserStatsView(HTTPMethodView):
@@ -853,7 +862,7 @@ class AbsenceView(HTTPMethodView):
             resp = await abmeta.to_dict()
             resp['time_ended'] = str(resp['time_ended']).split('.')[0]
             return json(resp)
-        except DoesNotExist:
+        except (DoesNotExist, TypeError):
             return await self.generate_code(current_user.id, lid)
 
     @user_required()

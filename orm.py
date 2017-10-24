@@ -34,12 +34,14 @@ async def make_a_querry(querry, retry=False):
         try:
             return await db.fetch(querry)
         except (
-            PostgresSyntaxError,
             DatatypeMismatchError,
             UndefinedColumnError,
         ):
             logging.exception('queering db: %s', querry)
-    except UniqueViolationError:
+        except PostgresSyntaxError:
+            logging.warning('queering db: %s', querry)
+            raise
+    except (UniqueViolationError, PostgresSyntaxError):
         raise
     except:
         if retry:
@@ -237,7 +239,7 @@ class Table:
     async def create(self):
         try:
             return await self._create(self)
-        except UniqueViolationError:
+        except (UniqueViolationError, PostgresSyntaxError):
             raise
         except Exception as e:
             logging.exception('Error creating {}'.format(self._name))
