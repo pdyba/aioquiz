@@ -8,7 +8,6 @@ import logging
 from uuid import uuid4
 
 from asyncpg.exceptions import UniqueViolationError
-from asyncpg.exceptions import PostgresSyntaxError
 
 from sanic.response import json
 from sanic.response import redirect
@@ -654,11 +653,9 @@ class ExercisesView(HTTPMethodView):
         try:
             await ex.create()
             return json({'success': True})
-        except PostgresSyntaxError:
-            ex.answare = ex.answare.replace("'", '"')
-            await ex.create()
+        except:
+            logging.exception("ExercisesView.post")
         return json({'success': False})
-
 
 
 class UserStatsView(HTTPMethodView):
@@ -854,7 +851,7 @@ class ConfigView(HTTPMethodView):
         )
 
 
-class AbsenceView(HTTPMethodView):
+class AbsenceManagementView(HTTPMethodView):
     @user_required('admin')
     async def get(self, _, current_user, lid=None):
         try:
@@ -873,7 +870,7 @@ class AbsenceView(HTTPMethodView):
             return json(
                 {
                     'success': False,
-                    'msg': 'Missing lesson number or code'
+                    'msg': 'Missing code'
                 },
                 sort_keys=True
             )
@@ -937,6 +934,47 @@ class AbsenceView(HTTPMethodView):
         resp = await abmeta.to_dict()
         resp['time_ended'] = str(time_ended).split('.')[0]
         return json(resp)
+
+
+class AbsenceView(HTTPMethodView):
+    @user_required()
+    async def get(self, _, current_user, lid=None):
+        if current_user.admin and lid:
+            absences = await Absence.get_by_field_value('lesson', lid)
+            lesson = await Lesson.get_by_id(lid)
+            lesson = lesson.title
+            max_absences = 200
+            current_attendence = len(absences)
+        else:
+            absences = await AbsenceMeta.get_all()
+            user_absence = await Absence.get_by_field_value('users', current_user.id)
+            lesson = ""
+            max_absences = len(absences)
+            current_attendence = len(user_absence)
+        attendance = []
+
+        for absence in absences:
+            if not lid:
+                lesson = await Lesson.get_by_id(absence.lesson)
+                data = {'lesson': lesson.title}
+                uabs = list(filter(
+                    lambda b: b.lesson == absence.lesson,
+                    user_absence
+                ))
+                data['absent'] = True if uabs else False
+            else:
+                data = await absence.to_dict()
+                user = await Users.get_by_id(data['users'])
+                data['users'] = user.surname
+            attendance.append(data)
+
+        return json({
+            'max': max_absences,
+            'amount': current_attendence,
+            'data': attendance,
+            'lesson': lesson,
+            'perc': "{}%".format(round(current_attendence/max_absences*100, 2))
+        })
 
 
 # noinspection PyBroadException

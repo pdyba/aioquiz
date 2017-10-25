@@ -35,13 +35,12 @@ async def make_a_querry(querry, retry=False):
             return await db.fetch(querry)
         except (
             DatatypeMismatchError,
-            UndefinedColumnError,
         ):
             logging.exception('queering db: %s', querry)
-        except PostgresSyntaxError:
+        except (PostgresSyntaxError, UndefinedColumnError):
             logging.warning('queering db: %s', querry)
             raise
-    except (UniqueViolationError, PostgresSyntaxError):
+    except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
         raise
     except:
         if retry:
@@ -207,10 +206,7 @@ class Table:
                         raise
                 if isinstance(prop.type, (String, CodeString)):
                     val = prop.type.format(val)
-                    ending = '"' if "'" in val else "'"
-                    values += ending
-                    values += val
-                    values += ending
+                    values += """\'{}\'""".format(val.replace("'", "\"").replace('"', "\""))
                 elif isinstance(prop.type, DateTime):
                     val = getattr(clsi, prop.name)
                     values += "'"
@@ -239,7 +235,7 @@ class Table:
     async def create(self):
         try:
             return await self._create(self)
-        except (UniqueViolationError, PostgresSyntaxError):
+        except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
             raise
         except Exception as e:
             logging.exception('Error creating {}'.format(self._name))

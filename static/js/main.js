@@ -47,6 +47,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "LiveQuizRunCtrl",
             controllerAs: 'vm'
         })
+        .when("/overview_attendance/:id", {
+            templateUrl: "partials/overview_attendance.html",
+            controller: "OverviewAttendanceCtrl",
+            controllerAs: 'vm'
+        })
         .when("/live_quiz_results/:id", {
             templateUrl: "partials/live_quiz_results.html",
             controller: "LiveQuizResultsCtrl",
@@ -266,11 +271,21 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
         }, function (value) {
             var data = {'code': value};
             $http.put('/api/absence', data).then(function (response) {
-                var txt = response.data.msg;
-                SweetAlert.swal({text: txt, title: ''});
+                if (response.data.success) {
+                    mtype = "success";
+                } else {
+                    mtype = "error";
+                }
+                SweetAlert.swal({
+                    text: response.data.msg,
+                    title: 'Absence',
+                    type: mtype,
+                    showConfirmButton: true,
+                    timer: 2000
+                });
             })
         });
-    }
+    };
 }
 
 app.component("exercises", {
@@ -508,6 +523,7 @@ function LessonMngtController($scope, $location, $AuthenticationService, $FlashS
     vm.deactivate = deactivate;
     vm.absence = absence;
     vm.extend = extend;
+    vm.attendance = attendance;
 
     function activate(lid){}
     function deactivate(lid){}
@@ -538,12 +554,16 @@ function LessonMngtController($scope, $location, $AuthenticationService, $FlashS
         );
     }
 
+    function attendance(lid) {
+        $location.path('/overview_attendance/' + lid);
+    }
 
     $http.get('/api/lessons').then(
         function (response) {
             vm.lessons = response.data;
         }
     );
+
 }
 
 
@@ -690,6 +710,11 @@ function ProfileCtrl($scope, $location, $AuthenticationService, $FlashService, $
     $http.get('/api/user/' + $scope.globals.currentUser.id).then(
         function (response) {
             vm.user_profile = response.data;
+        }
+    );
+    $http.get('/api/attendance').then(
+        function (response) {
+            vm.user_attendence = response.data;
         }
     );
 }
@@ -1022,7 +1047,6 @@ function SeatOverViewController($scope, $location, $AuthenticationService, $Flas
 
 }
 
-
 app.controller('ExerciseOverviewController', ExerciseOverviewController);
 ExerciseOverviewController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$interval'];
 function ExerciseOverviewController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $interval) {
@@ -1044,6 +1068,28 @@ function ExerciseOverviewController($scope, $location, $AuthenticationService, $
     }
     refresh_seats();
     $interval(refresh_seats, 3000)
+
+}
+
+app.controller('OverviewAttendanceCtrl', OverviewAttendanceCtrl);
+OverviewAttendanceCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$interval', '$routeParams'];
+function OverviewAttendanceCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $interval, $routeParams) {
+    var vm = this;
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: $AuthenticationService,
+        $FlashService: $FlashService
+    });
+    function refresh_absence() {
+        $http.get('/api/attendance/' + parseInt($routeParams.id)).then(
+            function (response) {
+                vm.absence_overview = response.data;
+            }
+        )
+    }
+    refresh_absence();
+    $interval(refresh_absence, 3000)
 
 }
 
