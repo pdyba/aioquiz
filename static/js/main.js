@@ -267,7 +267,8 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
             text: "Please provide lesson code",
             element: "input",
             type: "input",
-            showConfirmButton: true
+            showConfirmButton: true,
+            closeOnConfirm: false
         }, function (value) {
             var data = {'code': value};
             $http.put('/api/absence', data).then(function (response) {
@@ -283,6 +284,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
                     showConfirmButton: true,
                     timer: 2000
                 });
+
             })
         });
     };

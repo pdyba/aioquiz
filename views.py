@@ -897,7 +897,7 @@ class AbsenceManagementView(HTTPMethodView):
         return json(
             {
                 'success': True,
-                'msg': 'Absence accepted'
+                'msg': 'Attendance accepted'
             },
             sort_keys=True
         )
