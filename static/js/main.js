@@ -297,8 +297,8 @@ app.component("exercises", {
 });
 
 app.controller('ExercisesCtrl', ExercisesCtrl);
-ExercisesCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$routeParams'];
-function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $routeParams) {
+ExercisesCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$routeParams', 'SweetAlert'];
+function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $routeParams, SweetAlert) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
@@ -324,7 +324,17 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
         };
         $http.post('/api/exercise/', data).then(
             function (response) {
-                vm.resp = response.data;
+                vm.resp = response.data.msg;
+                if (response.data.success) {
+                    mtype = "success";
+                } else {
+                    mtype = "error";
+                }
+                SweetAlert.swal({
+                    title: mtype,
+                    text: vm.resp,
+                    type: mtype
+                });
                 qwa.answared = true
             }
         ).catch(function (response) {
@@ -1224,7 +1234,8 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
             text: "Please provide valid email",
             element: "input",
             type: "input",
-            showConfirmButton: true
+            showConfirmButton: true,
+            closeOnConfirm: false
         }, function (value) {
             var data = {'email': value};
             $http.post('/api/forgot_password', data).then(function (response) {

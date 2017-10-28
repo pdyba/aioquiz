@@ -652,10 +652,13 @@ class ExercisesView(HTTPMethodView):
         ex = ExerciseAnsware(**req)
         try:
             await ex.create()
-            return json({'success': True})
+            return json({'success': True, 'msg': 'Exercise answare saved'})
         except:
             logging.exception("ExercisesView.post")
-        return json({'success': False})
+        return json({
+            'success': False,
+            'msg': 'ERROR: Exercise answare NOT saved'
+        })
 
 
 class UserStatsView(HTTPMethodView):
