@@ -298,8 +298,8 @@
                 <label for="bring_power_cord"><input type="checkbox" name="bring_power_cord"
                                            id="bring_power_cord"
                                            ng-model="vm.user.bring_power_cord">
-                <p ng-if="vm.user.lang === 'en'">I know that each time my laptop needs to be full powerd up.</p>
-                <p ng-if="vm.user.lang === 'pl'">Wiem że muszę przynosić naładowanego laptopa za każdym razem.</p>
+                <p ng-if="vm.user.lang === 'en'">I know that each time my laptop needs to be fully powered up.</p>
+                <p ng-if="vm.user.lang === 'pl'">Wiem, że za każdym razem muszę przynosić naładowanego laptopa.</p>
                 </label>
             </div>
 
@@ -307,8 +307,8 @@
                 <label for="attend_weekly"><input type="checkbox" name="attend_weekly"
                                            id="attend_weekly"
                                            ng-model="vm.user.attend_weekly">
-                <p ng-if="vm.user.lang === 'en'">Did you already install PyCharm</p>
-                <p ng-if="vm.user.lang === 'pl'">Czy zainstalowałeś już PyCharma?</p>
+                <p ng-if="vm.user.lang === 'en'">Have you already installed PyCharm?</p>
+                <p ng-if="vm.user.lang === 'pl'">Czy zainstalowałaś/eś już PyCharma?</p>
                 </label>
             </div>
 
@@ -326,7 +326,7 @@
 
             <div class="form-group" ng-hide="vm.user.mentor == 'mentor'"
                  ng-class="{ 'has-error': form.experience.$dirty && form.password.$error.required }">
-                <label for="what_can_you_bring" ng-if="vm.user.lang === 'en'">Are You a student of CDV?
+                <label for="what_can_you_bring" ng-if="vm.user.lang === 'en'">Are you a student of CDV?
                     </label>
                 <label for="what_can_you_bring" ng-if="vm.user.lang === 'pl'">Czy jesteś studentem CDV?</label>
                                 <span ng-show="form.what_can_you_bring.$error.pattern"

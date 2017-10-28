@@ -113,6 +113,25 @@
                         registration is complete.
                     </li>
                 </ul>
+
+                Attendance: {{ vm.user_attendence.amount }}/{{ vm.user_attendence.max }} => {{ vm.user_attendence.perc }}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Lesson</th>
+                        <th>Attendence</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="atn in vm.user_attendence.data">
+                        <td>{{ atn.lesson }}</td>
+                        <td>{{ atn.absent ? '&#10003;'  : '&#10060;'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
             </div>
         </div>
     </div>

@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row" ng-show="$parent.globals.currentUser.admin || $parent.globals.currentUser.organiser">
+        <div class="col-lg-12">
+            <h1 class="page-header">Users Attendence Summary</h1>
+        </div>
+        Attendance: {{ vm.absence_overview.amount }}/{{ vm.absence_overview.max }} => {{ vm.absence_overview.perc }}
+        Surnames:
+        <div class="table-responsive">
+            <v ng-repeat="abs in vm.absence_overview.data">{{ abs.users }}</v>
+        </div>
+
+
+    </div>
+</div>
