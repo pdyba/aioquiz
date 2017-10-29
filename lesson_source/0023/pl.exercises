@@ -1,0 +1,13 @@
+1:
+    title: 3.1
+    task: |
+        3.1	Wczytaj plik i stwórz słownik w którym kluczem będzie imię (i
+        nazwisko) a wartością będzie słownik z kluczami kolor oczu i wzrost
+        Przykład: {"Yoda": {"height": 66, "eyes": "brown"}}
+    possible_answare: yey
+
+
+
+
+
+
