@@ -79,6 +79,7 @@ Kody http
 ---------
 
 Klasy kodów odpowiedzi serwera HTTP:
+
 * 1xx - kody informacyjne
 * 2xx - kody powodzenia
 * 3xx - kody przekierowania
@@ -86,13 +87,18 @@ Klasy kodów odpowiedzi serwera HTTP:
 * 5xx - kody błędu serwera
 
 1xx - są rzadko spotykane
+
 2xx:
+
 * 200 - OK
 * 201 - Created - wysłany dokument został zapisany na serwerze
+
 3xx:
+
 * 301 - Moved Permanently - trwale przeniesiony - żądany zasób zmienił swój URI częsta odpowiedź na POSTa
 
 4xx:
+
 * 400 - Bad Request	- nieprawidłowe zapytanie – żądanie nie może być obsłużone przez serwer z powodu błędnej składni zapytania
 * 401 - Unauthorized - nieautoryzowany dostęp
 * 403 - Forbidden - Zabroniony – serwer zrozumiał zapytanie lecz konfiguracja bezpieczeństwa zabrania mu zwrócić żądany zasób
