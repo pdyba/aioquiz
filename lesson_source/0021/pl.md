@@ -265,5 +265,5 @@ Przygotowanie do zadań
 ----------------------
 
 Pobierz plik zawierający bazę krajów z:
-http://dyba.it/countries.py
+[http://dyba.it/countries.py](http://dyba.it/countries.py)
 

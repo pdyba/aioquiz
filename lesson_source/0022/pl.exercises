@@ -17,7 +17,7 @@
     title: 2.3
     task: |
         2.3*Zapisz średni wzrost postaci dla każdego z kolorów w osobnych
-        linijkach w formie:
+        linijkach w formie (123,12 nie jest prawidłową odpowiedzią):
         Średni wzrost osób z kolorem oczu blue wynosi 123,12 cm.
 
 4:

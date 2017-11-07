@@ -179,6 +179,7 @@ class Exercise(Table):
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('lesson', ForeignKey('lesson')),
     ]
+    _unique = ['title']
 
 
 class LessonFeedback(Table):

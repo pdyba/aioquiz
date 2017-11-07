@@ -129,10 +129,10 @@ Przygotowanie do zadań
 ----------------------
 
 Pobierz pliki do zadań:
-http://dyba.it/py1.2
-http://dyba.it/py1.2.json
+[http://dyba.it/py1.2](http://dyba.it/py1.2)
+[http://dyba.it/py1.2.json](http://dyba.it/py1.2.json)
 
 plik do zadania domowego:
-http://dyba.it/py1.2zd.json
+[http://dyba.it/py1.2zd.json](http://dyba.it/py1.2zd.json)
 
 
