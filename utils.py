@@ -80,7 +80,7 @@ async def send_email(recipients=None, subject='', text=''):
         await server.connect(timeout=5, use_tls=True)
         await server.login(username=EMAIL.USERNAME, password=EMAIL.PASSWORD)
         message = MIMEText(text)
-        message['From'] = 'PyLadies Poznan <{}>'.format(EMAIL.USERNAME)
+        message['From'] = 'PyLove.org <{}>'.format(EMAIL.USERNAME)
         message['Subject'] = subject
         sender = EMAIL.USERNAME
         await server.sendmail(sender, recipients, message.as_string(), timeout=10)

@@ -1092,7 +1092,7 @@ class ForgotPasswordView(HTTPMethodView):
             resp = await send_email(
                 recipients=[user.email],
                 text=password,
-                subject="Your new PyLadies.start() password"
+                subject="Your new PyLove password"
             )
             if resp:
                 return json({
