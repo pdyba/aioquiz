@@ -1,4 +1,4 @@
-PyLadies 1.2 Pliki i Json
+PyLove 1.2 Pliki i Json
 =========================
 
 Otwieranie plików w Pythonie

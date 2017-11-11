@@ -1,4 +1,4 @@
-PyLadies 1.0 Powtórka
+PyLove 1.0 Powtórka
 =====================
 
 CRUD
