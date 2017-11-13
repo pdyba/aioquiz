@@ -191,3 +191,11 @@ nav.navbar {
     color: #8ce554 !important;
     background-image: None;
 }
+.section {
+    padding-top: 25px;
+    padding-bottom:  25px;
+}
+.section-colored {
+    padding-top: 25px;
+    padding-bottom:  25px;
+}

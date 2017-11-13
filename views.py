@@ -227,8 +227,13 @@ class UserView(HTTPMethodView):
             logging.exception('err user.post')
         return json({}, status=500)
 
-    @user_required('admin')
+    @user_required()
     async def delete(self, _, current_user, id_name=None):
+        if isinstance(id_name, str) and id_name.isnumeric():
+            id_name = int(id_name)
+        if not current_user.admin and current_user.id != id_name:
+            return json({'success': False, 'msg': 'Unauthorised'})
+
         await UserReview.delete_by_many_fields(
             reviewer=id_name,
             users=id_name

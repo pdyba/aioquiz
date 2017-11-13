@@ -262,8 +262,6 @@ ALL_EMAILS = [
     EmailCustom.to_dict(),
     EmailWorkshopInfo.to_dict(),
     EmailUserFeedback.to_dict(),
-    EmailKCF.to_dict(),
-    EmailG4R.to_dict(),
     EmailPytrening.to_dict(),
     EmailFeedback.to_dict(),
 ]
