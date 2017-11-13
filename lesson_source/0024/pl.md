@@ -61,10 +61,15 @@ Zatwierdź zmiany, zapisując zawartość plików w historii katalogu Git
 Śledzenie i wycofywanie zmian
 ---------------------------------
 
-Wyświetl aktualny stan repozytorium
+Wyświetl aktualny stan repozytorium (które pliki zostały zmienione)
 
     :::bash
     git status
+
+Wyświetl aktualny stan repozytorium (jakie zmiany zostały wprowadzone)
+
+    :::bash
+    git diff
 
 Wyświetl historię zapisanych zmian
 
@@ -139,17 +144,17 @@ Najważniejsze pojęcia
 ---------------------------------
 **Branch (Gałąź)** - To Twoja bezpieczna strefa do eksperymentów. Możesz na niej swobodnie wprowadzać zmiany, bez obaw, że popsujesz działającą już wersję kodu. Gałęzie tworzymy za pomocą polecenia `git checkout -b <nazwa_gałęzi>`. Po zakończeniu pracy nad nowymi zmianami i zapisaniu ich, możesz scalić swoją eksperymentalną gałąź ze źródłem projektu przechodząc do niego przez polecenie `git checkout master`, a następnie wywołując polecenie `git merge <nazwa_gałęzi>`.
 
-**Clone** - Lokalna kopia zdalnego repozytorium. Po utworzeniu forka, możemy zapisać skopiowane repozytorium lokalnie, za pomocą polecenia `git clone <adres_naszego_forka>` . Dzięki temu, możemy pracować na tym repozytorium tak samo, jak na każdym innym stworzonym przez nas lokalnym repozytorium.
+**Clone** - Lokalna kopia zdalnego repozytorium. Znajdujące się na serwerze repozytoria (np. na GitHub, Bitbucket czy GitLab), możemy skopiować lokalnie, za pomocą polecenia `git clone <adres_zdalnego_repozytorium>` . Dzięki temu, możemy pracować na tym repozytorium tak samo, jak na każdym innym stworzonym przez nas lokalnym repozytorium.
 
-**Commit** - Zapisanie stanu projektu w historii wersji. Tworzy się je za pomocą polecenia `git commit -m <krótki opis>`. Każdy commit stanowi swoistą migawkę stanu projektu do którego możesz zawsze wrócić. Listę dotychczas zapisanych commitów możesz przeglądać wpisując polecenie `git log`.
+**Commit** - Zapisanie stanu projektu w historii wersji. Tworzy się je za pomocą polecenia `git commit -m "krótki opis"`. Każdy commit stanowi swoistą migawkę stanu projektu do którego możesz zawsze wrócić. Listę dotychczas zapisanych commitów możesz przeglądać wpisując polecenie `git log`.
 
 **Fork** - Zdalna kopia innego zdalnego repozytorium. Forka tworzymy gdy chcemy na swoim koncie GitHub zapisać kopię czyjegoś repozytorium również dostępnego na GitHub. Forki tworzymy poprzez GitHuba, wchodząc na adres repozytorium, które chcemy skopiować i klikając odpowiednią ikonkę.
 
 **Git Repository** - Repozytorium to w zasadzie folder zawierający wszystkie pliki jakie chcesz śledzić za pomocą Gita. Zwykle tworzy się jedno repozytorium per projekt. Repozytoria lokalne tworzymy za pomocą polecenia `git init .`.
 
-**Master (Źródło)** - To rdzeń Twojego projektu, który zawiera najświeższą, działającą wersję kodu. W źródle zapisujemy kompletne, nowe wersje kodu.
+**Master (Źródło)** - To główny branch w repozytorium, tworzony przez Git domyślnie przy zainicjalizowaniu repozytorium. Tworząc rozbudowany projekt, szczególnie we spółpracy z innymi osobami, do mastera nie powinno się bezpośrednio commitować. To rdzeń Twojego projektu, który powinien zawierać najświeższą, działającą wersję kodu i stanowić punkt wyjścia dla osób, które chcą dołączyć do Twojego projektu.
 
-**Pull Request** - Gdy poczujesz, że Twój kod z gałęzi gotowy jest do zapisania w źródle, tworzysz Pull Request. Osoby, z którymi współpracujesz nad projektem, mogą wtedy przejrzeć Twoje zmiany, zasugerować poprawki lub zaakceptować je. Wprowadzanie zmian przez pull requesty pozwala na zachowanie transparentności w projekcie oraz uniknięcie głupich błędów (np. zakomentowane linijki kodu, literówki). Co dwie głowy to nie jedna. ;)
+**Pull Request** - Gdy uznasz, że Twój kod z gałęzi gotowy jest do zapisania w źródle (np. wnosi kompletną zmianę, tzw. feature, lub poprawia w całości jakiś błąd, tzw. bug fix), tworzysz Pull Request. Osoby, z którymi współpracujesz nad projektem, mogą wtedy przejrzeć Twoje zmiany, zasugerować poprawki lub zaakceptować je. Wprowadzanie zmian przez pull requesty pozwala na zachowanie transparentności w projekcie oraz uniknięcie głupich błędów (np. zakomentowane linijki kodu, literówki). Co dwie głowy to nie jedna. ;)
 
 **Remote (zdalne repozytorium)** - To wersja Twojego projektu utrzymywana na serwerze dostępnym przez internet (np. na serwerach GitHuba). Zapisywanie projektów w repozytoriach zdalnych znacznie ułatwia współpracę w grupie, ponieważ Twoje repozytorium nie jest dostępne jedynie na Twojej maszynie, ale w sieci, do której dostęp może mieć wielu użytkowników. Po stworzeniu takiego repozytorium na serwerze, możesz dodać je jako repozytorium zdalne do swojego lokalnego projektu za pomocą polecenia `git remote add <url_zdalnego_repozytorium>`. Aby dodać zmiany z lokalnego repozytorium do repozytorium zdalnego wystarczy użyć polecenia `git push`.
 
