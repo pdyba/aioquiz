@@ -55,6 +55,7 @@ Zatwierdź zmiany, zapisując zawartość plików w historii katalogu Git
     git commit -m “Krótki opis”
 
 [Podstawy Git](https://git-scm.com/book/pl/v1/Pierwsze-kroki-Podstawy-Git)
+
 [Rejestrowanie zmian](https://git-scm.com/book/pl/v1/Podstawy-Gita-Rejestrowanie-zmian-w-repozytorium)
 
 
@@ -137,6 +138,7 @@ Swórz kopię lokalną zdalnego repozytorium
     git clone git@github.com:user/repo.git
 
 [Dodawanie repozytorium zdalnego](https://help.github.com/articles/adding-a-remote/)
+
 [Zmiana adresu zdalnego repozytorium](https://help.github.com/articles/changing-a-remote-s-url/)
 
 
@@ -166,10 +168,17 @@ Najważniejsze pojęcia
 Kursy i tutoriale
 ---------------------------------
 [Git & GitHub for Poets](https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZF9C0YMKuns9sLDzK6zoiV)
+
 [Kurs Git na Codecademy](https://www.codecademy.com/learn/learn-git)
+
 Kursy Git i GitHub na Udacity:
+
 * [Git i Github](https://www.udacity.com/course/how-to-use-git-and-github--ud775)
+
 * [Kontrola wersji](https://www.udacity.com/course/version-control-with-git--ud123)
+
 * [Kolaboracja](https://www.udacity.com/course/github-collaboration--ud456)
+
 [Tutorial Projekt Programistka](https://magnifikajf.com/2017/06/24/jak-ogarnac-git-a-i-stworzyc-repozytorium-na-github-ie-w-10-dni/)
+
 [Integracja Gita  z Pycharmem](https://www.youtube.com/watch?v=jFnYQbUZQlA)
