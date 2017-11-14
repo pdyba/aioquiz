@@ -1,4 +1,4 @@
-PyLadies 1.3 Biblioteki zewnętrzne i REST API
+PyLove 1.3 Biblioteki zewnętrzne i REST API
 =============================================
 
 API - application programming interface - interfejs programistyczny

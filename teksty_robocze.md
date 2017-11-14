@@ -1,6 +1,3 @@
-
-# PyTrening z PyLadies 2.0 w Poznaniu
-
 Darmowe warsztaty dla początkujących entuzjastów Pythona prowadzone są w każdą środę w trakcie
 roku akademickiego.
 
@@ -30,12 +27,6 @@ Bieżącą i bardziej szczegółową informację o nadchodzących warsztatach zn
 na Facebook_'u.
 
 Zapraszamy!
-
-
-[Facebook](http://facebook.com/pyladiespoznan)
-
-
-# O PyLadies Poland
 
 
 Uwielbiamy programować, przede wszystkim w Pythonie.
