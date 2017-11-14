@@ -141,8 +141,6 @@ app.error_handler.add(ServerError, handle_500s)
 app.error_handler.add(NotFound, handle_404s)
 app.error_handler.add(RequestTimeout, handle_timeout)
 
-
-
 if __name__ == "__main__":
     app.run(
         host=SERVER.IP,
