@@ -10,6 +10,7 @@ from sanic.config import LOGGING
 from sanic.exceptions import NotFound
 from sanic.exceptions import RequestTimeout
 from sanic.exceptions import ServerError
+from sanic.response import redirect
 
 from exception_handlers import handle_404s
 from exception_handlers import handle_500s
@@ -139,6 +140,12 @@ app.add_route(
 app.error_handler.add(ServerError, handle_500s)
 app.error_handler.add(NotFound, handle_404s)
 app.error_handler.add(RequestTimeout, handle_timeout)
+
+
+@app.middleware('request')
+async def print_on_request(request):
+    if not request.url.startswith('pylove.org'):
+        return redirect('https://pylove.org')
 
 if __name__ == "__main__":
     app.run(
