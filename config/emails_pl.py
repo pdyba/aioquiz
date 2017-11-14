@@ -266,7 +266,7 @@ class PyLoveChange(EmailData):
 
     Nowa nazwa, to jednak nowe kanały komunikacji. Teraz znajdziecie nas:
     strona: https://pylove.org
-    fanpage na FB: https://fb.me/PyLovePoznan
+    fanpage na FB: https://fb.me/PyLoveOrg
     grupa na FB (tzw. “grupa wsparcia”, gdzie możecie umieszczać swoje zapytania): https://www.facebook.com/groups/1510308165721555/
 
     Dodatkowy komunikat: w aplikacji pojawiła się możliwość usunięcia konta (w zakładce edycja)
