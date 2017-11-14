@@ -253,6 +253,36 @@ class EmailFeedback(EmailData):
     """
 
 
+class PyLoveChange(EmailData):
+    recipients = {}
+    subject = "PyLove"
+    text = """Drogie Adeptki, drodzy Adepci Pythona!
+
+    Przed Wami, Uczestnikami, i nami, Organizatorami, niewielkie zmiany :) Ci, którzy pojawili się na dzisiejszych zajęciach wiedzą już, że ze względów organizacyjnych i komunikacyjnych Organizatorzy warsztatów #continued dedykowanych grupie “zaawansowanej” postanowili odłączyć się od ruchu PyLadies Poznań i kontynuować zajęcia pod nową marką wspieraną przez PyPolska - jedną z największych polskich społeczności skupionej wokół języka Python oraz organizatora konferencji PyConPL.
+
+    Dziś narodziła się grupa PyLove, która pragnie zaszczepić bakcyla programowania w Pythonie we wszystkich - niezależnie od wieku, płci czy pochodzenia.
+
+    Co to zmienia dla Ciebie? Absolutnie nic! Warsztaty nadal będą odbywać się we wtorki o godzinie 18:30 na terenie Collegium da Vinci w Poznaniu. Harmonogram zajęć nie ulega zmianie :)
+
+    Nowa nazwa, to jednak nowe kanały komunikacji. Teraz znajdziecie nas:
+    strona: https://pylove.org
+    fanpage na FB: https://fb.me/PyLovePoznan
+    grupa na FB (tzw. “grupa wsparcia”, gdzie możecie umieszczać swoje zapytania): https://www.facebook.com/groups/1510308165721555/
+
+    Dodatkowy komunikat: w aplikacji pojawiła się możliwość usunięcia konta (w zakładce edycja)
+
+    W razie pytań, piszcie na kontakt@pylove.org !
+
+    Do zobaczenia na kolejnych zajęciach - tym razem już pod flagą PyLove!
+    """
+
+
+class TestEmail(EmailData):
+    recipients = {"admin": True}
+    subject = "PyLove test email"
+    text = """To jest e-mail testowy"""
+
+
 ALL_EMAILS = [
     EmailAccepted.to_dict(),
     EmailRejected.to_dict(),
@@ -264,4 +294,6 @@ ALL_EMAILS = [
     EmailUserFeedback.to_dict(),
     EmailPytrening.to_dict(),
     EmailFeedback.to_dict(),
+    PyLoveChange.to_dict(),
+    TestEmail.to_dict(),
 ]
