@@ -83,11 +83,11 @@ async def send_email(recipients=None, subject='', text=''):
         message['From'] = 'PyLove.org <{}>'.format(EMAIL.USERNAME)
         message['Subject'] = subject
         sender = EMAIL.USERNAME
-        await server.sendmail(sender, recipients, message.as_string(), timeout=10)
+        resp = await server.sendmail(sender, recipients, message.as_string(), timeout=10)
         return True
     except SMTPTimeoutError:
         logging.exception('error sending email')
         logging.error(EMAIL.SERVER)
     except:
         logging.exception('error sending email')
-        return False
+    return False
