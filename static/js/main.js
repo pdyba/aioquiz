@@ -507,11 +507,17 @@ function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $
     });
     $http.get('/api/lessons').then(
         function (response) {
+            if (response.status == 401){
+                $AuthenticationService.ClearCredentials();
+                $location.path('/login');
+            }
+
             response.data.forEach(
                 function (a, b) {
                     a.full_id = pad(a.lesson_no, 4);
                 }
             );
+
             vm.lessons = response.data;
         }
     );
