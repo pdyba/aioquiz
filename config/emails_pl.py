@@ -254,7 +254,7 @@ class EmailFeedback(EmailData):
 
 
 class PyLoveChange(EmailData):
-    recipients = {}
+    recipients = {'admin': False}
     subject = "PyLove"
     text = """Drogie Adeptki, drodzy Adepci Pythona!
 
@@ -274,6 +274,37 @@ class PyLoveChange(EmailData):
     W razie pytań, piszcie na kontakt@pylove.org !
 
     Do zobaczenia na kolejnych zajęciach - tym razem już pod flagą PyLove!
+    """
+
+
+class PyLoveChange(EmailData):
+    recipients = {'admin': False}
+    subject = "PyLove zmiany w regulamienie"
+    text = """Hej,
+    W związku ze zmianami, które zaszły we wtorek, nastąpiły kosmetyczne zmiany w regulaminie:
+
+    Punkt 1. został zmodyfikowany z:
+    Organizatorem warsztatu jest wolontariacka społeczność PyLadies reprezentowana przez: Zuzannę Kunik oraz Piotra Dyba, który funkcjonuje jako osobowość prawna pod nazwą PHOTOJOURNALIST.PL Agencja Fotograficzna Piotr Dyba, zwaną dalej Organizatorem, we współpracy z Collegium Da Vinci zwanym dalej CDV.
+    na:
+    Organizatorem warsztatu jest wolontariacka społeczność PyLove reprezentowana przez: Zuzannę Kunik oraz Piotra Dyba, który funkcjonuje jako osobowość prawna pod nazwą PHOTOJOURNALIST.PL Agencja Fotograficzna Piotr Dyba, zwaną dalej Organizatorem, we współpracy z Collegium Da Vinci zwanym dalej CDV oraz we współpracy z stowarzyszeniem PyPolska.
+
+    Punkt 2. z:
+    Strona Internetowa Organizatora to pyladiesstart.pl
+    na:
+    Strona Internetowa Organizatora to pylove.org
+
+    Punkt 5. z:
+    Liczba miejsc jest ograniczona do maksymalnie 200 osób. W wypadku większej liczby chętnych pierwszeństwo mają osoby, które brały w dwudniowym warsztacie PyLadies.start(), pozostałe osoby zostaną wybrane wg uznania Organizatora.
+    na:
+    Liczba miejsc jest ograniczona do maksymalnie 200 osób.
+
+    W punkcie 16. słowo "warsztatach" zostało zamienione na "spotkaniach".
+
+    Osobom, którym nie odpowiadają zmiany w regulaminie - w aplikacji w zakładce "edycja konta" znajduje się się możliwość usunięcia konta.
+
+    Do zobaczenia na kolejnych zajęciach!
+
+    Zespół PyLove
     """
 
 
