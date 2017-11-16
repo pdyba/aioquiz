@@ -560,22 +560,23 @@ class EmailView(HTTPMethodView):
                 await asyncio.sleep(0.05)
         else:
             users = await Users.get_by_many_field_value(**req['recipients'])
+            recip = []
             for user in users:
-                uhash = hash_string(user.name + str(user.id) + user.email)
-                email_data = {
-                    "link_yes": link + str(user.id) + '/' + uhash + '/' + 'yes',
-                    "link_no": link + str(user.id) + '/' + uhash + '/' + 'no',
-                    "name": user.name,
-                    "what_can_you_bring": user.what_can_you_bring
-                }
-                subject = req['subject']
-                text = req['text'].format(**email_data)
-                await send_email(
-                    recipients=[user.email],
-                    text=text,
-                    subject=subject
-                )
-                await asyncio.sleep(0.05)
+                # uhash = hash_string(user.name + str(user.id) + user.email)
+                recip.append(user.email)
+                # email_data = {
+                #     "link_yes": link + str(user.id) + '/' + uhash + '/' + 'yes',
+                #     "link_no": link + str(user.id) + '/' + uhash + '/' + 'no',
+                #     "name": user.name,
+                #     "what_can_you_bring": user.what_can_you_bring
+                # }
+            subject = req['subject']
+            text = req['text']
+            await send_email(
+                recipients=recip,
+                text=text,
+                subject=subject
+            )
         return json({'success': True, 'count': len(users)})
 
 
