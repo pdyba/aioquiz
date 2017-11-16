@@ -279,7 +279,7 @@ class PyLoveChange(EmailData):
 
 class PyLoveChange(EmailData):
     recipients = {'admin': False}
-    subject = "PyLove zmiany w regulamienie"
+    subject = "PyLove zmiany w regulaminie"
     text = """Hej,
     W związku ze zmianami, które zaszły we wtorek, nastąpiły kosmetyczne zmiany w regulaminie:
 
