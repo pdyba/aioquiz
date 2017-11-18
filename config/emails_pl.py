@@ -277,7 +277,7 @@ class PyLoveChange(EmailData):
     """
 
 
-class PyLoveChange(EmailData):
+class RulesChange(EmailData):
     recipients = {'admin': False}
     subject = "PyLove zmiany w regulaminie"
     text = """Hej,
@@ -326,5 +326,6 @@ ALL_EMAILS = [
     EmailPytrening.to_dict(),
     EmailFeedback.to_dict(),
     PyLoveChange.to_dict(),
+    RulesChange.to_dict(),
     TestEmail.to_dict(),
 ]

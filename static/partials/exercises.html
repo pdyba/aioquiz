@@ -9,14 +9,25 @@
                 <li class="list-group-item">{{ ex.task }}</li>
                 <li class="list-group-item">
                     <div class="form-group" ng-hide="ex.answared">
-                    <label class='left' for="answare_{{ ex.id }}">Answare:</label>
-                        <textarea type="text" name="answare" id="answare" class="form-control" ng-model="ex.answare"  required />
-                    <a class="btn btn-success" ng-click="vm.answare( ex )">Submit !</a>
+                        <label class='left'
+                               for="answare_{{ ex.id }}">Answare:</label>
+                        <textarea type="text" name="answare" id="answare"
+                                  class="form-control" ng-model="ex.answare"
+                                  required/>
+                        <a class="btn btn-success" ng-click="vm.answare( ex )">Submit
+                            !</a>
                     </div>
                     <div ng-show="ex.answared">
                         <p>{{ ex.answare }}</p>
-                    <span class="badge badge-default">Done</span>
-                        </div>
+                        <span class="badge badge-default">Done</span>
+                        <label class='left' for="new_answare_{{ ex.id }}">New
+                            answare:</label>
+                        <textarea type="text" name="new_answare"
+                                  id="new_answare" class="form-control"
+                                  ng-model="ex.answare" required/>
+                        <a class="btn btn-success"
+                           ng-click="vm.new_answare( ex )">Submit !</a>
+                    </div>
                 </li>
             </ul>
         </div>

@@ -558,18 +558,28 @@ class EmailView(HTTPMethodView):
                     subject=subject
                 )
                 await asyncio.sleep(0.05)
+        elif req['email_type'] == "per_user":
+            users = await Users.get_by_many_field_value(**req['recipients'])
+            for user in users:
+                uhash = hash_string(user.name + str(user.id) + user.email)
+                email_data = {
+                    "link_yes": link + str(user.id) + '/' + uhash + '/' + 'yes',
+                    "link_no": link + str(user.id) + '/' + uhash + '/' + 'no',
+                    "name": user.name,
+                    "what_can_you_bring": user.what_can_you_bring
+                }
+                subject = req['subject']
+                text = req['text'].format(email_data)
+                await send_email(
+                    recipients=user.email,
+                    text=text,
+                    subject=subject
+                )
         else:
             users = await Users.get_by_many_field_value(**req['recipients'])
             recip = []
             for user in users:
-                # uhash = hash_string(user.name + str(user.id) + user.email)
                 recip.append(user.email)
-                # email_data = {
-                #     "link_yes": link + str(user.id) + '/' + uhash + '/' + 'yes',
-                #     "link_no": link + str(user.id) + '/' + uhash + '/' + 'no',
-                #     "name": user.name,
-                #     "what_can_you_bring": user.what_can_you_bring
-                # }
             subject = req['subject']
             text = req['text']
             await send_email(
@@ -658,6 +668,26 @@ class ExercisesView(HTTPMethodView):
         ex = ExerciseAnsware(**req)
         try:
             await ex.create()
+            return json({'success': True, 'msg': 'Exercise answare saved'})
+        except:
+            logging.exception("ExercisesView.post")
+        return json({
+            'success': False,
+            'msg': 'ERROR: Exercise answare NOT saved'
+        })
+
+    @user_required()
+    async def put(self, request, current_user):
+        req = request.json
+        ex = await ExerciseAnsware.get_first_by_many_field_value(
+            users=current_user.id,
+            exercise=req['exercise']
+        )
+        if not ex.first_answare:
+            ex.first_answare = ex.answare
+        ex.answare = req['answare']
+        try:
+            await ex.update(users=current_user.id, exercise=req['exercise'])
             return json({'success': True, 'msg': 'Exercise answare saved'})
         except:
             logging.exception("ExercisesView.post")
