@@ -142,6 +142,7 @@ app.error_handler.add(NotFound, handle_404s)
 app.error_handler.add(RequestTimeout, handle_timeout)
 
 if __name__ == "__main__":
+    print('Hosting@{}:{}'.format(SERVER.IP, port))
     app.run(
         host=SERVER.IP,
         port=port,

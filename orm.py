@@ -449,6 +449,7 @@ class String(ColumnType):
     def format(self, data):
         try:
             if isinstance(data, str):
+                data = data.replace("'", "\"").replace('"', "\"")
                 return data
             return json.dumps(data)
         except:
