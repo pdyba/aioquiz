@@ -303,6 +303,7 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
     });
     vm.exercises = [];
     vm.answare = answare;
+    vm.new_answare = new_answare;
 
     $http.get('/api/exercise/' + parseInt($routeParams.id)).then(
         function (response) {
@@ -318,6 +319,30 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
             "status": "Done"
         };
         $http.post('/api/exercise/', data).then(
+            function (response) {
+                vm.resp = response.data.msg;
+                if (response.data.success) {
+                    mtype = "success";
+                } else {
+                    mtype = "error";
+                }
+                SweetAlert.swal({
+                    title: mtype,
+                    text: vm.resp,
+                    type: mtype
+                });
+                qwa.answared = true
+            }
+        ).catch(function (response) {
+            $FlashService.Error(response);
+        });
+    }
+    function new_answare(qwa) {
+        data = {
+            "answare": qwa.answare,
+            "exercise": qwa.id,
+        };
+        $http.put('/api/exercise/', data).then(
             function (response) {
                 vm.resp = response.data.msg;
                 if (response.data.success) {

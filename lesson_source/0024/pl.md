@@ -1,4 +1,4 @@
-PyLadies 1.4 Praca z Git i Github
+1.4 Praca z Git i Github
 =============================================
 
 **Git** - system *kontroli wersji*, pozwalający na śledzenie historii zmian w plikach, wycofywanie ich, porównywanie między wersjami
