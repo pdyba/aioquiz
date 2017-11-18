@@ -659,6 +659,7 @@ class ExercisesView(HTTPMethodView):
             else:
                 q['answared'] = False
             resp.append(q)
+        resp.sort(key=lambda a: a['title'])
         return json(resp, sort_keys=True)
 
     @user_required()
