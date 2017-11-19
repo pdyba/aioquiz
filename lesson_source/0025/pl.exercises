@@ -1,43 +1,43 @@
 1:
     title: 5.1
     task: |
-        Wyobraźmy sobie klasę człowiek z metodą mowa i podklasę człowieka polityk z metodami przyjmij łapówkę i kłam.
-        Domyślnie człowiek po wykonaniu metody mów (speak) wypisze "Mowie prawdę", natomiast każda instancja Polityka powie "Kłamie, bo mogę" chyba że wcześniej została wykonana metoda przyjmij łapówkę (recive_bribe), wtedy powie prawdę.
+        Wyobraźmy sobie klasę "Człowiek" z metodą "mowa" i podklasę "Człowieka" - "Polityk" z metodami "przyjmij łapówkę" i "kłam".
+        Domyślnie "Człowiek" po wykonaniu metody "mów" (speak) wypisze "Mowie prawdę", natomiast każda instancja "Polityka" powie "Kłamie, bo mogę", chyba że wcześniej została wykonana metoda "przyjmij łapówkę" (recive_bribe), wtedy powie prawdę.
     possible_answare: yey
 2:
     title: 5.2
     task: |
-        Stwórz konstruktor (__init__), dla klasy człowiek, który oprócz imienia pobierze też wzrost i wagę.
+        Stwórz konstruktor (__init__) dla klasy "Człowiek", który oprócz imienia pobierze też wzrost i wagę.
     possible_answare: yey
 3:
     title: 5.3
     task: |
-        Napisz funkcję która policzy BMI człowieka (count_bmi).
+        Napisz funkcję, która policzy BMI "Człowieka" (count_bmi).
     possible_answare: yey
 4:
     title: 5.4
     task: |
-        Napisz funkcję która policzy ile kilogramów brakuje do normy (diff_to_norm).
+        Napisz funkcję, która policzy, ile kilogramów brakuje do normy (diff_to_norm).
     possible_answare: yey
 5:
     title: 5.5
     task: |
-        Zaimplementuj zapisywanie JSON z danymi danego człowieka na dysk pod plikiem <imie>.json (save_data).
+        Zaimplementuj zapisywanie JSON z danymi danego "Człowieka" na dysk pod plikiem <imie>.json (save_data).
     possible_answare: yey
 6:
     title: 5.6
     task: |
-        Zakładając że aby schudnąć 1 kg trzeba spalić 6000kcal napisz funkcjonalność która powie użytkownikowi ile powinien godzin biegać(500kcal/h)/jeździć rowerem(600kcal/h)/uprawiać hobby(250kcal/h)/grać w szachy(150kcal/h)/etc. aby być w normie (to_burn).
+        Zakładając, że aby schudnąć 1 kg trzeba spalić 6000kcal, napisz funkcjonalność, która powie użytkownikowi, ile powinien godzin biegać(500kcal/h) / jeździć rowerem(600kcal/h) / uprawiać hobby(250kcal/h) / grać w szachy(150kcal/h) / etc. aby być w normie (to_burn).
     possible_answare: yey
 7:
     title: 5.7
     task: |
-        Zakładając że aby przytyć 1 kg trzeba dostarczyć 6000kcal napisz funkcjonalność która powie użytkownikowi ile powinien zjeść czekolady(450kcal/100g) / ziemniaków(80kcal/100g) więcej aby być w normie (to_eat)
+        Zakładając, że aby przytyć 1 kg trzeba dostarczyć 6000kcal, napisz funkcjonalność, która powie użytkownikowi, ile powinien zjeść czekolady(450kcal/100g) / ziemniaków(80kcal/100g) więcej aby być w normie (to_eat)
     possible_answare: yey
 8:
     title: 5.8
     task: |
-        Napisz funkcję która doradzi czy trzeba przytyć czy schudnąć i ile wykorzystując poprzednie funkcje (what_to_do).
+        Napisz funkcję, która doradzi, czy trzeba przytyć czy schudnąć (i ile), wykorzystując poprzednie funkcje (what_to_do).
     possible_answare: yey
 
 
