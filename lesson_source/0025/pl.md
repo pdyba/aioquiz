@@ -20,7 +20,7 @@ Dziedziczenie
 -------------
 Mechanizm współdzielenia funkcjonalności między klasami. Klasa może dziedziczyć po innej klasie, co oznacza, że oprócz swoich własnych atrybutów oraz zachowań, uzyskuje także te pochodzące z klasy, z której dziedziczy. Klasa dziedzicząca jest nazywana klasą potomną (subclass), zaś klasa, z której następuje dziedziczenie — klasą bazową (superclass). Z jednej klasy bazowej można uzyskać dowolną liczbę klas pochodnych. Klasy pochodne posiadają obok swoich własnych metod i pól, również kompletny interfejs klasy bazowej
 
-Przykład wyobraźmy sobie klasę "But", która posiada dwie właściwości "rozmiar" i "sezon". Po "Bucie" dziedziczą min. klasy "Trampek" i "Kozak". Każdy z nich będzie miał swój "rozmiar", ale w przeciwieństwie do klasy "But" będą miały różne "sezony" (lato, zima).
+Przykład wyobraźmy sobie klasę `But`, która posiada dwie właściwości `rozmiar` i `sezon`. Po `Bucie` dziedziczą min. klasy `Trampek` i `Kozak`. Każdy z nich będzie miał swój `rozmiar`, ale w przeciwieństwie do klasy `But` będą miały różne `sezony` (lato, zima).
 
 
 Hermetyzacja
@@ -34,7 +34,7 @@ w Pythonie **nie** istnieje pełna hermetyzacja, w klasycznym tego rozumieniu. K
 w Pythonie popularną konwencją jest używanie _ do oddzielenia metod zwykłych od **prywatnych** i **magicznych**.
 
 * metodą magiczną, którą powszechnie będziemy używać jest `__init__` czyli tak zwany konstruktor klasy. (więcej o metodach magicznych na kolejnych zajęciach)
-* metody prywatne mają na celu oddzielić zewnętrzny interfejs programistyczny (API) od wewnętrznych funkcji klasy. Ukryć część operacyjną logiki, która nie jest potrzebna z zewnątrz ale w Pythonie nadal jest dostępna.
+* metody prywatne mają na celu oddzielić zewnętrzny interfejs programistyczny (API) od wewnętrznych funkcji klasy. Wykorzystuje się to, aby ukryć część operacyjną logiki, która nie jest potrzebna z zewnątrz, ale w Pythonie nadal jest dostępna.
 
 
 Polimorfizm
@@ -44,7 +44,7 @@ Referencje i kolekcje obiektów mogą dotyczyć obiektów różnego typu, a wywo
 Polimorfizm to możliwość stosowania tego samego kodu dla obiektów różnych typów. Czyli jeśli mam jakiś reużywalny kod (czyli z reguły funkcję), który działa jednocześnie dla danych typu A i danych typu B.
 
 **Przykład:**
-jeśli mamy klasę "Figura" (geometryczna) z metodą "policz_pole" to po odziedziczeniu po tej klasie przez klasy "Trójkąt" i "Kwadrat", mimo zmiany wzoru liczącego na obu obiektach będzie można wykonać tą metodę.
+jeśli mamy klasę `Figura` (geometryczna) z metodą `policz_pole` to po odziedziczeniu po tej klasie przez klasy `Trójkąt` i `Kwadrat`, mimo zmiany wzoru liczącego na obu obiektach będzie można wykonać tą metodę.
 
 Instancja
 ---------
