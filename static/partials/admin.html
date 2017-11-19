@@ -42,6 +42,7 @@
                     <th>Delete</th>
                     <th>Make Organiser</th>
                     <th>Make Mentor</th>
+                    <th>New Password</th>
                 </tr>
                 </thead>
 
@@ -66,10 +67,16 @@
                         <a ng-hide="user.admin || !user.organiser" ng-show="user.organiser" ng-click="vm.removeOrganiser(user)"
                            class="btn btn-xs btn-danger">Remove Organiser</a>
                     <x ng-show="user.admin">Nope</x>
+
                     <td><a ng-hide="user.mentor || user.admin" ng-click="vm.makeMentor(user)"
                        class="btn btn-xs btn-info">Make Mentor</a>
                     <a ng-show="user.mentor && !user.admin" ng-click="vm.removeMentor(user)"
                        class="btn btn-xs btn-info">Remove Mentor</a>
+                    <x ng-show="user.admin">Nope</x>
+                    </td>
+                    <td>
+                    <a ng-show="!user.admin" ng-click="vm.newPassword(user)"
+                       class="btn btn-xs btn-info">NewPass</a>
                     <x ng-show="user.admin">Nope</x>
                     </td>
                 </tr>

@@ -1457,6 +1457,7 @@ function AdminController(UserService, $rootScope) {
     vm.makeInactive = UserService.makeInactive;
     vm.makeMentor = UserService.makeMentor;
     vm.removeMentor = UserService.removeMentor;
+    vm.newPassword = UserService.newPassword;
 
     loadAllUsers();
     getStats();
@@ -1518,8 +1519,8 @@ function UserSummaryController(UserService, $rootScope) {
 }
 
 app.factory('AuthenticationService', AuthenticationService);
-AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService'];
-function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService) {
+AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService', 'SweetAlert'];
+function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService, SweetAlert) {
     var service = {};
 
     service.Login = Login;
@@ -1536,7 +1537,11 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
             function (response) {
                 callback(response);
             }).catch(function (err) {
-            $FlashService.Error(err.data.msg);
+            SweetAlert.swal({
+                title: "New Password",
+                text: err.data.msg,
+                showConfirmButton: true
+        });
             callback(err);
         });
     }
@@ -1568,8 +1573,8 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 }
 
 app.factory('UserService', UserService);
-UserService.$inject = ['$http', 'FlashService'];
-function UserService($http, $FlashService) {
+UserService.$inject = ['$http', 'FlashService', 'SweetAlert'];
+function UserService($http, $FlashService, SweetAlert) {
     var service = {};
 
     service.GetAll = GetAll;
@@ -1590,6 +1595,7 @@ function UserService($http, $FlashService) {
     service.removeMentor = removeMentor;
     service.GetAllAccepted = GetAllAccepted;
     service.GetAllAdmins = GetAllAdmins;
+    service.newPassword = newPassword;
 
 
     return service;
@@ -1672,6 +1678,19 @@ function UserService($http, $FlashService) {
             } else {
                 $FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
+            }
+        });
+    }
+    function newPassword(user) {
+        $http.get('/api/admin_forgot_password/' + user.email).then(function (response) {
+            if (response.data.success) {
+                SweetAlert.swal({
+                title: "New Password",
+                text: response.data.new_pass,
+                showConfirmButton: true
+            })
+            } else {
+                $FlashService.Error(response.data.msg);
             }
         });
     }

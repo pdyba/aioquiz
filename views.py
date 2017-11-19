@@ -1143,7 +1143,7 @@ class ForgotPasswordView(HTTPMethodView):
 
 
 class ExerciseOverview(HTTPMethodView):
-    # @user_required('mentor')
+    @user_required('mentor')
     async def get(self, request):
         exercises = await Exercise.get_all()
         resp = {}
@@ -1153,3 +1153,19 @@ class ExerciseOverview(HTTPMethodView):
             resp[ex.lesson][ex.id] = await ex.to_dict()
             resp[ex.lesson][ex.id]['exercise_answare'] = await ExerciseAnsware.group_by_field('status', exercise=ex.id)
         return json(resp)
+
+
+class AdminForgotPasswordView(HTTPMethodView):
+    @user_required('admin')
+    async def get(self, request, current_user, email):
+        try:
+            user = await Users.get_first_by_many_field_value(email=email)
+        except DoesNotExist:
+            logging.error(email)
+            user = False
+        if not user:
+            return json({'msg': 'wrong email or user does not exists'})
+        password = str(uuid4()).replace('-', '')
+        await user.set_password(password)
+        await user.update()
+        return json({"success": True, "new_pass": password})
