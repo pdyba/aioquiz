@@ -3,8 +3,8 @@
 
 Programowanie obiektowe
 -----------------------
-paradygmat programowania, w którym programy definiuje się za pomocą obiektów – dane i metody, komunikujących się pomiędzy sobą w celu wykonywania zadań.
-W klasycznym rozumieniu składa się:
+Paradygmat programowania, w którym programy definiuje się za pomocą obiektów (dane i metody), komunikujących się pomiędzy sobą w celu wykonywania zadań.
+W klasycznym rozumieniu składa się z:
 * Abstrakcja
 * Hermetyzacja
 * Polimorfizm
@@ -20,12 +20,12 @@ Dziedziczenie
 -------------
 Mechanizm współdzielenia funkcjonalności między klasami. Klasa może dziedziczyć po innej klasie, co oznacza, że oprócz swoich własnych atrybutów oraz zachowań, uzyskuje także te pochodzące z klasy, z której dziedziczy. Klasa dziedzicząca jest nazywana klasą potomną (subclass), zaś klasa, z której następuje dziedziczenie — klasą bazową (superclass). Z jednej klasy bazowej można uzyskać dowolną liczbę klas pochodnych. Klasy pochodne posiadają obok swoich własnych metod i pól, również kompletny interfejs klasy bazowej
 
-Przykład wyobraźmy sobie klasę But, która posiada dwie właściwości rozmiar i sezon. Po But’cie dziedziczą min. klasy trampek i kozak. Każdy z nich będzie miał swój rozmiar ale w przeciwieństwie do klasy But będą miały różne sezony (lato, zima).
+Przykład wyobraźmy sobie klasę "But", która posiada dwie właściwości "rozmiar" i "sezon". Po "Bucie" dziedziczą min. klasy "Trampek" i "Kozak". Każdy z nich będzie miał swój "rozmiar", ale w przeciwieństwie do klasy "But" będą miały różne "sezony" (lato, zima).
 
 
 Hermetyzacja
 ------------
-(enkapsulacja) Zapewnia, że obiekt nie może zmieniać stanu wewnętrznego innych obiektów w nieoczekiwany sposób. Tylko własne metody obiektu są uprawnione do zmiany jego stanu. Każdy typ obiektu prezentuje innym obiektom swój interfejs, który określa dopuszczalne metody współpracy.
+(inaczej enkapsulacja) Zapewnia, że obiekt nie może zmieniać stanu wewnętrznego innych obiektów w nieoczekiwany sposób. Tylko własne metody obiektu są uprawnione do zmiany jego stanu. Każdy typ obiektu prezentuje innym obiektom swój interfejs, który określa dopuszczalne metody współpracy.
 
 Hermetyzacja polega na ukrywaniu pewnych danych składowych lub metod obiektów danej klasy tak, aby były one dostępne tylko metodom wewnętrznym danej klasy lub funkcjom zaprzyjaźnionym.
 
@@ -41,14 +41,14 @@ Polimorfizm
 -----------
 Referencje i kolekcje obiektów mogą dotyczyć obiektów różnego typu, a wywołanie metody dla referencji spowoduje zachowanie odpowiednie dla pełnego typu obiektu wywoływanego.
 
-Polimorfizm to możliwość stosowania tego samego kodu dla obiektów różnych typów. Czyli jeśli mam jakiś reużywalny kod (czyli z reguły funkcję) która działa jednocześnie dla danych typu A i danych typu B.
+Polimorfizm to możliwość stosowania tego samego kodu dla obiektów różnych typów. Czyli jeśli mam jakiś reużywalny kod (czyli z reguły funkcję), który działa jednocześnie dla danych typu A i danych typu B.
 
 **Przykład:**
-jeśli mamy klasę Figura z metodą policz_pole to po odziedziczeniu po tej klasie przez klasy Trójkąt i Kwadrat, mimo zmiany wzoru liczącego na obu obiektach będzie można wykonać tą metodę.
+jeśli mamy klasę "Figura" (geometryczna) z metodą "policz_pole" to po odziedziczeniu po tej klasie przez klasy "Trójkąt" i "Kwadrat", mimo zmiany wzoru liczącego na obu obiektach będzie można wykonać tą metodę.
 
-instancja
+Instancja
 ---------
-pojedyncze wystąpienie niezależnego kodu zgodnego z danym wzorcem.
+Pojedyncze wystąpienie niezależnego kodu zgodnego z danym wzorcem.
 Instancjowanie klas, czyli tworzenie obiektów - niezależnych bytów danej klasy.
 
 Klasa w Pythonie
@@ -167,8 +167,8 @@ Przykład zastosowania:
             print(krowa.name)
 
 
-Zad:
-Zaimplementuj metody opisane w zadaniach, na koniec zajęć klasy powinny mieć zaimplementowane w zbliżony sposób.
+Zadanie:
+Zaimplementuj metody opisane w zadaniach. Na koniec zajęć klasy powinny mieć zaimplementowane w zbliżony sposób.
 
     :::python3
     class Czlowiek:
