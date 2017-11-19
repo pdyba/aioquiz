@@ -19,6 +19,7 @@ from exception_handlers import handle_timeout
 from views import AbsenceView
 from views import AbsenceManagementView
 from views import AbsenceConfirmation
+from views import AdminForgotPasswordView
 from views import ActivationView
 from views import AuthenticateView
 from views import ChangeMentorView
@@ -120,6 +121,7 @@ app.add_route(INeedHelpView.as_view(), '/api/i_need_help')
 app.add_route(RegistrationActiveView.as_view(), '/api/reg_active')
 
 app.add_route(ForgotPasswordView.as_view(), '/api/forgot_password')
+app.add_route(AdminForgotPasswordView.as_view(), '/api/admin_forgot_password/<email>')
 
 app.add_route(ExercisesView.as_view(), '/api/exercise')
 app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')
