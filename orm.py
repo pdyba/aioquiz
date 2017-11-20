@@ -365,6 +365,13 @@ class Table:
             logging.exception('Could not delete')
         return False
 
+    def _add_new_column(self):
+        """
+        ALTER TABLE users ADD COLUMN lang character varying(20) NOT NULL DEFAULT 'pl';
+        ALTER TABLE exercise_answare ADD COLUMN first_answare character varying(5000) NOT NULL DEFAULT '';
+        """
+        pass
+
 
 class Column:
     def __init__(
@@ -442,6 +449,7 @@ class String(ColumnType):
     def format(self, data):
         try:
             if isinstance(data, str):
+                data = data.replace("'", "\"").replace('"', "\"")
                 return data
             return json.dumps(data)
         except:
@@ -455,7 +463,7 @@ class CodeString(String):
     def validate(self, data):
         if isinstance(data, self._py_type):
             return re.match(
-                "^[\s\(\)A-Za-z0-9\-_\.\+\*\\\/\:=\'\{\},<\"\^\[\]]*",
+                "^[\s\(\)A-Za-z0-9\-_\.\+\*\\\/:=\'\{\},<\"\^\[\]]*",
                 data
             )
         return False
@@ -472,7 +480,7 @@ class DateTime(ColumnType):
 
     def validate(self, data):
         if super().validate(data):
-            return re.match("^[0-9\.\:\/]*$", data)
+            return re.match("^[0-9\.:/]*$", data)
         return False
 
     def format(self, data):

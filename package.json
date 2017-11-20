@@ -6,7 +6,7 @@
   "scripts": {
     "build": "gulp concatPartials  && gulp build"
   },
-  "author": "Happy pyLadies family",
+  "author": "PyLove.org",
   "license": "MIT",
   "devDependencies": {
     "gulp": "3.9.1",

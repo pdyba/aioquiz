@@ -1,0 +1,50 @@
+1:
+    title: 3.1
+    task: |
+        Korzystając z API http://py.net/ zmień status (/status/set) i sprawdź czy się udało (/status)
+    possible_answare: yey
+2:
+    title: 3.2
+    task: |
+        Korzystając z API http://py.net/ zarejestrój się (/register) pamiętaj że może być tylko jeden użytkownik pod daną nazwą (name)
+    possible_answare: yey
+3:
+    title: 3.3
+    task: |
+        Korzystając z API http://py.net/ pobierz klucz API (api_key) - zaloguj się (/auth).
+    possible_answare: yey
+4:
+    title: 3.4
+    task: |
+        Korzystając z API http://py.net/ po pobraniu klucza API (api_key) ustaw status swojego użytkownika (/user_status/set) i sprawdź status innych (/user_status) w szczególności koleżanki/kolegi obok.
+    possible_answare: yey
+5:
+    title: 3.5
+    task: |
+        Korzystając z API http://py.net/ ściągnij i zapisz na dysku losowe zdjęcia kotów (/cat)
+    possible_answare: yey
+6:
+    title: 3.6
+    task: |
+        Korzystając z API http://py.net/ spróbój użyc querry stringów (query_string)
+    possible_answare: yey
+7:
+    title: 3.7
+    task: |
+        Korzystając z API https://swapi.co/api/. Pobierz dane wszystkich mieszkańców planety Tatooin
+    possible_answare: yey
+8:
+    title: 3.8
+    task: |
+        Korzystając z API https://swapi.co/api/. Wyświetl wszystkie nazwy ras gatunków wystepujących w V częsci Gwiezdnych Wojen (Imperium kontratakuje).
+    possible_answare: yey
+9:
+    title: 3.9
+    task: |
+        Korzystając z API https://swapi.co/api/. Policz BMI wszystkich pilotów Milenium Falcona I wyswietl je wraz z ich imionami.
+    possible_answare: yey
+10:
+    title: 3.10
+    task: |
+        Korzystając z API https://swapi.co/api/. Wyświetl imiona wszytkich Gunganów w języku Wooki.
+    possible_answare: yey

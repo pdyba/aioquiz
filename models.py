@@ -179,6 +179,7 @@ class Exercise(Table):
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('lesson', ForeignKey('lesson')),
     ]
+    _unique = ['title']
 
 
 class LessonFeedback(Table):
@@ -206,6 +207,7 @@ class ExerciseAnsware(Table):
         Column('exercise', ForeignKey('exercise')),
         Column('users', ForeignKey('users')),
         Column('answare', CodeString(5000)),
+        Column('first_answare', CodeString(5000), default=""),
         Column('status', String(20)),
     ]
 

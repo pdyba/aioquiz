@@ -129,7 +129,7 @@ footer {
 .divider-vertical {
     height: 40px;
     margin: 5px;
-    border-left: 1px solid #E51E41;
+    border-left: 1px solid #3b5998;
 }
 
 img.center {
@@ -139,7 +139,7 @@ img.center {
 }
 
 div.section-colored {
-    background-color: #E51E41;
+    background-color: #3b5998;
     color: #efefef
 }
 div.section {
@@ -154,7 +154,7 @@ nav.navbar {
 
 .navbar-inverse .navbar-brand {
     text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px;
-    color: #E51E41;
+    color: #3b5998;
 }
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
     color: #777;
@@ -162,7 +162,7 @@ nav.navbar {
 
 .navbar-inverse .navbar-nav>li>a {
     text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px;
-    color: #E51E41;
+    color: #3b5998;
 }
 
 .navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus {
@@ -190,4 +190,12 @@ nav.navbar {
     background-color: #efefef;
     color: #8ce554 !important;
     background-image: None;
+}
+.section {
+    padding-top: 25px;
+    padding-bottom:  25px;
+}
+.section-colored {
+    padding-top: 25px;
+    padding-bottom:  25px;
 }

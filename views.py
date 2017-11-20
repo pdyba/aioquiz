@@ -227,8 +227,13 @@ class UserView(HTTPMethodView):
             logging.exception('err user.post')
         return json({}, status=500)
 
-    @user_required('admin')
+    @user_required()
     async def delete(self, _, current_user, id_name=None):
+        if isinstance(id_name, str) and id_name.isnumeric():
+            id_name = int(id_name)
+        if not current_user.admin and current_user.id != id_name:
+            return json({'success': False, 'msg': 'Unauthorised'})
+
         await UserReview.delete_by_many_fields(
             reviewer=id_name,
             users=id_name
@@ -553,7 +558,7 @@ class EmailView(HTTPMethodView):
                     subject=subject
                 )
                 await asyncio.sleep(0.05)
-        else:
+        elif req['email_type'] == "per_user":
             users = await Users.get_by_many_field_value(**req['recipients'])
             for user in users:
                 uhash = hash_string(user.name + str(user.id) + user.email)
@@ -564,13 +569,24 @@ class EmailView(HTTPMethodView):
                     "what_can_you_bring": user.what_can_you_bring
                 }
                 subject = req['subject']
-                text = req['text'].format(**email_data)
+                text = req['text'].format(email_data)
                 await send_email(
-                    recipients=[user.email],
+                    recipients=user.email,
                     text=text,
                     subject=subject
                 )
-                await asyncio.sleep(0.05)
+        else:
+            users = await Users.get_by_many_field_value(**req['recipients'])
+            recip = []
+            for user in users:
+                recip.append(user.email)
+            subject = req['subject']
+            text = req['text']
+            await send_email(
+                recipients=recip,
+                text=text,
+                subject=subject
+            )
         return json({'success': True, 'count': len(users)})
 
 
@@ -643,6 +659,7 @@ class ExercisesView(HTTPMethodView):
             else:
                 q['answared'] = False
             resp.append(q)
+        resp.sort(key=lambda a: a['title'])
         return json(resp, sort_keys=True)
 
     @user_required()
@@ -652,6 +669,26 @@ class ExercisesView(HTTPMethodView):
         ex = ExerciseAnsware(**req)
         try:
             await ex.create()
+            return json({'success': True, 'msg': 'Exercise answare saved'})
+        except:
+            logging.exception("ExercisesView.post")
+        return json({
+            'success': False,
+            'msg': 'ERROR: Exercise answare NOT saved'
+        })
+
+    @user_required()
+    async def put(self, request, current_user):
+        req = request.json
+        ex = await ExerciseAnsware.get_first_by_many_field_value(
+            users=current_user.id,
+            exercise=req['exercise']
+        )
+        if not ex.first_answare:
+            ex.first_answare = ex.answare
+        ex.answare = req['answare']
+        try:
+            await ex.update(users=current_user.id, exercise=req['exercise'])
             return json({'success': True, 'msg': 'Exercise answare saved'})
         except:
             logging.exception("ExercisesView.post")
@@ -1092,7 +1129,7 @@ class ForgotPasswordView(HTTPMethodView):
             resp = await send_email(
                 recipients=[user.email],
                 text=password,
-                subject="Your new PyLadies.start() password"
+                subject="Your new PyLove password"
             )
             if resp:
                 return json({
@@ -1106,7 +1143,7 @@ class ForgotPasswordView(HTTPMethodView):
 
 
 class ExerciseOverview(HTTPMethodView):
-    # @user_required('mentor')
+    @user_required('mentor')
     async def get(self, request):
         exercises = await Exercise.get_all()
         resp = {}
@@ -1116,3 +1153,19 @@ class ExerciseOverview(HTTPMethodView):
             resp[ex.lesson][ex.id] = await ex.to_dict()
             resp[ex.lesson][ex.id]['exercise_answare'] = await ExerciseAnsware.group_by_field('status', exercise=ex.id)
         return json(resp)
+
+
+class AdminForgotPasswordView(HTTPMethodView):
+    @user_required('admin')
+    async def get(self, request, current_user, email):
+        try:
+            user = await Users.get_first_by_many_field_value(email=email)
+        except DoesNotExist:
+            logging.error(email)
+            user = False
+        if not user:
+            return json({'msg': 'wrong email or user does not exists'})
+        password = str(uuid4()).replace('-', '')
+        await user.set_password(password)
+        await user.update()
+        return json({"success": True, "new_pass": password})

@@ -1,4 +1,4 @@
-PyLadies 1.2 Pliki i Json
+PyLove 1.2 Pliki i Json
 =========================
 
 Otwieranie plików w Pythonie
@@ -113,10 +113,10 @@ Lista: '[1, 2 ,3]'
 
     y == yj
 
-    with open('pyladies_random', 'w') as file:
+    with open('pylove_random', 'w') as file:
         json.dump(x, file)
 
-    with open('pyladies_random') as file:
+    with open('pylove_random') as file:
         data = json.load(file)
 
 load, loads - służą do wczytania foramtu json
@@ -129,10 +129,10 @@ Przygotowanie do zadań
 ----------------------
 
 Pobierz pliki do zadań:
-http://dyba.it/py1.2
-http://dyba.it/py1.2.json
+[http://dyba.it/py1.2](http://dyba.it/py1.2)
+[http://dyba.it/py1.2.json](http://dyba.it/py1.2.json)
 
 plik do zadania domowego:
-http://dyba.it/py1.2zd.json
+[http://dyba.it/py1.2zd.json](http://dyba.it/py1.2zd.json)
 
 

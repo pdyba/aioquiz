@@ -32,11 +32,6 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "AboutCtrl",
             controllerAs: 'vm'
         })
-        .when("/agenda", {
-            templateUrl: "partials/agenda.html",
-            controller: "PageCtrl",
-            controllerAs: 'vm'
-        })
         .when("/live_quiz", {
             templateUrl: "partials/live_quiz_list.html",
             controller: "LiveQuizCtrl",
@@ -208,16 +203,16 @@ app.controller('PageCtrl', PageCtrl);
 PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', 'SweetAlert', '$http'];
 function PageCtrl($scope, $location, $AuthenticationService, $FlashService, SweetAlert, $http) {
     if ($scope.globals.currentUser) {
-    user_seat = $scope.globals.currentUser.seat;
-    if (!user_seat) {
-        $http.get('/api/seats/' + $scope.globals.currentUser.id).then(
-            function (response) {
-                user_seat = response.data;
-                $scope.globals.currentUser.seat = response.data;
-            }
-        );
-    }
+        user_seat = $scope.globals.currentUser.seat;
+        if (!user_seat) {
+            $http.get('/api/seats/' + $scope.globals.currentUser.id).then(
+                function (response) {
+                    user_seat = response.data;
+                    $scope.globals.currentUser.seat = response.data;
+                }
+            );
         }
+    }
     $scope.logout = function () {
         $AuthenticationService.ClearCredentials();
         $location.path('/');
@@ -263,7 +258,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
 
     $scope.save_attendence = function () {
         SweetAlert.swal({
-            title: "Attendence",
+            title: "Attendance",
             text: "Please provide lesson code",
             element: "input",
             type: "input",
@@ -279,7 +274,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
                 }
                 SweetAlert.swal({
                     text: response.data.msg,
-                    title: 'Absence',
+                    title: 'Attendance',
                     type: mtype,
                     showConfirmButton: true,
                     timer: 2000
@@ -308,6 +303,7 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
     });
     vm.exercises = [];
     vm.answare = answare;
+    vm.new_answare = new_answare;
 
     $http.get('/api/exercise/' + parseInt($routeParams.id)).then(
         function (response) {
@@ -323,6 +319,30 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
             "status": "Done"
         };
         $http.post('/api/exercise/', data).then(
+            function (response) {
+                vm.resp = response.data.msg;
+                if (response.data.success) {
+                    mtype = "success";
+                } else {
+                    mtype = "error";
+                }
+                SweetAlert.swal({
+                    title: mtype,
+                    text: vm.resp,
+                    type: mtype
+                });
+                qwa.answared = true
+            }
+        ).catch(function (response) {
+            $FlashService.Error(response);
+        });
+    }
+    function new_answare(qwa) {
+        data = {
+            "answare": qwa.answare,
+            "exercise": qwa.id,
+        };
+        $http.put('/api/exercise/', data).then(
             function (response) {
                 vm.resp = response.data.msg;
                 if (response.data.success) {
@@ -401,8 +421,9 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
             }
         );
     }
+
     function edit_mentor(uid) {
-         $location.path('/edit_user/' + uid);
+        $location.path('/edit_user/' + uid);
     }
 
     function accept(user) {
@@ -434,7 +455,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     function avg(obj) {
         var sum = 0;
         var count = 0;
-        if (obj.lenght > 200){
+        if (obj.lenght > 200) {
             console.log('using 200');
             return obj[200].score;
         }
@@ -511,11 +532,17 @@ function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $
     });
     $http.get('/api/lessons').then(
         function (response) {
+            if (response.status == 401){
+                $AuthenticationService.ClearCredentials();
+                $location.path('/login');
+            }
+
             response.data.forEach(
                 function (a, b) {
                     a.full_id = pad(a.lesson_no, 4);
                 }
             );
+
             vm.lessons = response.data;
         }
     );
@@ -537,18 +564,21 @@ function LessonMngtController($scope, $location, $AuthenticationService, $FlashS
     vm.extend = extend;
     vm.attendance = attendance;
 
-    function activate(lid){}
-    function deactivate(lid){}
+    function activate(lid) {
+    }
+
+    function deactivate(lid) {
+    }
 
     function absence(lid) {
         $http.get('/api/absence/' + lid).then(
             function (response) {
                 SweetAlert.swal({
-                        title: "Lesson Code",
-                        text: "<h1>" + response.data.code + "</h1><h3><br>will expire at:<br>" + response.data.time_ended + "</h3>",
-                        type: "success",
-                        html: true
-                    })
+                    title: "Lesson Code",
+                    text: "<h1>" + response.data.code + "</h1><h3><br>will expire at:<br>" + response.data.time_ended + "</h3>",
+                    type: "success",
+                    html: true
+                })
             }
         );
     }
@@ -557,11 +587,11 @@ function LessonMngtController($scope, $location, $AuthenticationService, $FlashS
         $http.post('/api/absence/' + lid, {}).then(
             function (response) {
                 SweetAlert.swal({
-                        title: "Lesson Code",
-                        text: "<h1>" + response.data.code + "</h1><h3><br>will expire at:<br>" + response.data.time_ended + "</h3>",
-                        type: "success",
-                        html: true
-                    })
+                    title: "Lesson Code",
+                    text: "<h1>" + response.data.code + "</h1><h3><br>will expire at:<br>" + response.data.time_ended + "</h3>",
+                    type: "success",
+                    html: true
+                })
             }
         );
     }
@@ -955,13 +985,14 @@ function SeatController($scope, $location, $AuthenticationService, $FlashService
             }
         );
     }
-    function take_or_relese_seat(raw, number, user){
-        if (vm.user_seat.users && user.user_id === vm.user_seat.users){
+    function take_or_relese_seat(raw, number, user) {
+        if (vm.user_seat.users && user.user_id === vm.user_seat.users) {
             release_seat(raw, number)
         } else {
             take_seat(raw, number)
         }
     }
+
     function take_seat(raw, number) {
         var seat = {
             'row': raw,
@@ -1054,6 +1085,7 @@ function SeatOverViewController($scope, $location, $AuthenticationService, $Flas
             }
         )
     }
+
     refresh_seats();
     $interval(refresh_seats, 3000)
 
@@ -1078,6 +1110,7 @@ function ExerciseOverviewController($scope, $location, $AuthenticationService, $
             }
         )
     }
+
     refresh_seats();
     $interval(refresh_seats, 3000)
 
@@ -1100,11 +1133,11 @@ function OverviewAttendanceCtrl($scope, $location, $AuthenticationService, $Flas
             }
         )
     }
+
     refresh_absence();
     $interval(refresh_absence, 3000)
 
 }
-
 
 
 app.controller('AdminConfigController', AdminConfigController);
@@ -1253,9 +1286,9 @@ function RegisterController(UserService, $location, $rootScope, FlashService, $h
     var vm = this;
 
     $http.get('/api/reg_active').then(function (response) {
-          vm.reg = response.data.registration;
+        vm.reg = response.data.registration;
         console.log(response.data)
-        });
+    });
 
     vm.register = register;
 
@@ -1276,8 +1309,8 @@ function RegisterController(UserService, $location, $rootScope, FlashService, $h
 
 
 app.controller('ProfileEditCtrl', ProfileEditCtrl);
-ProfileEditCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'UserService'];
-function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, UserService) {
+ProfileEditCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'UserService', 'SweetAlert'];
+function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, UserService, SweetAlert) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
@@ -1287,6 +1320,7 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
     });
     vm.user = {};
     vm.update_user = update_user;
+    vm.remove_accout = remove_accout;
     uid = $scope.globals.currentUser.id;
 
 
@@ -1296,6 +1330,43 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
                 vm.user = resp;
             }
         )
+    }
+
+
+    function remove_accout() {
+        SweetAlert.swal({
+            title: "Delete account",
+            type: "warning",
+            text: "Are You sure You want to delete your account",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            showConfirmButton: true,
+            closeOnCancel: false,
+            closeOnReject: false
+        }, function (isConfirmed) {
+            if (isConfirmed) {
+                UserService.Delete(uid).then(
+                    function (resp) {
+                        SweetAlert.swal({
+                            text: response.data.msg,
+                            title: 'Absence',
+                            type: 'error',
+                            showConfirmButton: true,
+                            timer: 2000
+                        });
+                    }
+                )
+            } else {
+                SweetAlert.swal({
+                    text: "Thanks for trusting in us",
+                    title: 'Cancleation',
+                    type: 'success',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+            }
+        })
     }
 
     function update_user() {
@@ -1371,7 +1442,6 @@ function NewLessonController($scope, $location, $AuthenticationService, $FlashSe
 }
 
 
-
 app.controller('AdminController', AdminController);
 AdminController.$inject = ['UserService', '$rootScope'];
 function AdminController(UserService, $rootScope) {
@@ -1387,6 +1457,7 @@ function AdminController(UserService, $rootScope) {
     vm.makeInactive = UserService.makeInactive;
     vm.makeMentor = UserService.makeMentor;
     vm.removeMentor = UserService.removeMentor;
+    vm.newPassword = UserService.newPassword;
 
     loadAllUsers();
     getStats();
@@ -1413,7 +1484,6 @@ function AdminController(UserService, $rootScope) {
     }
 
 }
-
 
 
 app.controller('UserSummaryController', UserSummaryController);
@@ -1449,8 +1519,8 @@ function UserSummaryController(UserService, $rootScope) {
 }
 
 app.factory('AuthenticationService', AuthenticationService);
-AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService'];
-function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService) {
+AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService', 'SweetAlert'];
+function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService, SweetAlert) {
     var service = {};
 
     service.Login = Login;
@@ -1467,7 +1537,11 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
             function (response) {
                 callback(response);
             }).catch(function (err) {
-            $FlashService.Error(err.data.msg);
+            SweetAlert.swal({
+                title: "New Password",
+                text: err.data.msg,
+                showConfirmButton: true
+        });
             callback(err);
         });
     }
@@ -1499,8 +1573,8 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
 }
 
 app.factory('UserService', UserService);
-UserService.$inject = ['$http', 'FlashService'];
-function UserService($http, $FlashService) {
+UserService.$inject = ['$http', 'FlashService', 'SweetAlert'];
+function UserService($http, $FlashService, SweetAlert) {
     var service = {};
 
     service.GetAll = GetAll;
@@ -1521,6 +1595,7 @@ function UserService($http, $FlashService) {
     service.removeMentor = removeMentor;
     service.GetAllAccepted = GetAllAccepted;
     service.GetAllAdmins = GetAllAdmins;
+    service.newPassword = newPassword;
 
 
     return service;
@@ -1536,6 +1611,7 @@ function UserService($http, $FlashService) {
     function GetAllAdmins() {
         return $http.get('/api/user/?admin=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
     }
+
     function GetAllAccepted() {
         return $http.get('/api/user/?mentor=False&confirmation=ack&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
     }
@@ -1602,6 +1678,19 @@ function UserService($http, $FlashService) {
             } else {
                 $FlashService.Error(response.data.msg);
                 vm.dataLoading = false;
+            }
+        });
+    }
+    function newPassword(user) {
+        $http.get('/api/admin_forgot_password/' + user.email).then(function (response) {
+            if (response.data.success) {
+                SweetAlert.swal({
+                title: "New Password",
+                text: response.data.new_pass,
+                showConfirmButton: true
+            })
+            } else {
+                $FlashService.Error(response.data.msg);
             }
         });
     }
@@ -1751,7 +1840,7 @@ function run($rootScope, $location, $cookies, $http) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/agenda', '/', '/rules',  '/program', '/regconfirmed']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules', '/program', '/regconfirmed']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
         if (restrictedPage && !loggedIn) {
             $location.path('/');

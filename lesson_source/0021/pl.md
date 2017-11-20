@@ -1,4 +1,4 @@
-PyLadies 1.0 Powtórka
+PyLove 1.0 Powtórka
 =====================
 
 CRUD
@@ -66,7 +66,7 @@ D: nie ma potrzeby Python zrobi to za nas.
 
     :::python3
     moja_lista = ['x', 'y', 'ciecz']
-    moj_string = 'PyLadies'
+    moj_string = 'PyLove'
     moja_liczba = 1.23
 
 lista
@@ -105,7 +105,7 @@ slice - kawałek
 
     :::python3
     moja_torebka = ['szminka', 'pomadka', 'portfel', 'okulary']
-    moj_string = 'PyLadies.start()'
+    moj_string = 'PyLove'
     moja_torebka[0:2]
     moja_torebka[::2]
     moj_string[2:4]
@@ -265,5 +265,5 @@ Przygotowanie do zadań
 ----------------------
 
 Pobierz plik zawierający bazę krajów z:
-http://dyba.it/countries.py
+[http://dyba.it/countries.py](http://dyba.it/countries.py)
 
