@@ -39,7 +39,7 @@ from utils import get_args
 from utils import hash_string
 from utils import send_email
 
-NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
+NOT_AUTHORISED = json({'error': 'not allowed'}, status=401)
 
 _users = {}
 _users_names = {}
@@ -52,14 +52,14 @@ def user_required(access_level=None):
             global _users
             authorization = args[0].headers.get('authorization')
             if not authorization:
-                return NOTAUTHRISED
+                return NOT_AUTHORISED
             user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
             _users[authorization] = user
             if not user:
-                return NOTAUTHRISED
+                return NOT_AUTHORISED
             if access_level:
                 if not getattr(user, access_level):
-                    return NOTAUTHRISED
+                    return NOT_AUTHORISED
             args = list(args)
             args.append(user)
             args = tuple(args)
