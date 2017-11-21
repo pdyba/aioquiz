@@ -6,7 +6,7 @@
 2:
     title: 3.2
     task: |
-        Korzystając z API http://py.net/ zarejestrój się (/register) pamiętaj że może być tylko jeden użytkownik pod daną nazwą (name)
+        Korzystając z API http://py.net/ zarejestruj się (/register) pamiętaj że może być tylko jeden użytkownik pod daną nazwą (name)
     possible_answare: yey
 3:
     title: 3.3
@@ -26,7 +26,7 @@
 6:
     title: 3.6
     task: |
-        Korzystając z API http://py.net/ spróbój użyc querry stringów (query_string)
+        Korzystając z API http://py.net/ spróbuj użyc querry stringów (query_string)
     possible_answare: yey
 7:
     title: 3.7
