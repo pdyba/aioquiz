@@ -3,7 +3,7 @@
     <div class="col-sm-12" ng-repeat="ex in vm.exercises">
         <div class="panel panel-default text-center">
             <div class="panel-heading">
-                <strong>{{ ex.title }}</strong> <span class="label label-success">Done</span>
+                <strong>{{ ex.title }}</strong> <span ng-show="ex.answared" class="label label-success">Done</span>
             </div>
             <ul class="list-group">
                 <li class="list-group-item">{{ ex.task }}</li>
