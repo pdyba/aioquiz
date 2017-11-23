@@ -22,8 +22,9 @@ from views import AbsenceConfirmation
 from views import AdminForgotPasswordView
 from views import ActivationView
 from views import AuthenticateView
-from views import ChangeMentorView
 from views import ChangeActiveView
+from views import ChangeMentorView
+from views import ChangePasswordView
 from views import ConfigView
 from views import EmailView
 from views import ExercisesView
@@ -122,6 +123,7 @@ app.add_route(RegistrationActiveView.as_view(), '/api/reg_active')
 
 app.add_route(ForgotPasswordView.as_view(), '/api/forgot_password')
 app.add_route(AdminForgotPasswordView.as_view(), '/api/admin_forgot_password/<email>')
+app.add_route(ChangePasswordView.as_view(), '/api/change_password')
 
 app.add_route(ExercisesView.as_view(), '/api/exercise')
 app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')
