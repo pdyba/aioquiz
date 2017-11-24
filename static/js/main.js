@@ -1321,6 +1321,7 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
     vm.user = {};
     vm.update_user = update_user;
     vm.remove_accout = remove_accout;
+    vm.change_password = change_password;
     uid = $scope.globals.currentUser.id;
 
 
@@ -1350,7 +1351,7 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
                     function (resp) {
                         SweetAlert.swal({
                             text: response.data.msg,
-                            title: 'Absence',
+                            title: 'Account Deleted',
                             type: 'error',
                             showConfirmButton: true,
                             timer: 2000
@@ -1366,6 +1367,72 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
                     timer: 3000
                 });
             }
+        })
+    }
+
+    var change_pass = {};
+
+    function change_password() {
+        console.log('xxx')
+        SweetAlert.swal({
+            title: "Change Password",
+            type: "input",
+            text: "Please provide current password",
+            showCancelButton: true,
+            confirmButtonText: "Next",
+            cancelButtonText: "Cancel",
+            showConfirmButton: true,
+            closeOnCancel: false,
+            closeOnConfirm: false
+        }, function (oldpassword) {
+            change_pass.password = oldpassword;
+            SweetAlert.swal({
+                title: "Change Password",
+                type: "input",
+                text: "Please provide new password",
+                showCancelButton: true,
+                confirmButtonText: "Next",
+                cancelButtonText: "Cancel",
+                showConfirmButton: true,
+                closeOnCancel: false,
+                closeOnReject: false,
+                closeOnConfirm: false
+            }, function (new_password) {
+                change_pass.new_password = new_password;
+                SweetAlert.swal({
+                    title: "Change Password",
+                    type: "input",
+                    text: "Please provide current password again",
+                    showCancelButton: true,
+                    confirmButtonText: "Change",
+                    cancelButtonText: "Cancel",
+                    showConfirmButton: true,
+                    closeOnCancel: false,
+                    closeOnConfirm: false,
+                    closeOnReject: false
+                }, function (new_password_2) {
+                    change_pass.new_password_2 = new_password_2;
+                    $http.post('api/change_password', change_pass).then(function (response) {
+                        if (response.data.success) {
+                            SweetAlert.swal({
+                            text: response.data.msg,
+                            title: 'Password Change',
+                            type: 'success',
+                            showConfirmButton: true,
+                            timer: 2000
+                        });
+                        } else {
+                            SweetAlert.swal({
+                            text: response.data.msg,
+                            title: 'Password Change',
+                            type: 'error',
+                            showConfirmButton: true,
+                            timer: 2000
+                        });
+                        }
+                    });
+                })
+            })
         })
     }
 
@@ -1538,7 +1605,7 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
                 callback(response);
             }).catch(function (err) {
             SweetAlert.swal({
-                title: "New Password",
+                title: "Error login in",
                 text: err.data.msg,
                 showConfirmButton: true
         });

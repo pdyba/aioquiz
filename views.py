@@ -1097,16 +1097,16 @@ class FeedbackView(HTTPMethodView):
             if current_user.id == user.id:
                 return json(await user.get_my_user_data())
             return json(await user.get_public_data())
-        else:
+        # else: # TODO finish it
             feedbacks = await Feedback.get_all()
-            user = []
-            for u in users:
-                if current_user.admin or current_user.organiser:
-                    user.append(await u.to_dict())
-                else:
-                    user.append(await u.get_public_data())
-            user.sort(key=lambda a: a['id'])
-        return json(user, sort_keys=True)
+            # user = []
+            # for u in users:
+            #     if current_user.admin or current_user.organiser:
+            #         user.append(await u.to_dict())
+            #     else:
+            #         user.append(await u.get_public_data())
+            # user.sort(key=lambda a: a['id'])
+        # return json(user, sort_keys=True)
 
     @user_required()
     async def post(self, _, current_user, lid=None):
@@ -1144,7 +1144,7 @@ class ForgotPasswordView(HTTPMethodView):
 
 class ExerciseOverview(HTTPMethodView):
     @user_required('mentor')
-    async def get(self, request):
+    async def get(self, _):
         exercises = await Exercise.get_all()
         resp = {}
         for ex in exercises:
@@ -1169,3 +1169,21 @@ class AdminForgotPasswordView(HTTPMethodView):
         await user.set_password(password)
         await user.update()
         return json({"success": True, "new_pass": password})
+
+
+# noinspection PyBroadException
+class ChangePasswordView(HTTPMethodView):
+    @user_required()
+    async def post(self, request, current_user):
+        try:
+            req = request.json
+            if hash_string(req.get('password', 'x')) == current_user.password:
+                if req['new_password'] == req['new_password_2']:
+                    await current_user.set_password(req['new_password'])
+                    await current_user.update()
+                    return json({"success": True, "msg": "You have Successfully changed password"})
+                return json({"success": False, "msg": "You provided different new passwords"})
+            return json({"success": False, "msg": "You provided wrong old password"})
+        except:
+            logging.exception('authentication.post')
+        return json({'msg': 'internal error sorry please let us now', "success": False})
