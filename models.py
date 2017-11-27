@@ -182,12 +182,22 @@ class Exercise(Table):
     _unique = ['title']
 
 
+class LessonFeedbackQuestion(Table):
+    _name = 'lesson_feedback_question'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('author', ForeignKey('users')),
+        Column('text', String(5000))
+    ]
+
+
 class LessonFeedback(Table):
     _name = 'lesson_feedback'
     _schema = [
-        Column('users', ForeignKey('users')),
+        Column('author', ForeignKey('users')),
         Column('lesson', ForeignKey('lesson')),
-        Column('feedback', String(5000)),
+        Column('text', String(5000)),
+        Column('question', ForeignKey('lesson_feedback_question'))
     ]
 
 
