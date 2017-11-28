@@ -5,11 +5,13 @@ Konwencje nazewnictwa klas w Pythonie
 -------------------------------------
 
 W Pythonie popularną konwencją jest używanie:
+
 * `_` do nazw metod, zmiennych **prywatnych**,
 * `__` po obu stronach nazwy, do metod **magicznych**,
 * funkcje zaczynające się od słowa **is** albo **has** (is in) powinny zwracać wartość boolowską (True/False),
 * funkcje zaczynające się od słowa **get** powinny zwracać wartość,
 * funkcje zaczynające się od słowa **set** powinny ustawiać wartość, dobrą praktyką jest też walidowanie wejścia.
+
 
 Metody i zmienne prywatne
 -------------------------
@@ -29,15 +31,18 @@ Metody magiczne
 Prawie wszystko w Pythonie jest obiektem - wyjątkami są słówka, m.in. `class`, `def`, `is`, `in` itp. 
 Za to wbudowane funkcje jak np. `str()`, `len()` czy nawet znaki matemtyczne (`+`, `-`, `/`, `*`, etc.)
 i znaki porównujące (`<`, `>`, `==`, etc). są tak naprawdę wywoływaniami funkcji magicznych:
+
 * `str()` ukrywa się w pod `__str__`,
 * `len()` ukrywa się w pod `__len__`,
 * `+` ukrywa się w pod `__add__`,
 * `*` ukrywa się w pod `__mul__`,
 * `<` ukrywa się w pod `__lt__` (less than).
 
+
 Jedną z nawjażniejszych metod jest `__init__`, którą poznaliśmy na poprzednich zajęciach - konstruktor.
 
 Są też inne ciekawe atrybuty, na przykład:
+
 * `__doc__` - w której jest przechowywana dokumentacja.
 
 
@@ -172,6 +177,7 @@ Zastosowanie tego jest szczególnie użyteczne w przypadku dziedziczenia:
             self.plec = plec
 
 Do zadań:
+---------
 
     :::python3
     class Czas:
