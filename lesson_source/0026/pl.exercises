@@ -21,7 +21,7 @@
 5:
     title: 6.5
     task: |
-        Zaimplementuj metodę set_time, która pozowoli nadpisać aktualne wartości czasu.
+        Zaimplementuj metodę set_time, która pozwoli nadpisać aktualne wartości czasu.
     possible_answare: yey
 6:
     title: 6.6
