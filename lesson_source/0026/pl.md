@@ -1,8 +1,8 @@
 1.6 Programowanie obiektowe II
 ===========================
 
-Konwencje klas w Pythonie
--------------------------
+Konwencje nazewnictwa klas w Pythonie
+-------------------------------------
 
 W Pythonie popularną konwencją jest używanie:
 * `_` do metod, zmiennych **prywatnych**
@@ -21,12 +21,12 @@ Pomyśl o klasie jako o czymś widzianym z zewnątrz, a nie o czymś, co widzisz
 Na przykład zegarek, może podać informacje o bieżącym czasie i można go ustawić tak, aby wskazywał właściwy czas - metody publiczne.
 Prywatne tutaj służą do ukrycia matematyki, czyli dlaczego po 23 jest godzina 0, czy po 59 minucie minuta zerowa.
 
-Popularnym przykładem zmiennej prywatnej są różnego rodzaju mapowania np. cyfr na ich słowne odpowiedniki czyli 57 to jest zestawienie "piędziesiąt" i "siedem" domyślnie interfesj zwróci "piędziesiąt siedem" mimo że w samej klasie zostanie to wzięte np. z dwóch kluczy dla 50 i dla 7.
+Popularnym przykładem zmiennej prywatnej są różnego rodzaju mapowania np. cyfr na ich słowne odpowiedniki czyli 57 to jest zestawienie "piędziesiąt" i "siedem" domyślnie interfejs zwróci "piędziesiąt siedem" mimo że w samej klasie zostanie to wzięte np. z dwóch kluczy dla 50 i dla 7.
 
 Metody magiczne
 ---------------
 
-Prawie wszystko jest obiektem w Pythonie - wyjąktami są słówka min. `class`, `def`, `is`, `in` itp. 
+Prawie wszystko jest obiektem w Pythonie - wyjątkami są słówka min. `class`, `def`, `is`, `in` itp. 
 Za to wbudowane funkcje jak np. `str()`, `len()` czy nawet znaki matemtyczne (`+`, `-`, `/`, `*`, etc.)
 i znaki porównujące (`<`, `>`, `==`, etc). są tak naprawdę wywoływaniami funkcji magicznych:
 * `str()` ukrywa się w pod `__str__`
@@ -41,10 +41,10 @@ Są też inne ciekawe atrybuty, na przykład:
 * `__doc__` - w której jest przechowywana dokumentacja.
 
 
-Jednym z najbardziej specyficznych  atrybutów jest  `__name__`, który jest dostępny dla klas, ale nie ich instacji domyślnie.
+Jednym z najbardziej specyficznych atrybutów jest  `__name__`, który jest dostępny dla klas, ale nie ich instacji domyślnie.
 Np. możemy zrobić `print(str.__name__)` lub `print(MojaKlasa.__name__)`,
 ale już dla instancji to samo np. `print('xxx'.__name__)` nie zadziała.
-To są tak zwane atrybuty klasowe - aby je udostępnić w instacjach,
+To są tak zwane atrybuty klasowe - aby je udostępnić w instancjach,
 musimy dodać metodę z **dekoratorem** `@classmethod`. 
 
 Mówiąc o klasach i dekoratorach trzeba też wspomnieć o `@staticmethod`, 
@@ -91,12 +91,12 @@ staticmethod
 
 Metody statyczne są używane bardziej dla porządku: 
 jeżeli mamy metodę, która mogłaby pozostać funkcją, ale nigdzie poza daną klasą nie jest używana,
-warto pozostawić ją w danej klasie jako metoda statyczna.
+warto pozostawić ją w danej klasie jako metodę statyczną.
 
 *args
 -----
 
-Kolejne zmienne pozycyjne, które są przekazywane do funkcji jako **tupla**. Może być ich dowolna ilość.
+Kolejne zmienne pozycyjne, które są przekazywane do funkcji jako **tupla**. Może być ich dowolna liczba.
 
     :::python3
     def test_args(an_arg, *args):
@@ -126,7 +126,7 @@ Możemy też wykorzystac do tego słownik, ale wtedy pod `*s` znajdą się tylko
 --------
 
 Kolejne zmienne o określonej nazwie (kluczu), które są przekazane do funkcji jako **słownik**. 
-Może być ich dowolna ilość.
+Może być ich dowolna liczba.
 
     :::python3
     def test_kwargs(klucz="brak", **kwargs):
@@ -136,7 +136,7 @@ Może być ich dowolna ilość.
 
     test_kwargs(foo=bar, python=test)
 
-Tak jak w przypadku rozpakowywania argumentów pozycjnych, możemy też rozpakowywać argumenty kluczowe:
+Tak jak w przypadku rozpakowywania argumentów pozycyjnych, możemy też rozpakowywać argumenty kluczowe:
 
     :::python3
     s = {'foo': 1,'python': 2,'bar': 3,'test': 4}
