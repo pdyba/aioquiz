@@ -171,3 +171,39 @@ Zastosowanie tego jest szczególnie użyteczne w przypadku dziedziczenia:
             self.nazwisko_panienskie = nazwisko_panienskie
             self.plec = plec
 
+Do zadań:
+
+    :::python3
+    class Czas:
+        __init__(self):
+            pass
+
+        __str__(self):
+            pass
+
+        set_time(self):
+            pass
+
+        add_time(self):
+            pass
+
+        get_seconds(self):
+            pass
+
+        get_minutes(self):
+            pass
+
+        get_hours(self):
+            pass
+
+
+    class Zegar:
+        pass
+
+    DokładnyZegar:
+        pass
+
+
+
+    def mojprint():
+        pass
