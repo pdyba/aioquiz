@@ -56,14 +56,14 @@ Dekorator
 W dużym skrócie jest to funkcja która **otacza** inną funkcję, metodę lub klasę i może zmieniać jej wynik.
 O dekoratorach jeszcze powiemy później. Na razie będą istotne dla nas dwa wymienione wcześniej `@classmethod` oraz `@staticmethod`
 
-Dekorator w prosty dekorator w Pythonie wygląda tak:
+Prosty dekorator w Pythonie wygląda tak:
 
     :::python3
     @dekorator  # zaczyna się od znaku @ a po nim jest jego nazwa
     def funkcja(arg):
         print(arg)
 
-W przypadku naszych dwóch istotnych dekoratórów związanych z klasami używamy je w sposób następujący:
+W przypadku naszych dwóch istotnych dekoratorów związanych z klasami używamy je w sposób następujący:
 
     :::python3
     @dekorator  # zaczyna się od znaku @ a po nim jest jego nazwa
@@ -73,7 +73,7 @@ W przypadku naszych dwóch istotnych dekoratórów związanych z klasami używam
 
         @classmethod
         def klasowa_metoda(cls):  # cls jest zwyczajowym słowem - skrót od słowa class
-            rerturn cls.__name__
+            return cls.__name__
 
 
         @staticmethod
