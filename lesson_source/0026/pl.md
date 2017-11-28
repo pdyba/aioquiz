@@ -5,35 +5,35 @@ Konwencje nazewnictwa klas w Pythonie
 -------------------------------------
 
 W Pythonie popularną konwencją jest używanie:
-* `_` do metod, zmiennych **prywatnych**
-* `__` po obu stronach nazwy, do metod **magicznych**
-* funkcje zaczynające się od słowa **is** albo **has** (is in) powinny zwracać wartość boolowską (True/False)
-* funkcje zaczynające się od słowa **get** powinny zwracać wartość
-* funkcje zaczynające się od słowa **set** powinny ustawiać wartość, dobrą praktyką jest też walidowanie wejścia
+* `_` do nazw metod, zmiennych **prywatnych**,
+* `__` po obu stronach nazwy, do metod **magicznych**,
+* funkcje zaczynające się od słowa **is** albo **has** (is in) powinny zwracać wartość boolowską (True/False),
+* funkcje zaczynające się od słowa **get** powinny zwracać wartość,
+* funkcje zaczynające się od słowa **set** powinny ustawiać wartość, dobrą praktyką jest też walidowanie wejścia.
 
-Metody, zmienne prywatne
-------------------------
+Metody i zmienne prywatne
+-------------------------
 
 Ich celem jest "ukrycie" zmiennych i metod pomocniczych w klasie.
 Metody prywatne są przydatne do dzielenia zadań na mniejsze części lub do zapobiegania powielaniu kodu, który jest często potrzebny innym metodom w klasie, ale nie powinien być wywoływany poza tą klasą.
 
 Pomyśl o klasie jako o czymś widzianym z zewnątrz, a nie o czymś, co widzisz wewnętrznie.
-Na przykład zegarek, może podać informacje o bieżącym czasie i można go ustawić tak, aby wskazywał właściwy czas - metody publiczne.
-Prywatne tutaj służą do ukrycia matematyki, czyli dlaczego po 23 jest godzina 0, czy po 59 minucie minuta zerowa.
+Na przykład zegarek: może podać informacje o bieżącym czasie i można go ustawić tak, aby wskazywał właściwy czas - metody publiczne.
+Prywatne służą tutaj do ukrycia matematyki, czyli dlaczego po 23. jest godzina 0., czy po 59. minucie minuta zerowa.
 
-Popularnym przykładem zmiennej prywatnej są różnego rodzaju mapowania np. cyfr na ich słowne odpowiedniki czyli 57 to jest zestawienie "piędziesiąt" i "siedem" domyślnie interfejs zwróci "piędziesiąt siedem" mimo że w samej klasie zostanie to wzięte np. z dwóch kluczy dla 50 i dla 7.
+Popularnym przykładem zmiennej prywatnej są różnego rodzaju mapowania, np. cyfr na ich słowne odpowiedniki czyli 57 to jest zestawienie "piędziesiąt" i "siedem" - domyślnie interfejs zwróci "piędziesiąt siedem" mimo że w samej klasie zostanie to wzięte np. z dwóch kluczy dla 50 i dla 7.
 
 Metody magiczne
 ---------------
 
-Prawie wszystko jest obiektem w Pythonie - wyjątkami są słówka min. `class`, `def`, `is`, `in` itp. 
+Prawie wszystko w Pythonie jest obiektem - wyjątkami są słówka, m.in. `class`, `def`, `is`, `in` itp. 
 Za to wbudowane funkcje jak np. `str()`, `len()` czy nawet znaki matemtyczne (`+`, `-`, `/`, `*`, etc.)
 i znaki porównujące (`<`, `>`, `==`, etc). są tak naprawdę wywoływaniami funkcji magicznych:
-* `str()` ukrywa się w pod `__str__`
-* `len()` ukrywa się w pod `__len__`
-* `+` ukrywa się w pod `__add__`
-* `*` ukrywa się w pod `__mul__`
-* `<` ukrywa się w pod `__lt__` (less than)
+* `str()` ukrywa się w pod `__str__`,
+* `len()` ukrywa się w pod `__len__`,
+* `+` ukrywa się w pod `__add__`,
+* `*` ukrywa się w pod `__mul__`,
+* `<` ukrywa się w pod `__lt__` (less than).
 
 Jedną z nawjażniejszych metod jest `__init__`, którą poznaliśmy na poprzednich zajęciach - konstruktor.
 
@@ -53,8 +53,8 @@ który pozwala nam posiadać w klasie metody, które nie potrzebują instacji, �
 Dekorator
 ---------
 
-W dużym skrócie jest to funkcja która **otacza** inną funkcję, metodę lub klasę i może zmieniać jej wynik.
-O dekoratorach jeszcze powiemy później. Na razie będą istotne dla nas dwa wymienione wcześniej `@classmethod` oraz `@staticmethod`
+W dużym skrócie jest to funkcja, która **otacza** inną funkcję, metodę lub klasę i może zmieniać jej wynik.
+O dekoratorach powiemy jeszcze później. Na razie będą istotne dla nas dwa wymienione wcześniej: `@classmethod` oraz `@staticmethod`
 
 Prosty dekorator w Pythonie wygląda tak:
 
@@ -106,7 +106,7 @@ Kolejne zmienne pozycyjne, które są przekazywane do funkcji jako **tupla**. Mo
 
     test_args('foo','python','bar','test')
 
-Tak zwany proces rozpakowania argumentów możemy też sami wymusić na tuplach, listach i setach.
+Tak zwany proces rozpakowywania argumentów możemy też sami wymusić na tuplach, listach i setach.
 
     :::python3
     x = ('foo','python','bar','test')
@@ -116,7 +116,7 @@ Tak zwany proces rozpakowania argumentów możemy też sami wymusić na tuplach,
     test_args(*y)
     test_args(*z)
 
-Możemy też wykorzystac do tego słownik, ale wtedy pod `*s` znajdą się tylko klucze słownika.
+Możemy też wykorzystać do tego słownik, ale wtedy pod `*s` znajdą się tylko klucze słownika.
 
     :::python3
     s = {'foo': 1,'python': 2,'bar': 3,'test': 4}
