@@ -153,8 +153,9 @@ Zastosowanie tego jest szczególnie użyteczne w przypadku dziedziczenia:
             self.data_ur = data_ur
 
     class Syn(Ojciec):
-        def __init__(self, imie_mama, nazwisko_panienskie, *args, plec='male', **kwargs):
+        def __init__(self, imie_tata, imie_mama, nazwisko_panienskie, *args, plec='male', **kwargs):
             super().__init__(*args, **kwargs)
+            self.imie_tata = imie_tata
             self.imie_mama = imie_mama
             self.nazwisko_panienskie = nazwisko_panienskie
             self.plec = plec
