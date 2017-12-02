@@ -101,7 +101,7 @@ warto pozostawić ją w danej klasie jako metodę statyczną.
 *args
 -----
 
-Kolejne zmienne pozycyjne, które są przekazywane do funkcji jako **tupla**. Może być ich dowolna liczba.
+Kolejne zmienne pozycyjne, które są przekazywane do funkcji jako **krotka(ang.tuple)**. Może być ich dowolna liczba.
 
     :::python3
     def test_args(an_arg, *args):
@@ -111,7 +111,7 @@ Kolejne zmienne pozycyjne, które są przekazywane do funkcji jako **tupla**. Mo
 
     test_args('foo','python','bar','test')
 
-Tak zwany proces rozpakowywania argumentów możemy też sami wymusić na tuplach, listach i setach.
+Tak zwany proces rozpakowywania argumentów możemy też sami wymusić na krotkach(ang.tuple), listach i setach.
 
     :::python3
     x = ('foo','python','bar','test')
