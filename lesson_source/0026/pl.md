@@ -23,13 +23,13 @@ Pomyśl o klasie jako o czymś widzianym z zewnątrz, a nie o czymś, co widzisz
 Na przykład zegarek: może podać informacje o bieżącym czasie i można go ustawić tak, aby wskazywał właściwy czas - metody publiczne.
 Prywatne służą tutaj do ukrycia matematyki, czyli dlaczego po 23. jest godzina 0., czy po 59. minucie minuta zerowa.
 
-Popularnym przykładem zmiennej prywatnej są różnego rodzaju mapowania, np. cyfr na ich słowne odpowiedniki czyli 57 to jest zestawienie "piędziesiąt" i "siedem" - domyślnie interfejs zwróci "piędziesiąt siedem" mimo że w samej klasie zostanie to wzięte np. z dwóch kluczy dla 50 i dla 7.
+Popularnym przykładem zmiennej prywatnej są różnego rodzaju mapowania, np. cyfr na ich słowne odpowiedniki czyli 57 to jest zestawienie "pięćdziesiąt" i "siedem" - domyślnie interfejs zwróci "pięćdziesiąt siedem", mimo że w samej klasie zostanie to wzięte np. z dwóch kluczy dla 50 i dla 7.
 
 Metody magiczne
 ---------------
 
 Prawie wszystko w Pythonie jest obiektem - wyjątkami są słówka, m.in. `class`, `def`, `is`, `in` itp. 
-Za to wbudowane funkcje jak np. `str()`, `len()` czy nawet znaki matemtyczne (`+`, `-`, `/`, `*`, etc.)
+Za to wbudowane funkcje jak np. `str()`, `len()` czy nawet znaki matematyczne (`+`, `-`, `/`, `*`, etc.)
 i znaki porównujące (`<`, `>`, `==`, etc). są tak naprawdę wywoływaniami funkcji magicznych:
 
 * `str()` ukrywa się w pod `__str__`,
@@ -39,21 +39,21 @@ i znaki porównujące (`<`, `>`, `==`, etc). są tak naprawdę wywoływaniami fu
 * `<` ukrywa się w pod `__lt__` (less than).
 
 
-Jedną z nawjażniejszych metod jest `__init__`, którą poznaliśmy na poprzednich zajęciach - konstruktor.
+Jedną z najważniejszych metod jest `__init__`, którą poznaliśmy na poprzednich zajęciach - konstruktor.
 
 Są też inne ciekawe atrybuty, na przykład:
 
 * `__doc__` - w której jest przechowywana dokumentacja.
 
 
-Jednym z najbardziej specyficznych atrybutów jest  `__name__`, który jest dostępny dla klas, ale nie ich instacji domyślnie.
+Jednym z najbardziej specyficznych atrybutów jest  `__name__`, który jest dostępny dla klas, ale nie ich instancji domyślnie.
 Np. możemy zrobić `print(str.__name__)` lub `print(MojaKlasa.__name__)`,
 ale już dla instancji to samo np. `print('xxx'.__name__)` nie zadziała.
 To są tak zwane atrybuty klasowe - aby je udostępnić w instancjach,
 musimy dodać metodę z **dekoratorem** `@classmethod`. 
 
 Mówiąc o klasach i dekoratorach trzeba też wspomnieć o `@staticmethod`, 
-który pozwala nam posiadać w klasie metody, które nie potrzebują instacji, żeby ich używać.
+który pozwala nam posiadać w klasie metody, które nie potrzebują instancji, żeby ich używać.
 
 Dekorator
 ---------
