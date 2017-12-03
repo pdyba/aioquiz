@@ -39,6 +39,7 @@ Interfejs wyświetlany w przeglądarce. Języki używane do tworzenia frontendu 
 Odpowiada za:
 
 * Przetwarzanie zapytań z frontendu
+* Zadania wymagające dużej mocy obliczeniowej
 * Kontakt z bazą danych
 * Uwierzytelnianie, autoryzację
 * Generowanie i wypełnianie frontendu (zależnie od architektury)
@@ -48,7 +49,7 @@ Do napisania backendu można wykorzystać różne języki, m. in. Python.
 Jak napisać aplikację internetową?
 ----------------------------------
 
-Do napisania aplikacji internetowej potrzebujemy bibliotekę (tzw. framework). W Pythonie mamy różne opcje:
+Do napisania aplikacji internetowej potrzebujemy bibliotekę (tzw. framework). W Pythonie mamy różne opcje, m. in.:
 
 * Django
 * Flask
@@ -57,6 +58,16 @@ Do napisania aplikacji internetowej potrzebujemy bibliotekę (tzw. framework). W
 * Sanic
 
 My będziemy używać Flaska.
+
+Metody HTTP
+-----------
+
+Metoda to słowo określające rodzaj operacji jaką chcemy wykonać. Jego interpretacja zależy całkowicie od autora aplikacji.
+
+Najważniejsze metody:
+
+* GET - domyślna metoda używana przez przeglądarki, służy do pobierania danych
+* POST - służy do zmiany danych na serwerze
 
 Flask
 -----
