@@ -111,7 +111,7 @@ Kolejne zmienne pozycyjne, które są przekazywane do funkcji jako **krotka(ang.
 
     test_args('foo','python','bar','test')
 
-Tak zwany proces rozpakowywania argumentów możemy też sami wymusić na krotkach(ang.tuple), listach i setach.
+Tak zwany proces rozpakowywania argumentów możemy też sami wymusić na krotkach (ang.tuple), listach i setach.
 
     :::python3
     x = ('foo','python','bar','test')
@@ -181,32 +181,32 @@ Do zadań:
 
     :::python3
     class Czas:
-        __init__(self):
+        def __init__(self):
             pass
 
-        __str__(self):
+        def __str__(self):
             pass
 
-        set_time(self):
+        def set_time(self):
             pass
 
-        add_time(self):
+        def add_time(self):
             pass
 
-        get_seconds(self):
+        def get_seconds(self):
             pass
 
-        get_minutes(self):
+        def get_minutes(self):
             pass
 
-        get_hours(self):
+        def get_hours(self):
             pass
 
 
     class Zegar:
         pass
 
-    DokładnyZegar:
+    class DokładnyZegar:
         pass
 
 
