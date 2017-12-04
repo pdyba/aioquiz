@@ -133,8 +133,8 @@ class Table:
         return cls(**dict(resp[0]))
 
     @classmethod
-    async def get_all(cls):
-        resp = await make_a_querry("""SELECT * FROM {}""".format(cls._name))
+    async def get_all(cls, suffix=""):
+        resp = await make_a_querry("""SELECT * FROM {} {}""".format(cls._name, suffix))
         return [cls(**dict(r)) for r in resp]
 
     @classmethod

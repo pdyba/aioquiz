@@ -22,7 +22,8 @@ from models import Config
 from models import Exercise
 from models import Feedback
 from models import Lesson
-from models import LessonFeedback
+from models import LessonFeedbackQuestion
+from models import LessonFeedbackAnswer
 from models import LiveQuiz
 from models import LiveQuizAnsware
 from models import LiveQuizQuestion
@@ -240,7 +241,8 @@ class UserView(HTTPMethodView):
         )
         await Lesson.delete_by_many_fields(author=id_name)
         
-        for cls in [LessonFeedback, QuestionAnsware, ExerciseAnsware, Feedback, Absence, Seat]:
+        # TODO: for question authors, set author=DEFAULT_USER and don't remove them
+        for cls in [LessonFeedbackAnswer, QuestionAnsware, ExerciseAnsware, Feedback, Absence, Seat]:
             await cls.delete_by_many_fields(users=id_name)
 
         await Users.detele_by_id(id_name)
@@ -396,7 +398,7 @@ class LessonView(HTTPMethodView):
             lesson = await Lesson.get_by_id(lid)
             return json(await lesson.to_dict())
         else:
-            lessons = await Lesson.get_all()
+            lessons = await Lesson.get_all(suffix="ORDER BY lesson_no")
             resp = []
             for l in lessons:
                 resp.append(await l.to_dict())

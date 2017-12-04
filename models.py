@@ -191,8 +191,8 @@ class LessonFeedbackQuestion(Table):
     ]
 
 
-class LessonFeedback(Table):
-    _name = 'lesson_feedback'
+class LessonFeedbackAnswer(Table):
+    _name = 'lesson_feedback_answer'
     _schema = [
         Column('author', ForeignKey('users')),
         Column('lesson', ForeignKey('lesson')),
