@@ -32,6 +32,9 @@ from views import ExerciseOverview
 from views import ForgotPasswordView
 from views import INeedHelpView
 from views import LessonView
+from views import LessonFeedbackAnswerView
+from views import LessonFeedbackMetaView
+from views import LessonFeedbackQuestionView
 from views import LiveQuizManageView
 from views import LiveQuizView
 from views import MakeOrganiserView
@@ -135,6 +138,14 @@ app.add_route(AbsenceView.as_view(), '/api/attendance')
 app.add_route(AbsenceView.as_view(), '/api/attendance/<lid:int>')
 
 app.add_route(AbsenceConfirmation.as_view(), '/api/workshopabsence')
+
+app.add_route(LessonFeedbackQuestionView.as_view(), '/api/feedback/questions')
+app.add_route(LessonFeedbackQuestionView.as_view(), '/api/feedback/questions/<qid:int>')
+
+app.add_route(LessonFeedbackMetaView.as_view(), '/api/feedback/questions/<qid:int>/meta/<lid:int>')
+
+app.add_route(LessonFeedbackAnswerView.as_view(), '/api/feedback/answers')
+app.add_route(LessonFeedbackAnswerView.as_view(), '/api/feedback/answers/<aid:int>')
 
 app.add_route(
     AbsenceConfirmation.as_view(),

@@ -22,8 +22,9 @@ from models import Config
 from models import Exercise
 from models import Feedback
 from models import Lesson
-from models import LessonFeedbackQuestion
 from models import LessonFeedbackAnswer
+from models import LessonFeedbackMeta
+from models import LessonFeedbackQuestion
 from models import LiveQuiz
 from models import LiveQuizAnsware
 from models import LiveQuizQuestion
@@ -1081,6 +1082,78 @@ class AbsenceConfirmation(HTTPMethodView):
 class RegistrationActiveView(HTTPMethodView):
     async def get(self, _):
         return json({'registration': await Config.get_registration()})
+
+
+class LessonFeedbackQuestionView(HTTPMethodView):
+    @user_required('admin')
+    async def get(self, _, current_user, qid=None):
+        if qid:
+            question = await LessonFeedbackQuestion.get_by_id(int(qid))
+            return json(question)
+        else:
+            questions = await LessonFeedbackQuestion.get_all()
+            return json(questions)
+
+    @user_required('admin')
+    async def post(self, request, current_user):
+        required_fields = {'type', 'description', 'answers'}
+        data = request.json
+        if set(data.keys()) == required_fields:
+            valid_types = {
+                'open', 'abcd_single', 'abcd_multiple', 'int'
+            }
+            if data['type'] not in valid_types:
+                return json({'msg': 'invalid question type'}, 400)
+
+            data.update({'author': current_user.id})
+
+            question = LessonFeedbackQuestion(**data)
+            await question.create()
+            return json({'msg': 'Feedback question created'}, 200)
+        else:
+            return json({'msg': 'missing required fields'}, 400)
+
+    @user_required('admin')
+    async def put(self, request, current_user, qid):
+        available_fields = {'type', 'description', 'answers'}
+        data = request.json
+        if set(data.keys())-available_fields:
+            return json({'msg': 'I see what you did there. Not gonna happen.'}, 401)
+
+        try:
+            question = await LessonFeedbackQuestion.get_first("id", qid)
+
+            if question.author != current_user.id:
+                return json({'msg': 'I see what you did there. Not gonna happen.'}, 401)
+
+            # TODO: move valid_types to the LessonFeedbackQuestion class as a constant
+            valid_types = {
+                'open', 'abcd_single', 'abcd_multiple', 'int'
+            }
+            if data['type'] not in valid_types:
+                return json({'msg': 'invalid question type'}, 400)
+
+            await question.update_from_dict(data)
+            return json({'msg': 'Question updated successfully'}, 200)
+        except DoesNotExist:
+            return json({'msg': 'There is no question with given id'}, 404)
+
+    @user_required('admin')
+    async def delete(self, _, current_user, qid):
+        try:
+            await LessonFeedbackQuestion.get_first("id", qid)
+            await LessonFeedbackQuestion.detele_by_id(qid)
+            return json({}, 204)
+        except DoesNotExist:
+            return json({'msg': 'There is no question with given id'}, 404)
+
+
+class LessonFeedbackMetaView(HTTPMethodView):
+    pass
+
+
+class LessonFeedbackAnswerView(HTTPMethodView):
+    pass
 
 
 class FeedbackView(HTTPMethodView):

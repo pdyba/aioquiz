@@ -186,8 +186,18 @@ class LessonFeedbackQuestion(Table):
     _name = 'lesson_feedback_question'
     _schema = [
         Column('id', Integer, primary_key=True),
-        Column('author', ForeignKey('users')),
-        Column('text', String(5000))
+        Column('author', ForeignKey('users'), default=DEFAULT_USER),
+        Column('type', String(50)),
+        Column('description', String(5000)),
+        Column('answers', CodeString(10000))
+    ]
+
+
+class LessonFeedbackMeta(Table):
+    _name = 'lesson_feedback_meta'
+    _schema = [
+        Column('question', ForeignKey('lesson_feedback_question')),
+        Column('lesson', ForeignKey('lesson'))
     ]
 
 
@@ -195,8 +205,7 @@ class LessonFeedbackAnswer(Table):
     _name = 'lesson_feedback_answer'
     _schema = [
         Column('author', ForeignKey('users')),
-        Column('lesson', ForeignKey('lesson')),
-        Column('text', String(5000)),
+        Column('answers', CodeString(10000)),
         Column('question', ForeignKey('lesson_feedback_question'))
     ]
 
