@@ -81,7 +81,7 @@
             <div class="form-group"
                  ng-class="{ 'has-error': form.experience.$dirty && form.password.$error.required }">
                 <label for="img" ng-if="vm.user.lang === 'en'">Photo</label>
-                <label for="img" ng-if="vm.user.lang === 'pl'">Zdjcie</label>
+                <label for="img" ng-if="vm.user.lang === 'pl'">Zdjęcie</label>
                 <span ng-show="form.img.$error.pattern"
                       class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
                 <input type="text" name="img" ng-pattern="/^[a-zA-Z0-9!:*\., :/\-ęóąłżźńść]*$/"

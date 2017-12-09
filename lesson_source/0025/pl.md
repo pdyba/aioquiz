@@ -5,10 +5,10 @@ Programowanie obiektowe
 -----------------------
 Paradygmat programowania, w którym programy definiuje się za pomocą obiektów (dane i metody), komunikujących się pomiędzy sobą w celu wykonywania zadań.
 W klasycznym rozumieniu składa się z:
-* Abstrakcja
-* Hermetyzacja
-* Polimorfizm
-* Dziedziczenie
+* Abstrakcji,
+* Hermetyzacji,
+* Polimorfizmu,
+* Dziedziczenia.
 
 Abstrakcja
 ----------
@@ -20,7 +20,7 @@ Dziedziczenie
 -------------
 Mechanizm współdzielenia funkcjonalności między klasami. Klasa może dziedziczyć po innej klasie, co oznacza, że oprócz swoich własnych atrybutów oraz zachowań, uzyskuje także te pochodzące z klasy, z której dziedziczy. Klasa dziedzicząca jest nazywana klasą potomną (subclass), zaś klasa, z której następuje dziedziczenie — klasą bazową (superclass). Z jednej klasy bazowej można uzyskać dowolną liczbę klas pochodnych. Klasy pochodne posiadają obok swoich własnych metod i pól, również kompletny interfejs klasy bazowej
 
-Przykład wyobraźmy sobie klasę `But`, która posiada dwie właściwości `rozmiar` i `sezon`. Po `Bucie` dziedziczą min. klasy `Trampek` i `Kozak`. Każdy z nich będzie miał swój `rozmiar`, ale w przeciwieństwie do klasy `But` będą miały różne `sezony` (lato, zima).
+Przykład: wyobraźmy sobie klasę `But`, która posiada dwie właściwości `rozmiar` i `sezon`. Po `Bucie` dziedziczą m.in. klasy `Trampek` i `Kozak`. Każdy z nich będzie miał swój `rozmiar`, ale w przeciwieństwie do klasy `But` będą miały różne `sezony` (lato, zima).
 
 
 Hermetyzacja
@@ -29,11 +29,11 @@ Hermetyzacja
 
 Hermetyzacja polega na ukrywaniu pewnych danych składowych lub metod obiektów danej klasy tak, aby były one dostępne tylko metodom wewnętrznym danej klasy lub funkcjom zaprzyjaźnionym.
 
-w Pythonie **nie** istnieje pełna hermetyzacja, w klasycznym tego rozumieniu. Każdą daną, funkcję w klasie możemy nadpisać.
+w Pythonie **nie** istnieje pełna hermetyzacja, w klasycznym tego rozumieniu. Każdą daną czy funkcję w klasie możemy nadpisać.
 
 w Pythonie popularną konwencją jest używanie _ do oddzielenia metod zwykłych od **prywatnych** i **magicznych**.
 
-* metodą magiczną, którą powszechnie będziemy używać jest `__init__` czyli tak zwany konstruktor klasy. (więcej o metodach magicznych na kolejnych zajęciach)
+* metodą magiczną, którą powszechnie będziemy używać jest `__init__` czyli tak zwany konstruktor klasy (więcej o metodach magicznych na kolejnych zajęciach)
 * metody prywatne mają na celu oddzielić zewnętrzny interfejs programistyczny (API) od wewnętrznych funkcji klasy. Wykorzystuje się to, aby ukryć część operacyjną logiki, która nie jest potrzebna z zewnątrz, ale w Pythonie nadal jest dostępna.
 
 
@@ -54,7 +54,7 @@ Instancjowanie klas, czyli tworzenie obiektów - niezależnych bytów danej klas
 Klasa w Pythonie
 ----------------
 
-Do tworzenie klas w Pythonie wykorzystujemy słówko `class`.
+Do tworzenia klas w Pythonie wykorzystujemy słówko `class`.
 Słówko `self` jest pewną abstrakcją dotyczą stworzonej później instancji klasy.
 
     :::python3
@@ -168,7 +168,7 @@ Przykład zastosowania:
 
 
 Zadanie:
-Zaimplementuj metody opisane w zadaniach. Na koniec zajęć klasy powinny mieć zaimplementowane w zbliżony sposób.
+Zaimplementuj metody opisane w zadaniach. Na koniec zajęć klasy powinny być zaimplementowane w zbliżony sposób.
 
     :::python3
     class Czlowiek:
