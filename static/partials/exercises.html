@@ -6,7 +6,9 @@
                 <strong>{{ ex.title }}</strong> <span ng-show="ex.answared" class="label label-success">Done</span>
             </div>
             <ul class="list-group">
-                <li class="list-group-item">{{ ex.task }}</li>
+                <li class="list-group-item task-content">
+                  <div ng-repeat="line in ex.task.split('\n')">{{ line }}</div>
+                </li>
                 <li class="list-group-item">
                     <div class="form-group" ng-hide="ex.answared">
                         <label class='left'
