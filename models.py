@@ -11,6 +11,7 @@ from orm import Float
 from orm import ForeignKey
 from orm import Integer
 from orm import String
+from orm import StringLiteral
 from orm import Table
 from utils import hash_string
 from utils import safe_del_key
@@ -191,6 +192,14 @@ class LessonFeedbackQuestion(Table):
         Column('description', String(5000)),
         Column('answers', CodeString(10000))
     ]
+
+    @classmethod
+    async def get_by_lesson_id(cls, lid):
+        return await cls.get_by_join(
+            "lesson_feedback_meta",
+            lesson=lid,
+            id=StringLiteral("question")
+        )
 
 
 class LessonFeedbackMeta(Table):

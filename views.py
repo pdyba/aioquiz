@@ -1143,13 +1143,56 @@ class LessonFeedbackQuestionView(HTTPMethodView):
         try:
             await LessonFeedbackQuestion.get_first("id", qid)
             await LessonFeedbackQuestion.detele_by_id(qid)
+
             return json({}, 204)
         except DoesNotExist:
             return json({'msg': 'There is no question with given id'}, 404)
 
 
 class LessonFeedbackMetaView(HTTPMethodView):
-    pass
+    @user_required()
+    async def get(self, _, current_user, lid):
+        try:
+            await Lesson.get_first("id", lid)
+            questions = await LessonFeedbackQuestion.get_by_lesson_id(lid)
+
+            return json(questions)
+        except DoesNotExist:
+            return json({'msg': 'A lesson with given id does not exist'}, 404)
+
+    @user_required('admin')
+    async def post(self, _, current_user, qid, lid):
+        try:
+            await LessonFeedbackQuestion.get_first("id", qid)
+        except DoesNotExist:
+            return json({'msg': 'A question with given id does not exist'}, 400)
+
+        try:
+            await Lesson.get_first("id", lid)
+        except DoesNotExist:
+            return json({'msg': 'A lesson with given id does not exist'}, 400)
+
+        meta = LessonFeedbackMeta(question=qid, lesson=lid)
+        await meta.create()
+
+        return json({'msg': 'Feedback association created successfully'}, 200)
+
+    @user_required('admin')
+    async def delete(self, _, current_user, qid, lid):
+        try:
+            # doing this twice since delete() could throw a weird out of bounds exc.
+            await LessonFeedbackMeta.get_first_by_many_field_value(
+                question=qid,
+                lesson=lid
+            )
+            await LessonFeedbackMeta.delete_by_many_fields(
+                question=qid,
+                lesson=lid
+            )
+
+            return json({}, 204)
+        except DoesNotExist:
+            return json({'msg': 'No association with given constraints exists in the database'}, 404)
 
 
 class LessonFeedbackAnswerView(HTTPMethodView):

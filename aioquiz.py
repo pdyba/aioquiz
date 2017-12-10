@@ -143,6 +143,7 @@ app.add_route(LessonFeedbackQuestionView.as_view(), '/api/feedback/questions')
 app.add_route(LessonFeedbackQuestionView.as_view(), '/api/feedback/questions/<qid:int>')
 
 app.add_route(LessonFeedbackMetaView.as_view(), '/api/feedback/questions/<qid:int>/meta/<lid:int>')
+app.add_route(LessonFeedbackMetaView.as_view(), '/api/feedback/questions_for_lesson/<lid:int>')
 
 app.add_route(LessonFeedbackAnswerView.as_view(), '/api/feedback/answers')
 app.add_route(LessonFeedbackAnswerView.as_view(), '/api/feedback/answers/<aid:int>')
