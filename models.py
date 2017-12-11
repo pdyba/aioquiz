@@ -213,9 +213,11 @@ class LessonFeedbackMeta(Table):
 class LessonFeedbackAnswer(Table):
     _name = 'lesson_feedback_answer'
     _schema = [
+        Column('id', Integer, primary_key=True),
         Column('author', ForeignKey('users')),
         Column('answers', CodeString(10000)),
-        Column('question', ForeignKey('lesson_feedback_question'))
+        Column('question', ForeignKey('lesson_feedback_question')),
+        Column('lesson', ForeignKey('lesson'))
     ]
 
 

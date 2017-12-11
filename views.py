@@ -4,6 +4,7 @@ from collections import defaultdict
 from datetime import datetime
 from functools import wraps
 from json import dumps as jdumps
+from json import loads as jloads
 import logging
 from uuid import uuid4
 
@@ -42,6 +43,7 @@ from utils import hash_string
 from utils import send_email
 
 NOT_AUTHORISED = json({'error': 'not allowed'}, status=401)
+INVALID_ANSWER = json({'msg': 'Invalid answer provided for the given question type'}, 400)
 
 _users = {}
 _users_names = {}
@@ -1098,45 +1100,51 @@ class LessonFeedbackQuestionView(HTTPMethodView):
     async def post(self, request, current_user):
         required_fields = {'type', 'description', 'answers'}
         data = request.json
-        if set(data.keys()) == required_fields:
-            valid_types = {
-                'open', 'abcd_single', 'abcd_multiple', 'int'
-            }
-            if data['type'] not in valid_types:
-                return json({'msg': 'invalid question type'}, 400)
+        if set(data.keys()) != required_fields:
+            return json({'error': 'missing required fields'}, 400)
 
-            data.update({'author': current_user.id})
+        valid_types = {
+            'open', 'abcd_single', 'abcd_multiple', 'int'
+        }
+        if data['type'] not in valid_types:
+            return json({'error': 'invalid question type'}, 400)
 
-            question = LessonFeedbackQuestion(**data)
-            await question.create()
-            return json({'msg': 'Feedback question created'}, 200)
-        else:
-            return json({'msg': 'missing required fields'}, 400)
+        if data['type'] in ['abcd_single', 'abcd_multiple'] and type(jloads(data['answers'])) != list:
+            return json({'error': 'Invalid answers provided (should be a list)'}, 400)
+
+        data.update({'author': current_user.id})
+
+        question = LessonFeedbackQuestion(**data)
+        await question.create()
+        return json({'msg': 'Feedback question created'}, 200)
 
     @user_required('admin')
     async def put(self, request, current_user, qid):
         available_fields = {'type', 'description', 'answers'}
         data = request.json
-        if set(data.keys())-available_fields:
-            return json({'msg': 'I see what you did there. Not gonna happen.'}, 401)
 
+        if set(data.keys()) - available_fields:
+            return json({'error': 'I see what you did there. Not gonna happen.'}, 401)
         try:
             question = await LessonFeedbackQuestion.get_first("id", qid)
 
             if question.author != current_user.id:
-                return json({'msg': 'I see what you did there. Not gonna happen.'}, 401)
+                return json({'error': 'I see what you did there. Not gonna happen.'}, 401)
 
             # TODO: move valid_types to the LessonFeedbackQuestion class as a constant
             valid_types = {
                 'open', 'abcd_single', 'abcd_multiple', 'int'
             }
             if data['type'] not in valid_types:
-                return json({'msg': 'invalid question type'}, 400)
+                return json({'error': 'invalid question type'}, 400)
+
+            if data['type'] in ['abcd_single', 'abcd_multiple'] and type(jloads(data['answers'])) != list:
+                return json({'error': 'Invalid answers provided (should be a list)'}, 400)
 
             await question.update_from_dict(data)
             return json({'msg': 'Question updated successfully'}, 200)
         except DoesNotExist:
-            return json({'msg': 'There is no question with given id'}, 404)
+            return json({'error': 'There is no question with given id'}, 404)
 
     @user_required('admin')
     async def delete(self, _, current_user, qid):
@@ -1146,7 +1154,7 @@ class LessonFeedbackQuestionView(HTTPMethodView):
 
             return json({}, 204)
         except DoesNotExist:
-            return json({'msg': 'There is no question with given id'}, 404)
+            return json({'error': 'There is no question with given id'}, 404)
 
 
 class LessonFeedbackMetaView(HTTPMethodView):
@@ -1158,19 +1166,19 @@ class LessonFeedbackMetaView(HTTPMethodView):
 
             return json(questions)
         except DoesNotExist:
-            return json({'msg': 'A lesson with given id does not exist'}, 404)
+            return json({'error': 'A lesson with given id does not exist'}, 404)
 
     @user_required('admin')
     async def post(self, _, current_user, qid, lid):
         try:
             await LessonFeedbackQuestion.get_first("id", qid)
         except DoesNotExist:
-            return json({'msg': 'A question with given id does not exist'}, 400)
+            return json({'error': 'A question with given id does not exist'}, 400)
 
         try:
             await Lesson.get_first("id", lid)
         except DoesNotExist:
-            return json({'msg': 'A lesson with given id does not exist'}, 400)
+            return json({'error': 'A lesson with given id does not exist'}, 400)
 
         meta = LessonFeedbackMeta(question=qid, lesson=lid)
         await meta.create()
@@ -1192,11 +1200,94 @@ class LessonFeedbackMetaView(HTTPMethodView):
 
             return json({}, 204)
         except DoesNotExist:
-            return json({'msg': 'No association with given constraints exists in the database'}, 404)
+            return json({'error': 'No association with given constraints exists in the database'}, 404)
 
 
 class LessonFeedbackAnswerView(HTTPMethodView):
-    pass
+    async def _validate_answers(self, data):
+        provided_answers = data['answers']
+        question = None
+
+        try:
+            question = await LessonFeedbackQuestion.get_first("id", data['question'])
+        except DoesNotExist:
+            return json({'error': 'There is no question with given id'}, 400)
+
+        if question.type == 'abcd_single':
+            available_answers = jloads(question.answers)
+
+            if jloads(provided_answers)[0] not in available_answers:
+                return INVALID_ANSWER
+        elif question.type == 'abcd_multiple':
+            available_answers = jloads(question.answers)
+
+            if set(jloads(provided_answers)) - set(available_answers):
+                return INVALID_ANSWER
+        elif question.type == 'int':
+            try:
+                int(provided_answers)
+            except ValueError:
+                return INVALID_ANSWER
+
+    @user_required()
+    async def get(self, _, current_user, lid):
+        try:
+            await Lesson.get_first("id", lid)
+        except DoesNotExist:
+            return json({'error': 'There is no lesson with given id'}, 404)
+
+        author = current_user.id
+        answers = await LessonFeedbackAnswer.get_by_many_field_value(
+            author=author,
+            lesson=lid
+        )
+
+        return json(answers)
+
+    @user_required()
+    async def post(self, request, current_user):
+        required_fields = {'answers', 'question', 'lesson'}
+        data = request.json
+        if set(data.keys()) != required_fields:
+            return json({'error': 'Missing required field(s)'}, 400)
+
+        response = await self._validate_answers(data)
+
+        if response:
+            return response
+
+        data.update({'author': current_user.id})
+
+        answer = LessonFeedbackAnswer(**data)
+        await answer.create()
+
+        return json({'msg': 'Answer recorded'})
+
+    @user_required()
+    async def put(self, request, current_user, aid):
+        available_fields = {'answers', 'question', 'lesson'}
+        data = request.json
+        answer = None
+
+        try:
+            answer = await LessonFeedbackAnswer.get_first("id", aid)
+
+            if answer.author != current_user.id:
+                return json({'error': 'I see what you did there. Not gonna happen.'}, 401)
+        except DoesNotExist:
+            return json({'error': 'There is no answer with given id'}, 404)
+
+        if set(data.keys()) - available_fields:
+            return json({'error': 'Invalid field provided'}, 400)
+
+        response = await self._validate_answers(data)
+
+        if response:
+            return response
+
+        await answer.update_from_dict(data)
+
+        return json({'msg': 'Answer updated'})
 
 
 class FeedbackView(HTTPMethodView):
