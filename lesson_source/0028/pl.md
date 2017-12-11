@@ -4,25 +4,25 @@
 Frontend
 --------
 
-Frontend to wszystko co widać w przeglądarce. Języki obsługiwane przez przeglądarkę to:
+Frontend to wszystko, co widać w przeglądarce. Języki obsługiwane przez przeglądarkę to:
 
-* HTML – struktura strony
-* CSS – wygląd strony
-* JavaScript – zachowanie strony
-* Java, Flash - zabytki
+* HTML – struktura strony,
+* CSS – wygląd strony,
+* JavaScript – zachowanie strony,
+* Java, Flash - zabytki.
 
 HTML – elementy i znaczniki
 ---------------------------
 
-* Elementy tworzą strukturę dokumentu HTML
-* Znaczniki oznaczają początek i koniec elementu
+* Elementy tworzą strukturę dokumentu HTML,
+* Znaczniki oznaczają początek i koniec elementu,
 * Znaczniki:
-    * `<p>` - znacznik otwierający
-    * `</p>` - znacznik zamykający
-    * `<p />` - znacznik oznaczający pusty element
+    * `<p>` - znacznik otwierający,
+    * `</p>` - znacznik zamykający,
+    * `<p />` - znacznik oznaczający pusty element.
 * Atrybuty – umieszczone w znaczniku dodatkowe informacje o elemencie:
-    * `<img src="cat_image.png">` - atrybut `src` o wartości `cat_image.jpg`
-    * `<table border>` - atrybut `border` nie posiadający wartości
+    * `<img src="cat_image.png">` - atrybut `src` o wartości `cat_image.jpg`,
+    * `<table border>` - atrybut `border` nie posiadający wartości.
 
 ### Elementy
 
@@ -93,8 +93,8 @@ Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszyc
     :::html
     <img src="cat_image.jpg" width="200" height="200">
 
-* `src` - nazwa pliku z obrazkiem, musi być w tym samym folderze co plik strony
-* `width`, `height` - szerokość i wysokość obrazka (opcjonalne)
+* `src` - nazwa pliku z obrazkiem, musi być w tym samym folderze co plik strony,
+* `width`, `height` - szerokość i wysokość obrazka (opcjonalne).
 
 #### Linki
 
@@ -112,11 +112,11 @@ Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszyc
       <tr>
         <th>Imię</th>
         <th>Nazwisko</th>
-      <tr>
+      </tr>
       <tr>
         <td>Hiromi</td>
         <td>Uehara</td>
-      <tr>
+      </tr>
     </table>
 
 * `<table>` - nadrzędny element oznaczający tabelę. Atrybut `border` powoduje dodanie ramki do tabeli
@@ -142,7 +142,7 @@ Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszyc
             <li>Listę</li>
             <li>numerowaną</li>
         </ol>
-        <a href="//pylove.org">Link do strony PyLove</a>
+        <a href="https://pylove.org">Link do strony PyLove</a>
         <table border>
             <tr>
                 <th>Oraz</th>
@@ -172,9 +172,9 @@ Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszyc
 Renderowanie szablonów
 ----------------------
 
-W aplikacji internetowej często będziemy chcieli utworzyć fragment pliku HTML na przykład na podstawie danych z bazy.
+W aplikacji internetowej często będziemy chcieli utworzyć fragment pliku HTML na podstawie, na przykład, danych z bazy.
 Wtedy potrzebujemy szablonu HTML – specjalnego pliku HTML, zawierającego informacje, gdzie wkleić dane.
-Nasza aplikacja (czyli Flask) będzie renderować ten szablon, czyli uzupełniać podanymi informacjami.
+Nasza aplikacja (czyli Flask) będzie renderować ten szablon, czyli uzupełniać go podanymi informacjami.
 Szablony dla Flaska tworzymy przy pomocy języka biblioteki Jinja2: [http://jinja.pocoo.org/docs/2.10/templates/](http://jinja.pocoo.org/docs/2.10/templates/)
 
 ### Specjalne elementy szablonu
@@ -199,7 +199,7 @@ Wewnątrz <code ng-non-bindable>{{ }}</code> można używać wielu poleceń pyth
         <p>{{ element }}</p>
     {% endfor %}
 
-Jeśli `kolekcja` jest listą `['Queen', 'Pink Floyd']` to efektem będzie:
+Jeśli `kolekcja` jest listą `['Queen', 'Pink Floyd']`, to efektem będzie:
 
     <p>Queen</p>
     <p>Pink Floyd</p>
@@ -247,7 +247,7 @@ Jeśli `kolekcja` jest listą `['Queen', 'Pink Floyd']` to efektem będzie:
 
 ### Uwagi
 
-* Wcięcia, nowe linie itp. nie mają znaczenia w szablonach
+* Wcięcia, nowe linie itp. nie mają znaczenia w szablonach,
 * Szablon musi znajdować się w folderze `templates`, czyli jeśli nasza aplikacja jest w ścieżce 
 `C:\projekt\aplikacja.py`, to szablon musi być w ścieżce `C:\projekt\templates\szablon.html`
 
@@ -268,14 +268,14 @@ W przypadku zapytania POST dane trafią do treści zapytania, której nie widać
       <button type="submit">Wyślij</button>
     </form>
 
-* `action` oznacza ścieżkę, do której chcemy wysłać zapytanie
-* `method` oznacza metodę (get / post)
-* `name` w elemencie `input` to nazwa parametru, do którego trafi wartość wprowadzona przez użytkownika
+* `action` oznacza ścieżkę, do której chcemy wysłać zapytanie,
+* `method` oznacza metodę (get / post),
+* `name` w elemencie `input` to nazwa parametru, do którego trafi wartość wprowadzona przez użytkownika.
 
 ### Obsługa formularza w aplikacji
 
-* Dane przesłane w zapytaniu GET znajdą się w zmiennej `request.args` (ta zmienna jest słownikiem)
-* W przypadku zapytania POST dane znajdą się w zmiennej `request.form` (która również jest słownikiem)
+* Dane przesłane w zapytaniu GET znajdą się w zmiennej `request.args` (ta zmienna jest słownikiem),
+* W przypadku zapytania POST dane znajdą się w zmiennej `request.form` (która również jest słownikiem).
 
 ### Przykład - GET
 
