@@ -199,3 +199,6 @@ nav.navbar {
     padding-top: 25px;
     padding-bottom:  25px;
 }
+.task-content {
+    text-align: left;
+}
