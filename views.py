@@ -1101,13 +1101,13 @@ class LessonFeedbackQuestionView(HTTPMethodView):
         required_fields = {'type', 'description', 'answers'}
         data = request.json
         if set(data.keys()) != required_fields:
-            return json({'error': 'missing required fields'}, 400)
+            return json({'error': 'Missing required fields'}, 400)
 
         valid_types = {
             'open', 'abcd_single', 'abcd_multiple', 'int'
         }
         if data['type'] not in valid_types:
-            return json({'error': 'invalid question type'}, 400)
+            return json({'error': 'Invalid question type'}, 400)
 
         if data['type'] in ['abcd_single', 'abcd_multiple'] and type(jloads(data['answers'])) != list:
             return json({'error': 'Invalid answers provided (should be a list)'}, 400)
@@ -1136,7 +1136,7 @@ class LessonFeedbackQuestionView(HTTPMethodView):
                 'open', 'abcd_single', 'abcd_multiple', 'int'
             }
             if data['type'] not in valid_types:
-                return json({'error': 'invalid question type'}, 400)
+                return json({'error': 'Invalid question type'}, 400)
 
             if data['type'] in ['abcd_single', 'abcd_multiple'] and type(jloads(data['answers'])) != list:
                 return json({'error': 'Invalid answers provided (should be a list)'}, 400)
