@@ -72,8 +72,8 @@ async def gen_users():
 
 async def admin():
     new_user = {
-        'email': 'contact@kmarciniak.com',
-        'password': 'test',
+        'email': 'piotr@dyba.it',
+        'password': 'test_1',
         'img': '0000000001.jpg',
         'description': 'Przykladowy opis',
         'motivation': 'Motivation opis',
@@ -83,9 +83,9 @@ async def admin():
         'active': True,
         'organiser': True,
         'admin': True,
-        'name': 'Krzysztof',
-        'pyfunction': 'Chief Execution Officer',
-        'surname': 'Marciniak',
+        'name': 'Piotr',
+        'pyfunction': 'Chief Education Officer',
+        'surname': 'Dyba',
         'linkedin': 'https://www.linkedin.com/in/pdyba',
         'twitter': 'https://twitter.com/dybacompl',
         'facebook': 'https://www.facebook.com/piotr.dyba.photo',
@@ -345,5 +345,5 @@ if __name__ == '__main__':
     # loop.run_until_complete(bootstrap_db())
     loop.run_until_complete(bootstrap_db())
     loop.run_until_complete(create_html_lessons())
-    loop.run_until_complete(admin())
-    loop.run_until_complete(gen_users())
+    # loop.run_until_complete(admin())
+    # loop.run_until_complete(gen_users())
