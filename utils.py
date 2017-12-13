@@ -3,6 +3,7 @@ from email.mime.text import MIMEText
 from functools import wraps
 import hashlib
 import logging
+from uuid import uuid4
 
 import aiosmtplib
 from aiosmtplib.errors import SMTPTimeoutError
@@ -91,3 +92,7 @@ async def send_email(recipients=None, subject='', text=''):
     except:
         logging.exception('error sending email')
     return False
+
+
+def create_uuid():
+    return str(uuid4()).replace('-', '')

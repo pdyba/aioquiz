@@ -347,3 +347,4 @@ if __name__ == '__main__':
     loop.run_until_complete(create_html_lessons())
     # loop.run_until_complete(admin())
     # loop.run_until_complete(gen_users())
+    loop.close()

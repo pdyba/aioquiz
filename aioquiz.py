@@ -78,6 +78,9 @@ app.add_route(UserView.as_view(), '/api/user/')
 app.add_route(UserView.as_view(), '/api/user/<id_name>')
 app.add_route(AuthenticateView.as_view(), '/api/authenticate')
 
+app.add_route(AuthenticateView.as_view(), '/api/magic_link')
+app.add_route(AuthenticateView.as_view(), '/api/magic_link/<magic_string>')
+
 app.add_route(QuestionView.as_view(), '/api/question')
 app.add_route(QuestionView.as_view(), '/api/question/<qid:int>')
 

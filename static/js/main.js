@@ -42,6 +42,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "LiveQuizRunCtrl",
             controllerAs: 'vm'
         })
+        .when("/magic_link/:ml", {
+            templateUrl: "partials/home.html",
+            controller: "MagicLinkCtrl",
+            controllerAs: 'vm'
+        })
         .when("/overview_attendance/:id", {
             templateUrl: "partials/overview_attendance.html",
             controller: "OverviewAttendanceCtrl",
@@ -1277,7 +1282,53 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
             })
         });
     }
+    function magicLink() {
+        SweetAlert.swal({
+            title: "Magic Link",
+            text: "Please provide valid email",
+            element: "input",
+            type: "input",
+            showConfirmButton: true,
+            closeOnConfirm: false
+        }, function (value) {
+            var data = {'email': value};
+            $http.post('/api/magic_link', data).then(function (response) {
+                var txt = response.data.msg;
+                SweetAlert.swal({text: txt, title: ''});
+            })
+        });
+    }
 
+}
+
+
+app.controller('MagicLinkCtrl', MagicLinkCtrl);
+MagicLinkCtrl.$inject = ['$location', 'AuthenticationService', 'SweetAlert', '$http', '$routeParams'];
+function MagicLinkCtrl($location, AuthenticationService, SweetAlert, $http, $routeParams) {
+    ml = $routeParams.ml;
+
+    AuthenticationService.ClearCredentials();
+    $http.get('/api/magic_link/' + ml, function (response) {
+        if (response.data.success) {
+            AuthenticationService.SetCredentials(response.data, response.data.session_uuid);
+            $location.path('/');
+            SweetAlert.swal({
+                text: "Logged in sucesfully",
+                title: 'Loged in',
+                type: 'success',
+                showConfirmButton: true,
+                timer: 1000
+            });
+        } else {
+            SweetAlert.swal({
+                text: response.data.msg,
+                title: 'Error using Magic link login',
+                type: 'error',
+                showConfirmButton: true,
+                timer: 2000
+            });
+        }
+    });
 }
 
 app.controller('RegisterController', RegisterController);

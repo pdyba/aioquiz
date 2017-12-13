@@ -12,8 +12,10 @@ from orm import ForeignKey
 from orm import Integer
 from orm import String
 from orm import Table
+
 from utils import hash_string
 from utils import safe_del_key
+from utils import create_uuid
 
 
 class Question(Table):
@@ -31,7 +33,7 @@ class Question(Table):
 
 
 class Users(Table):
-    _restricted_keys = ['session_uuid', 'password']
+    _restricted_keys = ['session_uuid', 'password', 'magic_string']
     _soft_restricted_keys = ['score', 'notes']
     _name = 'users'
     _schema = [
@@ -40,8 +42,10 @@ class Users(Table):
         Column('name', String(255)),
         Column('surname', String(255)),
         Column('password', String(1000)),
+        Column('magic_string', String(50), default='', required=False),
         Column('create_date', DateTime(), default=datetime.utcnow),
         Column('last_login', DateTime(), default=datetime.utcnow),
+        Column('magic_string_date', DateTime(), default=datetime.utcnow),
         Column('mentor', Boolean(), default=False),
         Column('organiser', Boolean(), default=False),
 
@@ -100,6 +104,10 @@ class Users(Table):
 
     async def set_password(self, password):
         self.password = hash_string(password)
+
+    async def set_magic_string(self):
+        self.magic_string = create_uuid()
+        self.magic_string_date = datetime.utcnow()
 
     @classmethod
     async def get_user_by_session_uuid(cls, session_uuid):

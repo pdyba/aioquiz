@@ -5,7 +5,6 @@ from datetime import datetime
 from functools import wraps
 from json import dumps as jdumps
 import logging
-from uuid import uuid4
 
 from asyncpg.exceptions import UniqueViolationError
 
@@ -38,6 +37,7 @@ from orm import DoesNotExist
 from utils import get_args
 from utils import hash_string
 from utils import send_email
+from utils import create_uuid
 
 NOTAUTHRISED = json({'error': 'not allowed'}, status=401)
 
@@ -190,7 +190,7 @@ class UserView(HTTPMethodView):
             if 'admin' in req:
                 del req['admin']
             user = Users(**req)
-            user.session_uuid = str(uuid4()).replace('-', '')
+            user.session_uuid = create_uuid
             uid = await user.create()
             if not isinstance(uid, int):
                 usr = Users.get_first('session_uuid', user.session_uuid)
@@ -421,7 +421,7 @@ class AuthenticateView(HTTPMethodView):
             if not user.active:
                 return json({'msg': 'User not active'}, status=404)
             if hash_string(req.get('password', 'x')) == user.password:
-                user.session_uuid = str(uuid4()).replace('-', '')
+                user.session_uuid = create_uuid()
                 user.last_login = datetime.utcnow()
                 await user.update()
                 _users[user.session_uuid] = user
@@ -445,6 +445,124 @@ class AuthenticateView(HTTPMethodView):
         except:
             logging.exception('err authentication.post')
         return json({'msg': 'internal error'}, status=500)
+
+
+class MagicAuthenticateView(HTTPMethodView):
+    user_error = json(
+        {'success': False, 'msg': 'Wrong user name or password'},
+        status=404
+    )
+
+    async def get(self, request, magic_string='xxx'):
+        try:
+            user = await Users.get_first_by_many_field_value(magic_string=magic_string)
+        except DoesNotExist:
+            return json(
+                {'success': False, 'msg': 'Wrong Magic Link'},
+                status=404
+            )
+        return json({
+            'success': True,
+            'admin': user.admin,
+            'mentor': user.mentor,
+            'name': user.name,
+            'email': user.email,
+            'surname': user.surname,
+            'lang': user.lang,
+            'organiser': user.organiser,
+            'id': user.id,
+            'session_uuid': user.session_uuid,
+            'confirmation': user.confirmation
+        })
+
+    async def post(self, request):
+        try:
+            req = request.json
+            try:
+                user = await Users.get_first_by_many_field_value(email=req.get('email'))
+            except DoesNotExist:
+                return json({'msg': 'wrong email or user does not exists'})
+            await user.set_magic_string()
+            await user.update()
+            magic_link = "Click on the link to login: http:\\\\{server}\{mlink}".format(
+                    mlink=user.magic_string,
+                    server=request.host
+            )
+            resp = await send_email(
+                recipients=[user.email],
+                text=magic_link,
+                subject="Your PyLove Magic login link"
+            )
+            if resp:
+                return json({
+                    'success': True,
+                    'msg': 'Check Your e-mail for the link'
+                })
+            return json({'success': False, 'msg': 'error sending e-mail'})
+        except:
+            logging.exception('err MagicAuthentication.post')
+        return json({'msg': 'internal error'}, status=500)
+
+
+class ForgotPasswordView(HTTPMethodView):
+    async def post(self, request):
+        try:
+            req = request.json
+            try:
+                user = await Users.get_first_by_many_field_value(email=req.get('email'))
+            except DoesNotExist:
+                return json({'msg': 'wrong email or user does not exists'})
+            password = create_uuid()
+            await user.set_password(password)
+            await user.update()
+            resp = await send_email(
+                recipients=[user.email],
+                text=password,
+                subject="Your new PyLove password"
+            )
+            if resp:
+                return json({
+                    'success': True,
+                    'msg': 'Check Your e-mail for new password'
+                })
+            return json({'success': False, 'msg': 'error sending e-mail'})
+        except:
+            logging.exception('err user.post')
+        return json({'msg': 'wrong email or user does not exists'}, status=404)
+
+
+class AdminForgotPasswordView(HTTPMethodView):
+    @user_required('admin')
+    async def get(self, request, current_user, email):
+        try:
+            user = await Users.get_first_by_many_field_value(email=email)
+        except DoesNotExist:
+            logging.error(email)
+            user = False
+        if not user:
+            return json({'msg': 'wrong email or user does not exists'})
+        password = create_uuid()
+        await user.set_password(password)
+        await user.update()
+        return json({"success": True, "new_pass": password})
+
+
+# noinspection PyBroadException
+class ChangePasswordView(HTTPMethodView):
+    @user_required()
+    async def post(self, request, current_user):
+        try:
+            req = request.json
+            if hash_string(req.get('password', 'x')) == current_user.password:
+                if req['new_password'] == req['new_password_2']:
+                    await current_user.set_password(req['new_password'])
+                    await current_user.update()
+                    return json({"success": True, "msg": "You have Successfully changed password"})
+                return json({"success": False, "msg": "You provided different new passwords"})
+            return json({"success": False, "msg": "You provided wrong old password"})
+        except:
+            logging.exception('authentication.post')
+        return json({'msg': 'internal error sorry please let us now', "success": False})
 
 
 class LogOutView(HTTPMethodView):
@@ -1113,35 +1231,6 @@ class FeedbackView(HTTPMethodView):
         pass
 
 
-class ForgotPasswordView(HTTPMethodView):
-    async def post(self, request):
-        try:
-            req = request.json
-            try:
-                user = await Users.get_first_by_many_field_value(email=req.get('email'))
-            except DoesNotExist:
-                user = False
-            if not user:
-                return json({'msg': 'wrong email or user does not exists'})
-            password = str(uuid4()).replace('-', '')
-            await user.set_password(password)
-            await user.update()
-            resp = await send_email(
-                recipients=[user.email],
-                text=password,
-                subject="Your new PyLove password"
-            )
-            if resp:
-                return json({
-                    'success': True,
-                    'msg': 'Check Your e-mail for new password'
-                })
-            return json({'success': False, 'msg': 'error sending e-mail'})
-        except:
-            logging.exception('err user.post')
-        return json({'msg': 'wrong email or user does not exists'}, status=404)
-
-
 class ExerciseOverview(HTTPMethodView):
     @user_required('mentor')
     async def get(self, _):
@@ -1153,37 +1242,3 @@ class ExerciseOverview(HTTPMethodView):
             resp[ex.lesson][ex.id] = await ex.to_dict()
             resp[ex.lesson][ex.id]['exercise_answare'] = await ExerciseAnsware.group_by_field('status', exercise=ex.id)
         return json(resp)
-
-
-class AdminForgotPasswordView(HTTPMethodView):
-    @user_required('admin')
-    async def get(self, request, current_user, email):
-        try:
-            user = await Users.get_first_by_many_field_value(email=email)
-        except DoesNotExist:
-            logging.error(email)
-            user = False
-        if not user:
-            return json({'msg': 'wrong email or user does not exists'})
-        password = str(uuid4()).replace('-', '')
-        await user.set_password(password)
-        await user.update()
-        return json({"success": True, "new_pass": password})
-
-
-# noinspection PyBroadException
-class ChangePasswordView(HTTPMethodView):
-    @user_required()
-    async def post(self, request, current_user):
-        try:
-            req = request.json
-            if hash_string(req.get('password', 'x')) == current_user.password:
-                if req['new_password'] == req['new_password_2']:
-                    await current_user.set_password(req['new_password'])
-                    await current_user.update()
-                    return json({"success": True, "msg": "You have Successfully changed password"})
-                return json({"success": False, "msg": "You provided different new passwords"})
-            return json({"success": False, "msg": "You provided wrong old password"})
-        except:
-            logging.exception('authentication.post')
-        return json({'msg': 'internal error sorry please let us now', "success": False})
