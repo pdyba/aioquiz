@@ -14,9 +14,10 @@ from sanic.response import json
 from sanic.response import redirect
 from sanic.views import HTTPMethodView
 
-from config import REGEMAIL
-from config import MAINCONFIG
 from config import ALL_EMAILS
+from config import DEFAULT_USER
+from config import MAINCONFIG
+from config import REGEMAIL
 from models import Absence
 from models import AbsenceMeta
 from models import Config
@@ -242,10 +243,11 @@ class UserView(HTTPMethodView):
             reviewer=id_name,
             users=id_name
         )
-        await Lesson.delete_by_many_fields(author=id_name)
+        for cls in [Lesson, LessonFeedbackAnswer]:
+            await cls.delete_by_many_fields(author=id_name)
         
         # TODO: for question authors, set author=DEFAULT_USER and don't remove them
-        for cls in [LessonFeedbackAnswer, QuestionAnsware, ExerciseAnsware, Feedback, Absence, Seat]:
+        for cls in [QuestionAnsware, ExerciseAnsware, Feedback, Absence, Seat]:
             await cls.delete_by_many_fields(users=id_name)
 
         await Users.detele_by_id(id_name)
@@ -1204,7 +1206,8 @@ class LessonFeedbackMetaView(HTTPMethodView):
 
 
 class LessonFeedbackAnswerView(HTTPMethodView):
-    async def _validate_answers(self, data):
+    @staticmethod
+    async def _validate_answers(data):
         provided_answers = data['answers']
         question = None
 
@@ -1251,7 +1254,7 @@ class LessonFeedbackAnswerView(HTTPMethodView):
         if set(data.keys()) != required_fields:
             return json({'error': 'Missing required field(s)'}, 400)
 
-        response = await self._validate_answers(data)
+        response = await LessonFeedbackAnswerView._validate_answers(data)
 
         if response:
             return response
@@ -1280,7 +1283,7 @@ class LessonFeedbackAnswerView(HTTPMethodView):
         if set(data.keys()) - available_fields:
             return json({'error': 'Invalid field provided'}, 400)
 
-        response = await self._validate_answers(data)
+        response = await LessonFeedbackAnswerView._validate_answers(data)
 
         if response:
             return response

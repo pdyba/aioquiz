@@ -173,8 +173,6 @@ class Table:
             if i + 1 < len(kwargs):
                 query += " AND "
 
-        print(query)
-
         resp = await make_a_querry(query)
         return [cls(**dict(r)) for r in resp]
 
