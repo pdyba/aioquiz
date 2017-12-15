@@ -453,7 +453,7 @@ class MagicAuthenticateView(HTTPMethodView):
     )
 
     async def get(self, request, magic_string=''):
-        if not magic_string or len(magic_string) < 16:
+        if not magic_string or len(magic_string) < 32:
             return json(
                 {'success': False, 'msg': 'Invalid Magic Link'},
             )
@@ -467,7 +467,7 @@ class MagicAuthenticateView(HTTPMethodView):
             return json(
                 {'success': False, 'msg': 'Link is only active for 5 minutes.'},
             )
-        user.magic_string = ""
+        user.magic_string = " "
         user.session_uuid = create_uuid()
         user.last_login = datetime.utcnow()
         await user.update()

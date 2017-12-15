@@ -1277,12 +1277,21 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
             closeOnConfirm: false
         }, function (value) {
             var data = {'email': value};
-            $http.post('/api/forgot_password', data).then(function (response) {
-                var txt = response.data.msg;
-                SweetAlert.swal({text: txt, title: ''});
+            SweetAlert.swal({
+                text: "in progress...",
+                title: '...',
+                showConfirmButton: false,
+                closeOnConfirm: false,
+                timer: 1
+            }, function () {
+                $http.post('/api/forgot_password', data).then(function (response) {
+                    var txt = response.data.msg;
+                    SweetAlert.swal({text: txt, title: ''});
+                })
             })
         });
     }
+
     function magicLink() {
         SweetAlert.swal({
             title: "Magic Link",
@@ -1293,9 +1302,17 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
             closeOnConfirm: false
         }, function (value) {
             var data = {'email': value};
-            $http.post('/api/magic_link', data).then(function (response) {
-                var txt = response.data.msg;
-                SweetAlert.swal({text: txt, title: ''});
+            SweetAlert.swal({
+                text: "in progress...",
+                title: '...',
+                showConfirmButton: false,
+                closeOnConfirm: false,
+                timer: 1
+            }, function () {
+                $http.post('/api/magic_link', data).then(function (response) {
+                    var txt = response.data.msg;
+                    SweetAlert.swal({text: txt, title: ''});
+                })
             })
         });
     }
@@ -1329,7 +1346,7 @@ function MagicLinkCtrl($scope, $location, $FlashService, $injector, Authenticati
                 text: response.data.msg,
                 title: 'Error using Magic link login',
                 type: 'error',
-                showConfirmButton: true,
+                showConfirmButton: true
             });
         }
     });
