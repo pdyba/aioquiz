@@ -35,6 +35,7 @@ from views import LessonView
 from views import LiveQuizManageView
 from views import LiveQuizView
 from views import MakeOrganiserView
+from views import MagicAuthenticateView
 from views import QuestionView
 from views import QuizManageView
 from views import QuizView
@@ -78,8 +79,8 @@ app.add_route(UserView.as_view(), '/api/user/')
 app.add_route(UserView.as_view(), '/api/user/<id_name>')
 app.add_route(AuthenticateView.as_view(), '/api/authenticate')
 
-app.add_route(AuthenticateView.as_view(), '/api/magic_link')
-app.add_route(AuthenticateView.as_view(), '/api/magic_link/<magic_string>')
+app.add_route(MagicAuthenticateView.as_view(), '/api/magic_link')
+app.add_route(MagicAuthenticateView.as_view(), '/api/magic_link/<magic_string>')
 
 app.add_route(QuestionView.as_view(), '/api/question')
 app.add_route(QuestionView.as_view(), '/api/question/<qid:int>')

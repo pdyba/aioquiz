@@ -42,7 +42,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "LiveQuizRunCtrl",
             controllerAs: 'vm'
         })
-        .when("/magic_link/:ml", {
+        .when("/magic_link", {
             templateUrl: "partials/home.html",
             controller: "MagicLinkCtrl",
             controllerAs: 'vm'
@@ -1248,6 +1248,7 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
 
     vm.login = login;
     vm.forgotPassword = forgotPassword;
+    vm.magicLink = magicLink;
 
     (function initController() {
         AuthenticationService.ClearCredentials();
@@ -1303,15 +1304,19 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
 
 
 app.controller('MagicLinkCtrl', MagicLinkCtrl);
-MagicLinkCtrl.$inject = ['$location', 'AuthenticationService', 'SweetAlert', '$http', '$routeParams'];
-function MagicLinkCtrl($location, AuthenticationService, SweetAlert, $http, $routeParams) {
+MagicLinkCtrl.$inject = ['$rootScope', '$location', 'FlashService', '$injector', 'AuthenticationService', 'SweetAlert', '$http', '$routeParams'];
+function MagicLinkCtrl($scope, $location, $FlashService, $injector, AuthenticationService, SweetAlert, $http, $routeParams) {
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: AuthenticationService,
+        $FlashService: $FlashService
+    });
     ml = $routeParams.ml;
-
     AuthenticationService.ClearCredentials();
-    $http.get('/api/magic_link/' + ml, function (response) {
+    $http.get('/api/magic_link/' + ml).then(function (response) {
         if (response.data.success) {
             AuthenticationService.SetCredentials(response.data, response.data.session_uuid);
-            $location.path('/');
             SweetAlert.swal({
                 text: "Logged in sucesfully",
                 title: 'Loged in',
@@ -1325,7 +1330,6 @@ function MagicLinkCtrl($location, AuthenticationService, SweetAlert, $http, $rou
                 title: 'Error using Magic link login',
                 type: 'error',
                 showConfirmButton: true,
-                timer: 2000
             });
         }
     });
@@ -1958,7 +1962,7 @@ function run($rootScope, $location, $cookies, $http) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules', '/program', '/regconfirmed']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules', '/program', '/regconfirmed', '/magic_link']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
         if (restrictedPage && !loggedIn) {
             $location.path('/');

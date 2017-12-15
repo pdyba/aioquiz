@@ -1,5 +1,5 @@
 ﻿<div class="container">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-4 col-md-offset-1">
         <h2>Login</h2>
         <form name="form" ng-submit="vm.login()" role="form">
             <div class="form-group"
@@ -27,14 +27,14 @@
                      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
                 <a href="#/register" class="btn btn-link">Register</a>
 
-                <a href='' target="_self" ng-click="vm.magicLink()">Forgot Password</a>
+                <a href='' target="_self" ng-click="vm.forgotPassword()">Forgot Password</a>
             </div>
         </form>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-md-offset-1">
         <h2>Magic Link</h2>
         <h4>Login using:</h4>
-        <button type="submit" class="btn btn-primary" ng-click="vm.magic_link()">Magic Link</button>
+        <button type="submit" class="btn btn-primary" ng-click="vm.magicLink()">Magic Link</button>
         <p>This will send You a link that allows passwordless loging</p>
     </div>
 

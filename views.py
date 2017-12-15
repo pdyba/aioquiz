@@ -190,7 +190,7 @@ class UserView(HTTPMethodView):
             if 'admin' in req:
                 del req['admin']
             user = Users(**req)
-            user.session_uuid = create_uuid
+            user.session_uuid = create_uuid()
             uid = await user.create()
             if not isinstance(uid, int):
                 usr = Users.get_first('session_uuid', user.session_uuid)
@@ -450,17 +450,27 @@ class AuthenticateView(HTTPMethodView):
 class MagicAuthenticateView(HTTPMethodView):
     user_error = json(
         {'success': False, 'msg': 'Wrong user name or password'},
-        status=404
     )
 
-    async def get(self, request, magic_string='xxx'):
+    async def get(self, request, magic_string=''):
+        if not magic_string or len(magic_string) < 16:
+            return json(
+                {'success': False, 'msg': 'Invalid Magic Link'},
+            )
         try:
-            user = await Users.get_first_by_many_field_value(magic_string=magic_string)
+            user = await Users.get_first('magic_string', magic_string)
         except DoesNotExist:
             return json(
                 {'success': False, 'msg': 'Wrong Magic Link'},
-                status=404
             )
+        if (datetime.utcnow() - user.magic_string_date).total_seconds() > 300:
+            return json(
+                {'success': False, 'msg': 'Link is only active for 5 minutes.'},
+            )
+        user.magic_string = ""
+        user.session_uuid = create_uuid()
+        user.last_login = datetime.utcnow()
+        await user.update()
         return json({
             'success': True,
             'admin': user.admin,
@@ -476,17 +486,29 @@ class MagicAuthenticateView(HTTPMethodView):
         })
 
     async def post(self, request):
+        # TO check if http(s) before
+        """
+        http://127.0.0.1:5000/#/magic_link/6adc0dab8103481398a4945b849dd2d4
+        :param request:
+        :return:
+        """
         try:
             req = request.json
+            http_s = request.scheme
             try:
                 user = await Users.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
                 return json({'msg': 'wrong email or user does not exists'})
             await user.set_magic_string()
             await user.update()
-            magic_link = "Click on the link to login: http:\\\\{server}\{mlink}".format(
-                    mlink=user.magic_string,
-                    server=request.host
+            magic_link = """
+            Click on the link to login:
+
+            {http_s}://{server}/#/magic_link?ml={mlink}
+            """.format(
+                http_s=http_s,
+                mlink=user.magic_string,
+                server=request.host
             )
             resp = await send_email(
                 recipients=[user.email],
