@@ -8,7 +8,7 @@ body {
 }
 
 .dropdown {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 
@@ -22,7 +22,9 @@ body {
     margin-top: 15px;
 }
 
+
 /* Page Sections */
+
 .section,
 .section-colored {
     padding: 50px 0;
@@ -43,7 +45,9 @@ body {
     border: 1px solid #cccccc;
 }
 
+
 /* Half Page Height Carousel Customization */
+
 .carousel {
     height: 50%;
 }
@@ -61,7 +65,9 @@ body {
     background-size: cover;
 }
 
+
 /* Social Icons Styles */
+
 .list-social-icons {
     margin-bottom: 45px;
 }
@@ -87,17 +93,23 @@ body {
     color: #d14836;
 }
 
+
 /* Service Page Styles */
+
 .service-icon {
     font-size: 50px;
 }
 
+
 /* 404 Page Styles */
+
 .error-404 {
     font-size: 8em;
 }
 
+
 /* Pricing Page Styles */
+
 .price {
     font-size: 4em;
 }
@@ -112,12 +124,16 @@ body {
     font-style: italic;
 }
 
+
 /* Footer Styles */
+
 footer {
     margin: 50px 0;
 }
 
+
 /* Responsive Styles */
+
 @media (max-width: 767px) {
 
     .carousel {
@@ -142,9 +158,11 @@ div.section-colored {
     background-color: #3b5998;
     color: #efefef
 }
+
 div.section {
     background-color: #efefef;
 }
+
 nav.navbar {
     background-color: #efefef;
     border-bottom: 0px;
@@ -156,6 +174,7 @@ nav.navbar {
     text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px;
     color: #3b5998;
 }
+
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
     color: #777;
 }
@@ -180,6 +199,7 @@ nav.navbar {
     color: #E51E41 !important;
     background-image: None;
 }
+
 .need-help-clicked {
     background-color: #8ce554;
     color: #efefef !important;
@@ -191,14 +211,21 @@ nav.navbar {
     color: #8ce554 !important;
     background-image: None;
 }
+
 .section {
     padding-top: 25px;
-    padding-bottom:  25px;
+    padding-bottom: 25px;
 }
+
 .section-colored {
     padding-top: 25px;
-    padding-bottom:  25px;
+    padding-bottom: 25px;
 }
+
 .task-content {
+    text-align: left;
+}
+
+.lesson-answer {
     text-align: left;
 }

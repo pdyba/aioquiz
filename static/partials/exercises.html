@@ -7,27 +7,21 @@
             </div>
             <ul class="list-group">
                 <li class="list-group-item task-content">
-                  <div ng-repeat="line in ex.task.split('\n')">{{ line }}</div>
+                    <div ng-repeat="line in ex.task.split('\n')">{{ line }}</div>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group" ng-hide="ex.answared">
-                        <label class='left'
-                               for="answare_{{ ex.id }}">Answer:</label>
-                        <textarea type="text" name="answare" id="answare"
-                                  class="form-control" ng-model="ex.answare"
-                                  required/>
+                        <label class='left' for="answare_{{ ex.id }}">Answer:</label>
+                        <textarea type="text" name="answare" id="answare" class="form-control" ng-model="ex.answare" required/>
                         <a class="btn btn-success" ng-click="vm.answare( ex )">Submit
                             !</a>
                     </div>
-                    <div ng-show="ex.answared">
-                        <p>{{ ex.answare }}</p>
+                    <div ng-show="ex.answared" class="lesson-answer">
+                        <pre>{{ ex.answare }}</pre>
                         <label class='left' for="new_answare_{{ ex.id }}">New
                             answer:</label>
-                        <textarea type="text" name="new_answare"
-                                  id="new_answare" class="form-control"
-                                  ng-model="ex.answare" required/>
-                        <a class="btn btn-success"
-                           ng-click="vm.new_answare( ex )">Update</a>
+                        <textarea type="text" name="new_answare" id="new_answare" class="form-control" ng-model="ex.answare" required/>
+                        <a class="btn btn-success" ng-click="vm.new_answare( ex )">Update</a>
                     </div>
                 </li>
             </ul>
