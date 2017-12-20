@@ -210,6 +210,7 @@ class AbsenceView(HTTPModelClassView):
     @user_required()
     async def get(self, _, current_user, lid=None):
         if current_user.admin and lid:
+            # TODO: Move to stats
             absences = await Absence.get_by_field_value('lesson', lid)
             lesson = await Lesson.get_by_id(lid)
             lesson = lesson.title
@@ -311,7 +312,7 @@ class AbsenceConfirmation(HTTPModelClassView):
 
 class FeedbackView(HTTPModelClassView):
     _cls = Users
-    _urls = []
+    _urls = '/api/feedback'
 
     @user_required()
     async def get(self, _, current_user, lid=None):
@@ -344,17 +345,3 @@ class FeedbackView(HTTPModelClassView):
         pass
 
 
-class ExerciseOverview(HTTPModelClassView):
-    _cls = Exercise
-    _urls = '/api/exercises_overview'
-
-    @user_required('mentor')
-    async def get(self, _):
-        exercises = await Exercise.get_all()
-        resp = {}
-        for ex in exercises:
-            if not resp.get(ex.lesson):
-                resp[ex.lesson] = {}
-            resp[ex.lesson][ex.id] = await ex.to_dict()
-            resp[ex.lesson][ex.id]['exercise_answare'] = await ExerciseAnsware.group_by_field('status', exercise=ex.id)
-        return json(resp)

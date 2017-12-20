@@ -232,7 +232,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
                 showConfirmButton: false
             })
         } else {
-            $http.get('/api/i_need_help/').then(
+            $http.get('/api/user/i_need_help/').then(
                 function (response) {
                     $scope.globals.currentUser.seat.i_need_help = true;
                     SweetAlert.swal({
@@ -247,7 +247,7 @@ function PageCtrl($scope, $location, $AuthenticationService, $FlashService, Swee
         }
     };
     $scope.help_stop = function () {
-        $http.delete('/api/i_need_help/').then(
+        $http.delete('/api/user/i_need_help/').then(
             function (response) {
                 $scope.globals.currentUser.seat.i_need_help = false;
                 SweetAlert.swal({
@@ -416,7 +416,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
             'users': user.id,
             'score': user.new_review
         };
-        $http.post('/api/review_attendees/', data).then(
+        $http.post('/api/admin/user/review/', data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Score Saved', false);
                 user.score = user.score + user.new_review;
@@ -436,7 +436,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
             'users': user,
             'accept': true
         };
-        $http.put('/api/review_attendees/', data).then(
+        $http.put('/api/admin/user/review/', data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Score Accepted', false);
                 user.accept = true;
@@ -449,7 +449,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
             'users': user,
             'accept': false
         };
-        $http.put('/api/review_attendees/', data).then(
+        $http.put('/api/admin/user/review/', data).then(
             function (response) {
                 $FlashService.SuccessNoReload('Score Accepted', false);
                 user.accept = false;
@@ -513,7 +513,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
     }
 
     function get_rules() {
-        $http.get('/api/review_rules').then(
+        $http.get('/api/admin/review_rules').then(
             function (response) {
                 vm.rules = response.data;
             }
@@ -754,7 +754,7 @@ function ProfileCtrl($scope, $location, $AuthenticationService, $FlashService, $
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
-    $http.get('/api/user/' + $scope.globals.currentUser.id).then(
+    $http.get('/api/users/' + $scope.globals.currentUser.id).then(
         function (response) {
             vm.user_profile = response.data;
         }
@@ -912,7 +912,7 @@ function UserEditCtrl($scope, $location, $AuthenticationService, $FlashService, 
     vm.update_user = update_user;
     vm.user = {};
 
-    $http.get('/api/user/' + $routeParams.uid).then(
+    $http.get('/api/users/' + $routeParams.uid).then(
         function (response) {
             vm.user = response.data;
         }
@@ -1109,7 +1109,7 @@ function ExerciseOverviewController($scope, $location, $AuthenticationService, $
     vm.overview = true;
     vm.exercises_overview = {};
     function refresh_seats() {
-        $http.get('/api/exercises_overview').then(
+        $http.get('/api/stats/exercises').then(
             function (response) {
                 vm.exercises_overview = response.data;
             }
@@ -1156,7 +1156,7 @@ function AdminConfigController($scope, $location, $AuthenticationService, $Flash
         $AuthenticationService: $AuthenticationService,
         $FlashService: $FlashService
     });
-    $http.get('/api/admin_config').then(
+    $http.get('/api/admin/config').then(
         function (response) {
             vm.config = response.data;
         }
@@ -1165,7 +1165,7 @@ function AdminConfigController($scope, $location, $AuthenticationService, $Flash
 
     function save_config() {
         vm.dataLoading = true;
-        $http.post('/api/admin_config', vm.config).then(function (response) {
+        $http.post('/api/admin/config', vm.config).then(function (response) {
             if (response.data.success) {
                 $FlashService.SuccessNoReload(response.data.msg);
             } else {
@@ -1309,7 +1309,7 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
                 closeOnConfirm: false,
                 timer: 1
             }, function () {
-                $http.post('/api/magic_link', data).then(function (response) {
+                $http.post('/api/auth/magic_link', data).then(function (response) {
                     var txt = response.data.msg;
                     SweetAlert.swal({text: txt, title: ''});
                 })
@@ -1331,7 +1331,7 @@ function MagicLinkCtrl($scope, $location, $FlashService, $injector, Authenticati
     });
     ml = $routeParams.ml;
     AuthenticationService.ClearCredentials();
-    $http.get('/api/magic_link/' + ml).then(function (response) {
+    $http.get('/api/auth/magic_link/' + ml).then(function (response) {
         if (response.data.success) {
             AuthenticationService.SetCredentials(response.data, response.data.session_uuid);
             SweetAlert.swal({
@@ -1669,7 +1669,7 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
     return service;
 
     function Login(username, password, callback) {
-        $http.post('/api/authenticate', {
+        $http.post('/api/auth/login', {
             email: username,
             password: password
         }).then(
@@ -1705,6 +1705,7 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
     }
 
     function ClearCredentials() {
+        $http.get('/api/auth/logout');
         $rootScope.globals = {};
         $cookies.remove('globals');
         $http.defaults.headers.common.Authorization = 'Basic';
@@ -1740,31 +1741,31 @@ function UserService($http, $FlashService, SweetAlert) {
     return service;
 
     function GetAll() {
-        return $http.get('/api/user/').then(handleSuccess, handleError('Error getting all users'));
+        return $http.get('/api/users/').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetAllOrganisers() {
-        return $http.get('/api/user/?organiser=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
+        return $http.get('/api/users/?organiser=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetAllAdmins() {
-        return $http.get('/api/user/?admin=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
+        return $http.get('/api/users/?admin=True&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetAllAccepted() {
-        return $http.get('/api/user/?mentor=False&confirmation=ack&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
+        return $http.get('/api/users/?mentor=False&confirmation=ack&sort_by=surname').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetAllAttendees() {
-        return $http.get('/api/review_attendees/').then(handleSuccess, handleError('Error getting all users'));
+        return $http.get('/api/admin/user/review/').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetAllMentors() {
-        return $http.get('/api/user/?mentor=True').then(handleSuccess, handleError('Error getting all users'));
+        return $http.get('/api/users/?mentor=True').then(handleSuccess, handleError('Error getting all users'));
     }
 
     function GetById(id) {
-        return $http.get('/api/user/' + id).then(handleSuccess, handleError('Error getting user by id'));
+        return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
     }
 
     function GetStats(id) {
@@ -1772,21 +1773,21 @@ function UserService($http, $FlashService, SweetAlert) {
     }
 
     function GetByUsername(username) {
-        return $http.get('/api/user/' + username).then(handleSuccess, handleError('Error getting user by username'));
+        return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
     }
 
     function Create(user) {
-        return $http.post('/api/user/', user).then(handleSuccess).catch(function (response) {
+        return $http.post('/api/users/', user).then(handleSuccess).catch(function (response) {
             $FlashService.Error(response.data.msg);
         });
     }
 
     function Update(user) {
-        return $http.put('/api/user/', user).then(handleSuccess, handleError('Error updating user'));
+        return $http.put('/api/users/', user).then(handleSuccess, handleError('Error updating user'));
     }
 
     function Delete(id) {
-        return $http.delete('/api/user/' + id).then(handleSuccess, handleError('Error deleting user'));
+        return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
     }
 
     function makeOrganiser(user) {
@@ -1794,7 +1795,7 @@ function UserService($http, $FlashService, SweetAlert) {
             'organiser': true,
             'uid': user.id
         };
-        $http.post('/api/make_organiser', data).then(function (response) {
+        $http.post('/api/admin/user/set_organiser', data).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('Made an organiser: ' + user.name, true);
                 user.organiser = true;
@@ -1810,7 +1811,7 @@ function UserService($http, $FlashService, SweetAlert) {
             'organiser': false,
             'uid': user.id
         };
-        $http.post('/api/make_organiser', data).then(function (response) {
+        $http.post('/api/admin/user/set_organiser', data).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('Made an organiser: ' + user.name, true);
                 user.organiser = false;
@@ -1839,7 +1840,7 @@ function UserService($http, $FlashService, SweetAlert) {
             'active': true,
             'uid': user.id
         };
-        $http.post('/api/change_active', data).then(function (response) {
+        $http.post('/api/admin/user/set_active', data).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('Made active: ' + user.name, true);
                 user.active = true;
@@ -1855,7 +1856,7 @@ function UserService($http, $FlashService, SweetAlert) {
             'active': false,
             'uid': user.id
         };
-        $http.post('/api/change_active', data).then(function (response) {
+        $http.post('/api/admin/user/set_active', data).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('Made inactive: ' + user.name, true);
                 user.active = false;
@@ -1871,7 +1872,7 @@ function UserService($http, $FlashService, SweetAlert) {
             'mentor': true,
             'uid': user.id
         };
-        $http.post('/api/change_mentor', data).then(function (response) {
+        $http.post('/api/admin/user/set_mentor', data).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('Made mentor of: ' + user.name, true);
                 user.mentor = true;
@@ -1887,7 +1888,7 @@ function UserService($http, $FlashService, SweetAlert) {
             'mentor': false,
             'uid': user.id
         };
-        $http.post('/api/change_mentor', data).then(function (response) {
+        $http.post('/api/admin/user/set_mentor', data).then(function (response) {
             if (response.data.success) {
                 $FlashService.Success('Removed mentor from: ' + user.name, true);
                 user.mentor = false;

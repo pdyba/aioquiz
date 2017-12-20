@@ -31,7 +31,7 @@ from models import UserReview
 # noinspection PyBroadException
 class UserView(HTTPModelClassView):
     _cls = Users
-    _urls = ['/api/user/', '/api/user/<id_name>']
+    _urls = ['/api/users/', '/api/users/<id_name>']
 
     @user_required()
     async def get(self, request, current_user, id_name=None):
@@ -154,64 +154,9 @@ class UserView(HTTPModelClassView):
         return json({'success': True})
 
 
-class ReviewAttendeesView(HTTPModelClassView):
-    _cls = Users
-    _urls = ['/api/review_attendees']
-
-    @user_required('organiser')
-    async def get(self, request, current_user):
-        allusers = await Users.get_by_many_field_value(
-            admin=False,
-            organiser=False
-        )
-        allreviews = await UserReview.get_all()
-        reviews = defaultdict(dict)
-        for rev in allreviews:
-            reviews[rev.users][rev.reviewer] = {
-                'score': rev.score,
-                'name': await get_user_name(rev.reviewer)
-            }
-        users = []
-        for u in allusers:
-            ud = await u.to_dict(include_soft=True)
-            ud.update({'reviews': reviews.get(u.id, {})})
-            usr = reviews.get(u.id, {})
-            review_amount = len(usr) or 1
-            ud['score'] = sum([x.get('score', 0) for _, x in usr.items()]) / review_amount
-            users.append(ud)
-        users.sort(key=lambda a: a['score'], reverse=True)
-        return json(users)
-
-    @user_required('organiser')
-    async def post(self, request, current_user):
-        req = request.json
-        req['reviewer'] = current_user.id
-        ur = UserReview(**req)
-        if not await ur.create():
-            return json({'msg': 'already exists', 'error': True})
-        all_ur = await UserReview.get_by_field_value('users', req['users'])
-        user = await Users.get_by_id(req['users'])
-        new_score = sum(u.score for u in all_ur) / (len(all_ur) or 1)
-        user.score = new_score
-        await user.update()
-        return json({'success': True})
-
-    @user_required('organiser')
-    async def put(self, request, current_user):
-        try:
-            req = request.json
-            user = await Users.get_by_id(req['users'])
-            user.accepted = req['accept']
-            await user.update()
-            return json({'success': True})
-        except:
-            logging.exception('review_put')
-            return json({'success': False}, status=500)
-
-
 class ActivationView(HTTPModelClassView):
     _cls = Users
-    _urls = '/api/activation/<uid:int>/<acode>'
+    _urls = '/api/user/activation/<uid:int>/<acode>'
 
     async def get(self, request, uid, acode):
         user = await Users.get_by_id(uid)
@@ -222,125 +167,9 @@ class ActivationView(HTTPModelClassView):
         return json({'success': False, 'reson': 'wrong token'})
 
 
-class MakeOrganiserView(HTTPModelClassView):
-    _cls = Users
-    _urls = '/api/make_organiser'
-
-    @user_required('admin')
-    async def post(self, request, current_user):
-        req = request.json
-        user = await Users.get_by_id(req['uid'])
-        if user:
-            user.organiser = req['organiser']
-            await user.update()
-            return json({'success': True})
-        return json({'success': False, 'reson': 'wrong token'})
-
-
-class ChangeMentorView(HTTPModelClassView):
-    _cls = Users
-    _urls = '/api/change_mentor'
-
-    @user_required('admin')
-    async def post(self, request, current_user):
-        req = request.json
-        user = await Users.get_by_id(req['uid'])
-        if user:
-            user.mentor = req['mentor']
-            await user.update()
-            return json({'success': True})
-        return json({'success': False, 'msg': 'wrong token'})
-
-
-class ChangeActiveView(HTTPModelClassView):
-    _cls = Users
-    _urls = '/api/change_active'
-
-    @user_required('admin')
-    async def post(self, request, current_user):
-        req = request.json
-        user = await Users.get_by_id(req['uid'])
-        if user:
-            user.active = req['active']
-            await user.update()
-            return json({'success': True})
-        return json({'success': False, 'msg': 'wrong token'})
-
-
-class SeatView(HTTPModelClassView):
-    _cls = None
-    _urls = ['/api/seats', '/api/seats/<uid:int>']
-
-    @user_required()
-    async def get(self, _, current_user, uid=None):
-        if uid:
-            try:
-                seats = await Seat.get_first('users', uid)
-                resp = await seats.to_dict()
-            except DoesNotExist:
-                return json({})
-        else:
-            seats = await Seat.get_all()
-            config = await Config.get_by_id(1)
-            used_seats = defaultdict(dict)
-            for seat in seats:
-                full_user_name = await get_user_name(seat.users)
-                used_seats[seat.row][seat.number] = {
-                    'user_id': seat.users,
-                    'user': full_user_name,
-                    'name': full_user_name.split(' ')[0],
-                    'i_need_help': seat.i_need_help
-                }
-            resp = defaultdict(dict)
-            empty = {'user': False, 'i_need_help': False}
-            empty_raw = {'user': False, 'i_need_help': False, 'empty_raw': True}
-            for x in range(config.room_raws):
-                raw = chr(65 + x)
-                for y in range(config.room_columns):
-                    if (y + 1) % 13 == 0:
-                        resp[raw][y] = empty_raw
-                    else:
-                        resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
-        return json(resp, sort_keys=True)
-
-    @user_required()
-    async def post(self, request, _):
-        req = request.json
-        try:
-            seat = Seat(**req)
-            await seat.create()
-            return json(
-                {
-                    'success': True,
-                    'msg': 'Seat taken'
-                },
-                sort_keys=True
-            )
-        except UniqueViolationError:
-            return json(
-                {
-                    'success': False,
-                    'msg': 'You already have taken a seat'
-                },
-                sort_keys=True
-            )
-
-    @user_required()
-    async def delete(self, _, current_user):
-        seat = await Seat.get_first('users', current_user.id)
-        await seat.delete()
-        return json(
-            {
-                'success': True,
-                'msg': 'Seat taken'
-            },
-            sort_keys=True
-        )
-
-
 class INeedHelpView(HTTPModelClassView):
     _cls = Users
-    _urls = []
+    _urls = ['/api/user/i_need_help']
 
     @user_required()
     async def get(self, _, current_user):
@@ -385,3 +214,76 @@ class INeedHelpView(HTTPModelClassView):
                 },
                 sort_keys=True
             )
+
+
+class SeatView(HTTPModelClassView):
+    _cls = None
+    _urls = ['/api/seats', '/api/seats/<uid:int>']
+
+    @user_required()
+    async def get(self, _, current_user, uid=None):
+        if uid:
+            try:
+                seats = await Seat.get_first('users', uid)
+                resp = await seats.to_dict()
+            except DoesNotExist:
+                return json({})
+        else:
+            seats = await Seat.get_all()
+            config = await Config.get_by_id(1)
+            used_seats = defaultdict(dict)
+            for seat in seats:
+                full_user_name = await get_user_name(seat.users)
+                used_seats[seat.row][seat.number] = {
+                    'user_id': seat.users,
+                    'user': full_user_name,
+                    'name': full_user_name.split(' ')[0],
+                    'i_need_help': seat.i_need_help
+                }
+            resp = defaultdict(dict)
+            empty = {'user': False, 'i_need_help': False}
+            empty_raw = {'user': False, 'i_need_help': False, 'empty_raw': True}
+            # TODO: Move to config (empty rows)
+            for x in range(config.room_raws):
+                raw = chr(65 + x)
+                for y in range(config.room_columns):
+                    if (y + 1) % 13 == 0:
+                        resp[raw][y] = empty_raw
+                    else:
+                        resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
+        return json(resp, sort_keys=True)
+
+    @user_required()
+    async def post(self, request, _):
+        req = request.json
+        try:
+            seat = Seat(**req)
+            await seat.create()
+            return json(
+                {
+                    'success': True,
+                    'msg': 'Seat taken'
+                },
+                sort_keys=True
+            )
+        except UniqueViolationError:
+            return json(
+                {
+                    'success': False,
+                    'msg': 'You already have taken a seat'
+                },
+                sort_keys=True
+            )
+
+    @user_required()
+    async def delete(self, _, current_user):
+        seat = await Seat.get_first('users', current_user.id)
+        await seat.delete()
+        return json(
+            {
+                'success': True,
+                'msg': 'Seat taken'
+            },
+            sort_keys=True
+        )
+

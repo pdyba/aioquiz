@@ -19,7 +19,7 @@ _users = {}
 # noinspection PyBroadException PyMethodMayBeStatic
 class AuthenticateView(HTTPModelClassView):
     _cls = Users
-    _urls = '/api/authenticate'
+    _urls = '/api/auth/login'
 
     user_error = json(
         {'success': False, 'msg': 'Wrong user name or password'},
@@ -66,8 +66,8 @@ class AuthenticateView(HTTPModelClassView):
 class MagicAuthenticateView(HTTPModelClassView):
     _cls = Users
     _urls = [
-        '/api/magic_link',
-        '/api/magic_link/<magic_string>'
+        '/api/auth/magic_link',
+        '/api/auth/magic_link/<magic_string>'
     ]
 
     user_error = json(
@@ -221,11 +221,11 @@ class ChangePasswordView(HTTPModelClassView):
 # noinspection PyMethodMayBeStatic
 class LogOutView(HTTPModelClassView):
     _cls = Users
-    _urls = '/api/logout'
+    _urls = '/api/auth/logout'
 
     # noinspection PyUnusedLocal, PyMethodOverriding
     @user_required()
-    async def post(self, request, current_user):
+    async def get(self, request, current_user):
         if current_user:
             current_user.session_uuid = ''
             await current_user.update()
