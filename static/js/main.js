@@ -322,7 +322,7 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $injector, $ht
             "exercise": qwa.id,
             "status": "Done"
         };
-        MySwalHTTP.post('/api/exercise/', data)
+        MySwalHTTP.swal_post('/api/exercise/', data)
     }
 
     function new_answare(qwa) {
@@ -330,7 +330,7 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $injector, $ht
             "answare": qwa.answare,
             "exercise": qwa.id
         };
-        MySwalHTTP.put('/api/exercise/', data)
+        MySwalHTTP.swal_put('/api/exercise/', data)
     }
 }
 
@@ -886,7 +886,7 @@ function CreateQuizCtrl($scope, $location, $AuthenticationService, $injector, $h
     function create_quiz() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        MySwalHTTP.post('/api/quiz_manage', vm.lesson);
+        MySwalHTTP.swal_post('/api/quiz_manage', vm.lesson);
         vm.dataLoading = false;
     }
 }
@@ -1087,7 +1087,7 @@ function AdminConfigController($scope, $location, $AuthenticationService, $injec
 
     function save_config() {
         vm.dataLoading = true;
-        MySwalHTTP.post('/api/admin/config', vm.config);
+        MySwalHTTP.swal_post('/api/admin/config', vm.config);
         vm.dataLoading = false;
     }
 }
@@ -1112,7 +1112,7 @@ function AdminEmailController($scope, $location, $AuthenticationService, $inject
 
     function send_email(mail) {
         vm.dataLoading = true;
-        MySwalHTTP.post('/api/email', mail);
+        MySwalHTTP.swal_post('/api/email', mail);
         vm.dataLoading = false;
     }
 }
@@ -1137,7 +1137,7 @@ function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $injector
     function create_quiz() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        MySwalHTTP.post('/api/live_quiz_manage', vm.lesson);
+        MySwalHTTP.swal_post('/api/live_quiz_manage', vm.lesson);
         vm.dataLoading = false;
     }
 }
@@ -1419,7 +1419,7 @@ function NewQuestionController($scope, $location, $AuthenticationService, $injec
     function new_question() {
         vm.dataLoading = true;
         vm.n_question.users = $scope.globals.currentUser.id;
-        MySwalHTTP.post('/api/question', vm.n_question);
+        MySwalHTTP.swal_post('/api/question', vm.n_question);
         vm.dataLoading = false;
     }
 }
@@ -1438,7 +1438,7 @@ function NewLessonController($scope, $location, $AuthenticationService, $injecto
     function new_lesson() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        MySwalHTTP.post('/api/lessons', vm.lesson);
+        MySwalHTTP.swal_post('/api/lessons', vm.lesson);
         $location.path('/lessons');
         vm.dataLoading = false;
     }
@@ -1581,9 +1581,9 @@ app.factory('MySwalHTTP', MySwalHTTP);
 MySwalHTTP.$inject = ['$http', 'SweetAlert'];
 function MySwalHTTP($http, SweetAlert) {
     var service = {};
-    service.get = my_get;
-    service.post = my_post;
-    service.put = my_put;
+    service.swal_get = swal_get;
+    service.swal_post = swal_post;
+    service.swal_put = swal_put;
     service.err = simple_err;
     return service;
 
@@ -1609,7 +1609,7 @@ function MySwalHTTP($http, SweetAlert) {
         });
     }
 
-    function my_get(url) {
+    function swal_get(url) {
         $http.get(url)
             .then(
                 function (resp) {
@@ -1619,7 +1619,7 @@ function MySwalHTTP($http, SweetAlert) {
                 err(err.data.msg);
             });
     }
-    function my_post(url, data) {
+    function swal_post(url, data) {
         $http.post(url, data)
             .then(
                 function (resp) {
@@ -1629,7 +1629,7 @@ function MySwalHTTP($http, SweetAlert) {
                 err(err.data.msg);
             });
     }
-    function my_put(url, data) {
+    function swal_put(url, data) {
         $http.put(url, data)
             .then(
                 function (resp) {
@@ -1706,11 +1706,11 @@ function UserService($http, MySwalHTTP) {
     }
 
     function Create(user) {
-        return MySwalHTTP.post('/api/users/', user);
+        return MySwalHTTP.swal_post('/api/users/', user);
     }
 
     function Update(user) {
-        return MySwalHTTP.put('/api/users/', user);
+        return MySwalHTTP.swal_put('/api/users/', user);
     }
 
     function Delete(id) {
@@ -1749,7 +1749,7 @@ function UserService($http, MySwalHTTP) {
         });
     }
     function newPassword(user) {
-        MySwalHTTP.get('/api/admin/users/new_password/' + user.email)
+        MySwalHTTP.swal_get('/api/admin/users/new_password/' + user.email)
     }
 
     function makeActive(user) {
