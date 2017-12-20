@@ -42,6 +42,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "LiveQuizRunCtrl",
             controllerAs: 'vm'
         })
+        .when("/magic_link", {
+            templateUrl: "partials/home.html",
+            controller: "MagicLinkCtrl",
+            controllerAs: 'vm'
+        })
         .when("/overview_attendance/:id", {
             templateUrl: "partials/overview_attendance.html",
             controller: "OverviewAttendanceCtrl",
@@ -1243,6 +1248,7 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
 
     vm.login = login;
     vm.forgotPassword = forgotPassword;
+    vm.magicLink = magicLink;
 
     (function initController() {
         AuthenticationService.ClearCredentials();
@@ -1271,13 +1277,79 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
             closeOnConfirm: false
         }, function (value) {
             var data = {'email': value};
-            $http.post('/api/forgot_password', data).then(function (response) {
-                var txt = response.data.msg;
-                SweetAlert.swal({text: txt, title: ''});
+            SweetAlert.swal({
+                text: "in progress...",
+                title: '...',
+                showConfirmButton: false,
+                closeOnConfirm: false,
+                timer: 1
+            }, function () {
+                $http.post('/api/forgot_password', data).then(function (response) {
+                    var txt = response.data.msg;
+                    SweetAlert.swal({text: txt, title: ''});
+                })
             })
         });
     }
 
+    function magicLink() {
+        SweetAlert.swal({
+            title: "Magic Link",
+            text: "Please provide valid email",
+            element: "input",
+            type: "input",
+            showConfirmButton: true,
+            closeOnConfirm: false
+        }, function (value) {
+            var data = {'email': value};
+            SweetAlert.swal({
+                text: "in progress...",
+                title: '...',
+                showConfirmButton: false,
+                closeOnConfirm: false,
+                timer: 1
+            }, function () {
+                $http.post('/api/magic_link', data).then(function (response) {
+                    var txt = response.data.msg;
+                    SweetAlert.swal({text: txt, title: ''});
+                })
+            })
+        });
+    }
+
+}
+
+
+app.controller('MagicLinkCtrl', MagicLinkCtrl);
+MagicLinkCtrl.$inject = ['$rootScope', '$location', 'FlashService', '$injector', 'AuthenticationService', 'SweetAlert', '$http', '$routeParams'];
+function MagicLinkCtrl($scope, $location, $FlashService, $injector, AuthenticationService, SweetAlert, $http, $routeParams) {
+    $injector.invoke(PageCtrl, this, {
+        $scope: $scope,
+        $location: $location,
+        $AuthenticationService: AuthenticationService,
+        $FlashService: $FlashService
+    });
+    ml = $routeParams.ml;
+    AuthenticationService.ClearCredentials();
+    $http.get('/api/magic_link/' + ml).then(function (response) {
+        if (response.data.success) {
+            AuthenticationService.SetCredentials(response.data, response.data.session_uuid);
+            SweetAlert.swal({
+                text: "Logged in sucesfully",
+                title: 'Logged in',
+                type: 'success',
+                showConfirmButton: true,
+                timer: 1000
+            });
+        } else {
+            SweetAlert.swal({
+                text: response.data.msg,
+                title: 'Error using Magic link login',
+                type: 'error',
+                showConfirmButton: true
+            });
+        }
+    });
 }
 
 app.controller('RegisterController', RegisterController);
@@ -1907,7 +1979,7 @@ function run($rootScope, $location, $cookies, $http) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules', '/program', '/regconfirmed']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/about', '/', '/rules', '/program', '/regconfirmed', '/magic_link']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
         if (restrictedPage && !loggedIn) {
             $location.path('/');

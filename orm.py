@@ -369,6 +369,8 @@ class Table:
         """
         ALTER TABLE users ADD COLUMN lang character varying(20) NOT NULL DEFAULT 'pl';
         ALTER TABLE exercise_answare ADD COLUMN first_answare character varying(5000) NOT NULL DEFAULT '';
+        ALTER TABLE users ADD COLUMN magic_string character varying(50) NOT NULL DEFAULT '';
+        ALTER TABLE users ADD COLUMN magic_string_date timestamp;
         """
         pass
 
