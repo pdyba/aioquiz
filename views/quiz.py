@@ -3,11 +3,10 @@ import logging
 from json import dumps as jdumps
 
 from sanic.response import json
-from sanic.views import HTTPMethodView
 
 from views.utils import user_required
 from views.utils import get_user_name
-from views.utils import HTTPModelClass
+from views.utils import HTTPModelClassView
 
 from models import LiveQuiz
 from models import LiveQuizAnsware
@@ -20,8 +19,8 @@ from models import Users
 
 
 # noinspection PyBroadException
-class QuestionView(HTTPMethodView):
-    _cls = Users
+class QuestionView(HTTPModelClassView):
+    _cls = Question
     _urls = ['/api/question', '/api/question/<qid:int>']
 
     @user_required()
@@ -72,7 +71,7 @@ class QuestionView(HTTPMethodView):
 
 
 # noinspection PyBroadException
-class QuizManageView(HTTPMethodView):
+class QuizManageView(HTTPModelClassView):
     _cls = Users
     _urls = ['/api/quiz_manage', '/api/quiz_manage/<qid:int>']
 
@@ -96,8 +95,8 @@ class QuizManageView(HTTPMethodView):
 
 
 # noinspection PyBroadException
-class QuizView(HTTPMethodView):
-    _cls = Users
+class QuizView(HTTPModelClassView):
+    _cls = Quiz
     _urls = ['/api/quiz', '/api/quiz/<qid:int>']
 
     @user_required()
@@ -140,7 +139,7 @@ class QuizView(HTTPMethodView):
 
 
 # noinspection PyBroadException
-class LiveQuizManageView(HTTPMethodView):
+class LiveQuizManageView(HTTPModelClassView):
     _cls = Users
     _urls = ['/api/live_quiz_manage', '/api/live_quiz_manage/<qid:int>']
 
@@ -168,7 +167,7 @@ class LiveQuizManageView(HTTPMethodView):
 
 
 # noinspection PyBroadException
-class LiveQuizView(HTTPMethodView):
+class LiveQuizView(HTTPModelClassView):
     _cls = Users
     _urls = ['/api/live_quiz', '/api/live_quiz/<qid:int>']
 

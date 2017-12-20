@@ -4,7 +4,6 @@ import logging
 from uuid import uuid4
 
 from sanic.response import json
-from sanic.views import HTTPMethodView
 
 from orm import DoesNotExist
 from models import Absence
@@ -16,12 +15,12 @@ from models import Users
 from utils import hash_string
 
 from views.utils import user_required
-from views.utils import HTTPModelClass
+from views.utils import HTTPModelClassView
 
 
 # noinspection PyBroadException
-class LessonView(HTTPMethodView):
-    _cls = Users
+class LessonView(HTTPModelClassView):
+    _cls = Lesson
     _urls = ['/api/lessons', '/api/lessons/<qid:int>']
 
     @user_required()
@@ -52,8 +51,8 @@ class LessonView(HTTPMethodView):
 
 
 # noinspection PyBroadException
-class ExercisesView(HTTPMethodView):
-    _cls = Users
+class ExercisesView(HTTPModelClassView):
+    _cls = Exercise
     _urls = ['/api/exercise', '/api/exercise/<lid:int>']
 
     @user_required()
@@ -116,8 +115,8 @@ class ExercisesView(HTTPMethodView):
         })
 
 
-class AbsenceManagementView(HTTPMethodView):
-    _cls = Users
+class AbsenceManagementView(HTTPModelClassView):
+    _cls = Absence
     _urls = ['/api/absence', '/api/absence/<lid:int>']
 
     @user_required('admin')
@@ -204,8 +203,8 @@ class AbsenceManagementView(HTTPMethodView):
         return json(resp)
 
 
-class AbsenceView(HTTPMethodView):
-    _cls = Users
+class AbsenceView(HTTPModelClassView):
+    _cls = Absence
     _urls = ['/api/attendance', '/api/attendance/<lid:int>']
 
     @user_required()
@@ -249,7 +248,7 @@ class AbsenceView(HTTPMethodView):
 
 
 # noinspection PyBroadException, PyMethodMayBeStatic
-class AbsenceConfirmation(HTTPMethodView):
+class AbsenceConfirmation(HTTPModelClassView):
     _cls = Users
     _urls = ['/api/workshopabsence', '/api/workshopabsence/<uid>/<rhash>/<answer>']
 
@@ -310,7 +309,7 @@ class AbsenceConfirmation(HTTPMethodView):
             })
 
 
-class FeedbackView(HTTPMethodView):
+class FeedbackView(HTTPModelClassView):
     _cls = Users
     _urls = []
 
@@ -345,8 +344,8 @@ class FeedbackView(HTTPMethodView):
         pass
 
 
-class ExerciseOverview(HTTPMethodView):
-    _cls = Users
+class ExerciseOverview(HTTPModelClassView):
+    _cls = Exercise
     _urls = '/api/exercises_overview'
 
     @user_required('mentor')

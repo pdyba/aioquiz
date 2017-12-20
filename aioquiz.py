@@ -18,36 +18,7 @@ from exception_handlers import handle_500s
 from exception_handlers import handle_timeout
 
 import views
-from sanic.views import HTTPMethodView
-from views.utils import HTTPModelClass
-# from views import AbsenceView
-# from views import AbsenceManagementView
-# from views import AbsenceConfirmation
-# from views import AdminForgotPasswordView
-# from views import ActivationView
-# from views import AuthenticateView
-# from views import ChangeActiveView
-# from views import ChangeMentorView
-# from views import ChangePasswordView
-# from views import ConfigView
-# from views import EmailView
-# from views import ExercisesView
-# from views import ExerciseOverview
-# from views import ForgotPasswordView
-# from views import INeedHelpView
-# from views import LessonView
-# from views import LiveQuizManageView
-# from views import LiveQuizView
-# from views import MakeOrganiserView
-# from views import QuestionView
-# from views import QuizManageView
-# from views import QuizView
-# from views import RegistrationActiveView
-# from views import ReviewAttendeesView
-# from views import ReviewRulesView
-# from views import SeatView
-# from views import UserView
-# from views import UserStatsView
+from views.utils import HTTPModelClassView
 
 from config import SERVER
 
@@ -84,8 +55,9 @@ count_urls = 0
 for member in getmembers(views):
     try:
         name, view = member
-        if not issubclass(view, HTTPMethodView) or view == HTTPMethodView or view == HTTPModelClass:
-            print(name, 'skipping')
+        if not issubclass(view, HTTPModelClassView) or view == HTTPModelClassView:
+            if 'View' in name:
+                print(name, 'skipping')  # TODO: should be yellow
             continue
     except:
         continue
@@ -100,88 +72,18 @@ for member in getmembers(views):
             count_cls += 1
             count_urls += 1
         else:
-            print(view._get_name())
-            print(view._urls)
+            print("Something is missing: ", view._get_name(), view._urls)
     except AttributeError:
-        print(view, 'no URLS provided')
+        print(view, 'no URLS provided')  # TODO: should be in red
 
 print('Using {} classes with {} urls'.format(count_cls, count_urls))
-# app.add_route(UserView.as_view(), '/api/user/')
-# app.add_route(UserView.as_view(), '/api/user/<id_name>')
-# app.add_route(AuthenticateView.as_view(), '/api/authenticate')
-#
-# app.add_route(AuthenticateView.as_view(), '/api/magic_link')
-# app.add_route(AuthenticateView.as_view(), '/api/magic_link/<magic_string>')
-#
-# app.add_route(QuestionView.as_view(), '/api/question')
-# app.add_route(QuestionView.as_view(), '/api/question/<qid:int>')
-#
-# app.add_route(LessonView.as_view(), '/api/lessons')
-# app.add_route(LessonView.as_view(), '/api/lessons/<qid:int>')
-#
-# app.add_route(QuizView.as_view(), '/api/quiz')
-# app.add_route(QuizView.as_view(), '/api/quiz/<qid:int>')
-#
-# app.add_route(QuizManageView.as_view(), '/api/quiz_manage')
-# app.add_route(QuizManageView.as_view(), '/api/quiz_manage/<qid:int>')
-#
-# app.add_route(LiveQuizView.as_view(), '/api/live_quiz')
-# app.add_route(LiveQuizView.as_view(), '/api/live_quiz/<qid:int>')
-#
-# app.add_route(LiveQuizManageView.as_view(), '/api/live_quiz_manage')
-# app.add_route(LiveQuizManageView.as_view(), '/api/live_quiz_manage/<qid:int>')
-#
-# app.add_route(ReviewAttendeesView.as_view(), '/api/review_attendees')
-#
-# app.add_route(EmailView.as_view(), '/api/email')
-#
-# app.add_route(ActivationView.as_view(), '/api/activation/<uid:int>/<acode>')
-#
-# app.add_route(MakeOrganiserView.as_view(), '/api/make_organiser')
-# app.add_route(ChangeMentorView.as_view(), '/api/change_mentor')
-# app.add_route(ChangeActiveView.as_view(), '/api/change_active')
-#
-# app.add_route(ReviewRulesView.as_view(), '/api/review_rules')
-#
-# app.add_route(UserStatsView.as_view(), '/api/users_stats')
-#
-# app.add_route(ExerciseOverview.as_view(), '/api/exercises_overview')
-#
-# app.add_route(SeatView.as_view(), '/api/seats')
-# app.add_route(SeatView.as_view(), '/api/seats/<uid:int>')
-#
-# app.add_route(ConfigView.as_view(), '/api/admin_config')
-#
-# app.add_route(INeedHelpView.as_view(), '/api/i_need_help')
-#
-# app.add_route(RegistrationActiveView.as_view(), '/api/reg_active')
-#
-# app.add_route(ForgotPasswordView.as_view(), '/api/forgot_password')
-# app.add_route(AdminForgotPasswordView.as_view(), '/api/admin_forgot_password/<email>')
-# app.add_route(ChangePasswordView.as_view(), '/api/change_password')
-#
-# app.add_route(ExercisesView.as_view(), '/api/exercise')
-# app.add_route(ExercisesView.as_view(), '/api/exercise/<lid:int>')
-#
-# app.add_route(AbsenceManagementView.as_view(), '/api/absence')
-# app.add_route(AbsenceManagementView.as_view(), '/api/absence/<lid:int>')
-#
-# app.add_route(AbsenceView.as_view(), '/api/attendance')
-# app.add_route(AbsenceView.as_view(), '/api/attendance/<lid:int>')
-#
-# app.add_route(AbsenceConfirmation.as_view(), '/api/workshopabsence')
-#
-# app.add_route(
-#     AbsenceConfirmation.as_view(),
-#     '/api/workshopabsence/<uid>/<rhash>/<answer>'
-# )
 
 app.error_handler.add(ServerError, handle_500s)
 app.error_handler.add(NotFound, handle_404s)
 app.error_handler.add(RequestTimeout, handle_timeout)
 
 if __name__ == "__main__":
-    print('http://{}:{}'.format(SERVER.IP, port))
+    print('http://{}:{}'.format(SERVER.IP, port))  # TODO: should be in green
     app.run(
         host=SERVER.IP,
         port=port,

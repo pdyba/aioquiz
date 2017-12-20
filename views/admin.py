@@ -3,7 +3,6 @@ import asyncio
 import logging
 
 from sanic.response import json
-from sanic.views import HTTPMethodView
 
 from config import ALL_EMAILS
 from config import MAINCONFIG
@@ -11,12 +10,12 @@ from utils import send_email
 from utils import hash_string
 
 from views.utils import user_required
-from views.utils import HTTPModelClass
+from views.utils import HTTPModelClassView
 from models import Users
 from models import Config
 
 
-class EmailView(HTTPMethodView):
+class EmailView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/email'
 
@@ -100,7 +99,7 @@ class EmailView(HTTPMethodView):
         return json({'success': True, 'count': len(users)})
 
 
-class UserStatsView(HTTPMethodView):
+class UserStatsView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/users_stats'
 
@@ -150,8 +149,7 @@ class UserStatsView(HTTPMethodView):
         return json(resp, sort_keys=True)
 
 
-class ReviewRulesView(HTTPMethodView):
-    _cls = Users
+class ReviewRulesView(HTTPModelClassView):
     _urls = '/api/review_rules'
 
     @user_required('organiser')
@@ -160,7 +158,7 @@ class ReviewRulesView(HTTPMethodView):
         return json(rules)
 
 
-class ConfigView(HTTPMethodView):
+class ConfigView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/i_need_help'
 
@@ -189,8 +187,7 @@ class ConfigView(HTTPMethodView):
 
 
 # noinspection PyMethodMayBeStatic
-class RegistrationActiveView(HTTPMethodView):
-    _cls = Users
+class RegistrationActiveView(HTTPModelClassView):
     _urls = '/api/reg_active'
 
     async def get(self, _):

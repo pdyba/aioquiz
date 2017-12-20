@@ -5,7 +5,6 @@ import logging
 from asyncpg import UniqueViolationError
 from sanic.response import json
 from sanic.response import redirect
-from sanic.views import HTTPMethodView
 
 from config import REGEMAIL
 from orm import DoesNotExist
@@ -17,7 +16,7 @@ from utils import send_email
 
 from views.utils import user_required
 from views.utils import get_user_name
-from views.utils import HTTPModelClass
+from views.utils import HTTPModelClassView
 
 from models import Absence
 from models import ExerciseAnsware
@@ -30,7 +29,7 @@ from models import UserReview
 
 
 # noinspection PyBroadException
-class UserView(HTTPMethodView):
+class UserView(HTTPModelClassView):
     _cls = Users
     _urls = ['/api/user/', '/api/user/<id_name>']
 
@@ -155,7 +154,7 @@ class UserView(HTTPMethodView):
         return json({'success': True})
 
 
-class ReviewAttendeesView(HTTPMethodView):
+class ReviewAttendeesView(HTTPModelClassView):
     _cls = Users
     _urls = ['/api/review_attendees']
 
@@ -210,7 +209,7 @@ class ReviewAttendeesView(HTTPMethodView):
             return json({'success': False}, status=500)
 
 
-class ActivationView(HTTPMethodView):
+class ActivationView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/activation/<uid:int>/<acode>'
 
@@ -223,7 +222,7 @@ class ActivationView(HTTPMethodView):
         return json({'success': False, 'reson': 'wrong token'})
 
 
-class MakeOrganiserView(HTTPMethodView):
+class MakeOrganiserView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/make_organiser'
 
@@ -238,7 +237,7 @@ class MakeOrganiserView(HTTPMethodView):
         return json({'success': False, 'reson': 'wrong token'})
 
 
-class ChangeMentorView(HTTPMethodView):
+class ChangeMentorView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/change_mentor'
 
@@ -253,7 +252,7 @@ class ChangeMentorView(HTTPMethodView):
         return json({'success': False, 'msg': 'wrong token'})
 
 
-class ChangeActiveView(HTTPMethodView):
+class ChangeActiveView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/change_active'
 
@@ -268,7 +267,7 @@ class ChangeActiveView(HTTPMethodView):
         return json({'success': False, 'msg': 'wrong token'})
 
 
-class SeatView(HTTPMethodView):
+class SeatView(HTTPModelClassView):
     _cls = None
     _urls = ['/api/seats', '/api/seats/<uid:int>']
 
@@ -339,7 +338,7 @@ class SeatView(HTTPMethodView):
         )
 
 
-class INeedHelpView(HTTPMethodView):
+class INeedHelpView(HTTPModelClassView):
     _cls = Users
     _urls = []
 

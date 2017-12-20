@@ -44,7 +44,7 @@ async def get_user_name(uid):
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
-class HTTPModelClass(HTTPMethodView):
+class HTTPModelClassView(HTTPMethodView):
     _cls = None
 
     @abstractproperty
@@ -67,7 +67,7 @@ class HTTPModelClass(HTTPMethodView):
                 models.append(await quiz.to_dict())
             return json(models)
 
-    async def post(self, request, current_user):
+    async def post(self, request):
         try:
             req = request.json
             model = self._cls(**req)

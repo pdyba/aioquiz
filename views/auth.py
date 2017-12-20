@@ -3,11 +3,10 @@ from datetime import datetime
 import logging
 
 from sanic.response import json
-from sanic.views import HTTPMethodView
 
 from orm import DoesNotExist
 from views.utils import user_required
-from views.utils import HTTPModelClass
+from views.utils import HTTPModelClassView
 from models import Users
 
 from utils import hash_string
@@ -18,7 +17,7 @@ _users = {}
 
 
 # noinspection PyBroadException PyMethodMayBeStatic
-class AuthenticateView(HTTPMethodView):
+class AuthenticateView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/authenticate'
 
@@ -64,24 +63,36 @@ class AuthenticateView(HTTPMethodView):
 
 
 # noinspection PyMethodMayBeStatic
-class MagicAuthenticateView(HTTPMethodView):
+class MagicAuthenticateView(HTTPModelClassView):
     _cls = Users
-    _urls = ['/api/magic_link', '/api/magic_link/<magic_string>']
+    _urls = [
+        '/api/magic_link',
+        '/api/magic_link/<magic_string>'
+    ]
 
     user_error = json(
         {'success': False, 'msg': 'Wrong user name or password'},
-        status=404
     )
 
-    # noinspection PyUnusedLocal
-    async def get(self, request, magic_string='xxx'):
+    async def get(self, request, magic_string=''):
+        if not magic_string or len(magic_string) < 32:
+            return json(
+                {'success': False, 'msg': 'Invalid Magic Link'},
+            )
         try:
-            user = await Users.get_first_by_many_field_value(magic_string=magic_string)
+            user = await Users.get_first('magic_string', magic_string)
         except DoesNotExist:
             return json(
                 {'success': False, 'msg': 'Wrong Magic Link'},
-                status=404
             )
+        if (datetime.utcnow() - user.magic_string_date).total_seconds() > 300:
+            return json(
+                {'success': False, 'msg': 'Link is only active for 5 minutes.'},
+            )
+        user.magic_string = " "
+        user.session_uuid = create_uuid()
+        user.last_login = datetime.utcnow()
+        await user.update()
         return json({
             'success': True,
             'admin': user.admin,
@@ -96,19 +107,24 @@ class MagicAuthenticateView(HTTPMethodView):
             'confirmation': user.confirmation
         })
 
-    # noinspection PyBroadException
     async def post(self, request):
         try:
             req = request.json
+            http_s = request.scheme
             try:
                 user = await Users.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
                 return json({'msg': 'wrong email or user does not exists'})
             await user.set_magic_string()
             await user.update()
-            magic_link = "Click on the link to login: http:\\\\{server}\{mlink}".format(
-                    mlink=user.magic_string,
-                    server=request.host
+            magic_link = """
+            Click on the link to login:
+
+            {http_s}://{server}/#/magic_link?ml={mlink}
+            """.format(
+                http_s=http_s,
+                mlink=user.magic_string,
+                server=request.host
             )
             resp = await send_email(
                 recipients=[user.email],
@@ -127,7 +143,7 @@ class MagicAuthenticateView(HTTPMethodView):
 
 
 # noinspection PyMethodMayBeStatic
-class ForgotPasswordView(HTTPMethodView):
+class ForgotPasswordView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/forgot_password'
 
@@ -160,7 +176,7 @@ class ForgotPasswordView(HTTPMethodView):
 
 
 # noinspection PyMethodMayBeStatic
-class AdminForgotPasswordView(HTTPMethodView):
+class AdminForgotPasswordView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/admin_forgot_password/<email>'
 
@@ -181,10 +197,11 @@ class AdminForgotPasswordView(HTTPMethodView):
 
 
 # noinspection PyBroadException PyMethodMayBeStatic
-class ChangePasswordView(HTTPMethodView):
+class ChangePasswordView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/change_password'
 
+    # noinspection PyMethodOverriding
     @user_required()
     async def post(self, request, current_user):
         try:
@@ -193,20 +210,20 @@ class ChangePasswordView(HTTPMethodView):
                 if req['new_password'] == req['new_password_2']:
                     await current_user.set_password(req['new_password'])
                     await current_user.update()
-                    return json({"success": True, "msg": "You have Successfully changed password"})
+                    return json({"success": True, "msg": "You have successfully changed password"})
                 return json({"success": False, "msg": "You provided different new passwords"})
             return json({"success": False, "msg": "You provided wrong old password"})
         except:
             logging.exception('authentication.post')
-        return json({'msg': 'internal error sorry please let us now', "success": False})
+        return json({'msg': 'Sorry, internal error. Please let us now!', "success": False})
 
 
 # noinspection PyMethodMayBeStatic
-class LogOutView(HTTPMethodView):
+class LogOutView(HTTPModelClassView):
     _cls = Users
-    _urls = []
+    _urls = '/api/logout'
 
-    # noinspection PyUnusedLocal
+    # noinspection PyUnusedLocal, PyMethodOverriding
     @user_required()
     async def post(self, request, current_user):
         if current_user:
