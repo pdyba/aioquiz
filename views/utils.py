@@ -1,4 +1,5 @@
-# !/usr/bin/python3.5
+#!/usr/bin/env python3.5
+# encoding: utf-8
 from functools import wraps
 import logging
 from abc import abstractproperty

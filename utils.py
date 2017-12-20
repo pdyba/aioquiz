@@ -1,4 +1,5 @@
-# !/usr/bin/python3.5
+#!/usr/bin/env python3.5
+# encoding: utf-8
 from email.mime.text import MIMEText
 from functools import wraps
 import hashlib

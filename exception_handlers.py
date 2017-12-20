@@ -1,4 +1,10 @@
+#!/usr/bin/env python3.5
+# encoding: utf-8
 from sanic.response import json
+
+from sanic.exceptions import NotFound
+from sanic.exceptions import RequestTimeout
+from sanic.exceptions import ServerError
 
 
 def handle_500s(request, exception):
@@ -20,3 +26,10 @@ def handle_timeout(request, exception):
         {'msg': "I have been waiting too long sorry"},
         status=408
     )
+
+
+def add_exception_handlers(app):
+    app.error_handler.add(ServerError, handle_500s)
+    app.error_handler.add(NotFound, handle_404s)
+    app.error_handler.add(RequestTimeout, handle_timeout)
+    return app

@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.5
 # encoding: utf-8
 import asyncio
 from datetime import datetime
 import os
 import random
 import shutil
-import json
 import string
 import types
 

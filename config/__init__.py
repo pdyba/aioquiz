@@ -1,10 +1,12 @@
+#!/usr/bin/env python3.5
+# encoding: utf-8
 try:
     from config.config_dev import *
-    print('using dev config')
+    print('using DEV config')
 except ImportError:
     try:
         from config.config_prod import *
-        print('using prod config')
+        print('using PROD config')
     except ImportError:
         from config.template import *
 except Exception as err:

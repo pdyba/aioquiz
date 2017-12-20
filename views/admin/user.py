@@ -1,4 +1,5 @@
-# !/usr/bin/python3.5
+#!/usr/bin/env python3.5
+# encoding: utf-8
 from collections import defaultdict
 
 from sanic.response import json

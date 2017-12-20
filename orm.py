@@ -1,4 +1,5 @@
-# !/usr/bin/python3.5
+#!/usr/bin/env python3.5
+# encoding: utf-8
 from abc import abstractmethod
 from datetime import datetime
 import json

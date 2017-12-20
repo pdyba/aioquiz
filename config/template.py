@@ -1,4 +1,7 @@
+#!/usr/bin/env python3.5
+# encoding: utf-8
 DEFAULT_USER = 1
+
 
 class SERVER:
     IP = '0.0.0.0'
@@ -6,6 +9,9 @@ class SERVER:
     PORT_HTTPS = 443
     DEBUG = False
     WORKERS = 1
+    # USE absolute path :)
+    CERT = "./cert.pem"
+    PRIVKEY = "./privkey.pem"
 
 
 class EMAIL:
@@ -23,9 +29,9 @@ class DB:
 
 
 class REGEMAIL:
-    '''
+    """
     move to DB
-    '''
+    """
     TEXT_PL = """
     Cześć {name}!
     Dziękujemy za rejestrację na warsztat weekendowy PyLove.org w Poznaniu w dniach 23-24 września.
@@ -59,9 +65,9 @@ class REGEMAIL:
 
 
 class MAINCONFIG:
-    '''
+    """
     move to DB
-    '''
+    """
     CIRITERIA = """
     how we should judge
     """
