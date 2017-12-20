@@ -579,12 +579,12 @@ class ChangePasswordView(HTTPMethodView):
                 if req['new_password'] == req['new_password_2']:
                     await current_user.set_password(req['new_password'])
                     await current_user.update()
-                    return json({"success": True, "msg": "You have Successfully changed password"})
+                    return json({"success": True, "msg": "You have successfully changed password"})
                 return json({"success": False, "msg": "You provided different new passwords"})
             return json({"success": False, "msg": "You provided wrong old password"})
         except:
             logging.exception('authentication.post')
-        return json({'msg': 'internal error sorry please let us now', "success": False})
+        return json({'msg': 'Sorry, internal error. Please let us now!', "success": False})
 
 
 class LogOutView(HTTPMethodView):

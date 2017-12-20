@@ -1336,7 +1336,7 @@ function MagicLinkCtrl($scope, $location, $FlashService, $injector, Authenticati
             AuthenticationService.SetCredentials(response.data, response.data.session_uuid);
             SweetAlert.swal({
                 text: "Logged in sucesfully",
-                title: 'Loged in',
+                title: 'Logged in',
                 type: 'success',
                 showConfirmButton: true,
                 timer: 1000

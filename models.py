@@ -13,9 +13,9 @@ from orm import Integer
 from orm import String
 from orm import Table
 
+from utils import create_uuid
 from utils import hash_string
 from utils import safe_del_key
-from utils import create_uuid
 
 
 class Question(Table):
