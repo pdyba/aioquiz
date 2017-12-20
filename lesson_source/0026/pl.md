@@ -136,7 +136,7 @@ Może być ich dowolna liczba.
     :::python3
     def test_kwargs(klucz="brak", **kwargs):
         print("klucz: {}".format(klucz))
-        for key, val in args.items():
+        for key, val in kwargs.items():
             print("another kwarg {}: {}".format(key, val))
 
     test_kwargs(foo=bar, python=test)
