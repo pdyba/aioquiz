@@ -1,15 +1,20 @@
 #!/usr/bin/env python3.5
 # encoding: utf-8
 from collections import defaultdict
+import logging
 
 from sanic.response import json
+
+from models import Users
+from models import UserReview
+
+from orm import DoesNotExist
+
+from utils import create_uuid
 
 from views.utils import get_user_name
 from views.utils import HTTPModelClassView
 from views.utils import user_required
-
-from models import Users
-from models import UserReview
 
 
 class SetOrganiserView(HTTPModelClassView):
@@ -112,3 +117,23 @@ class ReviewAttendeesView(HTTPModelClassView):
             logging.exception('review_put')
             return json({'success': False}, status=500)
 
+
+# noinspection PyMethodMayBeStatic
+class AdminForgotPasswordView(HTTPModelClassView):
+    _cls = Users
+    _urls = '/api/admin/users/new_password/<email>'
+
+    # noinspection PyUnusedLocal
+    @user_required('admin')
+    async def get(self, request, current_user, email):
+        try:
+            user = await Users.get_first_by_many_field_value(email=email)
+        except DoesNotExist:
+            logging.error(email)
+            user = False
+        if not user:
+            return json({'msg': 'wrong email or user does not exists'})
+        password = create_uuid()
+        await user.set_password(password)
+        await user.update()
+        return json({"success": True, "msg": password})

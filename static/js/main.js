@@ -1250,9 +1250,7 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
     vm.forgotPassword = forgotPassword;
     vm.magicLink = magicLink;
 
-    (function initController() {
-        AuthenticationService.ClearCredentials();
-    })();
+    AuthenticationService.ClearCredentials();
 
     function login() {
         vm.dataLoading = true;
@@ -1284,7 +1282,7 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
                 closeOnConfirm: false,
                 timer: 1
             }, function () {
-                $http.post('/api/forgot_password', data).then(function (response) {
+                $http.post('api/user/password_forgot', data).then(function (response) {
                     var txt = response.data.msg;
                     SweetAlert.swal({text: txt, title: ''});
                 })
@@ -1484,7 +1482,7 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
                     closeOnReject: false
                 }, function (new_password_2) {
                     change_pass.new_password_2 = new_password_2;
-                    $http.post('api/change_password', change_pass).then(function (response) {
+                    $http.post('api/user/password_change', change_pass).then(function (response) {
                         if (response.data.success) {
                             SweetAlert.swal({
                             text: response.data.msg,
@@ -1705,16 +1703,71 @@ function AuthenticationService($http, $cookies, $rootScope, $timeout, UserServic
     }
 
     function ClearCredentials() {
-        $http.get('/api/auth/logout');
+        $http.get('/api/auth/logout').catch(function (resp){});
         $rootScope.globals = {};
         $cookies.remove('globals');
         $http.defaults.headers.common.Authorization = 'Basic';
     }
 }
 
+
+app.factory('MySwalHTTP', MySwalHTTP);
+MySwalHTTP.$inject = ['$http', 'SweetAlert'];
+function MySwalHTTP($http, SweetAlert) {
+    var service = {};
+    service.get = my_get;
+    service.post = my_post;
+    return service;
+
+    function parse_resp(response) {
+        if (response.data.success) {
+            console.log('yey_2');
+            SweetAlert.swal({
+                text: response.data.msg,
+                title: 'Success',
+                type: 'success',
+                showConfirmButton: true
+            });
+        } else {
+            an_err(response.data.msg);
+        }
+    }
+
+    function an_err(msg) {
+        SweetAlert.swal({
+            title: "Error",
+            text: msg,
+            type: "error",
+            showConfirmButton: true
+        });
+    }
+
+    function my_get(url) {
+        console.log('yey');
+        $http.get(url)
+            .then(
+                function (resp) {
+                    parse_resp(resp);
+                })
+            .catch(function (err) {
+                err(err.data.msg);
+            });
+    }
+    function my_post(url, data) {
+        $http.post(url, data)
+            .then(
+                function (resp) {
+                    parse_resp(resp);
+                })
+            .catch(function (err) {
+                err(err.data.msg);
+            });
+    }
+}
+
 app.factory('UserService', UserService);
-UserService.$inject = ['$http', 'FlashService', 'SweetAlert'];
-function UserService($http, $FlashService, SweetAlert) {
+UserService.$inject = ['$http', 'FlashService', 'SweetAlert', 'MySwalHTTP'];
+function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
     var service = {};
 
     service.GetAll = GetAll;
@@ -1822,17 +1875,7 @@ function UserService($http, $FlashService, SweetAlert) {
         });
     }
     function newPassword(user) {
-        $http.get('/api/admin_forgot_password/' + user.email).then(function (response) {
-            if (response.data.success) {
-                SweetAlert.swal({
-                title: "New Password",
-                text: response.data.new_pass,
-                showConfirmButton: true
-            })
-            } else {
-                $FlashService.Error(response.data.msg);
-            }
-        });
+        MySwalHTTP.get('/api/admin/users/new_password/' + user.email)
     }
 
     function makeActive(user) {

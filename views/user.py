@@ -11,7 +11,7 @@ from config import REGEMAIL
 from orm import DoesNotExist
 from models import Users
 from models import Config
-from utils import get_args
+from utils import get_args, hash_string
 from utils import create_uuid
 from utils import send_email
 
@@ -287,4 +287,59 @@ class SeatView(HTTPModelClassView):
             },
             sort_keys=True
         )
+
+
+# noinspection PyMethodMayBeStatic
+class ForgotPasswordView(HTTPModelClassView):
+    _cls = Users
+    _urls = 'api/user/password_forgot'
+
+    # noinspection PyUnusedLocal
+    async def post(self, request):
+        # noinspection PyBroadException
+        try:
+            req = request.json
+            try:
+                user = await Users.get_first_by_many_field_value(email=req.get('email'))
+            except DoesNotExist:
+                return json({'msg': 'wrong email or user does not exists'})
+            password = create_uuid()
+            await user.set_password(password)
+            await user.update()
+            resp = await send_email(
+                recipients=[user.email],
+                text=password,
+                subject="Your new PyLove password"
+            )
+            if resp:
+                return json({
+                    'success': True,
+                    'msg': 'Check Your e-mail for new password'
+                })
+            return json({'success': False, 'msg': 'error sending e-mail'})
+        except:
+            logging.exception('err user.post')
+        return json({'msg': 'wrong email or user does not exists'}, status=404)
+
+
+# noinspection PyBroadException PyMethodMayBeStatic
+class ChangePasswordView(HTTPModelClassView):
+    _cls = Users
+    _urls = '/api/user/password_change'
+
+    # noinspection PyMethodOverriding
+    @user_required()
+    async def post(self, request, current_user):
+        try:
+            req = request.json
+            if hash_string(req.get('password', 'x')) == current_user.password:
+                if req['new_password'] == req['new_password_2']:
+                    await current_user.set_password(req['new_password'])
+                    await current_user.update()
+                    return json({"success": True, "msg": "You have successfully changed password"})
+                return json({"success": False, "msg": "You provided different new passwords"})
+            return json({"success": False, "msg": "You provided wrong old password"})
+        except:
+            logging.exception('authentication.post')
+        return json({'msg': 'Sorry, internal error. Please let us now!', "success": False})
 
