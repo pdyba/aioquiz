@@ -205,8 +205,8 @@ app.config(['$locationProvider', function ($locationProvider) {
 }]);
 
 app.controller('PageCtrl', PageCtrl);
-PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', 'SweetAlert', '$http'];
-function PageCtrl($scope, $location, $AuthenticationService, $FlashService, SweetAlert, $http) {
+PageCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'SweetAlert', '$http'];
+function PageCtrl($scope, $location, $AuthenticationService, SweetAlert, $http) {
     if ($scope.globals.currentUser) {
         user_seat = $scope.globals.currentUser.seat;
         if (!user_seat) {
@@ -297,14 +297,13 @@ app.component("exercises", {
 });
 
 app.controller('ExercisesCtrl', ExercisesCtrl);
-ExercisesCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$routeParams', 'SweetAlert'];
-function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $routeParams, SweetAlert) {
+ExercisesCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$routeParams', 'MySwalHTTP'];
+function ExercisesCtrl($scope, $location, $AuthenticationService, $injector, $http, $routeParams, MySwalHTTP) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.exercises = [];
     vm.answare = answare;
@@ -315,7 +314,7 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
             vm.exercises = response.data;
         }
     ).catch(function (response) {
-        $FlashService.Error(response.data.msg);
+        MySwalHTTP.err(response.data.msg);
     });
     function answare(qwa) {
         data = {
@@ -323,61 +322,27 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $FlashService,
             "exercise": qwa.id,
             "status": "Done"
         };
-        $http.post('/api/exercise/', data).then(
-            function (response) {
-                vm.resp = response.data.msg;
-                if (response.data.success) {
-                    mtype = "success";
-                } else {
-                    mtype = "error";
-                }
-                SweetAlert.swal({
-                    title: mtype,
-                    text: vm.resp,
-                    type: mtype
-                });
-                qwa.answared = true
-            }
-        ).catch(function (response) {
-            $FlashService.Error(response);
-        });
+        MySwalHTTP.post('/api/exercise/', data)
     }
+
     function new_answare(qwa) {
         data = {
             "answare": qwa.answare,
-            "exercise": qwa.id,
+            "exercise": qwa.id
         };
-        $http.put('/api/exercise/', data).then(
-            function (response) {
-                vm.resp = response.data.msg;
-                if (response.data.success) {
-                    mtype = "success";
-                } else {
-                    mtype = "error";
-                }
-                SweetAlert.swal({
-                    title: mtype,
-                    text: vm.resp,
-                    type: mtype
-                });
-                qwa.answared = true
-            }
-        ).catch(function (response) {
-            $FlashService.Error(response);
-        });
+        MySwalHTTP.put('/api/exercise/', data)
     }
 }
 
 
 app.controller('AboutCtrl', AboutCtrl);
-AboutCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService'];
-function AboutCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService) {
+AboutCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', 'UserService'];
+function AboutCtrl($scope, $location, $AuthenticationService, $injector, $UserService) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
 
     function loadAllUsers() {
@@ -393,14 +358,13 @@ function AboutCtrl($scope, $location, $AuthenticationService, $FlashService, $in
 }
 
 app.controller('ReviewAttendeeController', ReviewAttendeeController);
-ReviewAttendeeController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', 'UserService', '$http'];
-function ReviewAttendeeController($scope, $location, $AuthenticationService, $FlashService, $injector, $UserService, $http) {
+ReviewAttendeeController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', 'UserService', '$http'];
+function ReviewAttendeeController($scope, $location, $AuthenticationService, $injector, $UserService, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
         $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
     });
     vm.filter = 'notrated';
     vm.rules = [];
@@ -418,7 +382,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         };
         $http.post('/api/admin/user/review/', data).then(
             function (response) {
-                $FlashService.SuccessNoReload('Score Saved', false);
                 user.score = user.score + user.new_review;
                 if (vm.filter === 'notrated' || vm.filter === 'notratedbyme') {
                     user.show = false;
@@ -438,7 +401,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         };
         $http.put('/api/admin/user/review/', data).then(
             function (response) {
-                $FlashService.SuccessNoReload('Score Accepted', false);
                 user.accept = true;
             }
         );
@@ -451,7 +413,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         };
         $http.put('/api/admin/user/review/', data).then(
             function (response) {
-                $FlashService.SuccessNoReload('Score Accepted', false);
                 user.accept = false;
             }
         );
@@ -461,7 +422,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
         var sum = 0;
         var count = 0;
         if (obj.lenght > 200) {
-            console.log('using 200');
             return obj[200].score;
         }
         obj.forEach(function (user, index) {
@@ -470,7 +430,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
                 count += 1;
             }
         });
-        console.log('using avg');
         return sum / count;
     }
 
@@ -526,14 +485,13 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $Fl
 }
 
 app.controller('LessonsCtrl', LessonsCtrl);
-LessonsCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+LessonsCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http'];
+function LessonsCtrl($scope, $location, $AuthenticationService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     $http.get('/api/lessons').then(
         function (response) {
@@ -554,14 +512,13 @@ function LessonsCtrl($scope, $location, $AuthenticationService, $FlashService, $
 }
 
 app.controller('LessonMngtController', LessonMngtController);
-LessonMngtController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'SweetAlert'];
-function LessonMngtController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, SweetAlert) {
+LessonMngtController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', 'SweetAlert'];
+function LessonMngtController($scope, $location, $AuthenticationService, $injector, $http, SweetAlert) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.activate = activate;
     vm.deactivate = deactivate;
@@ -615,14 +572,13 @@ function LessonMngtController($scope, $location, $AuthenticationService, $FlashS
 
 
 app.controller('LessonCtrl', LessonCtrl);
-LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LessonCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+LessonCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http'];
+function LessonCtrl($scope, $location, $AuthenticationService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     $http.get('/api/lessons').then(
         function (response) {
@@ -632,14 +588,13 @@ function LessonCtrl($scope, $location, $AuthenticationService, $FlashService, $i
 }
 
 app.controller('QuizCtrl', QuizCtrl);
-QuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function QuizCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+QuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http'];
+function QuizCtrl($scope, $location, $AuthenticationService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     $http.get('/api/quiz').then(
         function (response) {
@@ -653,14 +608,13 @@ function QuizCtrl($scope, $location, $AuthenticationService, $FlashService, $inj
 }
 
 app.controller('QuestionListCtrl', QuestionListCtrl);
-QuestionListCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function QuestionListCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+QuestionListCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http'];
+function QuestionListCtrl($scope, $location, $AuthenticationService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
         $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
     });
     $http.get('/api/question').then(
         function (response) {
@@ -670,14 +624,13 @@ function QuestionListCtrl($scope, $location, $AuthenticationService, $FlashServi
 }
 
 app.controller('LiveQuizCtrl', LiveQuizCtrl);
-LiveQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LiveQuizCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+LiveQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http'];
+function LiveQuizCtrl($scope, $location, $AuthenticationService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     $http.get('/api/live_quiz').then(
         function (response) {
@@ -697,14 +650,13 @@ function LiveQuizCtrl($scope, $location, $AuthenticationService, $FlashService, 
 
 
 app.controller('ReviewCtrl', ReviewCtrl);
-ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route'];
-function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route) {
+ReviewCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$route'];
+function ReviewCtrl($scope, $location, $AuthenticationService, $injector, $http, $route) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/question?review=true').then(
@@ -721,7 +673,6 @@ function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $i
         $http.put('/api/question/' + id, data).then(
             function (response) {
                 vm.questions = response.data;
-                $FlashService.Success('Question accepted', true);
                 $route.reload();
             }
         );
@@ -736,7 +687,6 @@ function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $i
         $http.put('/api/question/' + id, data).then(
             function (response) {
                 vm.questions = response.data;
-                $FlashService.Success('Question Rejected', true);
                 $route.reload();
             }
         );
@@ -745,14 +695,13 @@ function ReviewCtrl($scope, $location, $AuthenticationService, $FlashService, $i
 
 
 app.controller('ProfileCtrl', ProfileCtrl);
-ProfileCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function ProfileCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+ProfileCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http'];
+function ProfileCtrl($scope, $location, $AuthenticationService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     $http.get('/api/users/' + $scope.globals.currentUser.id).then(
         function (response) {
@@ -768,14 +717,13 @@ function ProfileCtrl($scope, $location, $AuthenticationService, $FlashService, $
 
 
 app.controller('LiveQuizResultsCtrl', LiveQuizResultsCtrl);
-LiveQuizResultsCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams', '$timeout'];
-function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams, $timeout) {
+LiveQuizResultsCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$routeParams'];
+function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $injector, $http, $routeParams) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.questions = {};
     $http.get('/api/question/').then(
@@ -807,7 +755,6 @@ function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashSe
         $http.get('/api/live_quiz/' + $routeParams.id).then(
             function (response) {
                 vm.live_quiz.answares = response.data.answares;
-                //$timeout(refresh, 2000);
             }
         );
     }
@@ -815,14 +762,13 @@ function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $FlashSe
 
 
 app.controller('QuizStartCtrl', QuizStartCtrl);
-QuizStartCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams'];
-function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams) {
+QuizStartCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$routeParams'];
+function QuizStartCtrl($scope, $location, $AuthenticationService, $injector, $http, $routeParams) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/quiz/' + $routeParams.id).then(
@@ -843,7 +789,6 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
         };
         $http.post('/api/quiz/' + $routeParams.id, data).then(
             function (response) {
-                $FlashService.SuccessNoReload('Answare Saved', false);
                 vm.current_question += 1;
                 if (response.data.last) {
                     vm.question.question = response.data.msg;
@@ -858,14 +803,13 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $FlashService,
 
 
 app.controller('LiveQuizRunCtrl', LiveQuizRunCtrl);
-LiveQuizRunCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams'];
-function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams) {
+LiveQuizRunCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$routeParams'];
+function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $injector, $http, $routeParams) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
         $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
     });
     vm.user = $scope.globals.currentUser.username;
     $http.get('/api/live_quiz/' + $routeParams.id).then(
@@ -886,7 +830,6 @@ function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashServic
         };
         $http.post('/api/live_quiz/' + $routeParams.id, data).then(
             function (response) {
-                $FlashService.SuccessNoReload('Answare Saved', false);
                 vm.current_question += 1;
                 if (response.data.last) {
                     vm.question.question = response.data.msg;
@@ -900,14 +843,13 @@ function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $FlashServic
 }
 
 app.controller('UserEditCtrl', UserEditCtrl);
-UserEditCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$route', '$routeParams', 'UserService'];
-function UserEditCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $route, $routeParams, UserService) {
+UserEditCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$routeParams', 'UserService'];
+function UserEditCtrl($scope, $location, $AuthenticationService, $injector, $http, $routeParams, UserService) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.update_user = update_user;
     vm.user = {};
@@ -919,28 +861,20 @@ function UserEditCtrl($scope, $location, $AuthenticationService, $FlashService, 
     );
     function update_user() {
         vm.dataLoading = true;
-        UserService.Update(vm.user)
-            .then(function (response) {
-                if (response.success) {
-                    $FlashService.Success(response.msg, true);
-                } else {
-                    $FlashService.Error(response.msg);
-                }
-                vm.dataLoading = false;
-            });
+        UserService.Update(vm.user);
+        vm.dataLoading = false;
     }
 }
 
 app.controller('CreateQuizCtrl', CreateQuizCtrl);
-CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function CreateQuizCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+CreateQuizCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', 'MySwalHTTP'];
+function CreateQuizCtrl($scope, $location, $AuthenticationService, $injector, $http, MySwalHTTP) {
     var vm = this;
     vm.questions = [];
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
         $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
     });
     $http.get('/api/question?review=False').then(
         function (response) {
@@ -952,27 +886,19 @@ function CreateQuizCtrl($scope, $location, $AuthenticationService, $FlashService
     function create_quiz() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        $http.post('/api/quiz_manage', vm.lesson).then(function (response) {
-            if (response.data.success) {
-                $FlashService.Success('New Quiz added successful', true);
-                $location.path('/quiz');
-            } else {
-                $FlashService.Error(response.data.msg);
-                vm.dataLoading = false;
-            }
-        });
+        MySwalHTTP.post('/api/quiz_manage', vm.lesson);
+        vm.dataLoading = false;
     }
 }
 
 app.controller('SeatController', SeatController);
-SeatController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'SweetAlert'];
-function SeatController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, SweetAlert) {
+SeatController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', 'SweetAlert'];
+function SeatController($scope, $location, $AuthenticationService, $injector, $http, SweetAlert) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.current_user = $scope.globals.currentUser;
     vm.seats = false;
@@ -1072,14 +998,13 @@ function SeatController($scope, $location, $AuthenticationService, $FlashService
 
 
 app.controller('SeatOverViewController', SeatOverViewController);
-SeatOverViewController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$interval'];
-function SeatOverViewController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $interval) {
+SeatOverViewController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$interval'];
+function SeatOverViewController($scope, $location, $AuthenticationService, $injector, $http, $interval) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.overview = true;
     vm.seats = {};
@@ -1097,14 +1022,13 @@ function SeatOverViewController($scope, $location, $AuthenticationService, $Flas
 }
 
 app.controller('ExerciseOverviewController', ExerciseOverviewController);
-ExerciseOverviewController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$interval'];
-function ExerciseOverviewController($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $interval) {
+ExerciseOverviewController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$interval'];
+function ExerciseOverviewController($scope, $location, $AuthenticationService, $injector, $http, $interval) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.overview = true;
     vm.exercises_overview = {};
@@ -1122,14 +1046,13 @@ function ExerciseOverviewController($scope, $location, $AuthenticationService, $
 }
 
 app.controller('OverviewAttendanceCtrl', OverviewAttendanceCtrl);
-OverviewAttendanceCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', '$interval', '$routeParams'];
-function OverviewAttendanceCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, $interval, $routeParams) {
+OverviewAttendanceCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', '$interval', '$routeParams'];
+function OverviewAttendanceCtrl($scope, $location, $AuthenticationService, $injector, $http, $interval, $routeParams) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     function refresh_absence() {
         $http.get('/api/attendance/' + parseInt($routeParams.id)).then(
@@ -1146,15 +1069,14 @@ function OverviewAttendanceCtrl($scope, $location, $AuthenticationService, $Flas
 
 
 app.controller('AdminConfigController', AdminConfigController);
-AdminConfigController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function AdminConfigController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+AdminConfigController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', 'MySwalHTTP'];
+function AdminConfigController($scope, $location, $AuthenticationService, $injector, $http, MySwalHTTP) {
     var vm = this;
     vm.questions = [];
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     $http.get('/api/admin/config').then(
         function (response) {
@@ -1165,27 +1087,20 @@ function AdminConfigController($scope, $location, $AuthenticationService, $Flash
 
     function save_config() {
         vm.dataLoading = true;
-        $http.post('/api/admin/config', vm.config).then(function (response) {
-            if (response.data.success) {
-                $FlashService.SuccessNoReload(response.data.msg);
-            } else {
-                $FlashService.Error(response.data.msg);
-            }
-            vm.dataLoading = false;
-        });
+        MySwalHTTP.post('/api/admin/config', vm.config);
+        vm.dataLoading = false;
     }
 }
 
 app.controller('AdminEmailController', AdminEmailController);
-AdminEmailController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function AdminEmailController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+AdminEmailController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', 'MySwalHTTP'];
+function AdminEmailController($scope, $location, $AuthenticationService, $injector, $http, MySwalHTTP) {
     var vm = this;
     vm.questions = [];
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     $http.get('/api/email').then(
         function (response) {
@@ -1197,27 +1112,20 @@ function AdminEmailController($scope, $location, $AuthenticationService, $FlashS
 
     function send_email(mail) {
         vm.dataLoading = true;
-        $http.post('/api/email', mail).then(function (response) {
-            if (response.data.success) {
-                $FlashService.SuccessNoReload(response.data.msg);
-            } else {
-                $FlashService.Error(response.data.msg);
-            }
-            vm.dataLoading = false;
-        });
+        MySwalHTTP.post('/api/email', mail);
+        vm.dataLoading = false;
     }
 }
 
 app.controller('LiveQuizCreateCtrl', LiveQuizCreateCtrl);
-LiveQuizCreateCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+LiveQuizCreateCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', 'MySwalHTTP'];
+function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $injector, $http, MySwalHTTP) {
     var vm = this;
     vm.questions = [];
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
         $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
     });
     $http.get('/api/question?review=False').then(
         function (response) {
@@ -1229,15 +1137,8 @@ function LiveQuizCreateCtrl($scope, $location, $AuthenticationService, $FlashSer
     function create_quiz() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        $http.post('/api/live_quiz_manage', vm.lesson).then(function (response) {
-            if (response.data.success) {
-                $FlashService.Success('New Live Quiz added successful', true);
-                $location.path('/live_quiz');
-            } else {
-                $FlashService.Error(response.data.msg);
-                vm.dataLoading = false;
-            }
-        });
+        MySwalHTTP.post('/api/live_quiz_manage', vm.lesson);
+        vm.dataLoading = false;
     }
 }
 
@@ -1319,13 +1220,12 @@ function LoginController($location, AuthenticationService, SweetAlert, $http) {
 
 
 app.controller('MagicLinkCtrl', MagicLinkCtrl);
-MagicLinkCtrl.$inject = ['$rootScope', '$location', 'FlashService', '$injector', 'AuthenticationService', 'SweetAlert', '$http', '$routeParams'];
-function MagicLinkCtrl($scope, $location, $FlashService, $injector, AuthenticationService, SweetAlert, $http, $routeParams) {
+MagicLinkCtrl.$inject = ['$rootScope', '$location', '$injector', 'AuthenticationService', 'SweetAlert', '$http', '$routeParams'];
+function MagicLinkCtrl($scope, $location, $injector, AuthenticationService, SweetAlert, $http, $routeParams) {
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: AuthenticationService
     });
     ml = $routeParams.ml;
     AuthenticationService.ClearCredentials();
@@ -1351,8 +1251,8 @@ function MagicLinkCtrl($scope, $location, $FlashService, $injector, Authenticati
 }
 
 app.controller('RegisterController', RegisterController);
-RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService', '$http'];
-function RegisterController(UserService, $location, $rootScope, FlashService, $http) {
+RegisterController.$inject = ['UserService', '$location', '$http'];
+function RegisterController(UserService, $location, $http) {
     var vm = this;
 
     $http.get('/api/reg_active').then(function (response) {
@@ -1364,29 +1264,20 @@ function RegisterController(UserService, $location, $rootScope, FlashService, $h
 
     function register() {
         vm.dataLoading = true;
-        UserService.Create(vm.user)
-            .then(function (response) {
-                if (response.success) {
-                    FlashService.Success('Registration successful, please check your e-mail to confirm your account', true);
-                    $location.path('/login');
-                } else {
-                    FlashService.Error(response.msg);
-                    vm.dataLoading = false;
-                }
-            });
+        UserService.Create(vm.user);
+        vm.dataLoading = false;
     }
 }
 
 
 app.controller('ProfileEditCtrl', ProfileEditCtrl);
-ProfileEditCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http', 'UserService', 'SweetAlert'];
-function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashService, $injector, $http, UserService, SweetAlert) {
+ProfileEditCtrl.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', 'UserService', 'SweetAlert'];
+function ProfileEditCtrl($scope, $location, $AuthenticationService, $injector, $http, UserService, SweetAlert) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
     vm.user = {};
     vm.update_user = update_user;
@@ -1443,7 +1334,6 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
     var change_pass = {};
 
     function change_password() {
-        console.log('xxx')
         SweetAlert.swal({
             title: "Change Password",
             type: "input",
@@ -1508,80 +1398,56 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $FlashServic
 
     function update_user() {
         vm.dataLoading = true;
-        UserService.Update(vm.user)
-            .then(function (response) {
-                if (response.success) {
-                    $FlashService.Success(response.msg, true);
-                    $location.path('/profile');
-                } else {
-                    $FlashService.Error(response.msg);
-                }
-                vm.dataLoading = false;
-            });
+        UserService.Update(vm.user);
+        vm.dataLoading = false;
     }
 
     get_user_data()
 }
 
 app.controller('NewQuestionController', NewQuestionController);
-NewQuestionController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function NewQuestionController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+NewQuestionController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http'];
+function NewQuestionController($scope, $location, $AuthenticationService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
 
     vm.new_question = new_question;
     function new_question() {
         vm.dataLoading = true;
         vm.n_question.users = $scope.globals.currentUser.id;
-        $http.post('/api/question', vm.n_question).then(function (response) {
-            if (response.data.success) {
-                $FlashService.Success('New Question added successful', true);
-                $location.path('/question_create');
-                vm.dataLoading = false;
-            } else {
-                $FlashService.Error(response.msg);
-                vm.dataLoading = false;
-            }
-        });
+        MySwalHTTP.post('/api/question', vm.n_question);
+        vm.dataLoading = false;
     }
 }
 
 app.controller('NewLessonController', NewLessonController);
-NewLessonController.$inject = ['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$injector', '$http'];
-function NewLessonController($scope, $location, $AuthenticationService, $FlashService, $injector, $http) {
+NewLessonController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http'];
+function NewLessonController($scope, $location, $AuthenticationService, $injector, $http) {
     var vm = this;
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
-        $AuthenticationService: $AuthenticationService,
-        $FlashService: $FlashService
+        $AuthenticationService: $AuthenticationService
     });
 
     vm.new_lesson = new_lesson;
     function new_lesson() {
         vm.dataLoading = true;
         vm.lesson.creator = $scope.globals.currentUser.username;
-        $http.post('/api/lessons', vm.lesson).then(function (response) {
-            if (response.data.success) {
-                $FlashService.Success('New Lesson added successful', true);
-                $location.path('/lessons');
-            } else {
-                $FlashService.Error(response.data.msg);
-                vm.dataLoading = false;
-            }
-        });
+        MySwalHTTP.post('/api/lessons', vm.lesson);
+        $location.path('/lessons');
+        vm.dataLoading = false;
     }
 }
 
 
 app.controller('AdminController', AdminController);
-AdminController.$inject = ['UserService', '$rootScope'];
-function AdminController(UserService, $rootScope) {
+AdminController.$inject = ['UserService'];
+function AdminController(UserService) {
     var vm = this;
 
     vm.user = null;
@@ -1624,8 +1490,8 @@ function AdminController(UserService, $rootScope) {
 
 
 app.controller('UserSummaryController', UserSummaryController);
-UserSummaryController.$inject = ['UserService', '$rootScope'];
-function UserSummaryController(UserService, $rootScope) {
+UserSummaryController.$inject = ['UserService'];
+function UserSummaryController(UserService) {
     var vm = this;
     vm.allAttendes = [];
     vm.pymocniks = [];
@@ -1656,8 +1522,8 @@ function UserSummaryController(UserService, $rootScope) {
 }
 
 app.factory('AuthenticationService', AuthenticationService);
-AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'FlashService', 'SweetAlert'];
-function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, $FlashService, SweetAlert) {
+AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', 'SweetAlert'];
+function AuthenticationService($http, $cookies, $rootScope, SweetAlert) {
     var service = {};
 
     service.Login = Login;
@@ -1717,11 +1583,12 @@ function MySwalHTTP($http, SweetAlert) {
     var service = {};
     service.get = my_get;
     service.post = my_post;
+    service.put = my_put;
+    service.err = simple_err;
     return service;
 
     function parse_resp(response) {
         if (response.data.success) {
-            console.log('yey_2');
             SweetAlert.swal({
                 text: response.data.msg,
                 title: 'Success',
@@ -1729,11 +1596,11 @@ function MySwalHTTP($http, SweetAlert) {
                 showConfirmButton: true
             });
         } else {
-            an_err(response.data.msg);
+            simple_err(response.data.msg);
         }
     }
 
-    function an_err(msg) {
+    function simple_err(msg) {
         SweetAlert.swal({
             title: "Error",
             text: msg,
@@ -1743,7 +1610,6 @@ function MySwalHTTP($http, SweetAlert) {
     }
 
     function my_get(url) {
-        console.log('yey');
         $http.get(url)
             .then(
                 function (resp) {
@@ -1763,11 +1629,21 @@ function MySwalHTTP($http, SweetAlert) {
                 err(err.data.msg);
             });
     }
+    function my_put(url, data) {
+        $http.put(url, data)
+            .then(
+                function (resp) {
+                    parse_resp(resp);
+                })
+            .catch(function (err) {
+                err(err.data.msg);
+            });
+    }
 }
 
 app.factory('UserService', UserService);
-UserService.$inject = ['$http', 'FlashService', 'SweetAlert', 'MySwalHTTP'];
-function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
+UserService.$inject = ['$http', 'MySwalHTTP'];
+function UserService($http, MySwalHTTP) {
     var service = {};
 
     service.GetAll = GetAll;
@@ -1830,13 +1706,11 @@ function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
     }
 
     function Create(user) {
-        return $http.post('/api/users/', user).then(handleSuccess).catch(function (response) {
-            $FlashService.Error(response.data.msg);
-        });
+        return MySwalHTTP.post('/api/users/', user);
     }
 
     function Update(user) {
-        return $http.put('/api/users/', user).then(handleSuccess, handleError('Error updating user'));
+        return MySwalHTTP.put('/api/users/', user);
     }
 
     function Delete(id) {
@@ -1850,10 +1724,10 @@ function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_organiser', data).then(function (response) {
             if (response.data.success) {
-                $FlashService.Success('Made an organiser: ' + user.name, true);
+                console.log('Made an organiser: ' + user.name);
                 user.organiser = true;
             } else {
-                $FlashService.Error(response.data.msg);
+                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1866,10 +1740,10 @@ function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_organiser', data).then(function (response) {
             if (response.data.success) {
-                $FlashService.Success('Made an organiser: ' + user.name, true);
+                console.log('Made an organiser: ' + user.name);
                 user.organiser = false;
             } else {
-                $FlashService.Error(response.data.msg);
+                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1885,10 +1759,10 @@ function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_active', data).then(function (response) {
             if (response.data.success) {
-                $FlashService.Success('Made active: ' + user.name, true);
+                console.log('Made active: ' + user.name);
                 user.active = true;
             } else {
-                $FlashService.Error(response.data.msg);
+                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1901,10 +1775,10 @@ function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_active', data).then(function (response) {
             if (response.data.success) {
-                $FlashService.Success('Made inactive: ' + user.name, true);
+                console.log('Made inactive: ' + user.name);
                 user.active = false;
             } else {
-                $FlashService.Error(response.data.msg);
+                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1917,10 +1791,10 @@ function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_mentor', data).then(function (response) {
             if (response.data.success) {
-                $FlashService.Success('Made mentor of: ' + user.name, true);
+                console.log('Made mentor of: ' + user.name);
                 user.mentor = true;
             } else {
-                $FlashService.Error(response.data.msg);
+                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1933,10 +1807,10 @@ function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_mentor', data).then(function (response) {
             if (response.data.success) {
-                $FlashService.Success('Removed mentor from: ' + user.name, true);
+                console.log('Removed mentor from: ' + user.name);
                 user.mentor = false;
             } else {
-                $FlashService.Error(response.data.msg);
+                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1953,65 +1827,6 @@ function UserService($http, $FlashService, SweetAlert, MySwalHTTP) {
     }
 }
 
-
-app.factory('FlashService', FlashService);
-
-FlashService.$inject = ['$rootScope', '$route'];
-function FlashService($rootScope, $route) {
-    var service = {};
-    service.Success = Success;
-    service.Error = Error;
-    service.SuccessNoReload = SuccessNoReload;
-    initService();
-
-    return service;
-
-    function initService() {
-        $rootScope.$on('$locationChangeStart', function () {
-            clearFlashmsg();
-        });
-
-        function clearFlashmsg() {
-            var flash = $rootScope.flash;
-            if (flash) {
-                if (!flash.keepAfterLocationChange) {
-                    delete $rootScope.flash;
-
-                } else {
-                    flash.keepAfterLocationChange = false;
-                }
-            }
-        }
-    }
-
-    function Success(msg, keepAfterLocationChange) {
-        $rootScope.flash = {
-            msg: msg,
-            type: 'success',
-            keepAfterLocationChange: keepAfterLocationChange
-        };
-        //setTimeout(function () {
-        //    delete $rootScope.flash;
-        //    $route.reload();
-        //}, 3000);
-    }
-
-    function SuccessNoReload(msg, keepAfterLocationChange) {
-        $rootScope.flash = {
-            msg: msg,
-            type: 'success',
-            keepAfterLocationChange: keepAfterLocationChange
-        };
-    }
-
-    function Error(msg, keepAfterLocationChange) {
-        $rootScope.flash = {
-            msg: msg,
-            type: 'error',
-            keepAfterLocationChange: keepAfterLocationChange
-        };
-    }
-}
 
 run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
 function run($rootScope, $location, $cookies, $http) {

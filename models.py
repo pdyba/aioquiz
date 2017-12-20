@@ -33,7 +33,7 @@ class Question(Table):
 
 
 class Users(Table):
-    _restricted_keys = ['session_uuid', 'password', 'magic_string']
+    _restricted_keys = ['session_uuid', 'password', 'magic_string', 'magic_string_date']
     _soft_restricted_keys = ['score', 'notes']
     _name = 'users'
     _schema = [

@@ -80,7 +80,7 @@ class UserView(HTTPModelClassView):
             })
         except:
             logging.exception('err users.put')
-            return json({}, status=500)
+            return json({'msg': 'Update Failed'}, status=500)
 
     async def post(self, request):
         """

@@ -299,7 +299,7 @@ class Table:
 
     async def update_from_dict(self, data_dict):
         for key, value in data_dict.items():
-            if self._in_schema(key) and not key in  self._restricted_keys + ['create_date', 'last_login']:
+            if self._in_schema(key) and key not in self._restricted_keys + ['create_date', 'last_login']:
                 setattr(self, key, value)
         return await self.update()
 
