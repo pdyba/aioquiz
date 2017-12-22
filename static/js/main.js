@@ -1595,8 +1595,10 @@ function MySwalHTTP($http, SweetAlert) {
                 type: 'success',
                 showConfirmButton: true
             });
+            return response.data
         } else {
             simple_err(response.data.msg);
+            return false
         }
     }
 
@@ -1613,32 +1615,36 @@ function MySwalHTTP($http, SweetAlert) {
         $http.get(url)
             .then(
                 function (resp) {
-                    parse_resp(resp);
+                    return parse_resp(resp);
                 })
             .catch(function (err) {
                 err(err.data.msg);
+                return false
             });
     }
     function swal_post(url, data) {
-        $http.post(url, data)
+        return $http.post(url, data)
             .then(
                 function (resp) {
-                    parse_resp(resp);
+                    return parse_resp(resp);
                 })
             .catch(function (err) {
                 err(err.data.msg);
+                return false
             });
     }
     function swal_put(url, data) {
         $http.put(url, data)
             .then(
                 function (resp) {
-                    parse_resp(resp);
+                    return parse_resp(resp);
                 })
             .catch(function (err) {
                 err(err.data.msg);
+                return false
             });
     }
+
 }
 
 app.factory('UserService', UserService);
@@ -1722,13 +1728,10 @@ function UserService($http, MySwalHTTP) {
             'organiser': true,
             'uid': user.id
         };
-        $http.post('/api/admin/user/set_organiser', data).then(function (response) {
-            if (response.data.success) {
-                console.log('Made an organiser: ' + user.name);
+        MySwalHTTP.swal_post('/api/admin/user/set_organiser', data).then(function (data) {
+            if (data.success) {
+                console.log('xxx Made an organiser: ' + user.name);
                 user.organiser = true;
-            } else {
-                console.log(response.data.msg);
-                vm.dataLoading = false;
             }
         });
     }
@@ -1738,13 +1741,10 @@ function UserService($http, MySwalHTTP) {
             'organiser': false,
             'uid': user.id
         };
-        $http.post('/api/admin/user/set_organiser', data).then(function (response) {
-            if (response.data.success) {
-                console.log('Made an organiser: ' + user.name);
+        MySwalHTTP.swal_post('/api/admin/user/set_organiser', data).then(function (data) {
+            if (data.success) {
+                console.log('xxx Made an organiser: ' + user.name);
                 user.organiser = false;
-            } else {
-                console.log(response.data.msg);
-                vm.dataLoading = false;
             }
         });
     }
@@ -1789,13 +1789,10 @@ function UserService($http, MySwalHTTP) {
             'mentor': true,
             'uid': user.id
         };
-        $http.post('/api/admin/user/set_mentor', data).then(function (response) {
-            if (response.data.success) {
-                console.log('Made mentor of: ' + user.name);
-                user.mentor = true;
-            } else {
-                console.log(response.data.msg);
-                vm.dataLoading = false;
+        MySwalHTTP.swal_post('/api/admin/user/set_mentor', data).then(function (data) {
+            if (data.success) {
+                console.log('xxx Made an mentor: ' + user.name);
+                user.organiser = false;
             }
         });
     }

@@ -126,6 +126,10 @@ class Users(Table):
         data = safe_del_key(data, self._banned_user_keys)
         return data
 
+    async def update(self, **kwargs):
+        if not self.magic_string_date:
+            self.magic_string_date = datetime.utcnow()
+        return await super().update(**kwargs)
 
 class UserReview(Table):
     _name = 'user_review'

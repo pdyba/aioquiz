@@ -43,7 +43,10 @@ class SetMentorView(HTTPModelClassView):
         if user:
             user.mentor = req['mentor']
             await user.update()
-            return json({'success': True})
+            return json({
+                'success': True,
+                'msg': '{} is {} mentor'.format(user.name, 'now a' if req['mentor'] else 'NOT')
+            })
         return json({'success': False, 'msg': 'wrong token'})
 
 
@@ -60,7 +63,6 @@ class ChangeActiveView(HTTPModelClassView):
             await user.update()
             return json({'success': True})
         return json({'success': False, 'msg': 'wrong token'})
-
 
 
 class ReviewAttendeesView(HTTPModelClassView):
