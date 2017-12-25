@@ -1634,7 +1634,13 @@ function MySwalHTTP($http, SweetAlert) {
             });
     }
     function swal_put(url, data) {
-        $http.put(url, data)
+        return swal(url, 'put', data)
+    }
+
+    //swal_put = (url, data) => swal(url, 'put', data);
+
+    function swal(url, method, data) {
+        return $http[method](url, data)
             .then(
                 function (resp) {
                     return parse_resp(resp);
@@ -1644,7 +1650,6 @@ function MySwalHTTP($http, SweetAlert) {
                 return false
             });
     }
-
 }
 
 app.factory('UserService', UserService);
