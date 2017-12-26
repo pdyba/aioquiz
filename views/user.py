@@ -23,7 +23,7 @@ from models import Absence
 from models import ExerciseAnsware
 from models import Feedback
 from models import Lesson
-from models import LessonFeedback
+from models import LessonFeedbackAnswer
 from models import QuestionAnsware
 from models import Seat
 from models import UserReview
@@ -146,9 +146,11 @@ class UserView(HTTPModelClassView):
             reviewer=id_name,
             users=id_name
         )
-        await Lesson.delete_by_many_fields(author=id_name)
+        for cls in [Lesson, LessonFeedbackAnswer]:
+            await cls.delete_by_many_fields(author=id_name)
 
-        for cls in [LessonFeedback, QuestionAnsware, ExerciseAnsware, Feedback, Absence, Seat]:
+        # TODO: for question authors, set author=DEFAULT_USER and don't remove them
+        for cls in [QuestionAnsware, ExerciseAnsware, Feedback, Absence, Seat]:
             await cls.delete_by_many_fields(users=id_name)
 
         await Users.detele_by_id(id_name)
