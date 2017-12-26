@@ -1257,7 +1257,6 @@ function RegisterController(UserService, $location, $http) {
 
     $http.get('/api/status/config/registration').then(function (response) {
         vm.reg = response.data.registration;
-        console.log(response.data)
     });
 
     vm.register = register;
@@ -1612,34 +1611,36 @@ function MySwalHTTP($http, SweetAlert) {
     }
 
     function swal_get(url) {
-        $http.get(url)
-            .then(
-                function (resp) {
-                    return parse_resp(resp);
-                })
-            .catch(function (err) {
-                err(err.data.msg);
-                return false
-            });
+        return swal_req(url, 'get')
+        //$http.get(url)
+        //    .then(
+        //        function (resp) {
+        //            return parse_resp(resp);
+        //        })
+        //    .catch(function (err) {
+        //        err(err.data.msg);
+        //        return false
+        //    });
     }
     function swal_post(url, data) {
-        return $http.post(url, data)
-            .then(
-                function (resp) {
-                    return parse_resp(resp);
-                })
-            .catch(function (err) {
-                err(err.data.msg);
-                return false
-            });
+        return swal_req(url, 'post', data)
+        //return $http.post(url, data)
+        //    .then(
+        //        function (resp) {
+        //            return parse_resp(resp);
+        //        })
+        //    .catch(function (err) {
+        //        err(err.data.msg);
+        //        return false
+        //    });
     }
     function swal_put(url, data) {
-        return swal(url, 'put', data)
+        return swal_req(url, 'put', data)
     }
 
     //swal_put = (url, data) => swal(url, 'put', data);
 
-    function swal(url, method, data) {
+    function swal_req(url, method, data) {
         return $http[method](url, data)
             .then(
                 function (resp) {
@@ -1735,7 +1736,6 @@ function UserService($http, MySwalHTTP) {
         };
         MySwalHTTP.swal_post('/api/admin/user/set_organiser', data).then(function (data) {
             if (data.success) {
-                console.log('xxx Made an organiser: ' + user.name);
                 user.organiser = true;
             }
         });
@@ -1748,7 +1748,6 @@ function UserService($http, MySwalHTTP) {
         };
         MySwalHTTP.swal_post('/api/admin/user/set_organiser', data).then(function (data) {
             if (data.success) {
-                console.log('xxx Made an organiser: ' + user.name);
                 user.organiser = false;
             }
         });
@@ -1764,10 +1763,8 @@ function UserService($http, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_active', data).then(function (response) {
             if (response.data.success) {
-                console.log('Made active: ' + user.name);
                 user.active = true;
             } else {
-                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1780,10 +1777,8 @@ function UserService($http, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_active', data).then(function (response) {
             if (response.data.success) {
-                console.log('Made inactive: ' + user.name);
                 user.active = false;
             } else {
-                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });
@@ -1796,7 +1791,6 @@ function UserService($http, MySwalHTTP) {
         };
         MySwalHTTP.swal_post('/api/admin/user/set_mentor', data).then(function (data) {
             if (data.success) {
-                console.log('xxx Made an mentor: ' + user.name);
                 user.organiser = false;
             }
         });
@@ -1809,10 +1803,8 @@ function UserService($http, MySwalHTTP) {
         };
         $http.post('/api/admin/user/set_mentor', data).then(function (response) {
             if (response.data.success) {
-                console.log('Removed mentor from: ' + user.name);
                 user.mentor = false;
             } else {
-                console.log(response.data.msg);
                 vm.dataLoading = false;
             }
         });

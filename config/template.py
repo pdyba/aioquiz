@@ -34,34 +34,27 @@ class REGEMAIL:
     """
     TEXT_PL = """
     Cześć {name}!
-    Dziękujemy za rejestrację na warsztat weekendowy PyLove.org w Poznaniu w dniach 23-24 września.
+    Dziękujemy za rejestrację na warsztaty PyLove.org w Poznaniu.
     Proszę potwierdź swój adres mailowy klikając w poniższy link:
 
     https://{server}/api/user/activation/{uid}/{acode}
 
-    Zapraszamy do śledzenia wydarzenia na FB:
-
-
-    Dziękujemy!
     Pozdrowienia!
     PyLove.org Team
 
     """
     TEXT_EN = """
     Hi {name},
-    Thanks for registering for PyLove.org workshop in Poznan on 23-24.09.2017.
+    Thanks for registering for PyLove.org workshops in Poznan.
     Please confirm your e-mail clicking this link:
+
     https://{server}/api/user/activation/{uid}/{acode}
 
-    Follow facebook event for the latest infatuation:
-
-
-    Thanks and good luck !
     Cheers
     PyLove.org Team
     """
     SUBJECT_PL = 'PyLove.org Potwierdzenie rejestarcji'
-    SUBJECT_EN = 'PyLove.org Workshops Registration Confirmation'
+    SUBJECT_EN = 'PyLove.org Registration Confirmation'
 
 
 class MAINCONFIG:
