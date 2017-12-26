@@ -15,6 +15,7 @@ import models
 from orm import Table
 
 from config import DEFAULT_USER
+from utils import color_print
 
 async def bootstrap_db():
     for cls_name in dir(models):
@@ -28,9 +29,12 @@ async def bootstrap_db():
                     await cls.create_table()
             except TypeError:
                 print(cls_name)
-    print('bootstrap done')
+    color_print('bootstrap done', color='green')
 
 async def gen_users():
+    """
+    For development only.
+    """
     start = datetime.utcnow()
 
     def text():
@@ -93,7 +97,7 @@ async def admin():
     tbl = models.Users(**new_user)
     await tbl.create()
     await models.Users.get_by_id(1)
-    print('Admin Created')
+    color_print('Admin Created', color='green')
 
 async def add_question():
     await models.Question(
@@ -303,7 +307,7 @@ async def create_html_lessons(lang='pl'):
                 await qq.update_or_create('question', 'quiz')
                 print('question created')
         lesson = models.Lesson(**meta)
-        lid = await lesson.update_or_create(*meta.keys())
+        lid = await lesson.update_or_create('lesson_no')
         try:
             with open(e_path) as file:
                 exe = yaml.load(file)
@@ -332,14 +336,26 @@ async def create_html_lessons(lang='pl'):
                 else:
                     print(src + ' NOT copied')
 
+    # TODO: add proper summary
+    added_lessons = 0
+    skipped_lessons = 0
+    error_lessons = 0
     for a_dir in os.listdir("./lesson_source/"):
         try:
-            await process(a_dir)
+            resp = await process(a_dir)
+            added_lessons += 1
+            color_print(a_dir, color='green')
         except Exception as err:
             print(err)
+            color_print(a_dir, color='red')
+            error_lessons += 1
             await process(a_dir, lang='pl')
+    color_print('ADDED: ', added_lessons, color='green')
+    color_print('SKIPPED: ', skipped_lessons, color='yellow')
+    color_print('ERRORS: ', error_lessons, color='red')
 
 if __name__ == '__main__':
+    # TODO: move to argparse
     loop = asyncio.get_event_loop()
     # loop.run_until_complete(bootstrap_db())
     loop.run_until_complete(bootstrap_db())
@@ -347,3 +363,4 @@ if __name__ == '__main__':
     # loop.run_until_complete(admin())
     # loop.run_until_complete(gen_users())
     loop.close()
+    color_print('Bootstrap Done', color='green')

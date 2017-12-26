@@ -292,7 +292,7 @@ class SeatView(HTTPModelClassView):
 # noinspection PyMethodMayBeStatic
 class ForgotPasswordView(HTTPModelClassView):
     _cls = Users
-    _urls = 'api/user/password_forgot'
+    _urls = '/api/user/password_forgot'
 
     # noinspection PyUnusedLocal
     async def post(self, request):

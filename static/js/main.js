@@ -271,7 +271,7 @@ function PageCtrl($scope, $location, $AuthenticationService, SweetAlert, $http) 
             closeOnConfirm: false
         }, function (value) {
             var data = {'code': value};
-            $http.put('/api/absence', data).then(function (response) {
+            $http.put('/api/attendance', data).then(function (response) {
                 if (response.data.success) {
                     mtype = "success";
                 } else {
@@ -533,7 +533,7 @@ function LessonMngtController($scope, $location, $AuthenticationService, $inject
     }
 
     function absence(lid) {
-        $http.get('/api/absence/' + lid).then(
+        $http.get('/api/attendance/' + lid).then(
             function (response) {
                 SweetAlert.swal({
                     title: "Lesson Code",
@@ -546,7 +546,7 @@ function LessonMngtController($scope, $location, $AuthenticationService, $inject
     }
 
     function extend(lid) {
-        $http.post('/api/absence/' + lid, {}).then(
+        $http.post('/api/attendance/' + lid, {}).then(
             function (response) {
                 SweetAlert.swal({
                     title: "Lesson Code",
@@ -708,7 +708,7 @@ function ProfileCtrl($scope, $location, $AuthenticationService, $injector, $http
             vm.user_profile = response.data;
         }
     );
-    $http.get('/api/attendance').then(
+    $http.get('/api/stats/attendance').then(
         function (response) {
             vm.user_attendence = response.data;
         }
@@ -1055,7 +1055,7 @@ function OverviewAttendanceCtrl($scope, $location, $AuthenticationService, $inje
         $AuthenticationService: $AuthenticationService
     });
     function refresh_absence() {
-        $http.get('/api/attendance/' + parseInt($routeParams.id)).then(
+        $http.get('/api/stats/attendance/' + parseInt($routeParams.id)).then(
             function (response) {
                 vm.absence_overview = response.data;
             }
@@ -1102,7 +1102,7 @@ function AdminEmailController($scope, $location, $AuthenticationService, $inject
         $location: $location,
         $AuthenticationService: $AuthenticationService
     });
-    $http.get('/api/email').then(
+    $http.get('/api/admin/email').then(
         function (response) {
             vm.email_options = response.data;
         }
@@ -1112,7 +1112,7 @@ function AdminEmailController($scope, $location, $AuthenticationService, $inject
 
     function send_email(mail) {
         vm.dataLoading = true;
-        MySwalHTTP.swal_post('/api/email', mail);
+        MySwalHTTP.swal_post('/api/admin/email', mail);
         vm.dataLoading = false;
     }
 }
@@ -1255,7 +1255,7 @@ RegisterController.$inject = ['UserService', '$location', '$http'];
 function RegisterController(UserService, $location, $http) {
     var vm = this;
 
-    $http.get('/api/reg_active').then(function (response) {
+    $http.get('/api/status/config/registration').then(function (response) {
         vm.reg = response.data.registration;
         console.log(response.data)
     });

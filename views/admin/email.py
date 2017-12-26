@@ -15,7 +15,7 @@ from models import Users
 
 class EmailView(HTTPModelClassView):
     _cls = Users
-    _urls = '/api/email'
+    _urls = '/api/admin/email'
 
     recipients = {
         'all': 'Do Wszystkich',

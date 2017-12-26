@@ -8,7 +8,7 @@ from models import Config
 
 # noinspection PyMethodMayBeStatic
 class RegistrationActiveView(HTTPModelClassView):
-    _urls = '/api/reg_active'
+    _urls = '/api/status/config/registration'
 
     async def get(self, _):
         return json({'registration': await Config.get_registration()})

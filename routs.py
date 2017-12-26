@@ -7,6 +7,7 @@ from os.path import join
 
 import views
 from views.utils import HTTPModelClassView
+from utils import color_print
 
 dir_name = dirname(abspath(__file__))
 
@@ -32,7 +33,7 @@ def add_urls(app):
             name, view = member
             if not issubclass(view, HTTPModelClassView) or view == HTTPModelClassView:
                 if 'View' in name:
-                    print(name, 'skipping')  # TODO: should be yellow
+                    color_print(name, 'skipping', color='yellow')
                 continue
         except:
             continue
@@ -47,9 +48,9 @@ def add_urls(app):
                 count_cls += 1
                 count_urls += 1
             else:
-                print("Something is missing: ", view._get_name(), view._urls)
+                color_print("Something is missing: ", view._get_name(), view._urls, color='yellow')
         except AttributeError:
-            print(view, 'no URLS provided')  # TODO: should be in red
+            color_print(view, 'no URLS provided', color='red')
 
-    print('Using {} classes with {} urls'.format(count_cls, count_urls))
+    color_print('Using {} classes with {} urls'.format(count_cls, count_urls), color='blue')
     return app

@@ -12,6 +12,19 @@ from aiosmtplib.errors import SMTPTimeoutError
 
 from config import EMAIL
 
+COLORS = {
+    'red': "\033[1;31m",
+    'blue': "\033[1;34m",
+    'yellow': "\033[1;33m",
+    'green': "\033[0;32m",
+    'other': "\033[1;35m",
+}
+COLOR_RESET = "\033[0;0m"
+
+
+def color_print(*args, color='red', **kwargs):
+    color = COLORS.get(color, COLORS.get('other'))
+    print(color, *args, COLOR_RESET, **kwargs)
 
 async def format_dict_to_columns(adict):
     return [[a, adict[a]] for a in adict]

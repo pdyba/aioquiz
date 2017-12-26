@@ -5,11 +5,11 @@ import ssl
 from sanic import Sanic
 from sanic.config import LOGGING
 
+from config import SERVER
 from exception_handlers import add_exception_handlers
 from routs import add_urls
 from routs import add_static
-
-from config import SERVER
+from utils import color_print
 
 if not SERVER.DEBUG:
     LOGGING['loggers']['network']['level'] = 'WARNING'
@@ -32,7 +32,7 @@ app = add_urls(app)
 app = add_exception_handlers(app)
 
 if __name__ == "__main__":
-    print('http://{}:{}'.format(SERVER.IP, port))  # TODO: should be in green
+    color_print('http://{}:{}'.format(SERVER.IP, port), color='green')
     app.run(
         host=SERVER.IP,
         port=port,

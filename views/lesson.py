@@ -118,7 +118,7 @@ class ExercisesView(HTTPModelClassView):
 
 class AbsenceManagementView(HTTPModelClassView):
     _cls = Absence
-    _urls = ['/api/absence', '/api/absence/<lid:int>']
+    _urls = ['/api/attendance', '/api/attendance/<lid:int>']
 
     @user_required('admin')
     async def get(self, _, current_user, lid=None):
@@ -140,7 +140,6 @@ class AbsenceManagementView(HTTPModelClassView):
                     'success': False,
                     'msg': 'Missing code'
                 },
-                sort_keys=True
             )
         abmeta = await AbsenceMeta.get_first('code', code)
         if code != abmeta.code:
@@ -149,7 +148,6 @@ class AbsenceManagementView(HTTPModelClassView):
                     'success': False,
                     'msg': 'Wrong code'
                 },
-                sort_keys=True
             )
         now = datetime.utcnow()
         if now > abmeta.time_ended:
@@ -158,7 +156,6 @@ class AbsenceManagementView(HTTPModelClassView):
                     'success': False,
                     'msg': 'You were too late'
                 },
-                sort_keys=True
             )
         absence = Absence(lesson=abmeta.lesson, users=current_user.id, absent=True)
         await absence.update_or_create('lesson', 'users')
@@ -167,7 +164,6 @@ class AbsenceManagementView(HTTPModelClassView):
                 'success': True,
                 'msg': 'Attendance accepted'
             },
-            sort_keys=True
         )
 
     @staticmethod
@@ -204,53 +200,8 @@ class AbsenceManagementView(HTTPModelClassView):
         return json(resp)
 
 
-class AbsenceView(HTTPModelClassView):
-    _cls = Absence
-    _urls = ['/api/attendance', '/api/attendance/<lid:int>']
-
-    @user_required()
-    async def get(self, _, current_user, lid=None):
-        if current_user.admin and lid:
-            # TODO: Move to stats
-            absences = await Absence.get_by_field_value('lesson', lid)
-            lesson = await Lesson.get_by_id(lid)
-            lesson = lesson.title
-            max_absences = 200
-            current_attendence = len(absences)
-        else:
-            absences = await AbsenceMeta.get_all()
-            user_absence = await Absence.get_by_field_value('users', current_user.id)
-            lesson = ""
-            max_absences = len(absences)
-            current_attendence = len(user_absence)
-        attendance = []
-
-        for absence in absences:
-            if not lid:
-                lesson = await Lesson.get_by_id(absence.lesson)
-                data = {'lesson': lesson.title}
-                uabs = list(filter(
-                    lambda b: b.lesson == absence.lesson,
-                    user_absence
-                ))
-                data['absent'] = True if uabs else False
-            else:
-                data = await absence.to_dict()
-                user = await Users.get_by_id(data['users'])
-                data['users'] = user.surname
-            attendance.append(data)
-
-        return json({
-            'max': max_absences,
-            'amount': current_attendence,
-            'data': attendance,
-            'lesson': lesson,
-            'perc': "{}%".format(round(current_attendence/max_absences*100, 2))
-        })
-
-
 # noinspection PyBroadException, PyMethodMayBeStatic
-class AbsenceConfirmation(HTTPModelClassView):
+class WorkshopAttendenceConfirmation(HTTPModelClassView):
     _cls = Users
     _urls = ['/api/workshopabsence', '/api/workshopabsence/<uid>/<rhash>/<answer>']
 

@@ -4,5 +4,6 @@ from views.admin import *
 from views.auth import *
 from views.lesson import *
 from views.quiz import *
+from views.stats import *
 from views.status import *
 from views.user import *
