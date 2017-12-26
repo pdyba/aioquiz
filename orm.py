@@ -57,6 +57,14 @@ class DoesNotExist(Exception):
         return {'msg': 'User does not exist'}
 
 
+class StringLiteral:
+    def __init__(self, content):
+        self.content = content
+
+    def __str__(self):
+        return self.content
+
+
 # noinspection PyProtectedMember
 class Table:
     _restricted_keys = []
@@ -133,8 +141,8 @@ class Table:
         return cls(**dict(resp[0]))
 
     @classmethod
-    async def get_all(cls):
-        resp = await make_a_querry("""SELECT * FROM {}""".format(cls._name))
+    async def get_all(cls, suffix=""):
+        resp = await make_a_querry("""SELECT * FROM {} {}""".format(cls._name, suffix))
         return [cls(**dict(r)) for r in resp]
 
     @classmethod
@@ -143,6 +151,29 @@ class Table:
             resp = await make_a_querry("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
         else:
             resp = await make_a_querry("""SELECT * FROM {} WHERE {}={}""".format(cls._name, field, value))
+        return [cls(**dict(r)) for r in resp]
+
+    @classmethod
+    async def get_by_join(cls, *args, **kwargs):
+        allowed_fields = [c.name for c in cls._schema]
+
+        tables = "{}, {}".format(cls._name, ", ".join(args))
+        query = """SELECT {} FROM {} WHERE""".format(
+            ", ".join(allowed_fields),
+            tables
+        )
+
+        for i, kw in enumerate(kwargs):
+            if isinstance(kwargs[kw], (dict, list)):
+                kwargs[kw] = json.dumps(kwargs[kw])
+            if isinstance(kwargs[kw], str):
+                query += " {}='{}'".format(kw, kwargs[kw])
+            else:
+                query += " {}={}".format(kw, kwargs[kw])
+            if i + 1 < len(kwargs):
+                query += " AND "
+
+        resp = await make_a_querry(query)
         return [cls(**dict(r)) for r in resp]
 
     @classmethod

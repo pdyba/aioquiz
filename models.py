@@ -11,6 +11,7 @@ from orm import Float
 from orm import ForeignKey
 from orm import Integer
 from orm import String
+from orm import StringLiteral
 from orm import Table
 
 from utils import create_uuid
@@ -190,12 +191,41 @@ class Exercise(Table):
     _unique = ['title']
 
 
-class LessonFeedback(Table):
-    _name = 'lesson_feedback'
+class LessonFeedbackQuestion(Table):
+    _name = 'lesson_feedback_question'
     _schema = [
-        Column('users', ForeignKey('users')),
-        Column('lesson', ForeignKey('lesson')),
-        Column('feedback', String(5000)),
+        Column('id', Integer, primary_key=True),
+        Column('author', ForeignKey('users'), default=DEFAULT_USER),
+        Column('type', String(50)),
+        Column('description', String(5000)),
+        Column('answers', CodeString(10000))
+    ]
+
+    @classmethod
+    async def get_by_lesson_id(cls, lid):
+        return await cls.get_by_join(
+            "lesson_feedback_meta",
+            lesson=lid,
+            id=StringLiteral("question")
+        )
+
+
+class LessonFeedbackMeta(Table):
+    _name = 'lesson_feedback_meta'
+    _schema = [
+        Column('question', ForeignKey('lesson_feedback_question')),
+        Column('lesson', ForeignKey('lesson'))
+    ]
+
+
+class LessonFeedbackAnswer(Table):
+    _name = 'lesson_feedback_answer'
+    _schema = [
+        Column('id', Integer, primary_key=True),
+        Column('author', ForeignKey('users')),
+        Column('answers', CodeString(10000)),
+        Column('question', ForeignKey('lesson_feedback_question')),
+        Column('lesson', ForeignKey('lesson'))
     ]
 
 
