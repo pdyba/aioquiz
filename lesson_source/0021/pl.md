@@ -20,8 +20,8 @@ Typy liczbowe
     1.23     3.22   3.0   123.12311
 
 Na liczbach możemy wykonywać znane nam operacje matematyczne:
-+ - * / ** // %
-Np. 
++ - * / ** // %
+Np. 
 
     :::python3
     23 + 7 // 2 * 5 % 3
@@ -30,12 +30,12 @@ Np. 
 
 Typ tekstowy
 ------------
-
+
 
 	:::python3
     'Ala ma kota'
 	'Kot ma ale'
-	'''Nie Kot	Ma
+	'''Nie Kot	Ma
 	Nie Ale'''
 
 Można z nimi robić wiele rzeczy!
@@ -52,15 +52,15 @@ zmienna
 C:
 
     :::python3
-    dane = 'kot'
+    dane = 'kot'
 R:
 
     :::python3
-    dane
+    dane
 U:
 
     :::python3
-    dane = 'pies'
+    dane = 'pies'
 D: nie ma potrzeby Python zrobi to za nas.
 
 
@@ -81,18 +81,18 @@ Przykłady:
 C:
 
     :::python3
-    moja_lista = [['magda', 22], ['zosia', 23]]
+    moja_lista = [['magda', 22], ['zosia', 23]]
 R:
 
     :::python3
-    moja_lista[0]
-    moja_lista[0][1]
+    moja_lista[0]
+    moja_lista[0][1]
 
 U:
 
     :::python3
     moja_lista[1] = ['cecylia', 55]
-    moja_lista[1][0] = 'weronika'
+    moja_lista[1][0] = 'weronika'
 D:
 
     :::python3
@@ -104,12 +104,12 @@ slice - kawałek
 ---------------
 
     :::python3
-    moja_torebka = ['szminka', 'pomadka', 'portfel', 'okulary']
-    moj_string = 'PyLove'
-    moja_torebka[0:2]
-    moja_torebka[::2]
-    moj_string[2:4]
-    moj_string[::3]
+    moja_torebka = ['szminka', 'pomadka', 'portfel', 'okulary']
+    moj_string = 'PyLove'
+    moja_torebka[0:2]
+    moja_torebka[::2]
+    moj_string[2:4]
+    moj_string[::3]
 
 
 slownik
@@ -130,13 +130,13 @@ C:
 R:
 
     :::python3
-    moj_slownik['imie']	moj_slownik.get('imie')
+    moj_slownik['imie']	moj_slownik.get('imie')
 	moj_slownik['wiek']
 U:
 
     :::python3
     moj_slownik['imie'] = 'cecylia'
-	moj_slownik['wiek'] = 22
+	moj_slownik['wiek'] = 22
 
 D:
 
@@ -154,7 +154,7 @@ Ogólne:
     abs()
     len()
     round()
-
+
 Pomocnicze:
 
     :::python3
@@ -186,13 +186,13 @@ Bool może przyjąć jedną z dwóch wartości:
 Składnia funkcji warunkej if:
 
     :::python3
-    if 3 > 5:	
+    if 3 > 5:	
         print('alternatywna matematyka')
     elif 3 == 5:
         print('chyba zmienilismy wszechswiat')
     elif 1 <= 0 or 1 >= 5 and True:
         print('ehhh...')
-    else:
+    else:
         print('wszystko jest ok')
 
 
