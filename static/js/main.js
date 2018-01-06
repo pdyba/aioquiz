@@ -353,7 +353,6 @@ function AboutCtrl($scope, $location, $AuthenticationService, $injector, $UserSe
             vm.mentors = users;
         });
     }
-
     loadAllUsers()
 }
 

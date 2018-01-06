@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.5
 # encoding: utf-8
+import argparse
 import asyncio
 from datetime import datetime
 import os
@@ -23,13 +24,13 @@ async def bootstrap_db():
             try:
                 cls = getattr(models, cls_name)
                 if isinstance(cls, types.FunctionType):
-                    print('skipping: ' + cls_name)
+                    color_print('skipping: ' + cls_name, color='yellow')
                     continue
                 if issubclass(cls, Table) and cls != Table:
                     await cls.create_table()
             except TypeError:
-                print(cls_name)
-    color_print('bootstrap done', color='green')
+                color_print(cls_name, color='red')
+    color_print('DB bootstrap done', color='green')
 
 async def gen_users():
     """
@@ -264,7 +265,7 @@ FOOTER = """
 """
 
 
-async def create_html_lessons(lang='pl'):
+async def create_html_lessons(lang='pl', lesson=None):
     async def process(a_dir, lang=lang):
         if a_dir.startswith('.') or a_dir.startswith('_'):
             return
@@ -340,27 +341,53 @@ async def create_html_lessons(lang='pl'):
     added_lessons = 0
     skipped_lessons = 0
     error_lessons = 0
-    for a_dir in os.listdir("./lesson_source/"):
+    if lesson:
         try:
-            resp = await process(a_dir)
+            resp = await process("./lesson_source/" + lesson)
             added_lessons += 1
-            color_print(a_dir, color='green')
         except Exception as err:
             print(err)
-            color_print(a_dir, color='red')
+            color_print(lesson, color='red')
             error_lessons += 1
-            await process(a_dir, lang='pl')
+    else:
+        for a_dir in os.listdir("./lesson_source/"):
+            try:
+                resp = await process(a_dir)
+                added_lessons += 1
+                color_print(a_dir, color='green')
+            except Exception as err:
+                print(err)
+                color_print(a_dir, color='red')
+                error_lessons += 1
+                await process(a_dir, lang='pl')
     color_print('ADDED: ', added_lessons, color='green')
     color_print('SKIPPED: ', skipped_lessons, color='yellow')
     color_print('ERRORS: ', error_lessons, color='red')
 
+
+def get_parser():
+    a_parser = argparse.ArgumentParser()
+    a_parser.add_argument("--lesson", help="add lesson with id example usage: --lesson 0024")
+    a_parser.add_argument("--alllesson", help="add lesson with id example usage: --alllesson True")
+    a_parser.add_argument("--bootstrap", help="bootstrap the DB: --bootstrap True")
+    a_parser.add_argument("--admin", help="Create admin account in DB: --admin True")
+    a_parser.add_argument("--devusers", help="Generate 10 user accounts for development account in DB: --dev-users True")
+    return a_parser
+
 if __name__ == '__main__':
-    # TODO: move to argparse
     loop = asyncio.get_event_loop()
-    # loop.run_until_complete(bootstrap_db())
-    loop.run_until_complete(bootstrap_db())
-    loop.run_until_complete(create_html_lessons())
-    # loop.run_until_complete(admin())
-    # loop.run_until_complete(gen_users())
+    parser = get_parser()
+    args = parser.parse_args()
+    if args.devusers:
+        loop.run_until_complete(gen_users())
+    if args.bootstrap:
+        loop.run_until_complete(bootstrap_db())
+        loop.run_until_complete(bootstrap_db())
+    if args.lesson:
+        loop.run_until_complete(create_html_lessons(lesson=args.lesson))
+    if args.alllesson:
+        loop.run_until_complete(create_html_lessons())
+    if args.admin:
+        loop.run_until_complete(admin())
     loop.close()
-    color_print('Bootstrap Done', color='green')
+    color_print('ALL Done', color='green')

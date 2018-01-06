@@ -7,8 +7,8 @@ from sanic.config import LOGGING
 
 from config import SERVER
 from exception_handlers import add_exception_handlers
-from routs import add_urls
-from routs import add_static
+from routes import add_urls
+from routes import add_static
 from utils import color_print
 
 if not SERVER.DEBUG:
