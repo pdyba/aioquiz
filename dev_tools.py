@@ -1,37 +1,17 @@
 #!/usr/bin/env python3.5
 # encoding: utf-8
-from inspect import getmembers
-
-import views
-from views.utils import HTTPModelClassView
 from utils import color_print
 
-def get_all_views():
-    v = []
-    for member in getmembers(views):
-        try:
-            name, view = member
-            if not issubclass(view, HTTPModelClassView) or view == HTTPModelClassView:
-                if 'View' in name:
-                    print(name, 'skipping')
-                continue
-        except:
-            continue
-        try:
-            v.append((name, (view._urls)))
-        except AttributeError:
-            print(view, 'no URLS provided')
-    return v
+from routes import get_all_views
 
 
 def get_all_views_and_routs(afilter=None, with_routs=True):
-    v = get_all_views()
+    v = get_all_views(add_views=False, names=True, urls=True)
     for view in sorted(v, key=lambda a: a[0]):
-        if afilter:
-            if afilter in view[0].lower():
-                print(view[0])
-                if with_routs:
-                    print('\t', view[1])
+        if afilter and afilter in view[0].lower():
+            print(view[0])
+            if with_routs:
+                print('\t', view[1])
         else:
             print(view[0])
             if with_routs:
@@ -40,7 +20,7 @@ def get_all_views_and_routs(afilter=None, with_routs=True):
 
 
 def get_all_routs():
-    view = get_all_views()
+    view = get_all_views(add_views=False, names=True, urls=True)
     routs = []
     for v in view:
         if isinstance(v[1], list):
