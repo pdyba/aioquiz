@@ -273,7 +273,7 @@ class Table:
             logging.exception('Error creating {}'.format(self._name))
             return isinstance(e, TypeError)
 
-    async def update_or_create(self, *args):
+    async def update_or_create(self, *args, verbose=False):
         kw = {arg: getattr(self, arg) for arg in args}
         try:
             inst = await self.get_first_by_many_field_value(**kw)
@@ -282,11 +282,18 @@ class Table:
         if inst:
             await inst.update(**kw)
             if hasattr(inst, 'id'):
+                if verbose:
+                    return inst.id, True
                 return inst.id
             else:
+                if verbose:
+                    return True, True
                 return True
         else:
-            return await self.create()
+            resp = await self.create()
+            if verbose:
+                return resp, False
+            return resp
 
     @classmethod
     def _format_update(cls, clsi):

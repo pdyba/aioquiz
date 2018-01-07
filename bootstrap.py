@@ -265,8 +265,53 @@ FOOTER = """
 """
 
 
-async def create_html_lessons(lang='pl', lesson=None):
+class GlobalCounter:
+    added_lessons = 0
+    updated_lessons = 0
+    error_lessons = 0
+
+
+class LessonCounter:
+    lesson_outcome = ''
+    lesson_imgs_done = 0
+    lesson_imgs_errors = 0
+    quiz_outcome = ''
+    quiz_details_done = 0
+    quiz_details_error = 0
+    exercise_outcome = ''
+    exercise_details_done = 0
+    exercise_details_updated = 0
+    exercise_details_error = 0
+
+    def __str__(self):
+        return """Lesson: {}
+    Images:
+        Done: {}
+        Errors: {}
+Quiz: {}
+    Done: {}
+    Errors: {}
+Exercises: {}
+    Created: {}
+    Updated: {}
+    Errors: {}
+        """.format(
+            self.lesson_outcome,
+            self.lesson_imgs_done,
+            self.lesson_imgs_errors,
+            self.quiz_outcome,
+            self.quiz_details_done,
+            self.quiz_details_error,
+            self.exercise_outcome,
+            self.exercise_details_done,
+            self.exercise_details_updated,
+            self.exercise_details_error,
+        )
+
+async def create_html_lessons(lang='pl', lesson=None, verbose=False):
+    counter = GlobalCounter()
     async def process(a_dir, lang=lang):
+        less_counter = LessonCounter()
         if a_dir.startswith('.') or a_dir.startswith('_'):
             return
         path = os.path.abspath('lesson_source/{}'.format(a_dir)) + '/'
@@ -291,40 +336,61 @@ async def create_html_lessons(lang='pl', lesson=None):
         try:
             with open(q_path) as file:
                 questions = yaml.load(file.read())
-            print('found quiz')
+            less_counter.quiz_outcome = 'found'
         except Exception as err:
             questions = False
-            print(err)
+            less_counter.quiz_outcome = 'none'
         if questions:
             quiz = models.Quiz(title=meta['title'], users=DEFAULT_USER, description=meta['description'])
             quiz_id = await quiz.update_or_create('title')
             meta['quiz'] = quiz_id
             question_order = 1
             for _, val in questions.items():
-                qustion = models.Question(**val)
-                qid = await qustion.update_or_create(*val.keys())
-                qq = models.QuizQuestions(quiz=quiz_id, question=qid, question_order=question_order)
-                question_order += 1
-                await qq.update_or_create('question', 'quiz')
-                print('question created')
-        lesson = models.Lesson(**meta)
-        lid = await lesson.update_or_create('lesson_no')
+                try:
+                    qustion = models.Question(**val)
+                    qid = await qustion.update_or_create(*val.keys())
+                    qq = models.QuizQuestions(quiz=quiz_id, question=qid, question_order=question_order)
+                    question_order += 1
+                    await qq.update_or_create('question', 'quiz')
+                    less_counter.quiz_details_done += 1
+                except Exception as err:
+                    print(err)
+                    less_counter.quiz_details_error += 1
+        try:
+            lesson = models.Lesson(**meta)
+            lid, updated = await lesson.update_or_create('lesson_no', verbose=True)
+            less_counter.lesson_outcome = 'found'
+            if updated:
+                less_counter.lesson_outcome = 'updated'
+                counter.updated_lessons += 1
+            else:
+                less_counter.lesson_outcome = 'created'
+                counter.added_lessons += 1
+        except Exception as err:
+            print(err)
+            less_counter.lesson_outcome += 'error'
+            counter.error_lessons += 1
         try:
             with open(e_path) as file:
                 exe = yaml.load(file)
+                less_counter.exercise_outcome = 'found'
         except Exception as err:
             exe = False
-            print("No exercise for " + e_path)
+            less_counter.exercise_outcome = 'not found'
             print(err)
         if exe:
             try:
-                for _, val in exe.items():
+                for val in exe.values():
                     exercise = models.Exercise(lesson=lid, **val)
-                    await exercise.update_or_create(*val.keys())
+                    id, updated = await exercise.update_or_create(*val.keys(), verbose=True)
+                    if updated:
+                        less_counter.exercise_details_updated += 1
+                    else:
+                        less_counter.exercise_details_created += 1
             except Exception as err:
                 print('error creating exercise')
+                less_counter.exercise_details_error += 1
                 print(exe)
-                print(val)
                 print(err)
         dest = os.path.abspath('static/images/')
         if os.path.exists(images):
@@ -333,45 +399,46 @@ async def create_html_lessons(lang='pl', lesson=None):
                 if os.path.isfile(src):
                     dst = dest + '/' + file
                     shutil.copy(src, dst)
-                    print(src + ' copied')
+                    less_counter.lesson_imgs_done += 1
                 else:
-                    print(src + ' NOT copied')
+                    less_counter.lesson_imgs_errors += 1
+        return less_counter
 
-    # TODO: add proper summary
-    added_lessons = 0
-    skipped_lessons = 0
-    error_lessons = 0
-    if lesson:
+    async def inner_process(a_lesson):
         try:
-            resp = await process("./lesson_source/" + lesson)
-            added_lessons += 1
+            resp = await process(a_lesson)
+            color_print(a_lesson, color='green')
+            if verbose:
+                print(resp)
+            return resp
         except Exception as err:
             print(err)
-            color_print(lesson, color='red')
-            error_lessons += 1
+            color_print(a_lesson, color='red')
+        return False
+    color_print('Processing lessons', color='blue')
+    if lesson:
+        await inner_process(lesson)
     else:
         for a_dir in os.listdir("./lesson_source/"):
-            try:
-                resp = await process(a_dir)
-                added_lessons += 1
-                color_print(a_dir, color='green')
-            except Exception as err:
-                print(err)
-                color_print(a_dir, color='red')
-                error_lessons += 1
-                await process(a_dir, lang='pl')
-    color_print('ADDED: ', added_lessons, color='green')
-    color_print('SKIPPED: ', skipped_lessons, color='yellow')
-    color_print('ERRORS: ', error_lessons, color='red')
+            inner_process(a_dir)
+    color_print('Processing lessons ---> Done', color='blue')
+    color_print('ADDED: ', counter.added_lessons, color='green')
+    color_print('UPDATED: ', counter.updated_lessons, color='yellow')
+    color_print('ERRORS: ', counter.error_lessons, color='red')
 
 
 def get_parser():
     a_parser = argparse.ArgumentParser()
-    a_parser.add_argument("--lesson", help="add lesson with id example usage: --lesson 0024")
-    a_parser.add_argument("--alllesson", help="add lesson with id example usage: --alllesson True")
-    a_parser.add_argument("--bootstrap", help="bootstrap the DB: --bootstrap True")
-    a_parser.add_argument("--admin", help="Create admin account in DB: --admin True")
-    a_parser.add_argument("--devusers", help="Generate 10 user accounts for development account in DB: --dev-users True")
+    a_parser.add_argument("-l", "--lesson", help="Add lesson with id example usage: --lesson 0024")
+    a_parser.add_argument("-v", "--verbose", help="verbose mode", action="store_true")
+    a_parser.add_argument("--alllesson", help="Add all lesson", action="store_true")
+    a_parser.add_argument("--bootstrap", help="Bootstrap the DB", action="store_true")
+    a_parser.add_argument("--admin", help="Create admin account in DB", action="store_true")
+    a_parser.add_argument(
+        "--devusers",
+        help="Generate 10 user accounts for development account in DB",
+        action="store_true"
+    )
     return a_parser
 
 if __name__ == '__main__':
@@ -384,9 +451,9 @@ if __name__ == '__main__':
         loop.run_until_complete(bootstrap_db())
         loop.run_until_complete(bootstrap_db())
     if args.lesson:
-        loop.run_until_complete(create_html_lessons(lesson=args.lesson))
+        loop.run_until_complete(create_html_lessons(lesson=args.lesson, verbose=args.verbose))
     if args.alllesson:
-        loop.run_until_complete(create_html_lessons())
+        loop.run_until_complete(create_html_lessons(verbose=args.verbose))
     if args.admin:
         loop.run_until_complete(admin())
     loop.close()
