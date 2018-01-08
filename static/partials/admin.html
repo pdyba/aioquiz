@@ -21,7 +21,7 @@
                 <tbody>
                 <tr ng-repeat="(user, count) in vm.users_stats"
                     ng-repeat="user in vm.allUsers"
-                    ng-class="{'danger': user === 'admins', 'success': ['mentors', 'confirmed'].indexOf(user) !== -1, 'warning': ['organisers', 'accepted'].indexOf(user) !== -1, 'info': user === 'atendees'}">
+                    ng-class="{'danger': user === 'admins', 'success': ['mentors', 'confirmed'].indexOf(user) !== -1, 'warning': ['organisers', 'accepted'].indexOf(user) !== -1, 'info': user === 'attendees'}">
                     <td>{{ user }}</td>
                     <td>{{ count }}</td>
                 </tr>

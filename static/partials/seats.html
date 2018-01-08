@@ -17,11 +17,11 @@
                                 <input ng-click="vm.take_or_relese_seat(raw, number, user)"
                                        type="checkbox"
                                        id="{{ raw }}{{ number }}"
-                                       ng-disabled="vm.user_seat.users && (vm.user_seat.row != raw || vm.user_seat.number != number) || user.empty_raw"
+                                       ng-disabled="vm.user_seat.users && (vm.user_seat.row != raw || vm.user_seat.number != number) || user.empty_row"
                                        ng-checked="vm.user_seat.raw === raw && vm.user_seat.number === number"/>
                                 <label for="{{ raw }}{{ number }}" data-toggle="tooltip" data-placement="top" title="{{ user.user }}"
-                                       ng-class="{'empty_raw': user.empty_raw, 'i_need_help': user.i_need_help, 'taken': user.user && vm.user_seat.users != user.user_id, 'my_seat': user.user_id && vm.user_seat.users === user.user_id}">
-                                    <x ng-hide="user.empty_raw || user.i_need_help">{{ raw }}{{ number }}</x>
+                                       ng-class="{'empty_row': user.empty_row, 'i_need_help': user.i_need_help, 'taken': user.user && vm.user_seat.users != user.user_id, 'my_seat': user.user_id && vm.user_seat.users === user.user_id}">
+                                    <x ng-hide="user.empty_row || user.i_need_help">{{ raw }}{{ number }}</x>
                                     <x ng-show="user.i_need_help">{{ user.name }}</x>
                                 </label>
                             </li>

@@ -23,7 +23,7 @@ class EmailView(HTTPModelClassView):
         'ack': 'Do Zakcpetowanych, ktorzy przyjeli',
         'noans': 'Do Zakcpetowanych, ktorzy jeszcze przyjeli - przypomnienie',
         'rejected': 'Do tych co odrzucili',
-        'not_accpeted': 'Do tych ktorzy nie zostali zakceptowaniu - druga runda',
+        'not_accepted': 'Do tych ktorzy nie zostali zaakceptowani - druga runda',
         'organiser': 'Do organizatorów',
         'mentor': 'Do mentorów',
     }

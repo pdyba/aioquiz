@@ -134,7 +134,7 @@ class AdminForgotPasswordView(HTTPModelClassView):
             logging.error(email)
             user = False
         if not user:
-            return json({'msg': 'wrong email or user does not exists'})
+            return json({'msg': 'wrong email or user does not exist'})
         password = create_uuid()
         await user.set_password(password)
         await user.update()

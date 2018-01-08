@@ -90,7 +90,7 @@ class UserView(HTTPModelClassView):
         """
         if not await Config.get_registration():
             return json(
-                {'msg': 'Registartion is already closed'},
+                {'msg': 'Registration is already closed'},
                 status=401
             )
         try:
@@ -245,13 +245,13 @@ class SeatView(HTTPModelClassView):
                 }
             resp = defaultdict(dict)
             empty = {'user': False, 'i_need_help': False}
-            empty_raw = {'user': False, 'i_need_help': False, 'empty_raw': True}
+            empty_row = {'user': False, 'i_need_help': False, 'empty_row': True}
             # TODO: Move to config (empty rows)
             for x in range(config.room_raws):
                 raw = chr(65 + x)
                 for y in range(config.room_columns):
                     if (y + 1) % 13 == 0:
-                        resp[raw][y] = empty_raw
+                        resp[raw][y] = empty_row
                     else:
                         resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
         return json(resp, sort_keys=True)
@@ -304,7 +304,7 @@ class ForgotPasswordView(HTTPModelClassView):
             try:
                 user = await Users.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
-                return json({'msg': 'wrong email or user does not exists'})
+                return json({'msg': 'wrong email or user does not exist'})
             password = create_uuid()
             await user.set_password(password)
             await user.update()
@@ -318,10 +318,10 @@ class ForgotPasswordView(HTTPModelClassView):
                     'success': True,
                     'msg': 'Check Your e-mail for new password'
                 })
-            return json({'success': False, 'msg': 'error sending e-mail'})
+            return json({'success': False, 'msg': 'Error sending e-mail'})
         except:
             logging.exception('err user.post')
-        return json({'msg': 'wrong email or user does not exists'}, status=404)
+        return json({'msg': 'Wrong email or user does not exist'}, status=404)
 
 
 # noinspection PyBroadException PyMethodMayBeStatic
@@ -338,8 +338,8 @@ class ChangePasswordView(HTTPModelClassView):
                 if req['new_password'] == req['new_password_2']:
                     await current_user.set_password(req['new_password'])
                     await current_user.update()
-                    return json({"success": True, "msg": "You have successfully changed password"})
-                return json({"success": False, "msg": "You provided different new passwords"})
+                    return json({"success": True, "msg": "You have successfully changed your password"})
+                return json({"success": False, "msg": "You provided different new password"})
             return json({"success": False, "msg": "You provided wrong old password"})
         except:
             logging.exception('authentication.post')

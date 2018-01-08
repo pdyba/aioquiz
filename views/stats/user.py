@@ -20,7 +20,7 @@ class UserStatsView(HTTPModelClassView):
                 organiser=False,
                 admin=False
             ),
-            'atendees': await Users.count_by_field(
+            'attendees': await Users.count_by_field(
                 mentor=False,
                 organiser=False
             ),

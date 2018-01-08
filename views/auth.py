@@ -115,7 +115,7 @@ class MagicAuthenticateView(HTTPModelClassView):
             try:
                 user = await Users.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
-                return json({'msg': 'wrong email or user does not exists'})
+                return json({'msg': 'wrong email or user does not exist'})
             await user.set_magic_string()
             await user.update()
             magic_link = """

@@ -41,5 +41,5 @@ class ReviewRulesView(HTTPModelClassView):
 
     @user_required('admin')
     async def get(self, _, current_user):
-        rules = [x.strip() for x in MAINCONFIG.CIRITERIA.split('\n') if x]
+        rules = [x.strip() for x in MAINCONFIG.CRITERIA.split('\n') if x]
         return json(rules)

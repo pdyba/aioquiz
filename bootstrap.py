@@ -347,8 +347,8 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
             question_order = 1
             for _, val in questions.items():
                 try:
-                    qustion = models.Question(**val)
-                    qid = await qustion.update_or_create(*val.keys())
+                    question = models.Question(**val)
+                    qid = await question.update_or_create(*val.keys())
                     qq = models.QuizQuestions(quiz=quiz_id, question=qid, question_order=question_order)
                     question_order += 1
                     await qq.update_or_create('question', 'quiz')
@@ -429,14 +429,14 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
 
 def get_parser():
     a_parser = argparse.ArgumentParser()
-    a_parser.add_argument("-l", "--lesson", help="Add lesson with id example usage: --lesson 0024")
-    a_parser.add_argument("-v", "--verbose", help="verbose mode", action="store_true")
-    a_parser.add_argument("--alllesson", help="Add all lesson", action="store_true")
+    a_parser.add_argument("-l", "--lesson", help="Add lesson with given id, example: --lesson 0024")
+    a_parser.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
+    a_parser.add_argument("--all_lessons", help="Add all lessons", action="store_true")
     a_parser.add_argument("--bootstrap", help="Bootstrap the DB", action="store_true")
-    a_parser.add_argument("--admin", help="Create admin account in DB", action="store_true")
+    a_parser.add_argument("--admin", help="Create admin account in the DB", action="store_true")
     a_parser.add_argument(
         "--devusers",
-        help="Generate 10 user accounts for development account in DB",
+        help="Generate 10 user accounts for development purposes in the DB",
         action="store_true"
     )
     return a_parser
@@ -452,7 +452,7 @@ if __name__ == '__main__':
         loop.run_until_complete(bootstrap_db())
     if args.lesson:
         loop.run_until_complete(create_html_lessons(lesson=args.lesson, verbose=args.verbose))
-    if args.alllesson:
+    if args.all_lessons:
         loop.run_until_complete(create_html_lessons(verbose=args.verbose))
     if args.admin:
         loop.run_until_complete(admin())
