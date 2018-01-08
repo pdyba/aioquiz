@@ -431,7 +431,7 @@ def get_parser():
     a_parser = argparse.ArgumentParser()
     a_parser.add_argument("-l", "--lesson", help="Add lesson with given id, example: --lesson 0024")
     a_parser.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
-    a_parser.add_argument("--all_lessons", help="Add all lessons", action="store_true")
+    a_parser.add_argument("--alllessons", help="Add all lessons", action="store_true")
     a_parser.add_argument("--bootstrap", help="Bootstrap the DB", action="store_true")
     a_parser.add_argument("--admin", help="Create admin account in the DB", action="store_true")
     a_parser.add_argument(
@@ -452,7 +452,7 @@ if __name__ == '__main__':
         loop.run_until_complete(bootstrap_db())
     if args.lesson:
         loop.run_until_complete(create_html_lessons(lesson=args.lesson, verbose=args.verbose))
-    if args.all_lessons:
+    if args.alllessons:
         loop.run_until_complete(create_html_lessons(verbose=args.verbose))
     if args.admin:
         loop.run_until_complete(admin())
