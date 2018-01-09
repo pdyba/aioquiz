@@ -1,4 +1,5 @@
-# !/usr/bin/python3.5
+#!/usr/bin/env python3.5
+# encoding: utf-8
 from abc import abstractmethod
 from datetime import datetime
 import json
@@ -272,7 +273,7 @@ class Table:
             logging.exception('Error creating {}'.format(self._name))
             return isinstance(e, TypeError)
 
-    async def update_or_create(self, *args):
+    async def update_or_create(self, *args, verbose=False):
         kw = {arg: getattr(self, arg) for arg in args}
         try:
             inst = await self.get_first_by_many_field_value(**kw)
@@ -281,11 +282,18 @@ class Table:
         if inst:
             await inst.update(**kw)
             if hasattr(inst, 'id'):
+                if verbose:
+                    return inst.id, True
                 return inst.id
             else:
+                if verbose:
+                    return True, True
                 return True
         else:
-            return await self.create()
+            resp = await self.create()
+            if verbose:
+                return resp, False
+            return resp
 
     @classmethod
     def _format_update(cls, clsi):
@@ -329,7 +337,7 @@ class Table:
 
     async def update_from_dict(self, data_dict):
         for key, value in data_dict.items():
-            if self._in_schema(key) and not key in  self._restricted_keys + ['create_date', 'last_login']:
+            if self._in_schema(key) and key not in self._restricted_keys + ['create_date', 'last_login']:
                 setattr(self, key, value)
         return await self.update()
 

@@ -34,7 +34,7 @@ class Question(Table):
 
 
 class Users(Table):
-    _restricted_keys = ['session_uuid', 'password', 'magic_string']
+    _restricted_keys = ['session_uuid', 'password', 'magic_string', 'magic_string_date']
     _soft_restricted_keys = ['score', 'notes']
     _name = 'users'
     _schema = [
@@ -127,6 +127,10 @@ class Users(Table):
         data = safe_del_key(data, self._banned_user_keys)
         return data
 
+    async def update(self, **kwargs):
+        if not self.magic_string_date:
+            self.magic_string_date = datetime.utcnow()
+        return await super().update(**kwargs)
 
 class UserReview(Table):
     _name = 'user_review'
