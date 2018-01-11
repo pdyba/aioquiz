@@ -15,21 +15,33 @@ _users = {}
 _users_names = {}
 
 
-def user_required(access_level=None):
+def user_required(access_level='any_user'):
+    """
+    no_user - anonymus
+    any_user - loged user
+    mentor
+    organiser
+    admin
+    :param access_level:
+    :return: wrapped_function
+    """
     def decorator(func):
         @wraps(func)
         async def func_wrapper(self, *args, **kwargs):
-            global _users
-            authorization = args[0].headers.get('authorization')
-            if not authorization:
-                return NOT_AUTHORISED
-            user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
-            _users[authorization] = user
-            if not user:
-                return NOT_AUTHORISED
-            if access_level:
-                if not getattr(user, access_level):
+            if access_level != 'no_user':
+                global _users
+                authorization = args[0].headers.get('authorization')
+                if not authorization:
                     return NOT_AUTHORISED
+                user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
+                _users[authorization] = user
+                if not user:
+                    return NOT_AUTHORISED
+                if access_level != 'any_user' and not getattr(user, access_level):
+                    return NOT_AUTHORISED
+            else:
+                user = None
+            # below has to be that way as append does not return anything ;)
             args = list(args)
             args.append(user)
             args = tuple(args)
@@ -56,7 +68,8 @@ class HTTPModelClassView(HTTPMethodView):
     def _get_name(cls):
         return cls.__name__
 
-    async def get(self, request, an_id=None):
+    @user_required(access_level='no_user')
+    async def get(self, request, current_user, an_id=None):
         if an_id:
             an_model = await self._cls.get_by_id(an_id)
             q = await an_model.to_dict()
@@ -68,7 +81,8 @@ class HTTPModelClassView(HTTPMethodView):
                 models.append(await quiz.to_dict())
             return json(models)
 
-    async def post(self, request):
+    @user_required(access_level='no_user')
+    async def post(self, request, current_user):
         try:
             req = request.json
             model = self._cls(**req)
@@ -78,7 +92,8 @@ class HTTPModelClassView(HTTPMethodView):
             logging.exception('err {}.post'.format(self._get_name()))
         return json({'msg': 'error creating'}, status=500)
 
-    async def delete(self, request, an_id=None):
+    @user_required(access_level='no_user')
+    async def delete(self, request, current_user, an_id=None):
         model = await self._cls.get_by_id(an_id)
         await model.delete()
         return json({
@@ -86,7 +101,8 @@ class HTTPModelClassView(HTTPMethodView):
             'msg': 'Deleted successfully'
         })
 
-    async def put(self, request, an_id=None):
+    @user_required(access_level='no_user')
+    async def put(self, request, current_user, an_id=None):
         req = request.json
         model = await self._cls.get_by_id(an_id)
         await model.update_from_dict(req)
