@@ -1,10 +1,10 @@
 1:
-    title: 1.
+    title: 1. 
     task: |
         Napisz program, który w zależności od opcji podanej przez użytkownika (1, 2 lub 3) odczyta odpowiednio plik x.txt, y.txt lub z.txt (zawartość dowolna); obsługa błędów powinna obejmować (co najmniej) komunikat o nieprawidłowej opcji, zaś wczytywanie treści pliku powinno znaleźć się w oddzielnej funkcji (wraz z obsługą błędów)
     possible_answare: yey
 2:
-    title: 2.
+    title: 2. Cezar.com
     task: |
         Napisz aplikację - na podstawie podanego szablonu - która po podaniu tekstu i liczby zwróci tekst "przesunięty w prawo" (uwaga: ograniczamy się do liter alfabetu łacińskiego) o liczbę podaną przez użytkownika (np. abcd -> bcde, zdcb -> aedc)
         Przydatne funkcje: chr, ord
@@ -12,12 +12,12 @@
         Przydatna informacja: alfabet łaciński ma 26 liter
     possible_answare: yey
 3:
-    title: 3a.
+    title: 3a. Wczytywasz heheszek
     task: |
         Napisz aplikację, która w zależności od argumentu "file" (GET) odczyta plik "hehe.txt", "heheszki.json" lub "beczka_smiechu.txt" (zawartość dowolna, powinny znajdować się w katalogu z aplikacją). Obsłuż sytuację, w której plik nie będzie istniał.
     possible_answare: yey
 4:
-    title: 3b.
+    title: 3b. Heheszki poza kontrolo
     task: |
         W aplikacji 3a. jeśli użytkownik odpowiednio zmodyfikuje argument "file" (zamiast "hehe.txt" poda np. "../../../../hehe.txt" [Linux] lub "..\..\..\..\hehe.txt" [Windows]), możliwe jest załadowanie dowolnego pliku (każde ../ lub ..\ powoduje wejście do katalogu/folderu nadrzędnego).
         Napraw aplikację tak, aby pod uwagę brana była tylko nazwa pliku.
@@ -28,7 +28,7 @@
         https://www.owasp.org/index.php/Path_Traversal
     possible_answare: yey
 5:
-    title: 4.
+    title: 4. Kalkulator objętości
     task: |
         Stwórz - z wykorzystaniem klas i dziedziczenia - kalkulator objętości brył: sześcianu, prostopadłościanu, stożka i kuli. Powinien on wczytać od użytkownika opcję (0, 1, 2 lub 3) i w zależności od tego przyjąć 3 argumenty, 2 lub 1 i obliczyć objętość. Na wszelki wypadek wzory na objętość podane poniżej.
         Sześcian: V = a^3
