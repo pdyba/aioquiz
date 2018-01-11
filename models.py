@@ -132,6 +132,7 @@ class Users(Table):
             self.magic_string_date = datetime.utcnow()
         return await super().update(**kwargs)
 
+
 class UserReview(Table):
     _name = 'user_review'
     _schema = [
@@ -325,12 +326,6 @@ class Feedback(Table):
         Column('material', Integer()),
         Column('teacher', ForeignKey('users')),
         Column('users', ForeignKey('users')),
-        # O tym czy dobrze było zorganizowane
-        # Czy polecilbys nasze warsztaty znajomym
-        # Czy moglibyśmy lepiej się reklamować
-        # Czy jakieś zagadnienia były za mało poruszone Albo za dużo
-        # Czego brakowało
-        # https://docs.google.com/forms/d/e/1FAIpQLSctlgSwoKQoB_3Hc5bfu3RYLbz0TNKQmg23jnc8MJ3wwRJn7g/viewform
     ]
 
 

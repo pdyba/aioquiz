@@ -279,7 +279,7 @@ class LessonCounter:
     quiz_details_done = 0
     quiz_details_error = 0
     exercise_outcome = ''
-    exercise_details_done = 0
+    exercise_details_created = 0
     exercise_details_updated = 0
     exercise_details_error = 0
 
@@ -303,7 +303,7 @@ Exercises: {}
             self.quiz_details_done,
             self.quiz_details_error,
             self.exercise_outcome,
-            self.exercise_details_done,
+            self.exercise_details_created,
             self.exercise_details_updated,
             self.exercise_details_error,
         )
