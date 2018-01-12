@@ -1,36 +1,82 @@
 1:
-    title: 1. 
+    title: 1. Proste wczytywanie plików
     task: |
-        Napisz program, który w zależności od opcji podanej przez użytkownika (1, 2 lub 3) odczyta odpowiednio plik x.txt, y.txt lub z.txt (zawartość dowolna); obsługa błędów powinna obejmować (co najmniej) komunikat o nieprawidłowej opcji, zaś wczytywanie treści pliku powinno znaleźć się w oddzielnej funkcji (wraz z obsługą błędów)
+        Napisz program, który w zależności od opcji podanej przez użytkownika (1, 2 lub 3)
+        odczyta odpowiednio plik x.txt, y.txt lub z.txt (zawartość dowolna);
+        obsługa błędów powinna obejmować (co najmniej) komunikat o nieprawidłowej opcji,
+        zaś wczytywanie treści pliku powinno znaleźć się w oddzielnej funkcji (wraz z obsługą błędów)
     possible_answare: yey
 2:
-    title: 2. Cezar.com
+    title: 2. NieUnikalna Lista
     task: |
-        Napisz aplikację - na podstawie podanego szablonu - która po podaniu tekstu i liczby zwróci tekst "przesunięty w prawo" (uwaga: ograniczamy się do liter alfabetu łacińskiego) o liczbę podaną przez użytkownika (np. abcd -> bcde, zdcb -> aedc)
+        Napisz algorytm, który na wejście przyjmie listę zawierającą tylko stringi i integery.
+        Zwróci listą zawierającą tylko powtarzające się wartości, nie zmieniając ich kolejności.
+        Przykład: [1, 2, 3, 1, 3] 1 i 3 nie są unikalne, więc wynikiem będzie [1, 3, 1, 3].
+    possible_answare: yey
+3:
+    title: 3. Cezar.com
+    task: |
+        Napisz aplikację - na podstawie podanego szablonu - która po podaniu tekstu i liczby zwróci tekst "przesunięty w prawo"
+        (uwaga: ograniczamy się do małych liter alfabetu łacińskiego) o liczbę podaną przez użytkownika (np. abcd -> bcde, zdcb -> aedc)
         Przydatne funkcje: chr, ord
         Przydatny operator: % (modulo)
         Przydatna informacja: alfabet łaciński ma 26 liter
     possible_answare: yey
-3:
-    title: 3a. Wczytywasz heheszek
-    task: |
-        Napisz aplikację, która w zależności od argumentu "file" (GET) odczyta plik "hehe.txt", "heheszki.json" lub "beczka_smiechu.txt" (zawartość dowolna, powinny znajdować się w katalogu z aplikacją). Obsłuż sytuację, w której plik nie będzie istniał.
-    possible_answare: yey
 4:
-    title: 3b. Heheszki poza kontrolo
+    title: 4. pińćdźiśiąt groży
     task: |
-        W aplikacji 3a. jeśli użytkownik odpowiednio zmodyfikuje argument "file" (zamiast "hehe.txt" poda np. "../../../../hehe.txt" [Linux] lub "..\..\..\..\hehe.txt" [Windows]), możliwe jest załadowanie dowolnego pliku (każde ../ lub ..\ powoduje wejście do katalogu/folderu nadrzędnego).
+        Napisz prosty konwerter walut, który na wejściu przyjmie stringa składającego się z:
+        kwoty, waluty wejściowej, słówka kluczowego "to" i kwoty wyjściowej.
+        Użyj następujących kursów: 1 PLN to 1000 USD, 1 PLN to 4505 EURO, 1 PLN to 100 JPY
+        Załóż, że konwersje są wykonywane tylko z lub do PLNów.
+        Dla zaawansowanych: przeliczaj wszystkie waluty między sobą (PLN, USD, EURO, JPY)
+        Przykład:
+        input: "2 PLN to USD" output: "2000 USD"
+        input "15 USD to PLN" output: "0.015 PLN"
+    possible_answare: yey
+5:
+    title: 5a. Wczytywacz heheszek
+    task: |
+        Napisz aplikację, która w zależności od argumentu "file" (GET) odczyta plik "hehe.txt",
+        "heheszki.json" lub "beczka_smiechu.txt" (zawartość dowolna, powinny znajdować się w katalogu z aplikacją).
+        Obsłuż sytuację, w której plik nie będzie istniał.
+    possible_answare: yey
+6:
+    title: 5b. Heheszki poza kontrolo
+    task: |
+        W aplikacji 5a. jeśli użytkownik odpowiednio zmodyfikuje argument "file"
+        (zamiast "hehe.txt" poda np. "../../../../hehe.txt" [Linux] lub "..\..\..\..\hehe.txt" [Windows]),
+        możliwe jest załadowanie dowolnego pliku (każde ../ lub ..\ powoduje wejście do katalogu/folderu nadrzędnego).
         Napraw aplikację tak, aby pod uwagę brana była tylko nazwa pliku.
         Przydatny moduł: os.path
         (ciekawostka: jest to błąd "z życia wzięty" z pewnego większego projektu)
-        Więcej informacji o podatności aplikacji z 3a:
+        Więcej informacji o podatności aplikacji z 5a:
         https://sekurak.pl/czym-jest-podatnosc-path-traversal/
         https://www.owasp.org/index.php/Path_Traversal
     possible_answare: yey
-5:
-    title: 4. Kalkulator objętości
+7:
+    title: 7. Google.me
     task: |
-        Stwórz - z wykorzystaniem klas i dziedziczenia - kalkulator objętości brył: sześcianu, prostopadłościanu, stożka i kuli. Powinien on wczytać od użytkownika opcję (0, 1, 2 lub 3) i w zależności od tego przyjąć 3 argumenty, 2 lub 1 i obliczyć objętość. Na wszelki wypadek wzory na objętość podane poniżej.
+        Napisz aplikacje we flasku, która wygląda jak główna strona google... po kliknięciu szukaj przekierowuje na:
+        "http://thecatapi.com/api/images/get?format=src&type=gif"
+        lub na:
+        "http://thecatapi.com/api/images/get"
+    possible_answare: yey
+8:
+    title: 8. Kalkulator objętości
+    task: |
+        Stwórz - z wykorzystaniem klas i dziedziczenia - kalkulator objętości brył:
+        sześcianu, prostopadłościanu, stożka i kuli.
+        Powinien on wczytać od użytkownika opcję (0, 1, 2 lub 3) i w zależności od tego przyjąć
+        3 argumenty, 2 lub 1 i obliczyć objętość. Na wszelki wypadek wzory na objętość podane poniżej.
         Sześcian: V = a^3
         Prostopadłościan: V = a*b*c
         Kula: V = 4/3 * pi * r^3
+    possible_answare: yey
+9:
+    title: 9. UwIeRzYtElNiAnIe
+    task: |
+        Napisz aplikację, która będzie pozwalała założyć w niej konto posiadające login i hasło.
+        Dane użytkowników trzymaj w słowniku. Pamiętaj żeby sprawdzić czy użytkownik o danym loginie już nie istnieje.
+        Aplikacja też powinna pozwolić zalogować się wykorzystując login i hasło.
+    possible_answare: yey
