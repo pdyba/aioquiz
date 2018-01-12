@@ -7,7 +7,7 @@
         zaś wczytywanie treści pliku powinno znaleźć się w oddzielnej funkcji (wraz z obsługą błędów)
     possible_answare: yey
 2:
-    title: 2. Nie Unikalna Lista
+    title: 2. NieUnikalna Lista
     task: |
         Napisz algorytm, który na wejście przyjmie listę zawierającą tylko stringi i integery.
         Zwróci listą zawierającą tylko powtarzające się wartości, nie zmieniając ich kolejności.
@@ -26,16 +26,16 @@
     title: 4. pińćdźiśiąt groży
     task: |
         Napisz prosty konwerter walut, który na wejściu przyjmie stringa składającego się z:
-        kwoty, waluty wejściowej, słowka kluczowego to i kwoty wyjściowej.
-        Użyj kursów następujących 1 PLN to 1000 USD, 1 PLN to 4505 EURO, 1 PLN to 100 JPY
-        Załóż że konwersją są wykonywane tylko z lub do PLNów.
-        Dla zawansowanych: przeliczaj wszystkie waluty między sobą (PLN, USD, EURO, JPY)
+        kwoty, waluty wejściowej, słówka kluczowego "to" i kwoty wyjściowej.
+        Użyj następujących kursów: 1 PLN to 1000 USD, 1 PLN to 4505 EURO, 1 PLN to 100 JPY
+        Załóż, że konwersje są wykonywane tylko z lub do PLNów.
+        Dla zaawansowanych: przeliczaj wszystkie waluty między sobą (PLN, USD, EURO, JPY)
         Przykład:
         input: "2 PLN to USD" output: "2000 USD"
         input "15 USD to PLN" output: "0.015 PLN"
     possible_answare: yey
 5:
-    title: 5a. Wczytywasz heheszek
+    title: 5a. Wczytywacz heheszek
     task: |
         Napisz aplikację, która w zależności od argumentu "file" (GET) odczyta plik "hehe.txt",
         "heheszki.json" lub "beczka_smiechu.txt" (zawartość dowolna, powinny znajdować się w katalogu z aplikacją).
@@ -57,7 +57,7 @@
 7:
     title: 7. Google.me
     task: |
-        Napisz aplikacje we flasku, która wygląda jak głowna strona google... po klknieciu szukaj przekierowuje na:
+        Napisz aplikacje we flasku, która wygląda jak główna strona google... po kliknięciu szukaj przekierowuje na:
         "http://thecatapi.com/api/images/get?format=src&type=gif"
         lub na:
         "http://thecatapi.com/api/images/get"
@@ -74,9 +74,9 @@
         Kula: V = 4/3 * pi * r^3
     possible_answare: yey
 9:
-    title: 9. AuTeNtYkAcJa
+    title: 9. UwIeRzYtElNiAnIe
     task: |
-        Napisz aplikację, która będzie pozwalała założyć konto w niej posiadające login i hasło.
+        Napisz aplikację, która będzie pozwalała założyć w niej konto posiadające login i hasło.
         Dane użytkowników trzymaj w słowniku. Pamiętaj żeby sprawdzić czy użytkownik o danym loginie już nie istnieje.
-        Aplikacja też powinna pozowlić zalogować się wykorzustując login i hasło.
+        Aplikacja też powinna pozwolić zalogować się wykorzystując login i hasło.
     possible_answare: yey
