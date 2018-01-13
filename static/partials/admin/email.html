@@ -1,15 +1,26 @@
 <div class="container" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-6 col-md-offset-3">
-        <h3>Config:</h3>
-        <div ng-repeat="mail in vm.email_options.possible_emails">
-            <form ng-submit="vm.send_email(mail)" role="form">
-                <div ng-repeat="(k,v) in mail">
-                    <b>{{ k }}:</b>{{ v }}
+        <h3>Admin: E-Mail:</h3>
+            <form role="form">
+                <div>
+                    To: <select ng-options="recip.name for recip in vm.email_options.recipients"
+                                ng-model="vm.new_email.recipients" ng-change="vm.check_recipiants()"
+                                required>
+                    </select>
+                    <br>
+                    E-mail type: <select ng-options="k.email_type for k in vm.email_options.possible_emails"
+                                ng-model="vm.new_email.mail" ng-change="vm.check_recipiants()"
+                                required>
+                    </select>
+                    <br>
+                    Message:
+                    <br>
+                    <textarea type="text" name="new_answare" id="e_mail_text" class="form-control" ng-model="vm.new_email.mail.text" required style="min-height: 300px;"/>
                 </div>
                 <div class="form-actions">
                     <button type="submit"
                             ng-disabled="form.$invalid || vm.dataLoading"
-                            class="btn btn-primary">Send
+                            class="btn btn-primary" ng-click="vm.send_email()">Send
                     </button>
                     <img ng-if="vm.dataLoading"
                          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
