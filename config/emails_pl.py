@@ -158,7 +158,7 @@ class Custom(EmailData):
     Do zobaczenia za tydzień!
     PyLove.org Team
     """
-    recipients = ""
+    recipients = "all"
 
 
 class WorkshopInfo(EmailData):

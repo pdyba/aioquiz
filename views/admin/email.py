@@ -17,20 +17,20 @@ class EmailView(HTTPModelClassView):
     _cls = Users
     _urls = '/api/admin/email'
 
-    recipients = [
-        {
+    recipients = {
+        'all' : {
             'type': 'all',
             'name': 'Do Wszystkich',
             'conditions': {}
         },
-        {
+        'accepted': {
             'type': 'accepted',
             'name': 'Do Zakceptowanych',
             'conditions': {
                 'accepted': True, 'organiser': False, 'mentor': False, 'admin': False
             }
          },
-        {
+        'accepted_noans': {
             'type': 'accepted_noans',
             'name': 'Do Zakceptowanych, którzy jeszcze nie potwierdzili - przypomnienie',
             'conditions': {
@@ -41,7 +41,7 @@ class EmailView(HTTPModelClassView):
                 'admin': False
             }
         },
-        {
+        'confirmed': {
             'type': 'confirmed',
             'name': 'Do Zakceptowanych, którzy potwierdzili swój udział',
             'conditions': {
@@ -52,7 +52,7 @@ class EmailView(HTTPModelClassView):
                 'admin': False
             }
         },
-        {
+        'rejected': {
             'type': 'rejected',
             'name': 'Do tych co odrzucili',
             'conditions': {
@@ -62,28 +62,28 @@ class EmailView(HTTPModelClassView):
                 'admin': False
             }
         },
-        {
+        'not_accepted': {
             'type': 'not_accepted',
             'name': 'Do tych którzy nie zostali',
             'conditions': {'accepted': False, 'organiser': False, 'mentor': False, 'admin': False},
 
         },
-        {
+        'admin': {
             'type': 'admin',
             'name': 'Do Adminów',
             'conditions': {'admin': True},
         },
-        {
+        'organiser': {
             'type': 'organiser',
             'name': 'Do organizatorów',
             'conditions': {'organiser': True},
         },
-        {
+        'mentor': {
             'type': 'mentor',
             'name': 'Do mentorów',
             'conditions': {'mentor': True},
         },
-    ]
+    }
 
     @user_required('admin')
     async def get(self, request, current_user, **kwargs):
