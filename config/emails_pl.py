@@ -43,8 +43,8 @@ class Accepted(EmailData):
     Masz 72 godziny na potwierdzenie swojego uczestnictwa w warsztacie. W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy osobę z listy rezerwowej.
     Jeżeli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Pozdrawiamy,
     PyLove.org Team'''
@@ -60,8 +60,8 @@ class Rejected(EmailData):
     Jak tylko zwolni się miejsce, niezwłocznie Cię o tym poinformujemy.
     Otrzymasz maila w tej sprawie 17 września.
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Pozdrawiamy,
     PyLove.org Team'''
@@ -91,8 +91,8 @@ class Reminder(EmailData):
     W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy osobę z listy rezerwowej. Jeżeli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Pozdrawiamy,
     PyLove.org Team'''
@@ -106,8 +106,8 @@ class TooLate(EmailData):
     Przykro nam, że nie zobaczymy się na warsztacie weekendowym PyLove.org 23-24 września!
     Nie wpłynęło do nas Twoje potwierdzenie udziału, ale wierzymy, że mimo to Twoje zainteresowanie programowaniem przerodzi się wkrótce w pasję.
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Jeszcze raz dziękujemy za zainteresowanie i rejestrację!
 
@@ -141,8 +141,8 @@ class SecondChance(EmailData):
     Jeśli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Pozdrawiamy,
     PyLove.org Team'''
@@ -153,7 +153,7 @@ class Custom(EmailData):
     text = """Cześć!
 
     W razie pytań, pisz do nas na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    https://www.facebook.com/PyLoveOrg
 
     Do zobaczenia za tydzień!
     PyLove.org Team
@@ -201,7 +201,7 @@ class WorkshopInfo(EmailData):
     POTRZEBUJESZ POMOCY? Jeśli jesteś osobą z ograniczeniami ruchowymi (lub po prostu potrzebujesz pomocy), to napisz do Weroniki (Weronikapylove.org) –  ona postara się, by wszystko było dla Ciebie gotowe, ponieważ obiekt jest dostosowany do osób na z ograniczeniami ruchowymi.
 
     W razie pytań, pisz do nas na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    https://www.facebook.com/PyLoveOrg
 
     Do zobaczenia!
     PyLove.org Team

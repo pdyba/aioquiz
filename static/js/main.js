@@ -194,10 +194,13 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "UserSummaryController",
             controllerAs: 'vm'
         })
-        .otherwise("/404", {
-            templateUrl: "partials/404.html",
+        .when("/404", {
+            templateUrl: "partials/errors/404.html",
             controller: "PageCtrl",
             controllerAs: 'vm'
+        })
+        .otherwise({
+            redirectTo: '/404'
         });
 }]);
 app.config(['$locationProvider', function ($locationProvider) {
@@ -1087,7 +1090,7 @@ function AdminEmailController($scope, $location, $AuthenticationService, $inject
     var vm = this;
     vm.new_email = {recipients: {type: NaN}, mail: {recipients: NaN}};
     vm.send_email = send_email;
-    vm.check_recipiants = check_recipiants;
+    vm.check_recipents = check_recipents;
 
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
@@ -1100,10 +1103,10 @@ function AdminEmailController($scope, $location, $AuthenticationService, $inject
         }
     );
 
-    function check_recipiants () {
+    function check_recipents () {
         if (vm.new_email.recipients.type && vm.new_email.mail.recipients && vm.new_email.recipients.type != vm.new_email.mail.recipients) {
             MySwalHTTP.warn(
-                'Diffrent recipients then defoult. Chosen recipiants are: <b>' + vm.new_email.recipients.type + ' </b> and email defoult is: <b>' + vm.new_email.mail.recipients + '</b>'
+                'Diffrent recipients then defoult. Chosen recipients are: <b>' + vm.new_email.recipients.type + ' </b> and email defoult is: <b>' + vm.new_email.mail.recipients + '</b>'
             )
         }
         }

@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <label>E-mail type:</label>
                     <select ng-options="k.email_type for k in vm.email_options.possible_emails"
-                            ng-model="vm.new_email.mail" ng-change="vm.check_recipiants()"
+                            ng-model="vm.new_email.mail" ng-change="vm.check_recipents()"
                             required class="form-control">
                     </select>
                 </div>
@@ -17,7 +17,7 @@
                     <br>
                     To: <select
                         ng-options="recip.name for recip in vm.email_options.recipients"
-                        ng-model="vm.new_email.recipients" ng-change="vm.check_recipiants()"
+                        ng-model="vm.new_email.recipients" ng-change="vm.check_recipents()"
                         required class="form-control">
                 </select>
                 </div>

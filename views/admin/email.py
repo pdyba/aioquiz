@@ -25,14 +25,14 @@ class EmailView(HTTPModelClassView):
         },
         'accepted': {
             'type': 'accepted',
-            'name': 'Do Zakceptowanych',
+            'name': 'Do Zaakceptowanych',
             'conditions': {
                 'accepted': True, 'organiser': False, 'mentor': False, 'admin': False
             }
          },
         'accepted_noans': {
             'type': 'accepted_noans',
-            'name': 'Do Zakceptowanych, którzy jeszcze nie potwierdzili - przypomnienie',
+            'name': 'Do zaakceptowanych, którzy jeszcze nie potwierdzili - przypomnienie',
             'conditions': {
                 'accepted': True,
                 'confirmation': 'noans',
@@ -43,7 +43,7 @@ class EmailView(HTTPModelClassView):
         },
         'confirmed': {
             'type': 'confirmed',
-            'name': 'Do Zakceptowanych, którzy potwierdzili swój udział',
+            'name': 'Do zaakceptowanych, którzy potwierdzili swój udział',
             'conditions': {
                 'accepted': True,
                 'confirmation': 'ack',
@@ -54,7 +54,7 @@ class EmailView(HTTPModelClassView):
         },
         'rejected': {
             'type': 'rejected',
-            'name': 'Do tych co odrzucili',
+            'name': 'Do tych, co odrzucili',
             'conditions': {
                 'accepted': False,
                 'organiser': False,
@@ -64,7 +64,7 @@ class EmailView(HTTPModelClassView):
         },
         'not_accepted': {
             'type': 'not_accepted',
-            'name': 'Do tych którzy nie zostali',
+            'name': 'Do tych którzy nie zostali zaakceptowani',
             'conditions': {'accepted': False, 'organiser': False, 'mentor': False, 'admin': False},
 
         },
