@@ -6,6 +6,7 @@ class EmailData:
     recipients = '...'
     subject = '...'
     text = "..."
+    per_user = False
 
     @classmethod
     def to_dict(cls):
@@ -13,12 +14,14 @@ class EmailData:
             'subject': cls.subject,
             'text': cls.text,
             'email_type': cls.__name__,
-            'recipients': cls.recipients
+            'recipients': cls.recipients,
+            'per_user': cls.per_user
         }
 
 
-class EmailAccepted(EmailData):
-    recipients = {'accepted': True, 'organiser': False, 'mentor': False}
+class Accepted(EmailData):
+    per_user = True
+    recipients = 'accepted'
     subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLove.org'
     text = '''Cześć {name}!
     Z przyjemnością informujemy, że Twoje zgłoszenie na warsztat weekendowy PyLove.org w Poznaniu zostało zaakceptowane.
@@ -40,15 +43,16 @@ class EmailAccepted(EmailData):
     Masz 72 godziny na potwierdzenie swojego uczestnictwa w warsztacie. W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy osobę z listy rezerwowej.
     Jeżeli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Pozdrawiamy,
     PyLove.org Team'''
 
 
-class EmailRejected(EmailData):
-    recipients = {'accepted': False, 'mentor': False}
+class Rejected(EmailData):
+    per_user = True
+    recipients = 'rejected'
     subject = 'Jesteś na liście rezerwowej - warsztaty PyLove.org'
     text = '''Cześć {name}!
     Ponownie dziękujemy za rejestrację na warsztat weekendowy PyLove.org w Poznaniu w dniach 23-24 września.
@@ -56,15 +60,16 @@ class EmailRejected(EmailData):
     Jak tylko zwolni się miejsce, niezwłocznie Cię o tym poinformujemy.
     Otrzymasz maila w tej sprawie 17 września.
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Pozdrawiamy,
     PyLove.org Team'''
 
 
-class EmailReminder(EmailData):
-    recipients = {'accepted': True, 'confirmation': 'noans'}
+class Reminder(EmailData):
+    per_user = True
+    recipients = 'accepted_noans'
     subject = 'Potwierdź swój udział w warsztatach PyLove.org'
     text = '''Cześć {name}!
     Czy pamiętacie o pilnej konieczności potwierdzenia swojego udziału w warsztacie weekendowym PyLove.org w Poznaniu, 23-24 września?
@@ -86,22 +91,23 @@ class EmailReminder(EmailData):
     W przypadku braku odpowiedzi - na Twoje miejsce przydzielimy osobę z listy rezerwowej. Jeżeli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Pozdrawiamy,
     PyLove.org Team'''
 
 
-class EmailTooLate(EmailData):
-    recipients = {'accepted': True, 'confirmation': 'noans'}
+class TooLate(EmailData):
+    per_user = True
+    recipients = 'accepted_noans'
     subject = 'Dziękujemy za zainteresowanie warsztatami PyLove.org'
     text = '''Cześć {name}!
     Przykro nam, że nie zobaczymy się na warsztacie weekendowym PyLove.org 23-24 września!
     Nie wpłynęło do nas Twoje potwierdzenie udziału, ale wierzymy, że mimo to Twoje zainteresowanie programowaniem przerodzi się wkrótce w pasję.
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Jeszcze raz dziękujemy za zainteresowanie i rejestrację!
 
@@ -109,8 +115,9 @@ class EmailTooLate(EmailData):
     PyLove.org Team'''
 
 
-class EmailSecondChance(EmailData):
-    recipients = {'accepted': True, 'confirmation': 'noans'}
+class SecondChance(EmailData):
+    per_user = True
+    recipients = 'accepted_noans'
     subject = 'Zostałaś przyjęta/przyjęty na warsztaty PyLove.org'
     text = '''Cześć {name}!
     Miło nam zawiadomić, że zwolniły się miejsca na liście uczestników warsztatu weekendowego PyLove.org, na który aplikowałaś/aplikowałeś!
@@ -134,23 +141,30 @@ class EmailSecondChance(EmailData):
     Jeśli wiesz, że nie możesz skorzystać z warsztatu, również prosimy o informację zwrotną.
 
 
-    Zapraszamy do obserwowania naszego wydarzenia na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    Zapraszamy do obserwowania naszego profilu Facebooku:
+    https://www.facebook.com/PyLoveOrg
 
     Pozdrawiamy,
     PyLove.org Team'''
 
 
-class EmailCustom(EmailData):
-    subject = ''
-    text = ""
-    recipients = {}
+class Custom(EmailData):
+    subject = 'PyLove: '
+    text = """Cześć!
+
+    W razie pytań, pisz do nas na Facebooku:
+    https://www.facebook.com/PyLoveOrg
+
+    Do zobaczenia za tydzień!
+    PyLove.org Team
+    """
+    recipients = "all"
 
 
-class EmailWorkshopInfo(EmailData):
-    recipients = {'accepted': True, 'confirmation': 'ack'}
+class WorkshopInfo(EmailData):
+    recipients = 'confirmed'
     subject = 'Najważniejsze informacje przed warsztatem PyLove.org'
-    text = ''' Cześć, {name}!
+    text = '''Cześć!
 
     Bardzo się cieszymy, że będziesz z nami na PyLove.org! Widzimy się już w najbliższą sobotę! Poniżej znajdziesz wszystkie najważniejsze informacje - zapoznaj się z nimi przed warsztatami.
 
@@ -187,22 +201,17 @@ class EmailWorkshopInfo(EmailData):
     POTRZEBUJESZ POMOCY? Jeśli jesteś osobą z ograniczeniami ruchowymi (lub po prostu potrzebujesz pomocy), to napisz do Weroniki (Weronikapylove.org) –  ona postara się, by wszystko było dla Ciebie gotowe, ponieważ obiekt jest dostosowany do osób na z ograniczeniami ruchowymi.
 
     W razie pytań, pisz do nas na Facebooku:
-    https://www.facebook.com/events/518360511838646
+    https://www.facebook.com/PyLoveOrg
 
     Do zobaczenia!
     PyLove.org Team
     '''
 
 
-class EmailUserFeedback(EmailData):
-    recipients = {
-        'accepted': True,
-        'confirmation': 'ack',
-        'mentor': False,
-        'organiser': False
-    }
+class UserFeedback(EmailData):
+    recipients = 'confirmed'
     subject = 'Feedback dla PyLove.org'
-    text = ''' Cześć, {name}!
+    text = '''Cześć!
 
 Warsztaty PyLove.org dobiegły końca... Bardzo chcielibyśmy dostać Twój feedback, żeby wiedzieć co ulepszyć przy okazji następnej edycji!
 
@@ -213,11 +222,10 @@ PyLove.org Team
     '''
 
 
-class EmailPytrening(EmailData):
-    recipients = {'accepted': True, 'confirmation': 'ack', 'mentor': False,
-                  'organiser': False}
+class PyLoveMeetings(EmailData):
+    recipients = 'confirmed'
     subject = 'Ruszamy z kontynuacją PyLove.org!'
-    text = """
+    text = """Hej!
 Zapraszamy wszystkie osoby, które brały udział w warsztacie weekendowym oraz pozostałe, które chcą dołączyć do uczestnictwa w spotkaniach będących kontynuacją warsztatów PyLove.org
 
 Pierwsze spotkanie PyLove z grupą "continued" odbędzie się 17.10 w Collegium Da Vinci przy ulicy Kutrzeby 10 w Poznaniu.
@@ -238,19 +246,18 @@ WAŻNA INFROMACJA! Mamy tylko 200 miejsc na sali, a rejestracja jest obowiązkow
     """
 
 
-class EmailFeedback(EmailData):
-    recipients = {'accepted': True, 'mentor': False, 'organiser': False}
+class Feedback(EmailData):
+    recipients = 'confirmed'
     subject = "Ankieta i parę przydatnych linków"
-    text = """
-    Cześć!
-    
+    text = """Cześć!
+
     Parę przydatnych linków:
     - ankieta do oceny zajęć (coś czujemy, że będziecie dla nas mieli parę wskazówek ;p): https://goo.gl/forms/1fF5WXQjNe13CpKV2
     - ściąga i zadania z zajęć: https://pylove.org/#/lesson/0021
     - program warsztatów do końca roku: https://pylove.org/#/program
     - regulamin warsztatow: https://pylove.org/#/rules
     - dla tych co czują, że trzeba utrwalić podstawy: https://www.codecademy.com/learn/learn-python
-    
+
     Super było Was zobaczyć!
     Do zobaczenia za tydzień!
     PyLove.org Team
@@ -258,7 +265,7 @@ class EmailFeedback(EmailData):
 
 
 class PyLoveChange(EmailData):
-    recipients = {'admin': False}
+    recipients = 'all'
     subject = "PyLove"
     text = """Drogie Adeptki, drodzy Adepci Pythona!
 
@@ -282,7 +289,7 @@ class PyLoveChange(EmailData):
 
 
 class RulesChange(EmailData):
-    recipients = {'admin': False}
+    recipients = 'all'
     subject = "PyLove zmiany w regulaminie"
     text = """Hej,
     W związku ze zmianami, które zaszły we wtorek, nastąpiły kosmetyczne zmiany w regulaminie:
@@ -313,22 +320,22 @@ class RulesChange(EmailData):
 
 
 class TestEmail(EmailData):
-    recipients = {"admin": True}
+    recipients = 'admin'
     subject = "PyLove test email"
     text = """To jest e-mail testowy"""
 
 
 ALL_EMAILS = [
-    EmailAccepted.to_dict(),
-    EmailRejected.to_dict(),
-    EmailReminder.to_dict(),
-    EmailTooLate.to_dict(),
-    EmailSecondChance.to_dict(),
-    EmailCustom.to_dict(),
-    EmailWorkshopInfo.to_dict(),
-    EmailUserFeedback.to_dict(),
-    EmailPytrening.to_dict(),
-    EmailFeedback.to_dict(),
+    Custom.to_dict(),
+    Accepted.to_dict(),
+    Rejected.to_dict(),
+    Reminder.to_dict(),
+    TooLate.to_dict(),
+    SecondChance.to_dict(),
+    WorkshopInfo.to_dict(),
+    UserFeedback.to_dict(),
+    PyLoveMeetings.to_dict(),
+    Feedback.to_dict(),
     PyLoveChange.to_dict(),
     RulesChange.to_dict(),
     TestEmail.to_dict(),
