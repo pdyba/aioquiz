@@ -334,6 +334,9 @@ class ChangePasswordView(HTTPModelClassView):
     async def post(self, request, current_user):
         try:
             req = request.json
+            validation_outcome = await current_user.validate_password(req['new_password'])
+            if not validation_outcome['success']:
+                return json(validation_outcome)
             if hash_string(req.get('password', 'x')) == current_user.password:
                 if req['new_password'] == req['new_password_2']:
                     await current_user.set_password(req['new_password'])
