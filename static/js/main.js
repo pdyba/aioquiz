@@ -1360,7 +1360,7 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $injector, $
                 SweetAlert.swal({
                     title: "Change Password",
                     type: "input",
-                    text: "Please provide current password again",
+                    text: "Please provide new password again",
                     showCancelButton: true,
                     confirmButtonText: "Change",
                     cancelButtonText: "Cancel",

@@ -93,12 +93,12 @@ class ExercisesView(HTTPModelClassView):
         ex = ExerciseAnsware(**req)
         try:
             await ex.create()
-            return json({'success': True, 'msg': 'Exercise answare saved'})
+            return json({'success': True, 'msg': 'Exercise answer saved'})
         except:
             logging.exception("ExercisesView.post")
         return json({
             'success': False,
-            'msg': 'ERROR: Exercise answare NOT saved'
+            'msg': 'ERROR: Exercise answer NOT saved'
         })
 
     @user_required()
@@ -113,12 +113,12 @@ class ExercisesView(HTTPModelClassView):
         ex.answare = req['answare']
         try:
             await ex.update(users=current_user.id, exercise=req['exercise'])
-            return json({'success': True, 'msg': 'Exercise answare saved'})
+            return json({'success': True, 'msg': 'Exercise answer saved'})
         except:
             logging.exception("ExercisesView.post")
         return json({
             'success': False,
-            'msg': 'ERROR: Exercise answare NOT saved'
+            'msg': 'ERROR: Exercise answer NOT saved'
         })
 
 
