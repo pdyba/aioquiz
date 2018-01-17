@@ -17,7 +17,6 @@ from models import LessonFeedbackAnswer
 from models import LessonFeedbackMeta
 from models import LessonFeedbackQuestion
 from models import Users
-from utils import hash_string
 
 from views.utils import user_required
 from views.utils import HTTPModelClassView
@@ -93,12 +92,12 @@ class ExercisesView(HTTPModelClassView):
         ex = ExerciseAnsware(**req)
         try:
             await ex.create()
-            return json({'success': True, 'msg': 'Exercise answare saved'})
+            return json({'success': True, 'msg': 'Exercise answer saved'})
         except:
             logging.exception("ExercisesView.post")
         return json({
             'success': False,
-            'msg': 'ERROR: Exercise answare NOT saved'
+            'msg': 'ERROR: Exercise answer NOT saved'
         })
 
     @user_required()
@@ -113,12 +112,12 @@ class ExercisesView(HTTPModelClassView):
         ex.answare = req['answare']
         try:
             await ex.update(users=current_user.id, exercise=req['exercise'])
-            return json({'success': True, 'msg': 'Exercise answare saved'})
+            return json({'success': True, 'msg': 'Exercise answer saved'})
         except:
             logging.exception("ExercisesView.post")
         return json({
             'success': False,
-            'msg': 'ERROR: Exercise answare NOT saved'
+            'msg': 'ERROR: Exercise answer NOT saved'
         })
 
 
@@ -204,68 +203,6 @@ class AbsenceManagementView(HTTPModelClassView):
         resp = await abmeta.to_dict()
         resp['time_ended'] = str(time_ended).split('.')[0]
         return json(resp)
-
-
-# noinspection PyBroadException, PyMethodMayBeStatic
-class WorkshopAttendenceConfirmation(HTTPModelClassView):
-    _cls = Users
-    _urls = ['/api/workshopabsence', '/api/workshopabsence/<uid>/<rhash>/<answer>']
-
-    async def get(self, _, uid, rhash, answer):
-        try:
-            user = await Users.get_by_id(int(uid))
-            uhash = hash_string(user.name + str(user.id) + user.email)
-            if not user.accepted:
-                logging.error('{} was trying to hack us'.format(user.email))
-                return json({'msg': 'Nice try! But nope.'})
-            if user.confirmation != 'noans':
-                return json({
-                    'msg': 'Sorry, it is not possible to change your mind now'
-                })
-            if uhash == rhash:
-                if answer == 'yes':
-                    user.confirmation = 'ack'
-                    await user.update()
-                    return json({'msg': 'Widzimy się w Sobotę 23.09.2017!'})
-                elif answer == 'no':
-                    user.confirmation = 'rej_user'
-                    await user.update()
-                    return json({'msg': 'Szkoda, że się już nie zobaczymy'})
-            else:
-                return json({'msg': 'wrong hash'})
-        except:
-            logging.exception('AbsenceConfirmation')
-            return json({'msg': 'wrong data'})
-
-    @user_required()
-    async def post(self, request, current_user):
-        answer = request.json.get('answer')
-        if not current_user.accepted:
-            logging.error('{} was trying to hack us'.format(current_user.email))
-            return json({'msg': 'Nice try but nope'})
-        if current_user.confirmation != 'noans':
-            return json({
-                'msg': 'Sorry there is no option to change your mind now'
-            })
-        if answer == 'yes':
-            current_user.confirmation = 'ack'
-            await current_user.update()
-            return json({
-                'success': True,
-                'msg': 'Widzmy się w Poniedzialek !'
-            })
-        elif answer == 'no':
-            current_user.confirmation = 'rej_user'
-            await current_user.update()
-            return json({
-                'success': True,
-                'msg': 'Szkoda że się już nie zobaczymy'
-            })
-        else:
-            return json({
-                'success': False,
-                'msg': 'Answer must be yes or no'
-            })
 
 
 class LessonFeedbackQuestionView(HTTPModelClassView):

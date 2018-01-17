@@ -135,12 +135,12 @@ app.config(['$routeProvider', function ($routeProvider) {
             controllerAs: 'vm'
         })
         .when("/admin_config", {
-            templateUrl: "partials/admin_config.html",
+            templateUrl: "partials/admin/config.html",
             controller: "AdminConfigController",
             controllerAs: 'vm'
         })
         .when("/admin_email", {
-            templateUrl: "partials/admin_email.html",
+            templateUrl: "partials/admin/email.html",
             controller: "AdminEmailController",
             controllerAs: 'vm'
         })
@@ -194,10 +194,13 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: "UserSummaryController",
             controllerAs: 'vm'
         })
-        .otherwise("/404", {
-            templateUrl: "partials/404.html",
+        .when("/404", {
+            templateUrl: "partials/errors/404.html",
             controller: "PageCtrl",
             controllerAs: 'vm'
+        })
+        .otherwise({
+            redirectTo: '/404'
         });
 }]);
 app.config(['$locationProvider', function ($locationProvider) {
@@ -366,7 +369,6 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $in
         $AuthenticationService: $AuthenticationService,
     });
     vm.filter = 'notrated';
-    vm.rules = [];
     vm.filters = filters;
     vm.rate = rate;
     vm.accept = accept;
@@ -470,16 +472,7 @@ function ReviewAttendeeController($scope, $location, $AuthenticationService, $in
         });
     }
 
-    function get_rules() {
-        $http.get('/api/admin/review_rules').then(
-            function (response) {
-                vm.rules = response.data;
-            }
-        );
-    }
-
     get_all_users();
-    get_rules();
 
 }
 
@@ -1095,7 +1088,10 @@ app.controller('AdminEmailController', AdminEmailController);
 AdminEmailController.$inject = ['$rootScope', '$location', 'AuthenticationService', '$injector', '$http', 'MySwalHTTP'];
 function AdminEmailController($scope, $location, $AuthenticationService, $injector, $http, MySwalHTTP) {
     var vm = this;
-    vm.questions = [];
+    vm.new_email = {recipients: {type: NaN}, mail: {recipients: NaN}};
+    vm.send_email = send_email;
+    vm.check_recipents = check_recipents;
+
     $injector.invoke(PageCtrl, this, {
         $scope: $scope,
         $location: $location,
@@ -1106,12 +1102,17 @@ function AdminEmailController($scope, $location, $AuthenticationService, $inject
             vm.email_options = response.data;
         }
     );
-    vm.email = {};
-    vm.send_email = send_email;
 
-    function send_email(mail) {
+    function check_recipents () {
+        if (vm.new_email.recipients.type && vm.new_email.mail.recipients && vm.new_email.recipients.type != vm.new_email.mail.recipients) {
+            MySwalHTTP.warn(
+                'Diffrent recipients then defoult. Chosen recipients are: <b>' + vm.new_email.recipients.type + ' </b> and email defoult is: <b>' + vm.new_email.mail.recipients + '</b>'
+            )
+        }
+        }
+    function send_email() {
         vm.dataLoading = true;
-        MySwalHTTP.swal_post('/api/admin/email', mail);
+        MySwalHTTP.swal_post('/api/admin/email', vm.new_email);
         vm.dataLoading = false;
     }
 }
@@ -1360,7 +1361,7 @@ function ProfileEditCtrl($scope, $location, $AuthenticationService, $injector, $
                 SweetAlert.swal({
                     title: "Change Password",
                     type: "input",
-                    text: "Please provide current password again",
+                    text: "Please provide new password again",
                     showCancelButton: true,
                     confirmButtonText: "Change",
                     cancelButtonText: "Cancel",
@@ -1583,6 +1584,7 @@ function MySwalHTTP($http, SweetAlert) {
     service.swal_post = swal_post;
     service.swal_put = swal_put;
     service.err = simple_err;
+    service.warn = warning;
     return service;
 
     function parse_resp(response) {
@@ -1608,30 +1610,21 @@ function MySwalHTTP($http, SweetAlert) {
             showConfirmButton: true
         });
     }
+    function warning(msg) {
+        SweetAlert.swal({
+            title: "Warning",
+            text: msg,
+            type: "warning",
+            showConfirmButton: true,
+            html: true
+        });
+    }
 
     function swal_get(url) {
         return swal_req(url, 'get')
-        //$http.get(url)
-        //    .then(
-        //        function (resp) {
-        //            return parse_resp(resp);
-        //        })
-        //    .catch(function (err) {
-        //        err(err.data.msg);
-        //        return false
-        //    });
     }
     function swal_post(url, data) {
         return swal_req(url, 'post', data)
-        //return $http.post(url, data)
-        //    .then(
-        //        function (resp) {
-        //            return parse_resp(resp);
-        //        })
-        //    .catch(function (err) {
-        //        err(err.data.msg);
-        //        return false
-        //    });
     }
     function swal_put(url, data) {
         return swal_req(url, 'put', data)

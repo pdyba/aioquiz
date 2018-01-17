@@ -55,12 +55,3 @@ class REGEMAIL:
     """
     SUBJECT_PL = 'PyLove.org Potwierdzenie rejestracji'
     SUBJECT_EN = 'PyLove.org Registration Confirmation'
-
-
-class MAINCONFIG:
-    """
-    move to DB
-    """
-    CRITERIA = """
-    how we should judge
-    """
