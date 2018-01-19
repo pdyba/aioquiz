@@ -103,6 +103,27 @@ class Users(Table):
         self.password = hash_string(self.password)
         return await super().create()
 
+    @staticmethod
+    async def validate_password(new_password):
+        if len(new_password) < 8:
+            return {"success": False, "msg": "You provided too short password"}
+        if new_password == new_password.lower() or new_password == new_password.upper():
+            return {
+                "success": False,
+                "msg": "Password needs to contain at least one small and one capital letter"
+            }
+        if not any([a for a in new_password if a.isnumeric()]):
+            return {
+                "success": False,
+                "msg": "Password needs to contain at least one number"
+            }
+        if not any([a for a in new_password if not a.isalnum()]):
+            return {
+                "success": False,
+                "msg": "Password needs to contain at least one small non alpha-numeric character like !, ? or *"
+            }
+        return {"success": True}
+
     async def set_password(self, password):
         self.password = hash_string(password)
 
