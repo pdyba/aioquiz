@@ -24,17 +24,17 @@
         Blog: Strona "o mnie" na podstawie danych o użytkowniu przechowywanych w bazie danych
     possible_answare: yey
 6:
-    title: 11.5
+    title: 11.6
     task: |
         Blog: Archiwum postów - przeglądanie postów po miesiącach
     possible_answare: yey
 7:
-    title: 11.5
+    title: 11.7
     task: |
         Blog: Wyszukiwanie postów - po treści lub tytule
     possible_answare: yey
 8:
-    title: 11.5
+    title: 11.8
     task: |
         Blog: Zwróć random posta - Feeling lucky
     possible_answare: yey
