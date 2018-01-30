@@ -323,7 +323,7 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
         q_path = path + '.quiz'
         try:
             with open(l_path) as file:
-                html = markdown.markdown(file.read(), extensions=['markdown.extensions.codehilite'])
+                html = markdown.markdown(file.read(), extensions=['markdown.extensions.codehilite', 'markdown.extensions.tables'])
         except FileNotFoundError:
             return
         with open('static/lessons/{}.html'.format(a_dir), 'w') as file:

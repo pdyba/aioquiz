@@ -310,7 +310,7 @@ class ForgotPasswordView(HTTPModelClassView):
             await user.update()
             resp = await send_email(
                 recipients=[user.email],
-                text=password,
+                text="Your new PyLove password:\n" + password,
                 subject="Your new PyLove password"
             )
             if resp:
