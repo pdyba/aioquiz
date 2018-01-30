@@ -1,0 +1,41 @@
+1:
+    title: 11.1
+    task: |
+        Blog: Wyświetlanie postów od najnowszych do najstarszych.
+    possible_answare: yey
+2:
+    title: 11.2
+    task: |
+        Blog: Tworzenie postów
+    possible_answare: yey
+3:
+    title: 11.3
+    task: |
+        Blog: Edycja postów
+    possible_answare: yey
+4:
+    title: 11.4
+    task: |
+        Blog: Usuwanie postów
+    possible_answare: yey
+5:
+    title: 11.5
+    task: |
+        Blog: Strona "o mnie" na podstawie danych o użytkowniu przechowywanych w bazie danych
+    possible_answare: yey
+6:
+    title: 11.5
+    task: |
+        Blog: Archiwum postów - przeglądanie postów po miesiącach
+    possible_answare: yey
+7:
+    title: 11.5
+    task: |
+        Blog: Wyszukiwanie postów - po treści lub tytule
+    possible_answare: yey
+8:
+    title: 11.5
+    task: |
+        Blog: Zwróć random posta - Feeling lucky
+    possible_answare: yey
+
