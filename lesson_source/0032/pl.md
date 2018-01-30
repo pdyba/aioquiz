@@ -82,7 +82,7 @@ Skrypt, który stworzy nam bazę danych we właściwej bazie danych:
 Zapisywanie
 -----------
 
-Aby nasze zmiany stały się pernamentne musimy wynik naszych dzialań zapisać po ich naniesieniu.
+Aby nasze zmiany stały się pernamentne musimy wynik naszych działań zapisać po ich naniesieniu.
 Ważne: pobierając, nie trzeba tej komendy wykonywać. Przed dodaniem nowego wpisu trzeba będzie dodać też `db.session.add(<klasa>)`
 
     :::python3

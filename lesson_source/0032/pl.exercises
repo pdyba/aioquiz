@@ -21,17 +21,17 @@
 5:
     title: 11.5
     task: |
-        Blog: Strona "o mnie" na podstawie danych o uzytkowniu przechowywanych w bazie danych
+        Blog: Strona "o mnie" na podstawie danych o użytkowniu przechowywanych w bazie danych
     possible_answare: yey
 6:
     title: 11.5
     task: |
-        Blog: Archiwum postów - przegladanie postow po miesiacach
+        Blog: Archiwum postów - przeglądanie postów po miesiącach
     possible_answare: yey
 7:
     title: 11.5
     task: |
-        Blog: Wyszukiwanie postów - po tresci lub tytule
+        Blog: Wyszukiwanie postów - po treści lub tytule
     possible_answare: yey
 8:
     title: 11.5
