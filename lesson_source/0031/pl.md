@@ -1,4 +1,4 @@
-1.10 PEP 8, Pylint, pdb
+1.11 PEP 8, Pylint, pdb
 =======================
 
 PEP 8

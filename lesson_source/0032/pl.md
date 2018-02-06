@@ -1,4 +1,4 @@
-1.11 SQLAlchemy i projekty
+1.12 SQLAlchemy i projekty
 ===========================
 
 
