@@ -114,8 +114,8 @@ R - Wyciąganie po ID, wyszukiwanie
 
     user = User.query.filter_by(email='piotr@pylove.org').first()
     admins = User.query.filter_by(admin=True).all()
-    admins = User.query.filter_by(admin=True).order_by(User.email.asc())all()
-    admins = User.query.filter_by(admin=True).order_by(User.email.desc())all()
+    admins = User.query.filter_by(admin=True).order_by(User.email.asc()).all()
+    admins = User.query.filter_by(admin=True).order_by(User.email.desc()).all()
     user_1 = User.query.get(1)
 
 U - updatowanie
