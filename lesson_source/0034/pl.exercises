@@ -1,0 +1,23 @@
+1:
+    title: 1.
+    task: |
+        Przy pomocy SQLAlchemy utwórz bazę danych przechowującą produkty i opinie o produktach.
+        Cechy produktu: id, nazwa, opis, kategoria
+        Cechy opinii: id, autor, treść, ocena (liczbowa), produkt (którego dotyczy dana opinia)
+    possible_answare: yey
+2:
+    title: 2.
+    task: |
+        Utwórz REST API (zbiór endpointów flaskowych) dla bazy z zadania 1. API powinno pozwalać na pobieranie, dodawanie, edytowanie i usuwanie produktów i opinii.
+    possible_answare: yey
+3:
+    title: 3.
+    task: |
+        Dodaj do bazy danych tabelę z użytkownikami. Każdy użytkownik powinien posiadać id, nazwę i hasło.
+        (Dla uproszczenia możesz przyjąć, że hasło jest jawnie przechowywane w bazie. W prawdziwych bazach powinien być trzymany skrót SHA hasła.)
+    possible_answare: yey
+4:
+    title: 4.
+    task: |
+        Zmodyfikuj API tak, żeby wymagało podania nazwy użytkownika i hasła. Powinny być podawane w nagłówku HTTP.
+    possible_answare: yey
