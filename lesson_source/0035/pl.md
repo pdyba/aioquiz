@@ -10,7 +10,7 @@ Jest to plik przechowujący parametry aplikacji, takie jak:
 * loginy, hasła i klucze dostępowe do aplikacji zewnętrzynch
 oraz wiele innych specyficznych dla danej aplikacji.
 
-Pliki te są często pisane w ASCII, rzadziej w UTF-8, czy bez użycia Polskich znaków diakrytycznych.
+Pliki te są często pisane w ASCII, rzadziej w UTF-8, czyli bez użycia Polskich znaków diakrytycznych.
 
 Będziemy omawiać tworzenie tych plików w Pythonie,
  bez wykorzystania zewnętrznych narzędzi (takich jak consul czy zookeeper).
@@ -189,7 +189,7 @@ dla plików pytohnowych (1.)
     except ImportError:
         try:
             from config_dev  import *
-            print('using DEF config')
+            print('using DEV config')
         except ImportError:
             from config_template import *
             print('using ! Template ! config file')
@@ -224,3 +224,5 @@ dla plików json/ini (2.):
 
 Dobrą praktyką jest automatyzowanie wszystkiego, włącznie z wczytwanie konfiguracji - ułatwia nam to jej zarządzaniem.
 Różne pliki konfiugracyjne trzymamy po to, żeby nie używać produkcyjnych danych w czasie developmentu i żeby tych plików nie edytować.
+
+Warto wspomnieć, iż można wyspecifikować zmienną środowiskową zawierająca infomrację którego pliku z configiem użyć :)
