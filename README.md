@@ -5,11 +5,19 @@ AioQuiz is stand alone opensource application for conducting, managing and monit
 It is written in Python using asynchronous framework Sanic, PostgresSQL and AngularJS
 
 ## Requirements
-
+* `apt-get install python3-dev gcc`
 * Python 3.5+
-* PostgresSQL
+* PostgresSQL (instructions below)
 * `python3.5 -m pip install -r requirements`
 
+
+## install and bootstrap PostgresSQL
+
+apt-get update
+sudo apt-get install postgresql postgresql-contrib
+adduser aioquiz
+sudo -u postgres createuser --interactive
+sudo -u postgres createdb aioquizdb
 
 ## bootstrap DB
 
@@ -31,3 +39,20 @@ It is written in Python using asynchronous framework Sanic, PostgresSQL and Angu
 ## run app
 
 `python3.5 aioquiz.py`
+
+
+## Lets Encrypt Certs:
+https://certbot.eff.org/#ubuntuxenial-nginx
+
+    :::bash
+    sudo apt-get update
+    sudo apt-get install software-properties-common
+    sudo add-apt-repository ppa:certbot/certbot
+    sudo apt-get update
+    sudo apt-get install python-certbot-nginx
+
+`sudo certbot --nginx`
+
+or (no nginx)
+
+`sudo certbot certonly`

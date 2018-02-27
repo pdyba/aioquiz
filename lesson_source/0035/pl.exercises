@@ -1,0 +1,39 @@
+1:
+    title: 1.15.1
+    task: |
+        Stwórz plik konfiguracyjny w wariancie 1 w Pythonie, który będzie zawierał:
+        dane serwera do aplikacji (adres IP i port, na którym apka będzie chodziła);
+        informacje czy jest to tryb debug czy nie;
+        infomracje o lokalizacji bazy danych sqllite i jej nazwie.
+    possible_answare: yey
+2:
+    title: 1.15.2
+    task: |
+        Stwórz plik konfiguracyjny w wariancie 2 w Pythonie, wykorzystując dane z zad 1.15.1
+    possible_answare: yey
+3:
+    title: 1.15.3
+    task: |
+        Stwórz plik konfiguracyjny w formacie .ini, wykorzystując dane z zad 1.15.1
+    possible_answare: yey
+4:
+    title: 1.15.4
+    task: |
+        Stwórz plik konfiguracyjny w formacie .json, wykorzystując dane z zad 1.15.1
+    possible_answare: yey
+5:
+    title: 1.15.5
+    task: |
+        Stwórz plik konfiguracyjny wykorzystujący dane środowiskowe, wykorzystując dane z zad 1.15.1
+    possible_answare: yey
+6:
+    title: 1.15.6
+    task: |
+        Do zadań 1.15.1--1.15.4 stwórz plik, który będzie pobierał konfiguracje PRD/DEV zależnie, która będzie dostępna.
+        Dla konfiguracji produkcyjnej baza danych powinna być w innej lokalizacji, a tryb debug powinien mieć flagę false.
+    possible_answare: yey
+7:
+    title: 1.15.7
+    task: |
+        Do zadań 1.15.1--1.15.4 stwórz przykładowy plik konfiguracyjny (templatkę).
+    possible_answare: yey
