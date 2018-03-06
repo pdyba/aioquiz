@@ -38,6 +38,7 @@ SCRUM
 Metodologia, przy użyciu której ludzie mogą z powodzeniem rozwiązywać złożone problemy adaptacyjne, by w sposób produktywny i kreatywny wytwarzać produkty o najwyższej możliwej wartości.
 
 Scrum jest:
+
 * Lekki
 * Łatwy do zrozumienia
 * Bardzo trudny do opanowania
@@ -47,9 +48,9 @@ Scrum jest:
 Role
 ----
 
-• Product Owner
-• Development Team
-• Scrum Master
+* Product Owner
+* Development Team
+* Scrum Master
 
 Product Owner odpowiedzialny za utrzymanie Product Backlogu. Jest ostatecznym źródłem informacji związanym z produktem dla Zespołu. Akceptuje lub odrzuca rezultaty pracy zespołu.
 
@@ -58,9 +59,9 @@ The Team samoorganizująca się, interdyscyplinarna grupa. W zespole nie ma hier
 Scrum Master zapewnia maksymalną produktywność zespołu usuwając przeszkody. Zapewnia ścisłą współpracę w Zespole. Osłania zespół przed zewnętrznymi czynnikami mogącymi zaburzyć pracę, dba o ciągłą poprawę procesu, tak aby po każdej iteracji proces był lepszy i bardziej dojrzały
 
 Artefakty
-• Product Backlog
-• Sprint Backlog
-• Increment
+* Product Backlog
+* Sprint Backlog
+* Increment
 
 Product backlog - uporządkowana lista wszystkiego, co może być potrzebne w produkcie oraz jedyne źródło wymaganych zmian, które mają być do produktu wprowadzone.
 
@@ -71,11 +72,11 @@ co oznacza, że jest w stanie pozwalającym na jego użycie i jest zgodny z Defi
 
 Wydarzenia
 
-• Daily (stand up)
-• Sprint Planning
-• Sprint Review
-• Sprint Retrospective
-• Sprint refinement
+* Daily (stand up)
+* Sprint Planning
+* Sprint Review
+* Sprint Retrospective
+* Sprint refinement
 
 Daily (stand up) - codzienne spotkanie(do 15min.) na którym Zespół synchronizuje się. Członkowie Zespołu mówią co robili i co zamierzają robić
 
