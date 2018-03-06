@@ -59,6 +59,8 @@ The Team samoorganizująca się, interdyscyplinarna grupa. W zespole nie ma hier
 Scrum Master zapewnia maksymalną produktywność zespołu usuwając przeszkody. Zapewnia ścisłą współpracę w Zespole. Osłania zespół przed zewnętrznymi czynnikami mogącymi zaburzyć pracę, dba o ciągłą poprawę procesu, tak aby po każdej iteracji proces był lepszy i bardziej dojrzały
 
 Artefakty
+------------
+
 * Product Backlog
 * Sprint Backlog
 * Increment
@@ -71,6 +73,7 @@ Increment - Przyrost - jest sumą wszystkich elementów Produktu Backlogu zakoń
 co oznacza, że jest w stanie pozwalającym na jego użycie i jest zgodny z Definicją Ukończenia (Definition of done) przyjętą przez Zespół.
 
 Wydarzenia
+------------
 
 * Daily (stand up)
 * Sprint Planning
