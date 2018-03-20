@@ -27,9 +27,9 @@ https://download.docker.com/kitematic/Kitematic-Windows.zip
 instalacja RabbitMQ na docker
 -----------------------------
 
-![image](./images/docker_rmq_1.png)
-![image](./images/docker_rmq_2.jpg)
-![image](./images/docker_rmq_3.jpg)
+![image](./images/docker_rmq_1.PNG)
+![image](./images/docker_rmq_2.PNG)
+![image](./images/docker_rmq_3.png)
 
 
 instalacja bezpośrednio na systemie
@@ -112,7 +112,7 @@ Document - coś a'la JSON, czyli zbiór zestawień klucz-wartość, o dynamiczny
 instalacja MongoDB na docker
 ----------------------------
 
-![image](./images/docker_mongo.jpg)
+![image](./images/docker_mongo.PNG)
 
 instalacja bezpośrednio na systemie
 -----------------------------------
