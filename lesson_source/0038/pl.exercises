@@ -28,7 +28,7 @@
 6:
     title: 1.18.2
     task: |
-        Testy napisane w poprzednim zadaniu zaktualizuj tak, aby korzystały z fixture'ów podanych w lekcji.
+        Testy napisane w poprzednim zadaniu zaktualizuj tak, aby korzystały z fixture-ów podanych w lekcji.
     possible_answare: yey
 7:
     title: 1.18.3a
