@@ -5,8 +5,8 @@ Testy jednostkowe to fragmenty kodu, które służą do sprawdzania, czy właśc
 Do pisania testów jednostkowych najlepiej skorzystać z frameworka. Dla Pythona mamy kilka opcji:
 
 * Unittest - część biblioteki standardowej Pythona
-* Pytest - zewnętrzna biblioteka, ale wszędzie najbardziej polecana
-* Nose
+* Pytest - najpopularniejsza zewnętrzna biblioteka, wszędzie najbardziej polecana. Jest w stanie odpalać zwykłe unittesty
+* Nose - rzadziej używana biblioteka
 
 My będziemy używać frameworka Pytest.
 
@@ -53,9 +53,9 @@ Testy można uruchomić na dwa sposoby:
 
 * Ścieżki pozytywne (happy paths) - pomyślne wywołania funkcji
 * Ścieżki negatywne (unhappy paths) - wywołania funkcji z nieprawidłowymi parametrami, błędy w funkcjach wywoływanych
-przez funkcję testowaną
+przez funkcję testowaną - test sprawdza, czy takie błędy są prawidłowo obsługiwane przez aplikację
 * Testy powinny pokrywać wszystkie możliwe przebiegi działania funkcji, w tym np. wszystkie dane wejściowe,
-dla których działanie funkcji jest nietypowe
+dla których działanie funkcji jest nietypowe (wyjątki i warunki)
 * W miarę możliwości należy traktować funkcję jako czarną skrzynkę, a więc nie sugerować się kodem funkcji tylko założeniem,
 co dana funkcja powinna robić
 
@@ -75,7 +75,7 @@ co dana funkcja powinna robić
         with pytest.raises(ValueError):
             silnia(-1)
 
-### Zadanie 1.
+### Uwagi do zadań 1a - 1e
 
 Napisz wyczerpujące testy dla kodu znajdującego się pod adresem: [link](./images/user_db.py)
 
