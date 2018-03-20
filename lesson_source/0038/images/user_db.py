@@ -22,7 +22,7 @@ class UserDB:
 
     def sort_users(self, sort_by='name', reverse=False):
         if sort_by not in ['name', 'age']:
-            raise ValueError(f'Cannot sort by {sort_by}')
+            raise ValueError('Cannot sort by {}'.format(sort_by))
 
         self._users.sort(key=lambda user: user.get(sort_by, float('inf')), reverse=False)
 
@@ -35,7 +35,7 @@ class UserDB:
                 break
 
         if not to_delete:
-            raise ValueError(f'User with name {to_delete} does not exist')
+            raise ValueError('User with name {} does not exist'.format(to_delete))
 
     def report(self):
         age_sum = 0
