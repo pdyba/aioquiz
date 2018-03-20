@@ -1,20 +1,53 @@
 1:
-    title: 1.18.1
+    title: 1.18.1a
     task: |
-        Pobierz kod do zadania 1. znajdujący się na końcu lekcji.
-        Napisz wyczerpujące testy dla tego kodu. Oczekiwane działanie poszczególnych funkcji jest opisane w lekcji.
+        Pobierz kod do zadania 1. znajdujący się na końcu lekcji. Napisz wyczerpujące testy dla tego kodu. Oczekiwane działanie poszczególnych funkcji jest opisane w lekcji.
         Uwaga - w kodzie mogą znajdować się błędy - spróbuj je naprawić.
+        W tym zadaniu umieść test(y) funkcji add_user.
     possible_answare: yey
 2:
+    title: 1.18.1b
+    task: |
+        Jak wyżej (funkcja list_users).
+    possible_answare: yey
+3:
+    title: 1.18.1c
+    task: |
+        Jak wyżej (funkcja sort_users).
+    possible_answare: yey
+4:
+    title: 1.18.1d
+    task: |
+        Jak wyżej (funkcja sort_users).
+    possible_answare: yey
+5:
+    title: 1.18.1e
+    task: |
+        Jak wyżej (funkcja report).
+    possible_answare: yey
+6:
     title: 1.18.2
     task: |
         Testy napisane w poprzednim zadaniu zaktualizuj tak, aby korzystały z fixture'ów podanych w lekcji.
     possible_answare: yey
-3:
-    title: 1.18.3
+7:
+    title: 1.18.3a
     task: |
         Pobierz kod do zadania 3. znajdujący się na końcu lekcji.
         Zaktualizuj test do funkcji get_planet_terrain tak, aby uwzględniał przypadek, w którym dana planeta nie istnieje.
-        Napisz testy do pozostałych funkcji. Przy teście funkcji get_starship_count nie patchuj biblioteki requests tylko funkcję get_starship_ids.
-        Podpowiedź do testu dla get_vehicle_names - skorzystaj z atrybutu side_effect mocka.
+    possible_answare: yey
+8:
+    title: 1.18.3b
+    task: |
+        Napisz testy do funkcji get_starship_ids.
+    possible_answare: yey
+9:
+    title: 1.18.3c
+    task: |
+        Napisz testy do funkcji get_starship_count. Tym razem nie patchuj biblioteki requests tylko funkcję get_starship_ids.
+    possible_answare: yey
+10:
+    title: 1.18.3d
+    task: |
+        Napisz testy do funkcji get_vehicle_names. Podpowiedź - skorzystaj z atrybutu side_effect mocka.
     possible_answare: yey
