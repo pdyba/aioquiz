@@ -4,6 +4,7 @@ from views.admin import *
 from views.auth import *
 from views.auth import *
 from views.event import *
+from views.exercise_generator import *
 from views.lesson import *
 from views.quiz import *
 from views.stats import *
