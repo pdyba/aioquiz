@@ -7,7 +7,7 @@
     title: 1.17.2
     task: |
         Napisz producera, który będzie wrzucał wiadomości do kolejki zawierające wiadomość w formacie JSON.
-        np. '{"name": "Przemus_26", "msg": "no czesc, poklikasz", "time": "2018-03-13 16:00:21.341639"}'
+        np. {"name": "Przemus_26", "msg": "no czesc, poklikasz", "time": "2018-03-13 16:00:21.341639"}
     possible_answare: yey
 3:
     title: 1.17.3
