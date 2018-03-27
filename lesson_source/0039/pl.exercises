@@ -23,6 +23,6 @@
 5:
     title: 1.19.5
     task: |
-        namedtuple
+        Kod przygotowany do tego zadania z klasy zamienn na namedtuple.
     possible_answare: yey
 
