@@ -22,7 +22,7 @@ class ExercisesGeneratorView(HTTPModelClassView):
     async def exercise_1_19_1():
         resp = []
         occurences = 123
-        for x in '; ! . : + - = | Luck I am Your Father'.split(' '):
+        for x in '; ! . : + - = | Luke I am Your Father'.split(' '):
             for _ in range(occurences):
                 resp.append(x)
         shuffle(resp)

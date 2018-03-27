@@ -7,7 +7,7 @@
     title: 1.19.2
     task: |
         Pobierz losowe dane z https://pylove.org/exercise/1_19_2 i
-        znajdź hasło które na które złoży się 6 najpopularnieszych
+        znajdź hasło na które złoży się 6 najpopularnieszych
         liter w kolejność malejącej wystąpień.
     possible_answare: yey
 3:
@@ -23,6 +23,6 @@
 5:
     title: 1.19.5
     task: |
-        Kod przygotowany do tego zadania z klasy zamienn na namedtuple.
+        Kod przygotowany do tego zadania z klasy zamień na namedtuple.
     possible_answare: yey
 

@@ -1,7 +1,7 @@
 1.19 Zaawansowane konstrukty w Pythonie
 =======================================
 
-Najpopularniejsze strukty danych wykorzystywane na codzien to:
+Najpopularniejsze konstrukty danych wykorzystywane na co dzien to:
 * dict
 * list
 * tuple
@@ -19,7 +19,7 @@ set
 
 Struktura zbliżona do listy z dwoma cechami:
 * nieuporządkowana
-* unikalna
+* unikalna ( nie zawiera powtarzających się elementów )
 
 
 
@@ -77,7 +77,7 @@ Tylko w czasie iterowania np:
 #### Operacje na zbiorach
 
 
-* difference - różnica jedno storna
+* difference - różnica jednostronna
 * difference_update
 * intersection - część wspólna
 * intersection_update
@@ -124,15 +124,18 @@ Tylko w czasie iterowania np:
 datetime
 ----------------------
 
-#### imporotwanie modółów
+#### imporotwanie modułów
 
     :::python3
     from datetime import date
     from datetime import time
     from datetime import datetime
+    from datetime import timedelta
 
 
 #### date
+
+Do przechowywania tylko daty (bez czasu)
 
     :::python3
     from datetime import date
@@ -153,6 +156,8 @@ datetime
 
 #### time
 
+Do przechowywania tylko czasu (bez daty)
+
     :::python3
     from datetime import time
     a_time = time(minute=12, second=13, hour=4)
@@ -162,12 +167,25 @@ datetime
     
 #### datetime
  
+ Do przechowywania tylko dat i czasu
+ 
      :::python3   
     from datetime import datetime
     a_date = datetime(2017, 3, 26, 23, 41, 45, 620822)
     str(a_date)
     start = datetime.now()
     diff = datetime.now() - start
+
+#### timdetla
+
+Do przechowywania tylko różnicy w dacie i czasie.
+
+    :::python3   
+    from datetime import timedelta
+    td = timedelta(days=1, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
+    a_date = datetime(2017, 3, 26, 23, 41, 45, 620822) 
+    a_date += td
+    a_date i= td
 
 defaultdict
 ----------------------
@@ -191,7 +209,7 @@ Słownik, który ma domyślne typy wartości, tworzone w locie.
 Counter
 ----------------------
 
-Klasa służaca do zliczanai elementów iterowalnych obiektów np. stringów, list, tupli itp. 
+Klasa służaca do zliczania elementów iterowalnych obiektów np. stringów, list, tupli itp. 
 
     from collections import Counter
     
