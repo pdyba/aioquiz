@@ -1,7 +1,7 @@
 1.19 Zaawansowane konstrukty w Pythonie
 =======================================
 
-Najpopularniejsze konstrukty danych wykorzystywane na co dzien to:
+Najpopularniejsze konstrukty danych wykorzystywane na co dzień to:
 * dict
 * list
 * tuple
@@ -19,7 +19,7 @@ set
 
 Struktura zbliżona do listy z dwoma cechami:
 * nieuporządkowana
-* unikalna ( nie zawiera powtarzających się elementów )
+* unikalna (nie zawiera powtarzających się elementów)
 
 
 
@@ -31,7 +31,7 @@ Struktura zbliżona do listy z dwoma cechami:
 
 #### Read
 
-Tylko w czasie iterowania np:
+Tylko w czasie iterowania np.:
 
     :::python3
     jakis_tam_set = {'a', 'b', 'c'}
@@ -167,7 +167,7 @@ Do przechowywania tylko czasu (bez daty)
     
 #### datetime
  
- Do przechowywania tylko dat i czasu
+ Do przechowywania dat i czasu
  
      :::python3   
     from datetime import datetime
@@ -176,9 +176,9 @@ Do przechowywania tylko czasu (bez daty)
     start = datetime.now()
     diff = datetime.now() - start
 
-#### timdetla
+#### timedelta
 
-Do przechowywania tylko różnicy w dacie i czasie.
+Do przechowywania różnicy w dacie i czasie.
 
     :::python3   
     from datetime import timedelta
@@ -209,7 +209,7 @@ Słownik, który ma domyślne typy wartości, tworzone w locie.
 Counter
 ----------------------
 
-Klasa służaca do zliczania elementów iterowalnych obiektów np. stringów, list, tupli itp. 
+Klasa służąca do zliczania elementów iterowalnych obiektów np. stringów, list, tupli itp. 
 
     from collections import Counter
     
@@ -226,7 +226,7 @@ Klasa służaca do zliczania elementów iterowalnych obiektów np. stringów, li
 namedtuple
 ----------------------
 
-Tworzenie prostych klas do przechowywania danych. Łatwe w użyciu, optymalizuja zużycie pamięci.
+Tworzenie prostych klas do przechowywania danych. Łatwe w użyciu, optymalizuje zużycie pamięci.
 
     from collections import namedtuple
 
