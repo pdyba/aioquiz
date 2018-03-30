@@ -19,4 +19,10 @@
 
 <style scoped>
 
+footer {
+    margin: 20px 0;
+}
+
+
+
 </style>

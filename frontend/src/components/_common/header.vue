@@ -61,6 +61,14 @@
                             <dropdown-item>Attendance</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
+                    <dropdown tag="li" class="nav-item">
+                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Lang</dropdown-toggle>
+                        <dropdown-menu>
+                            <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('pl')" imgClass="language-img"></dropdown-item>
+                            <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('pl')" imgClass="language-img"></dropdown-item>
+
+                        </dropdown-menu>
+                    </dropdown>
                     <navbar-item>&#10006;</navbar-item>
                 </navbar-nav>
             </navbar-collapse>
@@ -95,7 +103,12 @@
             container,
             divider
         },
-        mixins: [drop]
+        mixins: [drop],
+        methods: {
+            setLang (language) {
+            console.log(language)
+    }
+    }
     };
 </script>
 

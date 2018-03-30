@@ -94,56 +94,6 @@ body {
 }
 
 
-/* Service Page Styles */
-
-.service-icon {
-    font-size: 50px;
-}
-
-
-/* 404 Page Styles */
-
-.error-404 {
-    font-size: 8em;
-}
-
-
-/* Pricing Page Styles */
-
-.price {
-    font-size: 4em;
-}
-
-.price-cents {
-    vertical-align: super;
-    font-size: 50%;
-}
-
-.price-month {
-    font-size: 35%;
-    font-style: italic;
-}
-
-
-/* Footer Styles */
-
-footer {
-    margin: 50px 0;
-}
-
-
-/* Responsive Styles */
-
-@media (max-width: 767px) {
-
-    .carousel {
-        height: 70%;
-        /* increases the carousel height so it looks good on phones */
-    }
-}
-
-
-
 
 .task-content {
     text-align: left;

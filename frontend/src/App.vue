@@ -1,8 +1,10 @@
 <template>
     <div id="app">
-        <app-header/>
+        <app-header></app-header>
+
         <router-view></router-view>
-        <app-footer/>
+
+        <app-footer></app-footer>
     </div>
 </template>
 
@@ -24,7 +26,7 @@
 
 <style>
     body, html {
-        margin: 0;
+        margin: 35px;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 </style>
