@@ -1,6 +1,7 @@
 uvloop
 pytest-asyncio
 sanic
+sanic-cors
 asyncpg
 aiosmtplib
 pyyaml
