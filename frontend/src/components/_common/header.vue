@@ -7,14 +7,14 @@
 
                     <!--<navbar-item class="need-help" href="#" waves-fixed>HELP</navbar-item>-->
                     <!--<navbar-item class="need-help-clicked" href="#" waves-fixed>THX</navbar-item>-->
-                    <navbar-item href="#" waves-fixed>Lessons</navbar-item>
-                    <navbar-item href="#" waves-fixed>Quiz</navbar-item>
-                    <navbar-item href="#" waves-fixed>Live Quiz</navbar-item>
-                    <navbar-item href="#" waves-fixed>About</navbar-item>
+                    <navbar-item href="/about" waves-fixed>About</navbar-item>
+                    <navbar-item href="/lessons" waves-fixed v-if="auth">Lessons</navbar-item>
+                    <navbar-item href="#" waves-fixed v-if="auth">Quiz</navbar-item>
+                    <navbar-item href="#" waves-fixed v-if="auth">Live Quiz</navbar-item>
 
-                    <divider></divider>
-                    <dropdown tag="li" class="nav-item">
-                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Overview</dropdown-toggle>
+                    <divider v-if="mentor || org"></divider>
+                    <dropdown tag="li" class="nav-item" v-if="mentor">
+                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Mentor</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>Seats</dropdown-item>
                             <dropdown-item>Lesson</dropdown-item>
@@ -24,8 +24,8 @@
                         </dropdown-menu>
                     </dropdown>
 
-                    <dropdown tag="li" class="nav-item">
-                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Manage</dropdown-toggle>
+                    <dropdown tag="li" class="nav-item" v-if="org">
+                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Organiser</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>Lesson: Create</dropdown-item>
                             <dropdown-item>Lesson: List & Manage</dropdown-item>
@@ -38,8 +38,8 @@
                         </dropdown-menu>
                     </dropdown>
 
-                    <divider></divider>
-                    <dropdown tag="li" class="nav-item">
+                    <divider v-if="admin"></divider>
+                    <dropdown tag="li" class="nav-item" v-if="admin">
                         <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Admin</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>Attendee: Review</dropdown-item>
@@ -50,10 +50,10 @@
                     </dropdown>
                 </navbar-nav>
                 <navbar-nav right>
-                    <navbar-item href="/signin">Login / Register</navbar-item>
+                    <navbar-item href="/signin" v-if="!auth">Login / Register</navbar-item>
 
-                    <dropdown tag="li" class="nav-item">
-                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>#username</dropdown-toggle>
+                    <dropdown tag="li" class="nav-item" v-if="auth">
+                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>{{ userName }}</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>My Profile</dropdown-item>
                             <dropdown-item>Edit Profile</dropdown-item>
@@ -64,12 +64,14 @@
                     <dropdown tag="li" class="nav-item">
                         <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Lang</dropdown-toggle>
                         <dropdown-menu>
-                            <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('pl')" imgClass="language-img"></dropdown-item>
-                            <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('pl')" imgClass="language-img"></dropdown-item>
+                            <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('pl')"
+                                           imgClass="language-img"></dropdown-item>
+                            <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('en')"
+                                           imgClass="language-img"></dropdown-item>
 
                         </dropdown-menu>
                     </dropdown>
-                    <navbar-item>&#10006;</navbar-item>
+                    <button @click="onLogout" v-if="auth"><navbar-item>&#10006;</navbar-item></button>
                 </navbar-nav>
             </navbar-collapse>
         </navbar>
@@ -105,10 +107,30 @@
         },
         mixins: [drop],
         methods: {
-            setLang (language) {
-            console.log(language)
-    }
-    }
+            setLang(language) {
+                console.log(language)
+            },
+            onLogout() {
+                this.$store.dispatch('logout')
+            }
+        },
+        computed: {
+            auth() {
+                return this.$store.getters.isAuthenticated
+            },
+            admin() {
+                return this.$store.getters.isAdmin
+            },
+            org() {
+                return this.$store.getters.isOrganiser
+            },
+            mentor() {
+                return this.$store.getters.isMentor
+            },
+            userName () {
+                return this.$store.getters.userName
+            }
+        },
     };
 </script>
 

@@ -11,12 +11,21 @@ import router from './router'
 import store from './store'
 
 axios.defaults.baseURL = 'http://127.0.0.1:5000/api';
+axios.defaults.headers.accepts = 'application/json';
+
 axios.interceptors.response.use(res => {
+    console.log('inter_res', res);
     return res
 }, (error) => {
-    console.log(error);
+    console.log('inter_error', error);
+    console.log('inter_error', error.response);
     swal("Error", error.response.data.msg, "error");
     return error
+});
+
+axios.interceptors.request.use(req => {
+    req.headers.authorization = store.getters.sessionUUID
+    return req
 });
 
 Vue.use(BootstrapVue);
