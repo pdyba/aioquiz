@@ -255,7 +255,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .popover {
     width: auto;
     background-color: white;

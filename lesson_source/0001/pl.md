@@ -22,9 +22,13 @@ Linux (Ubuntu, Fedora, itp.) lub Mac
 W celu sprawdzenia wersji Pythona, wprowadźcie następującą komendę w 
 wierszu poleceń:
 
-    :::bash
-    $ python --version
-    Python 3.6.2
+```bash
+$ python --version
+Python 3.6.2
+
+Python 3.6.2
+
+```
 
 Jesli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
 
@@ -32,17 +36,20 @@ Jesli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
 
 Wprowadźcie w wierszu poleceń:
 
-    :::bash
-    sudo apt-get install python3.6
+```bash
+sudo apt-get install python3.6
 
+sudo apt-get install python3.6
+
+```
 
 ### Fedora
 
 Wprowadźcie w wierszu poleceń:
 
-    :::bash
-    sudo yum install python3.6
-****
+```bash
+sudo yum install python3.6
+```
 
 ### OS X
 
@@ -66,11 +73,15 @@ Będziemy pracować głównie w wierszu poleceń. Aby uruchomić wiersz
 poleceń w Windows, naciśnijcie 'Win+R'. W nowo otwartym okienku wpiszcie 'cmd'
 i kliknijcie 'OK'. Pojawi się nowe okienko z białym tekstem na czarnym tle:
 
-    :::bash
-    Microsoft Windows [Version 6.1.7601]
-    Copyright (c) 2009 Microsoft Corporation. All rights reserved.
+```bash
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation. All rights reserved.
 
-    C:\Users\Name>
+C:\Users\Name>
+
+C:\Users\Name>
+
+```
 
 Tekst może się różnić, w zależności od wersji Windows, jakiej używacie.
 
@@ -102,7 +113,6 @@ katalogów, czyli do katalogu, który zawiera Twój bieżący katalog.
 ``mkdir directory``
 tworzy nowy katalog.
 
-
 Środowisko wirtualne
 --------------------
 
@@ -117,96 +127,93 @@ Na przykład jeśli wasz domowy katalog to: ``C:\Users\lrekucki``, wiersz polece
 
 .. code-block:: bat
 
-    :: Windows
-    C:\Users\lrekucki> C:\Python34\python -m venv workshops
+:: Windows
+C:\Users\lrekucki> C:\Python34\python -m venv workshops
 
 .. code-block:: sh
 
-    # Linux or Mac
-    ~$ python3.4 -m venv workshops
+# Linux or Mac
+~$ python3.4 -m venv workshops
 
 .. Uwaga::
-    Ubuntu 14.04 ma błąd (https://bugs.launchpad.net/ubuntu/+source/python3.4/+bug/1290847), który sprawia
-    że moduł `venv` Pythona 3.4 nie działa podczas instalacji za pomocą `pip`.
-    Aby ominąć ten kłopot, użyjcie następujących komend, by stworzyć środowisko wirtualne:
-    
-        ~$ python -m venv --without-pip workshops
-        ~$ source workshops/bin/activate
-        ~$ wget https://bootstrap.pypa.io/get-pip.py
-        ~$ python get-pip.py
-        ~$ pip --version
+Ubuntu 14.04 ma błąd (https://bugs.launchpad.net/ubuntu/+source/python3.4/+bug/1290847), który sprawia
+że moduł `venv` Pythona 3.4 nie działa podczas instalacji za pomocą `pip`.
+Aby ominąć ten kłopot, użyjcie następujących komend, by stworzyć środowisko wirtualne:
 
-    Sprawdźcie _`https://pip.pypa.io/en/latest/installing.html` aby uzyskać więcej informacji o instalacji pip.
+    ~$ python -m venv --without-pip workshops
+    ~$ source workshops/bin/activate
+    ~$ wget https://bootstrap.pypa.io/get-pip.py
+    ~$ python get-pip.py
+    ~$ pip --version
+
+Sprawdźcie _`https://pip.pypa.io/en/latest/installing.html` aby uzyskać więcej informacji o instalacji pip.
 
 W waszym katalogu domowym stworzymy katalog ``workshops`` zawierający tak zwane  “wirtualne środowisko”.
 Musimy je teraz aktywować:
 
 .. code-block:: bat
 
-    :: Windows
-    C:\Users\lrekucki> workshops\Scripts\activate
+:: Windows
+C:\Users\lrekucki> workshops\Scripts\activate
 
 .. code-block:: sh
 
-    # Linux or Mac
-    ~$ source workshops/bin/activate
+# Linux or Mac
+~$ source workshops/bin/activate
 
 Komenda ``python`` uruchimi właściwą wersję Pythona, więc nie będziemy musieli wprowadzać
 pełnej ścieżki, ani wersji.
 
 Upewnij się, że uzyskałeś prawidłową konfigurację:
 
-
 .. code-block:: bat
 
-    :: Windows
-    (workshops) C:\Users\lrekucki>where python
-    C:\Users\lrekucki\workshops\Scripts\python.exe
-    ...
+:: Windows
+(workshops) C:\Users\lrekucki>where python
+C:\Users\lrekucki\workshops\Scripts\python.exe
+...
 
-    (workshops) C:\Users\lrekucki>where pip
-    C:\Users\lrekucki\workshops\Scripts\pip.exe
-    ...
+(workshops) C:\Users\lrekucki>where pip
+C:\Users\lrekucki\workshops\Scripts\pip.exe
+...
 
-    (workshops) C:\Users\lrekucki>python --version
-    3.6.2
+(workshops) C:\Users\lrekucki>python --version
+3.6.2
 
 .. code-block:: sh
 
-    # Linux or Mac
-    (workshops) ~$ which python
-    /home/lrekucki/workshops/bin/python
-    (workshops) ~$ which pip
-    /home/lrekucki/workshops/bin/pip
-    ...
+# Linux or Mac
+(workshops) ~$ which python
+/home/lrekucki/workshops/bin/python
+(workshops) ~$ which pip
+/home/lrekucki/workshops/bin/pip
+...
 
-    (workshops) ~$ python --version
-    3.6.2
-
+(workshops) ~$ python --version
+3.6.2
 
 .. _python.org: http://python.org/download/releases/3.6.2/
 
 .. Uwaga::
-    Być może masz już w swoim systemie dostępną komendę ``pip``. Pamiętaj o sprawdzaniu, którą wersję pip używasz
-    przy pomocy komendy: ``pip --version``.
-    Możesz to wykonac uruchamiając jedną z tych komend:
-    
-    .. code-block:: sh
+Być może masz już w swoim systemie dostępną komendę ``pip``. Pamiętaj o sprawdzaniu, którą wersję pip używasz
+przy pomocy komendy: ``pip --version``.
+Możesz to wykonac uruchamiając jedną z tych komend:
 
-        ~$ pip --version
-        ~$ pip3 --version
-        ~$ pip3.4 --version
+.. code-block:: sh
 
-    Otrzymasz wersję pip oraz ścieżkę do katalogu twojego środowiska wirtualnego.
-    
-    Jeśli nie możesz odszukać swojego ``pip`` albo masz problem po wpisaniu ``which pip`` (``where pip`` na windows),
-    byc może musisz re-instalować pip:
+    ~$ pip --version
+    ~$ pip3 --version
+    ~$ pip3.4 --version
 
-    .. code-block:: sh
+Otrzymasz wersję pip oraz ścieżkę do katalogu twojego środowiska wirtualnego.
 
-        ~$ python -m pip uninstall pip
-        ~$ python -m ensurepip
+Jeśli nie możesz odszukać swojego ``pip`` albo masz problem po wpisaniu ``which pip`` (``where pip`` na windows),
+byc może musisz re-instalować pip:
 
+.. code-block:: sh
+
+    ~$ python -m pip uninstall pip
+    ~$ python -m ensurepip
 
 Podsumowanie
 ------------
@@ -215,33 +222,32 @@ Instalacja nowego środowiska wirtualnego:
 
 .. code-block:: bat
 
-    :: Windows
-    C:\Users\lrekucki> C:\Python34\python -m venv workshops
+:: Windows
+C:\Users\lrekucki> C:\Python34\python -m venv workshops
 
 .. code-block:: sh
 
-    # Linux or Mac
-    ~$ python3.4 -m venv workshops
+# Linux or Mac
+~$ python3.4 -m venv workshops
 
 Aktywacja środowiska wirtualnego:
 
 .. code-block:: bat
 
-    :: Windows
-    C:\Users\lrekucki> workshops\Scripts\activate
+:: Windows
+C:\Users\lrekucki> workshops\Scripts\activate
 
 .. code-block:: sh
 
-    # Linux or Mac
-    ~$ source workshops/bin/activate
+# Linux or Mac
+~$ source workshops/bin/activate
 
 Upewnij się, że używasz prawidłowej wersji Pythona:
 
 .. code-block:: sh
 
-    (workshops) ~$ python --version
-    3.6.2
-
+(workshops) ~$ python --version
+3.6.2
 
 IPython
 -------
@@ -253,7 +259,6 @@ Instalacja ``IPython``:
 
 .. code-block:: sh
 
-    (workshops) ~$ pip install ipython
-
+(workshops) ~$ pip install ipython
 
 [python.org](http://python.org)

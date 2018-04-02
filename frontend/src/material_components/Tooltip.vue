@@ -255,7 +255,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .tooltip {
     width: auto;
     background-color: rgba(0, 0, 0, 0.85);

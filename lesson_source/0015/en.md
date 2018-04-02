@@ -29,20 +29,20 @@ sequentially the list and deliver their gifts to one after another.
 Aside from the physical aspects of the task, the procedure of delivering
 the gifts could look like this:
 
-    Let the People List contain people who should receive gifts.
+Let the People List contain people who should receive gifts.
 
-    For each person (known as the Person), which is on the list of people:
-        Provide a gift to the Person
+For each person (known as the Person), which is on the list of people:
+    Provide a gift to the Person
 
 Formatting of text above is not accidental. This is actually a disguised
 program in Python:
 
-    gift_list = people_who_deserve_gifts()
+gift_list = people_who_deserve_gifts()
 
-    for person in gift_list:
-        deliver_gift(person)
-        print("Gift delivered to:", person)
-    print("All gifts delivered")
+for person in gift_list:
+    deliver_gift(person)
+    print("Gift delivered to:", person)
+print("All gifts delivered")
 
 Most of the things should look familiar to you. We are calling here two
 functions: people_who_deserve_gifts and deliver_gift - their inner
@@ -57,7 +57,7 @@ A new element is a loop itself, which consists of:
 -   the word in,
 -   the value of a list or the name that refers to it.
 -   the content indented of one level (the same way as in the case of
-    if).
+if).
 
 The range function does not directly create a list, but it returns a
 generator. Generators generate the elements of a sequence one at a time,
@@ -130,9 +130,9 @@ We can do it like this in Python:
 
 Let's have a closer look at the function print_triangle:
 
-    def print_triangle(n):
-        for size in range(1, n+1):
-            print(size*"*")
+def print_triangle(n):
+    for size in range(1, n+1):
+        print(size*"*")
 
 The definition of a function always starts with the word def. Next, we
 give the name to our function. Between the parenthesizes, we indicate
@@ -191,10 +191,13 @@ special instruction that can be found only in functions.
 We can now improve our BMI calculator by adding a function to compute
 BMI:
 
-    :::python3
-    def calc_bmi(height, weight):
-        return weight / height ** 2
+```python3
+def calc_bmi(height, weight):
+    return weight / height ** 2
 
+    return weight / height ** 2
+
+```
 
 Finally, as a last example on functions, here is a solution to the
 problem from the end of the previous chapter:
@@ -207,15 +210,19 @@ this new knowledge to complete our program to display a Christmas tree.
 
 For the record:
 
-    :::python3
-    # xmas.py
+```python3
+# xmas.py
 
-    def print_triangle(n):
-        for size in range(1, n+1):
-            print(size * "*")
+def print_triangle(n):
+    for size in range(1, n+1):
+        print(size * "*")
 
-    for i in range(2, 5):
-        print_triangle(i)
+for i in range(2, 5):
+    print_triangle(i)
+
+    print_triangle(i)
+
+```
 
 How can we improve the function print_triangle, o display the entire
 segment of the Christmas tree, not just half of it?
@@ -224,7 +231,7 @@ First of all, let’s determine how we want our result to look like for
 the exact value of argument `n`. It seems to make sense that, `n` would
 be the width. Then for `n = 5`, we would expect:
 
-    *
+*
 
 	>>>  ***
 
@@ -263,18 +270,23 @@ title: while loop
 
 We discoused the for loop, but there is also a while loop
 
-:::python3
+```python3
+```
+
 while expression:
-    statement(s)
+statement(s)
 
-    :::python3
-    number = 0
-    while (number < 9):
-       print('Number:', count)
-       number = number + 1
+```python3
+number = 0
+while (number < 9):
+   print('Number:', count)
+   number = number + 1
 
-    print("Finished!")
+print("Finished!")
 
+print("Finished!")
+
+```
 
 A loop becomes infinite loop if a condition never becomes FALSE. You
 must use caution when using while loops because of the possibility that
@@ -282,15 +294,17 @@ this condition never resolves to a FALSE value. This results in a loop
 that never ends. Such a loop is called an infinite loop.
 
 
+```python3
+number = 1
+while number:
+   print('Number:', count)
+   number = number + 1
 
-    :::python3
-    number = 1
-    while number:
-       print('Number:', count)
-       number = number + 1
+print("Finished!")
 
-    print("Finished!")
+print("Finished!")
 
+```
 
 Above example goes in an infinite loop and you need to use CTRL+C (or
 CTRL+D) to exit the program.
@@ -301,12 +315,15 @@ Else in while loop:
 If the else statement is used with a while loop, the else statement is
 executed when the condition becomes false.
 
-    :::python3
-    number = 0
-    while number < 6:
-       print(number, " is  less than 6")
-       number = number + 1
-    else:
-       print(number, " is not less than 6")
+```python3
+number = 0
+while number < 6:
+   print(number, " is  less than 6")
+   number = number + 1
+else:
+   print(number, " is not less than 6")
 
-    print("Finished!")
+print("Finished!")
+print("Finished!")
+```
+

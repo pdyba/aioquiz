@@ -22,10 +22,13 @@ Linux (Ubuntu, Fedora, etc.) or Mac
 In order to check our version of Python, enter the following in the
 command line:
 
-    :::bash
-    $ python --version
-    Python 3.5.0
+```bash
+$ python --version
+Python 3.5.0
 
+Python 3.5.0
+
+```
 
 If the `python` command is not available or the wrong version appears:
 
@@ -33,16 +36,22 @@ If the `python` command is not available or the wrong version appears:
 
 Enter in the command line:
 
-    :::bash
-    sudo apt-get install python3.4
+```bash
+sudo apt-get install python3.4
 
+sudo apt-get install python3.4
+
+```
 
 ### Fedora
 
 Enter in the command line:
 
-    :::bash
-    sudo yum install python3.4
+```bash
+sudo yum install python3.4
+sudo yum install python3.4
+```
+
 ****
 
 ### OS X
@@ -69,13 +78,15 @@ We will do most of our work on the command line. To activate the command
 line in Windows, press `Win+R`. In the open window, type `cmd` and click
 `OK`. A new window will appear with white text on a black background:
 
-    :::bash
-    Microsoft Windows [Version 6.1.7601]
-    Copyright (c) 2009 Microsoft Corporation. All rights reserved.
+```bash
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation. All rights reserved.
 
+C:\Users\Name>
 
-    C:\Users\Name>
+C:\Users\Name>
 
+```
 
 Text may be different depending on the version of Windows you use.
 
@@ -101,6 +112,5 @@ Changes the current directory. For example, if you are in
 entering `cd Documents`. If you execute the `dir` command, you will
 see something familiar. The command `cd..` will move you one level
 up in the directory tree, that is, to the directory that cont
-
 
 [python.org](http://python.org)

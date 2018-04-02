@@ -8,8 +8,8 @@ PEP 8
 * Jeśli programiści A i B stosują się do tych zasad, to kod programisty A będzie czytelny dla programisty B i vice versa
 * Czasami pomaga uniknąć błędów
 * PEP 8 to tylko rekomendacje – w niektórych przypadkach można łamać zasady, na przykład:
-    * Jeśli w danym miejscu zastosowanie się do PEP 8 powoduje zmniejszenie czytelności kodu,
-    * Jeśli poprawienie kodu spowodowałoby, że przestanie działać w starszych wersjach Pythona.
+* Jeśli w danym miejscu zastosowanie się do PEP 8 powoduje zmniejszenie czytelności kodu,
+* Jeśli poprawienie kodu spowodowałoby, że przestanie działać w starszych wersjach Pythona.
 
 ### Najważniejsze zasady PEP 8
 
@@ -27,7 +27,6 @@ PEP 8
 * Żeby sprawdzić, czy lista nie jest pusta, piszemy: `if lista:`, nie np. `if len(lista) > 0:`
 * W przypadku zmiennych typu boolean piszemy: `if zmienna:` zamiast `if zmienna == True:`
 
-
 Pylint
 ------
 
@@ -35,14 +34,21 @@ Narzędzie służące do wykrywania niezgodności z PEP 8 oraz innych potencjaln
 
 Instalacja:
 
-    :::bash
-    pip install pylint
+```bash
+pip install pylint
+
+pip install pylint
+
+```
 
 Uruchamianie:
 
-    :::bash
-    pylint nazwa_pliku.py
+```bash
+pylint nazwa_pliku.py
 
+pylint nazwa_pliku.py
+
+```
 
 pdb - The Python Debugger
 -------------------------

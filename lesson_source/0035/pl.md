@@ -25,44 +25,60 @@ Wariant pierwszy:
 
 plik config.py
 
-    :::python
-    DB_IP = "127.0.0.1"
-    DB_PORT = 5061
-    DB_LOGIN = "admin"
-    DB_PASS = "p@ssw0rd"
+```python
+DB_IP = "127.0.0.1"
+DB_PORT = 5061
+DB_LOGIN = "admin"
+DB_PASS = "p@ssw0rd"
 
-    SERVER_IP = "127.0.0.1"
-    SERVER_PORT = 80
+SERVER_IP = "127.0.0.1"
+SERVER_PORT = 80
+
+SERVER_PORT = 80
+
+```
 
 plik main.py
 
-    :::python
-    import config
+```python
+import config
 
-    db = abstract_db.connect(config.DB_IP, config.DB_PORT, config.DB_LOGIN, config.DB_PASS)
+db = abstract_db.connect(config.DB_IP, config.DB_PORT, config.DB_LOGIN, config.DB_PASS)
+
+db = abstract_db.connect(config.DB_IP, config.DB_PORT, config.DB_LOGIN, config.DB_PASS)
+
+```
 
 Wariant drugi - z wykorzystaniem class:
 
 plik config.py
 
-    :::python
-    class DB:
-        IP = "127.0.0.1"
-        PORT = 5061
-        LOGIN = "admin"
-        PASS = "p@ssw0rd"
+```python
+class DB:
+    IP = "127.0.0.1"
+    PORT = 5061
+    LOGIN = "admin"
+    PASS = "p@ssw0rd"
 
-    class SERVER:
-        IP = "127.0.0.1"
-        PORT = 80
+class SERVER:
+    IP = "127.0.0.1"
+    PORT = 80
+
+    PORT = 80
+
+```
 
 plik main.py
 
-    :::python
-    from config import DB, SERVER
+```python
+from config import DB, SERVER
 
-    db = abstract_db.connect(DB.IP, DB.PORT, DB.LOGIN, DB.PASS)
-    app.start(SERVER.IP, SERVER.PORT)
+db = abstract_db.connect(DB.IP, DB.PORT, DB.LOGIN, DB.PASS)
+app.start(SERVER.IP, SERVER.PORT)
+
+app.start(SERVER.IP, SERVER.PORT)
+
+```
 
 Plik zewnętrzny
 ---------------
@@ -71,61 +87,74 @@ Wariant pierwszy .ini - configparser:
 
 config.ini
 
-    :::python
-    [DB]
-    IP = 127.0.0.1
-    PORT = 5061
-    LOGIN = admin
-    PASS = p@ssw0rd
+```python
+[DB]
+IP = 127.0.0.1
+PORT = 5061
+LOGIN = admin
+PASS = p@ssw0rd
 
-    [SERVER]
-    IP = 127.0.0.1
-    PORT = 80
+[SERVER]
+IP = 127.0.0.1
+PORT = 80
 
+PORT = 80
+
+```
 
 main.py
 
-    :::python
-    import configparser
+```python
+import configparser
 
-    config = configparser.ConfigParser()
-    config.read('config.ini')
+config = configparser.ConfigParser()
+config.read('config.ini')
 
-    db_login = config['DB']['LOGIN']
-    host_ip = config['SERVER']['IP']
+db_login = config['DB']['LOGIN']
+host_ip = config['SERVER']['IP']
 
+host_ip = config['SERVER']['IP']
+
+```
 
 Wariant drugi .json - JSON:
 
 config.json
 
-    :::javascrip
-    {
-      "DB": {
-        "IP": "127.0.0.1",
-        "PORT": 5061,
-        "LOGIN": "admin",
-        "PASSWORD": "p@ssw0rd"
-      },
-      "SERVER": {
-        "IP": "127.0.0.1",
-        "PORT": 80
-      }
-    }
+```javascrip
+{
+  "DB": {
+    "IP": "127.0.0.1",
+    "PORT": 5061,
+    "LOGIN": "admin",
+    "PASSWORD": "p@ssw0rd"
+  },
+  "SERVER": {
+    "IP": "127.0.0.1",
+    "PORT": 80
+  }
+}
 
+}
+
+```
 
 main.py
 
-    :::python
-    import json
+```python
+import json
 
-    with open('config.json') as file:
-        config = json.load(file)
+with open('config.json') as file:
+    config = json.load(file)
 
-    db_login = config['DB']['LOGIN']
-    host_ip = config['SERVER']['IP']
+db_login = config['DB']['LOGIN']
+host_ip = config['SERVER']['IP']
 
 
+host_ip = config['SERVER']['IP']
+
+
+```
 
 3. Zmienne środowiskowe
 -----------------------
@@ -146,9 +175,13 @@ o składni `export klucz=wartosc` (ważne: dookoła znaku `=` nie może być spa
 
 np.:
 
-    :::bash
-    export DB_IP="127.0.0.1"
-    export DB_PORT=5061
+```bash
+export DB_IP="127.0.0.1"
+export DB_PORT=5061
+
+export DB_PORT=5061
+
+```
 
 Wartości sprawdzić możemy komendą `env`.
 
@@ -156,24 +189,29 @@ Wartości sprawdzić możemy komendą `env`.
 
 Windows ma polecenie `set` o takiej samej składni jak linux/mac - `set klucz=wartosc`:
 
-    :::bash
-    set DB_IP="127.0.0.1"
-    set DB_PORT=5061
+```bash
+set DB_IP="127.0.0.1"
+set DB_PORT=5061
 
+set DB_PORT=5061
+
+```
 
 Wartości sprawdzić możemy komendą `set` (wszystkie zmienne)
 lub `set DB_IP` (wyświetlanie wartość konkretnej zmiennej, w tym przypadku DB_IP).
 
 
+```python
+import os
 
-    :::python
-    import os
+db_ip = os.environ.get('DB_IP', None)
 
-    db_ip = os.environ.get('DB_IP', None)
+if not db_ip:
+    raise ValueError('You must have "DB_IP" variable')
 
-    if not db_ip:
-        raise ValueError('You must have "DB_IP" variable')
+    raise ValueError('You must have "DB_IP" variable')
 
+```
 
 Automatyzacja wczytywania config'ów
 -----------------------------------
@@ -182,45 +220,53 @@ W zależności od sposobu przechowywania pliku konfiracyjnego możemy stworzyć 
 
 dla plików pytohnowych (1.)
 
-    :::python
+```python
+try:
+    from config_prod import *
+    print('using PRD config')
+except ImportError:
     try:
-        from config_prod import *
-        print('using PRD config')
+        from config_dev  import *
+        print('using DEV config')
     except ImportError:
-        try:
-            from config_dev  import *
-            print('using DEV config')
-        except ImportError:
-            from config_template import *
-            print('using ! Template ! config file')
-    except Exception as err:
-        print(err)
-        print('error with config quitting')
-        quit()
+        from config_template import *
+        print('using ! Template ! config file')
+except Exception as err:
+    print(err)
+    print('error with config quitting')
+    quit()
+
+    quit()
+
+```
 
 dla plików json/ini (2.):
 
-    :::python
-    import json
+```python
+import json
 
-    def load_cfg(path):
-        with open(path) as file:
-            return json.load(file)
+def load_cfg(path):
+    with open(path) as file:
+        return json.load(file)
 
+try:
+    config = load_cfg('config_prd.json')
+    print('using PRD config')
+except FileNotFoundError:
     try:
-        config = load_cfg('config_prd.json')
-        print('using PRD config')
+        config = load_cfg('config_def.json')
+        print('using DEF config')
     except FileNotFoundError:
-        try:
-            config = load_cfg('config_def.json')
-            print('using DEF config')
-        except FileNotFoundError:
-            config = load_cfg('config.json.example')
-            print('using ! Template ! config file')
-    except Exception as err:
-        print(err)
-        print('error with config quitting')
-        quit()
+        config = load_cfg('config.json.example')
+        print('using ! Template ! config file')
+except Exception as err:
+    print(err)
+    print('error with config quitting')
+    quit()
+
+    quit()
+
+```
 
 Dobrą praktyką jest automatyzowanie wszystkiego, włącznie z wczytwanie konfiguracji - ułatwia nam to jej zarządzaniem.
 Różne pliki konfiugracyjne trzymamy po to, żeby nie używać produkcyjnych danych w czasie developmentu i żeby tych plików nie edytować.

@@ -12,7 +12,7 @@ wynik BMI.
 Aby napisać taki program, musimy nauczyć się używać funkcji. Pierwszą funkcją,
 jakiej się nauczymy jest help:
 
-    >>>  help Type help() for interactive help, or help(object) for help about object.
+>>>  help Type help() for interactive help, or help(object) for help about object.
 
 Funkcja help jest bardzo przyjazna i mówi nam, jak powinniśmy jej używać.
 Może też powiedzieć Wam, jak używać innych funkcji:
@@ -30,11 +30,13 @@ Może też powiedzieć Wam, jak używać innych funkcji:
 Użyjemy funkcji input, by załadować dane podane przez użytkownika.
 W opisie czytamy, że dane użytkownika input odczytuje jako string:
 
-    :::python3
-    >>> input()
-    Ala has a cat
-    'Ala has a cat'
+```python3
+>>> input()
+Ala has a cat
+'Ala has a cat'
 
+'Ala has a cat'
+```
 
 Teraz nauczycie się co oznacza wyrażenie "wywołać funkcję". Możecie
 wywołać funkcję używając `()`. Jest to informacja dla interpretera,
@@ -49,23 +51,23 @@ wcześniej używaliśmy stringów.
 
 Na przykład możemy użyć `input()`, by zachować podany string jako nazwę:
 
-    >>> name = input()
-    Joanna
-    >>> name
-    'Joanna'
-    >>> print("Masz na imię:", name)
-    Masz na imię: Joanna
+>>> name = input()
+Joanna
+>>> name
+'Joanna'
+>>> print("Masz na imię:", name)
+Masz na imię: Joanna
 
 Czy to wystarczy, by ulepszyć nasz program?
 
-    >>> weight = input()
-    60.5
-    >>> weight
-    '60.5'
-    >>> print(w + 3)
-    Traceback (most recent call last):
-    File "<stdin>", line 1, in <module>
-    TypeError: Can't convert 'int' object to str implicitly
+>>> weight = input()
+60.5
+>>> weight
+'60.5'
+>>> print(w + 3)
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: Can't convert 'int' object to str implicitly
 
 Jak widzicie, Python nie wie, jakiego wyniku oczekujemy. Stringi (`str`)
 i liczby (`int`) mogą być dodawane. Python nie wie, czy odnosimy się do

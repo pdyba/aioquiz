@@ -28,12 +28,12 @@ words.
 There is a file `jap_dict.txt` provided, your task is to:
 
 1.  copy + paste the text or use open(file_name) function to get the
-    data
+data
 2.  change the string to data structure
 3.  ask a question to translate from English to Japanese word or a
-    phrase
+phrase
 4.  check if it was done correctly and if so don't show this word
-    anymore
+anymore
 5.  inform about how many words were guessed and how many are left
 6.  congratulate on completion
 

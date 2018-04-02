@@ -4,9 +4,12 @@ import axios from 'axios'
 import VueSwal from 'vue-swal'
 import BootstrapVue from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
+import VueMarkdown from 'vue-markdown'
+
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'mdbootstrap/css/mdb.css';
+import 'prismjs/themes/prism.css'
 
 import router from './router'
 import store from './store'
@@ -33,6 +36,7 @@ axios.interceptors.request.use(req => {
 Vue.use(BootstrapVue);
 Vue.use(VueSwal);
 Vue.use(Vuelidate);
+Vue.use(VueMarkdown);
 
 new Vue({
     el: '#app',

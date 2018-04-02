@@ -5,7 +5,6 @@
 
 **GitHub** - usługa webowa hostująca repozytoria Git, służąca do *kolaboracji* z wykorzystaniem Gita
 
-
 Instalacja Git
 ---------------------------------
 [Windows](https://git-scm.com/book/pl/v1/Pierwsze-kroki-Instalacja-Git#Instalacja-w-systemie-Windows "Instalacja-w-systemie-Windows")
@@ -14,24 +13,34 @@ Instalacja Git
 
 [Linux](https://git-scm.com/book/pl/v1/Pierwsze-kroki-Instalacja-Git#Instalacja-w-systemie-Linux "Instalacja-w-systemie-Linux")
 
-
 Konfiguracja Gita
 ---------------------------------
 Sprawdź czy masz zainstalowanego Gita
 
-    :::bash
-    git --version
+```bash
+git --version
+
+git --version
+
+```
 
 Ustaw nazwę użytkownika
 
-    :::bash
-    git config --global user.name "Jan Nowak"
+```bash
+git config --global user.name "Jan Nowak"
+
+git config --global user.name "Jan Nowak"
+
+```
 
 Ustaw email użytkownika
 
-    :::bash
-    git config --global user.email jannowak@example.com
+```bash
+git config --global user.email jannowak@example.com
 
+git config --global user.email jannowak@example.com
+
+```
 
 Podstawowy sposób pracy z Git
 ---------------------------------
@@ -41,106 +50,166 @@ Podstawowy sposób pracy z Git
 
 Stwórz repozytorium Git w aktualnym folderze
 
-    :::bash
-    git init .
+```bash
+git init .
+
+git init .
+
+```
 
 Dodaj śledzone pliki do przechowalni
 
-    :::bash
-    git add <nazwa_pliku>
+```bash
+git add <nazwa_pliku>
+
+git add <nazwa_pliku>
+
+```
 
 Zatwierdź zmiany, zapisując zawartość plików w historii katalogu Git
 
-    :::bash
-    git commit -m “Krótki opis”
+```bash
+git commit -m “Krótki opis”
+
+git commit -m “Krótki opis”
+
+```
 
 [Podstawy Git](https://git-scm.com/book/pl/v1/Pierwsze-kroki-Podstawy-Git)
 
 [Rejestrowanie zmian](https://git-scm.com/book/pl/v1/Podstawy-Gita-Rejestrowanie-zmian-w-repozytorium)
-
 
 Śledzenie i wycofywanie zmian
 ---------------------------------
 
 Wyświetl aktualny stan repozytorium (które pliki zostały zmienione)
 
-    :::bash
-    git status
+```bash
+git status
+
+git status
+
+```
 
 Wyświetl aktualny stan repozytorium (jakie zmiany zostały wprowadzone)
 
-    :::bash
-    git diff
+```bash
+git diff
+
+git diff
+
+```
 
 Wyświetl historię zapisanych zmian
 
-    :::bash
-    git log
+```bash
+git log
+
+git log
+
+```
 
 Wycofaj zmiany wprowadzone w staging area
 
-    :::bash
-    git reset HEAD <nazwa_pliku>
+```bash
+git reset HEAD <nazwa_pliku>
+
+git reset HEAD <nazwa_pliku>
+
+```
 
 Wycofaj zmiany wprowadzone w working directory
 
-    :::bash
-    git checkout <nazwa_pliku>
+```bash
+git checkout <nazwa_pliku>
+
+git checkout <nazwa_pliku>
+
+```
 
 Wycofaj ostatnią zapisaną zmianę (commit)
 
-    :::bash
-    git revert HEAD
+```bash
+git revert HEAD
 
+git revert HEAD
+
+```
 
 Konfiguracja GitHuba - klucze SSH
 ---------------------------------
 
 Wygeneruj klucz SSH
 
-    :::bash
-    ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+```
 
 Skopiuj klucz do schowka
 
-    :::bash
-    clip < ~/.ssh/id_rsa.pub
+```bash
+clip < ~/.ssh/id_rsa.pub
+
+clip < ~/.ssh/id_rsa.pub
+
+```
 
 [Dodaj klucz do konta na GitHub](https://ipatryk.pl/polaczenie-do-github-przez-ssh/)
-
 
 Zdalne repozytorium
 ---------------------------------
 
 Podepnij zdalne repozytorium do repozytorium lokalnego
 
-    :::bash
-    git remote add origin git@github.com:/user/repo.git
+```bash
+git remote add origin git@github.com:/user/repo.git
+
+git remote add origin git@github.com:/user/repo.git
+
+```
 
 Sprawdź adres zdalnego repozytorium
 
-    :::bash
-    git remote -v
+```bash
+git remote -v
+
+git remote -v
+
+```
 
 Zmień adres zdalnego repozytorium
 
-    :::bash
-    git remote set-url origin git@github.com:/user/repo.git
+```bash
+git remote set-url origin git@github.com:/user/repo.git
+
+git remote set-url origin git@github.com:/user/repo.git
+
+```
 
 Dodaj zmiany zapisane lokalnie do zdalnego repozytorium
 
-    :::bash
-    git push
+```bash
+git push
+
+git push
+
+```
 
 Swórz kopię lokalną zdalnego repozytorium
 
-    :::bash
-    git clone git@github.com:user/repo.git
+```bash
+git clone git@github.com:user/repo.git
+
+git clone git@github.com:user/repo.git
+
+```
 
 [Dodawanie repozytorium zdalnego](https://help.github.com/articles/adding-a-remote/)
 
 [Zmiana adresu zdalnego repozytorium](https://help.github.com/articles/changing-a-remote-s-url/)
-
 
 Najważniejsze pojęcia
 ---------------------------------
@@ -163,7 +232,6 @@ Najważniejsze pojęcia
 **Staging area (poczekalnia)** - Przestrzeń, w której zmiany w śledzonych plikach czekają na zatwierdzenie. Jest to swoista poczekalnia, w której śledzone w plikach zmiany czekają na zapisanie w historii projektu. Zmienione pliki możesz dodać do tej poczekalni za pomocą polecenia `git add <nazwa_pliku>`.
 
 **Working directory (katalog roboczy)** - To twój katalog roboczy. Stan Twojego katalogu roboczego możesz sprawdzić za pomocą polecenia `git status`. Wyświetli Ci się wtedy lista wszystkich plików, które zostały zmodyfikowane od ostatniego commita, w tym tych, które zostały dodane bądź usunięte.
-
 
 Kursy i tutoriale
 ---------------------------------

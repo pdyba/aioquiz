@@ -20,11 +20,15 @@ Dostęp do wartości w słowniku
 Aby uzyskać dostęp do wartości słownika, należy podać klucz ujęty w znanych Ci
 już nawiasach kwadratowych. Oto przykład:
 
-    :::python3
-    słownik = {'Imię': 'Marta', 'Wiek': 21, 'Zawód': 'Python Developer'}
-    print(słownik['Imię'])
-    print(słownik['Wiek'])
-    print(słownik['Zawód'])
+```python
+słownik = {'Imię': 'Marta', 'Wiek': 21, 'Zawód': 'Python Developer'}
+print(słownik['Imię'])
+print(słownik['Wiek'])
+print(słownik['Zawód'])
+
+print(słownik['Zawód'])
+
+```
 
 Po wykonaniu powyższego kodu uzyskujemy następujący rezultat:
 
@@ -65,38 +69,42 @@ Zagnieżdżanie
 
 W Pythonie możesz tworzyć obiekty zagnieżdżone, na przykład:
 
-    :::python3
-    ZOO = {
-        'zwierzęta': {
-            'pyton': {
-                'jedzenie': [
-                    'myszy',
-                    'króliki',
-                    'szczury',
-                ]
-                'środowisko': {
-                    'temperatura': 25,
-                    'wilgotność': 80,
-                }
-                'pomieszczenie': 'klatka',
+```python
+ZOO = {
+    'zwierzęta': {
+        'pyton': {
+            'jedzenie': [
+                'myszy',
+                'króliki',
+                'szczury',
+            ],
+            'środowisko': {
+                'temperatura': 25,
+                'wilgotność': 80,
             },
-            'słodki_króliczek': {
-                'jedzenie': [
-                    'marchewki',
-                    'marchewki',
-                    'marchewki',
-                ]
-                'środowisko': {
-                    'temperatura': 20,
-                    'wilgotność': 35,
-                }
-                'pomieszczenie': 'na wolności',
+            'pomieszczenie': 'klatka',
+        },
+        'słodki_króliczek': {
+            'jedzenie': [
+                'marchewki',
+                'marchewki',
+                'marchewki',
+            ],
+            'środowisko': {
+                'temperatura': 20,
+                'wilgotność': 35,
             },
-        'kontakt': {
-            'telefon': 0 700 800 900,
-            'email': 'zoo@zoo.zoo'
-        }
+            'pomieszczenie': 'na wolności',
+        },
+    'kontakt': {
+        'telefon': "0 700 800 900",
+        'email': 'zoo@zoo.zoo'
     }
+}
+
+}
+
+```
 
 Jak widzicie, słownik może zawierać na przykład słowniki słowników i listy.
 

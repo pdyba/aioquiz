@@ -6,22 +6,21 @@ drzewko w naszej konsoli.
 Zaczniemy od najbardziej podstawowej wersji ćwiczenia, aby potem rozszerzyć
 je do bardziej funkcjonalnej wersji. Na pczątek zróbmy połowę choinki:
 
-    .. testcode::
+.. testcode::
 
-    print("*")
-    print("**")
-    print("***")
-    print("*")
-    print("**")
-    print("***")
-    print("****")
-    print("*")
-    print("**")
-    print("***")
-    print("****")
-    print("*****")
-    print("******")
-
+print("*")
+print("**")
+print("***")
+print("*")
+print("**")
+print("***")
+print("****")
+print("*")
+print("**")
+print("***")
+print("****")
+print("*****")
+print("******")
 
 Wygląda nieźle, ale musieliśmy dużo pisać. I co, gdybyśmy chcieli mniejsze drzewko?
 Albo większe, zbudowane z setek elementów na stronie rozmiaru A0?
@@ -43,20 +42,20 @@ sprawdzanie kolejno listy i dostarczanie prezentów po kolei.
 Poza fizycznym aspektem tego zadania, procedura dostarczania prezentów
 mogłaby wyglądać tak:
 
-    Niechaj Lista Ludzi zawiera ludzi, którzy powinni dostać prezenty.
+Niechaj Lista Ludzi zawiera ludzi, którzy powinni dostać prezenty.
 
-    Dla każdej osoby (zwanej Osobą), która jest na Liście Ludzi:
-    	Dostarcz prezent do Osoby
+Dla każdej osoby (zwanej Osobą), która jest na Liście Ludzi:
+	Dostarcz prezent do Osoby
 
 Formatowanie powyższego tekstu nie jest przypadkowe. Jest to mianowicie
 program Pythona w przebraniu:
 
-    Lista_Ludzi = ludzie_którzy_zasłużyli_na_prezenty()
+Lista_Ludzi = ludzie_którzy_zasłużyli_na_prezenty()
 
-    for osoba in lista_ludzi:
-        dostarcz_prezent(osoba)
-        print("Prezent dostarczony do:", osoba)
-    print("Dostarczono wszystkie prezenty")
+for osoba in lista_ludzi:
+    dostarcz_prezent(osoba)
+    print("Prezent dostarczony do:", osoba)
+print("Dostarczono wszystkie prezenty")
 
 Większość rzeczy powinna być Ci znajoma. Uruchamiamy tutaj dwie funkcje:
 ludzie_którzy_zasłużyli_na_prezenty() i dostarcz_prezent. Ich działanie
@@ -129,7 +128,6 @@ Pamiętajcie tylko, by użyć właściwej indentacji i zastosować różne nazwy
 	2 12
 	2 13
 
-
 Mamy tu wewnętrzną pętlę iterującą od 11 do 13 (pamiętajcie, że 14 nie
 jest zawarte w sekwencji w przypadku funkcji `range`) i zewnętrzną pętlę,
 która iteruje od 1 do 2.
@@ -182,9 +180,9 @@ Możemy zrobić to w Pythonie w ten sposób:
 
 Przyjrzyjmy się bliżej funkcji wydrukuj_trójkąt:
 
-    def wydrukuj_trójkąt(n):
-    .... for rozmiar in range(1, n+1):
-    ........ print(rozmiar*"*")
+def wydrukuj_trójkąt(n):
+.... for rozmiar in range(1, n+1):
+........ print(rozmiar*"*")
 
 Definicja funkcji zawsze zaczyna się od słowa def. Następnie musimy
 nadać nazwę naszej funkcji. W nawiasach wskazujemy, jakie nazwy powinny mieć
@@ -249,36 +247,39 @@ Jest to specjalna instrukcja, którą można znaleźć tylko w funkcjach.
 
 Możemy poprawić teraz nasz kalkulator BMI dodając funkcję, która zwróci BMI:
 
-    :::python3
-    def oblicz_bmi(wzrost, waga):
-    .... return waga / (wzrost ** 2)
+```python3
+def oblicz_bmi(wzrost, waga):
+.... return waga / (wzrost ** 2)
+
+.... return waga / (wzrost ** 2)
+
+```
 
 Na koniec, jako ostatni przykład funkcji, podajemy rozwiązanie problemu
 z końca poprzedniego rozdziału:
 
-    .. testcode::
+.. testcode::
 
-    # choinka.py
+# choinka.py
 
-    def wydrukuj_trójkąt(n):
-    .... for rozmiar in range(1, n+1):
-    ........ print(rozmiar * "*")
+def wydrukuj_trójkąt(n):
+.... for rozmiar in range(1, n+1):
+........ print(rozmiar * "*")
 
-    for i in range(2, 5):
-    .... wydrukuj_trójkąt(i)
+for i in range(2, 5):
+.... wydrukuj_trójkąt(i)
 
-    .. testoutput::
+.. testoutput::
 
-    *
-    **
-    *
-    **
-    ***
-    *
-    **
-    ***
-    ****
-
+*
+**
+*
+**
+***
+*
+**
+***
+****
 
 Kompletna choinka
 =================
@@ -288,15 +289,19 @@ aby ukończyć nasz program wyświetlający choinkę.
 
 A zatem:
 
-    :::python3
-    # choinka.py
+```python3
+# choinka.py
 
-    def wydrukuj_trójkąt(n):
-        for rozmiar in range(1, n+1):
-            print(rozmiar * "*")
+def wydrukuj_trójkąt(n):
+    for rozmiar in range(1, n+1):
+        print(rozmiar * "*")
 
-    for i in range(2, 5):
-        wydrukuj_trójkąt(i)
+for i in range(2, 5):
+    wydrukuj_trójkąt(i)
+
+    wydrukuj_trójkąt(i)
+
+```
 
 W jaki sposób możemy poprawić funkcję wydrukuj_trójkąt, aby wyświetlić
 cały segment choinki, a nie tylko jego połowę?
@@ -305,84 +310,83 @@ Przede wszystkim, ustalmy jak chcemy aby wyglądał rezultat dla określonej
 wartości argumentu `n`. Wydaje się mieć sens, że `n` byłby szerokością
 A zatem dla `n = 5` oczekiwalibyśmy:
 
-      *
-     ***
-    *****
+  *
+ ***
+*****
 
 Warto zauważyć, że każdy kolejny wiersz zawiera o dwie więcej gwiazdki, niż
 poprzedni wiersz. Możemy użyć tu trzeciego argumentu funkcji range:
 
-    .. testcode::
+.. testcode::
 
-    def wydrukuj_segment(n):
-        for rozmiar in range(1, n+1, 2):
-            print(rozmiar * "*")
+def wydrukuj_segment(n):
+    for rozmiar in range(1, n+1, 2):
+        print(rozmiar * "*")
 
-    wydrukuj_segment(5)
+wydrukuj_segment(5)
 
-    .. testoutput::
+.. testoutput::
 
-    *
-    ***
-    *****
+*
+***
+*****
 
 Nie jest to dokładnie to, czego chcieliśmy, bo segment powinien być wyśrodkowany.
 Pomoże nam tutaj metoda/funkcja center():
 
-    .. testcode::
+.. testcode::
 
-    def wydrukuj_segment(n):
-        for rozmiar in range(1, n+1, 2):
-            print((rozmiar * "*").center(n))
+def wydrukuj_segment(n):
+    for rozmiar in range(1, n+1, 2):
+        print((rozmiar * "*").center(n))
 
-    print_segment(5)
+print_segment(5)
 
-    .. testoutput::
+.. testoutput::
 
-      *
-     ***
-    *****
+  *
+ ***
+*****
 
 Jednak pojawił się nowy problem:
 
-      *
-     ***
-       *
-      ***
-     *****
-        *
-       ***
-      *****
-     *******
+  *
+ ***
+   *
+  ***
+ *****
+    *
+   ***
+  *****
+ *******
 
 Gdybyśmy wiedzieli zawczasu, jaki rozmiar ma najszerszy segment, moglibyśmy
 wykorzystać dodatkowy argument w funkcji wydrukuj_segment, by wyrównać
 choinkę do tej szerokości. Podsumujmy wiedzę, jaką zdobyliśmy do tej pory:
 
-    def wydrukuj_segment(n, łączna_szerokość):
-            for rozmiar in range(1, n+1, 2):
-                 print((rozmiar * "*").center(łączna_szerokość))
+def wydrukuj_segment(n, łączna_szerokość):
+        for rozmiar in range(1, n+1, 2):
+             print((rozmiar * "*").center(łączna_szerokość))
 
-    def wydrukuj_choinkę(rozmiar):
-        for i in range(3, rozmiar+1, 2):
-            wydrukuj_segment(i, rozmiar)
+def wydrukuj_choinkę(rozmiar):
+    for i in range(3, rozmiar+1, 2):
+        wydrukuj_segment(i, rozmiar)
 
-    print("Wybierz rozmiar choinki:")
-    n = int(input())
-    wydrukuj_choinkę(n)
+print("Wybierz rozmiar choinki:")
+n = int(input())
+wydrukuj_choinkę(n)
 
-    Wybierz rozmiar choinki:
-    7
-       *
-      ***
-       *
-      ***
-     *****
-       *
-      ***
-     *****
-    *******
-
+Wybierz rozmiar choinki:
+7
+   *
+  ***
+   *
+  ***
+ *****
+   *
+  ***
+ *****
+*******
 
 
 Pętla while
@@ -390,32 +394,38 @@ Pętla while
 
 Omówiliśmy pętlę for, ale istnieje jeszcze pętla while:
 
-    :::python3
-    while wyrażenie:
-    komenda(y)
+```python3
+while wyrażenie:
+komenda(y)
 
-    :::python3
-    liczba = 0
-    while (liczba < 9):
-       print('Liczba:', liczba)
-       liczba = liczba + 1
+:::python3
+liczba = 0
+while (liczba < 9):
+   print('Liczba:', liczba)
+   liczba = liczba + 1
 
-    print("Koniec!")
+print("Koniec!")
 
+print("Koniec!")
+
+```
 
 Pętla staje się pętlą nieskończoną, gdy warunek nigdy nie przybiera wartości
 FALSE. Musisz uważać używając pętli while, z uwagi na ryzyko, że pętla nigdy
 nie osiągnie wartości FALSE. Wynikiem tego jest pętla, która nigdy się nie
 kończy. Taką pętlę nazywamy nieskończoną pętlą.
 
+```python3
+liczba = 1
+while liczba:
+   print('Liczba:', liczba)
+   liczba = liczba + 1
 
-    :::python3
-    liczba = 1
-    while liczba:
-       print('Liczba:', liczba)
-       liczba = liczba + 1
+print("Koniec!")
 
-    print("Koniec!")
+print("Koniec!")
+
+```
 
 Powyższy przykład generuje pętlę nieskończoną i musisz użyć CTRL+C (lub
 CTRL+D), by wyjść z programu.
@@ -426,12 +436,13 @@ Else w pętli while
 W przypadku użycia komendy else w pętli while, komenda else zostanie
 wykonana, gdy warunek przybierze wartość FALSE.
 
-    :::python3
-    liczba = 0
-    while liczba < 6:
-       print(liczba, " jest mniejsze niż 6")
-       liczba = liczba + 1
-    else:
-       print(liczba, " nie jest mniejsze niż 6")
+```python3
+liczba = 0
+while liczba < 6:
+   print(liczba, " jest mniejsze niż 6")
+   liczba = liczba + 1
+else:
+   print(liczba, " nie jest mniejsze niż 6")
 
-    print("Koniec!")
+print("Koniec!")    print("Koniec!")```
+

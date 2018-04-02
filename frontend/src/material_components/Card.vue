@@ -1,5 +1,5 @@
 <template>
-  <div :is="tag" :class="className"><slot></slot></div>
+  <div :is="tag" :class="'card mb-4 ' + className" ><slot></slot></div>
 </template>
 
 <script>
@@ -27,4 +27,7 @@ export default {
 </script>
 
 <style scoped>
+  div {
+    min-height: 100%;
+  }
 </style>

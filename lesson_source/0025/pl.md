@@ -22,7 +22,6 @@ Mechanizm współdzielenia funkcjonalności między klasami. Klasa może dziedzi
 
 Przykład: wyobraźmy sobie klasę `But`, która posiada dwie właściwości `rozmiar` i `sezon`. Po `Bucie` dziedziczą m.in. klasy `Trampek` i `Kozak`. Każdy z nich będzie miał swój `rozmiar`, ale w przeciwieństwie do klasy `But` będą miały różne `sezony` (lato, zima).
 
-
 Hermetyzacja
 ------------
 (inaczej enkapsulacja) Zapewnia, że obiekt nie może zmieniać stanu wewnętrznego innych obiektów w nieoczekiwany sposób. Tylko własne metody obiektu są uprawnione do zmiany jego stanu. Każdy typ obiektu prezentuje innym obiektom swój interfejs, który określa dopuszczalne metody współpracy.
@@ -35,7 +34,6 @@ w Pythonie popularną konwencją jest używanie _ do oddzielenia metod zwykłych
 
 * metodą magiczną, którą powszechnie będziemy używać jest `__init__` czyli tak zwany konstruktor klasy (więcej o metodach magicznych na kolejnych zajęciach)
 * metody prywatne mają na celu oddzielić zewnętrzny interfejs programistyczny (API) od wewnętrznych funkcji klasy. Wykorzystuje się to, aby ukryć część operacyjną logiki, która nie jest potrzebna z zewnątrz, ale w Pythonie nadal jest dostępna.
-
 
 Polimorfizm
 -----------
@@ -57,148 +55,167 @@ Klasa w Pythonie
 Do tworzenia klas w Pythonie wykorzystujemy słówko `class`.
 Słówko `self` jest pewną abstrakcją dotyczą stworzonej później instancji klasy.
 
-    :::python3
-    class Creature:
-        alive = True  # atrybut
+```python3
+class Creature:
+    alive = True  # atrybut
 
-        def is_live(self):  # metoda - czyli funkcja przypisana do klasy
-            print('I am alive')
+    def is_live(self):  # metoda - czyli funkcja przypisana do klasy
+        print('I am alive')
+
+        print('I am alive')
+
+```
 
 Tworzenie instancji
 -------------------
 
 Nasza przykładowa klasa:
 
-    :::python3
-    class Creature:
-        alive = True
+```python3
+class Creature:
+    alive = True
 
-        def is_live(self):
-            print('I am alive')
+    def is_live(self):
+        print('I am alive')
 
-        def is_dead(self):
-            if self.alive:
-                self.live()
-                return True
-            print('I am dead')
-            return False
+    def is_dead(self):
+        if self.alive:
+            self.live()
+            return True
+        print('I am dead')
+        return False
 
-        def kill(self):
-            alive = False
+    def kill(self):
+        alive = False
+
+        alive = False
+
+```
 
 Nasze przykładowe instancje i ich używanie:
 
-    :::python3
-    pies = Creature()
-    kot = Creature()
-    kot.kill()
-    pies.is_dead()
-    kot.is_dead()
+```python3
+pies = Creature()
+kot = Creature()
+kot.kill()
+pies.is_dead()
+kot.is_dead()
+
+kot.is_dead()
+
+```
 
 Przykład w Pythonie
 -------------------
 
-    :::python3
-    class Creature:
-        alive = True
+```python3
+class Creature:
+    alive = True
 
-        def is_live(self):
-            print('I am alive')
+    def is_live(self):
+        print('I am alive')
 
-        def is_dead(self):
-            if self.alive:
-                self.live()
-                return True
-            print('I am dead')
-            return False
+    def is_dead(self):
+        if self.alive:
+            self.live()
+            return True
+        print('I am dead')
+        return False
 
-        def kill(self):
-            alive = False
+    def kill(self):
+        alive = False
 
+class Animal(Creature):
+    def eat(self):
+        print('chrum chrum')
 
-    class Animal(Creature):
-        def eat(self):
-            print('chrum chrum')
+class Manmal(Animal):
+    def __init__(self, sex):
+        self.sex = sex
 
+    def give_milk(self):
+        print('Giving some milk')
 
-    class Manmal(Animal):
-        def __init__(self, sex):
-            self.sex = sex
+    def drink_milk(self):
+        print('Gulp gulp')
 
-        def give_milk(self):
-            print('Giving some milk')
+class Cow(Manmal):
+    def __init__(self, sex, name):
+        super().__init__(sex) # super wyzwale metodę odziedziczoną mimo tej samej nazwy metody
+        self.name = name
 
-        def drink_milk(self):
-            print('Gulp gulp')
+    def give_milk(self):
+        if self.sex == 'female':
+            print(self.name + ' ', end='')
+            super().give_milk() # super wyzwale metodę odziedziczoną mimo tej samej nazwy metody
+        else:
+            print('Nope, impossible')
 
+            print('Nope, impossible')
 
-    class Cow(Manmal):
-        def __init__(self, sex, name):
-            super().__init__(sex) # super wyzwale metodę odziedziczoną mimo tej samej nazwy metody
-            self.name = name
-
-        def give_milk(self):
-            if self.sex == 'female':
-                print(self.name + ' ', end='')
-                super().give_milk() # super wyzwale metodę odziedziczoną mimo tej samej nazwy metody
-            else:
-                print('Nope, impossible')
+```
 
 Przykład zastosowania:
 
-    :::python3
-    nasza_obora = [
-        Cow('female', 'Puszka')
-        Cow('female', 'Pastuszka')
-        Cow('female', 'Laciata')
-        Cow('male', 'Mordor')
-        Cow('male', 'Potter')
-        Cow('male', 'Byczek')
-    ]
-    for krowa in nasza_obora:
-        krowa.give_milk()
+```python3
+nasza_obora = [
+    Cow('female', 'Puszka')
+    Cow('female', 'Pastuszka')
+    Cow('female', 'Laciata')
+    Cow('male', 'Mordor')
+    Cow('male', 'Potter')
+    Cow('male', 'Byczek')
+]
+for krowa in nasza_obora:
+    krowa.give_milk()
 
-    from random import choice
-    choice(nasza_obora).kill()
-    choice(nasza_obora).kill()
+from random import choice
+choice(nasza_obora).kill()
+choice(nasza_obora).kill()
 
-    for krowa in nasza_obora:
-        if not krowa.is_dead():
-            print(krowa.name)
+for krowa in nasza_obora:
+    if not krowa.is_dead():
+        print(krowa.name)
 
+        print(krowa.name)
+
+```
 
 Zadanie:
 Zaimplementuj metody opisane w zadaniach. Na koniec zajęć klasy powinny być zaimplementowane w zbliżony sposób.
 
-    :::python3
-    class Czlowiek:
-        def __init__(self):
-            pass
+```python3
+class Czlowiek:
+    def __init__(self):
+        pass
 
-        def speak(self):
-            pass
+    def speak(self):
+        pass
 
-        def count_bmi(self):
-            pass
+    def count_bmi(self):
+        pass
 
-        def diff_to_norm(self):
-            pass
+    def diff_to_norm(self):
+        pass
 
-        def save_data(self):
-            pass
+    def save_data(self):
+        pass
 
-        def to_burn(self):
-            pass
+    def to_burn(self):
+        pass
 
-        def to_eat(self):
-            pass
+    def to_eat(self):
+        pass
 
-        def what_to_do(self):
-            pass
+    def what_to_do(self):
+        pass
 
-    class Polityk(Czlowiek):
-        def speak(self):
-            pass
+class Polityk(Czlowiek):
+    def speak(self):
+        pass
 
-        def recive_bribe(self):
-            pass
+    def recive_bribe(self):
+        pass
+        pass
+```
+

@@ -11,7 +11,6 @@ Python ma pięć podstawowych typów danych:
 Używaliśmy już liczb (całkowitych int i zmiennoprzecinkowych float), stringów i tupli. Nadszedł czas, by poznać
 listy i słowniki.
 
-
 'Słodki Kłólik'
 
 Dziewczynka idzie do sklepu ze zwierzątkami domowymi i pyta o kłólika.
@@ -33,7 +32,6 @@ tak samo, jak myślimy o każdej innej liście (liście zakupów, liście gości
 wynikach egzaminu itd.) spisanej na papierze i ponumerowanej.
 
 Zacznijmy od czystej strony w interpreterze Pythona:
-
 
 	>>> L = [] 
 	>>> L
@@ -79,7 +77,6 @@ listy:
 	Imię: Jacek
 
 W ten sam sposób możemy wydrukować pierwszą część choinki bożonarodzeniowej:
-
 
 	>>>  lista = [1, 2, 3] 
 	>>> for n in lista: 
@@ -131,9 +128,13 @@ tych kilka przykładów:
 	>>> list(range(1, 11, 2))
 	[1, 3, 5, 7, 9]
 
-    	:::python3
-    	for i in range(10):
-        	print(i)
+	```python3
+	for i in range(10):
+    	print(i)
+
+    	print(i)
+
+```
 
 Aktualizowanie list
 -------------------
@@ -162,7 +163,6 @@ Na przykład:
 	>>>  print(lista1) 
 	>>>  del lista1[2]
 	>>>  print(lista1)
-
 
 
 Tuple

@@ -19,6 +19,7 @@ def add_static(app):
     app.static('/js', join(dir_name, 'static/js/'))
     app.static('/images', join(dir_name, 'static/images'))
     app.static('/lessons', join(dir_name, 'static/lessons'))
+    app.static('/lesson_source', join(dir_name, 'lesson_source/'))
     app.static('/partials', join(dir_name, 'static/partials'))
     app.static('/favicon.ico', join(dir_name, 'static/images/favicon.ico'))
     return app

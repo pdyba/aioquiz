@@ -51,14 +51,18 @@ Is same as == ?
 
 Lest make few test if 'is' is the same as '==':
 
-    :::python3
-    >>> 1000 is 10**3 >>> 1000 == 10**3
-    >
-    >>> "a" is "a" >>> "aa" is "a" * 2 >>> x =
-    > "a" >>> "aa" is x * 2 >>> "aa" == x * 2
-    >
-    >>> [1, 2] == [1, 2]
-    >>> [1, 2] is [1, 2]
+```python3
+>>> 1000 is 10**3 >>> 1000 == 10**3
+>
+>>> "a" is "a" >>> "aa" is "a" * 2 >>> x =
+> "a" >>> "aa" is x * 2 >>> "aa" == x * 2
+>
+>>> [1, 2] == [1, 2]
+>>> [1, 2] is [1, 2]
+
+>>> [1, 2] is [1, 2]
+
+```
 
 Conclusion: is will return True if two variables point to the same
 object, == if the objects referred to by the variables are equal.
@@ -98,21 +102,25 @@ Indentations
 Another thing you should pay attention to is the indentation in the
 code. Open the interactive mode and enter a simple condition such as:
 
-    >>> if 2 > 1:
-    ...
+>>> if 2 > 1:
+...
 
 So far nothing has happened, as evidenced by dots `...` instead of a
 prompt `>>>`, which we have seen so far. Python expects us to give
 further instructions that are supposed to be executed if the condition
 `2 > 1` turns out to be true. Let’s try to make Python print "OK":
 
-    :::python3
-    >>> if 2 > 1:
-    ... print("OK")
-      File "<stdin>", line 2
-        print("OK")
-            ^
-    IndentationError: expected an indented block
+```python3
+>>> if 2 > 1:
+... print("OK")
+  File "<stdin>", line 2
+    print("OK")
+        ^
+IndentationError: expected an indented block
+
+IndentationError: expected an indented block
+
+```
 
 Unfortunately, we did not succeed. Python needs to know whether the
 instruction we have written is a continuation of if or it is the next
@@ -125,29 +133,33 @@ All you need is one space or `TAB`. However, all the lines that are
 supposed to be executed one after another should be indented the same
 way:
 
-    :::python3
-    >>> if -1 < 0:
-    ...  print("A")
-    ...   print("B")
-      File "<stdin>", line 3
-        print("B")
-        ^
-    IndentationError: unexpected indent
+```python3
+>>> if -1 < 0:
+...  print("A")
+...   print("B")
+  File "<stdin>", line 3
+    print("B")
+    ^
+IndentationError: unexpected indent
 
-    >>> if -1 < 0:
-    ...     print("A")
-    ...   print("B")
-      File "<stdin>", line 3
-        print("B")
-                ^
-    IndentationError: unindent does not match any outer indentation level
+>>> if -1 < 0:
+...     print("A")
+...   print("B")
+  File "<stdin>", line 3
+    print("B")
+            ^
+IndentationError: unindent does not match any outer indentation level
 
-    >>> if -1 < 0:
-    ...   print("A")
-    ...   print("B")
-    ...
-    A
-    B
+>>> if -1 < 0:
+...   print("A")
+...   print("B")
+...
+A
+B
+
+B
+
+```
 
 To avoid chaos, most Python programmers use four spaces for each level
 of indentation. We will do the same:
@@ -160,14 +172,18 @@ What if not?
 
 Actually, we could write our program just by using if :
 
-    :::python3
-    if bmi < 18.5:
-        print("underweight")
-    if bmi >= 18.5:
-        if bmi < 25.0:
-            print("normal weight")
-    if bmi >= 25.0:
-        print("overweight")
+```python3
+if bmi < 18.5:
+    print("underweight")
+if bmi >= 18.5:
+    if bmi < 25.0:
+        print("normal weight")
+if bmi >= 25.0:
+    print("overweight")
+
+    print("overweight")
+
+```
 
 We can also use else and elif to avoid repeating similar conditions and
 increase readability. In more complex programs it may not be obvious
@@ -178,18 +194,22 @@ Using else , we have the guarantee that the given instructions will be
 executed only if the instructions printed under if haven’t been
 executed:
 
-    :::python3
-    if bmi < 18.5:
-        print("underweight")
+```python3
+if bmi < 18.5:
+    print("underweight")
+else:
+    # If your program executes this instruction,
+    # for sure bmi >= 18.5 !
+    if bmi < 25.0:
+        print("normal weight")
     else:
-        # If your program executes this instruction,
-        # for sure bmi >= 18.5 !
-        if bmi < 25.0:
-            print("normal weight")
-        else:
-            # now for sure bmi >= 25.0, we don’t have to
-            # check it
-            print("overweight")
+        # now for sure bmi >= 25.0, we don’t have to
+        # check it
+        print("overweight")
+
+        print("overweight")
+
+```
 
 Pay particular attention to the indentations. Every use of else, will
 cause an increased indentation of our code. It is very annoying when you
@@ -198,23 +218,26 @@ another . Therefore the authors of Python added a little 'improvement'
 in the form of elif, instruction, which allows you to check another
 condition immediately:
 
-    :::python3
-    if n < 1:
-        print("one")
-    elif n < 2:
-        # if it wasn’t n < 1, and now it is n < 2
-        print("two")
-    elif n < 3:
-        # ,if none of the previous condition was true.
-        # n >= 1 i n>= 2, ale n < 3
-        print("three")
-    else:
-        # trolls can count only to three
-        print("more")
+```python3
+if n < 1:
+    print("one")
+elif n < 2:
+    # if it wasn’t n < 1, and now it is n < 2
+    print("two")
+elif n < 3:
+    # ,if none of the previous condition was true.
+    # n >= 1 i n>= 2, ale n < 3
+    print("three")
+else:
+    # trolls can count only to three
+    print("more")
+
+    print("more")
+
+```
 
 Exercised data:
 ===============
-
 
 | BMI          | WOMEN         |
 |--------------|---------------|
@@ -222,7 +245,6 @@ Exercised data:
 | 17,5 – 22,49 | normal weight |
 | 22,5 – 27,49 | overweight    |
 | ≥ 27,5       | obesity    |
-
 
 | BMI          | MEN           |
 |--------------|---------------|

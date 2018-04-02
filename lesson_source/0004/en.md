@@ -34,18 +34,21 @@ Step Diagram
 Pseudo Code
 -----------
 
-    :::python3
-    ingredients = eggs, ham, onion, butter, peper, salt
-    my_ingredients = get(ingredients)
-    if len(my_ingredients) < ingredients then go shopping
-    whisk(eggs, peper, salt)
-    slice(ham)
-    slice(onion)
-    while butter.state != 'liquid': melt_using_skillet(butter)
-    while onion.color != 'gold': fry(onion, ham)
-    while eggs.state != desired_state: cook_and_stir(all)
-    eat(all)
+```python3
+ingredients = eggs, ham, onion, butter, peper, salt
+my_ingredients = get(ingredients)
+if len(my_ingredients) < ingredients then go shopping
+whisk(eggs, peper, salt)
+slice(ham)
+slice(onion)
+while butter.state != 'liquid': melt_using_skillet(butter)
+while onion.color != 'gold': fry(onion, ham)
+while eggs.state != desired_state: cook_and_stir(all)
+eat(all)
 
+eat(all)
+
+```
 
 Exercises
 ---------
@@ -54,19 +57,19 @@ Exercises: Image Fun:
 
 1.  Create team name.
 2.  Each TEAM creates random nonopen figure using 4-8 straight lines for
-    ex. square or octagon on provided paper sheet.
+ex. square or octagon on provided paper sheet.
 3.  Sign the paper sheet with your team name.
 4.  Shuffle all images across all teams.
 5.  After receiving an image from other team: create instruction that
-    will allow another team to recreate the same figure as closely as
-    possible can be.
+will allow another team to recreate the same figure as closely as
+possible can be.
 6.  Sign the paper sheet with previous team names and add your team
-    name.
+name.
 7.  Shuffle only instructions across all teams.
 8.  After receiving instruction from other team, process the instruction
-    and create the image it provides.
+and create the image it provides.
 9.  Sign the paper sheet with previous team names and add your team
-    name.
+name.
 
 Lets compare the images with originals, instructions. Think about the
 differences and why did they happen.
@@ -77,21 +80,21 @@ Deaf phone:
 2.  Sign the paper sheet with your team name.
 3.  Shuffle all sentence across all teams.
 4.  Each team creates an encoding (ciphering) algorithm. Not more then 6
-    steps.
+steps.
 5.  Using the algorithm encode the received sentence and write the
-    secret message on paper with encoding algorithm.
+secret message on paper with encoding algorithm.
 6.  Sign the paper sheet with previous team names and add your team
-    name.
+name.
 7.  Shuffle all encoded sentence with encoding mechanism across all
-    teams.
+teams.
 8.  Each team decodes the sentence and writes down the decoding
-    algorithm on a new sheet of paper.
+algorithm on a new sheet of paper.
 9.  Write down the given encoded sentence on decoding algorithm paper
 10. Sign the paper sheet with previous team names and add your team
-    name.
+name.
 11. Each team decodes the sentence.
 12. Sign the paper sheet with previous team names and add your team
-    name.
+name.
 13. Now lets see if the sentences matches ? What have happened to them ?
 
 Can You now feel how useful is to use algorithm and how often do You use

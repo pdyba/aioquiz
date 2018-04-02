@@ -27,7 +27,7 @@ INVALID_ANSWER = json({'msg': 'Invalid answer provided for the given question ty
 # noinspection PyBroadException
 class LessonView(HTTPModelClassView):
     _cls = Lesson
-    _urls = ['/api/lessons', '/api/lessons/<qid:int>']
+    _urls = ['/api/lessons', '/api/lessons/<lid:int>']
 
     @user_required()
     async def post(self, request, current_user):

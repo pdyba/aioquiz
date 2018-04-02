@@ -40,7 +40,6 @@ Python - używany m.in.:
 * YouTube
 
 
-
 Programista: Kto to jest ?
 ---------------------------
 
@@ -55,7 +54,6 @@ Programista: Kto to jest ?
 
 * Ewolucja: Architekt
 * Ewolucja: Manager
-
 
 ![image](./images/python_gods.jpeg)
 

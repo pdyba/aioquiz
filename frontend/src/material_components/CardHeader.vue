@@ -13,7 +13,7 @@ export default {
     },
     color: {
       type: String,
-      default: 'deep-purple'
+      default: 'primary-color'
     },
     textColor: {
       type: String,

@@ -70,16 +70,20 @@ Czy is to to samo co == ?
 
 Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
 
-    :::python3
-    >>> 1000 is 10**3 
-    >>> 1000 == 10**3
-    >>> "a" is "a" 
-    >>> "aa" is "a" * 2 
-    >>> x = "a" 
-    >>> "aa" is x * 2 
-    >>> "aa" == x * 2
-    >>> [1, 2] == [1, 2]
-    >>> [1, 2] is [1, 2]
+```python3
+>>> 1000 is 10**3 
+>>> 1000 == 10**3
+>>> "a" is "a" 
+>>> "aa" is "a" * 2 
+>>> x = "a" 
+>>> "aa" is x * 2 
+>>> "aa" == x * 2
+>>> [1, 2] == [1, 2]
+>>> [1, 2] is [1, 2]
+
+>>> [1, 2] is [1, 2]
+
+```
 
 Wniosek: 'is' zwróci True, jeśli dwie zmienne wskazują na ten sam obiekt,
 a '==' zwróci True jeśli obiekty, do których odnoszą się zmienne są równe.
@@ -116,5 +120,4 @@ Przykład:
 	>>> 'Wprowadź drugą liczbę'
 	5
 	'10 + 5 = 15'
-
 

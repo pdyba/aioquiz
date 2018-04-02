@@ -5,8 +5,8 @@
             <navbar-collapse>
                 <navbar-nav right>
 
-                    <!--<navbar-item class="need-help" href="#" waves-fixed>HELP</navbar-item>-->
-                    <!--<navbar-item class="need-help-clicked" href="#" waves-fixed>THX</navbar-item>-->
+                    <navbar-item class="need-help" v-if="auth && !i_need_help" waves-fixed @click.prevent="help()">HELP</navbar-item>
+                    <navbar-item class="need-help-clicked" v-if="auth &&  i_need_help" waves-fixed @click.prevent="help_stop()">THX</navbar-item>
                     <navbar-item href="/about" waves-fixed>About</navbar-item>
                     <navbar-item href="/lessons" waves-fixed v-if="auth">Lessons</navbar-item>
                     <navbar-item href="/quiz" waves-fixed v-if="admin">Quiz</navbar-item>
@@ -98,6 +98,11 @@
     import axios from 'axios';
 
     export default {
+        data() {
+            return {
+                i_need_help: false
+            }
+        },
         components: {
             Navbar,
             NavbarItem,
@@ -170,7 +175,8 @@
                     axios.put('/api/attendance', data).then(function (response) {
                         if (response.data.success) {
                             mtype = "success";
-                        } else {
+                        }
+                        else {
                             mtype = "error";
                         }
                         this.$swal({
@@ -215,6 +221,30 @@
 <style scoped>
     .navbar .dropdown-menu a:hover {
         color: inherit !important;
+    }
+
+    .need-help {
+        background-color: #E51E41;
+        color: #efefef !important;
+        background-image: linear-gradient(rgb(229, 30, 65) 0px, rgb(229, 30, 65) 100%);
+    }
+
+    .need-help:hover {
+        background-color: #efefef;
+        color: #E51E41 !important;
+        background-image: None;
+    }
+
+    .need-help-clicked {
+        background-color: #8ce554;
+        color: #efefef !important;
+        background-image: linear-gradient(rgb(140, 229, 84) 0px, rgb(140, 229, 84) 100%);
+    }
+
+    .need-help-clicked:hover {
+        background-color: #efefef;
+        color: #8ce554 !important;
+        background-image: None;
     }
 </style>
 

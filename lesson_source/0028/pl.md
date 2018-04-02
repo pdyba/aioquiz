@@ -17,47 +17,55 @@ HTML – elementy i znaczniki
 * Elementy tworzą strukturę dokumentu HTML,
 * Znaczniki oznaczają początek i koniec elementu,
 * Znaczniki:
-    * `<p>` - znacznik otwierający,
-    * `</p>` - znacznik zamykający,
-    * `<p />` - znacznik oznaczający pusty element.
+* `<p>` - znacznik otwierający,
+* `</p>` - znacznik zamykający,
+* `<p />` - znacznik oznaczający pusty element.
 * Atrybuty – umieszczone w znaczniku dodatkowe informacje o elemencie:
-    * `<img src="cat_image.png">` - atrybut `src` o wartości `cat_image.jpg`,
-    * `<table border>` - atrybut `border` nie posiadający wartości.
+* `<img src="cat_image.png">` - atrybut `src` o wartości `cat_image.jpg`,
+* `<table border>` - atrybut `border` nie posiadający wartości.
 
 ### Elementy
 
 * Elementy:
-    * `<p>Treść akapitu</p>` - akapit
-    * `<br />` - nowa linia
+* `<p>Treść akapitu</p>` - akapit
+* `<br />` - nowa linia
 * W dokumentach HTML często spotyka się elementy bez znacznika zamykającego:
-    * `<br>` - też nowa linia
+* `<br>` - też nowa linia
 
 ### Zagnieżdżanie elementów
 
 Przykład - akapit zawierający listę
 
-    :::html
-    <p>
-      Przykładowa lista
-      <ul>
-        <li>Element 1
-        <li>Element 2
-      </ul>
-    </p>
+```html
+<p>
+  Przykładowa lista
+  <ul>
+    <li>Element 1
+    <li>Element 2
+  </ul>
+</p>
+
+</p>
+
+```
 
 ### Podstawowa struktura HTML
 
-    :::html
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="UTF-8">
-        <title>Tytuł strony</title>
-      </head>
-      <body>
-      
-      </body>
-    </html>
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Tytuł strony</title>
+  </head>
+  <body>
+  
+  </body>
+</html>
+
+</html>
+
+```
 
 Element `<title>` zawiera tytuł strony wyświetlany przez przeglądarkę jako nazwa karty.<br>
 Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszych zajęciach wszystko będziemy umieszczać właśnie tam.
@@ -74,32 +82,48 @@ Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszyc
 
 #### Lista numerowana
 
-    :::html
-    <ol>
-      <li>Element 1</li>
-      <li>Element 2</li>
-    </ol>
+```html
+<ol>
+  <li>Element 1</li>
+  <li>Element 2</li>
+</ol>
+
+</ol>
+
+```
 
 #### Lista nienumerowana
 
-    :::html
-    <ul>
-      <li>Element 1</li>
-      <li>Element 2</li>
-    </ul>
+```html
+<ul>
+  <li>Element 1</li>
+  <li>Element 2</li>
+</ul>
+
+</ul>
+
+```
 
 #### Obrazki
 
-    :::html
-    <img src="cat_image.jpg" width="200" height="200">
+```html
+<img src="cat_image.jpg" width="200" height="200">
+
+<img src="cat_image.jpg" width="200" height="200">
+
+```
 
 * `src` - nazwa pliku z obrazkiem, musi być w tym samym folderze co plik strony,
 * `width`, `height` - szerokość i wysokość obrazka (opcjonalne).
 
 #### Linki
 
-    :::html
-    <a href="https://www.python.org/">Strona Pythona</a>
+```html
+<a href="https://www.python.org/">Strona Pythona</a>
+
+<a href="https://www.python.org/">Strona Pythona</a>
+
+```
 
 * `href` - adres docelowy linku. Jeśli zaczniemy go od `/` - będzie oznaczać adres w aktualnie wyświetlanej stronie
 (np. jeśli nasza strona to `www.sluchamjazzu.pl` to link o adresie `/podstrona` będzie prowadził do adresu
@@ -107,17 +131,21 @@ Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszyc
 
 #### Tabele
 
-    :::html
-    <table border>
-      <tr>
-        <th>Imię</th>
-        <th>Nazwisko</th>
-      </tr>
-      <tr>
-        <td>Hiromi</td>
-        <td>Uehara</td>
-      </tr>
-    </table>
+```html
+<table border>
+  <tr>
+    <th>Imię</th>
+    <th>Nazwisko</th>
+  </tr>
+  <tr>
+    <td>Hiromi</td>
+    <td>Uehara</td>
+  </tr>
+</table>
+
+</table>
+
+```
 
 * `<table>` - nadrzędny element oznaczający tabelę. Atrybut `border` powoduje dodanie ramki do tabeli
 * `<tr>` - wiersz tabeli
@@ -126,48 +154,51 @@ Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszyc
 
 ### Pełny przykład
 
-    :::html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Przykładowa strona</title>
-    </head>
-    <body>
-        <h1>To jest przykładowa strona</h1>
-        Ta strona zawiera:
-        <p>Przykładowy akapit</p>
-        <p>Oraz drugi akapit<br>z wstawioną nową linią w środek</p>
-        <ol>
-            <li>Listę</li>
-            <li>numerowaną</li>
-        </ol>
-        <a href="https://pylove.org">Link do strony PyLove</a>
-        <table border>
-            <tr>
-                <th>Oraz</th>
-                <th>Przykładową</th>
-            </tr>
-            <tr>
-                <td>Tabelkę</td>
-                <td>z kilkoma</td>
-            </tr>
-            <tr>
-                <td>wierszami</td>
-                <td></td>
-            </tr>
-        </table>
-    </body>
-    </html>
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Przykładowa strona</title>
+</head>
+<body>
+    <h1>To jest przykładowa strona</h1>
+    Ta strona zawiera:
+    <p>Przykładowy akapit</p>
+    <p>Oraz drugi akapit<br>z wstawioną nową linią w środek</p>
+    <ol>
+        <li>Listę</li>
+        <li>numerowaną</li>
+    </ol>
+    <a href="https://pylove.org">Link do strony PyLove</a>
+    <table border>
+        <tr>
+            <th>Oraz</th>
+            <th>Przykładową</th>
+        </tr>
+        <tr>
+            <td>Tabelkę</td>
+            <td>z kilkoma</td>
+        </tr>
+        <tr>
+            <td>wierszami</td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+</html>
+
+</html>
+
+```
 
 ### Przykład tabeli do zadania 2.
 
 <table border>
-    <tr><th>Col 1</th><th>Col 2</th></tr>
-    <tr><td colspan="2">Wide cell</td></tr>
-    <tr><td>Cell 1</td><td>Cell 2</td></tr>
+<tr><th>Col 1</th><th>Col 2</th></tr>
+<tr><td colspan="2">Wide cell</td></tr>
+<tr><td>Cell 1</td><td>Cell 2</td></tr>
 </table>
-
 
 Renderowanie szablonów
 ----------------------
@@ -187,70 +218,73 @@ Wewnątrz <code ng-non-bindable>{{ }}</code> można używać wielu poleceń pyth
 
 ### if
 
-    {% if zmienna == 1 %}
-        zmienna ma wartość 1
-    {% else %}
-        zmienna ma inną wartość
-    {% endif %}
+{% if zmienna == 1 %}
+    zmienna ma wartość 1
+{% else %}
+    zmienna ma inną wartość
+{% endif %}
 
 ### for
 
-    {% for element in kolekcja %}
-        <p>{{ element }}</p>
-    {% endfor %}
+{% for element in kolekcja %}
+    <p>{{ element }}</p>
+{% endfor %}
 
 Jeśli `kolekcja` jest listą `['Queen', 'Pink Floyd']`, to efektem będzie:
 
-    <p>Queen</p>
-    <p>Pink Floyd</p>
+<p>Queen</p>
+<p>Pink Floyd</p>
 
 ### Przykład
-    
+
 #### Backend
 
-    :::python3
-    from flask import Flask, render_template
-    
-    app = Flask(__name__)
-    
-    @app.route("/zespoly")
-    def lista_zespolow():
-        return render_template(
-            'zespoly.html',
-            naglowek='Zespoły',
-            zespoly=['Pink Floyd', 'Queen', 'Led Zeppelin'],
-            link=True
-        )
-    
-    app.run(debug=True)
+```python3
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route("/zespoly")
+def lista_zespolow():
+    return render_template(
+        'zespoly.html',
+        naglowek='Zespoły',
+        zespoly=['Pink Floyd', 'Queen', 'Led Zeppelin'],
+        link=True
+    )
+
+app.run(debug=True)
+
+app.run(debug=True)
+
+```
 
 #### Szablon - zespoly.html
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Zespoły</title>
-    </head>
-    <body>
-        <h1>{{ naglowek }}</h1>
-        <ol>
-            {% for zespol in zespoly %}
-                <li>{{ zespol }}</li>
-            {% endfor %}
-        </ol>
-        {% if link %}
-            <a href="//pylove.org">PyLove</a>
-        {% endif %}
-    </body>
-    </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zespoły</title>
+</head>
+<body>
+    <h1>{{ naglowek }}</h1>
+    <ol>
+        {% for zespol in zespoly %}
+            <li>{{ zespol }}</li>
+        {% endfor %}
+    </ol>
+    {% if link %}
+        <a href="//pylove.org">PyLove</a>
+    {% endif %}
+</body>
+</html>
 
 ### Uwagi
 
 * Wcięcia, nowe linie itp. nie mają znaczenia w szablonach,
 * Szablon musi znajdować się w folderze `templates`, czyli jeśli nasza aplikacja jest w ścieżce 
 `C:\projekt\aplikacja.py`, to szablon musi być w ścieżce `C:\projekt\templates\szablon.html`
-
 
 Formularze
 ----------
@@ -262,11 +296,15 @@ W przypadku zapytania POST dane trafią do treści zapytania, której nie widać
 
 ### Przykład formularza
 
-    :::html
-    <form action="/search" method="get">
-      <input type="text" name="query">
-      <button type="submit">Wyślij</button>
-    </form>
+```html
+<form action="/search" method="get">
+  <input type="text" name="query">
+  <button type="submit">Wyślij</button>
+</form>
+
+</form>
+
+```
 
 * `action` oznacza ścieżkę, do której chcemy wysłać zapytanie,
 * `method` oznacza metodę (get / post),
@@ -281,33 +319,37 @@ W przypadku zapytania POST dane trafią do treści zapytania, której nie widać
 
 #### Backend
 
-    :::python3
-    from flask import Flask, render_template, request
-    
-    app = Flask(__name__)
-    
-    @app.route("/search", methods=['GET'])
-    def search():
-        query = request.args.get('query')
-        return render_template('formularz.html', query=query)
-    
-    app.run(debug=True)
+```python3
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route("/search", methods=['GET'])
+def search():
+    query = request.args.get('query')
+    return render_template('formularz.html', query=query)
+
+app.run(debug=True)
+
+app.run(debug=True)
+
+```
 
 #### Szablon - formularz.html
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Formularz</title>
-    </head>
-    <body>
-        {% if query %}
-            Przesłano {{ query }}
-        {% endif %}
-        <form action="/search" method="get">
-            <input type="text" name="query">
-            <button type="submit">Wyślij</button>
-        </form>
-    </body>
-    </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formularz</title>
+</head>
+<body>
+    {% if query %}
+        Przesłano {{ query }}
+    {% endif %}
+    <form action="/search" method="get">
+        <input type="text" name="query">
+        <button type="submit">Wyślij</button>
+    </form>
+</body>
+</html>

@@ -4,12 +4,16 @@ Pierwsze kroki z interpreterem Pythona i IDE Pycharma
 Rozpocznijmy od uruchomienia interpretera Pythona, którego
 zainstalowaliśmy w poprzednim rozdziale. Proszę uruchomcie:
 
-    :::bash
-    (workshops) ~$ python
-    Python 3.6.0 (...)
-    Type "copyright", "credits" or "license" for more information.
+```bash
+(workshops) ~$ python
+Python 3.6.0 (...)
+Type "copyright", "credits" or "license" for more information.
 
-    >>>
+>>>
+
+>>>
+
+```
 
 ![interpreter Pythona w terminalu](images/terminal_python.png)
 
@@ -21,7 +25,6 @@ używac tylko komend języka Python. Wcześniej poznane komendy (takie, jak
 nowego języka!
 
 Nie wpisujemy znaku zachęty `>>>` (podobnie jak `~$`) - interpreter zrobi to za nas.
-
 
 Przedstaw się
 =============
@@ -85,7 +88,7 @@ wszystko. W tej chwili jedynymi znanymi nam wartościami są liczby:
 Kończymy chwilowo z konsolą intraktywną. Aby z niej wyjść, wpiszcie
 quit():
 
-    	>>> quit()
+	>>> quit()
 
 lub przytrzymajcie `Ctrl+D` (dla Linuxa) lub `Ctrl+Z` (dla Windows).
 
@@ -99,7 +102,7 @@ wrócimy to tego sposobu.
 
 Nasz pierwszy program będzie wyglądał tak:
 
-    print("Hi, my name is Lucas")
+print("Hi, my name is Lucas")
 
 Aby napisać i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
 edytora tekstu, który działa w Waszym OS (użyj [listy edytorów w 
@@ -109,22 +112,30 @@ napisany w Pythonie :). Wpiszcie w edytorze powyższy kod w Pythonie i zapiszcie
 go w nowym pliku o nazwie `visitingcard.py`. Następnie uruchomcie Wasz 
 pierwszy program w Pythonie w wierszu poleceń przy użyciu:
 
-    :::bash
-    (workshops) ~$ python visitingcard.py
-    Hi, my name is Lucas
-    (workshops) ~$
+```bash
+(workshops) ~$ python visitingcard.py
+Hi, my name is Lucas
+(workshops) ~$
+
+(workshops) ~$
+
+```
 
 Pojedynczy program może zawierać więcej niż jedną komendę. Każda z nich
 powinna być w osobnym wierszu. Na przykład:
 
-    :::python3
-    print("Hi,")
-    print()
+```python3
+print("Hi,")
+print()
 
-    print("my name is Lucas")
+print("my name is Lucas")
 
-    print()
-    print("Bye.")
+print()
+print("Bye.")
+
+print("Bye.")
+
+```
 
 Aby zwiększyć przejrzystość pliku `visitingcard.py`, w dowolnym jego
 miejscu możemy wprowadzać puste wiersze. Tutaj oddzieliśmy nagłówek

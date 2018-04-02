@@ -15,22 +15,25 @@ present a workaround for this issue in a moment.
 An easy option to output a nice and big heading would be to change our
 view function to output HTML, maybe something like this:
 
-    :::python3
-    @app.route('/')
-    @app.route('/index')
-    def index():
-        user = {'nickname': 'Martha'}  # fake user
-        return '''
-    <html>
-      <head>
-        <title>Home Page</title>
-      </head>
-      <body>
-        <h1>Hello, ''' + user['nickname'] + '''</h1>
-      </body>
-    </html>
-    '''
+```python3
+@app.route('/')
+@app.route('/index')
+def index():
+    user = {'nickname': 'Martha'}  # fake user
+    return '''
+<html>
+  <head>
+    <title>Home Page</title>
+  </head>
+  <body>
+    <h1>Hello, ''' + user['nickname'] + '''</h1>
+  </body>
+</html>
+'''
 
+'''
+
+```
 
 Give the application a try to see how this looks in your browser.
 
@@ -57,16 +60,19 @@ implement this separation.
 
 Let's write our first template file app/templates/index.html:
 
-    :::html
-    <html>
-      <head>
-        <title>{{ title }} - App</title>
-      </head>
-      <body>
-          <h1>Hello, {{ user.nickname }}!</h1>
-      </body>
-    </html>
+```html
+<html>
+  <head>
+    <title>{{ title }} - App</title>
+  </head>
+  <body>
+      <h1>Hello, {{ user.nickname }}!</h1>
+  </body>
+</html>
 
+</html>
+
+```
 
 As you see above, we just wrote a mostly standard HTML page, with the
 only difference that there are some placeholders for the dynamic content
@@ -77,15 +83,18 @@ app/views.py):
 
 from flask import render_template
 
-    :::python3
-    from flask import render_template
+```python3
+from flask import render_template
 
-    @app.route('/')
-    @app.route('/index')
-    def index():
-        user = {'nickname': 'Martha'}  # fake user
-        return render_template('index.html', title='Home', user=user)
+@app.route('/')
+@app.route('/index')
+def index():
+    user = {'nickname': 'Martha'}  # fake user
+    return render_template('index.html', title='Home', user=user)
 
+    return render_template('index.html', title='Home', user=user)
+
+```
 
 Try the application at this point to see how the template works. Once
 you have the rendered page in your browser you may want to view the
@@ -108,20 +117,23 @@ The Jinja2 templates also support control statements, given inside
 {%...%} blocks. Let's add an if statement to our template (file
 app/templates/index.html):
 
-    :::html
-    <html>
-      <head>
-        {% if title %}
-        <title>{{ title }} - App</title>
-        {% else %}
-        <title>Welcome to The App</title>
-        {% endif %}
-      </head>
-      <body>
-          <h1>Hello, {{ user['nickname'] }}!</h1>
-      </body>
-    </html>
+```html
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - App</title>
+    {% else %}
+    <title>Welcome to The App</title>
+    {% endif %}
+  </head>
+  <body>
+      <h1>Hello, {{ user['nickname'] }}!</h1>
+  </body>
+</html>
 
+</html>
+
+```
 
 Now our template is a bit smarter. If the view function forgets to
 define a page title then instead of showing an empty title the template
@@ -137,27 +149,30 @@ lists, so let's see how we can do that.
 
 Lets thing about a blog in that case.
 
-    :::python3
-    from flask import render_template
+```python3
+from flask import render_template
 
-    @app.route('/')
-    @app.route('/index')
-    def index():
-        user = {'nickname': 'Martha'}  # fake user
-        posts = [  # fake array of posts
-            {
-                'author': {'nickname': 'John'},
-                'title': 'Beautiful day in Poznan!',
-                'body': 'Very random text about Poznan!'
-            },
-            {
-                'author': {'nickname': 'Susan'},
-                'title': 'The Avengers movie was so cool!',
-                'body': 'Long random text about the movie!'
-            }
-        ]
-        return render_template("index.html", title='Home', user=user, posts=posts)
+@app.route('/')
+@app.route('/index')
+def index():
+    user = {'nickname': 'Martha'}  # fake user
+    posts = [  # fake array of posts
+        {
+            'author': {'nickname': 'John'},
+            'title': 'Beautiful day in Poznan!',
+            'body': 'Very random text about Poznan!'
+        },
+        {
+            'author': {'nickname': 'Susan'},
+            'title': 'The Avengers movie was so cool!',
+            'body': 'Long random text about the movie!'
+        }
+    ]
+    return render_template("index.html", title='Home', user=user, posts=posts)
 
+    return render_template("index.html", title='Home', user=user, posts=posts)
+
+```
 
 To represent user posts we are using a list, where each element has
 author and body fields. When we get to implement a real database we will
@@ -174,26 +189,29 @@ render as many posts as the view sends.
 So let's see how we do this using a for control structure (file
 app/templates/index.html):
 
-    :::html
-    <html>
-      <head>
-        {% if title %}
-        <title>{{ title }} - App</title>
-        {% else %}
-        <title>Welcome to the App</title>
-        {% endif %}
-      </head>
-      <body>
-        <h1>Hi, {{ user.nickname }}!</h1>
+```html
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - App</title>
+    {% else %}
+    <title>Welcome to the App</title>
+    {% endif %}
+  </head>
+  <body>
+    <h1>Hi, {{ user.nickname }}!</h1>
 
-        {% for post in posts %}
-        <div>
-        <p>{{ post.author.nickname }} writs article with title: <b>{{ post.title }}</b></p></div>
-        {% endfor %}
+    {% for post in posts %}
+    <div>
+    <p>{{ post.author.nickname }} writs article with title: <b>{{ post.title }}</b></p></div>
+    {% endfor %}
 
-      </body>
-    </html>
+  </body>
+</html>
 
+</html>
+
+```
 
 Simple, right? Give it a try, and be sure to play with adding more
 content to the posts array.
@@ -221,25 +239,28 @@ So let's define a base template that includes the navigation bar and
 also the bit of title logic we implemented earlier (file
 app/templates/_base.html):
 
-    :::html
-    <html>
-      <head>
-        {% if title %}
-        <title>{{ title }} - App</title>
-        {% else %}
-        <title>Welcome to the App</title>
-        {% endif %}
-      </head>
-      <body>
-        <div>Microblog: <a href="/index">Home</a></div>
-        <hr>
+```html
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - App</title>
+    {% else %}
+    <title>Welcome to the App</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Microblog: <a href="/index">Home</a></div>
+    <hr>
 
-        {% block content %}
-        {% endblock %}
+    {% block content %}
+    {% endblock %}
 
-      </body>
-    </html>
+  </body>
+</html>
 
+</html>
+
+```
 
 In this template we use the block control statement to define the place
 where the derived templates can insert themselves. Blocks are given a
@@ -249,15 +270,18 @@ templates.
 And now what's left is to modify our index.html template to inherit from
 _base.html (file app/templates/index.html):
 
-    :::html
-    {% extends "_base.html" %}
-    {% block content %}
-        <h1>Hi, {{ user.nickname }}!</h1>
-        {% for post in posts %}
-        <div><p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p></div>
-        {% endfor %}
-    {% endblock %}
+```html
+{% extends "_base.html" %}
+{% block content %}
+    <h1>Hi, {{ user.nickname }}!</h1>
+    {% for post in posts %}
+    <div><p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p></div>
+    {% endfor %}
+{% endblock %}
 
+{% endblock %}
+
+```
 
 Since the _base.html template will now take care of the general page
 structure we have removed those elements from this one and left only the
