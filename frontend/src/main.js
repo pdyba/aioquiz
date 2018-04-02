@@ -3,6 +3,7 @@ import App from './App.vue'
 import axios from 'axios'
 import VueSwal from 'vue-swal'
 import BootstrapVue from 'bootstrap-vue'
+import Vuelidate from 'vuelidate'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'mdbootstrap/css/mdb.css';
@@ -24,12 +25,14 @@ axios.interceptors.response.use(res => {
 });
 
 axios.interceptors.request.use(req => {
-    req.headers.authorization = store.getters.sessionUUID
+    console.log('inter_req', req);
+    req.headers.authorization = store.getters.sessionUUID;
     return req
 });
 
 Vue.use(BootstrapVue);
 Vue.use(VueSwal);
+Vue.use(Vuelidate);
 
 new Vue({
     el: '#app',

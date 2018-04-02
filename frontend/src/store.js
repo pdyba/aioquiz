@@ -15,17 +15,13 @@ export default new Vuex.Store({
     mutations: {
         authUser(state, session_uuid) {
             state.session_uuid = session_uuid;
-            console.log('al', session_uuid)
         },
         storeUser(state, user) {
             state.user = user;
-            console.log('al', user)
         },
         clearAuthData(state) {
-            console.log('logout');
-            console.log(state.user);
-            console.log(state.session_uuid);
             state.session_uuid = null;
+            state.user = null;
         }
     },
     actions: {
@@ -79,6 +75,7 @@ export default new Vuex.Store({
             }
             commit('authUser', session_uuid);
             commit('storeUser', user);
+            router.replace('/lessons');
         },
         logout({commit}) {
             commit('clearAuthData');

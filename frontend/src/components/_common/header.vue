@@ -9,8 +9,9 @@
                     <!--<navbar-item class="need-help-clicked" href="#" waves-fixed>THX</navbar-item>-->
                     <navbar-item href="/about" waves-fixed>About</navbar-item>
                     <navbar-item href="/lessons" waves-fixed v-if="auth">Lessons</navbar-item>
-                    <navbar-item href="#" waves-fixed v-if="auth">Quiz</navbar-item>
-                    <navbar-item href="#" waves-fixed v-if="auth">Live Quiz</navbar-item>
+                    <navbar-item href="/quiz" waves-fixed v-if="admin">Quiz</navbar-item>
+                    <navbar-item href="/live_quiz" waves-fixed v-if="admin">Live Quiz</navbar-item>
+                    <navbar-item href="/exam" waves-fixed v-if="admin">Exam</navbar-item>
 
                     <divider v-if="mentor || org"></divider>
                     <dropdown tag="li" class="nav-item" v-if="mentor">
@@ -43,9 +44,9 @@
                         <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Admin</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>Attendee: Review</dropdown-item>
-                            <dropdown-item>E-mail</dropdown-item>
-                            <dropdown-item>Users</dropdown-item>
-                            <dropdown-item>Config</dropdown-item>
+                            <dropdown-item href="/admin/email">E-mail</dropdown-item>
+                            <dropdown-item href="/admin/users">Users</dropdown-item>
+                            <dropdown-item href="/admin/config">Config</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
                 </navbar-nav>
@@ -71,7 +72,9 @@
 
                         </dropdown-menu>
                     </dropdown>
-                    <button @click="onLogout" v-if="auth"><navbar-item>&#10006;</navbar-item></button>
+                    <a @click="onLogout" v-if="auth" class="">
+                        <navbar-item>&#10006;</navbar-item>
+                    </a>
                 </navbar-nav>
             </navbar-collapse>
         </navbar>
@@ -92,6 +95,8 @@
     import drop from '../../mixins/drop';
     import divider from './divider.vue';
 
+    import axios from 'axios';
+
     export default {
         components: {
             Navbar,
@@ -108,30 +113,102 @@
         mixins: [drop],
         methods: {
             setLang(language) {
-                console.log(language)
+
             },
             onLogout() {
                 this.$store.dispatch('logout')
+            },
+            help: () => {
+                if (!user_seat) {
+                    this.$swal({
+                        title: "Nope",
+                        text: "You need to pick a seat before calling for help",
+                        type: "error",
+                        timer: 2000,
+                        showConfirmButton: false
+                    })
+                } else {
+                    axios.get('/api/user/i_need_help/').then(
+                        function (response) {
+                            $scope.globals.currentUser.seat.i_need_help = true;
+                            this.$swal({
+                                title: "Yey",
+                                text: response.data.msg,
+                                type: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            })
+                        }
+                    )
+                }
+            },
+            help_stop: () => {
+                axios.delete('/api/user/i_need_help/').then(
+                    function (response) {
+                        $scope.globals.currentUser.seat.i_need_help = false;
+                        this.$swal({
+                            title: "Yey",
+                            text: response.data.msg,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        })
+                    }
+                )
+            },
+
+            save_attendence: () => {
+                this.$swal({
+                    title: "Attendance",
+                    text: "Please provide lesson code",
+                    element: "input",
+                    type: "input",
+                    showConfirmButton: true,
+                    closeOnConfirm: false
+                }, function (value) {
+                    var data = {'code': value};
+                    axios.put('/api/attendance', data).then(function (response) {
+                        if (response.data.success) {
+                            mtype = "success";
+                        } else {
+                            mtype = "error";
+                        }
+                        this.$swal({
+                            text: response.data.msg,
+                            title: 'Attendance',
+                            type: mtype,
+                            showConfirmButton: true,
+                            timer: 2000
+                        });
+
+                    })
+                });
             }
         },
         computed: {
             auth() {
                 return this.$store.getters.isAuthenticated
-            },
+            }
+            ,
             admin() {
                 return this.$store.getters.isAdmin
-            },
+            }
+            ,
             org() {
                 return this.$store.getters.isOrganiser
-            },
+            }
+            ,
             mentor() {
                 return this.$store.getters.isMentor
-            },
-            userName () {
+            }
+            ,
+            userName() {
                 return this.$store.getters.userName
             }
-        },
-    };
+        }
+        ,
+    }
+    ;
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

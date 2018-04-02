@@ -179,6 +179,8 @@ class Table:
 
     @classmethod
     async def get_by_many_field_value(cls, **kwargs):
+        if not kwargs:
+            return await cls.get_all()
         querry = """SELECT * FROM {} WHERE """.format(cls._name)
         for i, kw in enumerate(kwargs):
             if isinstance(kwargs[kw], (dict, list)):

@@ -1,7 +1,8 @@
 <template>
-    <a :is="tag" :href="href" :class="className">
+    <router-link :to="href" class="nav-link">
         <slot></slot>
-        <img v-if="src" :src="src" :class="imgClass"/></a>
+        <img v-if="src !== null" :src="src" :class="imgClass"/>
+    </router-link>
 </template>
 
 <script>
@@ -19,7 +20,7 @@
             },
             src: {
                 type: String,
-                default: "#"
+                default: ""
             },
             imgClass: {
                 type: String,
@@ -44,5 +45,8 @@
     .language-img {
         max-width: 20px;
         max-height: 20px;
+    }
+    a {
+        padding: 4px;
     }
 </style>
