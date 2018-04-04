@@ -35,7 +35,7 @@ export default {
     },
     waves: {
       type: Boolean,
-      default: true
+      default: false
     },
     prev: {
       type: Boolean,

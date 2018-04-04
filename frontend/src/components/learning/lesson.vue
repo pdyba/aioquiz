@@ -1,11 +1,8 @@
 <template>
     <container>
         <h3> Lesson: {{ lesson.lesson_no }}</h3>
-        <!--<div v-html="lesson_html"></div>-->
-
             <vue-markdown id="lesson_cont" :source="lesson_content"></vue-markdown>
-
-        <!--<exercises lid="lesson.id"></exercises>-->
+        <exercises lid="lesson.id"></exercises>
     </container>
 </template>
 
@@ -16,8 +13,9 @@
 
     import VueMarkdown from 'vue-markdown'
     import Container from '../../material_components/Container.vue';
+    import exercises from './exercises.vue'
 
-    var loadLanguages = require('prismjs/components/index.js');
+    const loadLanguages = require('prismjs/components/index.js');
     loadLanguages(['python']);
 
     export default {
@@ -30,6 +28,7 @@
         components: {
             Container,
             VueMarkdown,
+            exercises,
         },
         name: "lesson",
         created() {

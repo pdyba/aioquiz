@@ -5,17 +5,17 @@
             <navbar-collapse>
                 <navbar-nav right>
 
-                    <navbar-item class="need-help" v-if="auth && !i_need_help" waves-fixed @click.prevent="help()">HELP</navbar-item>
-                    <navbar-item class="need-help-clicked" v-if="auth &&  i_need_help" waves-fixed @click.prevent="help_stop()">THX</navbar-item>
-                    <navbar-item href="/about" waves-fixed>About</navbar-item>
-                    <navbar-item href="/lessons" waves-fixed v-if="auth">Lessons</navbar-item>
-                    <navbar-item href="/quiz" waves-fixed v-if="admin">Quiz</navbar-item>
-                    <navbar-item href="/live_quiz" waves-fixed v-if="admin">Live Quiz</navbar-item>
-                    <navbar-item href="/exam" waves-fixed v-if="admin">Exam</navbar-item>
+                    <navbar-item class="need-help" v-if="auth && !i_need_help"  @click.prevent="help()">HELP</navbar-item>
+                    <navbar-item class="need-help-clicked" v-if="auth &&  i_need_help"  @click.prevent="help_stop()">THX</navbar-item>
+                    <navbar-item href="/about"  active >About</navbar-item>
+                    <navbar-item href="/lessons"  v-if="auth">Lessons</navbar-item>
+                    <navbar-item href="/quiz"  v-if="admin">Quiz</navbar-item>
+                    <navbar-item href="/live_quiz"  v-if="admin">Live Quiz</navbar-item>
+                    <navbar-item href="/exam"  v-if="admin">Exam</navbar-item>
 
                     <divider v-if="mentor || org"></divider>
                     <dropdown tag="li" class="nav-item" v-if="mentor">
-                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Mentor</dropdown-toggle>
+                        <dropdown-toggle tag="a" navLink color="indigo" >Mentor</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>Seats</dropdown-item>
                             <dropdown-item>Lesson</dropdown-item>
@@ -26,7 +26,7 @@
                     </dropdown>
 
                     <dropdown tag="li" class="nav-item" v-if="org">
-                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Organiser</dropdown-toggle>
+                        <dropdown-toggle tag="a" navLink color="indigo" >Organiser</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>Lesson: Create</dropdown-item>
                             <dropdown-item>Lesson: List & Manage</dropdown-item>
@@ -41,7 +41,7 @@
 
                     <divider v-if="admin"></divider>
                     <dropdown tag="li" class="nav-item" v-if="admin">
-                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Admin</dropdown-toggle>
+                        <dropdown-toggle tag="a" navLink color="indigo" >Admin</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>Attendee: Review</dropdown-item>
                             <dropdown-item href="/admin/email">E-mail</dropdown-item>
@@ -54,7 +54,7 @@
                     <navbar-item href="/signin" v-if="!auth">Login / Register</navbar-item>
 
                     <dropdown tag="li" class="nav-item" v-if="auth">
-                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>{{ userName }}</dropdown-toggle>
+                        <dropdown-toggle tag="a" navLink color="indigo" >{{ userName }}</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>My Profile</dropdown-item>
                             <dropdown-item>Edit Profile</dropdown-item>
@@ -63,7 +63,7 @@
                         </dropdown-menu>
                     </dropdown>
                     <dropdown tag="li" class="nav-item">
-                        <dropdown-toggle tag="a" navLink color="indigo" waves-fixed>Lang</dropdown-toggle>
+                        <dropdown-toggle tag="a" navLink color="indigo" >Lang</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('pl')"
                                            imgClass="language-img"></dropdown-item>
@@ -194,27 +194,21 @@
         computed: {
             auth() {
                 return this.$store.getters.isAuthenticated
-            }
-            ,
+            },
             admin() {
                 return this.$store.getters.isAdmin
-            }
-            ,
+            },
             org() {
                 return this.$store.getters.isOrganiser
-            }
-            ,
+            },
             mentor() {
                 return this.$store.getters.isMentor
-            }
-            ,
+            },
             userName() {
                 return this.$store.getters.userName
             }
         }
-        ,
-    }
-    ;
+    };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

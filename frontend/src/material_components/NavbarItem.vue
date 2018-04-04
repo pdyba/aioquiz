@@ -24,7 +24,7 @@ export default {
     },
     waves: {
       type: Boolean,
-      default: true
+      default: false
     },
     wavesFixed: {
       type: Boolean,

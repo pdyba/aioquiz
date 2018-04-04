@@ -1,40 +1,40 @@
-<div class="row" ng-if="vm.exercises.length > 0">
-    <h1>Exercises: </h1>
-    <div class="col-sm-12" ng-repeat="ex in vm.exercises">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <strong>{{ ex.title }}</strong> <span ng-show="ex.answared" class="label label-success">Done</span>
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item task-content">
-                    <div ng-repeat="line in ex.task.split('\n')">{{ line }}</div>
-                </li>
-                <li class="list-group-item">
-                    <div class="form-group" ng-hide="ex.answared">
-                        <label class='left' for="answare_{{ ex.id }}">Answer:</label>
-                        <textarea type="text" name="answare" id="answare" class="form-control" ng-model="ex.answare" required></textarea>
-                        <a class="btn btn-success" ng-click="vm.answare( ex )">Submit
-                            !</a>
-                    </div>
-                    <div ng-show="ex.answared" class="lesson-answer">
-                        <pre>{{ ex.answare }}</pre>
-                        <label class='left' for="new_answare_{{ ex.id }}">New
-                            answer:</label>
-                        <textarea type="text" name="new_answare" id="new_answare" class="form-control" ng-model="ex.answare" required></textarea>
-                        <a class="btn btn-success" ng-click="vm.new_answare( ex )">Update</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+<template>
+    <div v-if="exercises">
+        <h1>Exercises: </h1>
+        <b-card no-body>
+            <b-tabs pills card vertical>
+                <b-tab :title="ex.title" v-for="ex in exercises"><i class="fas fa-check-circle" v-if="ex.answared"></i>
+                    <exercise :exercise="ex"></exercise>
+                </b-tab>
+            </b-tabs>
+        </b-card>
     </div>
-</div><template>
-    
 </template>
 
 <script>
-    import Prism from 'vue-prismjs'
+    import axios from 'axios';
+
+    import exercise from "./exercise.vue"
+
     export default {
-        name: "lessons"
+        name: "exercises",
+        data() {
+            return {
+                exercises: [],
+                answare: '',
+                new_answare: ''
+            }
+        },
+        components: {
+            exercise
+        },
+        created() {
+            let self = this;
+            axios.get('/exercise/' + this.$route.params.id).then(
+                function (response) {
+                    self.exercises = response.data;
+                })
+        }
     }
 </script>
 

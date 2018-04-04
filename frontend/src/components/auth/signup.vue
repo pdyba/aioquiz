@@ -1,8 +1,5 @@
 <template>
     <div id="signup">
-        <h3 ng-if="!vm.reg">Registration is closed now !</h3>
-
-
         <div class="col-md-6 col-md-offset-3" ng-if="vm.reg">
             <h3 ng-hide="vm.user.lang === 'pl'">Language:</h3>
             <h3 ng-show="vm.user.lang === 'pl'">Język:</h3>

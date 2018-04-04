@@ -25,11 +25,6 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        setLogoutTimer({commit}, expirationTime) {
-            setTimeout(() => {
-                commit('clearAuthData')
-            }, expirationTime * 1000)
-        },
         signup({commit, dispatch}, data) {
             axios.post('/users', data)
                 .then(res => {
@@ -41,7 +36,6 @@ export default new Vuex.Store({
                     localStorage.setItem('session_uuid', res.data.session_uuid)
                     localStorage.setItem('expirationDate', expirationDate)
                     dispatch('storeUser', authData)
-                    dispatch('setLogoutTimer', res.data.expiresIn)
                 })
                 .catch(error => console.log(error))
         },
@@ -51,16 +45,15 @@ export default new Vuex.Store({
                 password: authData.password,
             })
                 .then(res => {
-                    const now = new Date()
+                    const now = new Date();
                     const expirationDate = new Date(now.getTime() + 10000000 * 1000);
                     localStorage.setItem('session_uuid', res.data.session_uuid);
                     localStorage.setItem('expirationDate', expirationDate);
                     localStorage.setItem('user',  JSON.stringify(res.data));
                     commit('storeUser', res.data);
                     commit('authUser', res.data.session_uuid);
-                    dispatch('setLogoutTimer', res.data.expiresIn)
+                    router.replace('/lessons');
                 });
-            router.replace('/lessons');
         },
         tryAutoLogin({commit}) {
             const session_uuid = localStorage.getItem('session_uuid');
