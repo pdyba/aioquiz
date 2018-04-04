@@ -1,10 +1,13 @@
 <template>
-    <div v-if="exercises">
+    <div v-if="exercises.length > 0">
         <h1>Exercises: </h1>
         <b-card no-body>
             <b-tabs pills card vertical>
-                <b-tab :title="ex.title" v-for="ex in exercises"><i class="fas fa-check-circle" v-if="ex.answared"></i>
-                    <exercise :exercise="ex"></exercise>
+                <b-tab v-for="ex in exercises">
+                    <template slot="title">
+                        {{ ex.title }} <i class="fa fa-check-circle ml-2" v-if="ex.answared"></i>
+                    </template>
+                    <exercise :exercise="ex">&#f058;</exercise>
                 </b-tab>
             </b-tabs>
         </b-card>

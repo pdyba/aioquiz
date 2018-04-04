@@ -1,62 +1,80 @@
 <template>
-    <div class="panel panel-default text-center">
-        <strong>{{ exercise.title }}</strong>
-        <span v-if="exercise.answared" class="label label-success">Done</span>
-
-            <ul class="list-group">
-                <li class="list-group-item task-content">
-                    <div>{{ exercise.task }}</div>
-                </li>
-                <li class="list-group-item">
-                    <div class="form-group" v-if="exercise.answared">
-                        <label class='left'>Answer:</label>
-                        <textarea type="text" class="form-control" v-model="exercise.answare"
-                                  required></textarea>
-                        <a class="btn btn-success" @click="answare()">Submit
-                            !</a>
-                    </div>
-                    <div v-if="exercise.answared" class="lesson-answer">
-                        <pre>{{ exercise.answare }}</pre>
-                        <label class='left' for="new_answare">New
-                            answer:</label>
-                        <textarea type="text" name="new_answare" id="new_answare" class="form-control"
-                                  v-model="exercise.answare" required></textarea>
-                        <a class="btn btn-success" @click="new_answare()">Update</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+    <div class="panel panel-default">
+        <strong>{{ exercise.title }} </strong><span v-if="exercise.answared" class="badge badge-success">Done</span>
+        <br>
+        {{ exercise.task }}
+        <br>
+        <br>
+        <row>
+            <column sm="6" a>
+                <b-form>
+                    <b-form-group label="New answer:" id="ex_answare_text">
+                        <b-form-textarea
+                                v-model="exercise.answare"
+                                required :rows="6">
+                        </b-form-textarea>
+                    </b-form-group>
+                </b-form>
+            </column>
+            <column sm="6">
+                <span v-if="exercise.answared">Old answer:</span>
+                <span v-else>Preview</span>
+                <prism language="python" :code="exercise.answare"></prism>
+                <div class="form-actions">
+                    <b-button type="submit" variant="success" @click.prevent="answer()" v-if="!exercise.answared">
+                        Submit
+                    </b-button>
+                    <b-button variant="warning" @click.prevent="new_answer()" v-if="exercise.answared">Update
+                    </b-button>
+                </div>
+            </column>
+        </row>
+    </div>
 </template>
 
 <script>
+    import axios from 'axios';
     import Prism from 'vue-prismjs'
+    import 'prismjs/themes/prism.css'
+
+    import Row from '../../material_components/Row.vue';
+    import Column from '../../material_components/Col.vue';
 
     export default {
         name: "exercise",
-        props:{
-
-        },
-        data() {
-            return {
-                exercise: {}
+        props: {
+            exercise: {
+                type: Object,
+                required: true
             }
         },
+        components: {
+            Prism,
+            Row,
+            Column
+        },
         methods: {
-            answare() {
-                data = {
+            answer() {
+                let data = {
                     "answare": this.exercise.answare,
                     "exercise": this.exercise.id,
                     "status": "Done"
                 };
-                axios.post('/api/exercise/', data)
+                axios.post('/exercise/', data).then((resp) => {
+                    this.exercise.answared = true
+                    this.exercise.status = "Done"
+                    this.$swal('Done', "Answer saved", "success")
+                })
             },
 
-            new_answare() {
-                data = {
+            new_answer() {
+                let data = {
                     "answare": this.exercise.answare,
                     "exercise": this.exercise.id
                 };
-                axios.put('/api/exercise/', data)
+                axios.put('/exercise/', data).then(
+                    this.$swal('Done', "Answer updated", "success")
+                )
             }
         }
     }
