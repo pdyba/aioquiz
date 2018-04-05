@@ -55,7 +55,7 @@ async def make_a_querry(querry, retry=False):
 class DoesNotExist(Exception):
     @staticmethod
     async def to_dict():
-        return {'msg': 'User does not exist'}
+        return {'msg': 'Does not exist', 'success': False}
 
 
 class StringLiteral:

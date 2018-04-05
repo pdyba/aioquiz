@@ -88,164 +88,165 @@
                 </div>
             </div>
         </div>
+        <div v-if="auth">
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1>Nasz Zespół</h1>
+                        </div>
 
-        <div class="section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Nasz Zespół</h1>
-                    </div>
+                        <div class="col-lg-12">
+                            <h2>Główni organizatorzy</h2>
+                        </div>
 
-                    <div class="col-lg-12">
-                        <h2>Główni organizatorzy</h2>
-                    </div>
-
-                    <div class="col-sm-4" v-for="user in admins"
-                         v-if="user.admin">
-                        <img class="img-responsive" src="/images/ user.img "
-                             v-if="user.img">
-                        <h3>{{ user.name }} {{ user.surname }}<br>
-                            <small v-if="user.admin">
-                                Admin, {{ user.pyfunction }}
-                            </small>
-                            <br>
-                            <small>{{ user.email }}</small>
-                        </h3>
-                        <p>{{ user.description }}</p>
-                        <ul class="list-unstyled list-inline list-social-icons">
-                            <li class="tooltip-social facebook-link"
-                                v-if="user.facebook"><a
-                                    href=" user.facebook "
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Facebook"><i
-                                    class="fa fa-facebook-square fa-2x"></i></a>
-                            </li>
-                            <li class="tooltip-social linkedin-link"
-                                v-if="user.linkedin"><a
-                                    href=" user.linkedin "
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="LinkedIn"><i
-                                    class="fa fa-linkedin-square fa-2x"></i></a>
-                            </li>
-                            <li class="tooltip-social twitter-link"
-                                v-if="user.twitter"><a href=" user.twitter "
-                                                          data-toggle="tooltip"
-                                                          data-placement="top"
-                                                          title="Twitter"><i
-                                    class="fa fa-twitter-square fa-2x"></i></a>
-                            </li>
-                        </ul>
+                        <div class="col-sm-4" v-for="user in admins"
+                             v-if="user.admin">
+                            <img class="img-responsive" src="/images/ user.img "
+                                 v-if="user.img">
+                            <h3>{{ user.name }} {{ user.surname }}<br>
+                                <small v-if="user.admin">
+                                    Admin, {{ user.pyfunction }}
+                                </small>
+                                <br>
+                                <small>{{ user.email }}</small>
+                            </h3>
+                            <p>{{ user.description }}</p>
+                            <ul class="list-unstyled list-inline list-social-icons">
+                                <li class="tooltip-social facebook-link"
+                                    v-if="user.facebook"><a
+                                        href=" user.facebook "
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Facebook"><i
+                                        class="fa fa-facebook-square fa-2x"></i></a>
+                                </li>
+                                <li class="tooltip-social linkedin-link"
+                                    v-if="user.linkedin"><a
+                                        href=" user.linkedin "
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="LinkedIn"><i
+                                        class="fa fa-linkedin-square fa-2x"></i></a>
+                                </li>
+                                <li class="tooltip-social twitter-link"
+                                    v-if="user.twitter"><a href=" user.twitter "
+                                                           data-toggle="tooltip"
+                                                           data-placement="top"
+                                                           title="Twitter"><i
+                                        class="fa fa-twitter-square fa-2x"></i></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="section-colored">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2>Organizatorzy</h2>
-                    </div>
-                    <div class="col-sm-4" v-for="user in organisers"
-                         v-if="user.organiser && !user.admin">
-                        <img class="img-responsive"
-                             src="/images/ user.img "
-                             v-if="user.img">
-                        <h3>{{ user.name }} {{ user.surname }}<br>
-                            <small v-if="user.admin">Admin</small>
-                            <small v-if="user.organiser"
-                                   v-hide="user.admin">
-                                Organizator
-                            </small>
-                            <br>
-                            <small>{{ user.email }}</small>
-                        </h3>
-                        <p>{{ user.description }}</p>
-                        <ul class="list-unstyled list-inline list-social-icons">
-                            <li class="tooltip-social facebook-link"
-                                v-if="user.facebook"><a
-                                    href=" user.facebook "
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Facebook"><i
-                                    class="fa fa-facebook-square fa-2x"></i></a>
-                            </li>
-                            <li class="tooltip-social linkedin-link"
-                                v-if="user.linkedin"><a
-                                    href=" user.linkedin "
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="LinkedIn"><i
-                                    class="fa fa-linkedin-square fa-2x"></i></a>
-                            </li>
-                            <li class="tooltip-social twitter-link"
-                                v-if="user.twitter"><a
-                                    href=" user.twitter "
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Twitter"><i
-                                    class="fa fa-twitter-square fa-2x"></i></a>
-                            </li>
-                        </ul>
+            <div class="section-colored">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2>Organizatorzy</h2>
+                        </div>
+                        <div class="col-sm-4" v-for="user in organisers"
+                             v-if="user.organiser && !user.admin">
+                            <img class="img-responsive"
+                                 src="/images/ user.img "
+                                 v-if="user.img">
+                            <h3>{{ user.name }} {{ user.surname }}<br>
+                                <small v-if="user.admin">Admin</small>
+                                <small v-if="user.organiser"
+                                       v-hide="user.admin">
+                                    Organizator
+                                </small>
+                                <br>
+                                <small>{{ user.email }}</small>
+                            </h3>
+                            <p>{{ user.description }}</p>
+                            <ul class="list-unstyled list-inline list-social-icons">
+                                <li class="tooltip-social facebook-link"
+                                    v-if="user.facebook"><a
+                                        href=" user.facebook "
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Facebook"><i
+                                        class="fa fa-facebook-square fa-2x"></i></a>
+                                </li>
+                                <li class="tooltip-social linkedin-link"
+                                    v-if="user.linkedin"><a
+                                        href=" user.linkedin "
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="LinkedIn"><i
+                                        class="fa fa-linkedin-square fa-2x"></i></a>
+                                </li>
+                                <li class="tooltip-social twitter-link"
+                                    v-if="user.twitter"><a
+                                        href=" user.twitter "
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Twitter"><i
+                                        class="fa fa-twitter-square fa-2x"></i></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2>Mentorzy</h2>
-                    </div>
-                    <div class="col-sm-4" v-for="user in mentors"
-                         v-if="user.mentor && !user.admin && !user.organiser">
-                        <img class="img-responsive"
-                             src="/images/ user.img "
-                             v-if="user.img">
-                        <h3>{{ user.name }} {{ user.surname }}<br>
-                            <small> Mentor</small>
-                            <br>
-                            <small>{{ user.email }}</small>
-                        </h3>
-                        <p>{{ user.description }}</p>
-                        <ul class="list-unstyled list-inline list-social-icons">
-                            <li class="tooltip-social facebook-link"
-                                v-if="user.facebook"><a
-                                    href=" user.facebook "
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Facebook"><i
-                                    class="fa fa-facebook-square fa-2x"></i></a>
-                            </li>
-                            <li class="tooltip-social linkedin-link"
-                                v-if="user.linkedin"><a
-                                    href=" user.linkedin "
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="LinkedIn"><i
-                                    class="fa fa-linkedin-square fa-2x"></i></a>
-                            </li>
-                            <li class="tooltip-social twitter-link"
-                                v-if="user.twitter"><a
-                                    href=" user.twitter "
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Twitter"><i
-                                    class="fa fa-twitter-square fa-2x"></i></a>
-                            </li>
-                        </ul>
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2>Mentorzy</h2>
+                        </div>
+                        <div class="col-sm-4" v-for="user in mentors"
+                             v-if="user.mentor && !user.admin && !user.organiser">
+                            <img class="img-responsive"
+                                 src="/images/ user.img "
+                                 v-if="user.img">
+                            <h3>{{ user.name }} {{ user.surname }}<br>
+                                <small> Mentor</small>
+                                <br>
+                                <small>{{ user.email }}</small>
+                            </h3>
+                            <p>{{ user.description }}</p>
+                            <ul class="list-unstyled list-inline list-social-icons">
+                                <li class="tooltip-social facebook-link"
+                                    v-if="user.facebook"><a
+                                        href=" user.facebook "
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Facebook"><i
+                                        class="fa fa-facebook-square fa-2x"></i></a>
+                                </li>
+                                <li class="tooltip-social linkedin-link"
+                                    v-if="user.linkedin"><a
+                                        href=" user.linkedin "
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="LinkedIn"><i
+                                        class="fa fa-linkedin-square fa-2x"></i></a>
+                                </li>
+                                <li class="tooltip-social twitter-link"
+                                    v-if="user.twitter"><a
+                                        href=" user.twitter "
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Twitter"><i
+                                        class="fa fa-twitter-square fa-2x"></i></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
 </template>
 
 <script>
     import globalAxios from 'axios'
+
     export default {
         name: "about",
         data() {
@@ -255,17 +256,24 @@
                 admins: []
             }
         },
-        beforeMount(){
-        globalAxios.get('/users/?organiser=True&sort_by=surname').then(resp => {
-            this.organisers = resp.data
-        });
-        globalAxios.get('/users/?admin=True&sort_by=surname').then(resp => {
-            this.admins = resp.data
-        });
-        globalAxios.get('/users/?mentor=True').then(resp => {
-            this.mentors = resp.data
-        });
-    }
+        beforeMount() {
+            if (this.$store.getters.isAuthenticated) {
+                globalAxios.get('/users/?organiser=True&sort_by=surname').then(resp => {
+                    this.organisers = resp.data
+                });
+                globalAxios.get('/users/?admin=True&sort_by=surname').then(resp => {
+                    this.admins = resp.data
+                });
+                globalAxios.get('/users/?mentor=True').then(resp => {
+                    this.mentors = resp.data
+                });
+            }
+        },
+        computed: {
+            auth() {
+                return this.$store.getters.isAuthenticated
+            },
+        }
     }
 
 </script>

@@ -146,7 +146,10 @@ class AbsenceManagementView(HTTPModelClassView):
                     'msg': 'Missing code'
                 },
             )
-        abmeta = await AbsenceMeta.get_first('code', code)
+        try:
+            abmeta = await AbsenceMeta.get_first('code', code)
+        except DoesNotExist:
+            return json({'msg': 'Code was wrong', 'success': False})
         if code != abmeta.code:
             return json(
                 {

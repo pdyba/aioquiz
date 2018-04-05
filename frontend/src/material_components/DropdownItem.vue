@@ -1,8 +1,8 @@
 <template>
-    <router-link :to="href" class="nav-link">
+    <b-link :to="href" class="nav-link" active-class="active">
         <slot></slot>
         <img v-if="src !== null" :src="src" :class="imgClass"/>
-    </router-link>
+    </b-link>
 </template>
 
 <script>
@@ -46,6 +46,7 @@
         max-width: 20px;
         max-height: 20px;
     }
+
     a {
         padding: 4px;
     }
