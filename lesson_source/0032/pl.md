@@ -33,9 +33,7 @@ Tworzenie modelu
 
 Model - system założeń, pojęć i zależności między nimi pozwalający opisać (modelować) w przybliżony sposób jakiś aspekt rzeczywistości.
 
-```python3
-```
-
+```python
 from sqlalchemy import Column
 from sqlalchemy.types import Integer
 from sqlalchemy.types import String
@@ -53,10 +51,11 @@ class User(db.Model):
     email = Column(String(200), unique=True)
     password = Column(String(200), default='')
     admin = Column(Boolean, default=False)
+```
 
 Skrypt, który stworzy nam bazę danych we właściwej bazie danych:
 
-```python3
+```python
 from sqlalchemy import create_engine
 
 from main import db
@@ -72,8 +71,6 @@ if __name__ == '__main__':
 
 
     db_start()
-
-
 ```
 
 Zapisywanie
@@ -82,17 +79,14 @@ Zapisywanie
 Aby nasze zmiany stały się pernamentne musimy wynik naszych działań zapisać po ich naniesieniu.
 Ważne: pobierając, nie trzeba tej komendy wykonywać. Przed dodaniem nowego wpisu trzeba będzie dodać też `db.session.add(<klasa>)`
 
-```python3
-```
-
+```python
 db.session.commit()
+```
 
 C - tworzenie
 --------------
 
-```python3
-```
-
+```python
 from views import User
 
 user = User()
@@ -104,43 +98,42 @@ user.admin = True
 
 db.session.add(user)
 db.session.commit()
+```
 
 R - Wyciąganie po ID, wyszukiwanie
 ----------------------------------
 
-```python3
-```
+```python
 
 user = User.query.filter_by(email='piotr@pylove.org').first()
 admins = User.query.filter_by(admin=True).all()
 admins = User.query.filter_by(admin=True).order_by(User.email.asc()).all()
 admins = User.query.filter_by(admin=True).order_by(User.email.desc()).all()
 user_1 = User.query.get(1)
+```
 
 U - updatowanie
 ---------------
 
-```python3
-```
-
+```python
 user_1 = User.query.get(1)
 user_1.password = "KotP@dl!"
 db.session.commit()
+```
 
 D - Usuwanie
 ------------
 
-```python3
-```
-
+```python
 user_1 = Order.query.get(1)
 db.session.delete(user_1)
 db.session.commit()
+```
 
 Przykład main.py
 ----------------
 
-```python3
+```python
 from os import path
 
 from flask import Flask

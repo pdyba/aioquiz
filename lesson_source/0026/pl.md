@@ -60,7 +60,7 @@ O dekoratorach powiemy jeszcze później. Na razie będą istotne dla nas dwa wy
 
 Prosty dekorator w Pythonie wygląda tak:
 
-```python3
+```python
 @dekorator  # zaczyna się od znaku @ a po nim jest jego nazwa
 def funkcja(arg):
     print(arg)
@@ -71,7 +71,7 @@ def funkcja(arg):
 
 W przypadku naszych dwóch istotnych dekoratorów związanych z klasami używamy je w sposób następujący:
 
-```python3
+```python
 @dekorator  # zaczyna się od znaku @ a po nim jest jego nazwa
 class MojaKlasa:
     def normalna_metoda(self):
@@ -107,7 +107,7 @@ warto pozostawić ją w danej klasie jako metodę statyczną.
 
 Kolejne zmienne pozycyjne, które są przekazywane do funkcji jako **krotka(ang.tuple)**. Może być ich dowolna liczba.
 
-```python3
+```python
 def test_args(an_arg, *args):
     print("first normal arg: {}".format(an_arg))
     for arg in args:
@@ -121,7 +121,7 @@ test_args('foo','python','bar','test')
 
 Tak zwany proces rozpakowywania argumentów możemy też sami wymusić na krotkach (ang.tuple), listach i setach.
 
-```python3
+```python
 x = ('foo','python','bar','test')
 y = ['foo','python','bar','test']
 z = {'foo','python','bar','test'}  # set, czyli nieuporządkowana lista bez powtórzeń
@@ -135,7 +135,7 @@ test_args(*z)
 
 Możemy też wykorzystać do tego słownik, ale wtedy pod `*s` znajdą się tylko klucze słownika.
 
-```python3
+```python
 s = {'foo': 1,'python': 2,'bar': 3,'test': 4}
 test_args(*s)
 
@@ -149,7 +149,7 @@ test_args(*s)
 Kolejne zmienne o określonej nazwie (kluczu), które są przekazane do funkcji jako **słownik**. 
 Może być ich dowolna liczba.
 
-```python3
+```python
 def test_kwargs(klucz="brak", **kwargs):
     print("klucz: {}".format(klucz))
     for key, val in kwargs.items():
@@ -163,7 +163,7 @@ test_kwargs(foo=bar, python=test)
 
 Tak jak w przypadku rozpakowywania argumentów pozycyjnych, możemy też rozpakowywać argumenty kluczowe:
 
-```python3
+```python
 s = {'foo': 1,'python': 2,'bar': 3,'test': 4}
 test_kwargs(**s)
 
@@ -176,7 +176,7 @@ test_kwargs(**s)
 
 "Pełna wersja" def - tworzenia funkcji/metod:
 
-```python3
+```python
 def funkcja(arg_1, *args, kwarg_1=None, **kwargs):
     print(arg_1)
     print(args)
@@ -189,7 +189,7 @@ def funkcja(arg_1, *args, kwarg_1=None, **kwargs):
 
 Zastosowanie tego jest szczególnie użyteczne w przypadku dziedziczenia:
 
-```python3
+```python
 class Ojciec:
     def __init__(self, imie, nazwisko, data_ur):
         self.imie = imie
@@ -211,7 +211,7 @@ class Syn(Ojciec):
 Do zadań:
 ---------
 
-```python3
+```python
 class Czas:
     def __init__(self):
         pass
@@ -242,7 +242,6 @@ class DokładnyZegar:
 
 
 def mojprint():
-    pass
     pass
 ```
 

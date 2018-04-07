@@ -35,7 +35,7 @@ Schemat blokowy
 Pseudokod
 ---------
 
-```python3
+```python
 składniki = jajka, szynka, cebula, masło, pieprz, sól
 moje_składniki = weź(składniki)
 jeśli długość(moje_składniki) < składniki - idź na zakupy

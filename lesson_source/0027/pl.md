@@ -86,7 +86,7 @@ pip install Flask
 
 ### Aplikacja startowa
 
-```python3
+```python
 from flask import Flask
 
 app = Flask(__name__)
@@ -103,7 +103,7 @@ app.run(debug=True)
 
 ### Parametry
 
-```python3
+```python
 @app.route("/hello/<name>")
 def welcome(name):
     return "Welcome {}!".format(name)
@@ -114,7 +114,7 @@ def welcome(name):
 
 ### Metoda POST
 
-```python3
+```python
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -140,7 +140,7 @@ app.run(debug=True)
 
 ### Program testowy
 
-```python3
+```python
 import requests
 
 save_result = requests.post(

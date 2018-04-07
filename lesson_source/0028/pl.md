@@ -239,7 +239,7 @@ Jeśli `kolekcja` jest listą `['Queen', 'Pink Floyd']`, to efektem będzie:
 
 #### Backend
 
-```python3
+```python
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -319,7 +319,7 @@ W przypadku zapytania POST dane trafią do treści zapytania, której nie widać
 
 #### Backend
 
-```python3
+```python
 from flask import Flask, render_template, request
 
 app = Flask(__name__)

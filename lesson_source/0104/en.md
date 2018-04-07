@@ -41,7 +41,7 @@ database server.
 We have a couple of new configuration items to add to our config file
 (file config.py):
 
-```python3
+```python
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -59,7 +59,7 @@ SQLAlchemy-migrate data files.
 Finally, when we initialize our app we also need to initialize our
 database. Here is our updated package init file (file app/main.py):
 
-```python3
+```python
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -87,7 +87,7 @@ id field. The nickname and email fields are defined as strings (or
 VARCHAR in database jargon), and their maximum lengths are specified so
 that the database can optimize space usage.
 
-```python3
+```python
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(64), index=True, unique=True)
@@ -115,7 +115,7 @@ scripts that invoke the migration APIs.
 
 Here is a script that creates the database (file db_create.py):
 
-```python3
+```python
 from migrate.versioning import api
 from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
 from app import db
@@ -154,7 +154,7 @@ will take us from an empty database to a database that can store users.
 To generate a migration I use another little Python helper script (file
 db_migrate.py):
 
-```python3
+```python
 import imp
 from migrate.versioning import api
 from app import db
@@ -229,7 +229,7 @@ production server and run a simple script that applies the changes for
 you. The database upgrade can be done with this little Python script
 (file db_upgrade.py):
 
-```python3
+```python
 from migrate.versioning import api
 from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
@@ -249,7 +249,7 @@ It is not a common need to have to downgrade a database to an old
 format, but just in case, SQLAlchemy-migrate supports this as well (file
 db_downgrade.py):
 
-```python3
+```python
 from migrate.versioning import api
 from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
@@ -295,7 +295,7 @@ one-to-many relationship, one user writes many posts.
 
 Let's modify our models to reflect these changes:
 
-```python3
+```python
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(64), index=True, unique=True)

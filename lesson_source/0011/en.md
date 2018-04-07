@@ -51,7 +51,7 @@ Is same as == ?
 
 Lest make few test if 'is' is the same as '==':
 
-```python3
+```python
 >>> 1000 is 10**3 >>> 1000 == 10**3
 >
 >>> "a" is "a" >>> "aa" is "a" * 2 >>> x =
@@ -110,7 +110,7 @@ prompt `>>>`, which we have seen so far. Python expects us to give
 further instructions that are supposed to be executed if the condition
 `2 > 1` turns out to be true. Let’s try to make Python print "OK":
 
-```python3
+```python
 >>> if 2 > 1:
 ... print("OK")
   File "<stdin>", line 2
@@ -133,7 +133,7 @@ All you need is one space or `TAB`. However, all the lines that are
 supposed to be executed one after another should be indented the same
 way:
 
-```python3
+```python
 >>> if -1 < 0:
 ...  print("A")
 ...   print("B")
@@ -172,7 +172,7 @@ What if not?
 
 Actually, we could write our program just by using if :
 
-```python3
+```python
 if bmi < 18.5:
     print("underweight")
 if bmi >= 18.5:
@@ -194,7 +194,7 @@ Using else , we have the guarantee that the given instructions will be
 executed only if the instructions printed under if haven’t been
 executed:
 
-```python3
+```python
 if bmi < 18.5:
     print("underweight")
 else:
@@ -218,7 +218,7 @@ another . Therefore the authors of Python added a little 'improvement'
 in the form of elif, instruction, which allows you to check another
 condition immediately:
 
-```python3
+```python
 if n < 1:
     print("one")
 elif n < 2:

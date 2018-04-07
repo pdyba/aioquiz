@@ -6,8 +6,7 @@ drzewko w naszej konsoli.
 Zaczniemy od najbardziej podstawowej wersji ćwiczenia, aby potem rozszerzyć
 je do bardziej funkcjonalnej wersji. Na pczątek zróbmy połowę choinki:
 
-.. testcode::
-
+```python
 print("*")
 print("**")
 print("***")
@@ -21,6 +20,7 @@ print("***")
 print("****")
 print("*****")
 print("******")
+```
 
 Wygląda nieźle, ale musieliśmy dużo pisać. I co, gdybyśmy chcieli mniejsze drzewko?
 Albo większe, zbudowane z setek elementów na stronie rozmiaru A0?
@@ -77,8 +77,10 @@ przechowywania w pamięci całej sekwencji. W celu uzyskania listy sekwencji,
 używamy funkcji list. Jeśli opuścimy wywołanie funkcji list, rezultat będzie
 wyglądał tak:
 
-	>>>  range(1, 4)
-	range(1, 4)
+```python
+>>>  range(1, 4)
+range(1, 4)
+```
 
 Funkcja range może przybierać trzy formy. Najbardziej podstawowa i najczęściej
 używana tworzy sekwencję od zera do podanej liczby. Kolejna forma pozwala
@@ -87,29 +89,33 @@ sekwencja nigdy nie zawiera liczby podanej jako górna granica zakresu.
 
 Wydrukujmy zatem większą choinkę:
 
-	>>>  lista = range(1, 11)
-	>>>  for i in lista:
-	........ print("*"*i)
-	*
-	**
-	***
-	****
-	*****
-	******
-	*******
-	********
-	*********
-	**********
+```python
+>>>  lista = range(1, 11)
+>>>  for i in lista:
+........ print("*"*i)
+*
+**
+***
+****
+*****
+******
+*******
+********
+*********
+**********
+```
 
 Funkcja range zaoszczędziła nam mnóstwo czasu. Możemy go zaoszczędzić
 jeszcze więcej, jeśli pominiemy nazwanie listy:
 
-	>>>  for i in range(1, 5):
-	........ print(i*"#")
-	#
-	##
-	###
-	####
+```python
+>>>  for i in range(1, 5):
+........ print(i*"#")
+#
+##
+###
+####
+```
 
 Gdy używamy słowa kluczowego for, nie musimy używać listy. for obsługuje
 generator podany przez range. Dlatego możemy tak bardzo uprościć nasz program.
@@ -118,15 +124,17 @@ Nic nie stoi na przeszkodzie, by umieścić pętlę w innej pętli, a zatem zró
 Pamiętajcie tylko, by użyć właściwej indentacji i zastosować różne nazwy, np.
 `i` i `j` (lub też lepiej odzwierciedlające zawartość listy):
 
-	>>>  for i in range(1, 3):
-	........ for j in range(11, 14):
-	............. print(i, j)
-	1 11
-	1 12
-	1 13
-	2 11
-	2 12
-	2 13
+```python
+>>>  for i in range(1, 3):
+........ for j in range(11, 14):
+............. print(i, j)
+1 11
+1 12
+1 13
+2 11
+2 12
+2 13
+```
 
 Mamy tu wewnętrzną pętlę iterującą od 11 do 13 (pamiętajcie, że 14 nie
 jest zawarte w sekwencji w przypadku funkcji `range`) i zewnętrzną pętlę,
@@ -136,18 +144,20 @@ każdej iteracji pętli zewnętrznej.
 
 Używając tej techniki, możemy powtórzyć fragment naszej choinki:
 
-	>>>  for i in range(3):     # powtarzamy 3 razy
-	........ for rozmiar in range(1, 4):
-	............ print(rozmiar * "*")
-	*
-	**
-	***
-	*
-	**
-	***
-	*
-	**
-	***
+```python
+>>>  for i in range(3):     # powtarzamy 3 razy
+........ for rozmiar in range(1, 4):
+............ print(rozmiar * "*")
+*
+**
+***
+*
+**
+***
+*
+**
+***
+```
 
 Zanim przejdziemy do kolejnego rozdziału, stwórzcie plik `choinka.py`
 z powyższym programem i spróbujcie go tak zmodyfikować, by dla każdego
@@ -164,25 +174,29 @@ się często, byłoby miło mieć funcję, która temu zaradzi.
 
 Możemy zrobić to w Pythonie w ten sposób:
 
-	>>>  def wydrukuj_trójkąt(n):
-	........ for rozmiar in range(1, n+1):
-	............ print(rozmiar*"*")
-	>>> wydrukuj_trójkąt(3)
-	*
-	**
-	***
-	>>> wydrukuj_trójkąt(5)
-	*
-	**
-	***
-	****
-	*****
+```python
+>>>  def wydrukuj_trójkąt(n):
+........ for rozmiar in range(1, n+1):
+............ print(rozmiar*"*")
+>>> wydrukuj_trójkąt(3)
+*
+**
+***
+>>> wydrukuj_trójkąt(5)
+*
+**
+***
+****
+*****
+```
 
 Przyjrzyjmy się bliżej funkcji wydrukuj_trójkąt:
 
+```python
 def wydrukuj_trójkąt(n):
 .... for rozmiar in range(1, n+1):
 ........ print(rozmiar*"*")
+```
 
 Definicja funkcji zawsze zaczyna się od słowa def. Następnie musimy
 nadać nazwę naszej funkcji. W nawiasach wskazujemy, jakie nazwy powinny mieć
@@ -193,30 +207,36 @@ Jak pokazano w przykładzie, instrukcje w funkcji mogą zawierać nazwy, które
 podaliśmy jako nazwy argumentów. Zasada działania wygląda następująco -
 przykład dla funkcji z trzema argumentami:
 
-	>>>  def foo(a, b, c):
-	........ print("FOO", a, b, c)
+```python
+>>>  def foo(a, b, c):
+........ print("FOO", a, b, c)
+```
 
 Gdy wywołasz tę nową funckję, musisz wskazać wartości każdego argumentu.
 Podobnie, jak w przypadku funkcji, które wywoływaliśmy wcześniej:
 
-	>>>  foo(1, "Ala", 2 + 3 + 4)
-	FOO 1 Ala 9
-	>>>  x = 42
-	>>>  foo(x, x + 1, x + 2)
-	FOO 42 43 44
+```python
+>>>  foo(1, "Ala", 2 + 3 + 4)
+FOO 1 Ala 9
+>>>  x = 42
+>>>  foo(x, x + 1, x + 2)
+FOO 42 43 44
+```
 
 Zauważcie, że nazwa argumentu to tylko etykieta. Gdy zmienimy wartość powiązaną
 z etykietą na inną, pozostałe etykiety się nie zmienią. To samo dzieje
 się w przypadku argumentów:
 
-	>>>  def dodaj_pięć(n):
-	........ n = n + 5
-	........ print(n)
-	>>>  x = 43
-	>>>  dodaj_pięć(x)
-	48
-	>>>  x
-	43
+```python
+>>>  def dodaj_pięć(n):
+........ n = n + 5
+........ print(n)
+>>>  x = 43
+>>>  dodaj_pięć(x)
+48
+>>>  x
+43
+```
 
 Są to zwykłe nazwy (zmienne), które widzieliśmy wcześniej. Są tylko
 dwie różnice:
@@ -231,9 +251,11 @@ swe działanie. Czyli, jeśli spróbujesz teraz powołać się na nazwę argumen
 `n` zdefiniowaną w funkcji dodaj_pięć poza kodem funkcji, Python poinformuje
 Cię, że nie jest ona zdefiniowana:
 
-	>>>  n Traceback (most recent call last): File
-	     "<stdin>", line 1, in <module> NameError: name 'n' is not
-	     defined
+```python
+>>>  n Traceback (most recent call last): File
+     "<stdin>", line 1, in <module> NameError: name 'n' is not
+     defined
+```
 
 Czyli nasz porządnicki Python sprząta swój pokój po każdym wywołaniu funkcji :)
 
@@ -247,7 +269,7 @@ Jest to specjalna instrukcja, którą można znaleźć tylko w funkcjach.
 
 Możemy poprawić teraz nasz kalkulator BMI dodając funkcję, która zwróci BMI:
 
-```python3
+```python
 def oblicz_bmi(wzrost, waga):
 .... return waga / (wzrost ** 2)
 
@@ -262,6 +284,7 @@ z końca poprzedniego rozdziału:
 
 # choinka.py
 
+```python
 def wydrukuj_trójkąt(n):
 .... for rozmiar in range(1, n+1):
 ........ print(rozmiar * "*")
@@ -280,6 +303,7 @@ for i in range(2, 5):
 **
 ***
 ****
+```
 
 Kompletna choinka
 =================
@@ -289,7 +313,7 @@ aby ukończyć nasz program wyświetlający choinkę.
 
 A zatem:
 
-```python3
+```python
 # choinka.py
 
 def wydrukuj_trójkąt(n):
@@ -300,7 +324,6 @@ for i in range(2, 5):
     wydrukuj_trójkąt(i)
 
     wydrukuj_trójkąt(i)
-
 ```
 
 W jaki sposób możemy poprawić funkcję wydrukuj_trójkąt, aby wyświetlić
@@ -317,24 +340,23 @@ A zatem dla `n = 5` oczekiwalibyśmy:
 Warto zauważyć, że każdy kolejny wiersz zawiera o dwie więcej gwiazdki, niż
 poprzedni wiersz. Możemy użyć tu trzeciego argumentu funkcji range:
 
-.. testcode::
-
+```python
 def wydrukuj_segment(n):
     for rozmiar in range(1, n+1, 2):
         print(rozmiar * "*")
 
 wydrukuj_segment(5)
 
-.. testoutput::
 
 *
 ***
 *****
+```
 
 Nie jest to dokładnie to, czego chcieliśmy, bo segment powinien być wyśrodkowany.
 Pomoże nam tutaj metoda/funkcja center():
 
-.. testcode::
+```python
 
 def wydrukuj_segment(n):
     for rozmiar in range(1, n+1, 2):
@@ -342,11 +364,10 @@ def wydrukuj_segment(n):
 
 print_segment(5)
 
-.. testoutput::
-
   *
  ***
 *****
+```
 
 Jednak pojawił się nowy problem:
 
@@ -364,6 +385,7 @@ Gdybyśmy wiedzieli zawczasu, jaki rozmiar ma najszerszy segment, moglibyśmy
 wykorzystać dodatkowy argument w funkcji wydrukuj_segment, by wyrównać
 choinkę do tej szerokości. Podsumujmy wiedzę, jaką zdobyliśmy do tej pory:
 
+```python
 def wydrukuj_segment(n, łączna_szerokość):
         for rozmiar in range(1, n+1, 2):
              print((rozmiar * "*").center(łączna_szerokość))
@@ -375,6 +397,7 @@ def wydrukuj_choinkę(rozmiar):
 print("Wybierz rozmiar choinki:")
 n = int(input())
 wydrukuj_choinkę(n)
+```
 
 Wybierz rozmiar choinki:
 7
@@ -394,11 +417,10 @@ Pętla while
 
 Omówiliśmy pętlę for, ale istnieje jeszcze pętla while:
 
-```python3
+```python
 while wyrażenie:
 komenda(y)
 
-:::python3
 liczba = 0
 while (liczba < 9):
    print('Liczba:', liczba)
@@ -415,7 +437,7 @@ FALSE. Musisz uważać używając pętli while, z uwagi na ryzyko, że pętla ni
 nie osiągnie wartości FALSE. Wynikiem tego jest pętla, która nigdy się nie
 kończy. Taką pętlę nazywamy nieskończoną pętlą.
 
-```python3
+```python
 liczba = 1
 while liczba:
    print('Liczba:', liczba)
@@ -436,7 +458,7 @@ Else w pętli while
 W przypadku użycia komendy else w pętli while, komenda else zostanie
 wykonana, gdy warunek przybierze wartość FALSE.
 
-```python3
+```python
 liczba = 0
 while liczba < 6:
    print(liczba, " jest mniejsze niż 6")
@@ -444,5 +466,8 @@ while liczba < 6:
 else:
    print(liczba, " nie jest mniejsze niż 6")
 
-print("Koniec!")    print("Koniec!")```
+print("Koniec!")    
+print("Koniec!")
+```
+
 

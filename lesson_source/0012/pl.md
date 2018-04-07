@@ -15,7 +15,7 @@ znaku ponaglenia `>>>`, który widzieliśmy do tej pory. Python spodziewa się,
 że podamy dalsze instrukcje, które mają być wykonane, gdy warunek
 `2 > 1` okaże się prawdziwy. Spróbujmy sprawić, by Python wydrukował "OK":
 
-```python3
+```python
 >>> if 2 > 1:
 ... print("OK")
   File "<stdin>", line 2
@@ -24,22 +24,23 @@ znaku ponaglenia `>>>`, który widzieliśmy do tej pory. Python spodziewa się,
 IndentationError: expected an indented block
 
 IndentationError: expected an indented block
-
 ```
 
 Niestety, nie powiodło się. Python musi wiedzieć, czy instrukcja, którą wpisaliśmy
 jest kontynuacją warunku if, czy jest kolejną instrukcją nie związaną z warunkiem.
 W tym celu musimy w kodzie zastosować indentację:
 
-	>>>  if 2 > 1:
-	..... print("OK")
-	OK
+```python
+>>>  if 2 > 1:
+    print("OK")
+OK
+```
 
 Wystarczy, że wpiszemy jedną spację lub naciśniemy `TAB`. Ważne jest jednak,
 żeby wszystkie linie, które chcemy, by były wykonane po kolei miały identyczną
 indentację:
 
-```python3
+```python
 >>> if -1 < 0:
 ...  print("A")
 ...   print("B")
@@ -61,9 +62,7 @@ IndentationError: unindent does not match any outer indentation level
 ...... print("B")
 A
 B
-
 B
-
 ```
 
 By uniknąć chaosu, większość programistów używa czterech spacji dla
@@ -83,7 +82,7 @@ A co, jeśli nie?
 
 Właściwie moglibyśmy napisać nasz program tylko używając if:
 
-```python3
+```python
 if bmi < 18.5:
     print("niedowaga")
 if bmi >= 18.5:
@@ -103,7 +102,7 @@ od początku oczywiste, że pewien warunek jest przeciwnością poprzedniego.
 Używając else mamy gwarancję, że podane instrukcje będą wykonane tylko,
 jeśli instrukcje podane pod if nie zostały wykonane:
 
-```python3
+```python
 if bmi < 18.5:
     print("niedowaga")
 else:
@@ -125,7 +124,7 @@ które się wzajemnie wykluczają. Stąd twórcy Pythona dodali małe
 'ulepszenie' w formie elif - instrukcję, która pozwala Ci sprawdzić
 niezwłocznie kolejny warunek:
 
-```python3
+```python
 if n < 1:
     print("jeden")
 elif n < 2:

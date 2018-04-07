@@ -12,7 +12,7 @@ CRUD
 Typy liczbowe
 -------------
 
-```python3
+```python
 # int:
 1 2 123123
 
@@ -27,7 +27,7 @@ Na liczbach możemy wykonywać znane nam operacje matematyczne:
 + - * / ** // %
 Np. 
 
-```python3
+```python
 23 + 7 // 2 * 5 % 3
 (2 + 2) * 2 ** 2 + (3 -1) * 2
 
@@ -38,7 +38,7 @@ Np.
 Typ tekstowy
 ------------
 
-	```python3
+	```python
 'Ala ma kota'
 'Ala ma kota'
 ```
@@ -49,7 +49,7 @@ Typ tekstowy
 
 Można z nimi robić wiele rzeczy!
 
-```python3
+```python
 'Ala' + 'Ma' + 'kota'
 '{} ma {}'.format('Pies', 'wilka')
 
@@ -62,28 +62,28 @@ zmienna
 
 C:
 
-```python3
+```python
 dane = 'kot'
 dane = 'kot'
 ```
 
 R:
 
-```python3
+```python
 dane
 dane
 ```
 
 U:
 
-```python3
+```python
 dane = 'pies'
 dane = 'pies'
 ```
 
 D: nie ma potrzeby Python zrobi to za nas.
 
-```python3
+```python
 moja_lista = ['x', 'y', 'ciecz']
 moj_string = 'PyLove'
 moja_liczba = 1.23
@@ -97,21 +97,21 @@ lista
 
 Przykłady:
 
-```python3
+```python
 ```
 
 	['piotr', 20, 185]
 	[1, 3, 6]
 C:
 
-```python3
+```python
 moja_lista = [['magda', 22], ['zosia', 23]]
 moja_lista = [['magda', 22], ['zosia', 23]]
 ```
 
 R:
 
-```python3
+```python
 moja_lista[0]
 moja_lista[0][1]
 
@@ -121,7 +121,7 @@ moja_lista[0][1]
 
 U:
 
-```python3
+```python
 moja_lista[1] = ['cecylia', 55]
 moja_lista[1][0] = 'weronika'
 moja_lista[1][0] = 'weronika'
@@ -129,7 +129,7 @@ moja_lista[1][0] = 'weronika'
 
 D:
 
-```python3
+```python
 moja_lista.pop()
 moja_lista[0].remove('magda')
 
@@ -140,7 +140,7 @@ moja_lista[0].remove('magda')
 slice - kawałek
 ---------------
 
-```python3
+```python
 moja_torebka = ['szminka', 'pomadka', 'portfel', 'okulary']
 moj_string = 'PyLove'
 moja_torebka[0:2]
@@ -157,7 +157,7 @@ slownik
 
 Przykłady:
 
-```python3
+```python
 ```
 
 	{'klucz': 'wartosc', 'klucz_2': 'wartosc'}
@@ -165,7 +165,7 @@ Przykłady:
 
 C:
 
-```python3
+```python
 moj_slownik = {'imie': 'piotr', 'wiek': 99}
 moj_slownik = {'imie': 'piotr', 'wiek': 99}
 ```
@@ -173,7 +173,7 @@ moj_slownik = {'imie': 'piotr', 'wiek': 99}
 	moj_slownik['plec'] = 'M'
 R:
 
-```python3
+```python
 moj_slownik['imie']	moj_slownik.get('imie')
 moj_slownik['imie']	moj_slownik.get('imie')
 ```
@@ -181,7 +181,7 @@ moj_slownik['imie']	moj_slownik.get('imie')
 	moj_slownik['wiek']
 U:
 
-```python3
+```python
 moj_slownik['imie'] = 'cecylia'
 moj_slownik['imie'] = 'cecylia'
 ```
@@ -190,7 +190,7 @@ moj_slownik['imie'] = 'cecylia'
 
 D:
 
-```python3
+```python
 del moj_slownik['wiek']
 
 del moj_slownik['wiek']
@@ -202,7 +202,7 @@ funkcje wbudowane
 
 Ogólne:
 
-	```python3
+	```python
 print()
 input()
 abs()
@@ -215,7 +215,7 @@ round()
 
 Pomocnicze:
 
-```python3
+```python
 type()
 dir()
 help()
@@ -226,7 +226,7 @@ help()
 
 Funkcje do zmiany typu:
 
-```python3
+```python
 ```
 
 	str()
@@ -236,7 +236,7 @@ Funkcje do zmiany typu:
 
 Przykłady:
 
-```python3
+```python
 str(int(float('123123.123123')))
 list('ala ma kota')
 
@@ -253,7 +253,7 @@ Bool może przyjąć jedną z dwóch wartości:
 
 Składnia funkcji warunkej if:
 
-```python3
+```python
 if 3 > 5:	
     print('alternatywna matematyka')
 elif 3 == 5:
@@ -270,7 +270,7 @@ else:
 pętla for
 ---------
 
-```python3
+```python
 for letter in in 'Ala ma Kota':
     print(letter)
 
@@ -289,7 +289,7 @@ for i in range(10)
 pętla while
 -----------
 
-```python3
+```python
 czy_zakonczyc_program = False
 while not czy_zakonczyc_program:
     odp = input('czy zakonczyc program T/N')
@@ -303,7 +303,7 @@ while not czy_zakonczyc_program:
 funkcje - def
 -------------
 
-```python3
+```python
 def moja_funkcja():
     print('To jest moja funkcja')
 
@@ -330,7 +330,7 @@ moje_potegowanie(2, b=10)
 łapanie wyjatkow - try/except
 -----------------------------
 
-```python3
+```python
 def test_try(alist):
     try:
         return alist[1]

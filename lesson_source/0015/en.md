@@ -191,7 +191,7 @@ special instruction that can be found only in functions.
 We can now improve our BMI calculator by adding a function to compute
 BMI:
 
-```python3
+```python
 def calc_bmi(height, weight):
     return weight / height ** 2
 
@@ -210,7 +210,7 @@ this new knowledge to complete our program to display a Christmas tree.
 
 For the record:
 
-```python3
+```python
 # xmas.py
 
 def print_triangle(n):
@@ -270,13 +270,13 @@ title: while loop
 
 We discoused the for loop, but there is also a while loop
 
-```python3
+```python
 ```
 
 while expression:
 statement(s)
 
-```python3
+```python
 number = 0
 while (number < 9):
    print('Number:', count)
@@ -294,7 +294,7 @@ this condition never resolves to a FALSE value. This results in a loop
 that never ends. Such a loop is called an infinite loop.
 
 
-```python3
+```python
 number = 1
 while number:
    print('Number:', count)
@@ -315,7 +315,7 @@ Else in while loop:
 If the else statement is used with a while loop, the else statement is
 executed when the condition becomes false.
 
-```python3
+```python
 number = 0
 while number < 6:
    print(number, " is  less than 6")

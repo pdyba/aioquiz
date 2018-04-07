@@ -24,25 +24,20 @@ Zmodyfikuj swój istniejący program tak, by obliczone BMI było dostępne
 pod zmienną `bmi`, a nazwa przedziału pod nazwą `kategoria`.  Użyj print,
 aby wyświetlić otrzymany wynik:
 
-.. testsetup::
-
+```python
 bmi = 21.387755102040817
 kategoria = "prawidłowa waga"
-
-.. testcode::
-
 print("Twój BMI wynosi:", bmi, "(" + kategoria + ")")
 
-.. testoutput::
-:hide:
-
 Twój BMI wynosi: 21.387755102040817 (prawidłowa waga)
+```
 
 Cóż, prawie... Nadal mamy zbyt wiele liczb po przecinku. Napotkamy
 także problem, jeśli będziemy chcieli utworzyć taki string i nadać
 mu nazwę, bo użyliśmy funkcji print oddzielając składniki. Na szczęście
 jest lepszy sposób:
 
+```python
 >>> bmi = 21.387755102040817
 >>> kategoria = "prawidłowa waga"
 >>> wynik = "Twój BMI wynosi: %f (%s)" % (bmi, kategoria)
@@ -50,6 +45,7 @@ jest lepszy sposób:
 'Twój BMi wynosi: 21.387755 (prawidłowa waga)'
 >>> print(wynik)
 Twój BMI wynosi: 21.387755 (prawidłowa waga)
+```
 
 Użyliśmy tutaj stringa i tupli połączonych znakiem `%`. String jest
 szablonem, który zostaje uzupełniony wartościami z tupli. Miejsca,
@@ -60,8 +56,10 @@ również użyć `d` jako **decimal** (z ang. liczba dziesiętna). Stringi są
 reprezentowane jako `s` od **string**, a liczby zmiennoprzecinkowe
 jako `f` od **float** (ang. pływać, unosić się):
 
+```python
 	>>>  "String: %s, Numery: %d %f" % ("Ala", 10, 3.1415)
 	'String: Ala, Numery: 10 3.141500'
+```
 
 Teraz, zamiast dziewięciu miejsc po przecinku, za każdym razem otrzymamy
 sześć, ale formatowanie ma tę zaletę, że umożliwia nam kontrolę nad
@@ -69,17 +67,18 @@ tym, poprzez wstawianie dodatkowej informacji pomiędzy znak `%` a literę
 `f`, np. jeśli chcielibyśmy wyświetlać tylko dwa miejsca po przecinku,
 zamiast sześciu:
 
-	>>> "%.2f" % 3.1415
-	'3.14'
-	>>> "%.2f" % 21.387755102040817
-	'21.39'
+```python
+>>> "%.2f" % 3.1415
+'3.14'
+>>> "%.2f" % 21.387755102040817
+'21.39'
+```
 
 Istnieje mnóstwo opcji formatowania. Niestety nie pokażemy ich tu wszystkich.
 Jedna z najbardziej użytecznych to wyrównywanie do określonej ilości
 znaków:
 
-.. testcode::
-
+```python
 WIDTH = 28
 
 print("-" * WIDTH)
@@ -89,20 +88,18 @@ print("| %15s | %6.2f |" % ("Łukasz", 67.5))
 print("| %15s | %6.2f |" % ("Pudzian", 123))
 print("-" * WIDTH)
 
-.. testoutput::
-
 --------------------------------
 |    Imię nazwisko    |  Waga  |
 --------------------------------
 |              Łukasz |  67.50 |
 |             Pudzian | 123.00 |
 --------------------------------
+```
 
 Możemy również wyrównać string do lewej, umieszczając `-` przed
 ilością liter:
 
-.. testcode::
-
+```python
 WIDTH = 28
 
 print("-" * WIDTH)
@@ -112,14 +109,13 @@ print("| %-15s | %6.2f |" % ("Łukasz", 67.5))
 print("| %-15s | %6.2f |" % ("Pudzian", 123))
 print("-" * WIDTH)
 
-.. testoutput::
-
 -------------------------------
 |    Imię nazwisko  |   Waga  |
 -------------------------------
 | Łukasz            |  67.50  |
 | Pudzian           | 123.00  |
 -------------------------------
+```
 
 Wyrównanie do centrum pozostawiamy Tobie :).
 
@@ -131,6 +127,7 @@ String Slicing
 
 Spróbuj:
 
+```python
 >>> text = “ala ma kota”
 >>> text[0]     # string[int]
 >>> text[2:]    # string[int:]
@@ -139,6 +136,7 @@ Spróbuj:
 >>> text[::2]   # string[::int]
 >>> text[::-1]  # string[::int]
 >>> text[4:100] # string[int:int] :)
+```
 
 Pamiętaj! Twój komputer zawsze liczy od 0.
 

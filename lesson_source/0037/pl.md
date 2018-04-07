@@ -48,7 +48,7 @@ https://pika.readthedocs.io
 Consumer Pythonowy
 ------------------
 
-```python3
+```python
 import pika
 
 def on_message(channel, method_frame, header_frame, body):
@@ -68,13 +68,12 @@ except KeyboardInterrupt:
 connection.close()
 
 connection.close()
-
 ```
 
 Producer Pythonowy
 ------------------
 
-```python3
+```python
 import pika
 
 parameters = pika.URLParameters('amqp://guest:guest@localhost:32785/%2f')
@@ -134,7 +133,7 @@ https://api.mongodb.com/python/current/tutorial.html
 CRUD
 ----
 
-```python3
+```python
 from pymongo import MongoClient
 
 host = 'localhost'

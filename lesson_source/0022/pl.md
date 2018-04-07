@@ -4,7 +4,7 @@ PyLove 1.2 Pliki i Json
 Otwieranie plików w Pythonie
 ----------------------------
 
-```python3
+```python
 file = open(file_name, mode=access_mode)
 
 file_name = 'sciezka do pliku'
@@ -22,7 +22,7 @@ access_mode = {
 
 Przykłady komendy open():
 
-```python3
+```python
 file = open('moj_plik')
 
 file = open('./moj_plik', 'w')
@@ -39,7 +39,7 @@ file = open('moj_obrazek', 'wb')
 
 Pełen przykład odczytu:
 
-```python3
+```python
 file = open('moj_plik')
 data = file.read()  # czyta cały plik
 file.close()  # po wcztaniu pliku trzeba go zamknąć
@@ -63,7 +63,7 @@ print(data)  # lista
 
 Pełen przykład zapisu:
 
-```python3
+```python
 file = open('moj_plik', 'w')
 file.write('Ala ma kota')  # zapis do pliku string
 file.write('a pies ma konia\n')  # zapis ze znakiem nowej lini
@@ -88,7 +88,7 @@ Składnia with
 
 Nie wymaga zamknięcia pliku:
 
-```python3
+```python
 with open('moj_plik', 'w') as file:
     file.write('losowe dane')
 
@@ -97,7 +97,6 @@ with open('moj_plik') as file:
 
 
     data = file.read()
-
 
 ```
 
@@ -112,7 +111,7 @@ Int/float: '123'
 Słownik: '{"1": 2}' -  klucze w json zawsze są stringami
 Lista: '[1, 2 ,3]'
 
-```python3
+```python
 import json
 
 x = {1: 2}

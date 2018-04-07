@@ -9,7 +9,7 @@ Flask: Instalation and preparaion
 
 from flask import Flask app = Flask(__name__)
 
-```python3
+```python
 @app.route('/')
 def hello_world():
     return 'Hello World!'
@@ -53,7 +53,7 @@ Flask: Hallo world
 
 "Hello world" web application with Flask:
 
-```python3
+```python
 from flask import Flask
 app = Flask(__name__)
 
@@ -91,7 +91,7 @@ function.
 The final step to have a fully working web application is to create a
 script that starts up the development web server with our application:
 
-```python3
+```python
 if __name__ == '__main__':
     app.run(debug=True)
 

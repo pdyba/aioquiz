@@ -55,7 +55,7 @@ Klasa w Pythonie
 Do tworzenia klas w Pythonie wykorzystujemy słówko `class`.
 Słówko `self` jest pewną abstrakcją dotyczą stworzonej później instancji klasy.
 
-```python3
+```python
 class Creature:
     alive = True  # atrybut
 
@@ -63,7 +63,6 @@ class Creature:
         print('I am alive')
 
         print('I am alive')
-
 ```
 
 Tworzenie instancji
@@ -71,7 +70,7 @@ Tworzenie instancji
 
 Nasza przykładowa klasa:
 
-```python3
+```python
 class Creature:
     alive = True
 
@@ -89,12 +88,11 @@ class Creature:
         alive = False
 
         alive = False
-
 ```
 
 Nasze przykładowe instancje i ich używanie:
 
-```python3
+```python
 pies = Creature()
 kot = Creature()
 kot.kill()
@@ -102,13 +100,12 @@ pies.is_dead()
 kot.is_dead()
 
 kot.is_dead()
-
 ```
 
 Przykład w Pythonie
 -------------------
 
-```python3
+```python
 class Creature:
     alive = True
 
@@ -152,12 +149,11 @@ class Cow(Manmal):
             print('Nope, impossible')
 
             print('Nope, impossible')
-
 ```
 
 Przykład zastosowania:
 
-```python3
+```python
 nasza_obora = [
     Cow('female', 'Puszka')
     Cow('female', 'Pastuszka')
@@ -178,13 +174,12 @@ for krowa in nasza_obora:
         print(krowa.name)
 
         print(krowa.name)
-
 ```
 
 Zadanie:
 Zaimplementuj metody opisane w zadaniach. Na koniec zajęć klasy powinny być zaimplementowane w zbliżony sposób.
 
-```python3
+```python
 class Czlowiek:
     def __init__(self):
         pass
@@ -215,7 +210,6 @@ class Polityk(Czlowiek):
         pass
 
     def recive_bribe(self):
-        pass
         pass
 ```
 

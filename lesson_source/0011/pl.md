@@ -10,33 +10,37 @@ Porównanie: prawda, czy fałsz?
 Porozmawiajmy o porównaniach. Spójrzmy, jak się one zachowują podczas
 krótkiej lekcji matematyki:
 
-	>>>  2 > 1 
-	True 
-	>>> 1 == 2 
-	False 
-	>>> 1 == 1.0 
-	True 
-	>>> 10 >= 10 
-	True 
-	13 <= 1 + 3
-	False 
-	>>> -1 != 0 
-	True
+```python
+>>>  2 > 1 
+True 
+>>> 1 == 2 
+False 
+>>> 1 == 1.0 
+True 
+>>> 10 >= 10 
+True 
+13 <= 1 + 3
+False 
+>>> -1 != 0 
+True
+```
 
 Rezultatem porównania jest zawsze `True` lub `False`. Porównania mogą
 być włączone w bardziej złożone wyrażenia przy użyciu słów and i or:
 
-	>>>  x = 5 
-	>>>  x < 10 
-	True 
-	>>>  2*x > x 
-	True 
-	>>>  (x < 10) and (2*x > x) 
-	True 
-	>>>  (x != 5) and (x != 4)
-	False 
-	>>>  (x != 5) and (x != 4) or (x == 5) 
-	True
+```python
+>>>  x = 5 
+>>>  x < 10 
+True 
+>>>  2*x > x 
+True 
+>>>  (x < 10) and (2*x > x) 
+True 
+>>>  (x != 5) and (x != 4)
+False 
+>>>  (x != 5) and (x != 4) or (x == 5) 
+True
+```
 
 Python Love - ćwiczenie
 -----------------------
@@ -44,11 +48,13 @@ Python Love - ćwiczenie
 Porozmawiajmy o miłości z naszym cudownym wężem. Napiszcie to w swoim 
 interpreterze:
 
-	>>>  import this 
-	>>>  love = this 
-	>>>  love is this 
-	>>>  love is not True or False 
-	>>>  love is love
+```python
+>>>  import this 
+>>>  love = this 
+>>>  love is this 
+>>>  love is not True or False 
+>>>  love is love
+```
 
 W Pytonie możemy porównywać używając kilku różnych operatorów:
 
@@ -70,7 +76,7 @@ Czy is to to samo co == ?
 
 Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
 
-```python3
+```python
 >>> 1000 is 10**3 
 >>> 1000 == 10**3
 >>> "a" is "a" 
@@ -82,7 +88,6 @@ Przeprowadźmy kilka testów, by sprawdzić, czy 'is' to to samo co '==':
 >>> [1, 2] is [1, 2]
 
 >>> [1, 2] is [1, 2]
-
 ```
 
 Wniosek: 'is' zwróci True, jeśli dwie zmienne wskazują na ten sam obiekt,
@@ -113,11 +118,12 @@ przyjemny string, który pokaże całe równanie oraz rozwiązanie.
 Pamiętajcie: string + string = nowy string :-)
 Przykład:
 
-	>>>  'Wprowadź pierwszą liczbę' 
-	10 
-	>>>  "Wprowadź znak operacji matematycznej (+, -, \*, /)" 
-	+ 
-	>>> 'Wprowadź drugą liczbę'
-	5
-	'10 + 5 = 15'
-
+```python
+>>>  'Wprowadź pierwszą liczbę' 
+10 
+>>>  "Wprowadź znak operacji matematycznej (+, -, \*, /)" 
++ 
+>>> 'Wprowadź drugą liczbę'
+5
+'10 + 5 = 15'
+```

@@ -23,7 +23,7 @@ Struktura zbliżona do listy z dwoma cechami:
 
 #### Create
 
-```python3
+```python
 jakis_tam_set = set()
 jakis_tam_set = {'a', 'b', 'c'}
 
@@ -35,18 +35,17 @@ jakis_tam_set = {'a', 'b', 'c'}
 
 Tylko w czasie iterowania np.:
 
-```python3
+```python
 jakis_tam_set = {'a', 'b', 'c'}
 for el in jakis_tam_set:
     print(el)
 
     print(el)
-
 ```
 
 #### Update
 
-```python3
+```python
 a = {'a', 'b', 'c'}
 a.add('a')
 a.add('d')
@@ -57,13 +56,11 @@ a.update({'g', 'f'})
 a.update(['z', 'x'])
 a.update(('p', 'o'))
 a.update({'u':'1', 't':'2'})
-
-
 ```
 
 #### Delete
 
-```python3
+```python
 a = {'a', 'b', 'c'}
 a.clear()
 assert a == set()
@@ -96,7 +93,7 @@ assert b not in a
 * symmetric_difference_update
 * union  - suma zbiorów
 
-```python3
+```python
 a = {'a', 'b', 'c'}
 b = {'c', 'd', 'e'}
 
@@ -120,7 +117,7 @@ a.union(b)
 
 #### Sprawdzenia 
 
-```python3
+```python
 # sprawdzanie braku części wspólnej
 a = {'a', 'b', 'c'}
 b = {'c', 'd', 'e'}
@@ -143,7 +140,7 @@ datetime
 
 #### imporotwanie modułów
 
-```python3
+```python
 from datetime import date
 from datetime import time
 from datetime import datetime
@@ -157,7 +154,7 @@ from datetime import timedelta
 
 Do przechowywania tylko daty (bez czasu)
 
-```python3
+```python
 from datetime import date
 
 a_date = date(day=12, month=8, year=2009)
@@ -182,7 +179,7 @@ today - a_date
 
 Do przechowywania tylko czasu (bez daty)
 
-```python3
+```python
 from datetime import time
 a_time = time(minute=12, second=13, hour=4)
 a_time.hour
@@ -195,7 +192,7 @@ a_time.microsecond
  
  Do przechowywania dat i czasu
  
-```python3   
+```python   
 from datetime import datetime
 a_date = datetime(2017, 3, 26, 23, 41, 45, 620822)
 str(a_date)
@@ -210,7 +207,7 @@ diff = datetime.now() - start
 
 Do przechowywania różnicy w dacie i czasie.
 
-```python3   
+```python   
 from datetime import timedelta
 td = timedelta(days=1, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
 a_date = datetime(2017, 3, 26, 23, 41, 45, 620822) 
@@ -226,7 +223,7 @@ defaultdict
 
 Słownik, który ma domyślne typy wartości, tworzone w locie.
 
-```python3
+```python
 from collections import defaultdict
 a = defaultdict(list)
 a['x'].append('1')
@@ -267,7 +264,7 @@ Tworzenie prostych klas do przechowywania danych. Łatwe w użyciu, optymalizuje
 
 from collections import namedtuple
 
-```python3
+```python
 Point = namedtuple('Point', ['x', 'y'])
 p = Point(x=11, y=22)
 
@@ -278,10 +275,11 @@ p = Point(x=11, y=22)
 Kod do zadania 1.19.5
 ----------------------
 
-```python3
+```python
 class Ojciec:
     def __init__(self, imie, nazwisko, data_ur):
         self.imie = imie
         self.nazwisko = nazwisko
-        self.data_ur = data_ur            self.data_ur = data_ur```
-
+        self.data_ur = data_ur            
+        self.data_ur = data_ur
+```

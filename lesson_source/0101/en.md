@@ -15,7 +15,7 @@ present a workaround for this issue in a moment.
 An easy option to output a nice and big heading would be to change our
 view function to output HTML, maybe something like this:
 
-```python3
+```python
 @app.route('/')
 @app.route('/index')
 def index():
@@ -83,7 +83,7 @@ app/views.py):
 
 from flask import render_template
 
-```python3
+```python
 from flask import render_template
 
 @app.route('/')
@@ -149,7 +149,7 @@ lists, so let's see how we can do that.
 
 Lets thing about a blog in that case.
 
-```python3
+```python
 from flask import render_template
 
 @app.route('/')

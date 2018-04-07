@@ -186,7 +186,7 @@ URL's types:
 GET
 ---
 
-```python3
+```python
 import requests
 resp = requests.get('http://py.net/health')
 
@@ -207,7 +207,7 @@ odpowiedź `data` z dokumentacji biblioteki requests:
 
 Przykład:
 
-```python3
+```python
 import requests
 resp = requests.get('http://py.net/health')
 resp_json = resp.json()  # <- to jest metoda ją trzeba wywołać
@@ -221,14 +221,13 @@ resp_url = resp.url
 
 Zapisanie pliku:
 
-```python3
+```python
 import requests
 resp = requests.get('http://py.net/somefile')
 with open('file.pdf', 'wb') as file:
     file.write(resp.content)
 
     file.write(resp.content)
-
 ```
 
 POST
@@ -236,26 +235,22 @@ POST
 
 Wysłanie jsona:
 
-```python3
+```python
 url = 'http://mywebsite.org/post'
 a_dict = {"random_key": "with_random_value"}
 resp = requests.post(url, json=a_dict)
 
 resp = requests.post(url, json=a_dict)
-
 ```
 
 Upload pliku:
 
-```python3
+```python
 url = 'http://mywebsite.org/post'
 files = {'file': open('report.xls', 'rb')}
 resp = requests.post(url, files=files)
 
-
 resp = requests.post(url, files=files)
-
-
 ```
 
 Przygotowanie do zadań

@@ -17,20 +17,22 @@ jakiej się nauczymy jest help:
 Funkcja help jest bardzo przyjazna i mówi nam, jak powinniśmy jej używać.
 Może też powiedzieć Wam, jak używać innych funkcji:
 
-	>>>  help(input)
-	Help on function input in module builtins:
+```python
+>>>  help(input)
+Help on function input in module builtins:
 
-	input(...) input(\[prompt\]) -> string
-	Read a string from standard input. The trailing newline is stripped.
+input(...) input(\[prompt\]) -> string
+Read a string from standard input. The trailing newline is stripped.
 
-	If the user hits EOF (Unix: Ctl-D, Windows: Ctl-Z+Return), raise EOFError.
-	On Unix, GNU readline is used if enabled. The prompt string, if given,
-	is printed without a trailing newline before reading.
+If the user hits EOF (Unix: Ctl-D, Windows: Ctl-Z+Return), raise EOFError.
+On Unix, GNU readline is used if enabled. The prompt string, if given,
+is printed without a trailing newline before reading.
+```
 
 Użyjemy funkcji input, by załadować dane podane przez użytkownika.
 W opisie czytamy, że dane użytkownika input odczytuje jako string:
 
-```python3
+```python
 >>> input()
 Ala has a cat
 'Ala has a cat'
@@ -51,15 +53,18 @@ wcześniej używaliśmy stringów.
 
 Na przykład możemy użyć `input()`, by zachować podany string jako nazwę:
 
+```python
 >>> name = input()
 Joanna
 >>> name
 'Joanna'
 >>> print("Masz na imię:", name)
 Masz na imię: Joanna
+```
 
 Czy to wystarczy, by ulepszyć nasz program?
 
+```python
 >>> weight = input()
 60.5
 >>> weight
@@ -68,6 +73,7 @@ Czy to wystarczy, by ulepszyć nasz program?
 Traceback (most recent call last):
 File "<stdin>", line 1, in <module>
 TypeError: Can't convert 'int' object to str implicitly
+```
 
 Jak widzicie, Python nie wie, jakiego wyniku oczekujemy. Stringi (`str`)
 i liczby (`int`) mogą być dodawane. Python nie wie, czy odnosimy się do

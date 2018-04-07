@@ -14,7 +14,7 @@ going to setup a configuration file inside our root app folder so that
 it is easily accessible if it needs to be edited. Here is what we will
 start with (file config.py):
 
-```python3
+```python
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'you-will-never-guess'
 
@@ -39,7 +39,7 @@ follows (file app/main.py):
 
 from flask import Flask
 
-```python3
+```python
 app = Flask(__name__)
 app.config.from_object('config')
 
@@ -60,7 +60,7 @@ standard username/password type.
 
 Let's write our first form:
 
-```python3
+```python
 from wtforms import Form
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
@@ -151,7 +151,7 @@ that renders the template.
 This is actually quite simple since we just need to pass a form object
 to the template. Here is our new view function:
 
-```python3
+```python
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
@@ -191,7 +191,7 @@ Another area where Flask-WTF makes our job really easy is in the handling of the
 :   Here is an updated version of our login view function that validates
 and stores the form data:
 
-```python3
+```python
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
@@ -299,7 +299,7 @@ With the app in its current state, forms that are submitted with invalid
 data will not be accepted. Instead, the form will be presented back to
 the user to correct. This is exactly what we want.
 
-```python3
+```python
 from wtforms import Form
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired

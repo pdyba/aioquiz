@@ -123,7 +123,7 @@ list. This problem can be solved by the function range. Check
 	>>> list(range(1, 11, 2))
 	[1, 3, 5, 7, 9]
 
-```python3
+```python
 for i in range(10):
     print(i)
 
@@ -180,7 +180,7 @@ Accessing Values in Dictionary:
 To access dictionary elements, you can use the familiar square brackets
 along with the key to obtain its value. Following is a simple example −
 
-```python3
+```python
 a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
 print(a_dict['Name'])
 print(a_dict['Age'])
@@ -229,7 +229,7 @@ Nesting
 
 In Python You can create nested objects like:
 
-```python3
+```python
 ZOO = {
     'animals': {
         'python': {

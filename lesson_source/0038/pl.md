@@ -15,7 +15,7 @@ Przykład - prosty test
 
 ### app/silnia.py
 
-```python3
+```python
 def silnia(n):
 if n < 2:
     return n
@@ -28,7 +28,7 @@ return n * silnia(n - 1)
 
 ### tests/test_silnia.py
 
-```python3
+```python
 from app.silnia import silnia
 
 def test_silnia():
@@ -37,7 +37,6 @@ assert silnia(2) == 2
 assert silnia(5) == 120
 
 assert silnia(5) == 120
-
 ```
 
 ### Automatyczne wykrywanie testów
@@ -68,7 +67,7 @@ co dana funkcja powinna robić
 
 ### Dokładniejszy test funkcji silnia()
 
-```python3
+```python
 import pytest
 
 from app.silnia import silnia
@@ -83,7 +82,6 @@ with pytest.raises(ValueError):
     silnia(-1)
 
     silnia(-1)
-
 ```
 
 ### Uwagi do zadań 1a - 1e
@@ -113,7 +111,7 @@ Fixtures
 
 Fixture - metoda tworząca obiekty, dane itp. potrzebne w testach. Tworzymy je następująco:
 
-```python3
+```python
 import pytest
 
 @pytest.fixture
@@ -129,18 +127,16 @@ user_db.add_user({'name': 'Susan'})
 return user_db
 
 return user_db
-
 ```
 
 Do metod testowych możemy teraz dodawać argumenty o nazwach takich, jak nazwy fixture'ów, przykładowo:
 
-```python3
+```python
 def test_list_users(user_db, prefilled_user_db):
 assert user_db.list_users() == []
 assert len(prefilled_user_db.list_users()) == 3
 
 assert len(prefilled_user_db.list_users()) == 3
-
 ```
 
 Mockowanie
@@ -153,7 +149,7 @@ zasobów zewnętrznych, do których będzie się odwoływać nasz kod w czasie t
 
 ### app/swapi.py
 
-```python3
+```python
 import requests
 
 def get_planet_terrain(name):
@@ -163,12 +159,11 @@ if result['results']:
 raise ValueError(f'Planet {name} not found')
 
 raise ValueError(f'Planet {name} not found')
-
 ```
 
 ### tests/test_swapi.py
 
-```python3
+```python
 import json
 from unittest.mock import patch
 

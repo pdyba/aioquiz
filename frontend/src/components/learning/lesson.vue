@@ -1,7 +1,7 @@
 <template>
     <container>
         <h3> Lesson: {{ lesson.lesson_no }}</h3>
-            <vue-markdown id="lesson_cont" :source="lesson_content"></vue-markdown>
+        <vue-markdown :source="lesson_content"></vue-markdown>
         <exercises lid="lesson.id"></exercises>
     </container>
 </template>
@@ -41,9 +41,8 @@
                 })
             })
         },
-        mounted() {
+        updated() {
             Prism.highlightAll();
-            Prism.highlightAllUnder('#lesson_cont', Prism.languages.python, 'python');
         }
     }
 </script>

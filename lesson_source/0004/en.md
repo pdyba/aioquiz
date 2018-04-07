@@ -34,7 +34,7 @@ Step Diagram
 Pseudo Code
 -----------
 
-```python3
+```python
 ingredients = eggs, ham, onion, butter, peper, salt
 my_ingredients = get(ingredients)
 if len(my_ingredients) < ingredients then go shopping
