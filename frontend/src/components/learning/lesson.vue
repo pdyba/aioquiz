@@ -9,7 +9,7 @@
 <script>
     import axios from 'axios';
     import alt_axios from '../../alternative_axions';
-    import  Prism from 'prismjs'
+    import Prism from 'prismjs'
 
     import VueMarkdown from 'vue-markdown'
     import Container from '../../material_components/Container.vue';
