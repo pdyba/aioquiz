@@ -16,7 +16,7 @@ Znaki specjalne i surowe ciągi znaków
     * Znaki specjalne to: `\`, `.`, `^`, `$`, `?`, `+`, `*`, `{`, `}`, `[`, `]`, `|`
     * Zwykle jeżeli nie wstawimy ukośnika `\` przed danym znakiem, zostanie on potraktowany jako część do obsługi wzorca
     * Przykłady: `\\`, `\.`, `\|`
-* W surowych ciągach znaków (ang. *raw strings*) nie trzba korzystać z ukośnika `\`
+* W surowych ciągach znaków (ang. *raw strings*) nie trzeba korzystać z ukośnika `\`
     * W Pythonie stringi te poprzedzone są literą `r`
     * Dobrą praktyką jest definiowanie wzorców jako surowych łańcuchów
 
@@ -48,8 +48,8 @@ Klasy znaków
 
 Kwantyfikatory
 --------------
-* Określają ilość powtórzeń znaków lub sekwencji we wzorcach
-* Domyślnie kwantyfikatory są **zachłanne** (ang. `greedy`) tzn. dopasowują **maksymalną** możliwą ilość znaków w tekście
+* Określają liczbę powtórzeń znaków lub sekwencji we wzorcach
+* Domyślnie kwantyfikatory są **zachłanne** (ang. `greedy`) tzn. dopasowują **maksymalną** możliwą liczbę znaków w tekście
 
 | Kwantyfikator| Dopasowuje |
 |:---:|---|
@@ -64,14 +64,14 @@ Kwantyfikatory
 | `[^...]` | jeden znak spoza zbioru znaków  |
 
 * Przykład 1.: `[zuna]` dopasuje każdą pojedynczą literę `z`, `u`, `n` albo `a`
-* Przykład 2.: `[zuna]+` dopasuje każdą sekwencję zawirającą litery `z`, `u`, `n`, `a`, np. `zuza`, `zuzanna`, `zuzuzuza`
-* Przykład 3.: `[^\saAlm]+` dopasuje z tekstu `Ala ma kota` słowo `kot` - wyrażenie  wyklucza (`^`) użycie spacji (`\s`), liter `a`, `A`, `l`, `m`, a to, co zostało, bierze jako całość (`+`)
+* Przykład 2.: `[zuna]+` dopasuje każdą sekwencję zawierającą litery `z`, `u`, `n`, `a`, np. `zuza`, `zuzanna`, `zuzuzuza`
+* Przykład 3.: `[^\saAlm]+` dopasuje z tekstu `Ala ma kota` słowo `kot` - wyrażenie wyklucza (`^`) użycie spacji (`\s`), liter `a`, `A`, `l`, `m`, a to, co zostało, bierze jako całość (`+`)
 * Przykład 4.: `[a-zA-Z]+` dopasuje z dowolnego ciągu znaków (liter, liczb, itd.) wszystkie ciągi liter, niezależnie od wielkości - wyrażenie wyszukuje litery od `a` do `z` (`a-z`), `A` do `Z` (`A-Z`) i dopasowuje je wielokrotnie (`+`)
 
 
 Kwantyfikatory w wersji niezachłannej
 -------------------------------------
-* Kwantyfiaktor **niezachłanny** (leniwy, ang. `nongreedy`) dopasowuje **minimalną** możliwą ilość znaków w tekście
+* Kwantyfiaktor **niezachłanny** (leniwy, ang. `nongreedy`) dopasowuje **minimalną** możliwą liczbę znaków w tekście
 * Dodanie `?` po kwantyfikatorze przekształca go w tryb niezachłanny
 * Przykład: `[zuna]{2,4}` dopasowałoby całe słowo `zuza`, natomiast `[zuna]{2,4}?` dopasuje osobno i leniwie `zu` oraz `za`
 
@@ -171,7 +171,7 @@ albo listę tupli.
 
 #### Regex.sub
 Metoda obiektu `Regex`, poszukuje dopasowań w podanym stringu i zastępuje je innym wyrażeniem.
-Można zastosowac odwołanie do grup z dopasowania.
+Można zastosować odwołanie do grup z dopasowania.
 
     :::python3
     simple_password_regex = re.compile(r'(?<=haslo: )(\w)(\w+)')
