@@ -10,11 +10,20 @@ import program from './components/no_auth_needed/program.vue'
 import about from './components/no_auth_needed/about.vue'
 import SignupPage from './components/auth/signup.vue'
 import SigninPage from './components/auth/signin.vue'
-// user
-import lessons from './components/learning/lessons.vue'
+
+
+// learning
 import lesson from './components/learning/lesson.vue'
+import lessons from './components/learning/lessons.vue'
+// user
+import user from './components/user/user.vue'
+import userProfile from './components/user/profile.vue'
+import userProfileEdit from './components/user/profile_edit.vue'
+import userSeat from './components/user/seat.vue'
+
 
 // mentor
+import mentor from './components/mentor/mentor.vue'
 
 // organisator
 import organiser from './components/organiser/organiser.vue'
@@ -104,6 +113,35 @@ const routes = [
         },
         children: [
             {path: 'lessons', component: lessonsMngt},
+        ]
+    },
+    {
+        path: '/mentor',
+        component: mentor,
+        beforeEnter(to, from, next) {
+            if (store.getters.isMentor) {
+                next()
+            } else {
+                next('/')
+            }
+        },
+        children: [
+        ]
+    },
+    {
+        path: '/user',
+        component: user,
+        beforeEnter(to, from, next) {
+            if (store.getters.isAuthenticated) {
+                next()
+            } else {
+                next('/')
+            }
+        },
+        children: [
+            {path: 'profile', component: userProfile},
+            {path: 'edit', component: userProfileEdit},
+            {path: 'seat', component: userSeat},
         ]
     }
 ];

@@ -71,11 +71,13 @@ export default new Vuex.Store({
             router.replace('/lessons');
         },
         logout({commit}) {
-            commit('clearAuthData');
-            localStorage.removeItem('expirationDate');
-            localStorage.removeItem('session_uuid');
-            localStorage.removeItem('user');
-            router.replace('/signin');
+            axios.get('/auth/logout').then((resp) => {
+                commit('clearAuthData');
+                localStorage.removeItem('expirationDate');
+                localStorage.removeItem('session_uuid');
+                localStorage.removeItem('user');
+                router.replace('/signin');
+            })
         },
         storeUser({commit, state}, userData) {
             if (!state.session_uuid) {

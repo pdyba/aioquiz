@@ -4,12 +4,7 @@
         <navbar position="top" class="indigo navbar-dark" name="PyLove.org" href="/" scrolling>
             <navbar-collapse>
                 <navbar-nav right>
-
-                    <navbar-item class="need-help" v-if="auth && !i_need_help" @click.prevent="help()">HELP
-                    </navbar-item>
-                    <navbar-item class="need-help-clicked" v-if="auth &&  i_need_help" @click.prevent="help_stop()">
-                        THX
-                    </navbar-item>
+                    <help v-if="auth"></help>
                     <navbar-item href="/about">About</navbar-item>
                     <navbar-item href="/lessons" v-if="auth">Lessons</navbar-item>
                     <navbar-item href="/quiz" v-if="admin">Quiz</navbar-item>
@@ -59,22 +54,13 @@
                     <dropdown tag="li" class="nav-item" v-if="auth">
                         <dropdown-toggle tag="a" navLink color="indigo">{{ userName }}</dropdown-toggle>
                         <dropdown-menu>
-                            <dropdown-item>My Profile</dropdown-item>
-                            <dropdown-item>Edit Profile</dropdown-item>
-                            <dropdown-item>My Seat</dropdown-item>
-                            <dropdown-item @click.prevent="save_attendence()">Attendance</dropdown-item>
+                            <dropdown-item href="/user/profile">My Profile</dropdown-item>
+                            <dropdown-item href="/user/edit">Edit Profile</dropdown-item>
+                            <dropdown-item href="/user/seat">My Seat</dropdown-item>
+                            <dropdown-item><attendance></attendance></dropdown-item>
                         </dropdown-menu>
                     </dropdown>
-                    <dropdown tag="li" class="nav-item">
-                        <dropdown-toggle tag="a" navLink color="indigo">Lang</dropdown-toggle>
-                        <dropdown-menu>
-                            <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('pl')"
-                                           imgClass="language-img"></dropdown-item>
-                            <dropdown-item src="http://127.0.0.1:5000/images/pl.png" :onclick="setLang('en')"
-                                           imgClass="language-img"></dropdown-item>
-
-                        </dropdown-menu>
-                    </dropdown>
+                    <language_picker></language_picker>
                     <a @click="onLogout" v-if="auth" class="">
                         <navbar-item>&#10006;</navbar-item>
                     </a>
@@ -97,15 +83,11 @@
     import container from '../../material_components/Container.vue';
     import drop from '../../mixins/drop';
     import divider from './divider.vue';
-
-    import axios from 'axios';
+    import attendance from './attendance.vue';
+    import language_picker from './language_picker.vue';
+    import help from './help.vue';
 
     export default {
-        data() {
-            return {
-                i_need_help: false
-            }
-        },
         components: {
             Navbar,
             NavbarItem,
@@ -116,82 +98,16 @@
             DropdownToggle,
             Dropdown,
             container,
-            divider
+            divider,
+            attendance,
+            language_picker,
+            help
         },
         mixins: [drop],
         methods: {
-            setLang(language) {
-
-            },
             onLogout() {
                 this.$store.dispatch('logout')
             },
-            help: () => {
-                if (!user_seat) {
-                    this.$swal({
-                        title: "Nope",
-                        text: "You need to pick a seat before calling for help",
-                        type: "error",
-                        timer: 2000,
-                        showConfirmButton: false
-                    })
-                } else {
-                    axios.get('/user/i_need_help/').then(
-                        function (response) {
-                            this.$store.user.seat.i_need_help = true;
-                            this.$swal({
-                                title: "Yey",
-                                text: response.data.msg,
-                                type: "success",
-                                timer: 2000,
-                                showConfirmButton: false
-                            })
-                        }
-                    )
-                }
-            },
-            help_stop: () => {
-                axios.delete('/user/i_need_help/').then(
-                    function (response) {
-                        this.$store.user.seat.i_need_help = false;
-                        this.$swal({
-                            title: "Yey",
-                            text: response.data.msg,
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false
-                        })
-                    }
-                )
-            },
-
-            save_attendence() {
-                let self = this;
-                self.$swal({
-                    title: 'Attendance',
-                    input: 'text',
-                    text: 'Please provide lesson code',
-                    showCancelButton: true,
-                    confirmButtonText: 'Submit',
-                    showLoaderOnConfirm: true,
-                    allowOutsideClick: () => !swal.isLoading(),
-                    preConfirm: (value) => {
-                        axios.put('/attendance', {'code': value}).then(function (response) {
-                            let mtype = "error";
-                            if (response.data.success) {
-                                mtype = "success";
-                            }
-                            self.$swal({
-                                text: response.data.msg,
-                                title: 'Attendance',
-                                type: mtype,
-                                showConfirmButton: true,
-                                timer: 2000
-                            });
-                        })
-                    }
-                })
-            }
         },
         computed: {
             auth() {
@@ -213,34 +129,7 @@
     };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .navbar .dropdown-menu a:hover {
-        color: inherit !important;
-    }
 
-    .need-help {
-        background-color: #E51E41;
-        color: #efefef !important;
-        background-image: linear-gradient(rgb(229, 30, 65) 0px, rgb(229, 30, 65) 100%);
-    }
-
-    .need-help:hover {
-        background-color: #efefef;
-        color: #E51E41 !important;
-        background-image: None;
-    }
-
-    .need-help-clicked {
-        background-color: #8ce554;
-        color: #efefef !important;
-        background-image: linear-gradient(rgb(140, 229, 84) 0px, rgb(140, 229, 84) 100%);
-    }
-
-    .need-help-clicked:hover {
-        background-color: #efefef;
-        color: #8ce554 !important;
-        background-image: None;
-    }
 </style>
 
