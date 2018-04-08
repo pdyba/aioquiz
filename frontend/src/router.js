@@ -10,6 +10,7 @@ import program from './components/no_auth_needed/program.vue'
 import about from './components/no_auth_needed/about.vue'
 import SignupPage from './components/auth/signup.vue'
 import SigninPage from './components/auth/signin.vue'
+import magic_link_handler from './components/auth/magic_link_handler.vue'
 
 
 // learning
@@ -61,6 +62,8 @@ const routes = [
             }
         },
     },
+    {path: '/magic_link', component: magic_link_handler},
+    {path: '/regconfirm/:code', component: magic_link_handler},
     {path: '/program', component: program},
     {path: '/about', component: about},
     {

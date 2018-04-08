@@ -23,7 +23,7 @@ axios.interceptors.response.use(res => {
     return res
 }, (error) => {
     console.log('inter_error', error.response);
-    console.log('CODE: ', error.response.code);
+    console.log('CODE: ', error.response.status);
     swal("Error", error.response.data.msg, "error");
     return error
 });

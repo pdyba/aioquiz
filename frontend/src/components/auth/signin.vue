@@ -2,34 +2,34 @@
     <container fluid>
         <row>
             <column md="5" offset-md="2" class="signin-form">
-                    <form @submit.prevent="onSubmit">
-                        <div class="input">
-                            <h3>Log in:</h3>
-                            <label for="email">Mail</label>
-                            <input
-                                    type="email"
-                                    id="email"
-                                    v-model="email">
-                        </div>
-                        <div class="input">
-                            <label for="password">Password</label>
-                            <input
-                                    type="password"
-                                    id="password"
-                                    v-model="password">
-                        </div>
-
-                        <btn color="primary" type="submit">Submit</btn>
-
-                    </form>
-                </column>
-                <column md="3" class="signin-form">
-                    <div class=".input">
-                    <h2>Magic Login</h2>
-                    <btn color="primary" @click.prevent="magicLink()">Magic Link</btn>
-                    <p>Clicking this will send You an e-mail with a magic link that allows password-less login.</p>
+                <form @submit.prevent="onSubmit">
+                    <div class="input">
+                        <h3>Log in:</h3>
+                        <label for="email">Mail</label>
+                        <input
+                                type="email"
+                                id="email"
+                                v-model="email">
                     </div>
-                </column>
+                    <div class="input">
+                        <label for="password">Password</label>
+                        <input
+                                type="password"
+                                id="password"
+                                v-model="password">
+                    </div>
+
+                    <btn color="primary" type="submit">Submit</btn>
+
+                </form>
+            </column>
+            <column md="3" class="signin-form">
+                <div class=".input">
+                    <h2>Magic Login</h2>
+                    <b-btn color="primary" @click.prevent="magicLink()">Magic Link</b-btn>
+                    <p>Clicking this will send You an e-mail with a magic link that allows password-less login.</p>
+                </div>
+            </column>
 
         </row>
     </container>
@@ -40,6 +40,8 @@
     import Container from '../../material_components/Container.vue';
     import Row from '../../material_components/Row.vue';
     import Column from '../../material_components/Col.vue';
+
+    import axios from 'axios'
 
     export default {
         data() {
@@ -63,29 +65,23 @@
                 this.$store.dispatch('login', {email: formData.email, password: formData.password})
             },
             magicLink() {
+                let self = this;
                 this.$swal({
                     title: "Magic Link",
                     text: "Please provide valid email",
-                    element: "input",
-                    type: "input",
+                    input: "email",
                     showConfirmButton: true,
-                    closeOnConfirm: false
-                }, function (value) {
-                    var data = {'email': value};
-                    SweetAlert.swal({
-                        text: "in progress...",
-                        title: '...',
-                        showConfirmButton: false,
-                        closeOnConfirm: false,
-                        timer: 1
-                    }, function () {
-                        $http.post('/auth/magic_link', data).then(function (response) {
-                            var txt = response.data.msg;
-                            SweetAlert.swal({text: txt, title: ''});
-                        })
-                    })
-                });
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: () => !swal.isLoading(),
+                    closeOnConfirm: false,
+                    preConfirm: (email) => {
+                        return axios.post('/auth/magic_link', {email: email})
+                    }
+                }).then((response) => {
+                    self.$swal({text: response.value.data.msg});
+                })
             }
+
         }
     }
 </script>

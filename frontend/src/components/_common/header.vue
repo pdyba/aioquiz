@@ -28,6 +28,7 @@
                         <dropdown-menu>
                             <!--<dropdown-item>Lesson: Create</dropdown-item>-->
                             <dropdown-item href="/organiser/lessons">Lesson: List & Manage</dropdown-item>
+                            <dropdown-item href="/organiser/attendee_review">Attendee: Review</dropdown-item>
                             <!--<dropdown-item>Question: List & Manage</dropdown-item>-->
                             <!--<dropdown-item>Question: Create</dropdown-item>-->
                             <!--<dropdown-item>Quiz: Create</dropdown-item>-->
@@ -41,7 +42,6 @@
                     <dropdown tag="li" class="nav-item" v-if="admin">
                         <dropdown-toggle tag="a" navLink color="indigo">Admin</dropdown-toggle>
                         <dropdown-menu>
-                            <dropdown-item>Attendee: Review</dropdown-item>
                             <dropdown-item href="/admin/email">E-mail</dropdown-item>
                             <dropdown-item href="/admin/users">Users</dropdown-item>
                             <dropdown-item href="/admin/config">Config</dropdown-item>

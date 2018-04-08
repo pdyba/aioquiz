@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import createPersistedState from 'vuex-persistedstate'
 
 import router from './router'
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
         language: 'pl',
         user: null
     },
+    plugins: [createPersistedState()],
     mutations: {
         authUser(state, session_uuid) {
             state.session_uuid = session_uuid;
@@ -43,17 +45,19 @@ export default new Vuex.Store({
             axios.post('/auth/login', {
                 email: authData.email,
                 password: authData.password,
-            })
-                .then(res => {
-                    const now = new Date();
-                    const expirationDate = new Date(now.getTime() + 10000000 * 1000);
-                    localStorage.setItem('session_uuid', res.data.session_uuid);
-                    localStorage.setItem('expirationDate', expirationDate);
-                    localStorage.setItem('user',  JSON.stringify(res.data));
-                    commit('storeUser', res.data);
-                    commit('authUser', res.data.session_uuid);
-                    router.replace('/lessons');
+            }).then((response) => {
+                    dispatch('loginUser', response.data)
                 });
+        },
+        loginUser({commit, dispatch}, authData) {
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + 10000000 * 1000);
+            localStorage.setItem('session_uuid', authData.session_uuid);
+            localStorage.setItem('expirationDate', expirationDate);
+            localStorage.setItem('user',  JSON.stringify(authData));
+            commit('storeUser', authData);
+            commit('authUser', authData.session_uuid);
+            router.replace('/lessons');
         },
         tryAutoLogin({commit}) {
             const session_uuid = localStorage.getItem('session_uuid');
