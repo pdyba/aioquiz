@@ -17,7 +17,8 @@ import lesson from './components/learning/lesson.vue'
 // mentor
 
 // organisator
-
+import organiser from './components/organiser/organiser.vue'
+import lessonsMngt from './components/organiser/lessons_mngt.vue'
 // admin
 import admin_config from './components/admin/config.vue'
 import admin_email from './components/admin/email.vue'
@@ -89,6 +90,20 @@ const routes = [
             {path: 'config', component: admin_config},
             {path: 'email', component: admin_email},
             {path: 'users', component: admin_users}
+        ]
+    },
+    {
+        path: '/organiser',
+        component: organiser,
+        beforeEnter(to, from, next) {
+            if (store.getters.isOrganiser) {
+                next()
+            } else {
+                next('/')
+            }
+        },
+        children: [
+            {path: 'lessons', component: lessonsMngt},
         ]
     }
 ];

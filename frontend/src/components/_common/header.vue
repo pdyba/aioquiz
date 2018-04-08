@@ -31,14 +31,14 @@
                     <dropdown tag="li" class="nav-item" v-if="org">
                         <dropdown-toggle tag="a" navLink color="indigo">Organiser</dropdown-toggle>
                         <dropdown-menu>
-                            <dropdown-item>Lesson: Create</dropdown-item>
-                            <dropdown-item>Lesson: List & Manage</dropdown-item>
-                            <dropdown-item>Question: List & Manage</dropdown-item>
-                            <dropdown-item>Question: Create</dropdown-item>
-                            <dropdown-item>Quiz: Create</dropdown-item>
-                            <dropdown-item>Quiz: List & Manage</dropdown-item>
-                            <dropdown-item>Live Quiz: Create</dropdown-item>
-                            <dropdown-item>Live Quiz: List & Manage</dropdown-item>
+                            <!--<dropdown-item>Lesson: Create</dropdown-item>-->
+                            <dropdown-item href="/organiser/lessons">Lesson: List & Manage</dropdown-item>
+                            <!--<dropdown-item>Question: List & Manage</dropdown-item>-->
+                            <!--<dropdown-item>Question: Create</dropdown-item>-->
+                            <!--<dropdown-item>Quiz: Create</dropdown-item>-->
+                            <!--<dropdown-item>Quiz: List & Manage</dropdown-item>-->
+                            <!--<dropdown-item>Live Quiz: Create</dropdown-item>-->
+                            <!--<dropdown-item>Live Quiz: List & Manage</dropdown-item>-->
                         </dropdown-menu>
                     </dropdown>
 

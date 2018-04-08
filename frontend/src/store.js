@@ -112,6 +112,9 @@ export default new Vuex.Store({
         isAuthenticated(state) {
             return state.session_uuid !== null
         },
+        isSeated(state) {
+            return state.user.seat !== null
+        },
         sessionUUID(state) {
             return state.session_uuid
         },
