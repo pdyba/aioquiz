@@ -193,3 +193,13 @@ Można zastosować odwołanie do grup z dopasowania.
     text = 'moje tajne haslo: lubieciastka'
     text_changed = re.sub(r'(?<=haslo: )(\w)(\w+)', r'\1***', text)
     print(text_changed)  # 'moje tajne haslo: l***'
+
+
+
+Fajne te regexy, co?
+--------------------
+
+* http://www.ex-parrot.com/~pdw/Mail-RFC822-Address.html
+* https://alf.nu/RegexGolf
+* https://regexcrossword.com/
+
