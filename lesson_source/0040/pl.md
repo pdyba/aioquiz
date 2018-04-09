@@ -21,10 +21,10 @@ Znaki specjalne i surowe ciągi znaków
     * Dobrą praktyką jest definiowanie wzorców jako surowych łańcuchów
 
 | Zwykły ciąg znaków | Surowy ciąg znaków |
-|:---:|:---:|
-| `"zk*"`        | `r"zk*"` |
-| `"zk\\d"`      | `r"zk\d"` |
-| `"\\w\\s\\d"`  | `r"\w\s\d"` |
+|:------------------:|:------------------:|
+| `"zk*"`            | `r"zk*"`           |
+| `"zk\\d"`          | `r"zk\d"`          |
+| `"\\w\\s\\d"`      | `r"\w\s\d"`        |
 
 
 Klasy znaków
@@ -33,15 +33,15 @@ Klasy znaków
 * Jeżeli po klasie nie będzie podany kwantyfikator, dopasowany będzie dokładnie jeden znak
 * Widzimy tutaj w użyciu ukośnik `\` jako jeden ze znaków specjalnych, użyty do obsługi wzorca
 
-| Klasa znaków | Dopasowuje |
-|:---:|---|
-| `. `  |  Dowolny znak z wyjątkiem znaku nowej linii (ang. `wildcard`) |
-| `\d`  |  Dowolna cyfra |
-| `\D`  |  Dowolny znak nie będący cyfrą |
-| `\w`  |  Dowolny litera lub cyfra (znaki alfanumeryczne) |
-| `\W`  |  Dowolny znak nie będący znakiem alfanumerycznym |
-| `\s`  |  Dowolny biały znak (spacja, tab, nowa linia) |
-| `\S`  |  Dowolny znak nie będący białym znakiem |
+| Klasa znaków | Dopasowuje                                                    |
+|:------------:|---------------------------------------------------------------|
+| `. `         |  Dowolny znak z wyjątkiem znaku nowej linii (ang. `wildcard`) |
+| `\d`         |  Dowolna cyfra                                                |
+| `\D`         |  Dowolny znak nie będący cyfrą                                |
+| `\w`         |  Dowolny litera lub cyfra (znaki alfanumeryczne)              |
+| `\W`         |  Dowolny znak nie będący znakiem alfanumerycznym              |
+| `\s`         |  Dowolny biały znak (spacja, tab, nowa linia)                 |
+| `\S`         |  Dowolny znak nie będący białym znakiem                       |
 
 * Przykład: `[\D\D\D\D\d\d]` dopasuje każdą sekwencję składającą się z 4 następujących po sobie znaków nie będących cyframi oraz następnie 2 następujących po sobie cyfrach, np. `zuza00`, `hehe37`
 
@@ -51,17 +51,17 @@ Kwantyfikatory
 * Określają liczbę powtórzeń znaków lub sekwencji we wzorcach
 * Domyślnie kwantyfikatory są **zachłanne** (ang. `greedy`) tzn. dopasowują **maksymalną** możliwą liczbę znaków w tekście
 
-| Kwantyfikator| Dopasowuje |
-|:---:|---|
-| `*`      | 0 lub więcej wystąpień  |
-| `+`      | 1 lub więcej wystąpień  |
-| `?`      | 0 lub 1 wystąpienie  |
-| `{m}`    | dokładnie m wystąpień  |
-| `{m,}`   | co najmniej m wystąpień  |
-| `{,n}`   | co najwyżej n wystąpień  |
-| `{m,n}`  | od m do n wystąpień  |
-| `[...]`  | jeden znak spośród zbioru znaków  |
-| `[^...]` | jeden znak spoza zbioru znaków  |
+| Kwantyfikator| Dopasowuje                        |
+|:------------:|-----------------------------------|
+| `*`          | 0 lub więcej wystąpień            |
+| `+`          | 1 lub więcej wystąpień            |
+| `?`          | 0 lub 1 wystąpienie               |
+| `{m}`        | dokładnie m wystąpień             |
+| `{m,}`       | co najmniej m wystąpień           |
+| `{,n}`       | co najwyżej n wystąpień           |
+| `{m,n}`      | od m do n wystąpień               |
+| `[...]`      | jeden znak spośród zbioru znaków  |
+| `[^...]`     | jeden znak spoza zbioru znaków    |
 
 * Przykład 1.: `[zuna]` dopasuje każdą pojedynczą literę `z`, `u`, `n` albo `a`
 * Przykład 2.: `[zuna]+` dopasuje każdą sekwencję zawierającą litery `z`, `u`, `n`, `a`, np. `zuza`, `zuzanna`, `zuzuzuza`
@@ -82,13 +82,12 @@ Grupowanie
 * Po dopasowaniu grupy we wzorcu można odwoływać się do niej za pomocą jej numeru, np. `\1` dla pierwszej grupy, są to tzw. odwołania wsteczne
 * Cały wzorzec tworzy grupę zerową
 
-| Wyrażenie | Wyjaśnienie |
-|:---:|---|
-| `(...)`           | dopasowanie wyrażenia w nawiasie jako grupy |
-| `(?:...)`         | nawiasy nieprzechwytujące - po dopasowaniu nie można odwoływać się do zawartości dopasowanego wyrażenia poprzez odwołania wsteczne |
-| `(?P<ciastko>...)`   | tworzy grupę nazwaną `ciastko` |
-| `(?P=ciastko)`       | dopasowuje tekst, który został dopasowany wcześniej przez grupę nazwaną `ciastko` |
-| `(?(1)then|else)` | wyrażenie warunkowe, jeśli pierwsza grupa przechwytująca dopasowała porcję tekstu, dopasuj wyrażenie then. Jeśli grupa przechwytująca nr 1 nie brała udziału w dopasowaniu tekstu, dopasuj wyrażenie else |
+| Wyrażenie            | Wyjaśnienie                                                                                                                        |
+|:--------------------:|------------------------------------------------------------------------------------------------------------------------------------|
+| `(...)`              | dopasowanie wyrażenia w nawiasie jako grupy                                                                                        |
+| `(?:...)`            | nawiasy nieprzechwytujące - po dopasowaniu nie można odwoływać się do zawartości dopasowanego wyrażenia poprzez odwołania wsteczne |
+| `(?P<ciastko>...)`   | tworzy grupę nazwaną `ciastko`                                                                                                     |
+| `(?P=ciastko)`       | dopasowuje tekst, który został dopasowany wcześniej przez grupę nazwaną `ciastko`                                                  |
 
 * Przykład: `(ciastka)(dżem)\1+oraz\2+` dopasuje `ciastkadżemciastkaciastkaciastkaorazdżemdżem` - pierwsze `ciastka` zostaną dopasowane i oznaczone jako grupa 1., pierwszy `dżem` zostanie dopasowany i oznaczony jako grupa 2., następnie poszukujemy wielu wystapień grupy 1. (`\1+`), czyli `ciastka`, potem szukamy słowa `oraz`, a potem poszukujemy wielu wystąpień grupy 2. (`\2+`), czyli `dżem`
 
@@ -98,17 +97,17 @@ Asercje
 * Pomagają wyznaczyć miejsce w tekście, w którym musi pojawić się dopasowanie
 
 
-| Asercja  | Dopasowuje  |
-|:---:|---|
-| `^`      | początek tekstu |
-| `$`      | koniec tekstu |
-| `\A`     | początek tekstu |
-| `\Z`     | koniec tekstu |
-| `\b`     | pusty string na początku lub końcu słowa |
-| `\B`     | pusty string, ale nie na początku lub końcu słowa |
-| `(?=e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim następuje wyrażenie pasujące do e (ang. *positive lookeahead*) |
-| `(?!e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim nie następuje wyrażenie pasujące do e (ang. *negative lookeahead*) |
-| `(?<=e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim następuje wyrażenie pasujące do e (ang. *positive lookebehind*) |
+| Asercja  | Dopasowuje                                                                                                           |
+|:--------:|----------------------------------------------------------------------------------------------------------------------|
+| `^`      | początek tekstu                                                                                                      |
+| `$`      | koniec tekstu                                                                                                        |
+| `\A`     | początek tekstu                                                                                                      |
+| `\Z`     | koniec tekstu                                                                                                        |
+| `\b`     | pusty string na początku lub końcu słowa                                                                             |
+| `\B`     | pusty string, ale nie na początku lub końcu słowa                                                                    |
+| `(?=e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim następuje wyrażenie pasujące do e (ang. *positive lookeahead*)         |
+| `(?!e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim nie następuje wyrażenie pasujące do e (ang. *negative lookeahead*)     |
+| `(?<=e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim następuje wyrażenie pasujące do e (ang. *positive lookebehind*)     |
 | `(?<!e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim nie następuje wyrażenie pasujące do e (ang. *negative lookebehind*) |
 
 * Przykład 1.: `[\d\B]` z tekstu `zuzuz6uzuza0` dopasuje tylko środkową cyfrę `6`
@@ -120,32 +119,37 @@ OK, to jak to zrobić w Pythonie?
 --------------------------------
 * Należy zaimportować moduł `re` poprzez `import re`
 
+
 #### re.compile
-Tworzy obiekt `Regex`, który dopasowuje dane wyrażenie regularne
+Tworzy obiekt `Regex`, który dopasowuje dane wyrażenie regularne.
 
     :::python3
     simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
 
-#### Regex.search
-Metoda obiektu `Regex`, poszukuje dopasowania w podanym stringu.
+
+#### re.search
+Poszukuje dopasowania w podanym stringu.
 Zwróci `None`, jeżeli nie odnaleziono dopasowania.
 Jeżeli odnaleziono dopasowanie, zwróci obiekt `Match` **pierwszego** dopasowania.
 
     :::python3
+    found = re.search(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moj adres email to: jakis@mail.com')
+    # lub jako metoda obiektu Regex:
     simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
     found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
+
 
 #### Match.group
 Metoda obiektu `Match`, zwróci całe dopasowanie lub dopasowanie wybranej grupy.
 
     :::python3
-    simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
-    found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
+    found = re.search(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moj adres email to: jakis@mail.com')
     print(found.group()) # jakis@mail.com
     print(found.group(0))  # jakis@mail.com
     print(found.group(1))  # jakis
     print(found.group(2))  # mail
     print(found.group(3))  # com
+
 
 #### Match.groups
 Metoda obiektu `Match`, zwróci wszystkie grupy naraz.
@@ -155,26 +159,37 @@ Metoda obiektu `Match`, zwróci wszystkie grupy naraz.
     found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
     print(found.groups())  # ('jakis', 'mail', 'com')
 
-#### Regex.findall
-Metoda obiektu `Regex`, poszukuje dopasowania w podanym stringu.
+
+#### re.split
+Dzieli podany string w miejscach, gdzie znajdzie dopasowanie.
+Zwraca listę podzielonych części stringa.
+Jeżeli w wyrażeniu regularnym istnieją grupy, w liście pojawią się również dopasowania tych grup.
+
+    :::python3
+    text = 'Ciastka, dżem, herbata.'
+    text_split = re.split(r'\W+', text)
+    print(text_split)  # ['Ciastka', 'dżem', 'herbata', '']
+    text_split_with_groups = re.split(r'(\W+)', text)
+    print(text_split_with_groups)  # ['Ciastka', ', ', 'dżem', ', ', 'herbata', '.', '']
+
+
+#### re.findall
+Poszukuje dopasowania w podanym stringu.
 W przeciwieństwie do metody `search`, zwraca listę stringów (jeżeli w wyrażeniu regularnym nie ma grup)
 albo listę tupli.
 
     :::python3
-    simple_email_regex = re.compile(r'[a-z]+@[a-z]+\.[a-z]{2,3}')
-    found = simple_email_regex.search('Moje adresy email to: jakis@mail.com, inny@email.pl')
+    found = re.findall(r'[a-z]+@[a-z]+\.[a-z]{2,3}', 'Moje adresy email to: jakis@mail.com, inny@email.pl')
     print(found)  # ['jakis@mail.com', 'inny@email.pl']
-    simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
-    found = simple_email_regex.search('Moje adresy email to: jakis@mail.com, inny@email.pl')
+    found = re.findall(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moje adresy email to: jakis@mail.com, inny@email.pl')
     print(found)  # [('jakis', 'mail', 'com'), ('inny', 'email', 'pl')]
 
 
-#### Regex.sub
-Metoda obiektu `Regex`, poszukuje dopasowań w podanym stringu i zastępuje je innym wyrażeniem.
+#### re.sub
+Poszukuje dopasowań w podanym stringu i zastępuje je innym wyrażeniem.
 Można zastosować odwołanie do grup z dopasowania.
 
     :::python3
-    simple_password_regex = re.compile(r'(?<=haslo: )(\w)(\w+)')
     text = 'moje tajne haslo: lubieciastka'
-    text_changed = simple_password_regex.sub(r'', text)
+    text_changed = re.sub(r'(?<=haslo: )(\w)(\w+)', r'\1***', text)
     print(text_changed)  # 'moje tajne haslo: l***'
