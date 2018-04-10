@@ -5,7 +5,7 @@ Wyrażenia regularne - what & why?
 ----------------------
 * ang. *regular expressions*, *regex*, *regexp*
 * Wzorce, które opisują łańcuchy symboli (ciągi znaków)
-* Używane do wyszukiwania w długim tekście, edycja długiego tekstu, walidacja (np. maili, nr telefonu)
+* Używane do wyszukiwania w długim tekście, edycji długiego tekstu, walidacji (np. maili, nr telefonu)
 * Try it yourself - https://regex101.com/ - po lewej wybrać `python`!
 
 
@@ -71,7 +71,7 @@ Kwantyfikatory
 
 Kwantyfikatory w wersji niezachłannej
 -------------------------------------
-* Kwantyfiaktor **niezachłanny** (leniwy, ang. `nongreedy`) dopasowuje **minimalną** możliwą liczbę znaków w tekście
+* Kwantyfikator **niezachłanny** (leniwy, ang. `nongreedy`) dopasowuje **minimalną** możliwą liczbę znaków w tekście
 * Dodanie `?` po kwantyfikatorze przekształca go w tryb niezachłanny
 * Przykład: `[zuna]{2,4}` dopasowałoby całe słowo `zuza`, natomiast `[zuna]{2,4}?` dopasuje osobno i leniwie `zu` oraz `za`
 
@@ -89,7 +89,7 @@ Grupowanie
 | `(?P<ciastko>...)`   | tworzy grupę nazwaną `ciastko`                                                                                                     |
 | `(?P=ciastko)`       | dopasowuje tekst, który został dopasowany wcześniej przez grupę nazwaną `ciastko`                                                  |
 
-* Przykład: `(ciastka)(dżem)\1+oraz\2+` dopasuje `ciastkadżemciastkaciastkaciastkaorazdżemdżem` - pierwsze `ciastka` zostaną dopasowane i oznaczone jako grupa 1., pierwszy `dżem` zostanie dopasowany i oznaczony jako grupa 2., następnie poszukujemy wielu wystapień grupy 1. (`\1+`), czyli `ciastka`, potem szukamy słowa `oraz`, a potem poszukujemy wielu wystąpień grupy 2. (`\2+`), czyli `dżem`
+* Przykład: `(ciastka)(dżem)\1+oraz\2+` dopasuje `ciastkadżemciastkaciastkaciastkaorazdżemdżem` - pierwsze `ciastka` zostaną dopasowane i oznaczone jako grupa 1., pierwszy `dżem` zostanie dopasowany i oznaczony jako grupa 2., następnie poszukujemy wielu wystąpień grupy 1. (`\1+`), czyli `ciastka`, potem szukamy słowa `oraz`, a potem poszukujemy wielu wystąpień grupy 2. (`\2+`), czyli `dżem`
 
 
 Asercje
@@ -105,10 +105,10 @@ Asercje
 | `\Z`     | koniec tekstu                                                                                                        |
 | `\b`     | pusty string na początku lub końcu słowa                                                                             |
 | `\B`     | pusty string, ale nie na początku lub końcu słowa                                                                    |
-| `(?=e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim następuje wyrażenie pasujące do e (ang. *positive lookeahead*)         |
-| `(?!e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim nie następuje wyrażenie pasujące do e (ang. *negative lookeahead*)     |
-| `(?<=e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim następuje wyrażenie pasujące do e (ang. *positive lookebehind*)     |
-| `(?<!e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim nie następuje wyrażenie pasujące do e (ang. *negative lookebehind*) |
+| `(?=e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim następuje wyrażenie pasujące do e (ang. *positive lookahead*)         |
+| `(?!e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim nie następuje wyrażenie pasujące do e (ang. *negative lookahead*)     |
+| `(?<=e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim następuje wyrażenie pasujące do e (ang. *positive lookbehind*)     |
+| `(?<!e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim nie następuje wyrażenie pasujące do e (ang. *negative lookbehind*) |
 
 * Przykład 1.: `[\d\B]` z tekstu `zuzuz6uzuza0` dopasuje tylko środkową cyfrę `6`
 * Przykład 2.: `[\d\B]` z tekstu `zuzuz6uzuza0` dopasuje tylko ostatnią cyfrę `0`
