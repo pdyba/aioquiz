@@ -203,3 +203,11 @@ Fajne te regexy, co?
 * https://alf.nu/RegexGolf
 * https://regexcrossword.com/
 
+
+Pliki txt do zadań
+------------------
+
+[Zadanie 1.](./images/wikipedia_python.txt)
+[Zadanie 2. i 3.](./images/program_pylove.txt)
+[Zadanie 4.](./images/celebrities.txt)
+[Zadanie 5.](./images/access_log.txt)
