@@ -31,12 +31,5 @@
     title: 1.20.5
     task: |
         Napisz program, który załaduje ten plik i skonwertuje każdą linię na obiekt JSON w formacie {"date": string, "method": string, "uri": string, "status_code": int, "user_agent": string} jeśli zastosowana została metoda PUT, POST lub DELETE.
-        Przykłady: 
-        107.214.143.30 - - [09/Apr/2018:11:40:28 +0000] "POST / HTTP/1.1" 401 204 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
-        ->
-        {"date": "09/Apr/2018:11:40:28", "method": "POST", "uri": "/", "status_code": 401, "user_agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"}
-        176.124.19.95 - admin@example.com [09/Apr/2018:11:28:01 +0000] "GET / HTTP/1.1" 401 606 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
-        ->
-        {"date": "09/Apr/2018:11:28:01", "method": "GET", "uri": "/", "status_code": 401, "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"}
     possible_answare: yey
 
