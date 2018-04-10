@@ -199,15 +199,15 @@ Można zastosować odwołanie do grup z dopasowania.
 Fajne te regexy, co?
 --------------------
 
-* http://www.ex-parrot.com/~pdw/Mail-RFC822-Address.html
-* https://alf.nu/RegexGolf
-* https://regexcrossword.com/
+* [Regex do walidacji maili](http://www.ex-parrot.com/~pdw/Mail-RFC822-Address.html)
+* [RegexGolf](https://alf.nu/RegexGolf)
+* [RegexCrossword](https://regexcrossword.com/)
 
 
 Pliki txt do zadań
 ------------------
 
-[Zadanie 1.](./images/wikipedia_python.txt)
-[Zadanie 2. i 3.](./images/program_pylove.txt)
-[Zadanie 4.](./images/celebrities.txt)
-[Zadanie 5.](./images/access_log.txt)
+* [Zadanie 1.](./images/wikipedia_python.txt)
+* [Zadanie 2. i 3.](./images/program_pylove.txt)
+* [Zadanie 4.](./images/celebrities.txt)
+* [Zadanie 5.](./images/access_log.txt)
