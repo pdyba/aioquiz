@@ -1,0 +1,471 @@
+<template>
+    <b-container fluid>
+        <b-row>
+            <b-col sm="8" offset-sm="1">
+                <b-form @submit.prevent="onSubmit" class="signup-form">
+
+                    <b-form-group>
+                        <label v-if="en || !pl">Language:</label>
+                        <label v-if="pl">Język:</label>
+                        <b-form-radio-group
+                                v-model="user.lang"
+                                :options="lang_options"
+                                id="lang"
+                                @input="$v.lang.$touch()">
+                        </b-form-radio-group>
+
+                    </b-form-group>
+                    <div v-show="$v.lang.$dirty">
+                        <h4 v-if="en">Account</h4>
+                        <h4 v-if="pl">Konto</h4>
+                        <div v-if="en">
+                            This data is needed for you to be able to login to this application,
+                            and also for us to contact you and inform you about the outcome of the recruitment process.
+                        </div>
+                        <div v-if="pl">
+                            Poniższe informacje są potrzebne, żeby się z Tobą skontaktować
+                            i poinformować o wynikach rekrutacji oraz żebyś mogła/mogł się zalogować do tej aplikacji.
+                        </div>
+                        <b-form-group class="input" :class="{invalid: $v.email.$error}" label="e-mail">
+                            <input
+                                    type="email"
+                                    id="email"
+                                    @blur="$v.email.$touch()"
+                                    v-model="user.email">
+
+                            <p v-if="!$v.email.email">Please provide a valid email address.</p>
+                            <p v-if="!$v.email.required">This field must not be empty.</p>
+                        </b-form-group>
+                        <b-form-group class="input" :class="{invalid: $v.name.$error}">
+                            <label v-if="en">First name</label>
+                            <label v-if="pl">Imię</label>
+                            <input
+                                    type="text"
+                                    id="name"
+                                    v-model="user.name">
+
+                            <p v-if="!$v.name.required">This field must not be empty.</p>
+                        </b-form-group>
+                        <b-form-group class="input" :class="{invalid: $v.surname.$error}" label="Surname">
+                            <label v-if="en">Last name</label>
+                            <label v-if="pl">Nazwisko</label>
+                            <input
+                                    type="text"
+                                    id="surname"
+                                    v-model="user.surname">
+
+                            <p v-if="!$v.surname.required">This field must not be empty.</p>
+                        </b-form-group>
+
+                        <b-form-group class="input" :class="{invalid: $v.password.$error}">
+                            <label v-if="en">Password</label>
+                            <label v-if="pl"> Hasło</label>
+                            <input
+                                    type="password"
+                                    id="password"
+                                    @blur="$v.password.$touch()"
+                                    v-model="user.password">
+
+                        </b-form-group>
+                        <b-form-group class="input" :class="{invalid: $v.confirmPassword.$error}">
+                            <label v-if="en">Confirm Password</label>
+                            <label v-if="pl">Potwierdź Hasło</label>
+                            <input
+                                    type="password"
+                                    id="confirm-password"
+                                    @blur="$v.confirmPassword.$touch()"
+                                    v-model="user.confirmPassword">
+
+                        </b-form-group>
+
+                        <h4 v-if="en">Stats</h4>
+                        <h4 v-if="pl">Statystyka</h4>
+                        <p v-if="en">
+                            Below data is just for statistics, that easeas our cooperation
+                            with partners and sponsors.</p>
+                        <p v-if="pl"> Poniższe dane są nam potrzebne do statystyk, które potem
+                            ułatwiają nam współpracę z partnerami i sponsorami.</p>
+
+                        <b-form-group class="input" :class="{invalid: $v.age.$error}">
+                            <label v-if="en">Age</label>
+                            <label v-if="pl">Wiek</label>
+                            <input
+                                    type="number"
+                                    id="age"
+                                    @blur="$v.age.$touch()"
+                                    v-model.number="user.age">
+                        </b-form-group>
+                        <b-form-group class="input" :class="{invalid: $v.city.$error}">
+                            <label for="city" v-if="en">City</label>
+                            <label for="city" v-if="pl">Miejscowość</label>
+                            <input
+                                    type="text"
+                                    id="city"
+                                    v-model="user.city">
+                        </b-form-group>
+
+                        <b-form-group>
+                            <label v-if="en">Education</label>
+                            <label v-if="pl">Edukacja</label>
+                            <b-form-select
+                                    :options="education_options"
+                                    v-model="user.education">
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group>
+                            <label v-if="en">University - ongoing or graduate</label>
+                            <label v-if="pl">Szkoła wyższa - aktualna lub ukończona</label>
+                            <b-form-select
+                                    :options="university_options"
+                                    v-model="user.university">
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group>
+                            <label>T-Shirt</label>
+                            <b-form-select
+                                    :options="tshirt_options"
+                                    v-model="user.t_shirt">
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group>
+                            <label v-if="en">Operating System</label>
+                            <label v-if="pl">System Operacyjny</label>
+                            <b-form-select
+                                    :options="operating_system_options"
+                                    v-model="user.operating_system">
+                            </b-form-select>
+                        </b-form-group>
+
+                        <h4 v-if="en">About You</h4>
+                        <h4 for="city" v-if="pl">O Tobie</h4>
+                        <p v-if="en">
+                            <strong>Attendee</strong><br>
+                            Tell us about your motivations behind your decision to start learning programming
+                            <br><strong>Mentor:</strong><br>
+                            If you are new with us, we would like to know you a little bit better; if you are our old
+                            fellow, please provide your short bio :)
+
+                        </p>
+
+                        <p v-if="pl">
+                            <strong>Uczestnik</strong> <br>
+                            Przede wszystkim chcemy poznać Twoje motywy podjęcia decyzji o rozpoczęciu programowania w
+                            Pythonie oraz dowiedzieć się, jakie masz doświadczenie.
+                            <br><strong>Mentor:</strong><br>
+                            Jeśli dopiero zaczynasz przygodę z Pythonem - chcielibyśmy Cię bliżej poznać, a jeśli już z
+                            nami
+                            współpracowałeś, zamieść tutaj swoje krótkie bio :)
+                        </p>
+
+
+                        <b-form-group>
+                            <b-form-radio-group
+                                    v-model="user.mentor"
+                                    :options="account_type_options"
+                                    id="mentor">
+                            </b-form-radio-group>
+                        </b-form-group>
+
+                        <b-form-group>
+                            <label v-if="en">Write something about yourself</label>
+                            <label v-if="pl">Napisz coś o sobie</label>
+                            <b-form-textarea
+                                             v-model="user.description"
+                                             placeholder="Enter something"
+                                             :rows="4"
+                                             :max-rows="9">
+                            </b-form-textarea>
+                        </b-form-group>
+
+                        <b-form-group>
+                            <label v-if="en">Motivation - Why do you want to
+                                participate in the workshop?</label>
+                            <label v-if="pl">Motywacja - Dlaczego chcesz wziąć udział w
+                                warsztatch?</label>
+                            <b-form-textarea
+                                             v-model="user.motivation"
+                                             placeholder="Enter something"
+                                             :rows="4"
+                                             :max-rows="9">
+                            </b-form-textarea>
+                        </b-form-group>
+
+                        <b-form-group>
+                            <label v-if="en">hat are you planning to do with the
+                            knowledge you gain during this workshop? Do you have an app idea?</label>
+                            <label v-if="pl">Do czego chciałabyś/chciałbyś wykorzystać
+                            wiedzę z warsztatów? Czy masz pomysł na własną aplikację?</label>
+                            <b-form-textarea
+                                             v-model="user.app_idea"
+                                             placeholder="Enter something"
+                                             :rows="4"
+                                             :max-rows="9">
+                            </b-form-textarea>
+                        </b-form-group>
+
+                        <b-form-group>
+                            <label v-if="en">Experience</label>
+                            <label v-if="pl">Doświadczenie</label>
+                            <b-form-select
+                                    :options="expirience_options"
+                                    text-field="subject"
+                                    name="experience"
+                                    v-model="user.experience">
+                            </b-form-select>
+                        </b-form-group>
+
+
+                        <b-form-group class="input inline" :class="{invalid: $v.terms.$invalid}">
+                            <input
+                                    type="checkbox"
+                                    id="terms"
+                                    @change="$v.terms.$touch()"
+                                    v-model="user.terms">
+                            <label for="terms">Accept Terms of Use</label>
+                        </b-form-group>
+
+                        <b-btn type="submit" :disabled="$v.$invalid">Submit</b-btn>
+                    </div>
+                </b-form>
+            </b-col>
+        </b-row>
+    </b-container>
+
+</template>
+
+<script>
+    import {required, email, numeric, minValue, minLength, sameAs, requiredUnless} from 'vuelidate/lib/validators'
+    import axios from 'axios'
+
+    export default {
+        data() {
+            return {
+                user: {
+                    email: '',
+                    name: '',
+                    surname: '',
+                    age: null,
+                    password: '',
+                    confirmPassword: '',
+                    city: 'Poznań',
+                    lang: '',
+                    university: '',
+                    operating_system: '',
+                    motivation: '',
+                    description: '',
+                    app_idea: '',
+                    terms: false
+                },
+                lang_options: ['pl', 'en'],
+                university_options: ['None-Brak', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER'],
+                tshirt_options: ['Female-XXS', 'Female-XS', 'Female-S', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-S', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL'],
+                operating_system_options: ['MacOS', 'Linux', 'Windows'],
+            }
+        },
+        validations: {
+            lang: {
+                required: true
+            },
+            email: {
+                required,
+                email
+                // unique: val => {
+                //     if (val === '') return true;
+                //     return axios.get('/users/' + val)
+                //         .then(res => {
+                //             return Object.keys(res.data).length === 0
+                //         })
+                // }
+            },
+            name: {
+                required: true
+            },
+            city: {
+                required: true
+            },
+            surname: {
+                required: true
+            },
+            age: {
+                required,
+                numeric,
+            },
+            password: {
+                required,
+                minLen: minLength(8)
+            },
+            confirmPassword: {
+                sameAs: sameAs('password')
+            },
+            terms: {
+                required: true
+            }
+        },
+        computed: {
+            pl() {
+                return this.user.lang === 'pl'
+            },
+            en() {
+                return this.user.lang === 'en'
+            },
+            mentor() {
+                return this.user.mentor
+            },
+            account_type_options() {
+                if (this.pl) {
+                    return [
+                        {text: "Mentor", value: true},
+                        {text: "Uczestnik", value: false},
+                    ]
+                }
+                return [
+                    {text: "Mentor", value: true},
+                    {text: "Attendee", value: false},
+                ]
+            },
+            expirience_options() {
+                if (this.pl) {
+                    return [
+                        'Nie posiadam wcale',
+                        'Coś tam robiłam/em, ale nic nie pamiętam',
+                        'Znam podstawy',
+                        'Umiem programować',
+                        'Znam dobrze inny język programowania',
+                        'Jestem doświadczonym programistą'
+                    ]
+                }
+                return [
+                    'I have none',
+                    'I had some but I do not remember anything',
+                    'I know the basics',
+                    'I can program',
+                    'I know another programming language well',
+                    'I am an experienced programmer'
+                ]
+            },
+            education_options() {
+                if (this.pl) {
+                    return [
+                        'Podstawowe', 'Gimnazjalne', 'Zawodowe', 'Techniczne', 'Średnie', 'Licencjat', 'Inżynier', 'Magister', 'Doktor'
+                    ]
+                }
+                return [
+                    'Elementary', 'Gymnasium', 'Vocational', 'Technician', 'High School', 'BA degree', 'Engineer', 'MA degree', 'PhD'
+                ]
+            },
+        },
+        methods: {
+            onSubmit() {
+                const formData = {
+                    email: this.email,
+                    age: this.age,
+                    password: this.password,
+                    confirmPassword: this.confirmPassword,
+                    country: this.country,
+                    terms: this.terms
+                };
+                this.$store.dispatch('signup', formData)
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .signup-form {
+        /*width: 400px;*/
+        margin: 30px auto;
+        border: 2px solid #eee;
+        padding: 20px;
+        box-shadow: 0 2px 3px #ccc;
+    }
+
+    .input {
+        margin: 10px auto;
+    }
+
+    .input label {
+        display: block;
+        color: #4e4e4e;
+        margin-bottom: 6px;
+    }
+
+    .input.inline label {
+        display: inline;
+    }
+
+    .input input {
+        font: inherit;
+        width: 100%;
+        padding: 6px 12px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+    }
+
+    .input.inline input {
+        width: auto;
+    }
+
+    .input input:focus {
+        outline: none;
+        border: 1px solid #521751;
+        background-color: #eee;
+    }
+
+    .input.invalid label {
+        color: red;
+    }
+
+    .input.invalid input {
+        border: 1px solid red;
+        background-color: #ffc9aa;
+    }
+
+    .input select {
+        border: 1px solid #ccc;
+        font: inherit;
+    }
+
+    .hobbies button {
+        border: 1px solid #521751;
+        background: #521751;
+        color: white;
+        padding: 6px;
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .hobbies button:hover,
+    .hobbies button:active {
+        background-color: #8d4288;
+    }
+
+    .hobbies input {
+        width: 90%;
+    }
+
+    .submit button {
+        border: 1px solid #521751;
+        color: #521751;
+        padding: 10px 20px;
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .submit button:hover,
+    .submit button:active {
+        background-color: #521751;
+        color: white;
+    }
+
+    .submit button[disabled],
+    .submit button[disabled]:hover,
+    .submit button[disabled]:active {
+        border: 1px solid #ccc;
+        background-color: transparent;
+        color: #ccc;
+        cursor: not-allowed;
+    }
+</style>

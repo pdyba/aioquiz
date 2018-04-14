@@ -16,10 +16,10 @@
                         <dropdown-toggle tag="a" navLink color="indigo">Mentor</dropdown-toggle>
                         <dropdown-menu>
                             <dropdown-item>Seats</dropdown-item>
-                            <dropdown-item>Lesson</dropdown-item>
-                            <dropdown-item>Quiz</dropdown-item>
-                            <dropdown-item>Live Quiz</dropdown-item>
-                            <dropdown-item>Users List</dropdown-item>
+                            <!--<dropdown-item>Lesson</dropdown-item>-->
+                            <!--<dropdown-item>Quiz</dropdown-item>-->
+                            <!--<dropdown-item>Live Quiz</dropdown-item>-->
+                            <!--<dropdown-item>Users List</dropdown-item>-->
                         </dropdown-menu>
                     </dropdown>
 

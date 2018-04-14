@@ -1,38 +1,46 @@
 <template>
-    <container fluid>
-        <row>
-            <column md="5" offset-md="2" class="signin-form">
-                <form @submit.prevent="onSubmit">
-                    <div class="input">
-                        <h3>Log in:</h3>
-                        <label for="email">Mail</label>
-                        <input
+    <b-container fluid>
+        <b-row>
+            <b-col sm="3" offset-sm="2" class="signin-form" order="2">
+                <h2>Login</h2>
+                <b-form @submit.prevent="onSubmit">
+                    <b-form-group>
+                        <b-form-input
                                 type="email"
                                 id="email"
-                                v-model="email">
-                    </div>
-                    <div class="input">
-                        <label for="password">Password</label>
-                        <input
+                                v-model="email"
+                                placeholder="e-mail">
+                        </b-form-input>
+                    </b-form-group>
+                    <b-form-group>
+                        <b-form-input
                                 type="password"
                                 id="password"
-                                v-model="password">
-                    </div>
+                                v-model="password"
+                                placeholder="password">
+                        </b-form-input>
+                    </b-form-group>
 
-                    <btn color="primary" type="submit">Submit</btn>
+                    <b-btn variant="primary" type="submit">Log in!</b-btn>
+                </b-form>
+            </b-col>
+            <b-col sm="3" class="signin-form" order="1">
 
-                </form>
-            </column>
-            <column md="3" class="signin-form">
-                <div class=".input">
-                    <h2>Magic Login</h2>
-                    <b-btn color="primary" @click.prevent="magicLink()">Magic Link</b-btn>
-                    <p>Clicking this will send You an e-mail with a magic link that allows password-less login.</p>
-                </div>
-            </column>
+                <h2>Magic Login</h2>
+                <p>Clicking this will send You an e-mail with a magic link that allows password-less login.</p>
+                <b-btn color="primary" @click.prevent="magicLink()">Magic Link</b-btn>
 
-        </row>
-    </container>
+            </b-col>
+            <b-col sm="3" class="signin-form" order="3">
+                <h2>Register</h2>
+                <p>Join us in a wonderful learning adventure with Python</p>
+                <b-link to="/signup">
+                    <b-btn variant="danger" class="right">Register</b-btn>
+                </b-link>
+            </b-col>
+
+        </b-row>
+    </b-container>
 </template>
 
 <script>
@@ -93,10 +101,6 @@
         border: 1px solid #eee;
         padding: 20px;
         box-shadow: 0 2px 3px #ccc;
-    }
-
-    .input {
-        margin: 10px auto;
     }
 
     .input label {
