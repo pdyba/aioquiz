@@ -60,7 +60,7 @@
                             <dropdown-item><attendance></attendance></dropdown-item>
                         </dropdown-menu>
                     </dropdown>
-                    <language_picker></language_picker>
+                    <language_picker v-if="admin"></language_picker>
                     <a @click="onLogout" v-if="auth" class="">
                         <navbar-item>&#10006;</navbar-item>
                     </a>
