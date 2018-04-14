@@ -98,9 +98,10 @@
 
             change_password() {
                 let self = this;
+                let change_pass = {};
                 self.$swal({
                     title: "Change Password",
-                    type: "input",
+                    input: 'password',
                     text: "Please provide current password",
                     showCancelButton: true,
                     confirmButtonText: "Next",
@@ -108,11 +109,11 @@
                     showConfirmButton: true,
                     closeOnCancel: false,
                     closeOnConfirm: false
-                }, function (oldpassword) {
+                }).then(function (oldpassword) {
                     change_pass.password = oldpassword;
                     self.$swal({
                         title: "Change Password",
-                        type: "input",
+                        input: 'password',
                         text: "Please provide new password",
                         showCancelButton: true,
                         confirmButtonText: "Next",
@@ -121,11 +122,11 @@
                         closeOnCancel: false,
                         closeOnReject: false,
                         closeOnConfirm: false
-                    }, function (new_password) {
+                    }).then( function (new_password) {
                         change_pass.new_password = new_password;
                         self.$swal({
                             title: "Change Password",
-                            type: "input",
+                            input: 'password',
                             text: "Please provide new password again",
                             showCancelButton: true,
                             confirmButtonText: "Change",
@@ -134,9 +135,9 @@
                             closeOnCancel: false,
                             closeOnConfirm: false,
                             closeOnReject: false
-                        }, function (new_password_2) {
+                        }).then( function (new_password_2) {
                             change_pass.new_password_2 = new_password_2;
-                            $http.post('api/user/password_change', change_pass).then(function (response) {
+                            axios.post('user/password_change', change_pass).then(function (response) {
                                 if (response.data.success) {
                                     self.$swal({
                                         text: response.data.msg,
