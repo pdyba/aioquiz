@@ -1,6 +1,17 @@
 <template>
     <b-form @submit.prevent="update_user" class="signup-form">
         <user-edit :user="user"></user-edit>
+
+        <b-form-group class="input">
+            <label for="city" v-if="en">Photo</label>
+            <label for="city" v-if="pl">Zdjcie</label>
+            <input
+                    type="text"
+                    id="city"
+                    v-model="user.img">
+        </b-form-group>
+
+
         <b-row>
             <b-col>
                 <b-btn type="submit">Update</b-btn>
@@ -159,6 +170,14 @@
                         })
                     })
                 })
+            }
+        },
+        computed: {
+            pl() {
+                return this.user.lang === 'pl'
+            },
+            en() {
+                return this.user.lang === 'en'
             }
         }
     }
