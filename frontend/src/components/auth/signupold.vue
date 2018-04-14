@@ -11,11 +11,11 @@
                                 v-model="user.lang"
                                 :options="lang_options"
                                 id="lang"
-                                @input="$v.lang.$touch()">
+                                @input="$v.user.lang.$touch()">
                         </b-form-radio-group>
 
                     </b-form-group>
-                    <div v-show="$v.lang.$dirty">
+                    <div v-show="$v.user.lang.$dirty">
                         <h4 v-if="en">Account</h4>
                         <h4 v-if="pl">Konto</h4>
                         <div v-if="en">
@@ -26,17 +26,15 @@
                             Poniższe informacje są potrzebne, żeby się z Tobą skontaktować
                             i poinformować o wynikach rekrutacji oraz żebyś mogła/mogł się zalogować do tej aplikacji.
                         </div>
-                        <b-form-group class="input" :class="{invalid: $v.email.$error}" label="e-mail">
+                        <b-form-group class="input" :class="{invalid: $v.user.email.$error}" label="e-mail">
                             <input
                                     type="email"
                                     id="email"
-                                    @blur="$v.email.$touch()"
                                     v-model="user.email">
-
-                            <p v-if="!$v.email.email">Please provide a valid email address.</p>
-                            <p v-if="!$v.email.required">This field must not be empty.</p>
+                            <p v-if="!$v.user.email.email">Please provide a valid email address.</p>
+                            <p v-if="!$v.user.email.required">This field must not be empty.</p>
                         </b-form-group>
-                        <b-form-group class="input" :class="{invalid: $v.name.$error}">
+                        <b-form-group class="input" :class="{invalid: $v.user.name.$error}">
                             <label v-if="en">First name</label>
                             <label v-if="pl">Imię</label>
                             <input
@@ -44,36 +42,34 @@
                                     id="name"
                                     v-model="user.name">
 
-                            <p v-if="!$v.name.required">This field must not be empty.</p>
+                            <p v-if="!$v.user.name.required">This field must not be empty.</p>
                         </b-form-group>
-                        <b-form-group class="input" :class="{invalid: $v.surname.$error}" label="Surname">
+                        <b-form-group class="input" :class="{invalid: $v.user.surname.$error}" label="Surname">
                             <label v-if="en">Last name</label>
                             <label v-if="pl">Nazwisko</label>
                             <input
                                     type="text"
                                     id="surname"
                                     v-model="user.surname">
-
-                            <p v-if="!$v.surname.required">This field must not be empty.</p>
+                            <p v-if="!$v.user.surname.required">This field must not be empty.</p>
                         </b-form-group>
 
-                        <b-form-group class="input" :class="{invalid: $v.password.$error}">
+                        <b-form-group class="input" :class="{invalid: $v.user.password.$error}">
                             <label v-if="en">Password</label>
                             <label v-if="pl"> Hasło</label>
                             <input
                                     type="password"
                                     id="password"
-                                    @blur="$v.password.$touch()"
                                     v-model="user.password">
 
                         </b-form-group>
-                        <b-form-group class="input" :class="{invalid: $v.confirmPassword.$error}">
+                        <b-form-group class="input" :class="{invalid: $v.user.confirmPassword.$error}">
                             <label v-if="en">Confirm Password</label>
                             <label v-if="pl">Potwierdź Hasło</label>
                             <input
                                     type="password"
                                     id="confirm-password"
-                                    @blur="$v.confirmPassword.$touch()"
+                                    @blur="$v.user.confirmPassword.$touch()"
                                     v-model="user.confirmPassword">
 
                         </b-form-group>
@@ -86,16 +82,16 @@
                         <p v-if="pl"> Poniższe dane są nam potrzebne do statystyk, które potem
                             ułatwiają nam współpracę z partnerami i sponsorami.</p>
 
-                        <b-form-group class="input" :class="{invalid: $v.age.$error}">
+                        <b-form-group class="input" :class="{invalid: $v.user.age.$error}">
                             <label v-if="en">Age</label>
                             <label v-if="pl">Wiek</label>
                             <input
                                     type="number"
                                     id="age"
-                                    @blur="$v.age.$touch()"
+                                    @blur="$v.user.age.$touch()"
                                     v-model.number="user.age">
                         </b-form-group>
-                        <b-form-group class="input" :class="{invalid: $v.city.$error}">
+                        <b-form-group class="input" :class="{invalid: $v.user.city.$error}">
                             <label for="city" v-if="en">City</label>
                             <label for="city" v-if="pl">Miejscowość</label>
                             <input
@@ -123,7 +119,7 @@
                         </b-form-group>
 
                         <b-form-group>
-                            <label>T-Shirt</label>
+                            <label>T-Shirt*</label>
                             <b-form-select
                                     :options="tshirt_options"
                                     v-model="user.t_shirt">
@@ -173,10 +169,10 @@
                             <label v-if="en">Write something about yourself</label>
                             <label v-if="pl">Napisz coś o sobie</label>
                             <b-form-textarea
-                                             v-model="user.description"
-                                             placeholder="Enter something"
-                                             :rows="4"
-                                             :max-rows="9">
+                                    v-model="user.description"
+                                    placeholder="Enter something"
+                                    :rows="4"
+                                    :max-rows="9">
                             </b-form-textarea>
                         </b-form-group>
 
@@ -186,23 +182,23 @@
                             <label v-if="pl">Motywacja - Dlaczego chcesz wziąć udział w
                                 warsztatch?</label>
                             <b-form-textarea
-                                             v-model="user.motivation"
-                                             placeholder="Enter something"
-                                             :rows="4"
-                                             :max-rows="9">
+                                    v-model="user.motivation"
+                                    placeholder="Enter something"
+                                    :rows="4"
+                                    :max-rows="9">
                             </b-form-textarea>
                         </b-form-group>
 
                         <b-form-group>
                             <label v-if="en">hat are you planning to do with the
-                            knowledge you gain during this workshop? Do you have an app idea?</label>
+                                knowledge you gain during this workshop? Do you have an app idea?</label>
                             <label v-if="pl">Do czego chciałabyś/chciałbyś wykorzystać
-                            wiedzę z warsztatów? Czy masz pomysł na własną aplikację?</label>
+                                wiedzę z warsztatów? Czy masz pomysł na własną aplikację?</label>
                             <b-form-textarea
-                                             v-model="user.app_idea"
-                                             placeholder="Enter something"
-                                             :rows="4"
-                                             :max-rows="9">
+                                    v-model="user.app_idea"
+                                    placeholder="Enter something"
+                                    :rows="4"
+                                    :max-rows="9">
                             </b-form-textarea>
                         </b-form-group>
 
@@ -218,16 +214,65 @@
                         </b-form-group>
 
 
-                        <b-form-group class="input inline" :class="{invalid: $v.terms.$invalid}">
-                            <input
+                        <b-form-group class="input inline" :class="{invalid: $v.user.accepted_rules.$invalid}">
+                            <b-form-checkbox
                                     type="checkbox"
-                                    id="terms"
-                                    @change="$v.terms.$touch()"
-                                    v-model="user.terms">
-                            <label for="terms">Accept Terms of Use</label>
+                                    v-model="user.accepted_rules">
+                                <p v-if="en">I have read and accepted Rules, Terms and Code of
+                                    conduct.</p>
+                                <p v-if="pl">Przeczytałem i akceptuję <a href="#/rules">Regulamin</a>
+                                    oraz Code of conduct.</p>
+                                <p> {{ $v.user.accepted_rules }}</p>
+                            </b-form-checkbox>
                         </b-form-group>
 
-                        <b-btn type="submit" :disabled="$v.$invalid">Submit</b-btn>
+                        <b-form-group class="input inline" :class="{invalid: $v.user.notebook.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.notebook">
+                                <p v-if="en">I know I have to bring my own Notebook.</p>
+                                <p v-if="pl">Wiem że muszę przynieść swojego laptopa.</p>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+
+                        <b-form-group class="input inline" :class="{invalid: $v.user.python.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.python">
+
+                                <p v-if="en">Did you already install Python using following link:</p>
+                                <p v-if="pl">Czy zainstalowałeś już Pythona używajac tego linku:</p>
+                                <a href="https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s">https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s</a>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+                        <b-form-group class="input inline" :class="{invalid: $v.user.attend_weekly.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.attend_weekly">
+
+                                <p v-if="en">Have you already installed PyCharm?</p>
+                                <p v-if="pl">Czy zainstalowałaś/eś już PyCharma?</p>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+                        <b-form-group class="input inline" :class="{invalid: $v.user.bring_power_cord.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.bring_power_cord">
+                                <p v-if="en">I know that each time my laptop needs to be fully powered
+                                    up.</p>
+                                <p v-if="pl">Wiem, że za każdym razem muszę przynosić naładowanego
+                                    laptopa.</p>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+                        <b-btn type="submit" :disabled="$v.user.$invalid">Submit</b-btn>
+                        <p v-if="en">*At this point we are not sure if there will be any t-shirts for
+                            attendees.</p>
+                        <p v-if="pl">*Na chwilę obecną nie możemy obiecać, że będą koszulki dla
+                            uczestników.</p>
                     </div>
                 </b-form>
             </b-col>
@@ -239,6 +284,10 @@
 <script>
     import {required, email, numeric, minValue, minLength, sameAs, requiredUnless} from 'vuelidate/lib/validators'
     import axios from 'axios'
+
+    function isTrue( value ) {
+        return value === true
+    }
 
     export default {
         data() {
@@ -257,7 +306,11 @@
                     motivation: '',
                     description: '',
                     app_idea: '',
-                    terms: false
+                    accepted_rules: null,
+                    notebook: null,
+                    python: null,
+                    attend_weekly: null,
+                    bring_power_cord: null
                 },
                 lang_options: ['pl', 'en'],
                 university_options: ['None-Brak', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER'],
@@ -266,6 +319,7 @@
             }
         },
         validations: {
+            user: {
             lang: {
                 required: true
             },
@@ -300,9 +354,23 @@
             confirmPassword: {
                 sameAs: sameAs('password')
             },
-            terms: {
+            accepted_rules: {
+                isTrue,
                 required: true
-            }
+            },
+            notebook: {
+                required: true
+            },
+            python: {
+                required: true
+            },
+            attend_weekly: {
+                required: true
+            },
+            bring_power_cord: {
+                required: true
+            },
+}
         },
         computed: {
             pl() {
@@ -359,15 +427,7 @@
         },
         methods: {
             onSubmit() {
-                const formData = {
-                    email: this.email,
-                    age: this.age,
-                    password: this.password,
-                    confirmPassword: this.confirmPassword,
-                    country: this.country,
-                    terms: this.terms
-                };
-                this.$store.dispatch('signup', formData)
+                this.$store.dispatch('signup', this.user)
             }
         }
     }

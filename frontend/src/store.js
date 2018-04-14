@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
+import swal from 'sweetalert2'
 
 import router from './router'
 
@@ -30,16 +31,8 @@ export default new Vuex.Store({
         signup({commit, dispatch}, data) {
             axios.post('/users', data)
                 .then(res => {
-                    commit('authUser', {
-                        session_uuid: res.data.session_uuid,
-                    });
-                    const now = new Date()
-                    const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
-                    localStorage.setItem('session_uuid', res.data.session_uuid)
-                    localStorage.setItem('expirationDate', expirationDate)
-                    dispatch('storeUser', authData)
+                    swal("Check Your e-mail", res.data.msg)
                 })
-                .catch(error => console.log(error))
         },
         login({commit, dispatch}, authData) {
             axios.post('/auth/login', {
