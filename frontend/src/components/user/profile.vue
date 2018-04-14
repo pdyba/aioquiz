@@ -1,14 +1,13 @@
 <template>
     <b-container fluid>
 
-            <h1 class="page-header">Profile:
-                <small>{{ user_profile.name }} {{ user_profile.surname }} ({{ user_profile.email }})</small>
-            </h1>
-
+        <h1 class="page-header">Profile:
+            <small>{{ user_profile.name }} {{ user_profile.surname }} ({{ user_profile.email }})</small>
+        </h1>
         <b-row>
             <b-col>
                 <b-img v-if="user_profile.img"
-                     :src="user_profile.img" fluid>
+                       :src="user_profile.img" fluid>
                 </b-img>
                 <br>
                 <br>
@@ -27,7 +26,7 @@
                         class="list-group-item list-group-item-info">Attendee
                     </li>
                 </ul>
-<br>
+                <br>
                 <h4>Recrutation status:</h4>
                 <ul class="list-group">
                     <li v-if="user_profile.accepted && user_profile.confirmation === 'ack'"
@@ -116,7 +115,6 @@
                 </ul>
             </b-col>
             <b-col>
-
                 <h4>Attendance:</h4>
                 <small>{{ user_attendence.amount }}/{{ user_attendence.max }} => {{ user_attendence.perc }}</small>
                 <table class="table">
@@ -134,8 +132,6 @@
                     </tr>
                     </tbody>
                 </table>
-
-
             </b-col>
         </b-row>
     </b-container>

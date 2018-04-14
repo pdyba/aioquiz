@@ -1,10 +1,9 @@
 <template>
-
     <container>
         <navbar position="top" class="indigo navbar-dark" name="PyLove.org" href="/" scrolling>
             <navbar-collapse>
                 <navbar-nav right>
-                    <help v-if="auth"></help>
+                    <!--<help v-if="auth"></help>-->
                     <navbar-item href="/about">About</navbar-item>
                     <navbar-item href="/lessons" v-if="auth">Lessons</navbar-item>
                     <navbar-item href="/quiz" v-if="admin">Quiz</navbar-item>
@@ -15,8 +14,7 @@
                     <dropdown tag="li" class="nav-item" v-if="mentor">
                         <dropdown-toggle tag="a" navLink color="indigo">Mentor</dropdown-toggle>
                         <dropdown-menu>
-                            <dropdown-item>Seats</dropdown-item>
-                            <!--<dropdown-item>Lesson</dropdown-item>-->
+                            <dropdown-item>Lesson</dropdown-item>
                             <!--<dropdown-item>Quiz</dropdown-item>-->
                             <!--<dropdown-item>Live Quiz</dropdown-item>-->
                             <!--<dropdown-item>Users List</dropdown-item>-->
@@ -28,7 +26,7 @@
                         <dropdown-menu>
                             <!--<dropdown-item>Lesson: Create</dropdown-item>-->
                             <dropdown-item href="/organiser/lessons">Lesson: List & Manage</dropdown-item>
-                            <dropdown-item href="/organiser/attendee_review">Attendee: Review</dropdown-item>
+                            <!--<dropdown-item href="/organiser/attendee_review">Attendee: Review</dropdown-item>-->
                             <!--<dropdown-item>Question: List & Manage</dropdown-item>-->
                             <!--<dropdown-item>Question: Create</dropdown-item>-->
                             <!--<dropdown-item>Quiz: Create</dropdown-item>-->
@@ -45,6 +43,7 @@
                             <dropdown-item href="/admin/email">E-mail</dropdown-item>
                             <dropdown-item href="/admin/users">Users</dropdown-item>
                             <dropdown-item href="/admin/config">Config</dropdown-item>
+                            <!--<dropdown-item href="/admin/events">Events</dropdown-item>-->
                         </dropdown-menu>
                     </dropdown>
                 </navbar-nav>
@@ -56,11 +55,11 @@
                         <dropdown-menu>
                             <dropdown-item href="/user/profile">My Profile</dropdown-item>
                             <dropdown-item href="/user/edit">Edit Profile</dropdown-item>
-                            <dropdown-item href="/user/seat">My Seat</dropdown-item>
+                            <!--<dropdown-item href="/user/seat">My Seat</dropdown-item>-->
                             <dropdown-item><attendance></attendance></dropdown-item>
                         </dropdown-menu>
                     </dropdown>
-                    <language_picker v-if="admin"></language_picker>
+                    <!--<language_picker v-if="admin"></language_picker>-->
                     <a @click="onLogout" v-if="auth" class="">
                         <navbar-item>&#10006;</navbar-item>
                     </a>
@@ -68,7 +67,6 @@
             </navbar-collapse>
         </navbar>
     </container>
-
 </template>
 
 <script>
