@@ -1,493 +1,380 @@
 <template>
-    <div id="signup">
-        <div class="col-md-6 col-md-offset-3" v-if="reg">
-            <h3 ng-hide="user.lang === 'pl'">Language:</h3>
-            <h3 ng-show="user.lang === 'pl'">Język:</h3>
-            <form name="form" ng-submit="register()" role="form">
-                <div class="form-group">
-                    <label>
-                        <input class="form-inline text-left" type="radio"
-                               name="lang" id="lang_2" value="pl"
-                               ng-model="user.lang"
-                               required/> Polski
-                        <input class="form-inline float-right" type="radio"
-                               name="lang" id="lang_1" value="en"
-                               ng-model="user.lang"
-                               required/> English
-                    </label>
-                </div>
-                <div ng-show="user.lang">
-                    <h4 v-if="en">Account</h4><h4 v-if="pl"> Konto</h4>
+    <b-container fluid>
+        <b-row>
+            <b-col sm="8" offset-sm="1">
+                <b-form @submit.prevent="onSubmit" class="signup-form">
+                    <b-form-group>
+                        <label v-if="en || !pl">Language:</label>
+                        <label v-if="pl">Język:</label>
+                        <b-form-radio-group
+                                v-model="user.lang"
+                                :options="lang_options"
+                                id="lang"
+                                @input="$v.user.lang.$touch()">
+                        </b-form-radio-group>
 
-                    <div v-if="en">
-                        This data is needed for you to be able to login to this application,
-                        and also for us to contact you and inform you about the outcome of the recruitment process.
+                    </b-form-group>
+                    <div v-show="$v.user.lang.$dirty">
+                        <h4 v-if="en">Account</h4>
+                        <h4 v-if="pl">Konto</h4>
+                        <div v-if="en">
+                            This data is needed for you to be able to login to this application,
+                            and also for us to contact you and inform you about the outcome of the recruitment process.
+                        </div>
+                        <div v-if="pl">
+                            Poniższe informacje są potrzebne, żeby się z Tobą skontaktować
+                            i poinformować o wynikach rekrutacji oraz żebyś mogła/mogł się zalogować do tej aplikacji.
+                        </div>
+                        <b-form-group class="input" :class="{invalid: $v.user.email.$error}" label="e-mail">
+                            <input
+                                    type="email"
+                                    id="email"
+                                    v-model="user.email">
+                            <p v-if="!$v.user.email.email">Please provide a valid email address.</p>
+                            <p v-if="!$v.user.email.required">This field must not be empty.</p>
+                        </b-form-group>
+                        <b-form-group class="input" :class="{invalid: $v.user.name.$error}">
+                            <label v-if="en">First name</label>
+                            <label v-if="pl">Imię</label>
+                            <input
+                                    type="text"
+                                    id="name"
+                                    v-model="user.name">
+
+                            <p v-if="!$v.user.name.required">This field must not be empty.</p>
+                        </b-form-group>
+                        <b-form-group class="input" :class="{invalid: $v.user.surname.$error}" label="Surname">
+                            <label v-if="en">Last name</label>
+                            <label v-if="pl">Nazwisko</label>
+                            <input
+                                    type="text"
+                                    id="surname"
+                                    v-model="user.surname">
+                            <p v-if="!$v.user.surname.required">This field must not be empty.</p>
+                        </b-form-group>
+
+                        <b-form-group class="input" :class="{invalid: $v.user.password.$error}">
+                            <label v-if="en">Password</label>
+                            <label v-if="pl"> Hasło</label>
+                            <input
+                                    type="password"
+                                    id="password"
+                                    v-model="user.password">
+
+                        </b-form-group>
+                        <b-form-group class="input" :class="{invalid: $v.user.confirmPassword.$error}">
+                            <label v-if="en">Confirm Password</label>
+                            <label v-if="pl">Potwierdź Hasło</label>
+                            <input
+                                    type="password"
+                                    id="confirm-password"
+                                    @blur="$v.user.confirmPassword.$touch()"
+                                    v-model="user.confirmPassword">
+                        </b-form-group>
+
+                        <p v-if="en">
+                            <strong>Attendee</strong><br>
+                            Tell us about your motivations behind your decision to start learning programming
+                            <br><strong>Mentor:</strong><br>
+                            If you are new with us, we would like to know you a little bit better; if you are our old
+                            fellow, please provide your short bio :)
+
+                        </p>
+
+                        <p v-if="pl">
+                            <strong>Uczestnik</strong> <br>
+                            Przede wszystkim chcemy poznać Twoje motywy podjęcia decyzji o rozpoczęciu programowania w
+                            Pythonie oraz dowiedzieć się, jakie masz doświadczenie.
+                            <br><strong>Mentor:</strong><br>
+                            Jeśli dopiero zaczynasz przygodę z Pythonem - chcielibyśmy Cię bliżej poznać, a jeśli już z
+                            nami
+                            współpracowałeś, zamieść tutaj swoje krótkie bio :)
+                        </p>
+
+
+                        <b-form-group>
+                            <b-form-radio-group
+                                    v-model="user.mentor"
+                                    :options="account_type_options"
+                                    id="mentor">
+                            </b-form-radio-group>
+                        </b-form-group>
+
+
+                        <user-edit :user="user"></user-edit>
+
+
+                        <b-form-group class="input inline" :class="{invalid: $v.user.accepted_rules.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.accepted_rules">
+                                <p v-if="en">I have read and accepted Rules, Terms and Code of
+                                    conduct.</p>
+                                <p v-if="pl">Przeczytałem i akceptuję <a href="#/rules">Regulamin</a>
+                                    oraz Code of conduct.</p>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+                        <b-form-group class="input inline" :class="{invalid: $v.user.notebook.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.notebook">
+                                <p v-if="en">I know I have to bring my own Notebook.</p>
+                                <p v-if="pl">Wiem że muszę przynieść swojego laptopa.</p>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+
+                        <b-form-group class="input inline" :class="{invalid: $v.user.python.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.python">
+
+                                <p v-if="en">Did you already install Python using following link:</p>
+                                <p v-if="pl">Czy zainstalowałeś już Pythona używajac tego linku:</p>
+                                <a href="https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s">https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s</a>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+                        <b-form-group class="input inline" :class="{invalid: $v.user.attend_weekly.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.attend_weekly">
+
+                                <p v-if="en">Have you already installed PyCharm?</p>
+                                <p v-if="pl">Czy zainstalowałaś/eś już PyCharma?</p>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+                        <b-form-group class="input inline" :class="{invalid: $v.user.bring_power_cord.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.bring_power_cord">
+                                <p v-if="en">I know that each time my laptop needs to be fully powered
+                                    up.</p>
+                                <p v-if="pl">Wiem, że za każdym razem muszę przynosić naładowanego
+                                    laptopa.</p>
+                            </b-form-checkbox>
+                        </b-form-group>
+
+                        <b-btn type="submit" :disabled="$v.user.$invalid">Submit</b-btn>
+                        <p v-if="en">*At this point we are not sure if there will be any t-shirts for
+                            attendees.</p>
+                        <p v-if="pl">*Na chwilę obecną nie możemy obiecać, że będą koszulki dla
+                            uczestników.</p>
                     </div>
-                    <div v-if="pl">
-                        Poniższe informacje są potrzebne, żeby się z Tobą skontaktować
-                        i poinformować o wynikach rekrutacji oraz żebyś mogła/mogł się zalogować do tej aplikacji.
-                    </div>
-
-
-                    <div class="form-group"
-                    >
-                        <label for="email">E-Mail</label>
-                        <span ng-show="form.email.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.email.$invalid"
-                              class="help-inline alert-danger">&#10060; Invalid e-mail </span>
-                        <span ng-show="form.email.$dirty && form.email.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <input type="email" name="email" id="email"
-                               class="form-control" ng-model="user.email" required/>
-                    </div>
-
-                    <div class="form-group"
-                    >
-                        <label for="password" v-if="en">Password</label>
-                        <label for="password" v-if="pl"> Hasło</label>
-                        <span ng-show="form.password.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.password.$error.minlength "
-                              class="help-inline alert-danger">Minimal length 8</span>
-                        <span ng-show="form.password.$dirty && form.password.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <input ng-minlength="8" type="password" name="password"
-                               id="password" class="form-control"
-                               ng-model="user.password" required/>
-                    </div>
-
-
-                    <div class="form-group"
-                    >
-                        <label for="name" v-if="en">First name</label>
-                        <label for="name" v-if="pl"> Imię</label>
-                        <span ng-show="form.name.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.name.$error.minlength "
-                              class="help-inline alert-danger">Minimal length 3</span>
-                        <span ng-show="form.name.$dirty && form.name.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <span ng-show="form.name.$error.pattern"
-                              class="help-inline alert-danger">Can contain only letters</span>
-                        <input ng-minlength="3" type="text" name="name" id="name"
-                               ng-pattern="/^[a-zA-Z \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
-                               class="form-control" ng-model="user.name" required/>
-                    </div>
-
-                    <div class="form-group"
-                    >
-                        <label  v-if="en">Last name</label>
-                        <label  v-if="pl">Nazwisko</label>
-                        <span ng-show="form.surname.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.surname.$error.minlength "
-                              class="help-inline alert-danger">Minimal length 3</span>
-                        <span ng-show="form.surname.$dirty && form.surname.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <span ng-show="form.surname.$error.pattern"
-                              class="help-inline alert-danger">Can contain only letters</span>
-                        <input ng-minlength="3" type="text" name="surname" id="surname"
-                               ng-pattern="/^[a-zA-Z \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
-                               class="form-control" ng-model="user.surname"
-                               required/>
-                    </div>
-
-                    <h4 v-if="en">Stats</h4>
-                    <h4 v-if="pl">Statystyka</h4>
-                    <p v-if="en">
-                        Below data is just for statistics, that easeas our cooperation
-                        with partners and sponsors.</p>
-                    <p v-if="pl"> Poniższe dane są nam potrzebne do statystyk, które potem
-                        ułatwiają nam współpracę z partnerami i sponsorami.</p>
-
-
-                    <div class="form-group"
-                    >
-                        <label for="city" v-if="en">City</label>
-                        <label for="city" v-if="pl">Miejscowość</label>
-                        <span ng-show="form.city.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.city.$error.minlength "
-                              class="help-inline alert-danger">Minimal length 3</span>
-                        <span ng-show="form.city.$dirty && form.city.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <span ng-show="form.city.$error.pattern"
-                              class="help-inline alert-danger">Can contain only letters</span>
-                        <input ng-minlength="3" type="text" name="city" id="city"
-                               ng-pattern="/^[a-zA-Z \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
-                               class="form-control" ng-model="user.city" required/>
-                    </div>
-
-                    <div class="form-group"
-                    >
-                        <label for="age" v-if="en">Age</label>
-                        <label for="age" v-if="pl">Wiek</label>
-                        <span ng-show="form.age.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.age.$error.pattern"
-                              class="help-inline alert-danger">
-                    <p v-if="en">You need to input age between 10 and 99 years</p>
-                        <p v-if="pl">Wprowadź wiek od 16 do 99 lat</p>
-                </span>
-                        <span ng-show="form.age.$error.number"
-                              class="help-inline alert-danger">&#10060; Must be a positive number</span>
-                        <input name="age" id="age" type="number" ng-model="user.age" ng-pattern="/^[0-9]{2}$/"
-                               required/>
-                    </div>
-
-                    <div class="form-group"
-                    >
-                        <label v-if="en">Education</label>
-                        <label v-if="pl">Edukacja</label>
-                        <select class="form-control" v-if="en"
-                                ng-options="x for x in ['Elementary', 'Gymnasium', 'Vocational', 'Technician', 'High School', 'BA degree', 'Engineer', 'MA degree', 'PhD']"
-                                ng-model="user.education" ngValue="x"></select>
-                        <select class="form-control" v-if="pl"
-                                ng-options="x for x in ['Podstawowe', 'Gimnazjalne', 'Zawodowe', 'Techniczne', 'Średnie', 'Licencjat', 'Inżynier', 'Magister', 'Doktor']"
-                                ng-model="user.education" ngValue="x"></select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="university" v-if="en">University - ongoing or graduate</label>
-                        <label for="university" v-if="pl">Szkoła wyższa - aktualna lub
-                            ukończona</label>
-                        <span ng-show="form.university.$error.required" class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.university.$dirty && form.university.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <select class="form-control"
-                                ng-options="x for x in ['None-Brak', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER']"
-                                ng-model="user.university" ngValue="x" required name="university" id="university">
-                            <option></option>
-                        </select>
-
-                    </div>
-
-                    <div class="form-group"
-                    >
-                        <label for="t_shirt">T-shirt*</label>
-                        <span ng-show="form.t_shirt.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.t_shirt.$dirty && form.t_shirt.$valid" class="help-inline alert-success">&#10003;</span>
-                        <select class="form-control" ng-options="x for x in
-                ['Female-XXS', 'Female-XS', 'Female-S', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-S', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL']"
-                                ng-model="user.t_shirt" ngValue="x" required name="t_shirt" id="t_shirt">
-                            <option></option>
-                        </select>
-                    </div>
-
-                    <div class="form-group"
-                    >
-                        <label for="operating_system" v-if="en">Operating System</label>
-                        <label for="operating_system" v-if="pl">System Operacyjny</label>
-                        <span ng-show="form.operating_system.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.operating_system.$dirty && form.operating_system.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <select class="form-control" ng-options="x for x in ['MacOS', 'Linux', 'Windows']"
-                                ng-model="user.operating_system" ngValue="x" name="operating_system"
-                                id="operating_system"
-                                required>
-                            <option></option>
-                        </select>
-                    </div>
-
-                    <h4 v-if="en">About You</h4>
-                    <h4 for="city" v-if="pl">O Tobie</h4>
-                    <p v-if="en">
-                        <strong>Attendee</strong><br>
-                        Tell us about your motivations behind your decision to start learning programming
-                        <br><strong>Mentor:</strong><br>
-                        If you are new with us, we would like to know you a little bit better; if you are our old
-                        fellow, please provide your short bio :)
-
-                    </p>
-
-                    <p v-if="pl">
-                        <strong>Uczestnik</strong> <br>
-                        Przede wszystkim chcemy poznać Twoje motywy podjęcia decyzji o rozpoczęciu programowania w
-                        Pythonie oraz dowiedzieć się, jakie masz doświadczenie.
-                        <br><strong>Mentor:</strong><br>
-                        Jeśli dopiero zaczynasz przygodę z Pythonem - chcielibyśmy Cię bliżej poznać, a jeśli już z nami
-                        współpracowałeś, zamieść tutaj swoje krótkie bio :)
-                    </p>
-
-
-                    <div class="form-group"
-                    >
-                        <label>
-                    <span ng-show="form.mentor.$error.required"
-                          class="help-inline alert-danger">&#10060; Required</span>
-                            <span ng-show="form.mentor.$dirty && form.mentor.$valid"
-                                  class="help-inline alert-success">&#10003;</span>
-                            <input class="form-inline text-left" type="radio"
-                                   name="mentor" id="mentor_1" value="false"
-                                   ng-model="user.mentor"
-                                   required/>
-                            <xxxx v-if="en">Attendee</xxxx>
-                            <xxxx v-if="pl">Uczestnik</xxxx>
-                            <input class="form-inline float-right" type="radio"
-                                   name="mentor" id="mentor_2" value="true"
-                                   ng-model="user.mentor"
-                                   required/> Mentor
-                        </label>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description" v-if="en">Write something about yourself</label>
-                        <label for="description" v-if="pl">Napisz coś o sobie.</label>
-                        <span ng-show="form.description.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.description.$error.minlength "
-                              class="help-inline alert-danger">Minimal length 65</span>
-                        <span ng-show="form.description.$dirty && form.description.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <span ng-show="form.description.$error.pattern"
-                              class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                        <textarea ng-minlength="65" type="text" name="description"
-                                  id="description" class="form-control"
-                                  ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
-                                  ng-model="user.description" required/>
-                    </div>
-
-                    <div class="form-group"
-                    >
-                        <label for="motivation" v-if="en">Motivation - Why do you want to
-                            participate in the workshop?</label>
-                        <label for="motivation" v-if="pl">Motywacja - Dlaczego chcesz wziąć udział w
-                            warsztatch?</label>
-                        <span ng-show="form.motivation.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.motivation.$error.minlength "
-                              class="help-inline alert-danger">Minimal length 65</span>
-                        <span ng-show="form.motivation.$dirty && form.motivation.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <textarea ng-minlength="65" type="text" name="motivation"
-                                  id="motivation" class="form-control"
-                                  ng-model="user.motivation" required/>
-                    </div>
-                    <br>
-                    <div class="form-group"
-                    >
-                        <label v-if="en">Experience</label>
-                        <label v-if="pl">Doświadczenie</label>
-                        <span ng-show="form.experience.$error.required"
-                              class="help-inline alert-danger">&#10060; Required</span>
-                        <span ng-show="form.experience.$dirty && form.experience.$valid"
-                              class="help-inline alert-success">&#10003;</span>
-                        <select class="form-control" v-if="en" ng-options="x for x in [
-                'I have none',
-                'I had some but I do not remember anything',
-                'I know the basics',
-                'I can program',
-                'I know another programming language well',
-                'I am an experienced programmer'
-                ]"
-                                ng-model="user.experience" ngValue="x"
-                                required name="experience" id="experience_1">
-                        </select>
-                        <select class="form-control" v-if="pl" ng-options="x for x in [
-                'Nie posiadam wcale',
-                'Coś tam robiłam/em, ale nic nie pamiętam',
-                'Znam podstawy',
-                'Umiem programować',
-                'Znam dobrze inny język programowania',
-                'Jestem doświadczonym programistą'
-                ]"
-                                ng-model="user.experience" ngValue="x"
-                                required name="experience" id="experience_2">
-                        </select>
-                    </div>
-                    <br>
-
-
-
-                    <div class="checkbox"
-
-                         ng-hide="user.mentor == 'mentor'">
-                        <label for="python"><input type="checkbox" name="i_helped"
-                                                   id="python"
-                                                   ng-model="user.python">
-                            <p v-if="en">Did you already install Python using following link:</p>
-                            <p v-if="pl">Czy zainstalowałeś już Pythona używajac tego linku:</p>
-                            <a href="https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s">https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s</a>
-                        </label>
-                    </div>
-
-                    <div class="checkbox" ng-hide="user.mentor == 'mentor'">
-                        <label for="bring_power_cord"><input type="checkbox" name="bring_power_cord"
-                                                             id="bring_power_cord"
-                                                             ng-model="user.bring_power_cord">
-                            <p v-if="en">I know that each time my laptop needs to be fully powered
-                                up.</p>
-                            <p v-if="pl">Wiem, że za każdym razem muszę przynosić naładowanego
-                                laptopa.</p>
-                        </label>
-                    </div>
-
-                    <div class="checkbox" ng-hide="user.mentor == 'mentor'">
-                        <label for="attend_weekly"><input type="checkbox" name="attend_weekly"
-                                                          id="attend_weekly"
-                                                          ng-model="user.attend_weekly">
-                            <p v-if="en">Have you already installed PyCharm?</p>
-                            <p v-if="pl">Czy zainstalowałaś/eś już PyCharma?</p>
-                        </label>
-                    </div>
-
-
-                    <div class="form-group"
-
-                         ng-hide="user.mentor == 'mentor'">
-                        <label for="app_idea" v-if="en">What are you planning to do with the
-                            knowledge you gain during this workshop? Do you have an app idea?</label>
-                        <label for="app_idea" v-if="pl">Do czego chciałabyś/chciałbyś wykorzystać
-                            wiedzę z warsztatów? Czy masz pomysł na własną aplikację?</label>
-                        <span ng-show="form.app_idea.$error.pattern"
-                              class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                        <textarea type="text" name="app_idea" id="app_idea"
-                                  ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
-                                  class="form-control" ng-model="user.app_idea"/>
-                    </div>
-
-                    <div class="form-group" ng-hide="user.mentor == 'mentor'"
-                    >
-                        <label for="what_can_you_bring" v-if="en">Are you a student of CDV?
-                        </label>
-                        <label for="what_can_you_bring" v-if="pl">Czy jesteś studentem CDV?</label>
-                        <span ng-show="form.what_can_you_bring.$error.pattern"
-                              class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                        <input type="text" name="what_can_you_bring"
-                               ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
-                               id="what_can_you_bring" class="form-control"
-                               ng-model="user.what_can_you_bring"/>
-                    </div>
-
-                    <div class="checkbox"
-
-                         ng-hide="user.mentor == 'mentor'">
-                        <label for="i_helped"><input type="checkbox" name="i_helped"
-                                                     id="i_helped"
-                                                     ng-model="user.i_helped">
-                            <p v-if="en">I helped with organisation!</p>
-                            <p v-if="pl">Pomogłam/Pomogłem przy organizacji!</p>
-
-                        </label>
-                    </div>
-
-                    <div class="form-group"
-
-                         ng-show="user.i_helped">
-                        <label for="helped" v-if="en">Helped with</label>
-                        <label for="helped" v-if="pl">Pomogłam/pomogłem w</label>
-                        <span ng-show="form.helped.$error.pattern"
-                              class="help-inline alert-danger">Can contain only letters, number and !:*.,</span>
-                        <textarea type="text" name="helped" id="helped"
-                                  ng-pattern="/^[a-zA-Z0-9!:*., \-ęóąłżźńśćĘÓŁŻŹĆŃĄŚ]*$/"
-                                  class="form-control" ng-model="user.helped"/>
-                    </div>
-
-                    <br>
-
-
-                    <div class="checkbox"
-                    >
-                <span ng-show="form.accepted_rules.$error.required"
-                      class="help-inline alert-danger">&#10060; Required</span>
-                        <label for="accepted_rules">
-                            <input type="checkbox" name="accepted_rules"
-                                   id="accepted_rules"
-                                   ng-model="user.accepted_rules" required/>
-                            <p v-if="en">I have read and accepted Rules, Terms and Code of
-                                conduct.</p>
-                            <p v-if="pl">Przeczytałem i akceptuję <a href="#/rules">Regulamin</a>
-                                oraz Code of conduct.</p>
-                        </label>
-                    </div>
-
-                    <div class="checkbox"
-                    >
-                <span ng-show="form.notebook.$error.required"
-                      class="help-inline alert-danger">&#10060; Required</span>
-                        <label for="notebook">
-                            <input type="checkbox" name="notebook"
-                                   id="notebook"
-                                   ng-model="user.notebook" required/>
-
-                            <p v-if="en">I know I have to bring my own Notebook.</p>
-                            <p v-if="pl">Wiem że muszę przynieść swojego laptopa.</p>
-                        </label>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit"
-                                ng-disabled="form.$invalid || dataLoading"
-                                class="btn btn-primary">Register
-                        </button>
-                        <img v-if="dataLoading"
-                             src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-                    </div>
-                    <p v-if="en">*At this point we are not sure if there will be any t-shirts for
-                        attendees.</p>
-                    <p v-if="pl">*Na chwilę obecną nie możemy obiecać, że będą koszulki dla
-                        uczestników.</p>
-
-                </div>
-            </form>
-        </div>
-    </div>
+                </b-form>
+            </b-col>
+        </b-row>
+    </b-container>
 
 </template>
 
-
 <script>
-    import MdInput from '../../material_components/MdInput.vue';
-    import MdTextarea from '../../material_components/MdTextarea.vue';
+    import {required, email, numeric, minValue, minLength, sameAs, requiredUnless} from 'vuelidate/lib/validators'
+    import UserEdit from "../user/_profile_edit.vue";
 
-    export default {
-        data() {
-            return {
-                email: '',
-                age: null,
-                password: '',
-                confirmPassword: '',
-                country: 'usa',
-                hobbyInputs: [],
-                terms: false
-            }
-        },
-        methods: {
-            onAddHobby() {
-                const newHobby = {
-                    id: Math.random() * Math.random() * 1000,
-                    value: ''
-                }
-                this.hobbyInputs.push(newHobby)
-            },
-            onDeleteHobby(id) {
-                this.hobbyInputs = this.hobbyInputs.filter(hobby => hobby.id !== id)
-            },
-            onSubmit() {
-                const formData = {
-                    email: this.email,
-                    age: this.age,
-                    password: this.password,
-                    confirmPassword: this.confirmPassword,
-                    country: this.country,
-                    hobbies: this.hobbyInputs.map(hobby => hobby.value),
-                    terms: this.terms
-                }
-                console.log(formData)
-                this.$store.dispatch('signup', formData)
-            }
-        },
-        components: {
-            'mdinput': MdInput,
-            'mdtextarea': MdTextarea
-        }
+    function isTrue(value) {
+        return value === true
     }
 
+    export default {
+        components: {
+            UserEdit
+        },
+        data() {
+            return {
+                user: {
+                    email: '',
+                    name: '',
+                    surname: '',
+                    age: null,
+                    password: '',
+                    confirmPassword: '',
+                    city: 'Poznań',
+                    lang: '',
+                    university: '',
+                    operating_system: '',
+                    motivation: '',
+                    description: '',
+                    app_idea: '',
+                    accepted_rules: null,
+                    notebook: null,
+                    python: null,
+                    attend_weekly: null,
+                    bring_power_cord: null
+                },
+                lang_options: ['pl', 'en']
+            }
+        },
+        validations: {
+            user: {
+                lang: {
+                    required: true
+                },
+                email: {
+                    required,
+                    email
+                },
+                name: {
+                    required: true
+                },
+                surname: {
+                    required: true
+                },
+                password: {
+                    required,
+                    minLen: minLength(8)
+                },
+                confirmPassword: {
+                    sameAs: sameAs('password')
+                },
+                accepted_rules: {
+                    isTrue,
+                    required: true
+                },
+                notebook: {
+                    isTrue,
+                    required: true
+                },
+                python: {
+                    isTrue,
+                    required: true
+                },
+                attend_weekly: {
+                    isTrue,
+                    required: true
+                },
+                bring_power_cord: {
+                    isTrue,
+                    required: true
+                },
+            }
+        },
+        computed: {
+            pl() {
+                return this.user.lang === 'pl'
+            },
+            en() {
+                return this.user.lang === 'en'
+            },
+            mentor() {
+                return this.user.mentor
+            },
+            account_type_options() {
+                if (this.pl) {
+                    return [
+                        {text: "Mentor", value: true},
+                        {text: "Uczestnik", value: false},
+                    ]
+                }
+                return [
+                    {text: "Mentor", value: true},
+                    {text: "Attendee", value: false},
+                ]
+            },
+        },
+        methods: {
+            onSubmit() {
+                this.$store.dispatch('signup', this.user)
+            }
+        }
+    }
 </script>
 
 <style scoped>
+    .signup-form {
+        /*width: 400px;*/
+        margin: 30px auto;
+        border: 2px solid #eee;
+        padding: 20px;
+        box-shadow: 0 2px 3px #ccc;
+    }
 
+    .input {
+        margin: 10px auto;
+    }
+
+    .input label {
+        display: block;
+        color: #4e4e4e;
+        margin-bottom: 6px;
+    }
+
+    .input.inline label {
+        display: inline;
+    }
+
+    .input input {
+        font: inherit;
+        width: 100%;
+        padding: 6px 12px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+    }
+
+    .input.inline input {
+        width: auto;
+    }
+
+    .input input:focus {
+        outline: none;
+        border: 1px solid #521751;
+        background-color: #eee;
+    }
+
+    .input.invalid label {
+        color: red;
+    }
+
+    .input.invalid input {
+        border: 1px solid red;
+        background-color: #ffc9aa;
+    }
+
+    .input select {
+        border: 1px solid #ccc;
+        font: inherit;
+    }
+
+    .hobbies button {
+        border: 1px solid #521751;
+        background: #521751;
+        color: white;
+        padding: 6px;
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .hobbies button:hover,
+    .hobbies button:active {
+        background-color: #8d4288;
+    }
+
+    .hobbies input {
+        width: 90%;
+    }
+
+    .submit button {
+        border: 1px solid #521751;
+        color: #521751;
+        padding: 10px 20px;
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .submit button:hover,
+    .submit button:active {
+        background-color: #521751;
+        color: white;
+    }
+
+    .submit button[disabled],
+    .submit button[disabled]:hover,
+    .submit button[disabled]:active {
+        border: 1px solid #ccc;
+        background-color: transparent;
+        color: #ccc;
+        cursor: not-allowed;
+    }
 </style>

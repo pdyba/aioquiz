@@ -9,7 +9,7 @@ import rules from './components/no_auth_needed/rules.vue'
 import program from './components/no_auth_needed/program.vue'
 import about from './components/no_auth_needed/about.vue'
 // import SignupPage from './components/auth/signup.vue'
-import SignupPage from './components/auth/signupold.vue'
+import SignupPage from './components/auth/signup.vue'
 import SigninPage from './components/auth/signin.vue'
 import magic_link_handler from './components/auth/magic_link_handler.vue'
 

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import createPersistedState from 'vuex-persistedstate'
 import swal from 'sweetalert2'
 
 import router from './router'
@@ -14,7 +13,6 @@ export default new Vuex.Store({
         language: 'pl',
         user: null
     },
-    plugins: [createPersistedState()],
     mutations: {
         authUser(state, session_uuid) {
             state.session_uuid = session_uuid;
@@ -90,7 +88,6 @@ export default new Vuex.Store({
             }
             axios.get('/users')
                 .then(res => {
-                    console.log(res);
                     const data = res.data;
                     const users = [];
                     for (let key in data) {
