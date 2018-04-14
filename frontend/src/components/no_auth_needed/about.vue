@@ -4,8 +4,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
-                        <img class="img-responsive center" src="/images/program.jpg"
-                             style="max-height: 200px;">
+                        <b-img fluid  class="img-responsive center" src="/images/program.jpg"
+                               style="max-height: 200px;"> </b-img>
                     </div>
                     <div class="col-md-9">
                         <h2>Program edukacyjny:</h2>
@@ -24,8 +24,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
-                        <img class="img-responsive center" src="/images/logo.png"
+                        <b-img fluid  class="img-responsive center" src="/images/logo.png"
                              style="max-height: 200px;">
+                        </b-img>
                     </div>
                     <div class="col-md-9">
                         <h2>AioQuiz</h2>
@@ -55,8 +56,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <img class="img-responsive"
+                        <b-img fluid  class="img-responsive"
                              src="/images/code-of-conduct.png">
+                        </b-img>
                     </div>
                     <div class="col-md-6">
 
@@ -102,8 +104,9 @@
 
                         <div class="col-sm-4" v-for="user in admins"
                              v-if="user.admin">
-                            <img class="img-responsive" src="/images/ user.img "
+                            <b-img fluid  class="img-responsive" src="/images/ user.img "
                                  v-if="user.img">
+                            </b-img>
                             <h3>{{ user.name }} {{ user.surname }}<br>
                                 <small v-if="user.admin">
                                     Admin, {{ user.pyfunction }}
@@ -149,9 +152,10 @@
                         </div>
                         <div class="col-sm-4" v-for="user in organisers"
                              v-if="user.organiser && !user.admin">
-                            <img class="img-responsive"
+                            <b-img fluid  class="img-responsive"
                                  src="/images/ user.img "
                                  v-if="user.img">
+                                </b-img>
                             <h3>{{ user.name }} {{ user.surname }}<br>
                                 <small v-if="user.admin">Admin</small>
                                 <small v-if="user.organiser"
@@ -200,9 +204,10 @@
                         </div>
                         <div class="col-sm-4" v-for="user in mentors"
                              v-if="user.mentor && !user.admin && !user.organiser">
-                            <img class="img-responsive"
+                            <b-img fluid  class="img-responsive"
                                  src="/images/ user.img "
                                  v-if="user.img">
+                                </b-img>
                             <h3>{{ user.name }} {{ user.surname }}<br>
                                 <small> Mentor</small>
                                 <br>

@@ -15,21 +15,22 @@ import 'prismjs/themes/prism.css'
 import router from './router'
 import store from './store'
 
-axios.defaults.baseURL = 'http://127.0.0.1:5000/api';
+axios.defaults.baseURL = '/api';
+// axios.defaults.baseURL = 'http://127.0.0.1:5000/api'; // dev mode
 axios.defaults.headers.accepts = 'application/json';
 
 axios.interceptors.response.use(res => {
-    console.log('inter_res', res);
+    // console.log('inter_res', res);
     return res
 }, (error) => {
-    console.log('inter_error', error.response);
-    console.log('CODE: ', error.response.status);
+    // console.log('inter_error', error.response);
+    // console.log('CODE: ', error.response.status);
     swal("Error", error.response.data.msg, "error");
     return error
 });
 
 axios.interceptors.request.use(req => {
-    console.log('inter_req', req);
+    // console.log('inter_req', req);
     req.headers.authorization = store.getters.sessionUUID;
     return req
 });

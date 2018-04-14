@@ -27,8 +27,8 @@
                     <div class="col-lg-6 col-md-6">
                         <h3><i class="fa fa-location-arrow"></i>Gdzie?</h3>
                         <h2>Na Collegium Da Vinci!</h2>
-                        <img class="img-responsive img-home-portfolio"
-                             src="images/cdv_logo.png">
+                        <b-img fluid class="img-responsive img-home-portfolio"
+                               src="images/cdv_logo.png"></b-img>
                         <p>ul. gen. Tadeusza Kutrzeby 10, 61-719 Poznań</p>
                         <p>Collegium Da Vinci to jedna z najstarszych niepublicznych
                             uczelni w Poznaniu. Od 20 lat działa na polskim rynku
@@ -80,28 +80,29 @@
                         <hr>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <img class="img-responsive img-home-portfolio"
-                             src="images/home_0001.jpg">
+                        <b-img fluid class="img-responsive img-home-portfolio"
+                               src="images/home_0001.jpg"></b-img>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <img class="img-responsive img-home-portfolio"
-                             src="images/home_0002.jpg">
+                        <b-img fluid class="img-responsive img-home-portfolio"
+                               src="images/home_0002.jpg"></b-img>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <img class="img-responsive img-home-portfolio"
-                             src="images/home_0003.jpg">
+                        <b-img fluid class="img-responsive img-home-portfolio"
+                               src="images/home_0003.jpg"></b-img>
+                    </div>
+                    <br>
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <b-img fluid class="img-responsive img-home-portfolio"
+                               src="images/home_0004.jpg"></b-img>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <img class="img-responsive img-home-portfolio"
-                             src="images/home_0004.jpg">
+                        <b-img fluid class="img-responsive img-home-portfolio"
+                               src="images/home_0005.jpg"></b-img>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <img class="img-responsive img-home-portfolio"
-                             src="images/home_0005.jpg">
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <img class="img-responsive img-home-portfolio"
-                             src="images/home_0006.jpg">
+                        <b-img fluid class="img-responsive img-home-portfolio"
+                               src="images/home_0006.jpg"></b-img>
                     </div>
                 </div>
 
@@ -151,7 +152,7 @@
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
-                        <img class="img-responsive" src="images/home_0010.jpg">
+                        <b-img fluid class="img-responsive" src="images/home_0010.jpg"></b-img>
                     </div>
                 </div>
             </div>
@@ -163,8 +164,8 @@
                 <h1>Partner strategiczny</h1>
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
-                        <img class="img-responsive"
-                             src="http://pypolska.org/img/pypolska_logo.png">
+                        <b-img fluid class="img-responsive"
+                               src="http://pypolska.org/img/pypolska_logo.png"></b-img>
                     </div>
                     <div class="col-lg-8 col-md-8">
                         <h3>Stowarzyszenie PyPolska</h3>
@@ -197,8 +198,8 @@
                     <div class="col-lg-4 col-md-4">
                         <h3>F-Secure</h3>
                         <br>
-                        <img class="img-responsive"
-                             src="https://www.f-secure.com/documents/assets/images/logo-f-secure-black.svg">
+                        <b-img fluid class="img-responsive"
+                               src="https://www.f-secure.com/documents/assets/images/logo-f-secure-black.svg"></b-img>
                         <br>
                         <p class="text-justify">
                             F-Secure Polska zadeklarowało się, że przyjmie
@@ -236,8 +237,8 @@
                     <div class="col-lg-4 col-md-4">
                         <h3>Egnyte</h3>
                         <br>
-                        <img class="img-responsive"
-                             src="https://www.egnyte.com/assets/6/images/logos/egnyte-lightbg-hirespng.png">
+                        <b-img fluid class="img-responsive"
+                               src="https://www.egnyte.com/assets/6/images/logos/egnyte-lightbg-hirespng.png"></b-img>
                         <br>
                         <p class="text-justify">
                             <a href="https://www.egnyte.com">EGNYTE Poland</a> zadeklarował się, że
@@ -267,8 +268,8 @@
                     <div class="col-lg-4 col-md-4">
                         <h3>DLabs</h3>
                         <br>
-                        <img class="img-responsive"
-                             src="https://www.dlabs.pl/static/img/dLabs-logo.svg?cb=1.0.0.4">
+                        <b-img fluid class="img-responsive"
+                               src="https://www.dlabs.pl/static/img/dLabs-logo.svg?cb=1.0.0.4"></b-img>
                         <br>
                         <p class="text-justify">
                             <br>
