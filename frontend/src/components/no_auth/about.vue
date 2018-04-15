@@ -2,12 +2,12 @@
     <b-container>
         <div class="section-colored">
             <b-container>
-                <div class="row">
-                    <div class="col-md-3">
+                <b-row>
+                    <b-col md="3">
                         <b-img fluid  class="img-responsive center" src="/images/program.jpg"
                                style="max-height: 200px;"> </b-img>
-                    </div>
-                    <div class="col-md-9">
+                    </b-col>
+                    <b-col md="9">
                         <h2>Program edukacyjny:</h2>
                         <p>Pełen program edukacyjny jest dostępny tutaj:
                             <a href="#/program">Program</a></p>
@@ -15,14 +15,14 @@
                         <p>The complete educational program for the whole year is
                             accessible
                             here: <a href="#/program">Program</a></p>
-                    </div>
-                </div>
+                    </b-col>
+                </b-row>
             </b-container>
         </div>
 
         <div class="section">
             <b-container>
-                <div class="row">
+                <b-row>
                     <div class="col-md-3">
                         <b-img fluid  class="img-responsive center" src="/images/logo.png"
                              style="max-height: 200px;">
@@ -47,14 +47,14 @@
                             PostgresSQL and AngularJS.</p>
                     </div>
 
-                </div>
+                </b-row>
             </b-container>
         </div>
 
 
         <div class="section-colored">
             <b-container>
-                <div class="row">
+                <b-row>
                     <div class="col-md-6">
                         <b-img fluid  class="img-responsive"
                              src="/images/code-of-conduct.png">
@@ -87,13 +87,13 @@
                             CoC is extension of the rules.
                         </p>
                     </div>
-                </div>
+                </b-row>
             </b-container>
         </div>
         <div v-if="auth">
             <div class="section">
                 <b-container>
-                    <div class="row">
+                    <b-row>
                         <div class="col-lg-12">
                             <h1>Nasz Zespół</h1>
                         </div>
@@ -101,147 +101,28 @@
                         <div class="col-lg-12">
                             <h2>Główni organizatorzy</h2>
                         </div>
-
-                        <div class="col-sm-4" v-for="user in admins"
-                             v-if="user.admin">
-                            <b-img fluid  class="img-responsive" src="/images/ user.img "
-                                 v-if="user.img">
-                            </b-img>
-                            <h3>{{ user.name }} {{ user.surname }}<br>
-                                <small v-if="user.admin">
-                                    Admin, {{ user.pyfunction }}
-                                </small>
-                                <br>
-                                <small>{{ user.email }}</small>
-                            </h3>
-                            <p>{{ user.description }}</p>
-                            <ul class="list-unstyled list-inline list-social-icons">
-                                <li class="tooltip-social facebook-link"
-                                    v-if="user.facebook"><a
-                                        href=" user.facebook "
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Facebook"><i
-                                        class="fa fa-facebook-square fa-2x"></i></a>
-                                </li>
-                                <li class="tooltip-social linkedin-link"
-                                    v-if="user.linkedin"><a
-                                        href=" user.linkedin "
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="LinkedIn"><i
-                                        class="fa fa-linkedin-square fa-2x"></i></a>
-                                </li>
-                                <li class="tooltip-social twitter-link"
-                                    v-if="user.twitter"><a href=" user.twitter "
-                                                           data-toggle="tooltip"
-                                                           data-placement="top"
-                                                           title="Twitter"><i
-                                        class="fa fa-twitter-square fa-2x"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        <short-user-profile :user="user" v-for="user in admins" v-if="user.admin"></short-user-profile>
+                    </b-row>
                 </b-container>
             </div>
             <div class="section-colored">
                 <b-container>
-                    <div class="row">
+                    <b-row>
                         <div class="col-lg-12">
                             <h2>Organizatorzy</h2>
                         </div>
-                        <div class="col-sm-4" v-for="user in organisers"
-                             v-if="user.organiser && !user.admin">
-                            <b-img fluid  class="img-responsive"
-                                 src="/images/ user.img "
-                                 v-if="user.img">
-                                </b-img>
-                            <h3>{{ user.name }} {{ user.surname }}<br>
-                                <small v-if="user.admin">Admin</small>
-                                <small v-if="user.organiser"
-                                       v-hide="user.admin">
-                                    Organizator
-                                </small>
-                                <br>
-                                <small>{{ user.email }}</small>
-                            </h3>
-                            <p>{{ user.description }}</p>
-                            <ul class="list-unstyled list-inline list-social-icons">
-                                <li class="tooltip-social facebook-link"
-                                    v-if="user.facebook"><a
-                                        href=" user.facebook "
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Facebook"><i
-                                        class="fa fa-facebook-square fa-2x"></i></a>
-                                </li>
-                                <li class="tooltip-social linkedin-link"
-                                    v-if="user.linkedin"><a
-                                        href=" user.linkedin "
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="LinkedIn"><i
-                                        class="fa fa-linkedin-square fa-2x"></i></a>
-                                </li>
-                                <li class="tooltip-social twitter-link"
-                                    v-if="user.twitter"><a
-                                        href=" user.twitter "
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Twitter"><i
-                                        class="fa fa-twitter-square fa-2x"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        <short-user-profile :user="user" v-for="user in organisers" v-if="user.organiser && !user.admin"></short-user-profile>
+                    </b-row>
                 </b-container>
             </div>
             <div class="section">
                 <b-container>
-                    <div class="row">
+                    <b-row>
                         <div class="col-lg-12">
                             <h2>Mentorzy</h2>
                         </div>
-                        <div class="col-sm-4" v-for="user in mentors"
-                             v-if="user.mentor && !user.admin && !user.organiser">
-                            <b-img fluid  class="img-responsive"
-                                 src="/images/ user.img "
-                                 v-if="user.img">
-                                </b-img>
-                            <h3>{{ user.name }} {{ user.surname }}<br>
-                                <small> Mentor</small>
-                                <br>
-                                <small>{{ user.email }}</small>
-                            </h3>
-                            <p>{{ user.description }}</p>
-                            <ul class="list-unstyled list-inline list-social-icons">
-                                <li class="tooltip-social facebook-link"
-                                    v-if="user.facebook"><a
-                                        href=" user.facebook "
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Facebook"><i
-                                        class="fa fa-facebook-square fa-2x"></i></a>
-                                </li>
-                                <li class="tooltip-social linkedin-link"
-                                    v-if="user.linkedin"><a
-                                        href=" user.linkedin "
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="LinkedIn"><i
-                                        class="fa fa-linkedin-square fa-2x"></i></a>
-                                </li>
-                                <li class="tooltip-social twitter-link"
-                                    v-if="user.twitter"><a
-                                        href=" user.twitter "
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Twitter"><i
-                                        class="fa fa-twitter-square fa-2x"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        <short-user-profile :user="user" v-for="user in mentors" v-if="user.mentor && !user.admin && !user.organiser"></short-user-profile>
+                    </b-row>
                 </b-container>
             </div>
         </div>
@@ -250,6 +131,7 @@
 
 <script>
     import globalAxios from 'axios'
+    import ShortUserProfile from './short_user_profile.vue'
 
     export default {
         name: "about",
@@ -259,6 +141,9 @@
                 mentors: [],
                 admins: []
             }
+        },
+        components: {
+            ShortUserProfile
         },
         beforeMount() {
             if (this.$store.getters.isAuthenticated) {

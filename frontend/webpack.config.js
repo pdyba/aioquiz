@@ -1,33 +1,78 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path');
+const webpack = require('webpack');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NODE_ENV = process.env.NODE_ENV;
+const buildingForLocal = () => {
+    return (NODE_ENV === 'development');
+};
 
-module.exports = {
-    entry: './src/main.js',
-    output: {
-        path: path.resolve(__dirname, './dist'),
-        publicPath: '/dist/',
-        filename: 'build.js'
+
+// const extractHTML = new HtmlWebpackPlugin({
+//     title: 'History Search',
+//     filename: 'index.html',
+//     inject: true,
+//     environment: process.env.NODE_ENV,
+//     isLocalBuild: buildingForLocal(),
+//     imgPath: (!buildingForLocal()) ? 'assets' : 'src/assets'
+// });
+const config = {
+    entry: {
+      build: './src/main.js'
     },
+    output: {
+      path: path.resolve(__dirname, './dist'),
+      publicPath: '/dist/',
+      filename: 'build.js',
+    },
+
+    // optimization: {
+    //     runtimeChunk: false,
+    //     splitChunks: {
+    //         chunks: "all"
+    //     }
+    // },
+    // resolveLoader: {
+    //     modules: [setPath('node_modules')]
+    // },
+    mode: 'production', // buildingForLocal() ? 'development' : 'production',
+    devServer: {
+        historyApiFallback: true,
+        noInfo: false
+    },
+    plugins: [
+        // extractHTML,
+        new webpack.DefinePlugin({
+            'process.env': {
+                isStaging: (NODE_ENV === 'development' || NODE_ENV === 'staging'),
+                NODE_ENV: '"' + NODE_ENV + '"'
+            }
+        })
+    ],
     module: {
         rules: [
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
-                    loaders: {}
-                    // other vue-loader options go here
+                    loaders: {
+                        js: 'babel-loader'
+                    }
                 }
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
+                exclude: /(node_modules|bower_components)/,
+                use: [{
+                    loader: "babel-loader",
+                    options: {presets: ['es2015']}
+                }]
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
                 loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?[hash]'
+                query: {
+                    name: '[name].[ext]?[hash]',
+                    useRelativePath: buildingForLocal()
                 }
             },
             {
@@ -47,39 +92,5 @@ module.exports = {
             }
         ]
     },
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js'
-        }
-    },
-    devServer: {
-        historyApiFallback: true,
-        noInfo: true,
-        overlay: true
-    },
-    performance: {
-        hints: false
-    },
-    devtool: '#eval-source-map'
-}
-
-if (process.env.NODE_ENV === 'production') {
-    module.exports.devtool = '#source-map'
-    // http://vue-loader.vuejs.org/en/workflow/production.html
-    module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            compress: {
-                warnings: false
-            }
-        }),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true
-        })
-    ])
-}
+};
+module.exports = config;

@@ -1,20 +1,20 @@
 <template>
     <b-container>
         <div class="section-colored text-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
+            <b-container>
+                <b-row>
+                    <b-col lg="12">
                         <h1>PyLove.org</h1>
                         <h2>Bezpłatna nauka programowania w Pythonie</h2>
-                    </div>
-                </div>
-            </div>
+                    </b-col>
+                </b-row>
+            </b-container>
         </div>
 
         <div class="section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6">
+            <b-container>
+                <b-row>
+                    <b-col md="6">
                         <h3><i class="fa fa-calendar"></i>Kiedy?</h3>
                         <h2>Wtorki 18:45</h2>
                         <p>Zajęcia będą trwały pełne dwie godziny do 20:45 i
@@ -23,8 +23,8 @@
                         </p>
                         <br>
                         <p><a href="#/program">Szczegółowy program spotkań</a></p>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
+                    </b-col>
+                    <b-col md="6">
                         <h3><i class="fa fa-location-arrow"></i>Gdzie?</h3>
                         <h2>Na Collegium Da Vinci!</h2>
                         <b-img fluid class="img-responsive img-home-portfolio"
@@ -38,82 +38,58 @@
 
                         <p><a href="http://cdv.pl">Strona Collegium Da Vinci</a> | <a
                                 href="https://goo.gl/maps/GiVUq7iASbM2">Mapka</a></p>
-                    </div>
-                </div>
-            </div>
+                    </b-col>
+                </b-row>
+            </b-container>
         </div>
 
 
         <div class="section-colored">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4">
+            <b-container>
+                <b-row>
+                    <b-col md="4">
                         <h3><i class="fa fa-check-circle"></i> Staże i praktyki</h3>
                         <p>Dla najlepszych uczestniczek/uczestników czekają płatne
                             staże i praktyki u naszych partnerów.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
+                    </b-col>
+                    <b-col md="4">
                         <h3><i class="fa fa-pencil"></i>Materiały po polsku</h3>
                         <p> Nasi mentorzy przygotowują materiały w formie lekcji,
                             ćwiczeń, zadań domowych i pytań sprawdzających w języku
                             polskim.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
+                    </b-col>
+                    <b-col md="4">
                         <h3><i class="fa fa-folder-open"></i>Społeczność</h3>
                         <p>Dzięki tym warsztatom macie szansę dołączyć do grona
                             programistów języka Python, zdaniem wielu najbardziej
                             otwartej społeczności programistów na świecie.</p>
-                    </div>
-                </div>
-            </div>
+                    </b-col>
+                </b-row>
+            </b-container>
         </div>
 
 
-        <div class="section">
-
-            <div class="container">
-
-                <div class="row">
-                    <div class="col-lg-12 text-center">
+        <b-col class="section">
+            <b-container>
+                <b-row>
+                    <b-col lg="12"  class="text-center">
                         <h2>Zdjęcia z warsztatów prowadzonych przez naszych
                             mentorów.</h2>
                         <hr>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
+                    </b-col>
+                    <b-col lg="4" v-for="img in images_home">
                         <b-img fluid class="img-responsive img-home-portfolio"
-                               src="images/home_0001.jpg"></b-img>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <b-img fluid class="img-responsive img-home-portfolio"
-                               src="images/home_0002.jpg"></b-img>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <b-img fluid class="img-responsive img-home-portfolio"
-                               src="images/home_0003.jpg"></b-img>
-                    </div>
-                    <br>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <b-img fluid class="img-responsive img-home-portfolio"
-                               src="images/home_0004.jpg"></b-img>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <b-img fluid class="img-responsive img-home-portfolio"
-                               src="images/home_0005.jpg"></b-img>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <b-img fluid class="img-responsive img-home-portfolio"
-                               src="images/home_0006.jpg"></b-img>
-                    </div>
-                </div>
-            </div>
-        </div>
+                               :src="'images/' + img + '.jpg'"></b-img>
+                    </b-col>
+
+                </b-row>
+            </b-container>
+        </b-col>
 
 
         <div class="section-colored">
-
-            <div class="container">
-
-                <div class="row">
+            <b-container>
+                <b-row>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <h2>Warunki uczestnictwa:</h2>
                         <p>W spotkaniach może wziąć udział każdy, niezależnie od płci,
@@ -150,15 +126,15 @@
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <b-img fluid class="img-responsive" src="images/home_0010.jpg"></b-img>
                     </div>
-                </div>
-            </div>
+                </b-row>
+            </b-container>
         </div>
 
 
         <div class="section">
-            <div class="container">
+            <b-container>
                 <h1>Partner strategiczny</h1>
-                <div class="row">
+                <b-row>
                     <div class="col-lg-4 col-md-4">
                         <b-img fluid class="img-responsive"
                                src="http://pypolska.org/img/pypolska_logo.png"></b-img>
@@ -182,15 +158,15 @@
                         </p>
                         <a href="http://pypolska.org">http://pypolska.org</a>
                     </div>
-                </div>
-            </div>
+                </b-row>
+            </b-container>
         </div>
 
 
         <div class="section-colored">
-            <div class="container">
+            <b-container>
                 <h1>Sponsorzy i partnerzy u których będą się odbywać praktyki</h1>
-                <div class="row">
+                <b-row>
                     <div class="col-lg-4 col-md-4">
                         <h3>F-Secure</h3>
                         <br>
@@ -297,21 +273,26 @@
                             <a href="https://www.dlabs.pl/">DLabs</a>
                         </p>
                     </div>
-                </div>
-            </div>
+                </b-row>
+            </b-container>
         </div>
     </b-container>
 </template>
 
 <script>
     export default {
-        computed: {
-            email() {
-                return !this.$store.getters.user ? false : this.$store.getters.user.email
+        name: 'home',
+        data() {
+            return {
+                images_home: [
+                    'home_0001',
+                    'home_0002',
+                    'home_0003',
+                    'home_0004',
+                    'home_0005',
+                    'home_0005'
+                ]
             }
-        },
-        created() {
-            this.$store.dispatch('fetchUser')
         }
     }
 </script>
@@ -322,6 +303,10 @@
         display: block;
         margin: 0 auto;
         text-align: center;
+    }
+
+    img {
+        margin: 1rem;
     }
 
     div.section-colored {

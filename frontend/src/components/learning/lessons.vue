@@ -1,5 +1,5 @@
 <template>
-    <cb-ontainer>
+    <b-container>
         <h1 class="page-header">Lessons</h1>
 
             <b-row class="mb-4" className="card-deck" v-for="i in rowCount">
@@ -16,7 +16,7 @@
                 </b-col>
             </b-row>
 
-    </cb-ontainer>
+    </b-container>
 </template>
 
 <script>
