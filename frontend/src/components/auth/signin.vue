@@ -44,11 +44,6 @@
 </template>
 
 <script>
-    import Btn from '../../material_components/Button.vue';
-    import Container from '../../material_components/Container.vue';
-    import Row from '../../material_components/Row.vue';
-    import Column from '../../material_components/Col.vue';
-
     import axios from 'axios'
 
     export default {
@@ -57,12 +52,6 @@
                 email: '',
                 password: ''
             }
-        },
-        components: {
-            Btn,
-            Container,
-            Row,
-            Column
         },
         methods: {
             onSubmit() {

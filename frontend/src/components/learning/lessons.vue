@@ -1,35 +1,31 @@
 <template>
-    <container>
+    <cb-ontainer>
         <h1 class="page-header">Lessons</h1>
 
-            <row class="mb-4" className="card-deck" v-for="i in rowCount">
-                <column sm="4" v-for="x in itemCountInRow(i)">
+            <b-row class="mb-4" className="card-deck" v-for="i in rowCount">
+                <b-col sm="4" v-for="x in itemCountInRow(i)">
                     <card className="samesize card-dark card-cascade">
                         <card-header>{{ x.id }}. {{ x.title }}</card-header>
                         <card-body>{{ x.description }}</card-body>
                         <card-footer>
                             <router-link :to="/lessons/ + x.id">
-                            <btn color="primary"> Go! </btn>
+                            <b-btn variant="primary"> Go!</b-btn>
                             </router-link>
                         </card-footer>
                     </card>
-                </column>
-            </row>
+                </b-col>
+            </b-row>
 
-    </container>
+    </cb-ontainer>
 </template>
 
 <script>
     import axios from 'axios';
 
-    import Container from '../../material_components/Container.vue';
-    import Row from '../../material_components/Row.vue';
-    import Column from '../../material_components/Col.vue';
-    import Card from '../../material_components/Card.vue';
-    import CardHeader from '../../material_components/CardHeader.vue';
-    import CardBody from '../../material_components/CardBody.vue';
-    import CardFooter from '../../material_components/CardFooter.vue';
-    import Btn from '../../material_components/Button.vue';
+    import Card from '../common_components/Card.vue';
+    import CardHeader from '../common_components/CardHeader.vue';
+    import CardBody from '../common_components/CardBody.vue';
+    import CardFooter from '../common_components/CardFooter.vue';
 
 
     export default {
@@ -40,14 +36,10 @@
             }
         },
         components: {
-            Container,
-            Row,
-            Column,
             Card,
             CardHeader,
             CardFooter,
-            CardBody,
-            Btn
+            CardBody
         },
         name: "lessons",
         created() {

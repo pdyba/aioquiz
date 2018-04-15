@@ -1,7 +1,5 @@
 <template>
     <div>
-
-
         <h4 v-if="en">Stats</h4>
         <h4 v-if="pl">Statystyka</h4>
         <p v-if="en">

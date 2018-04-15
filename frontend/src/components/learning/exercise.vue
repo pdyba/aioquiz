@@ -5,7 +5,7 @@
         {{ exercise.task }}
         <br>
         <br>
-        <row>
+        <b-row>
             <div class="editor_form">
                 <editor v-model="exercise.answare" @init="editorInit" lang="python" theme="chrome" width="100%"
                         height="100%"> </editor>
@@ -17,15 +17,13 @@
                     </b-button>
                 </div>
             </div>
-        </row>
+        </b-row>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
     import 'prismjs/themes/prism.css'
-
-    import Row from '../../material_components/Row.vue';
 
     export default {
         name: "exercise",
@@ -36,7 +34,6 @@
             }
         },
         components: {
-            Row,
             editor: require('vue2-ace-editor')
         },
         methods: {

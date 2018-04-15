@@ -1,14 +1,22 @@
 ## Build Setup
 
+### install dependencies
 ``` bash
-# install dependencies
 npm install
-For Dev instance 
-npm install --only=dev
+```
+To check if depnendancies need an update
+``` bash
+ncu -u
+npm install
+``` 
 
-# serve with hot reload at localhost:8080
+
+### serve with hot reload at localhost:8080
+``` bash
 npm run dev
+```
 
-# build for production with minification
+### build for production with minification
+``` bash
 npm run build
 ```

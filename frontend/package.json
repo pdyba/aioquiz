@@ -9,13 +9,14 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "^0.18.0",
     "bootstrap": "^4.0.0",
     "bootstrap-vue": "^2.0.0-rc.2",
     "brace": "^0.11.1",
     "classnames": "^2.2.5",
     "font-awesome": "^4.7.0",
     "mdbootstrap": "^4.5.0",
+    "npm": "^5.8.0",
     "sweetalert2": "^7.18.0",
     "vue": "^2.5.2",
     "vue-markdown": "^2.2.4",
@@ -23,7 +24,7 @@
     "vue-prismjs": "^1.2.0",
     "vue-router": "^3.0.1",
     "vue-sweetalert2": "^1.2.4",
-    "vue2-ace-editor": "0.0.8",
+    "vue2-ace-editor": "0.0.9",
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.0"
   },
@@ -33,12 +34,15 @@
     "babel-preset-env": "^1.6.0",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.11",
-    "url-loader": "^1.0.1",
     "file-loader": "^1.1.4",
+    "npm-check-updates": "^2.14.1",
     "style-loader": "^0.20.3",
-    "vue-loader": "^13.0.5",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "url-loader": "^1.0.1",
+    "vue-loader": "^14.2.2",
     "vue-template-compiler": "^2.4.4",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.3"
   }
 }

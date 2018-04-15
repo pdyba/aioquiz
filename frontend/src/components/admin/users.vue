@@ -1,6 +1,5 @@
 <template>
-    <container>
-
+    <b-container>
         <h1 class="page-header">Admin: Users</h1>
         <h3>Stats</h3>
         <b-table hover small :items="users_stats" :fields="fields_stats">
@@ -12,13 +11,11 @@
                 <usersActions :user="cell.item"></usersActions>
             </template>
         </b-table>
-
-    </container>
+    </b-container>
 </template>
 
 <script>
     import axios from 'axios';
-    import Container from '../../material_components/Container.vue';
     import usersActions from "./users_actions.vue";
 
     export default {
@@ -56,7 +53,6 @@
         },
         components: {
             usersActions,
-            Container,
         },
         created() {
             let self = this;
@@ -68,7 +64,6 @@
                 return null
 
             }
-
             axios.get('/users/').then((resp) => {
                 resp.data.forEach(function (e) {
                     e._rowVariant = amap(e)
@@ -86,5 +81,4 @@
 </script>
 
 <style scoped>
-
 </style>

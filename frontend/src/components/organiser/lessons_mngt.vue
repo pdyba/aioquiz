@@ -1,5 +1,5 @@
 <template>
-    <container>
+    <b-container>
         <h1 class="page-header">Management: Lessons</h1>
         <b-table :items="lessons" :fields="fields">
             <template slot="Management" slot-scope="cell">
@@ -9,16 +9,14 @@
                 <b-btn size="sm" variant="outline-success" @click.stop="extend(cell.item.id)">Extend</b-btn>
             </template>
         </b-table>
-    </container>
+    </b-container>
 </template>
 
 <script>
     import axios from 'axios';
 
-    import Container from '../../material_components/Container.vue';
-
-
     export default {
+        name: "lessons_mngt",
         data() {
             return {
                 lessons: [],
@@ -30,10 +28,6 @@
                 ],
             }
         },
-        components: {
-            Container,
-        },
-        name: "lessons_mngt",
         created() {
             let self = this;
             axios.get('/lessons').then(

@@ -1,9 +1,9 @@
 <template>
-    <container>
+    <b-container>
         <h3> Lesson: {{ lesson.lesson_no }}</h3>
         <vue-markdown :source="lesson_content"></vue-markdown>
         <exercises lid="lesson.id"></exercises>
-    </container>
+    </b-container>
 </template>
 
 <script>
@@ -12,7 +12,6 @@
     import Prism from 'prismjs'
 
     import VueMarkdown from 'vue-markdown'
-    import Container from '../../material_components/Container.vue';
     import exercises from './exercises.vue'
 
     const loadLanguages = require('prismjs/components/index.js');
@@ -26,7 +25,6 @@
             }
         },
         components: {
-            Container,
             VueMarkdown,
             exercises,
         },

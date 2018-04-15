@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "lessons"
+        name: "LiveQuiz"
     }
 </script>
 

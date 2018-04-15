@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container>
         <h3>E-Mail:</h3>
         <b-form>
             <b-form-group label="E-mail type:" id="email_type">
@@ -41,9 +41,7 @@
                 <b-button type="submit" variant="primary" @click.prevent="send_email()">Send</b-button>
             </div>
         </b-form>
-    </div>
-
-
+    </b-container>
 </template>
 
 <script>

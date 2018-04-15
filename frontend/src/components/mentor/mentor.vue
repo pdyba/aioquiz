@@ -1,8 +1,10 @@
 <template>
-    <div class="container organiser">
+    <b-container>
       <h2>Mentor</h2>
+
       <router-view></router-view>
-    </div>
+
+    </b-container>
 </template>
 
 <script>

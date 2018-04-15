@@ -1558,7 +1558,7 @@ function AuthenticationService($http, $cookies, $rootScope, SweetAlert) {
         $rootScope.globals = {
             currentUser: data
         };
-        // set default auth _common for http requests
+        // set default auth _base for http requests
         $http.defaults.headers.common['Authorization'] = authdata;
 
         // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
