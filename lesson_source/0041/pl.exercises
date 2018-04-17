@@ -1,12 +1,12 @@
 1:
     title: 1.21.01
     task: |
-        Przejdź do katalogu /tmp i stwórz w nim folder pyLove.
+        Przejdź do katalogu /tmp i stwórz w nim folder PyLove.
     possible_answare: yey
 2:
     title: 1.21.02
     task: |
-        Stwórz jedną komendą pliki: a.txt b.txt c.txt a.py b.py c.py
+        Stwórz jedną komendą pliki: a.txt b.txt c.txt a.py b.py c.py.
     possible_answare: yey
 3:
     title: 1.21.03
@@ -21,7 +21,7 @@
 5:
     title: 1.21.05
     task: |
-        Wylistuj wszystkie pliki z dwuliterowym rozszerzeniem
+        Wylistuj wszystkie pliki z dwuliterowym rozszerzeniem.
     possible_answare: yey
 6:
     title: 1.21.06
@@ -46,20 +46,20 @@
 10:
     title: 1.21.10
     task: |
-        Napisz skrypt, który zapisze wszystkie linijki z pliku /etc/ssh/ssh_config zawierające słowo "yes" do pliku ~/ssh
+        Napisz skrypt, który zapisze wszystkie linijki z pliku /etc/ssh/ssh_config zawierające słowo "yes" do pliku ~/ssh .
     possible_answare: yey
 11:
     title: 1.21.11
     task: |
-        Napisz skrypt pythonowy, który przyjmuje dwa parametry i wypisuje je na konsolę odpalany za pomocą komendy ./skrypt.py 12. Usuń wszystkie pliki z rozszerzeniem .txt.
+        Napisz skrypt pythonowy, który przyjmuje dwa parametry i wypisuje je na konsolę odpalany za pomocą komendy ./skrypt.py .
     possible_answare: yey
 12:
     title: 1.21.12
     task: |
-        Usuń wszystkie pliki z rozszerzeniem .txt.
+        Usuń wszystkie pliki z rozszerzeniem .txt .
     possible_answare: yey
 13:
     title: 1.21.13
     task: |
-        Policz ilość linii zawierających "yes" w pliku /etc/ssh/ssh_config
+        Policz liczbę linii zawierających "yes" w pliku /etc/ssh/ssh_config .
     possible_answare: yey
