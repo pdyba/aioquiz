@@ -1,0 +1,28 @@
+1:
+    title: 1.19.1
+    task: |
+        Pobierz losowe dane z https://pylove.org/exercise/1_19_1 i ułóż hasło tylko z unikalnych słów.
+    possible_answare: yey
+2:
+    title: 1.19.2
+    task: |
+        Pobierz losowe dane z https://pylove.org/exercise/1_19_2 i
+        znajdź hasło, na które złoży się 6 najpopularniejszych
+        liter w kolejności malejącej według wystąpień.
+    possible_answare: yey
+3:
+    title: 1.19.3
+    task: |
+        Dodaj do zadań 1., 2. wyświetlanie czasu rozpoczęcia oraz zakończenia skryptu oraz czas jego wykonania.
+    possible_answare: yey
+4:
+    title: 1.19.4
+    task: |
+        Wykonaj zadanie 2. z wykorzystaniem konstruktu Counter z biblioteki collections.
+    possible_answare: yey
+5:
+    title: 1.19.5
+    task: |
+        Wykorzystując kod przygotowany do tego zadania, zamień klasy na namedtuple.
+    possible_answare: yey
+

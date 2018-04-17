@@ -1,0 +1,35 @@
+1:
+    title: 1.20.1
+    task: |
+        Otwórz stronę Wikipedii nt. Pythona zapisaną w pliku txt
+        (użyj encoding="utf8") i przelicz ile razy pojawiało się słowo "Python".
+        Uwaga: zwróć uwagę na małe i duże litery!
+    possible_answare: yey
+2:
+    title: 1.20.2
+    task: |
+        Otwórz program Pylove zapisany do pliku txt (użyj encoding="utf8")
+        i zwróć wszystkie daty warsztatów, np. 2018.04.10 w nim występujące.
+    possible_answare: yey
+3:
+    title: 1.20.3
+    task: |
+        Korzystając z pliku z poprzedniego zadania, stwórz słownik warsztatów w formacie - przykład:
+        workshops = {22: {date: "2018.04.10", title: "Wyrażenie regularne", leading_mentor: "Zuzanna Kunik"}.
+        "BRAK ZAJĘĆ" potraktuj jako tytuł, przypisz wtedy pusty string jako leading_mentor.
+        Numeruj lekcje wg daty (2017.10.17 to pierwsze zajęcia, 2018.06.19 to ostatnie).
+        Podpowiedź: użyj znaku nowej linii.
+    possible_answare: yey
+4:
+    title: 1.20.4
+    task: |
+        Otwórz przykładową listę celebrytów z pliku txt (użyj encoding="utf8")
+        i zamień pierwszą literę imienia z pierwszą literą nazwiska.
+        Przykład: Magda Gessler - Gagda Messler
+    possible_answare: yey
+5:
+    title: 1.20.5
+    task: |
+        Napisz program, który załaduje ten plik i skonwertuje każdą linię na obiekt JSON w formacie {"date": string, "method": string, "uri": string, "status_code": int, "user_agent": string} jeśli zastosowana została metoda PUT, POST lub DELETE.
+    possible_answare: yey
+

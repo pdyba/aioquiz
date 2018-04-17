@@ -1,0 +1,56 @@
+1:
+    title: 1.17.1
+    task: |
+        Przez RMQ Admin panel stwórz exchanga o nazwie pylove_e, kolejkę (queue) pylove_q i połącz je bindingiem z kluczem love.
+    possible_answare: yey
+2:
+    title: 1.17.2
+    task: |
+        Napisz producera, który będzie wrzucał wiadomości do kolejki zawierające wiadomość w formacie JSON.
+        np. {"name": "Przemus_26", "msg": "no czesc, poklikasz", "time": "2018-03-13 16:00:21.341639"}
+    possible_answare: yey
+3:
+    title: 1.17.3
+    task: |
+        Napisz konsumera, który będzie przyjmował wiadomości JSON na bazie zadania 1.17.2. I wyświetlał je jako log w formie:
+        2018-03-13 16:00:21.341639 - Przemus_26: no czesc, poklikash
+        2018-03-13 16:00:22.341639 - Kasia_15: pewnie !
+    possible_answare: yey
+4:
+    title: 1.17.4
+    task: |
+        Zadanie domowe:
+        Stwórz prostą aplikację we Flasku, która pozowoli pisać wiadomości w schemacie z ćwiczenia 2 przez formularz.
+    possible_answare: yey
+5:
+    title: 1.17.5
+    task: |
+        Stwórz w MongoDB kolekcje użytkownicy (nick, email, data dolaczenia), wiadomości (kto, kiedy, tresc).
+    possible_answare: yey
+6:
+    title: 1.17.6
+    task: |
+        Na podstawie danych z 5 stwórz 2 użytkowników w bazie i po 2 wiadomości dla każdego z nich.
+    possible_answare: yey
+7:
+    title: 1.17.7
+    task: |
+        Napisz funkcję która pobierze wszystkie wiadomości dla kazdego z użytkowników (wszystkich).
+    possible_answare: yey
+8:
+    title: 1.17.8
+    task: |
+        Napisz funkcję która pobierze wszystkie wiadomości dla danego (jednego) użytkownika.
+    possible_answare: yey
+9:
+    title: 1.17.9
+    task: |
+        Napisz funkcję, która usunie konkretną wiadomość.
+    possible_answare: yey
+10:
+    title: 1.17.10
+    task: |
+        Zadanie domowe
+         Rozszerz zadanie 1.17.4 o konsumera RMQ, który będzie wrzucał kolejne wiadomości do bazy danych.
+         Stronę z formularzem o wyświetlanie aktualnych wiadomości.
+    possible_answare: yey

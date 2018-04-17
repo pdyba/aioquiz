@@ -5,7 +5,7 @@ DEFAULT_USER = 1
 
 class SERVER:
     IP = '0.0.0.0'
-    PORT_HTTP = 80
+    PORT_HTTP = 8123
     PORT_HTTPS = 443
     DEBUG = False
     WORKERS = 1
