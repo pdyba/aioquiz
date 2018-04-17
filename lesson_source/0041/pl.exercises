@@ -1,0 +1,65 @@
+1:
+    title: 1.21.01
+    task: |
+        Przejdź do katalogu /tmp i stwórz w nim folder pyLove.
+    possible_answare: yey
+2:
+    title: 1.21.02
+    task: |
+        Stwórz jedną komendą pliki: a.txt b.txt c.txt a.py b.py c.py
+    possible_answare: yey
+3:
+    title: 1.21.03
+    task: |
+        Wylistuj wszystkie pliki z rozszerzeniem .txt, a następnie wszystkie pliki zaczynające się na “a”.
+    possible_answare: yey
+4:
+    title: 1.21.04
+    task: |
+        Wylistuj wszystkie pliki z rozszerzeniem .txt jednocześnie zaczynające się na “a” lub na “b”.
+    possible_answare: yey
+5:
+    title: 1.21.05
+    task: |
+        Wylistuj wszystkie pliki z dwuliterowym rozszerzeniem
+    possible_answare: yey
+6:
+    title: 1.21.06
+    task: |
+        Wypisz na konsoli tekst “hehe”. Następnie zapisz “hehe” do pliku a.txt. Wyświetl zawartość pliku a.txt.
+    possible_answare: yey
+7:
+    title: 1.21.07
+    task: |
+        Dopisz do pliku a.txt linijkę “haha”, a następnie linijkę “hihi”.
+    possible_answare: yey
+8:
+    title: 1.21.08
+    task: |
+        Wypisz z pliku a.txt pierwszą, a następnie ostatnią linijkę.
+    possible_answare: yey
+9:
+    title: 1.21.09
+    task: |
+        Wypisz z pliku a.txt linijkę zawierającą tekst “hihi”.
+    possible_answare: yey
+10:
+    title: 1.21.10
+    task: |
+        Napisz skrypt, który zapisze wszystkie linijki z pliku /etc/ssh/ssh_config zawierające słowo “yes” do pliku ~/ssh
+    possible_answare: yey
+11:
+    title: 1.21.11
+    task: |
+        Napisz skrypt pythonowy, który przyjmuje dwa parametry i wypisuje je na konsolę odpalany za pomocą komendy ./skrypt.py 12. Usuń wszystkie pliki z rozszerzeniem .txt.
+    possible_answare: yey
+12:
+    title: 1.21.12
+    task: |
+        Usuń wszystkie pliki z rozszerzeniem .txt.
+    possible_answare: yey
+13:
+    title: 1.21.13
+    task: |
+        Policz ilość linii zawierających “yes” w pliku /etc/ssh/ssh_config
+    possible_answare: yey
