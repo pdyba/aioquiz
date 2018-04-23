@@ -22,7 +22,7 @@ zapytanie pojawi się kilka razy, serwer może wykorzystać odpowiedź z cache'u
 Serwery WWW mają też różne inne możliwości, między innymi:
 - uwierzytelnianie - możemy wymagać, aby dostęp do całej aplikacji wymagał podania nazwy użytkownika i hasła,
 dzięki temu nie musimy implementować tego mechanizmu w aplikacji (uwaga - po stronie serwera możemy zabezpieczyć
-dostęp tylko do całej aplikacji - jeśli chcemy np. mieć różne uprawnienia dla użytkowników, musimy to zaimplementować);
+dostęp tylko do całej aplikacji - jeśli chcemy np. mieć różne uprawnienia dla użytkowników, musimy to zaimplementować sami);
 - HTTPS - serwer WWW może sprawić, że nasza aplikacja będzie dostępna tylko po protokole szyfrowanym, nawet jeśli
 sama aplikacja nie posiada obsługi HTTPS;
 - proxy - bardzo przydatne, jeśli chcemy, aby niektóre zapytania były przekazywane do innej aplikacji (przykładowo
@@ -48,7 +48,7 @@ Istnieje wiele serwerów WWW, przykładowo:
 - uWSGI
 
 Aby uruchomić aplikację napisaną we Flasku (podobnie jak w większości pythonowych frameworków), serwer musi
-obsługiwać protokół **WSGI**. Jedną z najprostszych opcji jest użycie uWSGI (niestety działa tylko na linuxie):
+obsługiwać protokół **WSGI**. Jedną z najprostszych opcji jest użycie uWSGI (niestety działa tylko na Linuksie):
 
     :::bash
     pip install uwsgi
@@ -132,7 +132,7 @@ Pliki z konfiguracjami dla nginxa znajdują się w folderze `/etc/nginx/conf.d`.
 
 Taka konfiguracja oznacza, że nginx będzie słuchał na porcie 80 - domyślnym porcie HTTP - i wszystkie zapytania
 o ścieżce zaczynającej się od `myapp` (np. `127.0.0.1/myapp/add/1/2`) będą przekierowywane (proxowane) do adresu
-`127.0.0.1:8000/` - np. `127.0.0.1:8000/add/1/2`. Jeśli nadal mamy uruchomioną naszą aplikację, możemy przetesować
+`127.0.0.1:8000/` - np. `127.0.0.1:8000/add/1/2`. Jeśli nadal mamy uruchomioną naszą aplikację, możemy przetestować
 działanie konfiguracji w przeglądarce.
 
 Cloud Computing
@@ -141,8 +141,8 @@ Cloud Computing
 Oczywiście sam kod aplikacji nie wystarczy, żeby udostępnić ją użytkownikom - potrzebujemy jeszcze serwera, na którym
 aplikacja mogłaby działać. Ostatnio coraz większą popularność zyskuje Cloud Computing - przetwarzanie w chmurze,
 co oznacza, że zamiast kupować i konfigurować własne serwery, korzystamy z zasobów udostępnianych przez dostawców
-usług typu Could. Najbardziej znane i rozbudowane platformy to Amazon Web Services i Microsoft Azure. Pozwalają
-one m. in. na:
+usług typu Cloud. Najbardziej znane i rozbudowane platformy to Amazon Web Services i Microsoft Azure. Pozwalają
+one m.in. na:
 - przechowywanie plików,
 - tworzenie maszyn wirtualnych dostępnych przez Internet,
 - tworzenie baz danych,
