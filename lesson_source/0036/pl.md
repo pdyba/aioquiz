@@ -91,7 +91,6 @@ Retrospektywa - najmniej formalne spotkanie, brak założonego przebiegu. Celem 
 
 Product backlog refinement (grooming) - rozwijanie i doprecyzowywanie listy zadań.
 
-
 Bibliografia
 ------------
 

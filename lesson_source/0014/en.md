@@ -123,9 +123,13 @@ list. This problem can be solved by the function range. Check
 	>>> list(range(1, 11, 2))
 	[1, 3, 5, 7, 9]
 
-    :::python3
-    for i in range(10):
-        print(i)
+```python
+for i in range(10):
+    print(i)
+
+    print(i)
+
+```
 
 Updating Lists
 --------------
@@ -176,12 +180,15 @@ Accessing Values in Dictionary:
 To access dictionary elements, you can use the familiar square brackets
 along with the key to obtain its value. Following is a simple example −
 
-    :::python3
-    a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
-    print(a_dict['Name'])
-    print(a_dict['Age'])
-    print(a_dict['Profession'])
+```python
+a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
+print(a_dict['Name'])
+print(a_dict['Age'])
+print(a_dict['Profession'])
 
+print(a_dict['Profession'])
+
+```
 
 When the above code is executed, it produces the following result:
 
@@ -222,38 +229,41 @@ Nesting
 
 In Python You can create nested objects like:
 
-    :::python3
-    ZOO = {
-        'animals': {
-            'python': {
-                'food': [
-                    'mice',
-                    'rabbits',
-                    'rats',
-                ]
-                'environment': {
-                    'temp': 25,
-                    'humidity': 80,
-                }
-                'location': 'cage',
-            },
-            'cute_little_rabbit': {
-                'food': [
-                    'carrots',
-                    'carrots',
-                    'carrots',
-                ]
-                'environment': {
-                    'temp': 20,
-                    'humidity': 35,
-                }
-                'location': 'run free',
-            },
-        'contact': {
-            'telphone': 0 700 800 900,
-            'email': 'zoo@zoo.zoo'
-        }
+```python
+ZOO = {
+    'animals': {
+        'python': {
+            'food': [
+                'mice',
+                'rabbits',
+                'rats',
+            ]
+            'environment': {
+                'temp': 25,
+                'humidity': 80,
+            }
+            'location': 'cage',
+        },
+        'cute_little_rabbit': {
+            'food': [
+                'carrots',
+                'carrots',
+                'carrots',
+            ]
+            'environment': {
+                'temp': 20,
+                'humidity': 35,
+            }
+            'location': 'run free',
+        },
+    'contact': {
+        'telphone': 0 700 800 900,
+        'email': 'zoo@zoo.zoo'
     }
+}
 
+}
+
+```
 
 As You can see there can be a dict or a list inside of a dict of dicts.

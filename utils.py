@@ -26,6 +26,7 @@ def color_print(*args, color='red', **kwargs):
     color = COLORS.get(color, COLORS.get('other'))
     print(color, *args, COLOR_RESET, **kwargs)
 
+
 async def format_dict_to_columns(adict):
     return [[a, adict[a]] for a in adict]
 
@@ -86,6 +87,7 @@ def error_catcher(func, default_return=False):
 
 def hash_string(password):
     return hashlib.sha256(password.encode()).hexdigest()
+
 
 async def send_email(recipients=None, subject='', text=''):
     if not isinstance(recipients, list):

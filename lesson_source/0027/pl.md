@@ -35,7 +35,6 @@ Interfejs wyświetlany w przeglądarce. Języki używane do tworzenia frontendu 
 
 ### Backend
 
-
 Odpowiada za:
 
 * Przetwarzanie zapytań z frontendu
@@ -78,64 +77,84 @@ Tutorial: [http://flask.pocoo.org/docs/0.12/quickstart/](http://flask.pocoo.org/
 
 Instalacja:
 
-    :::bash
-    pip install Flask
+```bash
+pip install Flask
+
+pip install Flask
+
+```
 
 ### Aplikacja startowa
-    
-    :::python3
-    from flask import Flask
-    
-    app = Flask(__name__)
-    
-    @app.route("/")
-    def hello():
-        return "Hello World!"
-    
-    app.run(debug=True)
+
+```python
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+app.run(debug=True)
+
+app.run(debug=True)
+
+```
 
 ### Parametry
 
-    :::python3
-    @app.route("/hello/<name>")
-    def welcome(name):
-        return "Welcome {}!".format(name)
+```python
+@app.route("/hello/<name>")
+def welcome(name):
+    return "Welcome {}!".format(name)
+
+    return "Welcome {}!".format(name)
+
+```
 
 ### Metoda POST
 
-    :::python3
-    from flask import Flask, request
-    
-    app = Flask(__name__)
-    
-    saved = "Data"
-    
-    @app.route("/save", methods=["POST"])
-    def save():
-        global saved
-        data = request.get_json()
-        saved = data["value"]
-        return "Saved {}".format(data["value"])
-    
-    @app.route("/read", methods=["GET"])
-    def read():
-        return saved
-    
-    app.run(debug=True)
+```python
+from flask import Flask, request
+
+app = Flask(__name__)
+
+saved = "Data"
+
+@app.route("/save", methods=["POST"])
+def save():
+    global saved
+    data = request.get_json()
+    saved = data["value"]
+    return "Saved {}".format(data["value"])
+
+@app.route("/read", methods=["GET"])
+def read():
+    return saved
+
+app.run(debug=True)
+
+app.run(debug=True)
+
+```
 
 ### Program testowy
 
-    :::python3
-    import requests
+```python
+import requests
 
-    save_result = requests.post(
-        'http://localhost:5000/save',
-        json={'value': 'witam'}
-    )
-    print(save_result.text)
-    
-    read_result = requests.get('http://localhost:5000/read')
-    print(read_result.text)
+save_result = requests.post(
+    'http://localhost:5000/save',
+    json={'value': 'witam'}
+)
+print(save_result.text)
+
+read_result = requests.get('http://localhost:5000/read')
+print(read_result.text)
+
+print(read_result.text)
+
+```
 
 Zadania
 -------

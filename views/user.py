@@ -118,7 +118,8 @@ class UserView(HTTPModelClassView):
                 )
                 if resp:
                     return json({
-                        'success': True
+                        'success': True,
+                        'msg': 'Check Your e-mail for activation link!'
                     })
                 return json({'success': False, 'msg': 'error sending e-mail'})
         except DeprecationWarning:
@@ -167,7 +168,7 @@ class ActivationView(HTTPModelClassView):
             user.active = True
             await user.update()
             return redirect('/#/regconfirmed')
-        return json({'success': False, 'reson': 'wrong token'})
+        return json({'success': False, 'msg': 'wrong token'})
 
 
 class INeedHelpView(HTTPModelClassView):

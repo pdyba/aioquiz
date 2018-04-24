@@ -3,7 +3,6 @@ PyLove 1.3 Biblioteki zewnętrzne i REST API
 
 API - application programming interface - interfejs programistyczny
 
-
 Representational State Transfer (**REST**, ang. zmiana stanu poprzez reprezentacje) –
 styl architektury oprogramowania HTTP dla systemów rozproszonych. REST wykorzystuje m.in.
 
@@ -15,47 +14,76 @@ Instalacja bibliotek zewnętrznych
 
 pip - menadżer pakietów w języka python - taki AppStore/GooglePlay ;)
 
-    :::bash
-    pip
-    pip help
+```bash
+pip
+pip help
+
+pip help
+
+```
 
 Instalacje pojedyńczej paczki:
 
-    :::bash
-    pip install requests
+```bash
+pip install requests
+
+pip install requests
+
+```
 
 Instalacje pojedyńczej paczki w konkretnej wersji:
 
-    :::bash
-    pip install requests==2.18.4
+```bash
+pip install requests==2.18.4
+
+pip install requests==2.18.4
+
+```
 
 Instalacje pojedyńczej paczki z pliku:
 
-    :::bash
-    pip install requests-2.18.4-py2.py3-none-any.whl
+```bash
+pip install requests-2.18.4-py2.py3-none-any.whl
 
+pip install requests-2.18.4-py2.py3-none-any.whl
+
+```
 
 Upgrade:
 
-    :::bash
-    pip install -U requests
+```bash
+pip install -U requests
+
+pip install -U requests
+
+```
 
 Instalacja wszystkich zależności:
 
+```bash
+pip install -r requirements
 
-    :::bash
-    pip install -r requirements
+pip install -r requirements
+
+```
 
 Usuwanie pakietów:
 
-    :::bash
-    pip uninstall
+```bash
+pip uninstall
+
+pip uninstall
+
+```
 
 Aktualnie zaintalowane pakiety:
 
-    :::bash
-    pip freeze
+```bash
+pip freeze
 
+pip freeze
+
+```
 
 Protokół HTTP
 -------------
@@ -73,7 +101,6 @@ Metody protokołu HTTP
 * HEAD – pobiera informacje o zasobie, stosowane do sprawdzania dostępności zasobu
 * OPTIONS – informacje o opcjach i wymaganiach istniejących w kanale komunikacyjnym
 * PATCH – aktualizacja części danych
-
 
 Kody http
 ---------
@@ -125,19 +152,22 @@ requests
 
 [http://python-requests.org](http://python-requests.org/)
 
-
 Requests jest biblioteką HTTP na licencji Apache2, w języku Python, dla istot ludzkich.
 
 Większość istniejących modułów Pythona używanych do wysyłania żądań HTTP jest niezwykle rozwlekła i niewygodna. Wbudowany w Pythona moduł urllib2 oferuje większość potrzebnych możliwości HTTP, ale API jest całkowicie zepsute. Wymaga olbrzymiej ilości pracy (nawet nadpisywania metod) żeby wykonać najprostsze zadania.
 
 [http://py.net/requests](http://py.net/requests)
 
-    :::bash
-    pip install requests-2.18.4-py2.py3-none-any.whl
+```bash
+pip install requests-2.18.4-py2.py3-none-any.whl
 
-    LUB:
+LUB:
 
-    python -m pip install requests-2.18.4-py2.py3-none-any.whl
+python -m pip install requests-2.18.4-py2.py3-none-any.whl
+
+python -m pip install requests-2.18.4-py2.py3-none-any.whl
+
+```
 
 URL
 ---
@@ -156,9 +186,13 @@ URL's types:
 GET
 ---
 
-    :::python3
-    import requests
-    resp = requests.get('http://py.net/health')
+```python
+import requests
+resp = requests.get('http://py.net/health')
+
+resp = requests.get('http://py.net/health')
+
+```
 
 odpowiedź `data` z dokumentacji biblioteki requests:
 
@@ -171,45 +205,53 @@ odpowiedź `data` z dokumentacji biblioteki requests:
 * `text` - Content of the response, in unicode.
 * `url` - Final URL location of Response.
 
-
 Przykład:
 
-    :::python3
-    import requests
-    resp = requests.get('http://py.net/health')
-    resp_json = resp.json()  # <- to jest metoda ją trzeba wywołać
-    resp_text = resp.text  # <- to nie jest metoda jej nie trzeba wywoływac
-    resp_time = resp.elapsed
-    resp_url = resp.url
+```python
+import requests
+resp = requests.get('http://py.net/health')
+resp_json = resp.json()  # <- to jest metoda ją trzeba wywołać
+resp_text = resp.text  # <- to nie jest metoda jej nie trzeba wywoływac
+resp_time = resp.elapsed
+resp_url = resp.url
+
+resp_url = resp.url
+
+```
 
 Zapisanie pliku:
 
-    :::python3
-    import requests
-    resp = requests.get('http://py.net/somefile')
-    with open('file.pdf', 'wb') as file:
-        file.write(resp.content)
+```python
+import requests
+resp = requests.get('http://py.net/somefile')
+with open('file.pdf', 'wb') as file:
+    file.write(resp.content)
 
+    file.write(resp.content)
+```
 
 POST
 ----
 
 Wysłanie jsona:
 
-    :::python3
-    url = 'http://mywebsite.org/post'
-    a_dict = {"random_key": "with_random_value"}
-    resp = requests.post(url, json=a_dict)
+```python
+url = 'http://mywebsite.org/post'
+a_dict = {"random_key": "with_random_value"}
+resp = requests.post(url, json=a_dict)
+
+resp = requests.post(url, json=a_dict)
+```
 
 Upload pliku:
 
-    :::python3
-    url = 'http://mywebsite.org/post'
-    files = {'file': open('report.xls', 'rb')}
-    resp = requests.post(url, files=files)
+```python
+url = 'http://mywebsite.org/post'
+files = {'file': open('report.xls', 'rb')}
+resp = requests.post(url, files=files)
 
-
-
+resp = requests.post(url, files=files)
+```
 
 Przygotowanie do zadań
 ----------------------
@@ -218,101 +260,96 @@ Dokumentacja py.net API:
 
 Health:
 
-    /health
-    GET
-    proper response:
-        200: {'health': "OK"}
+/health
+GET
+proper response:
+    200: {'health': "OK"}
 
 Status - get
 
-    /status
-    GET
-    proper response:
-        200: {'status': string}
-
+/status
+GET
+proper response:
+    200: {'status': string}
 
 Status - set
 
-    /status/set
-    POST
-    requires:
-        "status": string
-    proper response:
-        200: {'success': True}
+/status/set
+POST
+requires:
+    "status": string
+proper response:
+    200: {'success': True}
 
 Register:
 
-    /register
-    POST
-    requires:
-        "name": string
-        "password": string
-    proper response:
-        200: {'success': True}
-
+/register
+POST
+requires:
+    "name": string
+    "password": string
+proper response:
+    200: {'success': True}
 
 Login:
 
-    /auth
-    POST
-    requires:
-        "name": string
-        "password": string
-    proper response:
-        {'api_key': string, 'name': string}
-
+/auth
+POST
+requires:
+    "name": string
+    "password": string
+proper response:
+    {'api_key': string, 'name': string}
 
 User status - get:
 
-    /user_status
-    GET
-    proper response:
-        200: {string: string}
+/user_status
+GET
+proper response:
+    200: {string: string}
 
 User status - set:
 
-    /user_status/set
-    POST
-    requires:
-        "api_key": string
-        "status": string
-    proper response:
-        {'success': True}
-
+/user_status/set
+POST
+requires:
+    "api_key": string
+    "status": string
+proper response:
+    {'success': True}
 
 Random cat img:
 
-    /cat
-    GET
-    proper response:
-        200: data
+/cat
+GET
+proper response:
+    200: data
 
 Query string zabawa:
 
-    /query_string
-    GET
-    proper response:
-        200: {
-        "parsed": bool,
-        "args": dict,
-        "url": dict,
-        "query_string": dict
-    }
+/query_string
+GET
+proper response:
+    200: {
+    "parsed": bool,
+    "args": dict,
+    "url": dict,
+    "query_string": dict
+}
 
 Requests lib whl:
 
-    /requests
-    GET
-    proper response:
-        200: data
+/requests
+GET
+proper response:
+    200: data
 
 Requests lib tar:
 
-    /requests_tar
-    GET
-    proper response:
-        200: data
-
+/requests_tar
+GET
+proper response:
+    200: data
 
 Do reszty zadań:
 https://swapi.co/api/

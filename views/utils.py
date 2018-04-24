@@ -49,6 +49,7 @@ def user_required(access_level='any_user'):
         return func_wrapper
     return decorator
 
+
 async def get_user_name(uid):
     if uid not in _users_names:
         user = await Users.get_by_id(uid)

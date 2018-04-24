@@ -11,6 +11,7 @@ except:
     version = '0.7'
 
 from sanic import Sanic
+from sanic_cors import CORS
 
 from config import SERVER
 from exception_handlers import add_exception_handlers
@@ -33,6 +34,14 @@ if not SERVER.DEBUG:
 
 
 app = Sanic(log_config=LOGGING)
+# TODO change the orgins from * to config one (proper one)
+CORS(app, automatic_options=True, esources={r"/api/*": {"origins": "*"}})
+
+@app.middleware('response')
+async def custom_banner(request, response):
+    if request.path.startswith('/api'):
+        response.headers["content-type"] = "application/json"
+    return response
 
 try:
     context = ssl.create_default_context(purpose=ssl.Purpose.CLIENT_AUTH)

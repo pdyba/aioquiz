@@ -27,7 +27,7 @@ INVALID_ANSWER = json({'msg': 'Invalid answer provided for the given question ty
 # noinspection PyBroadException
 class LessonView(HTTPModelClassView):
     _cls = Lesson
-    _urls = ['/api/lessons', '/api/lessons/<qid:int>']
+    _urls = ['/api/lessons', '/api/lessons/<lid:int>']
 
     @user_required()
     async def post(self, request, current_user):
@@ -146,7 +146,10 @@ class AbsenceManagementView(HTTPModelClassView):
                     'msg': 'Missing code'
                 },
             )
-        abmeta = await AbsenceMeta.get_first('code', code)
+        try:
+            abmeta = await AbsenceMeta.get_first('code', code)
+        except DoesNotExist:
+            return json({'msg': 'Code was wrong', 'success': False})
         if code != abmeta.code:
             return json(
                 {

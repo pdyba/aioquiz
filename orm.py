@@ -55,7 +55,7 @@ async def make_a_querry(querry, retry=False):
 class DoesNotExist(Exception):
     @staticmethod
     async def to_dict():
-        return {'msg': 'User does not exist'}
+        return {'msg': 'Does not exist', 'success': False}
 
 
 class StringLiteral:
@@ -179,6 +179,8 @@ class Table:
 
     @classmethod
     async def get_by_many_field_value(cls, **kwargs):
+        if not kwargs:
+            return await cls.get_all()
         querry = """SELECT * FROM {} WHERE """.format(cls._name)
         for i, kw in enumerate(kwargs):
             if isinstance(kwargs[kw], (dict, list)):

@@ -9,51 +9,59 @@ Zawiera jedną stronę, która umożliwia dodanie nowego zadania i wyświetla ju
 
 ### Szablon (templates/zadania.html)
 
-    :::html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Lista zadań</title>
-    </head>
-    <body>
-        <h1>Lista zadań</h1>
-        {% if zadania %}
-            <ul>
-                {% for zadanie in zadania %}
-                    <li>{{ zadanie }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            Brak zadań
-        {% endif %}
-    
-        <br><br>
-        <form method="post">
-            Nowe zadanie
-            <input type="text" name="zadanie">
-            <button type="submit">Dodaj</button>
-        </form>
-    </body>
-    </html>
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista zadań</title>
+</head>
+<body>
+    <h1>Lista zadań</h1>
+    {% if zadania %}
+        <ul>
+            {% for zadanie in zadania %}
+                <li>{{ zadanie }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        Brak zadań
+    {% endif %}
+
+    <br><br>
+    <form method="post">
+        Nowe zadanie
+        <input type="text" name="zadanie">
+        <button type="submit">Dodaj</button>
+    </form>
+</body>
+</html>
+
+</html>
+
+```
 
 ### Backend
 
-    :::python
-    from flask import Flask, request, render_template
-    
-    app = Flask(__name__)
-    
-    zadania = []
-    
-    @app.route("/zadania", methods=['GET', 'POST'])
-    def lista_zespolow():
-        if request.method == 'POST':
-            zadania.append(request.form['zadanie'])
-    
-        return render_template('zadania.html', zadania=zadania)
-    
-    app.run(debug=True)
+```python
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+zadania = []
+
+@app.route("/zadania", methods=['GET', 'POST'])
+def lista_zespolow():
+    if request.method == 'POST':
+        zadania.append(request.form['zadanie'])
+
+    return render_template('zadania.html', zadania=zadania)
+
+app.run(debug=True)
+
+app.run(debug=True)
+
+```
 
 Powyższa aplikacja ma pewnien problem - jeśi użytkownik doda nowe zadanie, a następnie odświeży stronę,
 zobaczy komunikat z pytaniem typu "Czy na pewno chcesz ponownie przesłać formularz?".
@@ -65,19 +73,22 @@ Wówczas użytkownik będzie mógł odświeżać stronę bez ryzyka ponownego wy
 
 ### Poprawiony backend
 
-    :::python
-    from flask import Flask, request, render_template, redirect
-    
-    app = Flask(__name__)
-    
-    zadania = []
-    
-    @app.route('/zadania', methods=['GET', 'POST'])
-    def lista_zespolow():
-        if request.method == 'POST':
-            zadania.append(request.form['zadanie'])
-            return redirect('/zadania')
-    
-        return render_template('zadania.html', zadania=zadania)
-    
-    app.run(debug=True)
+```python
+from flask import Flask, request, render_template, redirect
+
+app = Flask(__name__)
+
+zadania = []
+
+@app.route('/zadania', methods=['GET', 'POST'])
+def lista_zespolow():
+    if request.method == 'POST':
+        zadania.append(request.form['zadanie'])
+        return redirect('/zadania')
+
+    return render_template('zadania.html', zadania=zadania)
+
+app.run(debug=True)
+app.run(debug=True)
+```
+

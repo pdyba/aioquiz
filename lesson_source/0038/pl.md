@@ -15,23 +15,29 @@ Przykład - prosty test
 
 ### app/silnia.py
 
-    :::python3
-    def silnia(n):
-        if n < 2:
-            return n
-    
-        return n * silnia(n - 1)
+```python
+def silnia(n):
+if n < 2:
+    return n
+
+return n * silnia(n - 1)
+
+return n * silnia(n - 1)
+
+```
 
 ### tests/test_silnia.py
 
-    :::python3
-    from app.silnia import silnia
-    
-    
-    def test_silnia():
-        assert silnia(1) == 1
-        assert silnia(2) == 2
-        assert silnia(5) == 120
+```python
+from app.silnia import silnia
+
+def test_silnia():
+assert silnia(1) == 1
+assert silnia(2) == 2
+assert silnia(5) == 120
+
+assert silnia(5) == 120
+```
 
 ### Automatyczne wykrywanie testów
 
@@ -61,19 +67,22 @@ co dana funkcja powinna robić
 
 ### Dokładniejszy test funkcji silnia()
 
-    :::python3
-    import pytest
-    
-    from app.silnia import silnia
+```python
+import pytest
 
-    def test_silnia():
-        assert silnia(0) == 1
-        assert silnia(1) == 1
-        assert silnia(2) == 2
-        assert silnia(5) == 120
-    
-        with pytest.raises(ValueError):
-            silnia(-1)
+from app.silnia import silnia
+
+def test_silnia():
+assert silnia(0) == 1
+assert silnia(1) == 1
+assert silnia(2) == 2
+assert silnia(5) == 120
+
+with pytest.raises(ValueError):
+    silnia(-1)
+
+    silnia(-1)
+```
 
 ### Uwagi do zadań 1a - 1e
 
@@ -97,34 +106,38 @@ wtedy należy ustawić parametr ``reverse`` na ``True``. Pusty wiek powinien by�
 oraz ``mean_age`` - średni wiek użytkowników, którzy mają zdefiniowany wiek. ``mean_age`` powinno się pojawić tylko wtedy,
 kiedy przynajmniej jeden użytkownik ma zdefiniowany wiek. 
 
-
 Fixtures
 --------
 
 Fixture - metoda tworząca obiekty, dane itp. potrzebne w testach. Tworzymy je następująco:
 
-    :::python3
-    import pytest
+```python
+import pytest
 
-    @pytest.fixture
-    def user_db():
-        return UserDB()
-    
-    @pytest.fixture
-    def prefilled_user_db():
-        user_db = UserDB()
-        user_db.add_user({'name': 'John', 'age': 27})
-        user_db.add_user({'name': 'Alice', 'age': 29})
-        user_db.add_user({'name': 'Susan'})
-        return user_db
+@pytest.fixture
+def user_db():
+return UserDB()
+
+@pytest.fixture
+def prefilled_user_db():
+user_db = UserDB()
+user_db.add_user({'name': 'John', 'age': 27})
+user_db.add_user({'name': 'Alice', 'age': 29})
+user_db.add_user({'name': 'Susan'})
+return user_db
+
+return user_db
+```
 
 Do metod testowych możemy teraz dodawać argumenty o nazwach takich, jak nazwy fixture'ów, przykładowo:
 
-    :::python3
-    def test_list_users(user_db, prefilled_user_db):
-        assert user_db.list_users() == []
-        assert len(prefilled_user_db.list_users()) == 3
+```python
+def test_list_users(user_db, prefilled_user_db):
+assert user_db.list_users() == []
+assert len(prefilled_user_db.list_users()) == 3
 
+assert len(prefilled_user_db.list_users()) == 3
+```
 
 Mockowanie
 ----------
@@ -136,33 +149,38 @@ zasobów zewnętrznych, do których będzie się odwoływać nasz kod w czasie t
 
 ### app/swapi.py
 
-    :::python3
-    import requests
-    
-    def get_planet_terrain(name):
-        result = requests.get(f'http://swapi.co/api/planets?search={name}').json()
-        if result['results']:
-            return result['results'][0]['terrain']
-        raise ValueError(f'Planet {name} not found')
+```python
+import requests
+
+def get_planet_terrain(name):
+result = requests.get(f'http://swapi.co/api/planets?search={name}').json()
+if result['results']:
+    return result['results'][0]['terrain']
+raise ValueError(f'Planet {name} not found')
+
+raise ValueError(f'Planet {name} not found')
+```
 
 ### tests/test_swapi.py
 
-    :::python3
-    import json
-    from unittest.mock import patch
-    
-    from app.swapi import get_planet_terrain
-    
-    
-    @patch('app.swapi.requests')
-    def test_get_planet_details(requests_mock):
-        with open('tests/planet_Tatooine.json') as file:
-            planets = json.load(file)
-    
-        requests_mock.get.return_value.json.return_value = planets
-        assert get_planet_terrain('Tatooine') == 'desert'
-        requests_mock.get.assert_called_with('http://swapi.co/api/planets?search=Tatooine')
+```python
+import json
+from unittest.mock import patch
 
+from app.swapi import get_planet_terrain
+
+@patch('app.swapi.requests')
+def test_get_planet_details(requests_mock):
+with open('tests/planet_Tatooine.json') as file:
+    planets = json.load(file)
+
+requests_mock.get.return_value.json.return_value = planets
+assert get_planet_terrain('Tatooine') == 'desert'
+requests_mock.get.assert_called_with('http://swapi.co/api/planets?search=Tatooine')
+
+requests_mock.get.assert_called_with('http://swapi.co/api/planets?search=Tatooine')
+
+```
 
 * ``@patch`` powoduje nadpisanie na czas testu zmiennej podanej jako argument. Uwaga - nie wystarczy podać
 ``@patch('requests')`` - trzeba podać też ścieżkę do modułu, wewnątrz którego ``requests`` jest importowane.
@@ -176,7 +194,6 @@ pozwala sprawdzić, czy dany mock został wywołany jako funkcja z podanymi argu
 * Opis wszystkich funkcji udostępnianych przez mocki znajduje się w dokumentacji:
 [https://docs.python.org/3/library/unittest.mock.html](https://docs.python.org/3/library/unittest.mock.html)
 
-
 Coverage
 --------
 
@@ -185,15 +202,18 @@ Najprościej użyć Coverage wbudowanego w PyCharma - należy uruchomić testy k
 Uwaga - przy pierwszym uruchomieniu PyCharm zaprotestuje twierdząc, że coverage.py nie jest zainstalowane.
 Wystaczy wybrać opcję 'Use bundled coverage' i sprawdzanie pokrycia powinno zadziałać bez problemu.
 
-
 Testowanie Flaska
 -----------------
 
 Patrz przykład: [https://github.com/grzegorzpro/sqldemo](https://github.com/grzegorzpro/sqldemo)
-
 
 Kod do zadań
 ------------
 
 [Zadanie 1.](./images/user_db.py)
 [Zadanie 3.](./images/swapi.py)
+
+[ ]*```(.*)\n(([ ]{4,}.*\n*)*)
+```
+
+```$1\n$2$3```\n\n

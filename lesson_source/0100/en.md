@@ -9,14 +9,17 @@ Flask: Instalation and preparaion
 
 from flask import Flask app = Flask(__name__)
 
-    :::python3
-    @app.route('/')
-    def hello_world():
-        return 'Hello World!'
+```python
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
 
-    if __name__ == '__main__':
-        app.run()
+if __name__ == '__main__':
+    app.run()
 
+    app.run()
+
+```
 
 In virtaual env install: Must: .. code-block:: bash
 
@@ -27,12 +30,15 @@ Optional: \$ pip install flask-sqlalchemy
 
 After let's create the basic folder structure for our application:
 
-    :::bash
-    $ mkdir app
-    $ mkdir app/static
-    $ mkdir app/templates
-    $ mkdir tmp
+```bash
+$ mkdir app
+$ mkdir app/static
+$ mkdir app/templates
+$ mkdir tmp
 
+$ mkdir tmp
+
+```
 
 The app folder will be where we will put our application package. The
 static sub-folder is where we will store static files like images,
@@ -47,17 +53,20 @@ Flask: Hallo world
 
 "Hello world" web application with Flask:
 
-    :::python3
-    from flask import Flask
-    app = Flask(__name__)
+```python
+from flask import Flask
+app = Flask(__name__)
 
-    @app.route('/')
-    def hello_world():
-        return 'Hello World!'
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
 
-    if __name__ == '__main__':
-        app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
 
+    app.run(debug=True)
+
+```
 
 The script above simply creates the application object (of class Flask)
 and then imports the views module, which we haven't written yet. Do not
@@ -82,10 +91,13 @@ function.
 The final step to have a fully working web application is to create a
 script that starts up the development web server with our application:
 
-    :::python3
-    if __name__ == '__main__':
-        app.run(debug=True)
+```python
+if __name__ == '__main__':
+    app.run(debug=True)
 
+    app.run(debug=True)
+
+```
 
 It simply invokes app run method to start the server. Remember that the
 app variable holds the Flask instance that we created it above.

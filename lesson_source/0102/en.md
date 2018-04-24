@@ -14,10 +14,13 @@ going to setup a configuration file inside our root app folder so that
 it is easily accessible if it needs to be edited. Here is what we will
 start with (file config.py):
 
-    :::python3
-    WTF_CSRF_ENABLED = True
-    SECRET_KEY = 'you-will-never-guess'
+```python
+WTF_CSRF_ENABLED = True
+SECRET_KEY = 'you-will-never-guess'
 
+SECRET_KEY = 'you-will-never-guess'
+
+```
 
 Pretty simple, it's just two settings that our Flask-WTF extension
 needs. The WTF_CSRF_ENABLED setting activates the cross-site request
@@ -36,10 +39,13 @@ follows (file app/main.py):
 
 from flask import Flask
 
-    :::python3
-    app = Flask(__name__)
-    app.config.from_object('config')
+```python
+app = Flask(__name__)
+app.config.from_object('config')
 
+app.config.from_object('config')
+
+```
 
 The user login form
 ===================
@@ -54,19 +60,22 @@ standard username/password type.
 
 Let's write our first form:
 
-    :::python3
-    from wtforms import Form
-    from wtforms import StringField, PasswordField
-    from wtforms.validators import DataRequired
+```python
+from wtforms import Form
+from wtforms import StringField, PasswordField
+from wtforms.validators import DataRequired
 
-    class LoginForm(Form):
-    username = StringField(
-        "description",
-    )
-    password = PasswordField(
-        "password",
-    )
+class LoginForm(Form):
+username = StringField(
+    "description",
+)
+password = PasswordField(
+    "password",
+)
 
+)
+
+```
 
 I believe the class is pretty much self-explanatory. We imported the
 Form class, and the two form field classes that we need, StringField and
@@ -87,29 +96,32 @@ knows how to render form fields as HTML, so we just need to concentrate
 on the layout. Here is our login template (file
 app/templates/login.html):
 
-    :::html
-    <!-- extend from base layout -->
-    {% extends "base.html" %}
+```html
+<!-- extend from base layout -->
+{% extends "base.html" %}
 
-    {% block content %}
-      <h1>Sign In</h1>
-      <form action="" method="post" name="login">
-          {{ form.hidden_tag() }}
-          <p>
-              Please enter your Login:<br>
-              {{ form.username }}<br>
-              and Password:<br>
-              {{ form.password }}<br>
-          </p>
-          <p><input type="submit" value="Sign In"></p>
-      </form>
-    {% endblock %}
+{% block content %}
+  <h1>Sign In</h1>
+  <form action="" method="post" name="login">
+      {{ form.hidden_tag() }}
+      <p>
+          Please enter your Login:<br>
+          {{ form.username }}<br>
+          and Password:<br>
+          {{ form.password }}<br>
+      </p>
+      <p><input type="submit" value="Sign In"></p>
+  </form>
+{% endblock %}
 
+{% endblock %}
+
+```
 
 Note that in this template we are reusing the base.html template through the extends template inheritance statement.
 
 :   We will actually do this with all our templates, to ensure a
-    consistent layout across all pages.
+consistent layout across all pages.
 
 There are a few interesting differences between a regular HTML form and
 our template. This template expects a form object instantiated from the
@@ -139,12 +151,15 @@ that renders the template.
 This is actually quite simple since we just need to pass a form object
 to the template. Here is our new view function:
 
-    :::python3
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        form = LoginForm(request.form)
-        return render_template('login.html', form=form)
+```python
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm(request.form)
+    return render_template('login.html', form=form)
 
+    return render_template('login.html', form=form)
+
+```
 
 So basically, we have imported our LoginForm class, instantiated an
 object from it, and sent it down to the template. This is all that is
@@ -156,9 +171,9 @@ bit later.
 The only other thing that is new here is the methods argument in the route decorator.
 
 :   This tells Flask that this view function accepts GET and POST
-    requests. Without this the view will only accept GET requests. We
-    will want to receive the POST requests, these are the ones that will
-    bring in the form data entered by the user.
+requests. Without this the view will only accept GET requests. We
+will want to receive the POST requests, these are the ones that will
+bring in the form data entered by the user.
 
 At this point you can try the app and see the form in your web browser.
 After you start the application you will want to open
@@ -174,27 +189,30 @@ Receiving form data
 Another area where Flask-WTF makes our job really easy is in the handling of the submitted form data.
 
 :   Here is an updated version of our login view function that validates
-    and stores the form data:
+and stores the form data:
 
-    :::python3
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        form = LoginForm(request.form)
-        if request.method == 'POST' and form.validate():
-            user = User.query.filter_by(
-                username=request.form['username']).first()
-            if user is not None and bcrypt.check_password_hash(
-                    user.password, request.form['password']
-            ):
-                login_user(user)
-                flash('Hi {}{} ! You were logged in. Go Crazy.'.format(
-                    user.username[0].upper(), user.username[1:]
-                ))
-                return redirect(url_for('overview'))
-            else:
-                flash('Invalid username or password.')
-        return render_template('login.html', form=form)
+```python
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User.query.filter_by(
+            username=request.form['username']).first()
+        if user is not None and bcrypt.check_password_hash(
+                user.password, request.form['password']
+        ):
+            login_user(user)
+            flash('Hi {}{} ! You were logged in. Go Crazy.'.format(
+                user.username[0].upper(), user.username[1:]
+            ))
+            return redirect(url_for('overview'))
+        else:
+            flash('Invalid username or password.')
+    return render_template('login.html', form=form)
 
+    return render_template('login.html', form=form)
+
+```
 
 The validate_on_submit method does all the form processing work. If
 you call it when the form is being presented to the user (i.e. before
@@ -227,31 +245,34 @@ layout. We will add these messages to the base template, so that all our
 templates inherit this functionality. This is the updated base template
 (file app/templates/_base.html):
 
-    :::html
-    <html>
-      <head>
-        {% if title %}
-        <title>{{ title }} - App</title>
-        {% else %}
-        <title>App</title>
-        {% endif %}
-      </head>
-      <body>
-        <div>Microblog: <a href="/index">Home</a></div>
-        <hr>
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul>
-            {% for message in messages %}
-                <li>{{ message }} </li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-      </body>
-    </html>
+```html
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - App</title>
+    {% else %}
+    <title>App</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Microblog: <a href="/index">Home</a></div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </body>
+</html>
 
+</html>
+
+```
 
 The technique to display the flashed message is hopefully
 self-explanatory. One interesting property of flash messages is that
@@ -269,7 +290,7 @@ messages will display even if a view function ends in a redirect.
 This is a great time to start the app and test how the form works. Make sure you
 
 :   try submitting the form with the username field empty, to see how
-    the DataRequired validator halts the submission process.
+the DataRequired validator halts the submission process.
 
 Improving field validation
 ==========================
@@ -278,21 +299,24 @@ With the app in its current state, forms that are submitted with invalid
 data will not be accepted. Instead, the form will be presented back to
 the user to correct. This is exactly what we want.
 
-    :::python3
-    from wtforms import Form
-    from wtforms import StringField, PasswordField
-    from wtforms.validators import DataRequired
+```python
+from wtforms import Form
+from wtforms import StringField, PasswordField
+from wtforms.validators import DataRequired
 
-    class LoginForm(Form):
-    username = StringField(
-        "description",
-        validators=[validators.DataRequired('Please enter your name.')],
-    )
-    password = PasswordField(
-        "password",
-        validators=[validators.DataRequired('Please enter your password.')],
-    )
+class LoginForm(Form):
+username = StringField(
+    "description",
+    validators=[validators.DataRequired('Please enter your name.')],
+)
+password = PasswordField(
+    "password",
+    validators=[validators.DataRequired('Please enter your password.')],
+)
 
+)
+
+```
 
 What we are missing is an indication to the user of what is wrong with
 the form. Luckily, Flask-WTF also makes this an easy task.
@@ -304,27 +328,30 @@ just need to add a bit of logic that renders them.
 Here is our login template with field validation messages (file
 app/templates/login.html):
 
-    :::html
-    <!-- extend base layout -->
-    {% extends "base.html" %}
+```html
+<!-- extend base layout -->
+{% extends "base.html" %}
 
-    {% block content %}
-      <h1>Sign In</h1>
-                {% for error in form.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-              {% endfor %}<br>
-      <form action="" method="post" name="login">
-          {{ form.hidden_tag() }}
-          <p>
-              Please enter your Login:<br>
-              {{ form.username }}<br>
-              and Password:<br>
-              {{ form.password }}<br>
-          </p>
-          <p><input type="submit" value="Sign In"></p>
-      </form>
-    {% endblock %}
+{% block content %}
+  <h1>Sign In</h1>
+            {% for error in form.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+  <form action="" method="post" name="login">
+      {{ form.hidden_tag() }}
+      <p>
+          Please enter your Login:<br>
+          {{ form.username }}<br>
+          and Password:<br>
+          {{ form.password }}<br>
+      </p>
+      <p><input type="submit" value="Sign In"></p>
+  </form>
+{% endblock %}
 
+{% endblock %}
+
+```
 
 The only change we've made is to add a for loop that renders any
 messages added by the validators below the field. As a general rule, any

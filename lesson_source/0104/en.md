@@ -41,14 +41,17 @@ database server.
 We have a couple of new configuration items to add to our config file
 (file config.py):
 
-    :::python3
-    import os
-    basedir = os.path.abspath(os.path.dirname(__file__))
+```python
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
-    The SQLALCHEMY_DATABASE_URI is required by the Flask-SQLAlchemy extension. This is the path of our database file.
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+The SQLALCHEMY_DATABASE_URI is required by the Flask-SQLAlchemy extension. This is the path of our database file.
 
+The SQLALCHEMY_DATABASE_URI is required by the Flask-SQLAlchemy extension. This is the path of our database file.
+
+```
 
 The SQLALCHEMY_MIGRATE_REPO is the folder where we will store the
 SQLAlchemy-migrate data files.
@@ -56,16 +59,19 @@ SQLAlchemy-migrate data files.
 Finally, when we initialize our app we also need to initialize our
 database. Here is our updated package init file (file app/main.py):
 
-    :::python3
-    from flask import Flask
-    from flask.ext.sqlalchemy import SQLAlchemy
+```python
+from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
 
-    app = Flask(__name__)
-    app.config.from_object('config')
-    db = SQLAlchemy(app)
+app = Flask(__name__)
+app.config.from_object('config')
+db = SQLAlchemy(app)
 
-    Note the two changes we have made to our init script. We are now creating a db object that will be our database, and we are also importing a new module called models. We will write this module next.
+Note the two changes we have made to our init script. We are now creating a db object that will be our database, and we are also importing a new module called models. We will write this module next.
 
+Note the two changes we have made to our init script. We are now creating a db object that will be our database, and we are also importing a new module called models. We will write this module next.
+
+```
 
 The database model
 ==================
@@ -81,12 +87,15 @@ id field. The nickname and email fields are defined as strings (or
 VARCHAR in database jargon), and their maximum lengths are specified so
 that the database can optimize space usage.
 
-    :::python3
-    class User(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        nickname = db.Column(db.String(64), index=True, unique=True)
-        email = db.Column(db.String(120), index=True, unique=True)
+```python
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nickname = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
 
+    email = db.Column(db.String(120), index=True, unique=True)
+
+```
 
 The User class that we just created contains several fields, defined as
 class variables. Fields are created as instances of the db.Column class,
@@ -106,18 +115,21 @@ scripts that invoke the migration APIs.
 
 Here is a script that creates the database (file db_create.py):
 
-    :::python3
-    from migrate.versioning import api
-    from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
-    from app import db
-    import os.path
-    db.create_all()
-    if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
-        api.create(SQLALCHEMY_MIGRATE_REPO, 'database repository')
-        api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    else:
-        api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, api.version(SQLALCHEMY_MIGRATE_REPO))
+```python
+from migrate.versioning import api
+from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
+from app import db
+import os.path
+db.create_all()
+if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
+    api.create(SQLALCHEMY_MIGRATE_REPO, 'database repository')
+    api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+else:
+    api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, api.version(SQLALCHEMY_MIGRATE_REPO))
 
+    api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, api.version(SQLALCHEMY_MIGRATE_REPO))
+
+```
 
 Note how this script is completely generic. All the application specific
 pathnames are imported from the config file. When you start your own
@@ -142,23 +154,26 @@ will take us from an empty database to a database that can store users.
 To generate a migration I use another little Python helper script (file
 db_migrate.py):
 
-    :::python3
-    import imp
-    from migrate.versioning import api
-    from app import db
-    from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
-    v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    migration = SQLALCHEMY_MIGRATE_REPO + ('/versions/%03d_migration.py' % (v+1))
-    tmp_module = imp.new_module('old_model')
-    old_model = api.create_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    exec(old_model, tmp_module.__dict__)
-    script = api.make_update_script_for_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, tmp_module.meta, db.metadata)
-    open(migration, "wt").write(script)
-    api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    print('New migration saved as ' + migration)
-    print('Current database version: ' + str(v))
+```python
+import imp
+from migrate.versioning import api
+from app import db
+from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
+v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+migration = SQLALCHEMY_MIGRATE_REPO + ('/versions/%03d_migration.py' % (v+1))
+tmp_module = imp.new_module('old_model')
+old_model = api.create_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+exec(old_model, tmp_module.__dict__)
+script = api.make_update_script_for_model(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, tmp_module.meta, db.metadata)
+open(migration, "wt").write(script)
+api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+print('New migration saved as ' + migration)
+print('Current database version: ' + str(v))
 
+print('Current database version: ' + str(v))
+
+```
 
 The script looks complicated, but it doesn't really do much. The way
 SQLAlchemy-migrate creates a migration is by comparing the structure of
@@ -214,14 +229,17 @@ production server and run a simple script that applies the changes for
 you. The database upgrade can be done with this little Python script
 (file db_upgrade.py):
 
-    :::python3
-    from migrate.versioning import api
-    from config import SQLALCHEMY_DATABASE_URI
-    from config import SQLALCHEMY_MIGRATE_REPO
-    api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    print('Current database version: ' + str(v))
+```python
+from migrate.versioning import api
+from config import SQLALCHEMY_DATABASE_URI
+from config import SQLALCHEMY_MIGRATE_REPO
+api.upgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+print('Current database version: ' + str(v))
 
+print('Current database version: ' + str(v))
+
+```
 
 When you run the above script, the database will be upgraded to the
 latest revision, by applying the migration scripts stored in the
@@ -231,15 +249,18 @@ It is not a common need to have to downgrade a database to an old
 format, but just in case, SQLAlchemy-migrate supports this as well (file
 db_downgrade.py):
 
-    :::python3
-    from migrate.versioning import api
-    from config import SQLALCHEMY_DATABASE_URI
-    from config import SQLALCHEMY_MIGRATE_REPO
-    v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    api.downgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, v - 1)
-    v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-    print('Current database version: ' + str(v))
+```python
+from migrate.versioning import api
+from config import SQLALCHEMY_DATABASE_URI
+from config import SQLALCHEMY_MIGRATE_REPO
+v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+api.downgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, v - 1)
+v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
+print('Current database version: ' + str(v))
 
+print('Current database version: ' + str(v))
+
+```
 
 This script will downgrade the database one revision. You can run it
 multiple times to downgrade several revisions. There is also Alembic
@@ -274,21 +295,23 @@ one-to-many relationship, one user writes many posts.
 
 Let's modify our models to reflect these changes:
 
-    :::python3
-    class User(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        nickname = db.Column(db.String(64), index=True, unique=True)
-        email = db.Column(db.String(120), index=True, unique=True)
-        posts = db.relationship('Post', backref='author', lazy='dynamic')
+```python
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nickname = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
 
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    body = db.Column(db.String(140))
+    timestamp = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    class Post(db.Model):
-        id = db.Column(db.Integer, primary_key = True)
-        body = db.Column(db.String(140))
-        timestamp = db.Column(db.DateTime)
-        user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+```
 
 We have added the Post class, which will represent blog posts written by
 users. The user_id field in the Post class was initialized as a foreign

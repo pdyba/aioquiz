@@ -54,7 +54,7 @@ Going back to our program: currently the result is reduced to a single
 line. Now we want to write the BMI as a number and the interval in which
 it is located, that is to say:
 
-    Your BMI is equal: 21.39 (normal weight)
+Your BMI is equal: 21.39 (normal weight)
 
 Modify the current program so that the calculated BMI would be available
 under the name of `bmi`,and the name of the interval under the name of
@@ -119,65 +119,64 @@ With string there is a lot of methods implemented already.
 
 1.  capitalize() - Capitalizes first letter of string
 2.  count(str, beg= 0,end=len(string)) - Counts how many times str
-    occurs in string or in a substring of string if starting index beg
-    and ending index end are given.
+occurs in string or in a substring of string if starting index beg
+and ending index end are given.
 3.  endswith(suffix, beg=0, end=len(string)) - Determines if string or a
-    substring of string (if starting index beg and ending index end are
-    given) ends with suffix; returns true if so and false otherwise.
+substring of string (if starting index beg and ending index end are
+given) ends with suffix; returns true if so and false otherwise.
 4.  find(str, beg=0 end=len(string)) - Determine if str occurs in string
-    or in a substring of string if starting index beg and ending index
-    end are given returns index if found and -1 otherwise.
+or in a substring of string if starting index beg and ending index
+end are given returns index if found and -1 otherwise.
 5.  index(str, beg=0, end=len(string)) - Same as find(), but raises an
-    exception if str not found.
+exception if str not found.
 6.  isalnum() - Returns true if string has at least 1 character and all
-    characters are alphanumeric and false otherwise.
+characters are alphanumeric and false otherwise.
 7.  isalpha() - Returns true if string has at least 1 character and all
-    characters are alphabetic and false otherwise.
+characters are alphabetic and false otherwise.
 8.  isdigit() - Returns true if string contains only digits and false
-    otherwise.
+otherwise.
 9.  islower() - Returns true if string has at least 1 cased character
-    and all cased characters are in lowercase and false otherwise.
+and all cased characters are in lowercase and false otherwise.
 10. isnumeric() - Returns true if a unicode string contains only numeric
-    characters and false otherwise.
+characters and false otherwise.
 11. isspace() - Returns true if string contains only whitespace
-    characters and false otherwise.
+characters and false otherwise.
 12. istitle() - Returns true if string is properly "titlecased" and
-    false otherwise.
+false otherwise.
 13. isupper() - Returns true if string has at least one cased character
-    and all cased characters are in uppercase and false otherwise.
+and all cased characters are in uppercase and false otherwise.
 14. join(seq) - Merges (concatenates) the string representations of
-    elements in sequence seq into a string, with separator string.
+elements in sequence seq into a string, with separator string.
 15. len(string) - Returns the length of the string
 16. lower() - Converts all uppercase letters in string to lowercase.
 17. lstrip() - Removes all leading whitespace in string.
 18. max(str) - Returns the max alphabetical character from the string
-    str.
+str.
 19. min(str) - Returns the min alphabetical character from the string
-    str.
+str.
 20. replace(old, new [, max]) - Replaces all occurrences of old in
-    string with new or at most max occurrences if max given.
+string with new or at most max occurrences if max given.
 21. rfind(str, beg=0,end=len(string)) - Same as find(), but search
-    backwards in string.
+backwards in string.
 22. rindex( str, beg=0, end=len(string)) - Same as index(), but search
-    backwards in string.
+backwards in string.
 23. rstrip() - Removes all trailing whitespace of string.
 24. split(str="", num=string.count(str)) - Splits string according to
-    delimiter str (space if not provided) and returns list of
-    substrings; split into at most num substrings if given.
+delimiter str (space if not provided) and returns list of
+substrings; split into at most num substrings if given.
 25. splitlines( num=string.count('n')) - Splits string at all (or num)
-    NEWLINEs and returns a list of each line with NEWLINEs removed.
+NEWLINEs and returns a list of each line with NEWLINEs removed.
 26. startswith(str, beg=0,end=len(string)) - Determines if string or a
-    substring of string (if starting index beg and ending index end are
-    given) starts with substring str; returns true if so and false
-    otherwise.
+substring of string (if starting index beg and ending index end are
+given) starts with substring str; returns true if so and false
+otherwise.
 27. strip([chars]) - Performs both lstrip() and rstrip() on string
 28. swapcase() - Inverts case for all letters in string.
 29. title() - Returns "titlecased" version of string, that is, all words
-    begin with uppercase and the rest are lowercase.
+begin with uppercase and the rest are lowercase.
 30. upper() - Converts lowercase letters in string to uppercase.
 
 There is over 10 more methods but they are much more advanced.
-
 
 Summary
 =======
