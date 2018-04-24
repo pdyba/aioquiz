@@ -1,8 +1,8 @@
 {
-  "name": "vue-update",
-  "description": "Vue Auth & more",
+  "name": "vue-aioquiz",
+  "description": "Aioquize Frontend",
   "version": "1.0.0",
-  "author": "Maximilian Schwarzmüller <business@academind.com>",
+  "author": "Piotr Dyba <piotr@dyba.it>",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
