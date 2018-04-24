@@ -6,8 +6,9 @@ Serwer WWW
 
 Do tej pory, kiedy uruchamialiśmy aplikacje webowe napisane we Flasku, używaliśmy polecenia:
 
-    :::python3
-    app.run()
+```python
+app.run()
+```
 
 W rzeczywistości powoduje ono uruchomienie tak zwanego **serwera WWW**. Serwer WWW to aplikacja, której zadaniem jest
 przyjmowanie i obsługa zapytań HTTP. W większości przypadków, z którymi mieliśmy do czynienia do tej pory,
@@ -50,35 +51,40 @@ Istnieje wiele serwerów WWW, przykładowo:
 Aby uruchomić aplikację napisaną we Flasku (podobnie jak w większości pythonowych frameworków), serwer musi
 obsługiwać protokół **WSGI**. Jedną z najprostszych opcji jest użycie uWSGI (niestety działa tylko na Linuksie):
 
-    :::bash
-    pip install uwsgi
+```bash
+pip install uwsgi
+```
 
 Załóżmy, że mamy następującą aplikację (plik `myapp.py`):
 
-    :::python3
-    from flask import Flask
+```python
+from flask import Flask
 
-    app = Flask(__name__)
-    
-    @app.route("/add/<int:liczba1>/<int:liczba2>")
-    def add(liczba1, liczba2):
-        return str(liczba1 + liczba2)
-    
-    if __name__ == '__main__':
-        app.run(debug=True)
+app = Flask(__name__)
+
+@app.route("/add/<int:liczba1>/<int:liczba2>")
+def add(liczba1, liczba2):
+    return str(liczba1 + liczba2)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
 
 Aby uruchomić aplikację przez uWSGI, będziemy potrzebować plik konfiguracyjny `uwsgi.ini`:
 
-    :::ini
-    [uwsgi]
-    http = 0.0.0.0:8000
-    wsgi-file = myapp.py
-    callable = app
+
+```ini
+[uwsgi]
+http = 0.0.0.0:8000
+wsgi-file = myapp.py
+callable = app
+```
 
 Następnie uruchamiamy aplikację poleceniem:
 
-    :::bash
-    uwsgi --ini uwsgi.ini
+```bash
+uwsgi --ini uwsgi.ini
+```
 
 Teraz możemy w przeglądarce wejść np. na adres `127.0.0.1:8000/add/2/3`.
 
@@ -89,24 +95,25 @@ Możemy skonfigurować uWSGI tak, żeby aplikacja uruchamiała się w tle. Słu�
 
 Kod do zadania 2.
 
-    :::python3
-    import time
-    
-    from flask import Flask
-    
-    app = Flask(__name__)
-    
-    @app.route("/add/<int:liczba1>/<int:liczba2>")
-    def add(liczba1, liczba2):
-        return str(liczba1 + liczba2) + '\n'
-    
-    @app.route("/long")
-    def long():
-        time.sleep(10)
-        return 'done\n'
-    
-    if __name__ == '__main__':
-        app.run(debug=True)
+```python
+import time
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/add/<int:liczba1>/<int:liczba2>")
+def add(liczba1, liczba2):
+    return str(liczba1 + liczba2) + '\n'
+
+@app.route("/long")
+def long():
+    time.sleep(10)
+    return 'done\n'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
 
 ### nginx
 
@@ -120,15 +127,16 @@ wykorzystywany do zadań takich jak proxowanie, uwierzytelnianie czy HTTPS.
 Pliki z konfiguracjami dla nginxa znajdują się w folderze `/etc/nginx/conf.d`. Domyślnie znajduje się tam plik
 `default.conf` - można go wyłączyć zmieniając rozszerzenie np. na `tmp`. Następnie dodajemy tam nowy plik - `myapp.conf`:
 
-    :::
-    server {
-        listen       80;
-        server_name  localhost;
-    
-        location /myapp/ {
-            proxy_pass http://127.0.0.1:8000/;
-        }
+```
+server {
+    listen       80;
+    server_name  localhost;
+
+    location /myapp/ {
+        proxy_pass http://127.0.0.1:8000/;
     }
+}
+```
 
 Taka konfiguracja oznacza, że nginx będzie słuchał na porcie 80 - domyślnym porcie HTTP - i wszystkie zapytania
 o ścieżce zaczynającej się od `myapp` (np. `127.0.0.1/myapp/add/1/2`) będą przekierowywane (proxowane) do adresu
