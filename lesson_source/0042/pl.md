@@ -158,3 +158,16 @@ Jeśli nie pracujesz nad żadnym z projektów możesz użyć przykładowego repo
 - Aplikacja musi być uruchamiana z pliku `app.py`. Jeśli plik nazywa się inaczej można dodać w OpenShifcie zmienną
 środowiskową `APP_FILE`, kórej wartość będzie ustawiona na właściwą nazwę pliku.
 - Aplikacja musi słuchać na adresie `0.0.0.0` i porcie `8080` (`app.run('0.0.0.0', 8080)`)
+
+Windows i SSH, czyli PuTTY
+--------------------------
+
+Jeśli chodzi o SSH, najczęściej używanym narzędziem dla systemu Windows jest [Putty](https://www.putty.org/).
+
+Aby go pobrać, wejdźmy na wspomnianą wyżej stronę i przejdźmy do pobierania poprzez odnośnik obok *You can download PuTTY*. Wybierając odpowiednią opcję (patrz: zrzut ekranu poniżej) pobierz plik *putty.exe* (w odpowiednim wariancie: 32- lub 64-bitowy) i uruchom. W otwartym oknie w miejscu *Host Name (or IP address)* podaj wymagane dane w formacie *nazwa_użytkownika@adres_ip* (spójrz na kolejny zrzut ekranu). Po kliknięciu "Open" powinno zostać nawiązane połączenie. W wypadku pytania o kontynuowanie podłączenia wpisujemy "yes" i zatwierdzamy Enterem.
+
+![Strona pobierania](./images/putty_download.png)
+
+![Plik putty.exe](./images/putty_exe.png)
+
+![Nawiązywanie połączenia](./images/putty_connect.png)
