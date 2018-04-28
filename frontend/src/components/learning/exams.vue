@@ -1,11 +1,11 @@
 <template>
-    <listing alisting="lessons"> </listing>
+    <listing alisting="exam"> </listing>
 </template>
 
 <script>
     import listing from './_listing.vue'
     export default {
-        name: "lessons",
+        name: "exams",
         components: {
             listing
         }

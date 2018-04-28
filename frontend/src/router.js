@@ -8,15 +8,17 @@ import Home from './components/no_auth/home.vue'
 import rules from './components/no_auth/rules.vue'
 import program from './components/no_auth/program.vue'
 import about from './components/no_auth/about.vue'
-// import SignupPage from './components/auth/signup.vue'
 import SignupPage from './components/auth/signup.vue'
 import SigninPage from './components/auth/signin.vue'
 import magic_link_handler from './components/auth/magic_link_handler.vue'
 
 
 // learning
+import exams from './components/learning/exams.vue'
 import lesson from './components/learning/lesson.vue'
 import lessons from './components/learning/lessons.vue'
+import live_quizs from './components/learning/live_quizs.vue'
+import quizs from './components/learning/quizs.vue'
 // user
 import user from './components/user/user.vue'
 import userProfile from './components/user/profile.vue'
@@ -81,6 +83,72 @@ const routes = [
     {
         path: '/lessons/:id',
         component: lesson,
+        beforeEnter(to, from, next) {
+            if (store.getters.isAuthenticated) {
+                next()
+            } else {
+                next('/signin')
+            }
+        }
+    },
+    {
+        path: '/exams',
+        component: quizs,
+        beforeEnter(to, from, next) {
+            if (store.getters.isAuthenticated) {
+                next()
+            } else {
+                next('/signin')
+            }
+        }
+    },
+    {
+        path: '/exams/:id',
+        component: quizs,
+        beforeEnter(to, from, next) {
+            if (store.getters.isAuthenticated) {
+                next()
+            } else {
+                next('/signin')
+            }
+        }
+    },
+    {
+        path: '/quiz',
+        component: quizs,
+        beforeEnter(to, from, next) {
+            if (store.getters.isAuthenticated) {
+                next()
+            } else {
+                next('/signin')
+            }
+        }
+    },
+    {
+        path: '/quiz/:id',
+        component: quizs,
+        beforeEnter(to, from, next) {
+            if (store.getters.isAuthenticated) {
+                next()
+            } else {
+                next('/signin')
+            }
+        }
+    },
+    {
+        path: '/live_quiz',
+        component: live_quizs,
+        beforeEnter(to, from, next) {
+            if (store.getters.isAuthenticated) {
+                next()
+            } else {
+                next('/signin')
+            }
+        }
+    },
+    {
+        path: '/live_quiz/:id',
+        component: live_quizs,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
                 next()
