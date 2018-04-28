@@ -14,11 +14,14 @@ import magic_link_handler from './components/auth/magic_link_handler.vue'
 
 
 // learning
+import exam from './components/learning/exam.vue'
 import exams from './components/learning/exams.vue'
 import lesson from './components/learning/lesson.vue'
 import lessons from './components/learning/lessons.vue'
-import live_quizs from './components/learning/live_quizzes.vue'
-import quizs from './components/learning/quizzes.vue'
+import live_quiz from './components/learning/live_quiz.vue'
+import live_quizzes from './components/learning/live_quizzes.vue'
+import quiz from './components/learning/quiz.vue'
+import quizzes from './components/learning/quizzes.vue'
 // user
 import user from './components/user/user.vue'
 import userProfile from './components/user/profile.vue'
@@ -93,7 +96,7 @@ const routes = [
     },
     {
         path: '/exams',
-        component: quizs,
+        component: exams,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
                 next()
@@ -104,7 +107,7 @@ const routes = [
     },
     {
         path: '/exams/:id',
-        component: quizs,
+        component: exam,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
                 next()
@@ -115,7 +118,7 @@ const routes = [
     },
     {
         path: '/quiz',
-        component: quizs,
+        component: quizzes,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
                 next()
@@ -126,7 +129,7 @@ const routes = [
     },
     {
         path: '/quiz/:id',
-        component: quizs,
+        component: quiz,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
                 next()
@@ -137,7 +140,7 @@ const routes = [
     },
     {
         path: '/live_quiz',
-        component: live_quizs,
+        component: live_quizzes,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
                 next()
@@ -148,7 +151,7 @@ const routes = [
     },
     {
         path: '/live_quiz/:id',
-        component: live_quizs,
+        component: live_quiz,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
                 next()

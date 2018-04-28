@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <h1 class="page-header">listing</h1>
+        <h1 class="page-header">{{ alistingName }}</h1>
 
             <b-row class="mb-4" className="card-deck" v-for="i in rowCount" :key="i.id">
                 <b-col sm="4" v-for="x in itemCountInRow(i)" :key="x.id">
@@ -43,6 +43,10 @@
         },
         props: {
             alisting: {
+                type: String,
+                required: true
+            },
+            alistingName: {
                 type: String,
                 required: true
             }

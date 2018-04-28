@@ -1,5 +1,5 @@
 <template>
-    <listing alisting="live_quiz"> </listing>
+    <listing alisting="live_quiz" alistingName="Live Quiz"> </listing>
 </template>
 
 <script>
