@@ -66,12 +66,14 @@ export default new Vuex.Store({
             router.replace('/lessons');
         },
         logout({commit}) {
+            const done = 0;
             axios.get('/auth/logout').then((resp) => {
                 commit('clearAuthData');
                 localStorage.removeItem('expirationDate');
                 localStorage.removeItem('session_uuid');
                 localStorage.removeItem('user');
                 router.replace('/signin');
+                swal("Log out", "You've been logged out successfully")
             })
         },
         storeUser({commit, state}, userData) {
@@ -80,7 +82,6 @@ export default new Vuex.Store({
             }
             axios.post('/users', userData)
                 .then(res => console.log(res))
-                .catch(error => console.log(error))
         },
         fetchUser({commit, state}) {
             if (!state.session_uuid) {
@@ -95,10 +96,8 @@ export default new Vuex.Store({
                         user.id = key;
                         users.push(user)
                     }
-                    console.log(users);
                     commit('storeUser', users[0]);
                 })
-                .catch(error => console.log(error))
         }
     },
     getters: {

@@ -126,7 +126,7 @@
                     </thead>
 
                     <tbody>
-                    <tr v-for="atn in user_attendence.data">
+                    <tr v-for="atn in user_attendence.data" :key="atn.id">
                         <td>{{ atn.lesson }}</td>
                         <td>{{ atn.absent ? '&#10003;' : '&#10060;'}}</td>
                     </tr>

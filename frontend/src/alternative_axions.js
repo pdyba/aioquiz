@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const instance = axios.create();
-axios.defaults.baseURL = '';
+const alt_axios = axios.create();
+alt_axios.defaults.baseURL = '';
 
-export default instance
+export default alt_axios

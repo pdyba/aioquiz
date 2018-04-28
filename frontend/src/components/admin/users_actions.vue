@@ -55,7 +55,6 @@
                 });
             },
             makeOrganiser() {
-                console.log(this.user)
                 let data = {
                     'organiser': true,
                     'uid': this.user.id

@@ -149,7 +149,7 @@ class LogOutView(HTTPModelClassView):
     _urls = '/api/auth/logout'
 
     # noinspection PyUnusedLocal, PyMethodOverriding
-    @user_required()
+    @user_required(msg='Already log out', code=403)
     async def get(self, request, current_user):
         if current_user:
             current_user.session_uuid = ''

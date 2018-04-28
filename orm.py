@@ -14,6 +14,7 @@ from asyncpg.exceptions import UniqueViolationError
 from asyncpg.exceptions import ForeignKeyViolationError
 
 from config import DB
+from utils import color_print
 
 psql_cfg = {
     'user': DB.USER,
@@ -43,6 +44,9 @@ async def make_a_querry(querry, retry=False):
             raise
     except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
         raise
+    except ConnectionRefusedError:
+        logging.error('DataBase is not UP!')
+        color_print('DataBase is not UP!', color='red')
     except:
         if retry:
             logging.exception('connecting to db')

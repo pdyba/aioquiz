@@ -2,8 +2,8 @@
     <b-container>
         <h1 class="page-header">Lessons</h1>
 
-            <b-row class="mb-4" className="card-deck" v-for="i in rowCount">
-                <b-col sm="4" v-for="x in itemCountInRow(i)">
+            <b-row class="mb-4" className="card-deck" v-for="i in rowCount" :key="i.id">
+                <b-col sm="4" v-for="x in itemCountInRow(i)" :key="x.id">
                     <card className="samesize card-dark card-cascade">
                         <card-header>{{ x.id }}. {{ x.title }}</card-header>
                         <card-body>{{ x.description }}</card-body>

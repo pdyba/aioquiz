@@ -82,7 +82,6 @@
                     showLoaderOnConfirm: true,
                     allowOutsideClick: true,
                 }).then((value) => {
-                    console.log(value)
                     if (value.value === true) {
                         axios.delete('/users/' + this.user.id).then((response) => {
                             self.$swal({

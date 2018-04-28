@@ -101,7 +101,7 @@
                         <div class="col-lg-12">
                             <h2>Główni organizatorzy</h2>
                         </div>
-                        <short-user-profile :user="user" v-for="user in admins" v-if="user.admin"></short-user-profile>
+                        <short-user-profile :user="user" v-for="user in admins" v-if="user.admin" :key="user.id"></short-user-profile>
                     </b-row>
                 </b-container>
             </div>
@@ -111,7 +111,7 @@
                         <div class="col-lg-12">
                             <h2>Organizatorzy</h2>
                         </div>
-                        <short-user-profile :user="user" v-for="user in organisers" v-if="user.organiser && !user.admin"></short-user-profile>
+                        <short-user-profile :user="user" v-for="user in organisers" v-if="user.organiser && !user.admin" :key="user.id"></short-user-profile>
                     </b-row>
                 </b-container>
             </div>
@@ -121,7 +121,7 @@
                         <div class="col-lg-12">
                             <h2>Mentorzy</h2>
                         </div>
-                        <short-user-profile :user="user" v-for="user in mentors" v-if="user.mentor && !user.admin && !user.organiser"></short-user-profile>
+                        <short-user-profile :user="user" v-for="user in mentors" v-if="user.mentor && !user.admin && !user.organiser" :key="user.id"></short-user-profile>
                     </b-row>
                 </b-container>
             </div>

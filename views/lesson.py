@@ -52,7 +52,7 @@ class LessonView(HTTPModelClassView):
             resp = []
             for l in lessons:
                 resp.append(await l.to_dict())
-            resp.sort(key=lambda a: a['id'])
+            resp.sort(key=lambda a: a['lesson_no'])
             return json(resp, sort_keys=True)
 
 

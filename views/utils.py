@@ -9,19 +9,19 @@ from sanic.views import HTTPMethodView
 
 from models import Users
 
-NOT_AUTHORISED = json({'error': 'not allowed'}, status=401)
-
 _users = {}
 _users_names = {}
 
 
-def user_required(access_level='any_user'):
+def user_required(access_level='any_user', msg='NOT AUTHORISED', code=401):
     """
     no_user - anonymus
     any_user - loged user
     mentor
     organiser
     admin
+    :param code: int
+    :param msg: str
     :param access_level:
     :return: wrapped_function
     """
@@ -30,15 +30,16 @@ def user_required(access_level='any_user'):
         async def func_wrapper(self, *args, **kwargs):
             if access_level != 'no_user':
                 global _users
+                resp = json({'msg': msg}, status=code)
                 authorization = args[0].headers.get('authorization')
                 if not authorization:
-                    return NOT_AUTHORISED
+                    return resp
                 user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
                 _users[authorization] = user
                 if not user:
-                    return NOT_AUTHORISED
+                    return resp
                 if access_level != 'any_user' and not getattr(user, access_level):
-                    return NOT_AUTHORISED
+                    return resp
             else:
                 user = None
             # below has to be that way as append does not return anything ;)

@@ -77,7 +77,7 @@
                             mentorów.</h2>
                         <hr>
                     </b-col>
-                    <b-col lg="4" v-for="img in images_home">
+                    <b-col lg="4" v-for="img in images_home" :key="img.id">
                         <b-img fluid class="img-responsive img-home-portfolio"
                                :src="'images/' + img + '.jpg'"></b-img>
                     </b-col>
