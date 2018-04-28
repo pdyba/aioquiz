@@ -45,8 +45,8 @@ async def make_a_querry(querry, retry=False):
     except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
         raise
     except ConnectionRefusedError:
-        logging.error('DataBase is not UP !')
-        color_print('DataBase is not UP !', color='red')
+        logging.error('DataBase is not UP!')
+        color_print('DataBase is not UP!', color='red')
     except:
         if retry:
             logging.exception('connecting to db')

@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 // const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const NODE_ENV = process.env.NODE_ENV;
 const buildingForLocal = () => {
     return (NODE_ENV === 'development');
@@ -46,7 +47,8 @@ const config = {
                 isStaging: (NODE_ENV === 'development' || NODE_ENV === 'staging'),
                 NODE_ENV: '"' + NODE_ENV + '"'
             }
-        })
+        }),
+        new HardSourceWebpackPlugin()
     ],
     module: {
         rules: [

@@ -72,7 +72,7 @@ export default new Vuex.Store({
                 localStorage.removeItem('session_uuid');
                 localStorage.removeItem('user');
                 router.replace('/signin');
-                swal("Log out", 'You were successfully log out')
+                swal("Log out", "You've been logged out successfully")
             })
         },
         storeUser({commit, state}, userData) {
