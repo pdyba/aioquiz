@@ -15,7 +15,6 @@ let w_plugins = [
 ];
 if (buildingForLocal()) {
     w_plugins.push(new HardSourceWebpackPlugin());
-    console.log(w_plugins)
 }
 const config = {
     entry: {
