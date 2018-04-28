@@ -237,9 +237,9 @@
                     {'date': '2018.05.01', 'subject': 'BRAK ZAJĘĆ'},
                     {'date': '2018.05.08', 'subject': 'VirtualEnv', 'author': 'Piotr Dyba'},
                     {'date': '2018.05.15', 'subject': 'Zaawansowane funkcje w Pythonie', 'author': 'Piotr Dyba'},
-                    {'date': '2018.05.22', 'subject': 'Webapp security 101', 'author': 'Krzysztof Marciniak'},
+                    {'date': '2018.05.22', 'subject': 'Docker', 'author': 'Marcin Tamioła'},
                     {'date': '2018.05.29', 'subject': 'BRAK ZAJĘĆ'},
-                    {'date': '2018.06.05', 'subject': 'Docker', 'author': 'Marcin Tamioła'},
+                    {'date': '2018.06.05', 'subject': 'Webapp security 101', 'author': 'Krzysztof Marciniak'},
                     {
                         'date': '2018.06.12',
                         'subject': 'Test sprawdzający, przygotowanie pod staż',
