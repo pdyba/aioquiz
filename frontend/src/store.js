@@ -66,6 +66,7 @@ export default new Vuex.Store({
             router.replace('/lessons');
         },
         logout({commit}) {
+            const done = 0;
             axios.get('/auth/logout').then((resp) => {
                 commit('clearAuthData');
                 localStorage.removeItem('expirationDate');
