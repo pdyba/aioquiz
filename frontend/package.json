@@ -1,12 +1,12 @@
 {
   "name": "vue-aioquiz",
-  "description": "Aioquize Frontend",
+  "description": "AioQuiz Frontend",
   "version": "1.0.0",
   "author": "Piotr Dyba <piotr@dyba.it>",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "start": "cross-env NODE_ENV=development --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {

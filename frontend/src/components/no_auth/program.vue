@@ -14,7 +14,7 @@
                         <th>Lekcja</th>
                     </tbl-head>
                     <tbl-body>
-                        <tr v-for="(entry, index) in tab_1">
+                        <tr v-for="(entry, index) in tab_1" :key="entry.id">
                             <td>{{ index }}</td>
                             <td>{{ entry }}</td>
                         </tr>
@@ -30,7 +30,7 @@
                         <th>Lekcja</th>
                     </tbl-head>
                     <tbl-body>
-                        <tr v-for="(entry, index) in tab_2">
+                        <tr v-for="(entry, index) in tab_2" :key="entry.id">
                             <td>{{ index }}</td>
                             <td>{{ entry.date }}</td>
                             <td>{{ entry.subject }}</td>
@@ -45,7 +45,7 @@
                         <th>Lekcja</th>
                     </tbl-head>
                     <tbl-body>
-                        <tr v-for="(entry, index) in tab_3">
+                        <tr v-for="(entry, index) in tab_3" :key="entry.id">
                             <td>{{ index }}</td>
                             <td>{{ entry.date }}</td>
                             <td>{{ entry.subject }}</td>
@@ -227,19 +227,19 @@
                     },
                     {'date': '2018.03.27', 'subject': 'Zaawansowane konstrukty w Pythonie ', 'author': ' Piotr Dyba'},
                     {'date': '2018.04.03', 'subject': 'BRAK ZAJĘĆ'},
-                    {'date': '2018.04.10', 'subject': 'tdnux, Bash i SSH wprowadzenie ', 'author': ' Fitdp Rachwalak'},
-                    {'date': '2018.04.17', 'subject': 'Wyrażenie regularne ', 'author': ' Zuzanna Kunik'},
+                    {'date': '2018.04.10', 'subject': 'Wyrażenie regularne ', 'author': ' Zuzanna Kunik'},
+                    {'date': '2018.04.17', 'subject': 'Linux, Bash i SSH wprowadzenie ', 'author': ' Filip Rachwalak'},
                     {
                         'date': '2018.04.24',
                         'subject': 'Deployment aptdkacji webowej ',
                         'author': ' Grzegorz Prokopczyk'
                     },
                     {'date': '2018.05.01', 'subject': 'BRAK ZAJĘĆ'},
-                    {'date': '2018.05.08', 'subject': 'Zaawansowane funkcje w Pythonie ', 'author': ' TBD'},
-                    {'date': '2018.05.15', 'subject': 'TBD ', 'author': ' TBD'},
-                    {'date': '2018.05.22', 'subject': 'Webapp security 101 ', 'author': ' Krzysztof Marciniak'},
+                    {'date': '2018.05.08', 'subject': 'VirtualEnv', 'author': ' Piotr Dyba'},
+                    {'date': '2018.05.15', 'subject': 'Zaawansowane funkcje w Pythonie', 'author': ' Piotr Dyba'},
+                    {'date': '2018.05.22', 'subject': 'Webapp security 101', 'author': ' Krzysztof Marciniak'},
                     {'date': '2018.05.29', 'subject': 'BRAK ZAJĘĆ'},
-                    {'date': '2018.06.05', 'subject': 'Docker ', 'author': ' Marcin Tamioła'},
+                    {'date': '2018.06.05', 'subject': 'Docker', 'author': ' Marcin Tamioła'},
                     {
                         'date': '2018.06.12',
                         'subject': 'Test sprawdzający, przygotowanie pod staż ',

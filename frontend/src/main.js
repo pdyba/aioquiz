@@ -25,7 +25,12 @@ axios.interceptors.response.use(res => {
 }, (error) => {
     // console.log('inter_error', error.response);
     // console.log('CODE: ', error.response.status);
-    swal("Error", error.response.data.msg, "error");
+    if (error.response.status === 401) {
+        store.dispatch('logout')
+    }
+    else {
+        swal("Error", error.response.data.msg, "error");
+    }
     return error
 });
 

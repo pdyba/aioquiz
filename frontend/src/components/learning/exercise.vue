@@ -50,7 +50,6 @@
                 })
             },
             new_answer() {
-                console.log(this.exercise)
                 let data = {
                     "answare": this.exercise.answare,
                     "exercise": this.exercise.id

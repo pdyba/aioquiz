@@ -69,7 +69,6 @@
                     e._rowVariant = amap(e)
                 });
                 self.allUsers = resp.data;
-                console.log(self.allUsers)
             });
             axios.get('/users_stats').then((resp) => {
                 self.users_stats = Object.keys(resp.data).map(function (key) {

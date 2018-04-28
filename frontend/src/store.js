@@ -72,6 +72,7 @@ export default new Vuex.Store({
                 localStorage.removeItem('session_uuid');
                 localStorage.removeItem('user');
                 router.replace('/signin');
+                swal("Log out", 'You were successfully log out')
             })
         },
         storeUser({commit, state}, userData) {
@@ -80,7 +81,6 @@ export default new Vuex.Store({
             }
             axios.post('/users', userData)
                 .then(res => console.log(res))
-                .catch(error => console.log(error))
         },
         fetchUser({commit, state}) {
             if (!state.session_uuid) {
@@ -95,10 +95,8 @@ export default new Vuex.Store({
                         user.id = key;
                         users.push(user)
                     }
-                    console.log(users);
                     commit('storeUser', users[0]);
                 })
-                .catch(error => console.log(error))
         }
     },
     getters: {

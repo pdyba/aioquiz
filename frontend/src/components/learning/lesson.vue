@@ -33,7 +33,7 @@
             let self = this;
             axios.get('/lessons/' + self.$route.params.id).then((resp) => {
                 self.lesson = resp.data;
-                alt_axios.get('/lesson_source/' + resp.data.file.substr(0, 4) + '/pl.md').then((resp) => {
+                alt_axios.get('lesson_source/' + resp.data.file.substr(0, 4) + '/pl.md').then((resp) => {
                     self.lesson_content = resp.data;
 
                 })
