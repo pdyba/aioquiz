@@ -29,4 +29,8 @@
         margin-top: 35px;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
+    img {
+        margin: 1rem;
+        width: 100%;
+    }
 </style>
