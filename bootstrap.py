@@ -18,12 +18,16 @@ from orm import Table
 from config import DEFAULT_USER
 from utils import color_print
 
+
+cls_to_skip = ('CommonTestTemplate', 'CommonTestQuestion', 'CommonTestAnswer')
+
+
 async def bootstrap_db():
     for cls_name in dir(models):
         if not cls_name.startswith('_'):
             try:
                 cls = getattr(models, cls_name)
-                if isinstance(cls, types.FunctionType):
+                if isinstance(cls, types.FunctionType) or cls_name in cls_to_skip:
                     color_print('skipping: ' + cls_name, color='yellow')
                     continue
                 if issubclass(cls, Table) and cls != Table:
@@ -31,6 +35,7 @@ async def bootstrap_db():
             except TypeError:
                 color_print(cls_name, color='red')
     color_print('DB bootstrap done', color='green')
+
 
 async def gen_users():
     """
@@ -53,7 +58,7 @@ async def gen_users():
     for _ in range(10):
         email = gen_email()
         new_user = {
-            'email': 'user_' + email +'@test.pl',
+            'email': 'user_' + email + '@test.pl',
             'password': 'test_1',
             'img': '0000000001.jpg',
             'description': text(),
@@ -73,6 +78,7 @@ async def gen_users():
         tbl = models.Users(**new_user)
         await tbl.create()
     print('Created 10 users in ' + str(datetime.utcnow() - start))
+
 
 async def admin():
     new_user = {
@@ -99,6 +105,7 @@ async def admin():
     await tbl.create()
     await models.Users.get_by_id(1)
     color_print('Admin Created', color='green')
+
 
 async def add_question():
     await models.Question(
@@ -250,6 +257,7 @@ async def add_question():
         qtype='bool',
     ).create()
 
+
 HEADER = """
 <link rel="stylesheet" href="css/codehilite.css">
 <div class="container">
@@ -308,8 +316,10 @@ Exercises: {}
             self.exercise_details_error,
         )
 
+
 async def create_html_lessons(lang='pl', lesson=None, verbose=False):
     counter = GlobalCounter()
+
     async def process(a_dir, lang=lang):
         less_counter = LessonCounter()
         if a_dir.startswith('.') or a_dir.startswith('_'):
@@ -323,7 +333,8 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
         q_path = path + '.quiz'
         try:
             with open(l_path) as file:
-                html = markdown.markdown(file.read(), extensions=['markdown.extensions.codehilite', 'markdown.extensions.tables'])
+                html = markdown.markdown(file.read(),
+                                         extensions=['markdown.extensions.codehilite', 'markdown.extensions.tables'])
         except FileNotFoundError:
             return
         with open('static/lessons/{}.html'.format(a_dir), 'w') as file:
@@ -415,6 +426,7 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
             print(err)
             color_print(a_lesson, color='red')
         return False
+
     color_print('Processing lessons', color='blue')
     if lesson:
         await inner_process(lesson)
@@ -440,6 +452,7 @@ def get_parser():
         action="store_true"
     )
     return a_parser
+
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

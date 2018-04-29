@@ -71,7 +71,7 @@ class StringLiteral:
 
 
 # noinspection PyProtectedMember
-class Table:
+class Table(object):
     _restricted_keys = []
     _soft_restricted_keys = []
 

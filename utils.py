@@ -112,3 +112,11 @@ async def send_email(recipients=None, subject='', text=''):
 
 def create_uuid():
     return str(uuid4()).replace('-', '')
+
+
+class ClassProperty(object):
+    def __init__(self, fget):
+        self.fget = fget
+
+    def __get__(self, owner_self, owner_cls):
+        return self.fget(owner_cls)
