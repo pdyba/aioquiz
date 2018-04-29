@@ -5,6 +5,7 @@ import logging
 
 from sanic.response import json
 
+import config
 from orm import DoesNotExist
 from views.utils import user_required
 from views.utils import HTTPModelClassView
@@ -125,7 +126,7 @@ class MagicAuthenticateView(HTTPModelClassView):
             """.format(
                 http_s=http_s,
                 mlink=user.magic_string,
-                server=request.host
+                server=config.SERVER.NAME or request.host
             )
             resp = await send_email(
                 recipients=[user.email],

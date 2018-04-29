@@ -4,6 +4,7 @@ DEFAULT_USER = 1
 
 
 class SERVER:
+    NAME = ''
     IP = '127.0.0.1'
     PORT_HTTP = 10080
     PORT_HTTPS = 10443
