@@ -1,0 +1,59 @@
+Materiał przerobiony w czasie warsztatu weekendowego:
+Instrukcja obsługi warsztatu
+Co to jest programowanie, Python, i do czego można go wykorzystać
+Przyjazne wprowadzenie do algorytmiki
+Pierwsze kroki z interpreterem Pythona i IDE Pycharma
+Python jako Kalkulator
+Zmienna niczym kobieta
+Jak wytłumaczyć wężowi o czym mówimy czyli - typy danych: znakowy, liczbowy i boolowski
+Zabawy ze stringami
+Funkcje wbudowane
+Logiczna logika
+Warunkowe warunki
+Listy zakupów
+Słowniki od A do Z
+Pętla dla każdego (for) zrobię coś fajnego
+Pętla dopóki mogę (while) będę robił coś fajnego
+nasza_funkcja()
+Łapanie wyjątkowych błędów i trolli
+Import losowości i innych modułów
+Powtórka całości
+W miarę możliwości:
+Wszystko jest obiektem - wstęp do programowania obiektowego
+Sukces i jego trzech ojców – tolerancyjne dziedziczenie
+Hermetyzacja dzieci – rodzaje metod
+Cotygodniowy warsztat dwugodzinny zaczyna się od lekcji, na której skończył się warsztat weekendowy:
+I semestr 14 spotkań od 17.10 do 12.12, od 09.01 do 13.02
+2017.10.17 - Organizacja i powtórka - Piotr Dyba
+2017.10.24 - Praca z plikami, format JSON - Piotr Dyba
+2017.11.07 - Biblioteki zewnętrzne, praca z API RESTowym - Piotr Dyba
+2017.11.14 - Git - system kontroli wersji - Magdalena Nowak
+2017.11.21 - Wszystko jest obiektem - wstęp do programowania obiektowego - Piotr Dyba
+2017.11.28 - Wszytko jest obiektem - cd. - Piotr Dyba
+2017.12.05 - Aplikacja webowa w Pythonie, wstęp do Flaska - Grzegorz Prokopczyk
+2017.12.12 - HTML oraz tworzenie wzorników stron i formularzy - Grzegorz Prokopczyk
+2018.01.09 - Powtórka: pierwsza pełna aplikacja webowa, Jinja2 - Grzegorz Prokopczyk
+2018.01.16 - Powtórka całości - Krzysztof Marciniak, Piotr Dyba
+2018.01.23 - PEP8, PyLint i metodologie programistyczne - Piotr Dyba
+2018.01.30 - SQLAlchemy oraz wybór projektów zespołowych - Piotr Dyba
+2018.02.06 - BRAK ZAJĘĆ
+2018.02.13 - Bazy danych SQL - Grzegorz Prokopczyk
+2018.02.20 - BRAK ZAJĘĆ
+2018.02.27 - Tworzenie API RESTowego oraz Przechowywanie i tworzenie plików konfiguracyjnych - Grzegorz Prokopczyk oraz Piotr Dyba
+II semestr 13 spotkań od 06.03 do 19.06
+2018.03.06 - Scrum, Agile i omówienie projektów zespołowych - Piotr Dyba
+2018.03.13 - Systemy kolejkowe i bazy danych NOSQL
+2018.03.20 - Testy Jednostkowe i TDD - Aleksandra Kornecka, Grzegorz Prokopczyk
+2018.03.27 - Zaawansowane konstrukty w Pythonie - Piotr Dyba
+2018.04.03 - BRAK ZAJĘĆ
+2018.04.10 - Wyrażenie regularne - Zuzanna Kunik
+2018.04.17 - Linux, Bash i SSH wprowadzenie - Filip Rachwalak
+2018.04.24 - Deployment aplikacji webowej - Grzegorz Prokopczyk
+2018.05.01 - BRAK ZAJĘĆ
+2018.05.08 - Zaawansowane funkcje w Pythonie - TBD
+2018.05.15 - TBD - TBD
+2018.05.22 - Webapp security 101 - Krzysztof Marciniak
+2018.05.29 - BRAK ZAJĘĆ
+2018.06.05 - Docker - Marcin Tamioła
+2018.06.12 - Test sprawdzający, przygotowanie pod staż - Piotr Dyba
+2018.06.19 - Prezentacja i omówienie projektów, wyniki testów, rozdanie dyplomów - Piotr Dyba
