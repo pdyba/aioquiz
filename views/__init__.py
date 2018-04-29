@@ -6,7 +6,7 @@ from views.auth import *
 from views.event import *
 from views.exercise_generator import *
 from views.lesson import *
-from views.quiz import *
+from views.learning import *
 from views.stats import *
 from views.status import *
 from views.user import *

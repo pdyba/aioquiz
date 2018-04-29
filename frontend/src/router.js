@@ -95,7 +95,7 @@ const routes = [
         }
     },
     {
-        path: '/exams',
+        path: '/exam',
         component: exams,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
@@ -106,7 +106,7 @@ const routes = [
         }
     },
     {
-        path: '/exams/:id',
+        path: '/exam/:id',
         component: exam,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {

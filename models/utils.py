@@ -40,17 +40,13 @@ class CommonTestTemplate(Table):
         Column('active', Boolean(), default=False),
     ]
 
-    async def get_question(self, question_order=1):
-        if question_order + 1 >= await self.get_question_amount():
-            return {'last': True, 'msg': 'That was the last question of the quiz.'}
-        qq = await self._questions.get_first_by_many_field_value(
-            quiz=self.id,
-            question_order=question_order
+    async def get_question(self):
+        return await self._questions.get_by_many_field_value(
+            **{self._name: self.id}
         )
-        return await Question.get_by_id(qq.question)
 
     async def get_question_amount(self):
-        return len(await self._questions.get_by_field_value('quiz', self.id))
+        return await self._questions.count_by_field(**{self._name: self.id})
 
 
 class CommonTestQuestion(Table):

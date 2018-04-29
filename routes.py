@@ -53,7 +53,7 @@ def get_all_views(add_views=True, names=False, urls=False):
             else:
                 temp = tuple(temp)
             view_list.append(temp)
-        except AttributeError:
+        except (AttributeError, AssertionError):
             color_print(view, 'no URLS provided', color='red')
     return view_list
 

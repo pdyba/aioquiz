@@ -1,11 +1,10 @@
 <template>
     <b-container>
         <h1 class="page-header">{{ alistingName }}</h1>
-
             <b-row class="mb-4" className="card-deck" v-for="i in rowCount" :key="i.id">
                 <b-col sm="4" v-for="x in itemCountInRow(i)" :key="x.id">
                     <card className="samesize card-dark card-cascade">
-                        <card-header>{{ x.id }}. {{ x.title }}</card-header>
+                        <card-header>{{ x.id }}. {{ x.title }} <b-badge v-if="x.amount" variant="info">{{ x.amount }}</b-badge></card-header>
                         <card-body>{{ x.description }}</card-body>
                         <card-footer>
                             <router-link :to="'/' + alisting + '/' + x.id">
