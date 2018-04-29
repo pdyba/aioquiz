@@ -8,6 +8,7 @@ from sanic.response import json
 from sanic.response import redirect
 
 from config import REGEMAIL
+from config import SERVER
 from orm import DoesNotExist
 from models import Users
 from models import Config
@@ -109,7 +110,7 @@ class UserView(HTTPModelClassView):
                     acode=user.session_uuid,
                     uid=uid,
                     name=user.name,
-                    server=request.host
+                    server=SERVER.NAME or request.host
                 )
                 resp = await send_email(
                     recipients=[user.email],
