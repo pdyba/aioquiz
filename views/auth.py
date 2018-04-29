@@ -112,7 +112,7 @@ class MagicAuthenticateView(HTTPModelClassView):
     async def post(self, request):
         try:
             req = request.json
-            http_s = request.scheme
+            http_s = config.SERVER.SCHEME or request.scheme
             try:
                 user = await Users.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
