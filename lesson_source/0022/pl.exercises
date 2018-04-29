@@ -4,14 +4,14 @@
         2.1	Wczytaj plik i stwórz słownik w którym kluczem będzie imię (i
         nazwisko) a wartością będzie słownik z kluczami kolor oczu i wzrost
         Przykład: {"Yoda": {"height": 66, "eyes": "brown"}}
-    possible_answare: yey
+    possible_answer: yey
 
 2:
     title: 2.2
     task: |
         2.2 	Zapisz wszystkie osoby wyższe niż 200 cm do pliku hero_200_plus a
         resztę do pliku hero_short.
-    possible_answare: yey
+    possible_answer: yey
 
 3:
     title: 2.3
@@ -30,7 +30,7 @@
     task: |
         2.5 Znajdź i zapisz wszystkie imiona kobiet do pliku sw_women a
         wszystkich mężczyzn do sw_men
-    possible_answare: yey
+    possible_answer: yey
 
 6:
     title: 2.6
@@ -39,7 +39,7 @@
         <Imie> wazy <waga> kg jest <plec> i pochodzi z <Planeta>.
         Przykład:
         Anakin Skywakaer waży 90 kg jest mężczyzną i pochodzi z Tatuin.
-    possible_answare: yey
+    possible_answer: yey
 
 7:
     title: 2.7
@@ -48,7 +48,7 @@
         Stwórz plik który będzie posiadał wszystkie statki w
         zdaniach od najdroższego do najtańszego:
         <Nazwa> kosztuje <123> credits.
-    possible_answare: yey
+    possible_answer: yey
 
 
 

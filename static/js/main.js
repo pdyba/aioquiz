@@ -309,8 +309,8 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $injector, $ht
         $AuthenticationService: $AuthenticationService
     });
     vm.exercises = [];
-    vm.answare = answare;
-    vm.new_answare = new_answare;
+    vm.answer = answer;
+    vm.new_answer = new_answer;
 
     $http.get('/api/exercise/' + parseInt($routeParams.id)).then(
         function (response) {
@@ -319,18 +319,18 @@ function ExercisesCtrl($scope, $location, $AuthenticationService, $injector, $ht
     ).catch(function (response) {
         MySwalHTTP.err(response.data.msg);
     });
-    function answare(qwa) {
+    function answer(qwa) {
         data = {
-            "answare": qwa.answare,
+            "answer": qwa.answer,
             "exercise": qwa.id,
             "status": "Done"
         };
         MySwalHTTP.swal_post('/api/exercise/', data)
     }
 
-    function new_answare(qwa) {
+    function new_answer(qwa) {
         data = {
-            "answare": qwa.answare,
+            "answer": qwa.answer,
             "exercise": qwa.id
         };
         MySwalHTTP.swal_put('/api/exercise/', data)
@@ -746,7 +746,7 @@ function LiveQuizResultsCtrl($scope, $location, $AuthenticationService, $injecto
     function refresh() {
         $http.get('/api/live_quiz/' + $routeParams.id).then(
             function (response) {
-                vm.live_quiz.answares = response.data.answares;
+                vm.live_quiz.answers = response.data.answers;
             }
         );
     }
@@ -771,11 +771,11 @@ function QuizStartCtrl($scope, $location, $AuthenticationService, $injector, $ht
         }
     );
 
-    vm.answare_question = answare_question;
-    function answare_question() {
+    vm.answer_question = answer_question;
+    function answer_question() {
         var data = {
             'question': vm.question.id,
-            'answare': vm.answare,
+            'answer': vm.answer,
             'user_id': $scope.globals.currentUser.id,
             'current_question': vm.current_question
         };
@@ -812,11 +812,11 @@ function LiveQuizRunCtrl($scope, $location, $AuthenticationService, $injector, $
         }
     );
 
-    vm.answare_question = answare_question;
-    function answare_question() {
+    vm.answer_question = answer_question;
+    function answer_question() {
         var data = {
             'question': vm.question.id,
-            'answare': vm.answare,
+            'answer': vm.answer,
             'user_id': $scope.globals.currentUser.id,
             'current_question': vm.current_question
         };

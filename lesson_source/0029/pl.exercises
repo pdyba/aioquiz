@@ -8,33 +8,33 @@
         * kwotę przelewu.
         Po przesłaniu formularza kwota na koncie powinna zostać zmniejszona o podaną wartość, ponadto nowy przelew powinien pojawić się na liście ostatnich przelewów.
         Upewnij się, że odświeżenie strony po wykonaniu przelewu nie spowoduje wykonania tego przelewu jeszcze raz.
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: 1b.
     task: |
         Aplikację z punktu 1a. zmodyfikuj tak, aby po wejściu na adres "/" użytkownik został przekierowany na adres "/konto".
-    possible_answare: yey
+    possible_answer: yey
 3:
     title: 2a.
     task: |
         Napisz aplikację, która będzie wyświetlać dane pracowników pewnej firmy. Każdy pracownik będzie mieć identyfikator, imię, nazwisko, płacę, opis stanowiska (użyj klasy po stronie serwera).
         Utwórz stonę zawierającą tabelę pracowników (adres wymyśl samodzielnie). W każdym wierszu tabeli powinny znaleźć się imię, nazwisko pracownika i dodatkowa pusta komórka - uzupełnimy ją w następnym zadaniu.
-    possible_answare: yey
+    possible_answer: yey
 4:
     title: 2b.
     task: |
         Do aplikacji dodaj stronę wyświetlającą wszystkie informacje o danym pracowniku. W ostatniej kolumnie tabeli z zadania 2a powinny pojawić się linki do stron z detalami poszczególnych użytkowników.
         Podpowiedź – w adresie strony z detalami przekaż identyfikator pracownika.
-    possible_answare: yey
+    possible_answer: yey
 5:
     title: 2c.
     task: |
         Do strony z listą pracowników dodaj formularz, umożliwiający dodanie nowego pracownika. Powinien zawierać osobne pole tekstowe dla każdej informacji o pracowniku.
         Przesłanie formularza powinno spowodować dodanie pracownika i wyświetlenie zaktualizowanej listy.
-    possible_answare: yey
+    possible_answer: yey
 6:
     title: 2d.
     task: |
         Na stronie z detalami pracownika dodaj przycisk umożliwiający usunięcie danego pracownika (uwaga – usunięcie musi być wykonywane przy pomocy metody POST).
         Po usunięciu powinna zostać wyświetlona zaktualizowana lista pracowników.
-    possible_answare: yey
+    possible_answer: yey

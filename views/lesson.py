@@ -11,7 +11,7 @@ from orm import DoesNotExist
 from models import Absence
 from models import AbsenceMeta
 from models import Exercise
-from models import ExerciseAnsware
+from models import ExerciseAnswer
 from models import Lesson
 from models import LessonFeedbackAnswer
 from models import LessonFeedbackMeta
@@ -70,17 +70,17 @@ class ExercisesView(HTTPModelClassView):
         for ex in exercises:
             q = await ex.to_dict()
             try:
-                ans = await ExerciseAnsware.get_first_by_many_field_value(
+                ans = await ExerciseAnswer.get_first_by_many_field_value(
                     users=current_user.id,
                     exercise=ex.id
                 )
             except DoesNotExist:
                 ans = None
             if ans:
-                q['answared'] = True
-                q['answare'] = ans.answare
+                q['answered'] = True
+                q['answer'] = ans.answer
             else:
-                q['answared'] = False
+                q['answered'] = False
             resp.append(q)
         resp.sort(key=lambda a: a['title'])
         return json(resp, sort_keys=True)
@@ -89,7 +89,7 @@ class ExercisesView(HTTPModelClassView):
     async def post(self, request, current_user):
         req = request.json
         req['users'] = current_user.id
-        ex = ExerciseAnsware(**req)
+        ex = ExerciseAnswer(**req)
         try:
             await ex.create()
             return json({'success': True, 'msg': 'Exercise answer saved'})
@@ -103,13 +103,13 @@ class ExercisesView(HTTPModelClassView):
     @user_required()
     async def put(self, request, current_user):
         req = request.json
-        ex = await ExerciseAnsware.get_first_by_many_field_value(
+        ex = await ExerciseAnswer.get_first_by_many_field_value(
             users=current_user.id,
             exercise=req['exercise']
         )
-        if not ex.first_answare:
-            ex.first_answare = ex.answare
-        ex.answare = req['answare']
+        if not ex.first_answer:
+            ex.first_answer = ex.answer
+        ex.answer = req['answer']
         try:
             await ex.update(users=current_user.id, exercise=req['exercise'])
             return json({'success': True, 'msg': 'Exercise answer saved'})

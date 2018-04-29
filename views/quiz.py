@@ -10,10 +10,10 @@ from views.utils import get_user_name
 from views.utils import HTTPModelClassView
 
 from models import LiveQuiz
-from models import LiveQuizAnsware
+from models import LiveQuizAnswer
 from models import Question
 from models import Quiz
-from models import QuestionAnsware
+from models import QuestionAnswer
 from models import Users
 
 
@@ -27,7 +27,7 @@ class QuestionView(HTTPModelClassView):
         try:
             req = request.json
             if req['qtype'] == 'abcd':
-                req['answares'] = jdumps(
+                req['answers'] = jdumps(
                     [req['ans_a'], req['ans_b'], req['ans_c'], req['ans_d']]
                 )
                 del req['ans_a']
@@ -78,10 +78,10 @@ class QuizView(HTTPModelClassView):
     async def post(self, request, current_user, qid=0):
         try:
             req = request.json
-            qa = QuestionAnsware(
+            qa = QuestionAnswer(
                 users=req['user_id'],
                 question=req['question'],
-                answare=req['answare'],
+                answer=req['answer'],
             )
             await qa.update_or_create('users', 'question')
             quiz = await Quiz.get_by_id(qid)
@@ -122,10 +122,10 @@ class LiveQuizView(HTTPModelClassView):
     async def post(self, request, current_user, qid=0):
         try:
             req = request.json
-            qa = LiveQuizAnsware(
+            qa = LiveQuizAnswer(
                 live_quiz=qid,
                 question=req['question'],
-                answare=req['answare'],
+                answer=req['answer'],
             )
             await qa.create()
             live_quiz = await LiveQuiz.get_by_id(qid)

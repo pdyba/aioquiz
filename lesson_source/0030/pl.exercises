@@ -5,14 +5,14 @@
         odczyta odpowiednio plik x.txt, y.txt lub z.txt (zawartość dowolna);
         obsługa błędów powinna obejmować (co najmniej) komunikat o nieprawidłowej opcji,
         zaś wczytywanie treści pliku powinno znaleźć się w oddzielnej funkcji (wraz z obsługą błędów)
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: 2. NieUnikalna Lista
     task: |
         Napisz algorytm, który na wejście przyjmie listę zawierającą tylko stringi i integery.
         Zwróci listą zawierającą tylko powtarzające się wartości, nie zmieniając ich kolejności.
         Przykład: [1, 2, 3, 1, 3] 1 i 3 nie są unikalne, więc wynikiem będzie [1, 3, 1, 3].
-    possible_answare: yey
+    possible_answer: yey
 3:
     title: 3. Cezar.com
     task: |
@@ -21,7 +21,7 @@
         Przydatne funkcje: chr, ord
         Przydatny operator: % (modulo)
         Przydatna informacja: alfabet łaciński ma 26 liter
-    possible_answare: yey
+    possible_answer: yey
 4:
     title: 4. pińćdźiśiąt groży
     task: |
@@ -33,14 +33,14 @@
         Przykład:
         input: "2 PLN to USD" output: "2000 USD"
         input "15 USD to PLN" output: "0.015 PLN"
-    possible_answare: yey
+    possible_answer: yey
 5:
     title: 5a. Wczytywacz heheszek
     task: |
         Napisz aplikację, która w zależności od argumentu "file" (GET) odczyta plik "hehe.txt",
         "heheszki.json" lub "beczka_smiechu.txt" (zawartość dowolna, powinny znajdować się w katalogu z aplikacją).
         Obsłuż sytuację, w której plik nie będzie istniał.
-    possible_answare: yey
+    possible_answer: yey
 6:
     title: 5b. Heheszki poza kontrolo
     task: |
@@ -53,7 +53,7 @@
         Więcej informacji o podatności aplikacji z 5a:
         https://sekurak.pl/czym-jest-podatnosc-path-traversal/
         https://www.owasp.org/index.php/Path_Traversal
-    possible_answare: yey
+    possible_answer: yey
 7:
     title: 7. Google.me
     task: |
@@ -61,7 +61,7 @@
         "http://thecatapi.com/api/images/get?format=src&type=gif"
         lub na:
         "http://thecatapi.com/api/images/get"
-    possible_answare: yey
+    possible_answer: yey
 8:
     title: 8. Kalkulator objętości
     task: |
@@ -72,11 +72,11 @@
         Prostopadłościan: V = a*b*c
         Walec: V = pi * r**2 * h
         Stożek: V = 1/3 * pi * r**2 * h
-    possible_answare: yey
+    possible_answer: yey
 9:
     title: 9. UwIeRzYtElNiAnIe
     task: |
         Napisz aplikację, która będzie pozwalała założyć w niej konto posiadające login i hasło.
         Dane użytkowników trzymaj w słowniku. Pamiętaj żeby sprawdzić czy użytkownik o danym loginie już nie istnieje.
         Aplikacja też powinna pozwolić zalogować się wykorzystując login i hasło.
-    possible_answare: yey
+    possible_answer: yey

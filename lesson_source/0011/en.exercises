@@ -1,8 +1,8 @@
 1:
     title: Fat or what ?
     task: Create  BMI calculator that will tell You if you have under or other wight according to table above.
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: Fat or what with sex ?
     task: Create  BMI calculator that will tell You if you have under or other wight according to table above depending on sex.
-    possible_answare: yey
+    possible_answer: yey

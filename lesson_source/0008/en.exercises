@@ -1,20 +1,20 @@
 1:
     title: Its Magic
     task: Type in interpreter "import antigravity", this is very important library use it wise.
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: 2. Method play ground wit combinations
     task: Create a string and use all methods mentioned above. Try to use methods as a chain reaction.
-    possible_answare: yey
+    possible_answer: yey
 3:
     title: Palindrome
     task: Write (if You can in one line) if the world is a palindrome - a string that reads the same forwards and backwards. For example "kayak", "mr owl ate my metal worm", "go hang a salami Im a lasagna hog"
-    possible_answare: yey
+    possible_answer: yey
 4:
     title: BMI for Humans
     task: Modify the version 2 of BMI calculator so it will give output like that "Given your wight is 80kg and you are 1.8m tall, your BMI is 22 point so keep it up you are eating healthy."
-    possible_answare: yey
+    possible_answer: yey
 5:
     title: BMI AntyTroll Edition
     task: Using BMI calculator form above task add antytrolling mechanism that prevents trolls from 1. inputing text in weight or height questions 2. K/M and k/m should mean the same in sex. 3. Diffrent input then k/m (or other expected) in sex.
-    possible_answare: yey
+    possible_answer: yey

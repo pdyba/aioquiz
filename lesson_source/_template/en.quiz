@@ -5,7 +5,7 @@
     qtype: bool
 3:
     question: Jakie jest twoje ulubione zwierze ?
-    answares:
+    answers:
         - pyton
         - pies
         - kot

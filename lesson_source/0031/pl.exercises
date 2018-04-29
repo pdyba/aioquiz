@@ -2,19 +2,19 @@
     title: pep8 Ręcznie
     task: |
         Stosując zasady pep8 popraw kod z https://pylove.org/lessons/pylove_31.py
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: pep8 cli
     task: |
         Wykorzystując narzędzie pep8 cli popraw kod z porzedniego zadania
-    possible_answare: yey
+    possible_answer: yey
 3:
     title: pylint
     task: |
         Wykorzystując narzędzie pylint popraw kod z poprzednich zadań.
-    possible_answare: yey
+    possible_answer: yey
 4:
     title: pdb
     task: |
         Treść zostanie podana przez prowadzącego
-    possible_answare: yey
+    possible_answer: yey

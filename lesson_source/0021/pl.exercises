@@ -6,7 +6,7 @@
         3
         >>> policz_slowa("Pies psu niedzwiedziem, bo tak")
         5
-    possible_answare: yey
+    possible_answer: yey
 
 2:
     title: Liczenie samogłosek
@@ -16,7 +16,7 @@
         5
         >>> policz_samogloski("Pies psu niedzwiedziem")
         9
-    possible_answare: yey
+    possible_answer: yey
 
 3:
     title: xoxo
@@ -28,7 +28,7 @@
         False
         >>> xo_checker("xpd")
         "Illegal letters in text"
-    possible_answare: yey
+    possible_answer: yey
 
 4:
     title: Cenzura cyfr
@@ -38,34 +38,34 @@
         "password#####"
         >>> cenzura_cyfr("a1a ma k0ta")
         "a#a ma k#ta"
-    possible_answare: yey
+    possible_answer: yey
 
 5:
     title: Kraje Ameryki Północnej
     task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje w Ameryce Północnej. (Northern America).
-    possible_answare: yey
+    possible_answer: yey
 6:
     title: Kraje nie Afrykanskie
     task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje niebędące w Afryce (Africa).
-    possible_answare: yey
+    possible_answer: yey
 7:
     title: Wiele walut
     task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje, które mają więcej niż jedną walutę (currency) oraz wypisz te waluty.
-    possible_answare: yey
+    possible_answer: yey
 
 8:
     title: Stolice na W
     task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje i ich stolice, jeśli stolica zaczyna się od litery W.
-    possible_answare: yey
+    possible_answer: yey
 9:
     title: Najwieksza powierzchnia
     task: Korzystając w ze ściągniętego pliku z bazą krajów. Znajdź kraj o największej powierzchni i wyświetl jego nazwę i powierzchnię.
-    possible_answare: yey
+    possible_answer: yey
 
 10:
     title: Najwiecej sasiadow
     task: Korzystając w ze ściągniętego pliku z bazą krajów. Znajdź kraj, który graniczy z największą ilością innych krajów (borders) i wyświetl jego nazwę oraz ilość granic
-    possible_answare: yey
+    possible_answer: yey
 11:
     title: Odwazniki
     task: |
@@ -74,7 +74,7 @@
         4, 1
         >>> odwazniki(4, 6)
         3, 2
-    possible_answare: yey
+    possible_answer: yey
 
 12:
     title: Droga w ruchu przyspieszonym
@@ -84,7 +84,7 @@
         62.5
         >>> droga(10, 10, vs=100)
         1500
-    possible_answare: yey
+    possible_answer: yey
 
 13:
     title: Szyfr cezara
@@ -103,5 +103,5 @@
         "yza"
         Pamiętaj żeby znaki inne niż litery nie zmieniać.
         uwzględnij dodatkowo wielkie litery
-    possible_answare: yey
+    possible_answer: yey
 

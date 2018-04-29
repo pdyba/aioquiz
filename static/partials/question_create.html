@@ -25,7 +25,7 @@
              ng-class="{ 'has-error': form.answer.$dirty && form.lastName.$error.required }">
             <label for="answer">Possible Answer</label>
             <input type="text" name="answer" id="Text2" class="form-control"
-                   ng-model="vm.n_question.possible_answare" required/>
+                   ng-model="vm.n_question.possible_answer" required/>
             <span ng-show="form.answer.$dirty && form.answer.$error.required"
                   class="help-block">Possible Answe requriedr</span>
 
@@ -49,30 +49,30 @@
             <div class="form-group"
              ng-show="vm.n_question.qtype === 'abcd'">
 
-            <label for="ans_a">Answare A:</label>
+            <label for="ans_a">Answer A:</label>
             <input type="text" name="answer" id="ans_a" class="form-control"
                    ng-model="vm.n_question.ans_a" ng-required="vm.n_question.qtype === 'abcd'"/>
             <span ng-show="form.ans_a.$dirty && form.ans_a.$error.required"
-                  class="help-block">Answare A is required</span>
+                  class="help-block">Answer A is required</span>
 
-                     <label for="ans_b">Answare B:</label>
+                     <label for="ans_b">Answer B:</label>
             <input type="text" name="answer" id="ans_b" class="form-control"
                    ng-model="vm.n_question.ans_b" ng-required="vm.n_question.qtype === 'abcd'"/>
             <span ng-show="form.ans_b.$dirty && form.ans_b.$error.required"
-                  class="help-block">Answare B is required</span>
+                  class="help-block">Answer B is required</span>
 
 
-                         <label for="ans_c">Answare C:</label>
+                         <label for="ans_c">Answer C:</label>
             <input type="text" name="answer" id="ans_c" class="form-control"
                    ng-model="vm.n_question.ans_c" ng-required="vm.n_question.qtype === 'abcd'"/>
             <span ng-show="form.ans_c.$dirty && form.ans_c.$error.required"
-                  class="help-block">Answare C is required</span>
+                  class="help-block">Answer C is required</span>
 
-                         <label for="ans_d">Answare D:</label>
+                         <label for="ans_d">Answer D:</label>
             <input type="text" name="answer" id="ans_d" class="form-control"
                    ng-model="vm.n_question.ans_d" ng-required="vm.n_question.qtype === 'abcd'"/>
             <span ng-show="form.ans_d.$dirty && form.ans_d.$error.required"
-                  class="help-block">Answare D is required</span>
+                  class="help-block">Answer D is required</span>
 
             </div>
 

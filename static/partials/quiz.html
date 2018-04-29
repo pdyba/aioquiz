@@ -12,22 +12,22 @@
     <div class="col-md-6 col-md-offset-3">
         <p>
             {{ vm.question.question }}
-            {{ vm.question.answare }}
+            {{ vm.question.answer }}
         </p>
-        <form name="form" ng-submit="vm.answare_question()" role="form" ng-hide="vm.question.last">
+        <form name="form" ng-submit="vm.answer_question()" role="form" ng-hide="vm.question.last">
             <div class="form-group"
                  ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
                 <label for="answer">Answer:</label>
                 <input type="text" name="answer" id="answer"
-                       class="form-control" ng-model="vm.answare" required/>
-                <span ng-show="form.answare.$dirty && form.answare.$error.required"
+                       class="form-control" ng-model="vm.answer" required/>
+                <span ng-show="form.answer.$dirty && form.answer.$error.required"
                       class="help-block">Answer is required</span>
             </div>
 
             <div class="form-actions" ng-hide="vm.question.last">
                 <button type="submit"
                         ng-disabled="form.$invalid || vm.dataLoading"
-                        class="btn btn-primary">Answare
+                        class="btn btn-primary">Answer
                 </button>
                 <img ng-if="vm.dataLoading"
                      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
