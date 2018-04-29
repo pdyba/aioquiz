@@ -38,7 +38,7 @@ class Quiz(Table):
 
     async def get_question(self, question_order=1):
         if question_order + 1 >= await self.get_question_amount():
-            return {'last': True, 'msg': 'That was the last question in the quiz.'}
+            return {'last': True, 'msg': 'That was the last question of the quiz.'}
         qq = await QuizQuestions.get_first_by_many_field_value(
             quiz=self.id,
             question_order=question_order
@@ -81,7 +81,7 @@ class LiveQuiz(Table):
 
     async def get_question(self, question_order=0):
         if question_order + 1 >= await self.get_question_amount():
-            return {'last': True, 'msg': 'That was last question in the quiz.'}
+            return {'last': True, 'msg': 'That was the last question of the quiz.'}
         lqq = await LiveQuizQuestion.get_first_by_many_field_value(
             live_quiz=self.id,
             question_order=question_order
