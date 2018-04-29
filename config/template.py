@@ -4,9 +4,9 @@ DEFAULT_USER = 1
 
 
 class SERVER:
-    IP = '0.0.0.0'
-    PORT_HTTP = 8123
-    PORT_HTTPS = 443
+    IP = '127.0.0.1'
+    PORT_HTTP = 10080
+    PORT_HTTPS = 10443
     DEBUG = False
     WORKERS = 1
     # USE absolute path :)
