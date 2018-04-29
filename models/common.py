@@ -89,7 +89,7 @@ class Users(Table):
     @staticmethod
     async def validate_password(new_password):
         if len(new_password) < 8:
-            return {"success": False, "msg": "You provided too short password"}
+            return {"success": False, "msg": "Password needs to be at least 8 characters long"}
         if new_password == new_password.lower() or new_password == new_password.upper():
             return {
                 "success": False,

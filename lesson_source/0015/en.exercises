@@ -1,8 +1,8 @@
 1:
     title: Christmas Tree
     task: Create a Christmas tree where user can provide the size of the tree.
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: BMI Final
     task: Using loops made user to provide data until it is correct data - extend antytrolling mechanism with loops.
-    possible_answare: yey
+    possible_answer: yey

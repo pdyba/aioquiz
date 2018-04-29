@@ -1,8 +1,8 @@
 1:
     title: Choinka
     task: Stwórz choinkę, dla której użytkownik może podać rozmiar.
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: Ostateczna wersja BMI
     task: Używając pętli spraw, aby użytkownik został nakłoniony do wprowadzenia prawidłowych danych - czyli rozszerz mechanizm anty-trollowy za pomocą pętli.
-    possible_answare: yey
+    possible_answer: yey

@@ -418,6 +418,26 @@ class Table:
         ALTER TABLE users ADD COLUMN magic_string_date timestamp;
         """
         pass
+    
+    def _rename_column(self):
+        """
+        ALTER TABLE exercise RENAME COLUMN possible_answare TO possible_answer;
+        ALTER TABLE exercise_answer RENAME COLUMN answare TO answer;
+        ALTER TABLE exercise_answer RENAME COLUMN first_answare TO first_answer;
+        ALTER TABLE question RENAME COLUMN answares TO answer;
+        ALTER TABLE question RENAME COLUMN possible_answare TO possible_answer;
+        ALTER TABLE question_answer RENAME COLUMN answare TO answer;
+        ALTER TABLE live_quiz_answer RENAME COLUMN answare TO answer;
+        """
+        pass
+
+    def _rename_table(self):
+        """
+        ALTER TABLE exercise_answare RENAME TO exercise_answer;
+        ALTER TABLE question_answare RENAME TO question_answer;
+        ALTER TABLE live_quiz_answare RENAME TO live_quiz_answer;
+        """
+        pass
 
 
 class Column:

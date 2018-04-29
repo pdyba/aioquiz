@@ -2,53 +2,53 @@
     title: 6.1
     task: |
         Stwórz klasę Czas, której konstruktor (__init__) będzie brał trzy opcjonalne argumenty, godzine, minuty, sekundy i zapisywal je w odpowiednich zmiennych w klasie.
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: 6.2
     task: |
         Stwórz klasę Zegar, która dziedziczy po Czas a konstruktor (__init__) będzie brał obowiązkowo parametr format (12H lub 24H) oprócz tych co Czas.
-    possible_answare: yey
+    possible_answer: yey
 3:
     title: 6.3
     task: |
         Stwórz klasę DokładnyZegar, która dziedziczy po Zegar i która jeszcze będzie przyjmowała opcjonalnie milisekundy.
-    possible_answare: yey
+    possible_answer: yey
 4:
     title: 6.4
     task: |
         Zaimplementuj metodę magiczną __str__, która wyświetli aktualne wartości np. <zeg h=0, m=3, s=5>
-    possible_answare: yey
+    possible_answer: yey
 5:
     title: 6.5
     task: |
         Zaimplementuj metodę set_time, która pozwoli nadpisać aktualne wartości czasu.
-    possible_answare: yey
+    possible_answer: yey
 6:
     title: 6.6
     task: |
         Zaimplementuj metodę pozwalającą zwiększyć czas o minutę, sekundę, godzinę,
         a w przypadku Dokładnego Zegara dodatkowo milisekundy. Pamiętaj że przekraczając 60minutę lub sekundę powinna też odpowiednio zwiększyć odpowiednio godzinę lub minutę.
         Przykład zeg = Zegar(0, 2, 45) zeg.add_time(second=20) print(zeg) >>> <zeg h=0, m=3, s=5>
-    possible_answare: yey
+    possible_answer: yey
 7:
     title: 6.7
     task: |
         Zaimplementuj metodę get_seconds(),
         która zwróci dokładną wartość sekund całego czasu.
-    possible_answare: yey
+    possible_answer: yey
 8:
     title: 6.8
     task: |
         Zaimplementuj metodę get_minutes(),
         która zwróci dokładną wartość minut całego czasu (sekundy jako ułamek)
-    possible_answare: yey
+    possible_answer: yey
 9:
     title: 6.9
     task: |
         Zaimplementuj metodę get_hours(),
         która zwróci dokładną wartość godzin całego czasu
         (sekundy, minuty jako ułamek)
-    possible_answare: yey
+    possible_answer: yey
 10:
     title: 6.10
     task: |
@@ -56,4 +56,4 @@
         która oprócz zwykłych argumentów pobierze jeszcze
         obowiązkowo ile razy dana rzecz ma być wyprintowana oraz
         opcjonalnie czy ma być jakiś sufix przed daną wartością.
-    possible_answare: yey
+    possible_answer: yey

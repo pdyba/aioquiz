@@ -35,7 +35,7 @@ class Exercise(Table):
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
         Column('task', CodeString(10000)),
-        Column('possible_answare', CodeString(1000), required=False),
+        Column('possible_answer', CodeString(1000), required=False),
         Column('author', ForeignKey('users'), default=DEFAULT_USER),
         Column('time_created', DateTime(), default=datetime.utcnow),
         Column('lesson', ForeignKey('lesson')),
@@ -43,13 +43,13 @@ class Exercise(Table):
     _unique = ['title']
 
 
-class ExerciseAnsware(Table):
-    _name = 'exercise_answare'
+class ExerciseAnswer(Table):
+    _name = 'exercise_answer'
     _schema = [
         Column('exercise', ForeignKey('exercise')),
         Column('users', ForeignKey('users')),
-        Column('answare', CodeString(5000)),
-        Column('first_answare', CodeString(5000), default=""),
+        Column('answer', CodeString(5000)),
+        Column('first_answer', CodeString(5000), default=""),
         Column('status', String(20)),
     ]
 

@@ -17,8 +17,8 @@ class Question(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('question', String(1000)),
-        Column('answares', CodeString(2000), default=''),
-        Column('possible_answare', String(1000), default=''),
+        Column('answer', CodeString(2000), default=''),
+        Column('possible_answer', String(1000), default=''),
         Column('qtype', String(50), default='plain'),
         Column('img', String(255), required=False, default=''),
         Column('users', ForeignKey('users'), default=DEFAULT_USER),
@@ -49,12 +49,12 @@ class Quiz(Table):
         return len(await QuizQuestions.get_by_field_value('quiz', self.id))
 
 
-class QuestionAnsware(Table):
-    _name = 'question_answare'
+class QuestionAnswer(Table):
+    _name = 'question_answer'
     _schema = [
         Column('users', ForeignKey('users')),
         Column('question', ForeignKey('question')),
-        Column('answare', CodeString(5000)),
+        Column('answer', CodeString(5000)),
     ]
     _unique = ['users', 'question']
 
@@ -102,10 +102,10 @@ class LiveQuizQuestion(Table):
     _unique = ['live_quiz', 'question_order']
 
 
-class LiveQuizAnsware(Table):
-    _name = 'live_quiz_answare'
+class LiveQuizAnswer(Table):
+    _name = 'live_quiz_answer'
     _schema = [
         Column('live_quiz', ForeignKey('live_quiz')),
         Column('question', ForeignKey('question')),
-        Column('answare', CodeString(5000)),
+        Column('answer', CodeString(5000)),
     ]

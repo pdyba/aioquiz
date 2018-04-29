@@ -1,5 +1,5 @@
 1:
     title: PyMatematyka
     task: Dla każdego z operatorów + - * / ** // % wykonaj po jednym działaniu na zestawieniu: a) Dwóch intów np. 9 + 14  b) Inta i float np. 9 + 14.001 c)Dwóch floatów np. 9.1 + 1.4001
-    possible_answare: yey
+    possible_answer: yey
 

@@ -1,16 +1,16 @@
 1:
     title: Odkoduj ukrytą wiadomość
     task: Otwórz plik encoded\_msg.txt i spróbuj odkodować ukrytą wiadomość łącząc wszystkie litery w tekście. Pocja a) skopiuj i wklej tekst i uruchom swój skrypt. Opcja b) użyj funkcji open(nazwa_pliku)
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: Gra "Odgadnij liczbę"
     task: Napisz prostą grę przeciwko komputerowi, która pozwoli Ci odgadnąć liczbę od a) 1 do 100 w 5 krokach b) 1 to 1000 w 7 krokach c) Użtkownik może wybrać opcję a lub b na początku gry. Po zakończeniu gry niech program wyświetli informację ile gier rozegrano, ile wygrano, ile przegrano.
-    possible_answare: yey
+    possible_answer: yey
 3:
     title: Stwórz aplikację, która służy do nauki japońskich słówek.
     task: Napisz prostą aplikację, która pozwoli Ci uczyć się podstawowych słówek w języku japońskim. Skorzystaj z pliku jap\_dict.txt, Twoim zadaniem jest a) skopiowanie i wklejenie tekstu lub użycie funkcji open(nazwa_pliku), by pozyskać dane b) zamiana stringa na strukturę danych c) zadanie pytania o przetłumaczenie słowa lub wyrażenia z angielskiego na japońskie d) sprawdzenie, czy tłumaczenie wykonano prawidłowo, a jeśli tak, niechaj program nie zadaje już tego samego zadania e) informacja, ile słówek odgadywano i ile pozostało do odgadnięciaf) pogratulowanie na końcu, opcjonalnie  g) pokazanie różnicy w pisowni
-    possible_answare: yey
+    possible_answer: yey
 4:
     title: Wisielec
     task: Stwórz w Pythonie grę Wisielec. Użytkownik powinien widzieć postęp gry, udostępniliśmy plik z obrazkami wisielca - hangman.py. Pamiętaj, że jeśli słowo ma więcej niż jedną taką samą literę, program musi pokazać je wszystkie, na przykład "mama" jest dobrym słowem testowym.
-    possible_answare: yey
+    possible_answer: yey

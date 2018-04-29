@@ -1,8 +1,8 @@
 1:
     title: Sprawdź wersję Pythona
     task: jaką masz wersję Pythona
-    possible_answare: 3.6.1
+    possible_answer: 3.6.1
 2:
     title: Sprawdź wersję PIP
     task: jaką masz wersję PIP
-    possible_answare: 8.1.1
+    possible_answer: 8.1.1

@@ -1,19 +1,19 @@
 <template>
     <div class="panel panel-default">
-        <strong>{{ question.title }} </strong><span v-if="exercise.answared" class="badge badge-success">Done</span>
+        <strong>{{ question.title }} </strong><span v-if="exercise.answered" class="badge badge-success">Done</span>
         <br>
         {{ question.task }}
         <br>
         <br>
         <b-row>
             <div class="editor_form">
-                <editor v-model="question.answare" @init="editorInit" lang="python" theme="chrome" width="100%"
+                <editor v-model="question.answer" @init="editorInit" lang="python" theme="chrome" width="100%"
                         height="100%"> </editor>
                 <div class="form-actions">
-                    <b-button type="submit" variant="success" @click.prevent="answer()" v-if="!question.answared">
+                    <b-button type="submit" variant="success" @click.prevent="answer()" v-if="!question.answered">
                         Submit
                     </b-button>
-                    <b-button variant="warning" @click.prevent="new_answer()" v-if="question.answared">Update
+                    <b-button variant="warning" @click.prevent="new_answer()" v-if="question.answered">Update
                     </b-button>
                 </div>
             </div>
@@ -39,19 +39,19 @@
         methods: {
             answer() {
                 let data = {
-                    "answare": this.exercise.answare,
+                    "answer": this.exercise.answer,
                     "exercise": this.exercise.id,
                     "status": "Done"
                 };
                 axios.post('/exercise/', data).then((resp) => {
-                    this.exercise.answared = true
+                    this.exercise.answered = true
                     this.exercise.status = "Done"
                     this.$swal('Done', "Answer saved", "success")
                 })
             },
             new_answer() {
                 let data = {
-                    "answare": this.exercise.answare,
+                    "answer": this.exercise.answer,
                     "exercise": this.exercise.id
                 };
                 axios.put('/exercise/', data).then(
@@ -67,8 +67,8 @@
         },
         created() {
             let self = this;
-            if (!('answare' in self.question)) {
-                self.question['answare'] = '';
+            if (!('answer' in self.question)) {
+                self.question['answer'] = '';
                 return self
             }
         }

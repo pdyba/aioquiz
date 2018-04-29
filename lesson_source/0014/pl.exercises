@@ -1,4 +1,4 @@
 1:
     title: Metody słownikowe
     task: Wypróbuj: .get(klucz), .has_key(klucz), .items(), .keys(), .update(słownik), .values() Opcja a) Ustal, jaka jest różnica między słownik[klucz] a słownik.get(klucz) Opcja b) Co oznacza słownik.get(klucz, 'Python') i do czego może służyć?
-    possible_answare: yey
+    possible_answer: yey

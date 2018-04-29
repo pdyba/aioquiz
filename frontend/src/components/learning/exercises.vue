@@ -5,7 +5,7 @@
             <b-tabs pills card vertical>
                 <b-tab v-for="ex in exercises" :key="ex.id">
                     <template slot="title">
-                        {{ ex.title }} <i class="fa fa-check-circle ml-2" v-if="ex.answared"></i>
+                        {{ ex.title }} <i class="fa fa-check-circle ml-2" v-if="ex.answered"></i>
                     </template>
                     <exercise :exercise="ex">&#f058;</exercise>
                 </b-tab>
@@ -24,8 +24,8 @@
         data() {
             return {
                 exercises: [],
-                answare: '',
-                new_answare: ''
+                answer: '',
+                new_answer: ''
             }
         },
         components: {

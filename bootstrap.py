@@ -121,7 +121,7 @@ async def add_question():
     ).create()
     await models.Question(
         question='Które słowo kluczowe nie występuje w pythonie ?',
-        answares=['class', 'def', 'function', 'return'],
+        answers=['class', 'def', 'function', 'return'],
         qtype='abcd'
     ).create()
     await models.Question(
@@ -144,7 +144,7 @@ async def add_question():
     ).create()
     await models.Question(
         question='Które słowo kluczowe nie występuje w pythonie ?',
-        answares=['finally', 'cancel', 'break', 'continue'],
+        answers=['finally', 'cancel', 'break', 'continue'],
         qtype='abcd'
     ).create()
     await models.Question(
@@ -153,7 +153,7 @@ async def add_question():
     ).create()
     await models.Question(
         question='które polecenie NIE zwróci listy: data = [(9,0), (1,2),(3,4)]',
-        answares=[
+        answers=[
             "sorted(data, key=lambda a: a[0], reverse=False)",
             "max(data, key=lambda a: max(a))",
             "filter(lambda a: sum(a) >5, data)",
@@ -163,7 +163,7 @@ async def add_question():
     ).create()
     await models.Question(
         question='Co zwróci to polecenie: data = [(9,0), (1,2),(3,4), (7,5)] print(min(data, key=lambda a: max(a)))',
-        answares=[
+        answers=[
             "(9,0)",
             "(1,2)",
             "(3,4)",
@@ -177,7 +177,7 @@ async def add_question():
     ).create()
     await models.Question(
         question='Mając zdefiniowane klasy, stworzone obiekty i wywołane funkcje jak poniżej, co zostanie wypisane do konsoli?',
-        answares=[
+        answers=[
             "HiHiBonjourGo away",
             "HiBonjourGo away",
             "Hi, Hi, Bonjour, Go away",
@@ -188,22 +188,22 @@ async def add_question():
     ).create()
     await models.Question(
         question='Co wypisze to polecenie: a = "?PDYJTAHNOGNO" print(a[2::2])',
-        answares=['DG', 'PYTHON', 'DJANGO', 'pusty string'],
+        answers=['DG', 'PYTHON', 'DJANGO', 'pusty string'],
         qtype='abcd',
     ).create()
     await models.Question(
         question='Jak wydobyć cyfrę 0? a = [1, 2, [7, 8, 9], 3, [4, 6, [1, 0]]]',
-        answares=['a[5][3][2]', 'a[6][1]', 'a[4][2][1]', 'a[9]'],
+        answers=['a[5][3][2]', 'a[6][1]', 'a[4][2][1]', 'a[9]'],
         qtype='abcd',
     ).create()
     await models.Question(
         question='Jaka jest poprawna składnia: a = "aBcDeF"',
-        answares=['a.upper()', 'upper(a)', 'a(upper)', 'a.upper'],
+        answers=['a.upper()', 'upper(a)', 'a(upper)', 'a.upper'],
         qtype='abcd',
     ).create()
     await models.Question(
         question='Co zostanie wypisane do konsoli ?',
-        answares=[
+        answers=[
             'MyClass',
             'a',
             '<__main__.MyClass object at 0x0000000000ADAC50>',
@@ -214,7 +214,7 @@ async def add_question():
     ).create()
     await models.Question(
         question='Jak będzie wyglądała lista po poleceniach: nasza_lista = ["a", "b", "c"] nasza_lista.append("z") nasza_lista.pop() nasza_lista.pop(-2) nasza_lista.remove("c") print(nasza_lista)',
-        answares=['["a"]', '["b"]', '["c"]', '["z"]'],
+        answers=['["a"]', '["b"]', '["c"]', '["z"]'],
         qtype='abcd',
     ).create()
     await models.Question(
@@ -224,7 +224,7 @@ async def add_question():
     ).create()
     await models.Question(
         question='Która składnia jest niepoprawna ?',
-        answares=[
+        answers=[
             'import random',
             'from random import random',
             'from random import randint',
@@ -234,7 +234,7 @@ async def add_question():
     ).create()
     await models.Question(
         question='Jeżeli chcemy dopisać do pliku, nie nadpisując jego zawartości, użyjemy ?',
-        answares=[
+        answers=[
             'open(file_name, "w")',
             'open(file_name, "r")',
             'open(file_name, "a")',

@@ -5,7 +5,7 @@ from sanic.response import json
 from models import Absence
 from models import AbsenceMeta
 from models import Exercise
-from models import ExerciseAnsware
+from models import ExerciseAnswer
 from models import Lesson
 from models import Users
 
@@ -25,7 +25,7 @@ class ExerciseOverview(HTTPModelClassView):
             if not resp.get(ex.lesson):
                 resp[ex.lesson] = {}
             resp[ex.lesson][ex.id] = await ex.to_dict()
-            resp[ex.lesson][ex.id]['exercise_answare'] = await ExerciseAnsware.group_by_field('status', exercise=ex.id)
+            resp[ex.lesson][ex.id]['exercise_answer'] = await ExerciseAnswer.group_by_field('status', exercise=ex.id)
         return json(resp)
 
 
