@@ -26,7 +26,6 @@
     import CardBody from '../common_components/CardBody.vue';
     import CardFooter from '../common_components/CardFooter.vue';
 
-
     export default {
         data() {
             return {
