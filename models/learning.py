@@ -5,8 +5,9 @@ from models.utils import CommonTestStatus
 from models.utils import CommonTestTemplate
 
 
-class QuestionAnswer(CommonTestAnswer):
-    _name = 'question_answer'
+# Quiz Section
+class QuizAnswer(CommonTestAnswer):
+    _name = 'quiz_answer'
     _fk_col = 'quiz'
 
 
@@ -24,8 +25,10 @@ class Quiz(CommonTestTemplate):
     _name = 'quiz'
     _questions = QuizQuestions
     _status = QuizStatus
+    _answers = QuizAnswer
 
 
+# LiveQuiz Section
 class LiveQuizQuestion(CommonTestQuestion):
     _name = 'live_quiz_questions'
     _fk_col = 'live_quiz'
@@ -45,8 +48,10 @@ class LiveQuiz(CommonTestTemplate):
     _name = 'live_quiz'
     _questions = LiveQuizQuestion
     _status = LiveQuizStatus
+    _answers = LiveQuizAnswer
 
 
+# Exam Section
 class ExamQuestion(CommonTestQuestion):
     _name = 'exam_question'
     _fk_col = 'exam'
@@ -65,4 +70,7 @@ class ExamStatus(CommonTestStatus):
 
 class Exam(CommonTestTemplate):
     _name = 'exam'
-    _questions = ExamAnswer
+    _questions = ExamQuestion
+    _status = ExamStatus
+    _answers = ExamAnswer
+

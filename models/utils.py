@@ -20,7 +20,7 @@ class Question(Table):
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('question', String(1000)),
-        Column('answer', CodeString(2000), default=''),
+        Column('answers', CodeString(2000), default=''),
         Column('possible_answer', String(1000), default=''),
         Column('qtype', String(50), default='plain'),
         Column('img', String(255), required=False, default=''),
@@ -33,6 +33,7 @@ class CommonTestTemplate(Table):
     _name = ''
     _questions = None
     _status = None
+    _answers = None
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
@@ -42,8 +43,8 @@ class CommonTestTemplate(Table):
         Column('active', Boolean(), default=False),
     ]
 
-    async def get_question(self):
-        return await self._questions.get_all_for_test(self.id)
+    async def get_question(self, uid):
+        return await self._questions.get_all_for_test(self.id, uid=uid, answer_cls=self._answers)
 
     async def get_status(self, uid):
         try:
@@ -76,7 +77,7 @@ class CommonTestQuestion(Table):
         return ['question_order', cls._fk_col]
 
     @classmethod
-    async def get_all_for_test(cls, tid):
+    async def get_all_for_test(cls, tid, uid=0, answer_cls=None):
         test_questions =  await cls.get_by_many_field_value(
             **{cls._fk_col: tid}
         )
@@ -85,6 +86,9 @@ class CommonTestQuestion(Table):
             quest = await Question.get_by_id(tq.question)
             r = await tq.to_dict()
             r['question_details'] = await quest.to_dict()
+            if uid and answer_cls:
+                answer = await answer_cls.get_answare_by_uid(quest.id, uid)
+                r['question_details']['answer'] = await answer.to_dict() if answer else ''
             resp.append(r)
         return resp
 
@@ -105,6 +109,15 @@ class CommonTestAnswer(Table):
     @ClassProperty
     def _unique(cls):
         return ['users', cls._fk_col]
+
+    @classmethod
+    async def get_answare_by_uid(cls, qid, uid):
+        try:
+            return await cls.get_first_by_many_field_value(
+                **{cls._fk_col: qid, 'users': uid}
+            )
+        except DoesNotExist:
+            return False
 
 
 class CommonTestStatus(Table):

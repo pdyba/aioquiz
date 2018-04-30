@@ -35,7 +35,7 @@ class CommonTestBase(HTTPModelClassView):
         if qid:
             quiz = await self._cls.get_by_id(qid)
             resp = await quiz.to_dict()
-            question = await quiz.get_question()
+            question = await quiz.get_question(uid=current_user.id)
             resp['all_questions'] = question
             status = await quiz.get_status(current_user.id)
             resp['status'] = status.status

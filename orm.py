@@ -428,6 +428,7 @@ class Table(object):
         ALTER TABLE question RENAME COLUMN possible_answare TO possible_answer;
         ALTER TABLE question_answer RENAME COLUMN answare TO answer;
         ALTER TABLE live_quiz_answer RENAME COLUMN answare TO answer;
+        ALTER TABLE question RENAME COLUMN answer TO answers;
         """
         pass
 

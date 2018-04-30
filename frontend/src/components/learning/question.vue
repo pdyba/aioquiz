@@ -2,18 +2,20 @@
     <div class="panel panel-default">
         <strong>{{ question.question }} </strong>
         <!--<span v-if="exercise.answered" class="badge badge-success">Done</span>-->
-        <br>
 
         <br>
         <div v-if="question.qtype === 'abcd'">
 
         </div>
+
         <div v-if="question.qtype === 'plain'">
 
         </div>
+
         <div v-if="question.qtype === 'bool'">
 
         </div>
+
         <div v-if="question.qtype === 'code'">
             <b-row>
                 <div class="editor_form">
