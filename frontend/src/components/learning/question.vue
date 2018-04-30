@@ -33,15 +33,8 @@
         <div v-if="question.qtype === 'code'">
             <b-row>
                 <div class="editor_form">
-                    <editor v-model="response.answer" @init="editorInit" lang="python" theme="chrome" width="100%"
+                    <editor v-model="question.answer" @init="editorInit" lang="python" theme="chrome" width="100%"
                             height="100%"></editor>
-                    <div class="form-actions">
-                        <b-button type="submit" variant="success" @click.prevent="answer()" v-if="!response.answer">
-                            Submit
-                        </b-button>
-                        <b-button variant="warning" @click.prevent="new_answer()" v-if="response.answer">Update
-                        </b-button>
-                    </div>
                 </div>
             </b-row>
         </div>
@@ -67,7 +60,7 @@
                 required: true
             },
             testid: {
-                type: Number,
+                type: String,
                 required: true
             }
         },

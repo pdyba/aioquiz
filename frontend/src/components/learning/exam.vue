@@ -1,34 +1,17 @@
 <template>
     <b-container>
-        <progress-bar-wrapper>
-            <progress-bar value=40 color="red" animated></progress-bar>
-        </progress-bar-wrapper>
-        <h3> Exam: {{ exam.title }}</h3>
+        <questions test-type="exam"></questions>
     </b-container>
 </template>
 
 <script>
-    import axios from 'axios';
-    import ProgressBarWrapper from '../common_components/ProgressWrapper.vue'
-    import ProgressBar from '../common_components/ProgressBar.vue'
+    import Questions from './questions.vue'
 
     export default {
-        data() {
-            return {
-                exam: {},
-            }
-        },
         components: {
-            ProgressBarWrapper,
-            ProgressBar
+            Questions
         },
-        name: "exam",
-        created() {
-            let self = this;
-            axios.get('/exam/' + self.$route.params.id).then((resp) => {
-                self.exam = resp.data;
-            })
-        },
+        name: "exams"
     }
 </script>
 
