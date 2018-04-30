@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <questions test-type="live_quiz"></questions>
+        <questions test-type="live_quiz" answer_only_once=true> </questions>
     </b-container>
 </template>
 

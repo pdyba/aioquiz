@@ -46,5 +46,8 @@
 </script>
 
 <style scoped>
-
+    img {
+        margin: 1rem;
+        width: ;
+    }
 </style>

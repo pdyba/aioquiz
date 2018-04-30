@@ -2,51 +2,61 @@
     <div class="panel panel-default">
         <strong>{{ question.question }} </strong>
         <span v-if="question.answered" class="badge badge-success">Done</span>
+        <div v-if="!submitted && can_answare">
+            <b-form-group v-if="question.qtype === 'abcd'">
+                <b-form-radio-group
+                        v-model="question.answer"
+                        :options="JSON.parse(question.answers)">
+                </b-form-radio-group>
 
-        <b-form-group v-if="question.qtype === 'abcd'">
-            <b-form-radio-group
-                    v-model="question.answer"
-                    :options="JSON.parse(question.answers)">
-            </b-form-radio-group>
-
-        </b-form-group>
-
-
-        <b-form-group v-if="question.qtype === 'plain'">
-            <b-form-textarea
-                    v-model="question.answer"
-                    placeholder="Enter answer"
-                    :rows="4"
-                    :max-rows="9">
-            </b-form-textarea>
-        </b-form-group>
+            </b-form-group>
 
 
-        <b-form-group v-if="question.qtype === 'bool'">
-            <b-form-radio-group
-                    v-model="question.answer"
-                    :options="[true, false]">
-            </b-form-radio-group>
-        </b-form-group>
+            <b-form-group v-if="question.qtype === 'plain'">
+                <b-form-textarea
+                        v-model="question.answer"
+                        placeholder="Enter answer"
+                        :rows="4"
+                        :max-rows="9">
+                </b-form-textarea>
+            </b-form-group>
 
 
-        <div v-if="question.qtype === 'code'">
-            <b-row>
-                <div class="editor_form">
-                    <editor v-model="question.answer" @init="editorInit" lang="python" theme="chrome" width="100%"
-                            height="100%"></editor>
-                </div>
-            </b-row>
+            <b-form-group v-if="question.qtype === 'bool'">
+                <b-form-radio-group
+                        v-model="question.answer"
+                        :options="[true, false]">
+                </b-form-radio-group>
+            </b-form-group>
+
+
+            <div v-if="question.qtype === 'code'">
+                <b-row>
+                    <div class="editor_form">
+                        <editor v-model="question.answer" @init="editorInit" lang="python" theme="chrome" width="100%"
+                                height="100%"></editor>
+                    </div>
+                </b-row>
+            </div>
+            <br>
+            <b-btn @click.prevent="answer()" v-if="!answered && !submitted" variant="success">Save</b-btn>
+            <b-btn @click.prevent="new_answer()" v-if="answered && !submitted && can_answare" variant="warning">Update</b-btn>
+            <b-btn @click.prevent="submit_test()" v-if="quiz.status === 'Done' && !submitted && can_answare" variant="danger">Submit
+            </b-btn>
         </div>
-        <br>
-        <b-btn @click.prevet="answer()" v-if="!answered" variant="success">Save</b-btn>
-        <b-btn @click.prevet="new_answer()" v-else variant="warning">Update</b-btn>
+        <div v-else>
+            <pre class="language-python"><code class="language-python">{{ question.answer }}</code></pre>
+        </div>
     </div>
+
 </template>
 
 <script>
     import axios from 'axios';
-    import 'prismjs/themes/prism.css'
+    import Prism from 'prismjs'
+    const loadLanguages = require('prismjs/components/index.js');
+    loadLanguages(['python']);
+
 
     export default {
         name: "question",
@@ -62,6 +72,15 @@
             testid: {
                 type: String,
                 required: true
+            },
+            quiz: {
+                type: Number,
+                required: true
+            },
+            answer_only_once: {
+                type: Boolean,
+                required: false,
+                default: false
             }
         },
         data() {
@@ -80,7 +99,10 @@
                 };
                 axios.post('/' + this.testType + '/' + this.testid, data).then((resp) => {
                     this.answered = true;
-                    this.question.status = "Done";
+                    this.quiz.progress += 1
+                    if (Math.ceil(this.quiz.progress / this.quiz.all_questions.length * 100) === 100) {
+                        this.quiz.status = "Done";
+                    }
                     this.$swal('Done', resp.data.msg, "success")
                 })
             },
@@ -94,6 +116,13 @@
                     }
                 )
             },
+            submit_test() {
+                axios.patch('/' + this.testType + '/' + this.testid).then((resp) => {
+                        this.$swal('Done', resp.data.msg, "success")
+                    }
+                );
+                this.quiz.status = 'Submitted';
+            },
             editorInit() {
                 require('brace/ext/language_tools');
                 require('brace/mode/python');
@@ -102,11 +131,19 @@
             }
         },
         mounted() {
-            // let self = this;
             if (this.question.answer === '') {
                 this.answered = false
             } else {
                 this.answered = true
+            }
+            Prism.highlightAll();
+        },
+        computed: {
+            submitted() {
+                return this.quiz.status === 'Submitted'
+            },
+            can_answare() {
+                return !(this.answer_only_once && this.answered)
             }
         }
     }

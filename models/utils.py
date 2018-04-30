@@ -49,6 +49,7 @@ class CommonTestTemplate(Table):
 
     async def get_status(self, uid):
         try:
+            await self.update_status(uid, add=0)
             return await self._status.get_first_by_many_field_value(
                 **{self._name: self.id, 'users': uid}
             )
@@ -59,6 +60,23 @@ class CommonTestTemplate(Table):
 
     async def get_question_amount(self):
         return await self._questions.count_by_field(**{self._name: self.id})
+
+    async def update_status(self, uid, add=1, new_status=''):
+        question_amount = await self.get_question_amount()
+        cond = {self._name: self.id, 'users': uid}
+        status = await self._status.get_first_by_many_field_value(**cond)
+        status.progress += add
+        if status.progress < question_amount:
+            status.status = 'inProgress'
+            if not add:
+                return
+        elif new_status:
+            status.status = new_status
+        elif status.progress > question_amount:
+            status.progress = question_amount
+        elif status.progress == question_amount and status.status != 'Submitted':
+            status.status = 'Done'
+        await status.update(**cond)
 
 
 class CommonTestQuestion(Table):

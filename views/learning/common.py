@@ -9,7 +9,7 @@ from views.utils import get_user_name
 from views.utils import HTTPModelClassView
 
 
-# noinspection PyBroadException
+# noinspection PyBroadException, PyProtectedMember
 class CommonTestBase(HTTPModelClassView):
     _cls = None
     _cls_answer = None
@@ -19,13 +19,16 @@ class CommonTestBase(HTTPModelClassView):
     async def post(self, request, current_user, qid=0):
         try:
             req = request.json
+            uid = current_user.id
             qa = self._cls_answer(**{
                 self._cls_answer._fk_col: qid,
                 'question': req['question'],
                 'answer': req['answer'],
-                'users': current_user.id,
+                'users': uid,
             })
             await qa.create()
+            quiz = await self._cls.get_by_id(qid)
+            await quiz.update_status(uid)
             return json({'msg': 'Answer saved'})
         except:
             logging.exception('err live_quiz.post')
@@ -44,6 +47,17 @@ class CommonTestBase(HTTPModelClassView):
             qa.answer = req['answer']
             await qa.update(**cond)
             return json({'msg': 'Answer Updated'})
+        except:
+            logging.exception('err live_quiz.post')
+            return json({'msg': 'something went wrong'}, status=500)
+
+    @user_required()
+    async def patch(self, request, current_user, qid=0):
+        try:
+            uid = current_user.id
+            quiz = await self._cls.get_by_id(qid)
+            await quiz.update_status(uid, new_status='Submitted', add=0)
+            return json({'msg': 'Submitted successfully'})
         except:
             logging.exception('err live_quiz.post')
             return json({'msg': 'something went wrong'}, status=500)
