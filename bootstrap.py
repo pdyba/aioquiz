@@ -19,7 +19,7 @@ from config import DEFAULT_USER
 from utils import color_print
 
 
-cls_to_skip = ('CommonTestTemplate', 'CommonTestQuestion', 'CommonTestAnswer')
+cls_to_skip = ('CommonTestTemplate', 'CommonTestQuestion', 'CommonTestAnswer', 'CommonTestStatus')
 
 
 async def bootstrap_db():

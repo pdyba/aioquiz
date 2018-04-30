@@ -36,10 +36,10 @@ class CommonTestBase(HTTPModelClassView):
             quiz = await self._cls.get_by_id(qid)
             resp = await quiz.to_dict()
             question = await quiz.get_question()
-            all_qustions = []
-            for qest in question:
-                all_qustions.append(await qest.to_dict())
-            resp['all_qustions'] = all_qustions
+            resp['all_questions'] = question
+            status = await quiz.get_status(current_user.id)
+            resp['status'] = status.status
+            resp['progress'] = status.progress
             return json(resp)
         else:
             quizzes = await self._cls.get_all()
@@ -48,5 +48,8 @@ class CommonTestBase(HTTPModelClassView):
                 q = await quiz.to_dict()
                 q['creator'] = await get_user_name(q['users'])
                 q['amount'] = await quiz.get_question_amount()
+                status = await quiz.get_status(current_user.id)
+                q['status'] = status.status
+                q['progress'] = status.progress
                 resp.append(q)
             return json(resp)

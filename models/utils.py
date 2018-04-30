@@ -6,6 +6,7 @@ from orm import Boolean
 from orm import Column
 from orm import CodeString
 from orm import DateTime
+from orm import DoesNotExist
 from orm import ForeignKey
 from orm import Integer
 from orm import String
@@ -31,6 +32,7 @@ class Question(Table):
 class CommonTestTemplate(Table):
     _name = ''
     _questions = None
+    _status = None
     _schema = [
         Column('id', Integer, primary_key=True),
         Column('title', String(255)),
@@ -41,9 +43,17 @@ class CommonTestTemplate(Table):
     ]
 
     async def get_question(self):
-        return await self._questions.get_by_many_field_value(
-            **{self._name: self.id}
-        )
+        return await self._questions.get_all_for_test(self.id)
+
+    async def get_status(self, uid):
+        try:
+            return await self._status.get_first_by_many_field_value(
+                **{self._name: self.id, 'users': uid}
+            )
+        except DoesNotExist:
+            status = self._status(**{self._name: self.id, 'users': uid})
+            await status.create()
+            return status
 
     async def get_question_amount(self):
         return await self._questions.count_by_field(**{self._name: self.id})
@@ -65,6 +75,19 @@ class CommonTestQuestion(Table):
     def _unique(cls):
         return ['question_order', cls._fk_col]
 
+    @classmethod
+    async def get_all_for_test(cls, tid):
+        test_questions =  await cls.get_by_many_field_value(
+            **{cls._fk_col: tid}
+        )
+        resp = []
+        for tq in test_questions:
+            quest = await Question.get_by_id(tq.question)
+            r = await tq.to_dict()
+            r['question_details'] = await quest.to_dict()
+            resp.append(r)
+        return resp
+
 
 class CommonTestAnswer(Table):
     _name = ''
@@ -82,3 +105,22 @@ class CommonTestAnswer(Table):
     @ClassProperty
     def _unique(cls):
         return ['users', cls._fk_col]
+
+
+class CommonTestStatus(Table):
+    _name = ''
+    _fk_col = ''
+
+    @ClassProperty
+    def _schema(cls):
+        return [
+            Column('users', ForeignKey('users')),
+            Column(cls._fk_col, ForeignKey(cls._fk_col)),
+            Column('progress', Integer(), default=0),
+            Column('status', String(50), default='NotStarted'),
+        ]
+
+    @ClassProperty
+    def _unique(cls):
+        return ['users', cls._fk_col]
+

@@ -4,7 +4,7 @@
         <progress-bar-wrapper>
             <progress-bar :value='progress'> {{ progress }}</progress-bar>
         </progress-bar-wrapper>
-        <p> {{ quiz }}</p>
+        <questions :questions="quiz.all_questions" :progress="quiz.progress"></questions>
     </b-container>
 </template>
 
@@ -12,25 +12,34 @@
     import axios from 'axios';
     import ProgressBarWrapper from '../common_components/ProgressWrapper.vue'
     import ProgressBar from '../common_components/ProgressBar.vue'
+    import Questions from './questions.vue'
 
     export default {
         data() {
             return {
-                quiz: {},
-                progress: 0,
+                quiz: {
+                    all_questions: [],
+                    progress: 0
+                },
             }
         },
         components: {
             ProgressBarWrapper,
-            ProgressBar
+            ProgressBar,
+            Questions
         },
         name: "quiz",
-        created() {
+        beforeCreate() {
             let self = this;
             axios.get('/quiz/' + self.$route.params.id).then((resp) => {
                 self.quiz = resp.data;
             })
         },
+        computed: {
+            progress(){
+                return Math.ceil(this.quiz.progress / this.quiz.all_questions.length)
+            }
+        }
     }
 </script>
 

@@ -1,23 +1,35 @@
 <template>
     <div class="panel panel-default">
-        <strong>{{ question.title }} </strong><span v-if="exercise.answered" class="badge badge-success">Done</span>
+        <strong>{{ question.question }} </strong>
+        <!--<span v-if="exercise.answered" class="badge badge-success">Done</span>-->
         <br>
-        {{ question.task }}
+
         <br>
-        <br>
-        <b-row>
-            <div class="editor_form">
-                <editor v-model="question.answer" @init="editorInit" lang="python" theme="chrome" width="100%"
-                        height="100%"> </editor>
-                <div class="form-actions">
-                    <b-button type="submit" variant="success" @click.prevent="answer()" v-if="!question.answered">
-                        Submit
-                    </b-button>
-                    <b-button variant="warning" @click.prevent="new_answer()" v-if="question.answered">Update
-                    </b-button>
+        <div v-if="question.qtype === 'abcd'">
+
+        </div>
+        <div v-if="question.qtype === 'plain'">
+
+        </div>
+        <div v-if="question.qtype === 'bool'">
+
+        </div>
+        <div v-if="question.qtype === 'code'">
+            <b-row>
+                <div class="editor_form">
+                    <editor v-model="response.answer" @init="editorInit" lang="python" theme="chrome" width="100%"
+                            height="100%"></editor>
+                    <div class="form-actions">
+                        <b-button type="submit" variant="success" @click.prevent="answer()" v-if="!response.answered">
+                            Submit
+                        </b-button>
+                        <b-button variant="warning" @click.prevent="new_answer()" v-if="response.answered">Update
+                        </b-button>
+                    </div>
                 </div>
-            </div>
-        </b-row>
+            </b-row>
+        </div>
+        {{ question }}
     </div>
 </template>
 
@@ -33,6 +45,11 @@
                 required: true
             }
         },
+        data() {
+            return {
+                response: {}
+            }
+        },
         components: {
             editor: require('vue2-ace-editor')
         },
@@ -44,8 +61,8 @@
                     "status": "Done"
                 };
                 axios.post('/exercise/', data).then((resp) => {
-                    this.exercise.answered = true
-                    this.exercise.status = "Done"
+                    this.exercise.answered = true;
+                    this.exercise.status = "Done";
                     this.$swal('Done', "Answer saved", "success")
                 })
             },
@@ -67,10 +84,6 @@
         },
         created() {
             let self = this;
-            if (!('answer' in self.question)) {
-                self.question['answer'] = '';
-                return self
-            }
         }
     }
 </script>

@@ -134,7 +134,7 @@ class Table(object):
                 unique
             )
             await make_a_querry(querry)
-            print('{} table created'.format(cls._name))
+            color_print('{} table created'.format(cls._name), color='green')
         else:
             print('{} table already exists'.format(cls._name))
 
