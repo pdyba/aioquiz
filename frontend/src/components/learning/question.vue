@@ -1,20 +1,34 @@
 <template>
     <div class="panel panel-default">
         <strong>{{ question.question }} </strong>
-        <!--<span v-if="exercise.answered" class="badge badge-success">Done</span>-->
+        <span v-if="question.answered" class="badge badge-success">Done</span>
 
-        <br>
-        <div v-if="question.qtype === 'abcd'">
+        <b-form-group v-if="question.qtype === 'abcd'">
+            <b-form-radio-group
+                    v-model="question.answer"
+                    :options="JSON.parse(question.answers)">
+            </b-form-radio-group>
 
-        </div>
+        </b-form-group>
 
-        <div v-if="question.qtype === 'plain'">
 
-        </div>
+        <b-form-group v-if="question.qtype === 'plain'">
+            <b-form-textarea
+                    v-model="question.answer"
+                    placeholder="Enter answer"
+                    :rows="4"
+                    :max-rows="9">
+            </b-form-textarea>
+        </b-form-group>
 
-        <div v-if="question.qtype === 'bool'">
 
-        </div>
+        <b-form-group v-if="question.qtype === 'bool'">
+            <b-form-radio-group
+                    v-model="question.answer"
+                    :options="[true, false]">
+            </b-form-radio-group>
+        </b-form-group>
+
 
         <div v-if="question.qtype === 'code'">
             <b-row>
@@ -22,16 +36,18 @@
                     <editor v-model="response.answer" @init="editorInit" lang="python" theme="chrome" width="100%"
                             height="100%"></editor>
                     <div class="form-actions">
-                        <b-button type="submit" variant="success" @click.prevent="answer()" v-if="!response.answered">
+                        <b-button type="submit" variant="success" @click.prevent="answer()" v-if="!response.answer">
                             Submit
                         </b-button>
-                        <b-button variant="warning" @click.prevent="new_answer()" v-if="response.answered">Update
+                        <b-button variant="warning" @click.prevent="new_answer()" v-if="response.answer">Update
                         </b-button>
                     </div>
                 </div>
             </b-row>
         </div>
-        {{ question }}
+        <br>
+        <b-btn @click.prevet="answer()" v-if="!answered" variant="success">Save</b-btn>
+        <b-btn @click.prevet="new_answer()" v-else variant="warning">Update</b-btn>
     </div>
 </template>
 
@@ -45,11 +61,19 @@
             question: {
                 type: Object,
                 required: true
+            },
+            testType: {
+                type: String,
+                required: true
+            },
+            testid: {
+                type: Number,
+                required: true
             }
         },
         data() {
             return {
-                response: {}
+                answered: false
             }
         },
         components: {
@@ -58,23 +82,23 @@
         methods: {
             answer() {
                 let data = {
-                    "answer": this.exercise.answer,
-                    "exercise": this.exercise.id,
-                    "status": "Done"
+                    "answer": this.question.answer,
+                    "question": this.question.id,
                 };
-                axios.post('/exercise/', data).then((resp) => {
-                    this.exercise.answered = true;
-                    this.exercise.status = "Done";
-                    this.$swal('Done', "Answer saved", "success")
+                axios.post('/' + this.testType + '/' + this.testid, data).then((resp) => {
+                    this.answered = true;
+                    this.question.status = "Done";
+                    this.$swal('Done', resp.data.msg, "success")
                 })
             },
             new_answer() {
                 let data = {
-                    "answer": this.exercise.answer,
-                    "exercise": this.exercise.id
+                    "answer": this.question.answer,
+                    "question": this.question.id
                 };
-                axios.put('/exercise/', data).then(
-                    this.$swal('Done', "Answer updated", "success")
+                axios.put('/' + this.testType + '/' + this.testid, data).then((resp) => {
+                        this.$swal('Done', resp.data.msg, "success")
+                    }
                 )
             },
             editorInit() {
@@ -84,8 +108,13 @@
                 require('brace/theme/chrome');
             }
         },
-        created() {
-            let self = this;
+        mounted() {
+            // let self = this;
+            if (this.question.answer === '') {
+                this.answered = false
+            } else {
+                this.answered = true
+            }
         }
     }
 </script>

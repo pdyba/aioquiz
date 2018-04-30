@@ -6,7 +6,7 @@
                     <template slot="title">
                         {{ quest.question_order }} <i class="fa fa-check-circle ml-2" v-if="quest.answered"></i>
                     </template>
-                    <question :question="quest.question_details"> </question>
+                    <question :question="quest.question_details" :test-type="testType" :testid="testid"> </question>
                 </b-tab>
             </b-tabs>
         </b-card>
@@ -14,18 +14,10 @@
 </template>
 
 <script>
-    import axios from 'axios';
-
     import question from "./question.vue"
 
     export default {
         name: "questions",
-        data() {
-            return {
-                answer: '',
-                new_answer: ''
-            }
-        },
         components: {
             question
         },
@@ -33,10 +25,15 @@
             questions: {
                 type: Array,
                 required: true
+            },
+            testType: {
+                type: String,
+                required: true
+            },
+            testid: {
+                type: Number,
+                required: true
             }
-        },
-        created() {
-            let self = this;
         }
     }
 </script>

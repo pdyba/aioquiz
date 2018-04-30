@@ -4,7 +4,7 @@
         <progress-bar-wrapper>
             <progress-bar :value='progress'> {{ progress }}</progress-bar>
         </progress-bar-wrapper>
-        <questions :questions="quiz.all_questions" :progress="quiz.progress"></questions>
+        <questions :questions="quiz.all_questions" :progress="quiz.progress" test-type="quiz" :testid="quiz.id"></questions>
     </b-container>
 </template>
 

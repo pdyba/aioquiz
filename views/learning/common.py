@@ -20,12 +20,30 @@ class CommonTestBase(HTTPModelClassView):
         try:
             req = request.json
             qa = self._cls_answer(**{
-                self._cls_answer._name: qid,
+                self._cls_answer._fk_col: qid,
                 'question': req['question'],
                 'answer': req['answer'],
+                'users': current_user.id,
             })
             await qa.create()
             return json({'msg': 'Answer saved'})
+        except:
+            logging.exception('err live_quiz.post')
+            return json({'msg': 'something went wrong'}, status=500)
+
+    @user_required()
+    async def put(self, request, current_user, qid=0):
+        try:
+            req = request.json
+            cond = {
+                self._cls_answer._fk_col: qid,
+                'question': req['question'],
+                'users': current_user.id,
+            }
+            qa = await self._cls_answer.get_first_by_many_field_value(**cond)
+            qa.answer = req['answer']
+            await qa.update(**cond)
+            return json({'msg': 'Answer Updated'})
         except:
             logging.exception('err live_quiz.post')
             return json({'msg': 'something went wrong'}, status=500)

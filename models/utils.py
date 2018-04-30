@@ -2,6 +2,7 @@
 from datetime import datetime
 
 from config import DEFAULT_USER
+
 from orm import Boolean
 from orm import Column
 from orm import CodeString
@@ -88,7 +89,7 @@ class CommonTestQuestion(Table):
             r['question_details'] = await quest.to_dict()
             if uid and answer_cls:
                 answer = await answer_cls.get_answare_by_uid(quest.id, uid)
-                r['question_details']['answer'] = await answer.to_dict() if answer else ''
+                r['question_details']['answer'] = answer.answer if answer else ''
             resp.append(r)
         return resp
 
@@ -108,13 +109,13 @@ class CommonTestAnswer(Table):
 
     @ClassProperty
     def _unique(cls):
-        return ['users', cls._fk_col]
+        return ['users', 'question']
 
     @classmethod
     async def get_answare_by_uid(cls, qid, uid):
         try:
             return await cls.get_first_by_many_field_value(
-                **{cls._fk_col: qid, 'users': uid}
+                **{'question': qid, 'users': uid}
             )
         except DoesNotExist:
             return False
