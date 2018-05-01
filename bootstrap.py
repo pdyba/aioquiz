@@ -331,10 +331,15 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
         e_path = path + '.exercises'
         m_path = path + '.meta'
         q_path = path + '.quiz'
-        try:
+        try:  # lesson generation will BE detracted
             with open(l_path) as file:
-                html = markdown.markdown(file.read(),
-                                         extensions=['markdown.extensions.codehilite', 'markdown.extensions.tables'])
+                html = markdown.markdown(
+                    file.read(),
+                    extensions=[
+                        'markdown.extensions.codehilite',
+                        'markdown.extensions.tables'
+                    ]
+                )
         except FileNotFoundError:
             return
         with open('static/lessons/{}.html'.format(a_dir), 'w') as file:
@@ -462,7 +467,9 @@ if __name__ == '__main__':
         loop.run_until_complete(gen_users())
     if args.bootstrap:
         loop.run_until_complete(bootstrap_db())
-        loop.run_until_complete(bootstrap_db())
+        ans = input('Have You seen any errors (red) - y/n ')
+        if ans.lower() == 'y':
+            loop.run_until_complete(bootstrap_db())
     if args.lesson:
         loop.run_until_complete(create_html_lessons(lesson=args.lesson, verbose=args.verbose))
     if args.alllessons:

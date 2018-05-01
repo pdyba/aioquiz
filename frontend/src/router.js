@@ -35,6 +35,9 @@ import mentor from './components/mentor/mentor.vue'
 // organisator
 import organiser from './components/organiser/organiser.vue'
 import lessonsMngt from './components/organiser/lessons_mngt.vue'
+import quizMngt from './components/organiser/quiz_mngt.vue'
+import quizCreate from './components/organiser/quiz_create.vue'
+import quizEdit from './components/organiser/quiz_edit.vue'
 // admin
 import admin_config from './components/admin/config.vue'
 import admin_email from './components/admin/email.vue'
@@ -188,6 +191,9 @@ const routes = [
         },
         children: [
             {path: 'lessons', component: lessonsMngt},
+            {path: 'quiz-manage', component: quizMngt},
+            {path: 'quiz-create', component: quizCreate},
+            {path: 'quiz-edit/:id', component: quizEdit},
         ]
     },
     {

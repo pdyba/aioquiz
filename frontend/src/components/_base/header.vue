@@ -6,18 +6,22 @@
                     <!--<help v-if="auth"></help>-->
                     <navbar-item href="/about">About</navbar-item>
                     <navbar-item href="/lessons" v-if="auth">Lessons</navbar-item>
-                    <navbar-item href="/quiz" v-if="admin">Quiz</navbar-item>
-                    <navbar-item href="/live_quiz" v-if="admin">Live Quiz</navbar-item>
-                    <navbar-item href="/exam" v-if="admin">Exam</navbar-item>
+                    <!--<navbar-item href="/homework" v-if="auth">HomeWork</navbar-item>-->
+                    <navbar-item href="/quiz" v-if="auth">Quiz</navbar-item>
+                    <navbar-item href="/live_quiz" v-if="auth">Live Quiz</navbar-item>
+                    <navbar-item href="/exam" v-if="auth">Exam</navbar-item>
 
                     <divider v-if="mentor || org"></divider>
                     <dropdown tag="li" class="nav-item" v-if="mentor">
                         <dropdown-toggle tag="a" navLink color="indigo">Mentor</dropdown-toggle>
                         <dropdown-menu>
-                            <dropdown-item>Lesson</dropdown-item>
-                            <!--<dropdown-item>Quiz</dropdown-item>-->
-                            <!--<dropdown-item>Live Quiz</dropdown-item>-->
-                            <!--<dropdown-item>Users List</dropdown-item>-->
+                            <dropdown-item href="/mentor/questions">Questions</dropdown-item>
+                            <dropdown-item href="/mentor/lesson">Lesson: status</dropdown-item>
+                            <dropdown-item href="/mentor/homework">Homework: grade</dropdown-item>
+                            <dropdown-item href="/mentor/quiz">Quiz: grade</dropdown-item>
+                            <dropdown-item href="/mentor/live_quiz">Live Quiz: overview</dropdown-item>
+                            <dropdown-item href="/mentor/exam">Exam: grade</dropdown-item>
+                            <dropdown-item>Users: overview</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
 
@@ -25,14 +29,16 @@
                         <dropdown-toggle tag="a" navLink color="indigo">Organiser</dropdown-toggle>
                         <dropdown-menu>
                             <!--<dropdown-item>Lesson: Create</dropdown-item>-->
-                            <dropdown-item href="/organiser/lessons">Lesson: List & Manage</dropdown-item>
-                            <!--<dropdown-item href="/organiser/attendee_review">Attendee: Review</dropdown-item>-->
-                            <!--<dropdown-item>Question: List & Manage</dropdown-item>-->
-                            <!--<dropdown-item>Question: Create</dropdown-item>-->
-                            <!--<dropdown-item>Quiz: Create</dropdown-item>-->
-                            <!--<dropdown-item>Quiz: List & Manage</dropdown-item>-->
-                            <!--<dropdown-item>Live Quiz: Create</dropdown-item>-->
-                            <!--<dropdown-item>Live Quiz: List & Manage</dropdown-item>-->
+                            <dropdown-item href="/organiser/attendee_review">Attendee: Review</dropdown-item>
+                            <dropdown-item href="/organiser/lessons">Lesson: Manage</dropdown-item>
+                            <dropdown-item>Question: Manage</dropdown-item>
+                            <dropdown-item>Question: Create</dropdown-item>
+                            <dropdown-item href="/organiser/quiz-create">Quiz: Create</dropdown-item>
+                            <dropdown-item href="/organiser/quiz-manage">Quiz: Manage</dropdown-item>
+                            <dropdown-item href="/organiser/live-quiz-create">Live Quiz: Create</dropdown-item>
+                            <dropdown-item href="/organiser/live-quiz-manage">Live Quiz: Manage</dropdown-item>
+                            <dropdown-item href="/organiser/exam-create">Exam: Create</dropdown-item>
+                            <dropdown-item href="/organiser/exam-manage">Exam: Manage</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
 

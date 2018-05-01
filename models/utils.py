@@ -123,6 +123,8 @@ class CommonTestAnswer(Table):
             Column(cls._fk_col, ForeignKey(cls._fk_col)),
             Column('question', ForeignKey('question')),
             Column('answer', CodeString(5000)),
+            Column('comment', CodeString(1000), required=False, default=''),
+            Column('score', Integer(), default=-1),
         ]
 
     @ClassProperty
@@ -149,6 +151,8 @@ class CommonTestStatus(Table):
             Column('users', ForeignKey('users')),
             Column(cls._fk_col, ForeignKey(cls._fk_col)),
             Column('progress', Integer(), default=0),
+            Column('score', Integer(), default=-1),
+            Column('comment', CodeString(1000), required=False, default=''),
             Column('status', String(50), default='NotStarted'),
         ]
 

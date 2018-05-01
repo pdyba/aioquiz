@@ -48,6 +48,7 @@
     }
 
     a {
-        padding: 4px;
+        padding: 3px;
+        max-height: 2rem;
     }
 </style>

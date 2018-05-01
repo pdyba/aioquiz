@@ -49,6 +49,11 @@
         }
     }
 
+    div {
+        min-width: 10rem;
+        max-width: 20rem;
+    }
+
     .dropup {
         position: absolute;
         top: auto;

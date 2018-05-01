@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <h1 class="page-header">Management: Lessons</h1>
+        <h1 class="page-header">Lessons: Management</h1>
         <b-table :items="lessons" :fields="fields">
             <template slot="Management" slot-scope="cell">
                 <b-btn size="sm" variant="primary" @click.stop="activate(cell.item.id)" v-if="!cell.item.active">Activate</b-btn>
