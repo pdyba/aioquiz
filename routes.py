@@ -54,7 +54,10 @@ def get_all_views(add_views=True, names=False, urls=False):
                 temp = tuple(temp)
             view_list.append(temp)
         except (AttributeError, AssertionError):
-            color_print(view, 'no URLS provided', color='red')
+            if 'Base' in name and 'Common' in name:
+                color_print(name, 'skipping', color='white')
+            else:
+                color_print(view, 'no URLS provided', color='red')
     return view_list
 
 

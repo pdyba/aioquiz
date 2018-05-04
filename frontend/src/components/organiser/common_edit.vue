@@ -30,7 +30,7 @@
         },
         created() {
             let self = this;
-            axios.get('/' + self.testType + '/' + self.$route.params.id).then((resp) => {
+            axios.get('/organiser/' + self.testType + '/' + self.$route.params.id).then((resp) => {
                 self.test = resp.data;
             })
         }

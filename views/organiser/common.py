@@ -10,7 +10,7 @@ from views.utils import HTTPModelClassView
 
 
 # noinspection PyBroadException, PyProtectedMember
-class CommonOrganiserTestView(HTTPModelClassView):
+class CommonOrganiserTestBase(HTTPModelClassView):
     _cls = None
     _urls = []
 
@@ -32,11 +32,11 @@ class CommonOrganiserTestView(HTTPModelClassView):
 
 
     @user_required('organiser')
-    async def put(self, request, current_user, qid=0):
+    async def put(self, request, current_user, tid=0):
         try:
             req = request.json
             cond = {
-                self._cls_answer._fk_col: qid,
+                self._cls_answer._fk_col: tid,
                 'question': req['question'],
                 'users': current_user.id,
             }
@@ -49,9 +49,9 @@ class CommonOrganiserTestView(HTTPModelClassView):
             return json({'msg': 'something went wrong'}, status=500)
 
     @user_required('organiser')
-    async def get(self, _, current_user, qid=0):
-        if qid:
-            quiz = await self._cls.get_by_id(qid)
+    async def get(self, _, current_user, tid=0):
+        if tid:
+            quiz = await self._cls.get_by_id(tid)
             resp = await quiz.to_dict()
             questions = await quiz.get_question()
             resp['all_questions'] = questions

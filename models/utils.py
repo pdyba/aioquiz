@@ -44,7 +44,7 @@ class CommonTestTemplate(Table):
         Column('active', Boolean(), default=False),
     ]
 
-    async def get_question(self, uid):
+    async def get_question(self, uid=0):
         return await self._questions.get_all_for_test(self.id, uid=uid, answer_cls=self._answers)
 
     async def get_status(self, uid):
@@ -85,6 +85,7 @@ class CommonTestTemplate(Table):
             'question_order': order
         })
         await test_question.create()
+
 
 class CommonTestQuestion(Table):
     _name = ''

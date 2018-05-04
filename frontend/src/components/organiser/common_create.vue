@@ -1,20 +1,20 @@
 <template>
     <b-container>
-        <h1 class="page-header">{{ testName }}: {{  Object.keys(testData).length === 0 ? 'Create' : 'Edit' }}</h1>
+        <h1 class="page-header">{{ testName }}: {{  checkEditCreate() ? 'Create' : 'Edit' }}</h1>
         <b-form>
             <b-row>
                 {{ testData.title }}
                 {{ testData.description }}
                 <b-col sm="6">
                     <h4>Quiz Questions</h4>
-                    <draggable class="list-group" element="ul" v-model="list" :options="dragOptions" :move="onMove"
+                    <draggable class="list-group" element="ul" v-model="testData.all_questions" :options="dragOptions" :move="onMove"
                                @start="isDragging=true" @end="isDragging=false">
                         <transition-group type="transition" :name="'flip-list'">
-                            <li class="list-group-item" v-for="element in list" :key="element.order">
-                                <b-badge>{{element.order}}</b-badge>
+                            <li class="list-group-item" v-for="element in testData.all_questions" :key="element.question_order">
+                                <b-badge>{{element.question_order}}</b-badge>
                                 <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'"
                                    @click=" element.fixed=! element.fixed" aria-hidden="true"></i>
-                                {{ element.name }}
+                                {{ element.question_details.question }}
                             </li>
                         </transition-group>
                     </draggable>
@@ -23,9 +23,9 @@
                 </b-col>
                 <b-col sm="6">
                     <h4>Available questions</h4>
-                    <draggable element="span" v-model="list2" :options="dragOptions" :move="onMove">
+                    <draggable element="span" v-model="available_questions" :options="dragOptions" :move="onMove">
                         <transition-group name="no" class="list-group" tag="ul">
-                            <li class="list-group-item" v-for="element in list2" :key="element.order">
+                            <li class="list-group-item" v-for="element in available_questions" :key="element.order">
                                 <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'"
                                    @click=" element.fixed=! element.fixed" aria-hidden="true"></i>
                                 {{ element.name }}
@@ -34,6 +34,8 @@
                     </draggable>
                 </b-col>
             </b-row>
+            <b-btn size="sm" v-if="checkEditCreate()">Create</b-btn>
+            <b-btn size="sm" v-else>Update</b-btn>
         </b-form>
         {{ testData }}
     </b-container>
@@ -43,14 +45,6 @@
     import axios from 'axios';
     import draggable from 'vuedraggable';
 
-    const msg = [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-        'Item 5'
-    ];
-
     export default {
         name: "commonCreate",
         components: {
@@ -58,10 +52,7 @@
         },
         data() {
             return {
-                list: msg.map((name, index) => {
-                    return {name, order: index + 1, fixed: false};
-                }),
-                list2: [],
+                available_questions: [],
                 editable: true,
                 isDragging: false,
                 delayedDragging: false
@@ -108,6 +99,9 @@
                 const relatedElement = relatedContext.element;
                 const draggedElement = draggedContext.element;
                 return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+            },
+            checkEditCreate() {
+                return Object.keys(this.testData).length === 0
             }
         }
     }
