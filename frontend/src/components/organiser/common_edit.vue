@@ -1,14 +1,18 @@
 <template>
     <b-container>
-        <h1 class="page-header">{{ testName }}: Create</h1>
+        <common-create :testType="testType" :testName="testName" :testData="test"></common-create>
     </b-container>
 </template>
 
 <script>
     import axios from 'axios';
+    import commonCreate from './common_create.vue'
 
     export default {
-        name: "commonCreate",
+        name: "commonEdit",
+        components: {
+            commonCreate
+        },
         data() {
             return {
                 test: {},
@@ -24,8 +28,11 @@
                 required: true,
             },
         },
-        computed: {},
-        methods: {
+        created() {
+            let self = this;
+            axios.get('/' + self.testType + '/' + self.$route.params.id).then((resp) => {
+                self.test = resp.data;
+            })
         }
     }
 </script>

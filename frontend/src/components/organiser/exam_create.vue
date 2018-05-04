@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <common-create testType="quiz" testName="Quiz"></common-create>
+        <common-create testType="exam" testName="Exam"></common-create>
     </b-container>
 </template>
 
@@ -11,7 +11,7 @@
         components: {
             commonCreate
         },
-        name: "quizCreate"
+        name: "examCreate"
     }
 </script>
 

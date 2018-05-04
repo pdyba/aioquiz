@@ -272,7 +272,10 @@ class Table(object):
 
     async def create(self):
         try:
-            return await self._create(self)
+            resp = await self._create(self)
+            if self._in_schema('id'):
+                self.id = resp
+            return resp
         except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
             raise
         except Exception as e:

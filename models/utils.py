@@ -78,6 +78,13 @@ class CommonTestTemplate(Table):
             status.status = 'Done'
         await status.update(**cond)
 
+    async def add_question(self, question_id, order):
+        test_question = self._questions(**{
+            self._name: self.id,
+            'question': question_id,
+            'question_order': order
+        })
+        await test_question.create()
 
 class CommonTestQuestion(Table):
     _name = ''

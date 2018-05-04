@@ -9,7 +9,7 @@
                 <b-btn size="sm" variant="danger" @click.stop="deactivate(cell.item.id)" v-if="cell.item.active">
                     Deactivate
                 </b-btn>
-                <b-link :to="testType + '/' + cell.item.id"><b-btn>Edit</b-btn></b-link>
+                <b-link :to="testType + '-edit/' + cell.item.id"><b-btn size="sm">Edit</b-btn></b-link>
             </template>
         </b-table>
     </b-container>

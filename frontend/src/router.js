@@ -34,10 +34,21 @@ import mentor from './components/mentor/mentor.vue'
 
 // organisator
 import organiser from './components/organiser/organiser.vue'
+
 import lessonsMngt from './components/organiser/lessons_mngt.vue'
+
 import quizMngt from './components/organiser/quiz_mngt.vue'
 import quizCreate from './components/organiser/quiz_create.vue'
 import quizEdit from './components/organiser/quiz_edit.vue'
+
+import liveQuizMngt from './components/organiser/live_quiz_mngt.vue'
+import liveQuizCreate from './components/organiser/live_quiz_create.vue'
+import liveQuizEdit from './components/organiser/live_quiz_edit.vue'
+
+import examMngt from './components/organiser/exam_mngt.vue'
+import examCreate from './components/organiser/exam_create.vue'
+import examEdit from './components/organiser/exam_edit.vue'
+
 // admin
 import admin_config from './components/admin/config.vue'
 import admin_email from './components/admin/email.vue'
@@ -191,9 +202,18 @@ const routes = [
         },
         children: [
             {path: 'lessons', component: lessonsMngt},
+
             {path: 'quiz-manage', component: quizMngt},
             {path: 'quiz-create', component: quizCreate},
             {path: 'quiz-edit/:id', component: quizEdit},
+
+            {path: 'live-quiz-manage', component: liveQuizMngt},
+            {path: 'live-quiz-create', component: liveQuizCreate},
+            {path: 'live-quiz-edit/:id', component: liveQuizEdit},
+
+            {path: 'exam-manage', component: examMngt},
+            {path: 'exam-create', component: examCreate},
+            {path: 'exam-edit/:id', component: examEdit},
         ]
     },
     {
