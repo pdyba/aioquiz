@@ -1,16 +1,35 @@
 <template>
     <b-container>
-        <h1 class="page-header">{{ testName }}: {{  checkEditCreate() ? 'Create' : 'Edit' }}</h1>
+        <h1 class="page-header">{{ testName }}: {{ checkCreate ? 'Create' : 'Edit' }}</h1>
         <b-form>
             <b-row>
-                {{ testData.title }}
-                {{ testData.description }}
+                <b-col sm="12">
+
+                    <b-form-group>
+                        <label>Title</label>
+                        <b-form-input v-model="testData.title">
+                        </b-form-input>
+                    </b-form-group>
+
+                    <b-form-group>
+                        <label>Description</label>
+                        <b-form-textarea
+                                v-model="testData.description "
+                                placeholder="Enter something"
+                                :rows="4"
+                                :max-rows="9">
+                        </b-form-textarea>
+                    </b-form-group>
+
+                </b-col>
                 <b-col sm="6">
                     <h4>Quiz Questions</h4>
-                    <draggable class="list-group" element="ul" v-model="testData.all_questions" :options="dragOptions" :move="onMove"
+                    <draggable class="list-group" element="ul" v-model="testData.all_questions" :options="dragOptions"
+                               :move="onMove"
                                @start="isDragging=true" @end="isDragging=false">
                         <transition-group type="transition" :name="'flip-list'">
-                            <li class="list-group-item" v-for="element in testData.all_questions" :key="element.question_order">
+                            <li class="list-group-item" v-for="element in testData.all_questions"
+                                :key="element.question_details.id">
                                 <b-badge>{{element.question_order}}</b-badge>
                                 <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'"
                                    @click=" element.fixed=! element.fixed" aria-hidden="true"></i>
@@ -23,21 +42,21 @@
                 </b-col>
                 <b-col sm="6">
                     <h4>Available questions</h4>
-                    <draggable element="span" v-model="available_questions" :options="dragOptions" :move="onMove">
+                    <draggable element="span" v-model="unused_questions" :options="dragOptions" :move="onMove">
                         <transition-group name="no" class="list-group" tag="ul">
-                            <li class="list-group-item" v-for="element in available_questions" :key="element.order">
+                            <li class="list-group-item" v-for="element in unused_questions"
+                                :key="element.question_details.id">
                                 <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'"
                                    @click=" element.fixed=! element.fixed" aria-hidden="true"></i>
-                                {{ element.name }}
+                                {{ element.question_details.question }}
                             </li>
                         </transition-group>
                     </draggable>
                 </b-col>
             </b-row>
-            <b-btn size="sm" v-if="checkEditCreate()">Create</b-btn>
-            <b-btn size="sm" v-else>Update</b-btn>
+            <b-btn size="sm" v-if="checkCreate" @click="createNewTest()">Create</b-btn>
+            <b-btn size="sm" v-else @click="updateTest()">Update</b-btn>
         </b-form>
-        {{ testData }}
     </b-container>
 </template>
 
@@ -52,10 +71,10 @@
         },
         data() {
             return {
-                available_questions: [],
                 editable: true,
                 isDragging: false,
-                delayedDragging: false
+                delayedDragging: false,
+                createTest: true
             }
         },
         props: {
@@ -67,10 +86,19 @@
                 type: String,
                 required: true,
             },
+            unused_questions: {
+                type: Array,
+                required: false,
+                default: function () {
+                    return []
+                }
+            },
             testData: {
                 type: Object,
                 required: false,
-                default: function () { return {} }
+                default: function () {
+                    return {all_questions: [{question_details: {question: 'remove me', id: 1}}]}
+                }
             }
         },
         computed: {
@@ -81,6 +109,9 @@
                     disabled: !this.editable,
                     ghostClass: 'ghost'
                 };
+            },
+            checkCreate() {
+                return this.createTest
             }
         },
         watch: {
@@ -101,7 +132,30 @@
                 return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
             },
             checkEditCreate() {
-                return Object.keys(this.testData).length === 0
+                return Object.keys(this.testData).length === 1
+            },
+            createNewTest() {
+                let self = this;
+                axios.post('/organiser/' + self.testType, self.testData).then((resp) => {
+                    this.$swal('Done', self.testType + " created \n msg: \n" + resp.data.msg, "success")
+                })
+            },
+            updateTest() {
+                let self = this;
+                axios.put('/organiser/' + self.testType, self.testData).then((resp) => {
+                        this.$swal('Done', self.testType + " updated \n msg: \n" + resp.data.msg, "success")
+                    }
+                )
+            }
+        },
+        created() {
+            let self = this;
+            if (self.checkEditCreate()) {
+                axios.get('/organiser/' + self.testType + '/1').then((resp) => {
+                    self.unused_questions = resp.data.unused_questions;
+                })
+            } else {
+                self.createTest = false
             }
         }
     }
@@ -122,7 +176,7 @@
     }
 
     .list-group {
-        min-height: 20px;
+        min-height: 50px;
     }
 
     .list-group-item {

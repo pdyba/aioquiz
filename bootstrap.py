@@ -107,7 +107,7 @@ async def admin():
     color_print('Admin Created', color='green')
 
 
-async def add_question():
+async def add_question(verbose=False):
     await models.Question(
         question='Jakie rozszerzenie zwyczajową mają pliki z kodem Pythonowym ?',
     ).create()
@@ -449,6 +449,7 @@ def get_parser():
     a_parser.add_argument("-l", "--lesson", help="Add lesson with given id, example: --lesson 0024")
     a_parser.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
     a_parser.add_argument("--alllessons", help="Add all lessons", action="store_true")
+    a_parser.add_argument("--addquestion", help="Add all question", action="store_true")
     a_parser.add_argument("--bootstrap", help="Bootstrap the DB", action="store_true")
     a_parser.add_argument("--admin", help="Create admin account in the DB", action="store_true")
     a_parser.add_argument(
@@ -474,6 +475,8 @@ if __name__ == '__main__':
         loop.run_until_complete(create_html_lessons(lesson=args.lesson, verbose=args.verbose))
     if args.alllessons:
         loop.run_until_complete(create_html_lessons(verbose=args.verbose))
+    if args.addquestion:
+        loop.run_until_complete(add_question(verbose=args.verbose))
     if args.admin:
         loop.run_until_complete(admin())
     loop.close()

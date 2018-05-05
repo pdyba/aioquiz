@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <common-create :testType="testType" :testName="testName" :testData="test"></common-create>
+        <common-create :testType="testType" :testName="testName" :testData="test" :unused_questions="unused_questions"></common-create>
     </b-container>
 </template>
 
@@ -16,6 +16,7 @@
         data() {
             return {
                 test: {},
+                unused_questions: []
             }
         },
         props: {
@@ -32,6 +33,7 @@
             let self = this;
             axios.get('/organiser/' + self.testType + '/' + self.$route.params.id).then((resp) => {
                 self.test = resp.data;
+                self.unused_questions = resp.data.unused_questions
             })
         }
     }

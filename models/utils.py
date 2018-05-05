@@ -44,8 +44,8 @@ class CommonTestTemplate(Table):
         Column('active', Boolean(), default=False),
     ]
 
-    async def get_question(self, uid=0):
-        return await self._questions.get_all_for_test(self.id, uid=uid, answer_cls=self._answers)
+    async def get_question(self, uid=0, as_json=True):
+        return await self._questions.get_all_for_test(self.id, uid=uid, answer_cls=self._answers, as_json=as_json)
 
     async def get_status(self, uid):
         try:
@@ -86,6 +86,24 @@ class CommonTestTemplate(Table):
         })
         await test_question.create()
 
+    @classmethod
+    async def get_all_available_questions(cls, as_json=True):
+        available_questions = []
+        all_questions = await Question.get_all()
+        used_questions = await cls._questions.get_all()
+        used_questions = [q.question for q in used_questions]
+        for question in all_questions:
+            if question.id not in used_questions:
+                if as_json:
+                    available_questions.append({'question_details': await question.to_dict()})
+                else:
+                    available_questions.append(question)
+        return available_questions
+
+    async def delete_old_questions(self):
+        old_questions = self._questions(**{self._name: 1, 'question': 1, 'question_order': 1})
+        await old_questions.delete(**{self._name: self.id})
+
 
 class CommonTestQuestion(Table):
     _name = ''
@@ -104,19 +122,21 @@ class CommonTestQuestion(Table):
         return ['question_order', cls._fk_col]
 
     @classmethod
-    async def get_all_for_test(cls, tid, uid=0, answer_cls=None):
-        test_questions =  await cls.get_by_many_field_value(
+    async def get_all_for_test(cls, tid, uid=0, answer_cls=None, as_json=True):
+        test_questions = await cls.get_by_many_field_value(
             **{cls._fk_col: tid}
         )
         resp = []
         for tq in test_questions:
-            quest = await Question.get_by_id(tq.question)
-            r = await tq.to_dict()
-            r['question_details'] = await quest.to_dict()
-            if uid and answer_cls:
-                answer = await answer_cls.get_answare_by_uid(quest.id, uid)
-                r['question_details']['answer'] = answer.answer if answer else ''
-            resp.append(r)
+            if as_json:
+                qid = tq.question
+                tq = await tq.to_dict()
+                quest = await Question.get_by_id(qid)
+                tq['question_details'] = await quest.to_dict()
+                if uid and answer_cls:
+                    answer = await answer_cls.get_answare_by_uid(quest.id, uid)
+                    tq['question_details']['answer'] = answer.answer if answer else ''
+            resp.append(tq)
         return resp
 
 
@@ -167,4 +187,3 @@ class CommonTestStatus(Table):
     @ClassProperty
     def _unique(cls):
         return ['users', cls._fk_col]
-

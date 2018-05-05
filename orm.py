@@ -12,6 +12,7 @@ from asyncpg.exceptions import PostgresSyntaxError
 from asyncpg.exceptions import UndefinedColumnError
 from asyncpg.exceptions import UniqueViolationError
 from asyncpg.exceptions import ForeignKeyViolationError
+from asyncpg.exceptions import InvalidTextRepresentationError
 
 from config import DB
 from utils import color_print
@@ -24,6 +25,7 @@ psql_cfg = {
 }
 
 db = None  # Perhaps make a 'db' class instead of using a global variable?
+
 
 # noinspection PyBroadException
 async def make_a_querry(querry, retry=False):
@@ -43,6 +45,9 @@ async def make_a_querry(querry, retry=False):
             logging.warning('queering db: %s', querry)
             raise
     except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
+        raise
+    except InvalidTextRepresentationError:
+        logging.warning('queering db: %s', querry)
         raise
     except ConnectionRefusedError:
         logging.error('DataBase is not UP!')
@@ -321,7 +326,7 @@ class Table(object):
             if isinstance(kwargs[kw], str):
                 querry += """ {}='{}'""".format(kw, kwargs[kw])
             else:
-                querry += """  {}={}""".format(kw, kwargs[kw])
+                querry += """ {}={}""".format(kw, kwargs[kw])
             if i + 1 < len(kwargs):
                 querry += """ AND """
         return querry
@@ -384,12 +389,16 @@ class Table(object):
         return dict(resp)
 
     @classmethod
-    async def _delete(cls, data):
+    async def _delete(cls, data, **kwargs):
         try:
-            resp = await make_a_querry(
-                """DELETE FROM {}
-                WHERE id={}
-                """.format(cls._name, data.id))
+            if hasattr(data, 'id'):
+                resp = await make_a_querry(
+                    """DELETE FROM {}
+                    WHERE id={}
+                    """.format(cls._name, data.id))
+            else:
+                resp = await make_a_querry("""DELETE FROM {} WHERE{}""".format(cls._name, cls._format_kwargs(**kwargs)))
+                print(resp)
             return resp
         except ForeignKeyViolationError:
             logging.error('Could not delete {} id: {}'.format(cls._name, data.id))
@@ -397,8 +406,8 @@ class Table(object):
             logging.exception('Could not delete')
         return False
 
-    async def delete(self):
-        await self._delete(self)
+    async def delete(self, **kwargs):
+        await self._delete(self, **kwargs)
 
     @classmethod
     async def detele_by_id(cls, uid):
@@ -419,6 +428,7 @@ class Table(object):
         ALTER TABLE exercise_answare ADD COLUMN first_answare character varying(5000) NOT NULL DEFAULT '';
         ALTER TABLE users ADD COLUMN magic_string character varying(50) NOT NULL DEFAULT '';
         ALTER TABLE users ADD COLUMN magic_string_date timestamp;
+        ALTER TABLE quiz ADD COLUMN active bool;
         """
         pass
     
