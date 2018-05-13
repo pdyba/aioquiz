@@ -4,6 +4,7 @@
             <b-row>
                 <b-col sm="6">
                     <a href="#/rules">Regulamin</a>
+                    <a href="#/privacy_policy">Polityka Prywatności</a>
                 </b-col>
                 <b-col sm="6">
                     <a class="pull-right" href="https://github.com/pdyba/aioquiz"><i class="fa fa-github"></i>GitHub</a>

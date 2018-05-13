@@ -115,6 +115,16 @@
                             </b-form-checkbox>
                         </b-form-group>
 
+
+                            <b-form-group class="input inline" :class="{invalid: $v.user.gdpr.$invalid}">
+                            <b-form-checkbox
+                                    type="checkbox"
+                                    v-model="user.gdpr">
+                                <p v-if="en">I have read and accepted <a href="#/privacy_policy">Privacy Policy</a></p>
+                                <p v-if="pl">Przeczytałem i akceptuję <a href="#/privacy_policy">Poliykę Prywatności</a></p>
+                            </b-form-checkbox>
+                        </b-form-group>
+
                         <b-form-group class="input inline" :class="{invalid: $v.user.notebook.$invalid}">
                             <b-form-checkbox
                                     type="checkbox"
