@@ -358,6 +358,9 @@ class SaveGDPR(HTTPModelClassView):
     """
     _cls = Users
     _urls = '/api/user/gdpr'
+    failed_msg = """You have failed to comply with our Privacy Policy. 
+        You will be automatically logged out. 
+        Failing to comply by 25.05.2018 will lead to account removal."""
 
     @user_required()
     async def get(self, request, current_user):
@@ -367,11 +370,11 @@ class SaveGDPR(HTTPModelClassView):
             await current_user.update()
             return json({
                 'success': True,
-                'msg': 'You confirmed reading and agreeing with our Privacy Policy'
+                'msg': 'You confirmed reading and agreed with our Privacy Policy'
             })
         except:
             logging.exception('err user.post')
         return json({
             'success': False,
-            'msg': 'You Failed to comply with our Privacy Policy You will be automaticly logout, failing to comply by 25.05 will lead to account removal'
+            'msg': self.failed_msg
         })

@@ -77,7 +77,7 @@ export default new Vuex.Store({
                         })
                     } else {
                         swal({
-                            text: 'You Failed to comply with our Privacy Policy You will be automaticly logout, failing to comply by 25.05 will lead to account removal',
+                            text: 'You have failed to comply with our Privacy Policy. You will be automatically logged out. Failing to comply by 25.05.2018 will lead to account removal.',
                             title: 'Privacy Policy Compliance',
                             type: mtype,
                             showConfirmButton: true,

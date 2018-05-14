@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <h1 class="page-header">Polityka Prywatności o raz infomracja o przetwarzaniu danych osobowych</h1>
+        <h1 class="page-header">Polityka Prywatności oraz informacja o przetwarzaniu danych osobowych</h1>
         <b-row>
             <b-col>
                 Uprzejmie informujemy, że społeczność PyLove.org przetwarza
