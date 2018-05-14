@@ -116,12 +116,13 @@
                         </b-form-group>
 
 
-                            <b-form-group class="input inline" :class="{invalid: $v.user.gdpr.$invalid}">
+                        <b-form-group class="input inline" :class="{invalid: $v.user.gdpr.$invalid}">
                             <b-form-checkbox
                                     type="checkbox"
                                     v-model="user.gdpr">
                                 <p v-if="en">I have read and accepted <a href="#/privacy_policy">Privacy Policy</a></p>
-                                <p v-if="pl">Przeczytałem i akceptuję <a href="#/privacy_policy">Poliykę Prywatności</a></p>
+                                <p v-if="pl">Przeczytałem i akceptuję <a href="#/privacy_policy">Poliykę Prywatności</a>
+                                </p>
                             </b-form-checkbox>
                         </b-form-group>
 
@@ -139,7 +140,6 @@
                             <b-form-checkbox
                                     type="checkbox"
                                     v-model="user.python">
-
                                 <p v-if="en">Did you already install Python using following link:</p>
                                 <p v-if="pl">Czy zainstalowałeś już Pythona używajac tego linku:</p>
                                 <a href="https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s">https://www.youtube.com/watch?v=0d6znPZb3PQ&t=3s</a>
@@ -256,6 +256,10 @@
                     required: true
                 },
                 bring_power_cord: {
+                    isTrue,
+                    required: true
+                },
+                gdpr: {
                     isTrue,
                     required: true
                 },

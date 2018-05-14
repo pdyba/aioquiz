@@ -7,7 +7,6 @@ import Vuelidate from 'vuelidate'
 import VueMarkdown from 'vue-markdown'
 import VueSweetalert2 from 'vue-sweetalert2';
 
-
 import 'bootstrap/dist/css/bootstrap.css'
 import 'mdbootstrap/css/mdb.css';
 import 'prismjs/themes/prism.css'
@@ -16,15 +15,11 @@ import router from './router'
 import store from './store'
 
 axios.defaults.baseURL = '/api';
-// axios.defaults.baseURL = 'http://127.0.0.1:5000/api'; // dev mode
 axios.defaults.headers.accepts = 'application/json';
 
 axios.interceptors.response.use(res => {
-    // console.log('inter_res', res);
     return res
 }, (error) => {
-    // console.log('inter_error', error.response);
-    // console.log('CODE: ', error.response.status);
     if (error.response.status === 401) {
         store.dispatch('logout')
     }
@@ -35,7 +30,6 @@ axios.interceptors.response.use(res => {
 });
 
 axios.interceptors.request.use(req => {
-    // console.log('inter_req', req);
     req.headers.authorization = store.getters.sessionUUID;
     return req
 });

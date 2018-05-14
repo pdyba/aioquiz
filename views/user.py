@@ -350,3 +350,28 @@ class ChangePasswordView(HTTPModelClassView):
             logging.exception('authentication.post')
         return json({'msg': 'Sorry, internal error. Please let us now!', "success": False})
 
+
+# noinspection PyMethodMayBeStatic
+class SaveGDPR(HTTPModelClassView):
+    """
+    Saves GDPR/RODO FFS...
+    """
+    _cls = Users
+    _urls = '/api/user/gdpr'
+
+    @user_required()
+    async def get(self, request, current_user):
+        # noinspection PyBroadException
+        try:
+            current_user.gdpr = True
+            await current_user.update()
+            return json({
+                'success': True,
+                'msg': 'You confirmed reading and agreeing with our Privacy Policy'
+            })
+        except:
+            logging.exception('err user.post')
+        return json({
+            'success': False,
+            'msg': 'You Failed to comply with our Privacy Policy You will be automaticly logout, failing to comply by 25.05 will lead to account removal'
+        })

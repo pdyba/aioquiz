@@ -53,7 +53,8 @@ class AuthenticateView(HTTPModelClassView):
                     'organiser': user.organiser,
                     'id': user.id,
                     'session_uuid': user.session_uuid,
-                    'confirmation': user.confirmation
+                    'confirmation': user.confirmation,
+                    'gdpr': user.gdpr,
                 })
             else:
                 return self.user_error
