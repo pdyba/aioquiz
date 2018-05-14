@@ -416,6 +416,7 @@ class Table:
         ALTER TABLE exercise_answare ADD COLUMN first_answare character varying(5000) NOT NULL DEFAULT '';
         ALTER TABLE users ADD COLUMN magic_string character varying(50) NOT NULL DEFAULT '';
         ALTER TABLE users ADD COLUMN magic_string_date timestamp;
+        ALTER TABLE users ADD COLUMN gdpr bool DEFAULT false;
         """
         pass
     
