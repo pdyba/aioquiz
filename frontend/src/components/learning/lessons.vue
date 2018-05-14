@@ -1,5 +1,5 @@
 <template>
-    <listing alisting="lessons"> </listing>
+    <listing alisting="lessons" alistingName="Lessons"> </listing>
 </template>
 
 <script>

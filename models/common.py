@@ -70,6 +70,7 @@ class Users(Table):
         Column('score', Float(), default=0, required=False),
         Column('i_helped', Boolean(), default=False),
         Column('helped', String(5000), required=False),
+        Column('gdpr', Boolean(), default=False),
     ]
 
     _banned_user_keys = [

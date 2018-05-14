@@ -123,77 +123,77 @@ OK, to jak to zrobić w Pythonie?
 #### re.compile
 Tworzy obiekt `Regex`, który dopasowuje dane wyrażenie regularne.
 
-    :::python3
-    simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
-
+```python
+simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
+```
 
 #### re.search
 Poszukuje dopasowania w podanym stringu.
 Zwróci `None`, jeżeli nie odnaleziono dopasowania.
 Jeżeli odnaleziono dopasowanie, zwróci obiekt `Match` **pierwszego** dopasowania.
 
-    :::python3
-    found = re.search(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moj adres email to: jakis@mail.com')
-    # lub jako metoda obiektu Regex:
-    simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
-    found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
-
+```python
+found = re.search(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moj adres email to: jakis@mail.com')
+# lub jako metoda obiektu Regex:
+simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
+found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
+```
 
 #### Match.group
 Metoda obiektu `Match`, zwróci całe dopasowanie lub dopasowanie wybranej grupy.
 
-    :::python3
-    found = re.search(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moj adres email to: jakis@mail.com')
-    print(found.group()) # jakis@mail.com
-    print(found.group(0))  # jakis@mail.com
-    print(found.group(1))  # jakis
-    print(found.group(2))  # mail
-    print(found.group(3))  # com
-
+```python
+found = re.search(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moj adres email to: jakis@mail.com')
+print(found.group()) # jakis@mail.com
+print(found.group(0))  # jakis@mail.com
+print(found.group(1))  # jakis
+print(found.group(2))  # mail
+print(found.group(3))  # com
+```
 
 #### Match.groups
 Metoda obiektu `Match`, zwróci wszystkie grupy naraz.
 
-    :::python3
-    simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
-    found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
-    print(found.groups())  # ('jakis', 'mail', 'com')
-
+```python
+simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
+found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
+print(found.groups())  # ('jakis', 'mail', 'com')
+```
 
 #### re.split
 Dzieli podany string w miejscach, gdzie znajdzie dopasowanie.
 Zwraca listę podzielonych części stringa.
 Jeżeli w wyrażeniu regularnym istnieją grupy, w liście pojawią się również dopasowania tych grup.
 
-    :::python3
-    text = 'Ciastka, dżem, herbata.'
-    text_split = re.split(r'\W+', text)
-    print(text_split)  # ['Ciastka', 'dżem', 'herbata', '']
-    text_split_with_groups = re.split(r'(\W+)', text)
-    print(text_split_with_groups)  # ['Ciastka', ', ', 'dżem', ', ', 'herbata', '.', '']
-
+```python
+text = 'Ciastka, dżem, herbata.'
+text_split = re.split(r'\W+', text)
+print(text_split)  # ['Ciastka', 'dżem', 'herbata', '']
+text_split_with_groups = re.split(r'(\W+)', text)
+print(text_split_with_groups)  # ['Ciastka', ', ', 'dżem', ', ', 'herbata', '.', '']
+```
 
 #### re.findall
 Poszukuje dopasowania w podanym stringu.
 W przeciwieństwie do metody `search`, zwraca listę stringów (jeżeli w wyrażeniu regularnym nie ma grup)
 albo listę tupli.
 
-    :::python3
-    found = re.findall(r'[a-z]+@[a-z]+\.[a-z]{2,3}', 'Moje adresy email to: jakis@mail.com, inny@email.pl')
-    print(found)  # ['jakis@mail.com', 'inny@email.pl']
-    found = re.findall(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moje adresy email to: jakis@mail.com, inny@email.pl')
-    print(found)  # [('jakis', 'mail', 'com'), ('inny', 'email', 'pl')]
-
+```python
+found = re.findall(r'[a-z]+@[a-z]+\.[a-z]{2,3}', 'Moje adresy email to: jakis@mail.com, inny@email.pl')
+print(found)  # ['jakis@mail.com', 'inny@email.pl']
+found = re.findall(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moje adresy email to: jakis@mail.com, inny@email.pl')
+print(found)  # [('jakis', 'mail', 'com'), ('inny', 'email', 'pl')]
+```
 
 #### re.sub
 Poszukuje dopasowań w podanym stringu i zastępuje je innym wyrażeniem.
 Można zastosować odwołanie do grup z dopasowania.
 
-    :::python3
-    text = 'moje tajne haslo: lubieciastka'
-    text_changed = re.sub(r'(?<=haslo: )(\w)(\w+)', r'\1***', text)
-    print(text_changed)  # 'moje tajne haslo: l***'
-
+```python
+text = 'moje tajne haslo: lubieciastka'
+text_changed = re.sub(r'(?<=haslo: )(\w)(\w+)', r'\1***', text)
+print(text_changed)  # 'moje tajne haslo: l***'
+```
 
 
 Fajne te regexy, co?

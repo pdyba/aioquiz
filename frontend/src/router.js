@@ -6,6 +6,7 @@ import store from './store'
 // no_auth
 import Home from './components/no_auth/home.vue'
 import rules from './components/no_auth/rules.vue'
+import privacy_policy from './components/no_auth/privacy_policy.vue'
 import program from './components/no_auth/program.vue'
 import about from './components/no_auth/about.vue'
 import SignupPage from './components/auth/signup.vue'
@@ -46,6 +47,7 @@ Vue.use(VueRouter);
 const routes = [
     {path: '/', component: Home},
     {path: '/rules', component: rules},
+    {path: '/privacy_policy', component: privacy_policy},
     {
         path: '/signup',
         component: SignupPage,
