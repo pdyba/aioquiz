@@ -1,12 +1,12 @@
 1:
     title: 1.24.1
     task: |
-        Napisz algorytm, który zmieni wszystkie stopnie Celcujesza na Farenhaita w podanej liście: [39.2, 36.5, 37.3, 37.8]
+        Napisz algorytm, który zmieni wszystkie stopnie Celsujsza na Farenheita w podanej liście: [39.2, 36.5, 37.3, 37.8]
     possible_answer: map(lambda x: (float(9)/5)*x + 32, celsius)
 2:
     title: 1.24.2
     task: |
-        Napisz generator kolejnych wartości ciągu fibonaciego.
+        Napisz generator kolejnych wartości ciągu Fibonaciego.
     possible_answer: yey
 3:
     title: 1.24.3
@@ -16,21 +16,21 @@
 4:
     title: 1.24.4
     task: |
-        Napisz algorytm, który wyświetli wszystkie nieparzyste liczby w pierwszych 100 elementach ciągu fibonaciego.
+        Napisz algorytm, który wyświetli wszystkie nieparzyste liczby w pierwszych 100 elementach ciągu Fibonaciego.
     possible_answer: yey
 5:
     title: 1.24.5
     task: |
-        Napisz list comprehension, które będzie zawierala tylko całkowite dodatnie liczby z listy [134.6, -2203.4, 344, 68.3, -112, 344, 1212.712]
+        Napisz list comprehension, która będzie zawierała tylko całkowite dodatnie liczby z listy [134.6, -2203.4, 344, 68.3, -112, 344, 1212.712]
     possible_answer: yey
 6:
     title: 1.24.6
     task: |
-        Wykorzystująć https://api.icndb.com/jokes/1 lub https://api.icndb.com/jokes/random (dokumentacja: http://www.icndb.com/api/) napisz generator, który
-        będzie zwracał kolejne żarty o Chucku Norrisie w formie stringa aż się nie wyczerpią.
+        Wykorzystując https://api.icndb.com/jokes/1 lub https://api.icndb.com/jokes/random (dokumentacja: http://www.icndb.com/api/) napisz generator, który
+        będzie zwracał kolejne żarty o Chucku Norrisie w formie stringa, aż się nie wyczerpią.
     possible_answer: yey
 7:
     title: 1.24.7
     task: |
-        Na rozszerz generator z zad 6. tak żeby zwracał instancje classe lub namedtuple zwierająca dowcip, id, czas stworzenia klasy, czas trwania zapytania.
+        Na rozszerz generator z zad 6. tak, żeby zwracał instancję klasy lub namedtuple zwierającą dowcip, id, czas stworzenia klasy, czas trwania zapytania.
     possible_answer: yey
