@@ -429,6 +429,7 @@ class Table(object):
         ALTER TABLE users ADD COLUMN magic_string character varying(50) NOT NULL DEFAULT '';
         ALTER TABLE users ADD COLUMN magic_string_date timestamp;
         ALTER TABLE quiz ADD COLUMN active bool;
+        ALTER TABLE users ADD COLUMN gdpr bool DEFAULT false;
         """
         pass
     

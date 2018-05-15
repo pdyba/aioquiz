@@ -1,0 +1,15 @@
+1:
+    title: 1.23.1
+    task: |
+        Stwórz virtualne środowisko wykorzystując virtualenv o nazwie imie_env_1 i się na nie przełącz. W odpowiedzi podaj komendy jakich użyłaś/użyłeś.
+    possible_answer: yey
+2:
+    title: 1.23.2
+    task: |
+        Stwórz virtualne środowisko wykorzystując virtualenvwrapper o nazwie imie_env_2 i się na nie przełącz. W odpowiedzi podaj komendy jakich użyłaś/użyłeś.
+    possible_answer: yey
+3:
+    title: 1.23.3
+    task: |
+        Stwórz virtualne środowisko wykorzystując PyCharma o nazwie imie_env_3 i się na nie przełącz. W odpowiedzi podaj nazwy wszystkich środowisk dostępnych z poziomu PyCharma.
+    possible_answer: yey

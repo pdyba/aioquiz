@@ -2,28 +2,28 @@
     title: 1.22.1
     task: |
         Skonfiguruj uWSGI tak, żeby aplikację dało się zrestartować poleceniem: "uwsgi --reload myapp.pid" i zatrzymać poleceniem "uwsgi --stop myapp.pid".
-    possible_answare: yey
+    possible_answer: yey
 2:
     title: 1.22.2
     task: |
         Znajdź ustawienie, które sprawi, że aplikacja będzie w stanie obsłużyć kilka zapytań równocześnie.
         Do przetestowania wykorzystaj kod do zadania 2 z lekcji - w jednej zakładce wejdź na adres 127.0.0.1/long, a w drugiej na 127.0.0.1/add/1/2.
         Aplikacja powinna odpowiedzieć od razu na drugie zapytanie, a nie dopiero po zakończeniu obsługi pierwszego.
-    possible_answare: yey
+    possible_answer: yey
 3:
     title: 1.22.3
     task: |
         Skonfiguruj nginxa tak, aby zapytania trafiające na adres /myapp były przekierowywane do aplikacji pythonowej, a zapytania na pozostałe adresy zwracały pliki statyczne z folderu /usr/share/nginx/html.
         Porada - spójrz na domyślną konfigurację nginxa (plik default.conf - prawdopodobnie ma już zmienione rozszerzenie).
-    possible_answare: yey
+    possible_answer: yey
 4:
     title: 1.22.4
     task: |
         Korzystając ze strony: http://nginx.org/en/docs/http/ngx_http_auth_basic_module.html skonfiguruj nginxa tak, aby dostęp do strony wymagał podania nazwy użytkownika i hasła.
         Do generowania haseł możesz wykorzystać polecenie "openssl passwd".
-    possible_answare: yey
+    possible_answer: yey
 5:
     title: 1.22.5
     task: |
         W zespołach zdeployujcie wasze aplikacje na stronie OpenShift tak, aby były dostępne w Internecie.
-    possible_answare: yey
+    possible_answer: yey
