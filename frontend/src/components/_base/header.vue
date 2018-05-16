@@ -17,7 +17,7 @@
                         <dropdown-menu>
                             <dropdown-item href="/mentor/questions">Questions</dropdown-item>
                             <dropdown-item href="/mentor/lesson">Lesson: status</dropdown-item>
-                            <dropdown-item href="/mentor/homework">Homework: grade</dropdown-item>
+                            <!--<dropdown-item href="/mentor/homework">Homework: grade</dropdown-item>-->
                             <dropdown-item href="/mentor/quiz">Quiz: grade</dropdown-item>
                             <dropdown-item href="/mentor/live_quiz">Live Quiz: overview</dropdown-item>
                             <dropdown-item href="/mentor/exam">Exam: grade</dropdown-item>
