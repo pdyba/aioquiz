@@ -32,15 +32,22 @@ import userSeat from './components/user/seat.vue'
 
 // mentor
 import mentor from './components/mentor/mentor.vue'
+
 import mentorQuizList from './components/mentor/quiz_list.vue'
 import mentorQuizDetails from './components/mentor/quiz_details.vue'
 import mentorQuizGrade from './components/mentor/quiz_grade.vue'
+
 import mentorLiveQuizList from './components/mentor/live_quiz_list.vue'
 import mentorLiveQuizDetails from './components/mentor/live_quiz_details.vue'
+
 import mentorExamList from './components/mentor/exam_list.vue'
 import mentorExamDetails from './components/mentor/exam_details.vue'
 import mentorExamGrade from './components/mentor/exam_grade.vue'
+
 import mentorUsers from './components/mentor/users.vue'
+
+import mentorLessons from './components/mentor/lessons.vue'
+import mentorLesson from './components/mentor/lesson.vue'
 
 // organisator
 import organiser from './components/organiser/organiser.vue'
@@ -247,6 +254,8 @@ const routes = [
             {path: 'grade/exam/:id', component: mentorExamGrade},
             {path: 'grade/quiz/:id', component: mentorQuizGrade},
             {path: 'users', component: mentorUsers},
+            {path: 'lessons', component: mentorLessons},
+            {path: 'lessons/:id', component: mentorLesson},
         ]
     },
     {

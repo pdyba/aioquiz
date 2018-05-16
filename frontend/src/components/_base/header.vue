@@ -15,7 +15,7 @@
                     <dropdown tag="li" class="nav-item" v-if="mentor">
                         <dropdown-toggle tag="a" navLink color="indigo">Mentor</dropdown-toggle>
                         <dropdown-menu>
-                            <dropdown-item href="/mentor/questions">Questions</dropdown-item>
+                            <!--<dropdown-item href="/mentor/questions">Questions</dropdown-item>-->
                             <dropdown-item href="/mentor/lesson">Lesson: status</dropdown-item>
                             <!--<dropdown-item href="/mentor/homework">Homework: grade</dropdown-item>-->
                             <dropdown-item href="/mentor/quiz">Quiz: grade</dropdown-item>
