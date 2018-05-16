@@ -432,7 +432,7 @@ class Table(object):
         ALTER TABLE users ADD COLUMN gdpr bool DEFAULT false;
         """
         pass
-    
+
     def _rename_column(self):
         """
         ALTER TABLE exercise RENAME COLUMN possible_answare TO possible_answer;

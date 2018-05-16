@@ -18,7 +18,7 @@ class EmailView(HTTPModelClassView):
     _urls = '/api/admin/email'
 
     recipients = {
-        'all' : {
+        'all': {
             'type': 'all',
             'name': 'Do Wszystkich',
             'conditions': {}
@@ -129,11 +129,13 @@ class EmailView(HTTPModelClassView):
         else:
             subject = mail_data['subject']
             text = mail_data['text']
-            await send_email(
-                recipients=[u.email for u in users],
-                text=text,
-                subject=subject
-            )
+            for x in range(len(users) // 50):
+                await send_email(
+                    recipients=[u.email for u in users[x*50:(x+1)*50]],
+                    text=text,
+                    subject=subject
+                )
+                await asyncio.sleep(0.03)
         return json({
             'success': True,
             'msg': "Send: {} e-mail to {}".format(len(users), data['recipients']['name'])
