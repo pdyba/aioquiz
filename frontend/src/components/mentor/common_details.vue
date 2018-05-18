@@ -1,12 +1,11 @@
 <template>
     <b-container>
-        <h1 class="page-header">Lessons: Management</h1>
-        <b-table :items="lessons" :fields="fields">
+        <h1 class="page-header">{{ testName }}</h1>
+        <b-table :items="test.all_questions" :fields="fields">
             <template slot="Management" slot-scope="cell">
-                <b-btn size="sm" variant="primary" @click.stop="activate(cell.item.id)" v-if="!cell.item.active">Activate</b-btn>
-                <b-btn size="sm" variant="danger" @click.stop="deactivate(cell.item.id)" v-if="cell.item.active">Deactivate</b-btn>
-                <b-btn size="sm" variant="success" @click.stop="attendance(cell.item.id)">Attendance</b-btn>
-                <b-btn size="sm" variant="outline-success" @click.stop="extend(cell.item.id)">Extend</b-btn>
+                <router-link :to="'/mentor/grade/' + testType + '/' + cell.item.question">
+                    <b-btn size="sm" variant="primary">Grade</b-btn>
+                </router-link>
             </template>
         </b-table>
     </b-container>
@@ -16,57 +15,39 @@
     import axios from 'axios';
 
     export default {
-        name: "lessons_mngt",
+        name: "test_details",
         data() {
             return {
-                lessons: [],
+                test: [],
                 fields: [
-                    'id',
-                    'title',
-                    'active',
+                    'question_order',
+                    'question_details.question',
+                    'question_details.qtype',
+                    'graded',
+                    'to_grade',
                     'Management'
                 ],
             }
         },
         created() {
             let self = this;
-            axios.get('/lessons').then(
-                function (response) {
-                    self.lessons = response.data;
-                }
-            );
+            axios.get('/mentor/' + self.testType + '/' + self.$route.params.id).then((resp) => {
+                self.test = resp.data;
+            })
+        },
+        props: {
+            testType: {
+                type: String,
+                required: true,
+            },
+            testName: {
+                type: String,
+                required: true,
+            },
         },
         computed: {},
         methods: {
-            activate(lid) {
-            },
-            deactivate(lid) {
-            },
-            attendance(lid) {
-                let self = this;
-                axios.get('/attendance/' + lid).then(
-                    function (response) {
-                        self.$swal({
-                            title: "Lesson Code",
-                            type: "success",
-                            html: "<h1>" + response.data.code + "</h1><h3><br>will expire at:<br>" + response.data.time_ended + "</h3>",
-                        })
-                    }
-                );
-            },
-            extend(lid) {
-                let self = this;
-                axios.post('/attendance/' + lid, {}).then(
-                    function (response) {
-                        self.$swal({
-                            title: "Lesson Code",
-                            html: "<h1>" + response.data.code + "</h1><h3><br>will expire at:<br>" + response.data.time_ended + "</h3>",
-                            type: "success",
-                        })
-                    }
-                );
-            },
-            show_attendance(lid) {
+            activate() {
             }
         }
     }

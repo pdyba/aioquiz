@@ -21,7 +21,7 @@
                             <dropdown-item href="/mentor/quiz">Quiz: grade</dropdown-item>
                             <dropdown-item href="/mentor/live_quiz">Live Quiz: overview</dropdown-item>
                             <dropdown-item href="/mentor/exam">Exam: grade</dropdown-item>
-                            <dropdown-item>Users: overview</dropdown-item>
+                            <dropdown-item href="/mentor/users">Users: overview</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
 
@@ -31,8 +31,8 @@
                             <!--<dropdown-item>Lesson: Create</dropdown-item>-->
                             <dropdown-item href="/organiser/attendee_review">Attendee: Review</dropdown-item>
                             <dropdown-item href="/organiser/lessons">Lesson: Manage</dropdown-item>
-                            <dropdown-item>Question: Manage</dropdown-item>
-                            <dropdown-item>Question: Create</dropdown-item>
+                            <!--<dropdown-item>Question: Manage</dropdown-item>-->
+                            <!--<dropdown-item>Question: Create</dropdown-item>-->
                             <dropdown-item href="/organiser/quiz-create">Quiz: Create</dropdown-item>
                             <dropdown-item href="/organiser/quiz-manage">Quiz: Manage</dropdown-item>
                             <dropdown-item href="/organiser/live-quiz-create">Live Quiz: Create</dropdown-item>

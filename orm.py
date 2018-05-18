@@ -371,9 +371,9 @@ class Table(object):
         return dict(resp[0])['count']
 
     @classmethod
-    async def count_by_field(cls, **kwargs):
+    async def count_by_field(cls, append='', **kwargs):
         resp = await make_a_querry(
-            """SELECT COUNT(*) FROM {} WHERE """.format(cls._name) + cls._format_kwargs(**kwargs)
+            """SELECT COUNT(*) FROM {} WHERE """.format(cls._name) + cls._format_kwargs(**kwargs) + append
         )
         return dict(resp[0])['count']
 

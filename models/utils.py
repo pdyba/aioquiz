@@ -100,9 +100,30 @@ class CommonTestTemplate(Table):
                     available_questions.append(question)
         return available_questions
 
+    @classmethod
+    async def get_all_questions_to_grade(cls, tid, as_json=True):
+        resp = []
+        questions = await cls._questions.get_all_for_test(tid)
+        for quest in questions:
+            try:
+                quest['to_grade'] = await cls._answers.get_answer_count(quest['question'])
+                quest['graded'] = await cls._answers.get_graded_count(quest['question'])
+            except:
+                print(quest)
+                raise
+            resp.append(quest)
+        return resp
+
     async def delete_old_questions(self):
         old_questions = self._questions(**{self._name: 1, 'question': 1, 'question_order': 1})
         await old_questions.delete(**{self._name: self.id})
+
+    @classmethod
+    async def get_by_anwares_to_grade_by_qid(cls, qid):
+        anwares = []
+        for ans in await cls._answers.get_answers_by_qid(qid):
+            anwares.append(await ans.to_dict())
+        return anwares
 
 
 class CommonTestQuestion(Table):
@@ -134,7 +155,7 @@ class CommonTestQuestion(Table):
                 quest = await Question.get_by_id(qid)
                 tq['question_details'] = await quest.to_dict()
                 if uid and answer_cls:
-                    answer = await answer_cls.get_answare_by_uid(quest.id, uid)
+                    answer = await answer_cls.get_answer_by_uid(quest.id, uid)
                     tq['question_details']['answer'] = answer.answer if answer else ''
             resp.append(tq)
         return resp
@@ -160,10 +181,38 @@ class CommonTestAnswer(Table):
         return ['users', 'question']
 
     @classmethod
-    async def get_answare_by_uid(cls, qid, uid):
+    async def get_answer_by_uid(cls, qid, uid):
         try:
             return await cls.get_first_by_many_field_value(
                 **{'question': qid, 'users': uid}
+            )
+        except DoesNotExist:
+            return False
+
+    @classmethod
+    async def get_answers_by_qid(cls, qid):
+        try:
+            return await cls.get_by_many_field_value(
+                **{'question': qid}
+            )
+        except DoesNotExist:
+            return False
+
+    @classmethod
+    async def get_answer_count(cls, qid):
+        try:
+            return await cls.count_by_field(
+                **{'question': qid}
+            )
+        except DoesNotExist:
+            return False
+
+    @classmethod
+    async def get_graded_count(cls, qid):
+        try:
+            return await cls.count_by_field(
+                append=' AND score <> 0',
+                **{'question': qid}
             )
         except DoesNotExist:
             return False

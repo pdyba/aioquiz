@@ -1,9 +1,9 @@
 <template>
     <b-container>
-        <h1 class="page-header">Lessons: Management</h1>
-        <b-table :items="lessons" :fields="fields">
+        <h1 class="page-header">{{ testName }}</h1>
+        <b-table :items="tests" :fields="fields">
             <template slot="Actions" slot-scope="cell">
-                <b-btn size="sm" variant="primary">Details</b-btn>
+                <router-link :to="'/mentor/' + testType + '/' + cell.item.id"><b-btn size="sm" variant="primary">Details</b-btn></router-link>
             </template>
         </b-table>
     </b-container>
@@ -13,10 +13,10 @@
     import axios from 'axios';
 
     export default {
-        name: "commonGradeList",
+        name: "commonTestList",
         data() {
             return {
-                test: [],
+                tests: [],
                 fields: [
                     'id',
                     'title',
@@ -39,9 +39,9 @@
         },
         created() {
             let self = this;
-            axios.get('/' + self.testType).then(
+            axios.get('/mentor/' + self.testType).then(
                 function (response) {
-                    self.test = response.data;
+                    self.tests = response.data;
                 }
             );
         },
