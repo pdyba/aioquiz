@@ -62,7 +62,7 @@ class CommonOrganiserTestBase(HTTPModelClassView):
                     resp = {}
                 else:
                     raise
-            unused_questions = await quiz.get_all_available_questions()
+            unused_questions = await self._cls.get_all_available_questions()
             resp['unused_questions'] = unused_questions
             return json(resp)
         else:
@@ -74,3 +74,21 @@ class CommonOrganiserTestBase(HTTPModelClassView):
                 q['amount'] = await quiz.get_question_amount()
                 resp.append(q)
             return json(resp)
+
+
+class CommonActiveateTestBase(HTTPModelClassView):
+    _cls = None
+    _urls = []
+
+    @user_required('organiser')
+    async def post(self, request, current_user):
+        req = request.json
+        test = await self._cls.get_by_id(req['id'])
+        if test:
+            test.active = req['active']
+            await test.update()
+            return json({
+                'success': True,
+                'msg': '{} is {} mentor'.format(test.id, 'now active' if req['active'] else 'NOT')
+            })
+        return json({'success': False, 'msg': 'wrong test id'})

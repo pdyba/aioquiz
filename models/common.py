@@ -137,6 +137,11 @@ class Users(Table):
             self.magic_string_date = datetime.utcnow()
         return await super().update(**kwargs)
 
+    def is_only_attendee(self):
+        if self.admin or self.mentor or self.organiser:
+            return False
+        return True
+
 
 class UserReview(Table):
     _name = 'user_review'

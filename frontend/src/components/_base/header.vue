@@ -16,12 +16,12 @@
                         <dropdown-toggle tag="a" navLink color="indigo">Mentor</dropdown-toggle>
                         <dropdown-menu>
                             <!--<dropdown-item href="/mentor/questions">Questions</dropdown-item>-->
-                            <dropdown-item href="/mentor/lesson">Lesson: status</dropdown-item>
+                            <!--<dropdown-item href="/mentor/lesson">Lesson: status</dropdown-item>-->
                             <!--<dropdown-item href="/mentor/homework">Homework: grade</dropdown-item>-->
-                            <dropdown-item href="/mentor/quiz">Quiz: grade</dropdown-item>
-                            <dropdown-item href="/mentor/live_quiz">Live Quiz: overview</dropdown-item>
-                            <dropdown-item href="/mentor/exam">Exam: grade</dropdown-item>
-                            <dropdown-item href="/mentor/users">Users: overview</dropdown-item>
+                            <!--<dropdown-item href="/mentor/live_quiz">Live Quiz: Overview</dropdown-item>-->
+                            <dropdown-item href="/mentor/quiz">Quiz: Grade</dropdown-item>
+                            <dropdown-item href="/mentor/exam">Exam: Grade</dropdown-item>
+                            <dropdown-item href="/mentor/users">Users: Overview</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
 

@@ -25,7 +25,7 @@
                             Poniższe informacje są potrzebne, żeby się z Tobą skontaktować
                             i poinformować o wynikach rekrutacji oraz żebyś mogła/mogł się zalogować do tej aplikacji.
                         </div>
-                        <b-form-group class="input" :class="{invalid: $v.user.email.$error}" label="e-mail">
+                        <b-form-group class="input" :class="{invalid: $v.user.email.$invalid}" label="e-mail">
                             <input
                                     type="email"
                                     id="email"
@@ -33,7 +33,7 @@
                             <p v-if="!$v.user.email.email">Please provide a valid email address.</p>
                             <p v-if="!$v.user.email.required">This field must not be empty.</p>
                         </b-form-group>
-                        <b-form-group class="input" :class="{invalid: $v.user.name.$error}">
+                        <b-form-group class="input" :class="{invalid: $v.user.name.$invalid}">
                             <label v-if="en">First name</label>
                             <label v-if="pl">Imię</label>
                             <input
@@ -43,7 +43,7 @@
 
                             <p v-if="!$v.user.name.required">This field must not be empty.</p>
                         </b-form-group>
-                        <b-form-group class="input" :class="{invalid: $v.user.surname.$error}" label="Surname">
+                        <b-form-group class="input" :class="{invalid: $v.user.surname.$invalid}" label="Surname">
                             <label v-if="en">Last name</label>
                             <label v-if="pl">Nazwisko</label>
                             <input
@@ -53,16 +53,16 @@
                             <p v-if="!$v.user.surname.required">This field must not be empty.</p>
                         </b-form-group>
 
-                        <b-form-group class="input" :class="{invalid: $v.user.password.$error}">
+                        <b-form-group class="input" :class="{invalid: $v.user.password.$invalid}">
                             <label v-if="en">Password</label>
                             <label v-if="pl"> Hasło</label>
                             <input
                                     type="password"
                                     id="password"
                                     v-model="user.password">
-
+                            <p v-if="!$v.user.password.minLen">Minimal length is 8</p>
                         </b-form-group>
-                        <b-form-group class="input" :class="{invalid: $v.user.confirmPassword.$error}">
+                        <b-form-group class="input" :class="{invalid: $v.user.confirmPassword.$invalid}">
                             <label v-if="en">Confirm Password</label>
                             <label v-if="pl">Potwierdź Hasło</label>
                             <input
@@ -346,27 +346,14 @@
         background-color: #ffc9aa;
     }
 
+    .input.inline.invalid input {
+        border: 1px solid red;
+        background-color: #ffc9aa;
+    }
+
     .input select {
         border: 1px solid #ccc;
         font: inherit;
-    }
-
-    .hobbies button {
-        border: 1px solid #521751;
-        background: #521751;
-        color: white;
-        padding: 6px;
-        font: inherit;
-        cursor: pointer;
-    }
-
-    .hobbies button:hover,
-    .hobbies button:active {
-        background-color: #8d4288;
-    }
-
-    .hobbies input {
-        width: 90%;
     }
 
     .submit button {

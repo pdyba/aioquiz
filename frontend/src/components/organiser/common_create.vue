@@ -136,13 +136,13 @@
             },
             createNewTest() {
                 let self = this;
-                axios.post('/organiser/' + self.testType, self.testData).then((resp) => {
+                axios.post('/organiser/' + self.testType  + 's', self.testData).then((resp) => {
                     this.$swal('Done', self.testType + " created \n msg: \n" + resp.data.msg, "success")
                 })
             },
             updateTest() {
                 let self = this;
-                axios.put('/organiser/' + self.testType, self.testData).then((resp) => {
+                axios.put('/organiser/' + self.testType + 's', self.testData).then((resp) => {
                         this.$swal('Done', self.testType + " updated \n msg: \n" + resp.data.msg, "success")
                     }
                 )
@@ -151,7 +151,7 @@
         created() {
             let self = this;
             if (self.checkEditCreate()) {
-                axios.get('/organiser/' + self.testType + '/1').then((resp) => {
+                axios.get('/organiser/' + self.testType + 's/1').then((resp) => {
                     self.unused_questions = resp.data.unused_questions;
                 })
             } else {

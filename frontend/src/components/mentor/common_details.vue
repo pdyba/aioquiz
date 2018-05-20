@@ -32,6 +32,10 @@
         created() {
             let self = this;
             axios.get('/mentor/' + self.testType + '/' + self.$route.params.id).then((resp) => {
+                resp.data.all_questions = resp.data.all_questions.map(function (item) {
+                        item._rowVariant = item.to_grade === 0 ? 'success' : 'warning';
+                        return item;
+                    });
                 self.test = resp.data;
             })
         },

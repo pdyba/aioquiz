@@ -31,7 +31,7 @@
         },
         created() {
             let self = this;
-            axios.get('/organiser/' + self.testType + '/' + self.$route.params.id).then((resp) => {
+            axios.get('/organiser/' + self.testType + 's/' + self.$route.params.id).then((resp) => {
                 self.test = resp.data;
                 self.unused_questions = resp.data.unused_questions
             })

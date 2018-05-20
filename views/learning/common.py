@@ -83,5 +83,7 @@ class CommonTestBase(HTTPModelClassView):
                 status = await quiz.get_status(current_user.id)
                 q['status'] = status.status
                 q['progress'] = status.progress
+                if status.status == 'NotStarted' and not quiz.active and current_user.is_only_attendee():
+                    continue
                 resp.append(q)
             return json(resp)
