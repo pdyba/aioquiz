@@ -41,7 +41,6 @@ class CommonOrganiserTestBase(HTTPModelClassView):
             del req['all_questions']
             await test.update_from_dict(req)
             await test.delete_old_questions()
-            print(len(new_questions))
             for i, question in enumerate(new_questions):
                 await test.add_question(question['question_details']['id'], question.get('question_order', i + 1))
             return json({'success': True, 'msg': '{} updated'.format(self._cls._name.capitalize())})

@@ -110,7 +110,6 @@ class CommonTestTemplate(Table):
                 quest['graded'] = await cls._answers.get_graded_count(quest['question'])
                 quest['to_grade'] = await cls._answers.get_answer_count(quest['question']) - quest['graded']
             except:
-                print(quest)
                 raise
             resp.append(quest)
         return resp
