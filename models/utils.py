@@ -1,5 +1,6 @@
 # !/usr/bin/python3.5
 from datetime import datetime
+import logging
 
 from config import DEFAULT_USER
 
@@ -125,6 +126,18 @@ class CommonTestTemplate(Table):
             anwares.append(await ans.to_dict())
         return anwares
 
+    @classmethod
+    async def grade_answer_by_uid(cls, qid, uid, score, comment=''):
+        try:
+            answer = await cls._answers.get_answer_by_uid(qid, uid)
+            answer.score = score
+            answer.comment = comment
+            await answer.update(**{'question': qid, 'users': uid})
+            return True
+        except Exception:
+            logging.exception('error grading')
+            return False
+
 
 class CommonTestQuestion(Table):
     _name = ''
@@ -211,7 +224,7 @@ class CommonTestAnswer(Table):
     async def get_graded_count(cls, qid):
         try:
             return await cls.count_by_field(
-                append=' AND score <> 0',
+                append=' AND score <> -1',
                 **{'question': qid}
             )
         except DoesNotExist:

@@ -40,19 +40,31 @@ class CommonMentorQuestionGradeBase(HTTPModelClassView):
     _urls = []
 
     @user_required('mentor')
-    async def post(self, request, current_user):
+    async def post(self, request, current_user, qid=0):
         try:
             req = request.json
-            req['users'] = current_user.id
+            await self._cls.grade_answer_by_uid(
+                uid=req['users'],
+                qid=qid,
+                score=req['score'],
+                comment=req['comment']
+            )
+            return json({'success': True, 'msg': 'Answer Saved'})
         except:
             logging.exception('err CommonMentorTestBase.post')
-            return json({}, status=500)
+            return json({'msg': 'something went wrong'}, status=500)
 
     @user_required('mentor')
-    async def put(self, request, current_user, tid=0):
+    async def put(self, request, current_user, qid=0):
         try:
             req = request.json
-            test = await self._cls.get_by_id(req['id'])
+            await self._cls.grade_answer_by_uid(
+                uid=req['users'],
+                qid=qid,
+                score=req['score'],
+                comment=req['comment']
+            )
+            return json({'success': True, 'msg': 'Updated Saved'})
         except:
             logging.exception('err CommonMentorTestBase.put')
             return json({'msg': 'something went wrong'}, status=500)
