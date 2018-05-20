@@ -109,7 +109,7 @@ async def admin():
 
 async def add_question(verbose=False):
     await models.Question(
-        question='Jakie rozszerzenie zwyczajową mają pliki z kodem Pythonowym ?',
+        question='Jakie rozszerzenie zwyczajowo mają pliki z kodem Pythonowym ?',
     ).create()
     await models.Question(
         question='Napisz kod który doda element "a" do listy ?moja_list = []'
@@ -331,7 +331,7 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
         e_path = path + '.exercises'
         m_path = path + '.meta'
         q_path = path + '.quiz'
-        try:  # lesson generation will BE detracted
+        try:  # lesson generation will be deprecated in future
             with open(l_path) as file:
                 html = markdown.markdown(
                     file.read(),

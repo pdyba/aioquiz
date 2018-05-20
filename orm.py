@@ -397,7 +397,7 @@ class Table(object):
                     WHERE id={}
                     """.format(cls._name, data.id))
             else:
-                resp = await make_a_querry("""DELETE FROM {} WHERE{}""".format(cls._name, cls._format_kwargs(**kwargs)))
+                resp = await make_a_querry("""DELETE FROM {} WHERE {}""".format(cls._name, cls._format_kwargs(**kwargs)))
                 print(resp)
             return resp
         except ForeignKeyViolationError:

@@ -74,7 +74,7 @@ class CommonMentorQuestionGradeBase(HTTPModelClassView):
         if qid:
             question = await Question.get_by_id(qid)
             resp = await question.to_dict()
-            resp['answers'] = await self._cls.get_by_anwares_to_grade_by_qid(qid)
+            resp['answers'] = await self._cls.get_by_anwers_to_grade_by_qid(qid)
             return json(resp)
         else:
             return json({'msg': 'no question id'})

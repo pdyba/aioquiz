@@ -119,7 +119,7 @@ class CommonTestTemplate(Table):
         await old_questions.delete(**{self._name: self.id})
 
     @classmethod
-    async def get_by_anwares_to_grade_by_qid(cls, qid):
+    async def get_by_anwers_to_grade_by_qid(cls, qid):
         anwares = []
         for ans in await cls._answers.get_answers_by_qid(qid):
             anwares.append(await ans.to_dict())

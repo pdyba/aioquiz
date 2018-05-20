@@ -131,7 +131,7 @@ class EmailView(HTTPModelClassView):
             text = mail_data['text']
             for x in range(len(users) // 50):
                 await send_email(
-                    recipients=[u.email for u in users[x*50:(x+1)*50]],
+                    recipients=[u.email for u in users[x * 50:(x + 1) * 50]],
                     text=text,
                     subject=subject
                 )
