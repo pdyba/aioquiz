@@ -138,9 +138,7 @@ class Users(Table):
         return await super().update(**kwargs)
 
     def is_only_attendee(self):
-        if self.admin or self.mentor or self.organiser:
-            return False
-        return True
+        return not (self.admin or self.mentor or self.organiser)
 
 
 class UserReview(Table):

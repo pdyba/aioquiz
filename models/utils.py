@@ -120,10 +120,10 @@ class CommonTestTemplate(Table):
 
     @classmethod
     async def get_by_anwers_to_grade_by_qid(cls, qid):
-        anwares = []
+        answers = []
         for ans in await cls._answers.get_answers_by_qid(qid):
-            anwares.append(await ans.to_dict())
-        return anwares
+            answers.append(await ans.to_dict())
+        return answers
 
     @classmethod
     async def grade_answer_by_uid(cls, qid, uid, score, comment=''):

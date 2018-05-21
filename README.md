@@ -56,3 +56,8 @@ https://certbot.eff.org/#ubuntuxenial-nginx
 or (no nginx)
 
 `sudo certbot certonly`
+
+
+Cert refresh for nginx:
+
+`sudo certbot renew --nginx`
