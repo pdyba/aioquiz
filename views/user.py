@@ -25,7 +25,7 @@ from models import ExerciseAnswer
 from models import Feedback
 from models import Lesson
 from models import LessonFeedbackAnswer
-from models import QuestionAnswer
+from models import QuizAnswer
 from models import Seat
 from models import UserReview
 
@@ -152,7 +152,7 @@ class UserView(HTTPModelClassView):
             await cls.delete_by_many_fields(author=id_name)
 
         # TODO: for question authors, set author=DEFAULT_USER and don't remove them
-        for cls in [QuestionAnswer, ExerciseAnswer, Feedback, Absence, Seat]:
+        for cls in [QuizAnswer, ExerciseAnswer, Feedback, Absence, Seat]:
             await cls.delete_by_many_fields(users=id_name)
 
         await Users.detele_by_id(id_name)

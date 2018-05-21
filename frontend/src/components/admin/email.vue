@@ -74,7 +74,7 @@
                 axios.post('/admin/email', {
                     "mail": self.mail,
                     "recipients": self.recipients
-                }).then(() => swal('Admin: E-mail', 'Email send', 'success'));
+                }).then(() => self.$swal('Admin: E-mail', 'Email send', 'success'));
             },
             email_type_change(event) {
                 this.mail = this.email_options.find((el) => el.email_type === event)

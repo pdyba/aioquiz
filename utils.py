@@ -18,6 +18,10 @@ COLORS = {
     'yellow': "\033[1;33m",
     'green': "\033[0;32m",
     'other': "\033[1;35m",
+    'grey': "\033[1;30m",
+    'cyan': "\033[1;36m",
+    'white': "\033[1;37m",
+    'sred': "\033[1;38m",
 }
 COLOR_RESET = "\033[0;0m"
 
@@ -112,3 +116,11 @@ async def send_email(recipients=None, subject='', text=''):
 
 def create_uuid():
     return str(uuid4()).replace('-', '')
+
+
+class ClassProperty(object):
+    def __init__(self, fget):
+        self.fget = fget
+
+    def __get__(self, owner_self, owner_cls):
+        return self.fget(owner_cls)

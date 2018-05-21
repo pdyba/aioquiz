@@ -27,7 +27,9 @@
                 <tbl striped bordered hover responsive-sm sm>
                     <tbl-head>
                         <th>LP</th>
+                        <th>Data</th>
                         <th>Lekcja</th>
+                        <th>Autor&Prowadzący</th>
                     </tbl-head>
                     <tbl-body>
                         <tr v-for="(entry, index) in tab_2" :key="entry.id">
@@ -42,7 +44,9 @@
                 <tbl striped bordered hover responsive-sm sm>
                     <tbl-head>
                         <th>LP</th>
+                        <th>Data</th>
                         <th>Lekcja</th>
+                        <th>Autor&Prowadzący</th>
                     </tbl-head>
                     <tbl-body>
                         <tr v-for="(entry, index) in tab_3" :key="entry.id">

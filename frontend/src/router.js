@@ -33,9 +33,39 @@ import userSeat from './components/user/seat.vue'
 // mentor
 import mentor from './components/mentor/mentor.vue'
 
+import mentorQuizList from './components/mentor/quiz_list.vue'
+import mentorQuizDetails from './components/mentor/quiz_details.vue'
+import mentorQuizGrade from './components/mentor/quiz_grade.vue'
+
+import mentorLiveQuizList from './components/mentor/live_quiz_list.vue'
+import mentorLiveQuizDetails from './components/mentor/live_quiz_details.vue'
+
+import mentorExamList from './components/mentor/exam_list.vue'
+import mentorExamDetails from './components/mentor/exam_details.vue'
+import mentorExamGrade from './components/mentor/exam_grade.vue'
+
+import mentorUsers from './components/mentor/users.vue'
+
+import mentorLessons from './components/mentor/lessons.vue'
+import mentorLesson from './components/mentor/lesson.vue'
+
 // organisator
 import organiser from './components/organiser/organiser.vue'
+
 import lessonsMngt from './components/organiser/lessons_mngt.vue'
+
+import quizMngt from './components/organiser/quiz_mngt.vue'
+import quizCreate from './components/organiser/quiz_create.vue'
+import quizEdit from './components/organiser/quiz_edit.vue'
+
+import liveQuizMngt from './components/organiser/live_quiz_mngt.vue'
+import liveQuizCreate from './components/organiser/live_quiz_create.vue'
+import liveQuizEdit from './components/organiser/live_quiz_edit.vue'
+
+import examMngt from './components/organiser/exam_mngt.vue'
+import examCreate from './components/organiser/exam_create.vue'
+import examEdit from './components/organiser/exam_edit.vue'
+
 // admin
 import admin_config from './components/admin/config.vue'
 import admin_email from './components/admin/email.vue'
@@ -97,7 +127,7 @@ const routes = [
         }
     },
     {
-        path: '/exams',
+        path: '/exam',
         component: exams,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
@@ -108,7 +138,7 @@ const routes = [
         }
     },
     {
-        path: '/exams/:id',
+        path: '/exam/:id',
         component: exam,
         beforeEnter(to, from, next) {
             if (store.getters.isAuthenticated) {
@@ -190,6 +220,18 @@ const routes = [
         },
         children: [
             {path: 'lessons', component: lessonsMngt},
+
+            {path: 'quiz-manage', component: quizMngt},
+            {path: 'quiz-create', component: quizCreate},
+            {path: 'quiz-edit/:id', component: quizEdit},
+
+            {path: 'live-quiz-manage', component: liveQuizMngt},
+            {path: 'live-quiz-create', component: liveQuizCreate},
+            {path: 'live-quiz-edit/:id', component: liveQuizEdit},
+
+            {path: 'exam-manage', component: examMngt},
+            {path: 'exam-create', component: examCreate},
+            {path: 'exam-edit/:id', component: examEdit},
         ]
     },
     {
@@ -203,6 +245,17 @@ const routes = [
             }
         },
         children: [
+            {path: 'exam', component: mentorExamList},
+            {path: 'exam/:id', component: mentorExamDetails},
+            {path: 'quiz', component: mentorQuizList},
+            {path: 'quiz/:id', component: mentorQuizDetails},
+            {path: 'live-quiz', component: mentorLiveQuizList},
+            {path: 'live-quiz/:id', component: mentorLiveQuizDetails},
+            {path: 'grade/exam/:id', component: mentorExamGrade},
+            {path: 'grade/quiz/:id', component: mentorQuizGrade},
+            {path: 'users', component: mentorUsers},
+            {path: 'lessons', component: mentorLessons},
+            {path: 'lessons/:id', component: mentorLesson},
         ]
     },
     {

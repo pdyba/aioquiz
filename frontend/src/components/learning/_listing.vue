@@ -1,15 +1,16 @@
 <template>
     <b-container>
         <h1 class="page-header">{{ alistingName }}</h1>
-
             <b-row class="mb-4" className="card-deck" v-for="i in rowCount" :key="i.id">
                 <b-col sm="4" v-for="x in itemCountInRow(i)" :key="x.id">
                     <card className="samesize card-dark card-cascade">
-                        <card-header>{{ x.id }}. {{ x.title }}</card-header>
+                        <card-header>{{ x.id }}. {{ x.title }}
+                            <b-badge v-if="x.status" :variant="get_color(x.status)">{{ x.status }}</b-badge>
+                        </card-header>
                         <card-body>{{ x.description }}</card-body>
                         <card-footer>
                             <router-link :to="'/' + alisting + '/' + x.id">
-                            <b-btn variant="primary"> Go!</b-btn>
+                            <b-btn variant="primary"> Go!</b-btn>  <b-badge v-if="x.amount" :variant="get_color(x.status)">{{ x.progress }}/{{ x.amount }}</b-badge>
                             </router-link>
                         </card-footer>
                     </card>
@@ -27,7 +28,6 @@
     import CardBody from '../common_components/CardBody.vue';
     import CardFooter from '../common_components/CardFooter.vue';
 
-
     export default {
         data() {
             return {
@@ -39,7 +39,7 @@
             Card,
             CardHeader,
             CardFooter,
-            CardBody
+            CardBody,
         },
         props: {
             alisting: {
@@ -68,6 +68,16 @@
         methods: {
             itemCountInRow: function (index) {
                 return this.listing.slice((index - 1) * this.itemsPerRow, index * this.itemsPerRow)
+            },
+            get_color(status) {
+                if (status === 'NotStarted') {
+                    return 'danger'
+                } else if (status === 'inProgress') {
+                    return 'warning'
+                } else {
+                    return 'success'
+                }
+
             }
         }
     }

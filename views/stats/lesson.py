@@ -36,7 +36,6 @@ class AbsenceStatsView(HTTPModelClassView):
     @user_required()
     async def get(self, _, current_user, lid=None):
         if current_user.admin and lid:
-            # TODO: Move to stats
             absences = await Absence.get_by_field_value('lesson', lid)
             lesson = await Lesson.get_by_id(lid)
             lesson = lesson.title

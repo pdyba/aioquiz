@@ -1,26 +1,17 @@
 <template>
     <b-container>
-        <h3> Quiz: {{ quiz }}</h3>
+        <questions test-type="quiz"></questions>
     </b-container>
 </template>
 
 <script>
-    import axios from 'axios';
+    import Questions from './questions.vue'
 
     export default {
-        data() {
-            return {
-                quiz: {},
-            }
+        components: {
+            Questions
         },
-        components: {},
-        name: "Quiz",
-        created() {
-            let self = this;
-            axios.get('/quiz/' + self.$route.params.id).then((resp) => {
-                self.quiz = resp.data;
-            })
-        },
+        name: "quizzes"
     }
 </script>
 

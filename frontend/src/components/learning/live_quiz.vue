@@ -1,26 +1,17 @@
 <template>
     <b-container>
-        <h3> LiveQuiz: {{ live_quiz }}</h3>
+        <questions test-type="live_quiz" answer_only_once=true> </questions>
     </b-container>
 </template>
 
 <script>
-    import axios from 'axios';
+    import Questions from './questions.vue'
 
     export default {
-        data() {
-            return {
-                live_quiz: {},
-            }
+        components: {
+            Questions
         },
-        components: {},
-        name: "liveQuiz",
-        created() {
-            let self = this;
-            axios.get('/live_quiz/' + self.$route.params.id).then((resp) => {
-                self.live_quiz = resp.data;
-            })
-        },
+        name: "live_quizzes"
     }
 </script>
 

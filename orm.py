@@ -12,6 +12,7 @@ from asyncpg.exceptions import PostgresSyntaxError
 from asyncpg.exceptions import UndefinedColumnError
 from asyncpg.exceptions import UniqueViolationError
 from asyncpg.exceptions import ForeignKeyViolationError
+from asyncpg.exceptions import InvalidTextRepresentationError
 
 from config import DB
 from utils import color_print
@@ -24,6 +25,7 @@ psql_cfg = {
 }
 
 db = None  # Perhaps make a 'db' class instead of using a global variable?
+
 
 # noinspection PyBroadException
 async def make_a_querry(querry, retry=False):
@@ -43,6 +45,9 @@ async def make_a_querry(querry, retry=False):
             logging.warning('queering db: %s', querry)
             raise
     except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
+        raise
+    except InvalidTextRepresentationError:
+        logging.warning('queering db: %s', querry)
         raise
     except ConnectionRefusedError:
         logging.error('DataBase is not UP!')
@@ -71,7 +76,7 @@ class StringLiteral:
 
 
 # noinspection PyProtectedMember
-class Table:
+class Table(object):
     _restricted_keys = []
     _soft_restricted_keys = []
 
@@ -134,7 +139,7 @@ class Table:
                 unique
             )
             await make_a_querry(querry)
-            print('{} table created'.format(cls._name))
+            color_print('{} table created'.format(cls._name), color='green')
         else:
             print('{} table already exists'.format(cls._name))
 
@@ -272,7 +277,10 @@ class Table:
 
     async def create(self):
         try:
-            return await self._create(self)
+            resp = await self._create(self)
+            if self._in_schema('id'):
+                self.id = resp
+            return resp
         except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
             raise
         except Exception as e:
@@ -318,7 +326,7 @@ class Table:
             if isinstance(kwargs[kw], str):
                 querry += """ {}='{}'""".format(kw, kwargs[kw])
             else:
-                querry += """  {}={}""".format(kw, kwargs[kw])
+                querry += """ {}={}""".format(kw, kwargs[kw])
             if i + 1 < len(kwargs):
                 querry += """ AND """
         return querry
@@ -363,9 +371,9 @@ class Table:
         return dict(resp[0])['count']
 
     @classmethod
-    async def count_by_field(cls, **kwargs):
+    async def count_by_field(cls, append='', **kwargs):
         resp = await make_a_querry(
-            """SELECT COUNT(*) FROM {} WHERE """.format(cls._name) + cls._format_kwargs(**kwargs)
+            """SELECT COUNT(*) FROM {} WHERE """.format(cls._name) + cls._format_kwargs(**kwargs) + append
         )
         return dict(resp[0])['count']
 
@@ -381,12 +389,15 @@ class Table:
         return dict(resp)
 
     @classmethod
-    async def _delete(cls, data):
+    async def _delete(cls, data, **kwargs):
         try:
-            resp = await make_a_querry(
-                """DELETE FROM {}
-                WHERE id={}
-                """.format(cls._name, data.id))
+            if hasattr(data, 'id'):
+                resp = await make_a_querry(
+                    """DELETE FROM {}
+                    WHERE id={}
+                    """.format(cls._name, data.id))
+            else:
+                resp = await make_a_querry("""DELETE FROM {} WHERE {}""".format(cls._name, cls._format_kwargs(**kwargs)))
             return resp
         except ForeignKeyViolationError:
             logging.error('Could not delete {} id: {}'.format(cls._name, data.id))
@@ -394,8 +405,8 @@ class Table:
             logging.exception('Could not delete')
         return False
 
-    async def delete(self):
-        await self._delete(self)
+    async def delete(self, **kwargs):
+        await self._delete(self, **kwargs)
 
     @classmethod
     async def detele_by_id(cls, uid):
@@ -416,10 +427,11 @@ class Table:
         ALTER TABLE exercise_answare ADD COLUMN first_answare character varying(5000) NOT NULL DEFAULT '';
         ALTER TABLE users ADD COLUMN magic_string character varying(50) NOT NULL DEFAULT '';
         ALTER TABLE users ADD COLUMN magic_string_date timestamp;
+        ALTER TABLE quiz ADD COLUMN active bool;
         ALTER TABLE users ADD COLUMN gdpr bool DEFAULT false;
         """
         pass
-    
+
     def _rename_column(self):
         """
         ALTER TABLE exercise RENAME COLUMN possible_answare TO possible_answer;
@@ -429,6 +441,7 @@ class Table:
         ALTER TABLE question RENAME COLUMN possible_answare TO possible_answer;
         ALTER TABLE question_answer RENAME COLUMN answare TO answer;
         ALTER TABLE live_quiz_answer RENAME COLUMN answare TO answer;
+        ALTER TABLE question RENAME COLUMN answer TO answers;
         """
         pass
 
