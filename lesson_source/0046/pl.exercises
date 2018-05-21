@@ -1,20 +1,20 @@
 1:
     title: 1.26.1
     task: |
-        Powiedzmy, że aplikacja w parametrze ładuje plik bezpieczny.txt; co próbujesz z tym zrobić?
+        Powiedzmy, że aplikacja w parametrze ładuje plik bezpieczny.txt; co próbujesz z tym zrobić? (mamy na myśli krótki opis podejścia)
     possible_answer: yey
 2:
     title: 1.26.2
     task: |
-        Powiedzmy, że formularz aplikacji - po inspekcji w przeglądarce - okazuje się zawierać ukryte pole: "<input type='hidden' name='role' value='guest'>"; co próbujesz z tym zrobić?
+        Powiedzmy, że formularz aplikacji - po inspekcji w przeglądarce - okazuje się zawierać ukryte pole: "<input type='hidden' name='role' value='guest'>"; co próbujesz z tym zrobić? (mamy tu na myśli kod HTML)
     possible_answer: yey
 3:
     title: 1.26.3
     task: |
-        Założmy, że użytkownik ma możliwość wysłania formularza z imieniem (firstname), nazwiskiem (lastname) i statusem (ten, no... status :P). Dane te wykorzystane są na stronie w następujący sposób: "<b>Imie:</b> {{ firstname }}<br/><b>Nazwisko:</b> {{ lastname }}<br/>". Jakiego rodzaju dane próbujesz "przemycić" i dlaczego? (jest więcej niż jedna odpowiedź, są one różnie punktowane ;-) )
+        Założmy, że użytkownik ma możliwość wysłania formularza z imieniem (firstname), nazwiskiem (lastname) i statusem (ten, no... status :P). Dane te wykorzystane są na stronie w następujący sposób: "<b>Imie:</b> {{ firstname }}<br/><b>Nazwisko:</b> {{ lastname }}<br/>". Jakiego rodzaju dane próbujesz "przemycić" i dlaczego? (jest więcej niż jedna odpowiedź, są one różnie punktowane ;-) oczekiwana odpowiedź to kod HTML - dla dowolnego z pól formularza - wykorzystujący opisany błąd)
     possible_answer: yey
 4:
     title: 1.26.4
     task: |
-        Zastanów się, jak powstał błąd SQL Injection w aplikacji i zaproponuj rozwiązanie (może ono skutkować przepisaniem aplikacji od zera, jeśli tylko naprawia wspomniany błąd ;-) )
+        Zastanów się, jak powstał błąd SQL Injection w aplikacji i zaproponuj rozwiązanie (może ono skutkować przepisaniem aplikacji od zera, jeśli tylko naprawia wspomniany błąd ;-) ). Oczekiwany jest tutaj fragment kodu, w którym występuje błąd wraz z poprawką lub krótki opis podejścia (np. "zastosował(a) bym technologię XYZ, ponieważ pozwoli ona na uniknięcie problemów z ABC")
     possible_answer: yey
