@@ -61,9 +61,11 @@ Zdobycie dostępu do aplikacji jest z reguły kwestią czasu i determinacji atak
 Najczęstsze błędy bezpieczeństwa w aplikacjach Pythonowych
 ----------------------------------------------------------
 
+O ile Python sam w sobie jest językiem stosunkowo bezpiecznym - nie uwzględniamy tutaj zewnętrznych bibliotek, które są chyba jedną z istotniejszych zalet tego języka - o tyle jest pewien zbiór funkcji/modułów, których należy unikać, ponieważ mogą one być potencjalnie niebezpieczne. Na komentarz *Funkcje, których chcemy unikać* należy oczywiście spojrzeć z przymrużeniem oka - możemy oczywiście ich używać, choć tylko i wyłącznie w uzasadnionych przypadkach.
+
 ### Deserializacja niezaufanych danych
 
-Deserializacja danych przez pickle/marshal może doprowadzić do wykonania kodu atakującego na serwerze ofiary. Jeśli tego rodzaju dane trzymamy po stronie klienta - na przykład w ciastkach - nie możemy na nich polegać w kontekście kontroli dostępu, weryfikacji integralności itd.
+Przez deserializację rozumiemy oczywiście załadowanie pewnej reprezentacji danych (np. tekstu/strumienia bajtów) do obiektu danego języka (w naszym wypadku obiektu pewnej klasy, słownika, tablicy itd.) - deserializację wykorzystywaliśmy gdy omawialiśmy format *JSON*. Deserializacja danych przez pickle/marshal (jest to alternatywna reprezentacja danych do omówionego już JSONa) może doprowadzić do wykonania kodu atakującego na serwerze ofiary. Jeśli tego rodzaju dane trzymamy po stronie klienta - na przykład w ciastkach - nie możemy również na nich polegać w kontekście kontroli dostępu, weryfikacji integralności itd.
 
 Funkcje, których chcemy unikać: *pickle.dump(), pickle.dumps(), pickle.load(), pickle.loads(), marshal.\**, ...
 
@@ -81,10 +83,11 @@ Funkcje, których należy unikać: *brak* (zalecamy natomiast stosowanie ORMów 
 
 ### eval() is evil
 
-Próbując pozwolić użytkownikowi na nieco więcej wygody możemy ulec pokusie, by wysyłane dane wykonać w funkcji *eval*.
+Próbując pozwolić użytkownikowi na nieco więcej wygody możemy ulec pokusie, by wysyłane dane wykonać w funkcji *eval*. Funkcja ta - poza wykonaniem *expressions* pokroju "1+2" czy "x+2" (gdzie *x* jest zmienną w scope funkcji *eval*), pozwala na wykonanie obiektów stworzonych poprzez *compile()*. Może pozwolić to na wykonanie dowolnej komendy systemowej, np.: *eval(compile('import subprocess; print(subprocess.check_output("ls"))', '', 'single'))* (co wylistuje zawartość katalogu z aplikacją).
+
 O ile nie jest to częste, o tyle może to być pozostałością skryptu testowego w środowisku produkcyjnym (surprise, surprise ;P) - przypadki takie zdarzało się obserwować również w rozbudowanych aplikacjach znaczących klientów (ale ja o tym nie powiedziałem!).
 
-Funkcje, których należy unikać: *eval*
+Funkcje, których należy unikać: *eval(), exec()*
 
 ### Instalacja zewnętrznych paczek
 
