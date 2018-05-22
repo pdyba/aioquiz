@@ -1,6 +1,11 @@
 1.26 Web application security 101
 =================================
 
+Dodatkowe informacje
+--------------------
+
+Kod podatnej aplikacji można znaleźć pod: ![https://github.com/d0vine/pwnme-py](https://github.com/d0vine/pwnme-py)
+
 Wprowadzenie
 ------------
 
