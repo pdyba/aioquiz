@@ -6,7 +6,7 @@
 2:
     title: 1.26.2
     task: |
-        Powiedzmy, że formularz aplikacji - po inspekcji w przeglądarce - okazuje się zawierać ukryte pole: "<input type='hidden' name='role' value='guest'>"; co próbujesz z tym zrobić? (mamy tu na myśli kod HTML)
+        Powiedzmy, że formularz aplikacji - po inspekcji w przeglądarce - okazuje się zawierać ukryte pole: "<input type="hidden" name="role" value="guest">"; co próbujesz z tym zrobić? (mamy tu na myśli kod HTML)
     possible_answer: yey
 3:
     title: 1.26.3
