@@ -1,5 +1,35 @@
 1:
     title: 1.25.1
     task: |
-        Stwórz
-    possible_answer: yey
+        Uruchom dockera hello-world
+    possible_answer: docker run hello-world
+
+2:
+    title: 1.25.2
+    task: |
+        Uruchom dockera pythonem i sprawdz wercje
+    possible_answer: docker run -it python python --version
+
+
+3:
+    title: 1.25.3
+    task: |
+        Sprawdz jakie obrazy i kontenery sa na Twoim systeme
+    possible_answer: docker ps -a; docker images
+
+4:
+    title: 1.25.4
+    task: |
+        Napisz dockerfile dla kontenera ktory uruchomi Twoja aplikacje pythonowa
+    possible_answer: docker build -t myimage .
+
+5:
+    title: 1.25.5
+    task: |
+        Uruchom dockera z pythonem
+
+
+6:
+    title: 1.25.6
+    task: |
+        Uruchom dockera z pythonem
