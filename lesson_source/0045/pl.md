@@ -100,7 +100,7 @@ services:
 
 # Pliki txt do zadań
 
-* [Zadanie 4.](./files/hello.py)
-* [Zadanie 5.](./files/app.py)
-* [Zadanie 5.](./files/app_dockerfile)
-* [Zadanie 5.](./files/requirements.txt)
+* [Zadanie 4.](./images/hello.py)
+* [Zadanie 5.](./images/app.py)
+* [Zadanie 5.](./images/app_dockerfile)
+* [Zadanie 5.](./images/requirements.txt)
