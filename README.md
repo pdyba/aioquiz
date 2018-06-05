@@ -13,11 +13,11 @@ It is written in Python using asynchronous framework Sanic, PostgresSQL and Angu
 
 ## install and bootstrap PostgresSQL
 
-apt-get update
-sudo apt-get install postgresql postgresql-contrib
-adduser aioquiz
-sudo -u postgres createuser --interactive
-sudo -u postgres createdb aioquizdb
+apt-get update <br>
+sudo apt-get install postgresql postgresql-contrib <br>
+adduser aioquiz<br>
+sudo -u postgres createuser --interactive<br>
+sudo -u postgres createdb aioquizdb<br>
 
 ## bootstrap DB
 
