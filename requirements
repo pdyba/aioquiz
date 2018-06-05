@@ -6,4 +6,4 @@ asyncpg
 aiosmtplib
 pyyaml
 markdown
-Pygments
+Pygments==2.1.3

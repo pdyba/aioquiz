@@ -10,7 +10,6 @@
         Uruchom dockera pythonem i sprawdz wercje
     possible_answer: docker run -it python python --version
 
-
 3:
     title: 1.25.3
     task: |
@@ -21,15 +20,16 @@
     title: 1.25.4
     task: |
         Napisz dockerfile dla kontenera ktory uruchomi Twoja aplikacje pythonowa
-    possible_answer: docker build -t myimage .
+    possible_answer: |
+        FROM python
+        COPY hello.py /
+        CMD [ "python", "/hello.py" ]
 
 5:
     title: 1.25.5
     task: |
-        Uruchom dockera z pythonem
-
-
-6:
-    title: 1.25.6
-    task: |
-        Uruchom dockera z pythonem
+        Uruchom dostarczona aplikacje przy uzyciu docker compose, dodaj usluge redis, jako dodatkowy kontener z redisem (skorzystaj z gotowego obrazu np redis:alpine) i sprawdz jak dziala aplikacja
+    possible_answer: |
+    redis:
+        image: "redis:alpine"
+    curl -XGET 127.0.0.1:5000
