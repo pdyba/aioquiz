@@ -14,6 +14,7 @@ import yaml
 
 import models
 from orm import Table
+from orm import UniqueViolationError
 
 from config import DEFAULT_USER
 from utils import color_print
@@ -444,9 +445,39 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
     color_print('ERRORS: ', counter.error_lessons, color='red')
 
 
+async def add_exam(e_path_meta, e_path_question):
+    try:
+        with open(e_path_question) as file:
+            questions = yaml.load(file.read())
+        with open(e_path_meta) as file:
+            meta = yaml.load(file.read())
+    except Exception as err:
+        print(err)
+        color_print('No exam found')
+        return
+    exam = models.Exam(title=meta['title'], users=DEFAULT_USER, description=meta['description'])
+    exam = await exam.update_or_create('title', get_insta=True)
+    question_order = 1
+    for _, val in questions.items():
+        try:
+            question = models.Question(**val)
+            qid = await question.update_or_create('question')
+            await exam.add_question(question_id=qid, order=question_order)
+            question_order += 1
+        except Exception as err:
+            if UniqueViolationError:
+                color_print('question already existed', color='blue')
+                continue
+            print(err)
+            return
+    color_print('Exam id: {} added with {} questions'.format(exam.id, len(questions)), color='green')
+
+
 def get_parser():
     a_parser = argparse.ArgumentParser()
     a_parser.add_argument("-l", "--lesson", help="Add lesson with given id, example: --lesson 0024")
+    a_parser.add_argument("-em", help="Add exam from path")
+    a_parser.add_argument("-eq", help="Add exam from path")
     a_parser.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
     a_parser.add_argument("--alllessons", help="Add all lessons", action="store_true")
     a_parser.add_argument("--addquestion", help="Add all question", action="store_true")
@@ -473,6 +504,8 @@ if __name__ == '__main__':
             loop.run_until_complete(bootstrap_db())
     if args.lesson:
         loop.run_until_complete(create_html_lessons(lesson=args.lesson, verbose=args.verbose))
+    if args.eq and args.em:
+        loop.run_until_complete(add_exam(args.em, args.eq))
     if args.alllessons:
         loop.run_until_complete(create_html_lessons(verbose=args.verbose))
     if args.addquestion:
