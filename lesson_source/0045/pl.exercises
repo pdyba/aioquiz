@@ -7,13 +7,13 @@
 2:
     title: 1.25.2
     task: |
-        Uruchom dockera pythonem i sprawdz wercje
+        Uruchom dockera pythonem i sprawdz wersje
     possible_answer: docker run -it python python --version
 
 3:
     title: 1.25.3
     task: |
-        Sprawdz jakie obrazy i kontenery sa na Twoim systeme
+        Sprawdz jakie obrazy i kontenery sa na Twoim systemie
     possible_answer: docker ps -a; docker images
 
 4:
