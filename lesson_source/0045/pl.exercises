@@ -30,6 +30,6 @@
     task: |
         Uruchom dostarczona aplikacje przy uzyciu docker compose, dodaj usluge redis, jako dodatkowy kontener z redisem (skorzystaj z gotowego obrazu np redis:alpine) i sprawdz jak dziala aplikacja
     possible_answer: |
-    redis:
+        redis:
         image: "redis:alpine"
-    curl -XGET 127.0.0.1:5000
+        curl -XGET 127.0.0.1:5000
