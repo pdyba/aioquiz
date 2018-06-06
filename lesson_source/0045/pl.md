@@ -100,6 +100,7 @@ services:
     image: myngix
 ```
 
+`docker-compose up -d`
 
 Pliki txt do zadań
 ------------------
