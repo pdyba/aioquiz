@@ -96,7 +96,7 @@ services:
       dockerfile: app_dockerfile
     ports:
      - "5000:5000"
-  redis:`
+  redis:
     image: myngix
 ```
 
