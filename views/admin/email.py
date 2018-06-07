@@ -97,7 +97,7 @@ class EmailView(HTTPModelClassView):
     async def post(self, request, current_user):
         data = request.json
         mail_data = data['mail']
-        users = await Users.get_by_many_field_value(**data['recipients']['conditions'])
+        users = await Users.get_by_many_field_value(gdpr=True, **data['recipients']['conditions'])
         if mail_data['per_user']:
             for user in users:
                 if mail_data['email_type'] == 'EmailTooLate':
