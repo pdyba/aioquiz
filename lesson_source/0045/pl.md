@@ -93,10 +93,11 @@ services:
       dockerfile: app_dockerfile
     ports:
      - "5000:5000"
-  redis:`
+  redis:
     image: myngix
 ```
 
+`docker-compose up -d`
 
 # Pliki txt do zadań
 
