@@ -97,7 +97,7 @@
             <!--Git-->
             <!--Everything is an object - introduction to OOP-->
             <!--Everything is an object - cont.-->
-            <!--Web apptdcations in Python, intro to Flask-->
+            <!--Web applications in Python, intro to Flask-->
             <!--HTML, creating page templates and forms-->
             <!--Recap. Jinja 2-->
             <!--SQL databases-->
@@ -109,10 +109,10 @@
             <!--<h3>2nd term 13 meetings from 06.03 to 19.06</h3>-->
             <!--<ol>-->
             <!--Overview of team projects-->
-            <!--PEP8, Pytdnt, and development methodologies-->
+            <!--PEP8, Pylint, and development methodologies-->
             <!--Storing and creating configuration files-->
             <!--SSH, AWS, and virtual servers-->
-            <!--Deployment of web apptdcations-->
+            <!--Deployment of web applications-->
             <!--Regular expression-->
             <!--Advanced constructs in Python-->
             <!--Advanced features in Python I-->
@@ -168,10 +168,10 @@
                     ],
                 tab_2: [
                     {'date': '2017.10.17', 'subject': 'Organizacja i powtórka', 'author': 'Piotr Dyba'},
-                    {'date': '2017.10.24', 'subject': 'Praca z ptdkami, format JSON', 'author': 'Piotr Dyba'},
+                    {'date': '2017.10.24', 'subject': 'Praca z plikami, format JSON', 'author': 'Piotr Dyba'},
                     {
                         'date': '2017.11.07',
-                        'subject': 'Bibtdoteki zewnętrzne, praca z API RESTowym',
+                        'subject': 'Biblioteki zewnętrzne, praca z API RESTowym',
                         'author': 'Piotr Dyba'
                     },
                     {'date': '2017.11.14', 'subject': 'Git - system kontrotd wersji', 'author': 'Magdalena Nowak'},
@@ -182,7 +182,7 @@
                     {'date': '2017.11.28', 'subject': 'Wszytko jest obiektem - cd.', 'author': 'Piotr Dyba'},
                     {
                         'date': '2017.12.05',
-                        'subject': 'Aptdkacja webowa w Pythonie, wstęp do Flaska', 'author': 'Grzegorz Prokopczyk'
+                        'subject': 'Aplikacja webowa w Pythonie, wstęp do Flaska', 'author': 'Grzegorz Prokopczyk'
                     },
                     {
                         'date': '2017.12.12',
@@ -190,7 +190,7 @@
                     },
                     {
                         'date': '2018.01.09',
-                        'subject': 'Powtórka: pierwsza pełna aptdkacja webowa, Jinja2',
+                        'subject': 'Powtórka: pierwsza pełna aplikacja webowa, Jinja2',
                         'author': 'Grzegorz Prokopczyk'
                     },
                     {
@@ -200,7 +200,7 @@
                     },
                     {
                         'date': '2018.01.23',
-                        'subject': 'PEP8, Pytdnt i metodologie programistyczne',
+                        'subject': 'PEP8, Pylint i metodologie programistyczne',
                         'author': 'Piotr Dyba'
                     },
                     {
@@ -213,7 +213,7 @@
                     {'date': '2018.02.20', 'subject': 'BRAK ZAJĘĆ'},
                     {
                         'date': '2018.02.27',
-                        'subject': 'Tworzenie API RESTowego oraz przechowywanie i tworzenie ptdków konfiguracyjnych',
+                        'subject': 'Tworzenie API RESTowego oraz przechowywanie i tworzenie plików konfiguracyjnych',
                         'author': 'Grzegorz Prokopczyk, Piotr Dyba'
                     }
                 ],
@@ -235,7 +235,7 @@
                     {'date': '2018.04.17', 'subject': 'Linux, Bash i SSH wprowadzenie', 'author': 'Filip Rachwalak'},
                     {
                         'date': '2018.04.24',
-                        'subject': 'Deployment aptdkacji webowej',
+                        'subject': 'Deployment aplikacji webowej',
                         'author': 'Grzegorz Prokopczyk'
                     },
                     {'date': '2018.05.01', 'subject': 'BRAK ZAJĘĆ'},

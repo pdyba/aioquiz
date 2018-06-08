@@ -258,7 +258,7 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
             try:
                 for val in exe.values():
                     exercise = models.Exercise(lesson=lid, **val)
-                    id, updated = await exercise.update_or_create(*val.keys(), verbose=True)
+                    id, updated = await exercise.update_or_create('title', verbose=True)
                     if updated:
                         less_counter.exercise_details_updated += 1
                     else:
