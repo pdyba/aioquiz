@@ -65,6 +65,7 @@ import liveQuizEdit from './components/organiser/live_quiz_edit.vue'
 import examMngt from './components/organiser/exam_mngt.vue'
 import examCreate from './components/organiser/exam_create.vue'
 import examEdit from './components/organiser/exam_edit.vue'
+import orgUsers from './components/organiser/users.vue'
 
 // admin
 import admin_config from './components/admin/config.vue'
@@ -220,6 +221,7 @@ const routes = [
         },
         children: [
             {path: 'lessons', component: lessonsMngt},
+            {path: 'users', component: orgUsers},
 
             {path: 'quiz-manage', component: quizMngt},
             {path: 'quiz-create', component: quizCreate},

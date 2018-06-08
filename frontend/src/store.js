@@ -46,10 +46,10 @@ export default new Vuex.Store({
             localStorage.setItem('session_uuid', authData.session_uuid);
             localStorage.setItem('expirationDate', expirationDate);
             localStorage.setItem('user', JSON.stringify(authData));
+            dispatch('check_gdpr', authData);
             commit('storeUser', authData);
             commit('authUser', authData.session_uuid);
             router.replace('/lessons');
-            dispatch('check_gdpr', authData);
         },
         tryAutoLogin({commit, dispatch}) {
             const session_uuid = localStorage.getItem('session_uuid');
@@ -62,10 +62,10 @@ export default new Vuex.Store({
             if (now >= expirationDate) {
                 return
             }
+            dispatch('check_gdpr', user);
             commit('authUser', session_uuid);
             commit('storeUser', user);
             router.replace('/lessons');
-            dispatch('check_gdpr', user);
         },
         logout({commit}) {
             const done = 0;
