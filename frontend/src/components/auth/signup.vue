@@ -25,7 +25,8 @@
                             Poniższe informacje są potrzebne, żeby się z Tobą skontaktować
                             i poinformować o wynikach rekrutacji oraz żebyś mogła/mogł się zalogować do tej aplikacji.
                         </div>
-                        <b-form-group class="input" :class="{invalid: $v.user.email.$invalid}" label="e-mail">
+                        <b-form-group class="input" :class="{invalid: $v.user.email.$invalid}">
+                            <label>E-mail</label>
                             <input
                                     type="email"
                                     id="email"
@@ -40,10 +41,10 @@
                                     type="text"
                                     id="name"
                                     v-model="user.name">
-
                             <p v-if="!$v.user.name.required">This field must not be empty.</p>
+                            <p v-if="!$v.user.name.minLen">This must be at least 3 chars.</p>
                         </b-form-group>
-                        <b-form-group class="input" :class="{invalid: $v.user.surname.$invalid}" label="Surname">
+                        <b-form-group class="input" :class="{invalid: $v.user.surname.$invalid}">
                             <label v-if="en">Last name</label>
                             <label v-if="pl">Nazwisko</label>
                             <input
@@ -51,6 +52,7 @@
                                     id="surname"
                                     v-model="user.surname">
                             <p v-if="!$v.user.surname.required">This field must not be empty.</p>
+                            <p v-if="!$v.user.surname.minLen">This must be at least 3 chars.</p>
                         </b-form-group>
 
                         <b-form-group class="input" :class="{invalid: $v.user.password.$invalid}">
@@ -71,38 +73,6 @@
                                     @blur="$v.user.confirmPassword.$touch()"
                                     v-model="user.confirmPassword">
                         </b-form-group>
-
-                        <p v-if="en">
-                            <strong>Attendee</strong><br>
-                            Tell us about your motivations behind your decision to start learning programming
-                            <br><strong>Mentor:</strong><br>
-                            If you are new with us, we would like to know you a little bit better; if you are our old
-                            fellow, please provide your short bio :)
-
-                        </p>
-
-                        <p v-if="pl">
-                            <strong>Uczestnik</strong> <br>
-                            Przede wszystkim chcemy poznać Twoje motywy podjęcia decyzji o rozpoczęciu programowania w
-                            Pythonie oraz dowiedzieć się, jakie masz doświadczenie.
-                            <br><strong>Mentor:</strong><br>
-                            Jeśli dopiero zaczynasz przygodę z Pythonem - chcielibyśmy Cię bliżej poznać, a jeśli już z
-                            nami
-                            współpracowałeś, zamieść tutaj swoje krótkie bio :)
-                        </p>
-
-
-                        <b-form-group>
-                            <b-form-radio-group
-                                    v-model="user.mentor"
-                                    :options="account_type_options"
-                                    id="mentor">
-                            </b-form-radio-group>
-                        </b-form-group>
-
-
-                        <user-edit :user="user"></user-edit>
-
 
                         <b-form-group class="input inline" :class="{invalid: $v.user.accepted_rules.$invalid}">
                             <b-form-checkbox
@@ -168,10 +138,6 @@
                         </b-form-group>
 
                         <b-btn type="submit" :disabled="$v.user.$invalid">Submit</b-btn>
-                        <p v-if="en">*At this point we are not sure if there will be any t-shirts for
-                            attendees.</p>
-                        <p v-if="pl">*Na chwilę obecną nie możemy obiecać, że będą koszulki dla
-                            uczestników.</p>
                     </div>
                 </b-form>
             </b-col>
@@ -198,21 +164,14 @@
                     email: '',
                     name: '',
                     surname: '',
-                    age: null,
                     password: '',
                     confirmPassword: '',
-                    city: 'Poznań',
-                    lang: '',
-                    university: '',
-                    operating_system: '',
-                    motivation: '',
-                    description: '',
-                    app_idea: '',
                     accepted_rules: null,
                     notebook: null,
                     python: null,
                     attend_weekly: null,
-                    bring_power_cord: null
+                    bring_power_cord: null,
+                    gdpr: null
                 },
                 lang_options: ['pl', 'en']
             }
@@ -227,10 +186,12 @@
                     email
                 },
                 name: {
-                    required: true
+                    required,
+                    minLen: minLength(3)
                 },
                 surname: {
-                    required: true
+                    required,
+                    minLen: minLength(3)
                 },
                 password: {
                     required,
@@ -241,27 +202,27 @@
                 },
                 accepted_rules: {
                     isTrue,
-                    required: true
+                    required
                 },
                 notebook: {
                     isTrue,
-                    required: true
+                    required
                 },
                 python: {
                     isTrue,
-                    required: true
+                    required
                 },
                 attend_weekly: {
                     isTrue,
-                    required: true
+                    required
                 },
                 bring_power_cord: {
                     isTrue,
-                    required: true
+                    required
                 },
                 gdpr: {
                     isTrue,
-                    required: true
+                    required
                 },
             }
         },
@@ -271,21 +232,6 @@
             },
             en() {
                 return this.user.lang === 'en'
-            },
-            mentor() {
-                return this.user.mentor
-            },
-            account_type_options() {
-                if (this.pl) {
-                    return [
-                        {text: "Mentor", value: true},
-                        {text: "Uczestnik", value: false},
-                    ]
-                }
-                return [
-                    {text: "Mentor", value: true},
-                    {text: "Attendee", value: false},
-                ]
             },
         },
         methods: {

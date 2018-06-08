@@ -49,9 +49,62 @@ export default new Vuex.Store({
             commit('storeUser', authData);
             commit('authUser', authData.session_uuid);
             router.replace('/lessons');
+            dispatch('check_gdpr', authData);
+        },
+        tryAutoLogin({commit, dispatch}) {
+            const session_uuid = localStorage.getItem('session_uuid');
+            if (!session_uuid) {
+                return
+            }
+            const expirationDate = localStorage.getItem('expirationDate');
+            const user = JSON.parse(localStorage.getItem('user'));
+            const now = new Date()
+            if (now >= expirationDate) {
+                return
+            }
+            commit('authUser', session_uuid);
+            commit('storeUser', user);
+            router.replace('/lessons');
+            dispatch('check_gdpr', user);
+        },
+        logout({commit}) {
+            const done = 0;
+            axios.get('/auth/logout').then((resp) => {
+                commit('clearAuthData');
+                localStorage.removeItem('expirationDate');
+                localStorage.removeItem('session_uuid');
+                localStorage.removeItem('user');
+                router.replace('/signin');
+                swal("Log out", "You've been logged out successfully")
+            })
+        },
+        storeUser({commit, state}, userData) {
+            if (!state.session_uuid) {
+                return
+            }
+            axios.post('/users', userData)
+                .then(res => console.log(res))
+        },
+        fetchUser({commit, state}) {
+            if (!state.session_uuid) {
+                return
+            }
+            axios.get('/users')
+                .then(res => {
+                    const data = res.data;
+                    const users = [];
+                    for (let key in data) {
+                        const user = data[key];
+                        user.id = key;
+                        users.push(user)
+                    }
+                    commit('storeUser', users[0]);
+                })
+        },
+        check_gdpr({commit, dispatch}, authData) {
             if (authData.gdpr !== true) {
                 const pl = 'I have read and accepted <a href="#/privacy_policy">Privacy Policy</a>';
-                const en = 'Przeczytałem i akceptuję <a href="#/privacy_policy">Poliykę Prywatności</a>';
+                const en = 'Przeczytałem i akceptuję <a href="#/privacy_policy">Politykę Prywatności</a>';
                 let html_text = authData.language === 'pl' ? pl : en;
                 swal({
                     title: 'GDPR',
@@ -89,55 +142,6 @@ export default new Vuex.Store({
                 })
 
             }
-        },
-        tryAutoLogin({commit}) {
-            const session_uuid = localStorage.getItem('session_uuid');
-            if (!session_uuid) {
-                return
-            }
-            const expirationDate = localStorage.getItem('expirationDate');
-            const user = JSON.parse(localStorage.getItem('user'));
-            const now = new Date()
-            if (now >= expirationDate) {
-                return
-            }
-            commit('authUser', session_uuid);
-            commit('storeUser', user);
-            router.replace('/lessons');
-        },
-        logout({commit}) {
-            const done = 0;
-            axios.get('/auth/logout').then((resp) => {
-                commit('clearAuthData');
-                localStorage.removeItem('expirationDate');
-                localStorage.removeItem('session_uuid');
-                localStorage.removeItem('user');
-                router.replace('/signin');
-                swal("Log out", "You've been logged out successfully")
-            })
-        },
-        storeUser({commit, state}, userData) {
-            if (!state.session_uuid) {
-                return
-            }
-            axios.post('/users', userData)
-                .then(res => console.log(res))
-        },
-        fetchUser({commit, state}) {
-            if (!state.session_uuid) {
-                return
-            }
-            axios.get('/users')
-                .then(res => {
-                    const data = res.data;
-                    const users = [];
-                    for (let key in data) {
-                        const user = data[key];
-                        user.id = key;
-                        users.push(user)
-                    }
-                    commit('storeUser', users[0]);
-                })
         }
     },
     getters: {

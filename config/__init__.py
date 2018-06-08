@@ -15,3 +15,4 @@ except Exception as err:
     quit()
 
 from config.emails_pl import ALL_EMAILS
+from config.emails_pl import REGEMAIL
