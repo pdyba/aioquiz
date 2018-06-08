@@ -85,7 +85,7 @@ class CommonTestTemplate(Table):
             'question': question_id,
             'question_order': order
         })
-        await test_question.create()
+        return await test_question.create()
 
     @classmethod
     async def get_all_available_questions(cls, as_json=True):

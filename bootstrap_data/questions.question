@@ -1,0 +1,171 @@
+1:
+    question: |
+        Napisz kod który doda element "a" do listy ?moja_list = []
+    qtype: code
+2:
+    question: |
+         Napisz kod który doda klucz "ala" o wartosci "kot" do słownika ? mojs_slownik = {}
+    qtype: code
+3:
+    question: |
+         Napisz kod który zsumuje wszystkie wartości w liście: moja_list = [1, 2, 3, 999, 21, 13, 91212, 12312312312]
+    qtype: code
+4:
+    question: |
+         Napisz kod który polaczy dwa stringi: ala="ala" i ma_kota="ma kota"
+    qtype: code
+5:
+    question:  |
+        Napisz kod który zamieni tuple na liste: moja_tupla=("abc", "egf")
+    qtype: code
+6:
+    question:  |
+        Które słowo kluczowe nie występuje w pythonie ?
+    answers:
+        - class
+        - def 
+        - function
+        - return
+    qtype: abcd
+7:
+    question:  |
+        Czy w pythonie jest żółwik (turtle) znany z jezyka Logo
+    qtype: bool
+8:
+    question:  |
+        Czy w pythonie jest operator peirwiastkowania
+    qtype: bool
+9:
+    question:  |
+        Podaj nazwa metody konstruktora w klasie:
+    qtype: plain
+10:
+    question:  |
+        Czy w Pythonie wystepuje polimofrizm ?
+    qtype: bool
+11:
+    question:  |
+        Napisz list comprehension ktora z stworzy liste wszystkich cyfr text="7y2tgr3yudha98uq0298y28823323jajshdjahdk"
+    qtype: plain
+12:
+    question: |
+         Które słowo kluczowe nie występuje w pythonie ?
+    answers:
+        - finally 
+        - cancel 
+        - break 
+        - continue
+    qtype: abcd
+13:
+    question: |
+        Czy python jest językiem obiektowym  ?
+    qtype: bool
+14:
+    question:  |
+        które polecenie NIE zwróci listy: data = [(9,0), (1,2),(3,4)]
+    answers:
+        - sorted(data, key=lambda a: a[0 reverse=False)
+        - max(data, key=lambda a: max(a))
+        - filter(lambda a: sum(a) >5, data)
+        - min(data, key=lambda a: max(a))
+    qtype: abcd
+15:
+    question: |
+         Co zwróci to polecenie: data = [(9,0), (1,2),(3,4), (7,5)] print(min(data, key=lambda a: max(a)))
+    answers:
+        - (9,0)
+        - (1,2)
+        - (3,4)
+        - (7,5)
+    qtype: abcd
+16:
+    question:  |
+        Czy można nadać kolejność elementom w słowniku?
+    qtype: bool
+17:
+    question:  |
+        Mając zdefiniowane klasy, stworzone obiekty i wywołane funkcje jak poniżej, co zostanie wypisane do konsoli?
+    answers:
+        - HiHiBonjourGo away
+        - HiBonjourGo away
+        - Hi, Hi, Bonjour, Go away
+        - TypeError: Can not convert "NoneType" object to str implicitly
+    qtype: abcd
+    img: 20
+18:
+    question:  |
+        Co wypisze to polecenie: a = "?PDYJTAHNOGNO" print(a[2::2])
+    answers:
+        - DG 
+        - PYTHON 
+        - DJANGO 
+        - pusty string
+    qtype: abcd
+19:
+    question:  |
+        Jak wydobyć cyfrę 0? a = [1, 2, [7, 8, 9 3, [4, 6, [1, 0]]]
+    answers:
+        - a[5][3][2]
+        - a[6][1] 
+        - a[4][2][1] 
+        - a[9]
+    qtype: abcd
+20:
+    question:  |
+        Jaka jest poprawna składnia: a = "aBcDeF"
+    answers: 
+        - a.upper()
+        - upper(a) 
+        - a(upper) 
+        - a.upper
+    qtype: abcd
+21:
+    question:  |
+        Co zostanie wypisane do konsoli ?
+    answers:
+        - MyClass
+        - a
+        - <__main__.MyClass object at 0x0000000000ADAC50>
+        - abecadlo
+    qtype: abcd
+    img: 24
+22:
+    question:  |
+        Jak będzie wyglądała lista po poleceniach: nasza_lista = ["a", "b", "c"] nasza_lista.append("z") nasza_lista.pop() nasza_lista.pop(-2) nasza_lista.remove("c") print(nasza_lista)
+    answers:
+        - ["a"]
+        - ["b"] 
+        - ["c"] 
+        - ["z"]
+    qtype: abcd
+23:
+    question:  |
+        Czy ten bląd zostanie dobrze obsłużony ?
+    qtype: bool
+    img: 26
+24:
+    question:  |
+        Która składnia jest niepoprawna ?
+    answers:
+        - import random
+        - from random import random
+        - from random import randint
+        - import randint    
+    qtype: abcd
+25:
+    question:  |
+        Jeżeli chcemy dopisać do pliku, nie nadpisując jego zawartości, użyjemy ?
+    answers:
+        - open(file_name, "w")
+        - open(file_name, "r")
+        - open(file_name, "a")
+        - open(file_name, "wb")    
+    qtype: abcd
+26:
+    question:  |
+        Jakie slowo kuczlowe pozowala nam pominac metode zamykajaca plik - file.close()
+    qtype: plain
+27:
+    question:  |
+        Czy podobal Ci sie quiz?
+    qtype: bool

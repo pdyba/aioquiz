@@ -1,0 +1,30 @@
+author: Piotr Dyba
+title: Egazamin testowy
+description: Egazamin testowy
+questions:
+    1:
+        question: |
+            Jak masz na imie ?
+        qtype: plain
+        possible_answer: yey
+    2:
+        question: |
+            Jakie zwierzę chciałbyś mieć w domu najbardziej ?
+        qtype: abcd
+        answers:
+            - Eopie
+            - Porg
+            - Tauntaun
+            - Rancor
+        possible_answer: Porg
+    3:
+        question: |
+            Stwórz klasę o nazwie Rzad z funkcją która nic nie robi.
+        qtype: code
+        possible_answer: yey
+    4:
+        question: |
+            Lubisz Sowy ?
+        qtype: bool
+        possible_answer: yey
+
