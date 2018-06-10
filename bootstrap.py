@@ -164,7 +164,7 @@ async def add_question(qpath="./bootstrap_data/questions.question", verbose=Fals
         return
     except Exception as err:
         print(err)
-        color_print('Issue reading questions data')
+        color_print('Issue with reading questions data')
         return
     for _, val in questions.items():
         try:
@@ -316,7 +316,7 @@ async def add_exam(e_path, verbose=False):
         return
     except Exception as err:
         print(err)
-        color_print('Issue reading exam data')
+        color_print('Issue with reading exam data')
         return
     exam = models.Exam(title=meta['title'], users=DEFAULT_USER, description=meta['description'])
     exam = await exam.update_or_create('title', get_insta=True)

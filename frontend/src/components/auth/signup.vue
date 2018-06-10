@@ -42,7 +42,7 @@
                                     id="name"
                                     v-model="user.name">
                             <p v-if="!$v.user.name.required">This field must not be empty.</p>
-                            <p v-if="!$v.user.name.minLen">This must be at least 3 chars.</p>
+                            <p v-if="!$v.user.name.minLen">Name of user must be at least 3 chars.</p>
                         </b-form-group>
                         <b-form-group class="input" :class="{invalid: $v.user.surname.$invalid}">
                             <label v-if="en">Last name</label>
@@ -52,7 +52,7 @@
                                     id="surname"
                                     v-model="user.surname">
                             <p v-if="!$v.user.surname.required">This field must not be empty.</p>
-                            <p v-if="!$v.user.surname.minLen">This must be at least 3 chars.</p>
+                            <p v-if="!$v.user.surname.minLen">Surame of user must be at least 3 chars.</p>
                         </b-form-group>
 
                         <b-form-group class="input" :class="{invalid: $v.user.password.$invalid}">
