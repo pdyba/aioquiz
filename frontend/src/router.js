@@ -75,133 +75,107 @@ import admin from './components/admin/admin.vue'
 
 Vue.use(VueRouter);
 
+function check_auth(next) {
+    if (store.getters.isAuthenticated) {
+        next()
+    } else {
+        next('/signin')
+    }
+}
+
+function check_no_auth(next) {
+    if (store.getters.isAuthenticated) {
+        next('/')
+    } else {
+        next()
+    }
+}
+
 const routes = [
+    // NO Auth section
     {path: '/', component: Home},
     {path: '/rules', component: rules},
     {path: '/privacy_policy', component: privacy_policy},
+    {path: '/magic_link', component: magic_link_handler},
+    {path: '/regconfirm/:code', component: magic_link_handler},
+    {path: '/program', component: program},
+    {path: '/about', component: about},
     {
         path: '/signup',
         component: SignupPage,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next('/')
-            } else {
-                next()
-            }
+            check_no_auth(next)
         },
     },
     {
         path: '/signin',
         component: SigninPage,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next('/')
-            } else {
-                next()
-            }
+            check_no_auth(next)
         },
     },
-    {path: '/magic_link', component: magic_link_handler},
-    {path: '/regconfirm/:code', component: magic_link_handler},
-    {path: '/program', component: program},
-    {path: '/about', component: about},
+    // Auth section
     {
         path: '/lessons',
         component: lessons,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/signin')
-            }
+            check_auth(next)
         }
     },
     {
         path: '/lessons/:id',
         component: lesson,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/signin')
-            }
+            check_auth(next)
         }
     },
     {
         path: '/exam',
         component: exams,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/signin')
-            }
+            check_auth(next)
         }
     },
     {
         path: '/exam/:id',
         component: exam,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/signin')
-            }
+            check_auth(next)
         }
     },
     {
         path: '/quiz',
         component: quizzes,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/signin')
-            }
+            check_auth(next)
         }
     },
     {
         path: '/quiz/:id',
         component: quiz,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/signin')
-            }
+            check_auth(next)
         }
     },
     {
         path: '/live_quiz',
         component: live_quizzes,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/signin')
-            }
+            check_auth(next)
         }
     },
     {
         path: '/live_quiz/:id',
         component: live_quiz,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/signin')
-            }
+            check_auth(next)
         }
     },
     {
         path: '/admin',
         component: admin,
         beforeEnter(to, from, next) {
-            if (store.getters.isAdmin) {
-                next()
-            } else {
-                next('/')
-            }
+            check_auth(next)
         },
         children: [
             {path: 'config', component: admin_config},
@@ -213,11 +187,7 @@ const routes = [
         path: '/organiser',
         component: organiser,
         beforeEnter(to, from, next) {
-            if (store.getters.isOrganiser) {
-                next()
-            } else {
-                next('/')
-            }
+            check_auth(next)
         },
         children: [
             {path: 'lessons', component: lessonsMngt},
@@ -240,11 +210,7 @@ const routes = [
         path: '/mentor',
         component: mentor,
         beforeEnter(to, from, next) {
-            if (store.getters.isMentor) {
-                next()
-            } else {
-                next('/')
-            }
+            check_auth(next)
         },
         children: [
             {path: 'exam', component: mentorExamList},
@@ -264,11 +230,7 @@ const routes = [
         path: '/user',
         component: user,
         beforeEnter(to, from, next) {
-            if (store.getters.isAuthenticated) {
-                next()
-            } else {
-                next('/')
-            }
+            check_auth(next)
         },
         children: [
             {path: 'profile', component: userProfile},
@@ -278,4 +240,7 @@ const routes = [
     }
 ];
 
-export default new VueRouter({routes})
+export default new VueRouter({
+    routes,
+    mode: 'hash'
+})

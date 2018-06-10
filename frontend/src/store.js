@@ -9,9 +9,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        session_uuid: null,
+        session_uuid: localStorage.getItem('session_uuid') || null,
         language: 'pl',
-        user: null
+        user: JSON.parse(localStorage.getItem('user')) || null
     },
     mutations: {
         authUser(state, session_uuid) {
@@ -65,10 +65,8 @@ export default new Vuex.Store({
             dispatch('check_gdpr', user);
             commit('authUser', session_uuid);
             commit('storeUser', user);
-            router.replace('/lessons');
         },
         logout({commit}) {
-            const done = 0;
             axios.get('/auth/logout').then((resp) => {
                 commit('clearAuthData');
                 localStorage.removeItem('expirationDate');
@@ -152,7 +150,7 @@ export default new Vuex.Store({
             return state.session_uuid !== null
         },
         isSeated(state) {
-            return state.user.seat !== null
+            return state.user !== null && state.user.seat !== null
         },
         sessionUUID(state) {
             return state.session_uuid
