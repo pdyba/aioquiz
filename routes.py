@@ -13,16 +13,10 @@ dir_name = dirname(abspath(__file__))
 
 
 def add_static(app):
-    app.static('/old', join(dir_name, 'static/index.html'))
     app.static('/', join(dir_name, 'frontend/index.html'))
     app.static('/dist', join(dir_name, 'frontend/dist/'))
-    app.static('/css/', join(dir_name, 'static/css'))
-    app.static('/fonts', join(dir_name, 'static/fonts/'))
-    app.static('/js', join(dir_name, 'static/js/'))
     app.static('/images', join(dir_name, 'static/images'))
-    app.static('/lessons', join(dir_name, 'static/lessons'))
     app.static('/lesson_source', join(dir_name, 'lesson_source/'))
-    app.static('/partials', join(dir_name, 'static/partials'))
     app.static('/favicon.ico', join(dir_name, 'static/images/favicon.ico'))
     return app
 

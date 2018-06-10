@@ -4,10 +4,13 @@ from sanic.response import json
 
 from models import Absence
 from models import AbsenceMeta
+from models import ExamStatus
 from models import Exercise
 from models import ExerciseAnswer
 from models import Lesson
 from models import Users
+
+from orm import DoesNotExist
 
 from views.utils import user_required
 from views.utils import HTTPModelClassView
@@ -26,6 +29,32 @@ class ExerciseOverview(HTTPModelClassView):
                 resp[ex.lesson] = {}
             resp[ex.lesson][ex.id] = await ex.to_dict()
             resp[ex.lesson][ex.id]['exercise_answer'] = await ExerciseAnswer.group_by_field('status', exercise=ex.id)
+        return json(resp)
+
+    @user_required('organiser')
+    async def post(self, request, current_user):
+        req = request.json
+        max_exercises = await Exercise.count_all()
+        resp = {'exercises': {}, 'max_exercises': max_exercises}
+        for uid in req:
+            resp['exercises'][uid] = await ExerciseAnswer.count_by_field(users=uid)
+        return json(resp)
+
+
+class ExamOverview(HTTPModelClassView):
+    _cls = Exercise
+    _urls = '/api/stats/exam'
+
+    @user_required('organiser')
+    async def post(self, request, current_user):
+        req = request.json
+        resp = {'exams': {}}
+        for uid in req:
+            try:
+                exam = await ExamStatus.get_first_by_many_field_value(users=uid)
+                resp['exams'][uid] = exam.score
+            except DoesNotExist:
+                resp['exams'][uid] = -1
         return json(resp)
 
 
@@ -71,3 +100,12 @@ class AbsenceStatsView(HTTPModelClassView):
             'lesson': lesson,
             'perc': "{}%".format(round(current_attendence/max_absences*100, 2))
         })
+
+    @user_required('organiser')
+    async def post(self, request, current_user):
+        req = request.json
+        max_absences = await AbsenceMeta.count_all()
+        resp = {'absences': {}, 'max_absences': max_absences}
+        for uid in req:
+            resp['absences'][uid] = await Absence.count_by_field(users=uid)
+        return json(resp)

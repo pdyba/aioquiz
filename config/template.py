@@ -28,32 +28,3 @@ class DB:
     DB = 'postgres'
     USER = 'aiopg'
     PASSWORD = 'aiopg'
-
-
-class REGEMAIL:
-    """
-    move to DB
-    """
-    TEXT_PL = """
-    Cześć {name}!
-    Dziękujemy za rejestrację na warsztaty PyLove.org w Poznaniu.
-    Prosimy o potwierdzenie swojegu adres e-mail klikając w poniższy link:
-
-    https://{server}/api/user/activation/{uid}/{acode}
-
-    Pozdrowienia!
-    PyLove.org Team
-
-    """
-    TEXT_EN = """
-    Hi {name},
-    Thanks for registering for PyLove.org workshops in Poznan.
-    Please confirm your e-mail by clicking this link:
-
-    https://{server}/api/user/activation/{uid}/{acode}
-
-    Cheers,
-    the PyLove.org Team
-    """
-    SUBJECT_PL = 'PyLove.org Potwierdzenie rejestracji'
-    SUBJECT_EN = 'PyLove.org Registration Confirmation'

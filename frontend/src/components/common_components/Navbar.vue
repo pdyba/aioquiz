@@ -122,4 +122,10 @@ export default {
 .nav-item {
   position: relative;
 }
+img {
+  max-height: 30px;
+  max-width: 124px;
+  margin: 0px;
+  padding: 0px;
+}
 </style>

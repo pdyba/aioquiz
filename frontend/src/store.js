@@ -46,51 +46,12 @@ export default new Vuex.Store({
             localStorage.setItem('session_uuid', authData.session_uuid);
             localStorage.setItem('expirationDate', expirationDate);
             localStorage.setItem('user', JSON.stringify(authData));
+            dispatch('check_gdpr', authData);
             commit('storeUser', authData);
             commit('authUser', authData.session_uuid);
             router.replace('/lessons');
-            if (authData.gdpr !== true) {
-                const pl = 'I have read and accepted <a href="#/privacy_policy">Privacy Policy</a>';
-                const en = 'Przeczytałem i akceptuję <a href="#/privacy_policy">Poliykę Prywatności</a>';
-                let html_text = authData.language === 'pl' ? pl : en;
-                swal({
-                    title: 'GDPR',
-                    html: html_text,
-                    showCancelButton: true,
-                    confirmButtonText: 'Read&Agree',
-                }).then((value) => {
-                    let mtype = "error";
-                    if (value.value) {
-                        axios.get('/user/gdpr').then((response) => {
-                            if (response.data.success) {
-                                mtype = "success";
-                                swal({
-                                    text: response.data.msg,
-                                    title: 'Privacy Policy Compliance',
-                                    type: mtype,
-                                    showConfirmButton: true,
-                                    timer: 2000
-                                });
-                            } else {
-                                dispatch('logout');
-                            }
-                        })
-                    } else {
-                        swal({
-                            text: 'You have failed to comply with our Privacy Policy. You will be automatically logged out. Failing to comply by 25.05.2018 will lead to account removal.',
-                            title: 'Privacy Policy Compliance',
-                            type: mtype,
-                            showConfirmButton: true,
-                            timer: 10000
-                        }).then((value) => {
-                            dispatch('logout');
-                        });
-                    }
-                })
-
-            }
         },
-        tryAutoLogin({commit}) {
+        tryAutoLogin({commit, dispatch}) {
             const session_uuid = localStorage.getItem('session_uuid');
             if (!session_uuid) {
                 return
@@ -101,6 +62,7 @@ export default new Vuex.Store({
             if (now >= expirationDate) {
                 return
             }
+            dispatch('check_gdpr', user);
             commit('authUser', session_uuid);
             commit('storeUser', user);
             router.replace('/lessons');
@@ -138,6 +100,48 @@ export default new Vuex.Store({
                     }
                     commit('storeUser', users[0]);
                 })
+        },
+        check_gdpr({commit, dispatch}, authData) {
+            if (authData.gdpr !== true) {
+                const pl = 'I have read and accepted <a href="#/privacy_policy">Privacy Policy</a>';
+                const en = 'Przeczytałem i akceptuję <a href="#/privacy_policy">Politykę Prywatności</a>';
+                let html_text = authData.language === 'pl' ? pl : en;
+                swal({
+                    title: 'GDPR',
+                    html: html_text,
+                    showCancelButton: true,
+                    confirmButtonText: 'Read&Agree',
+                }).then((value) => {
+                    let mtype = "error";
+                    if (value.value) {
+                        axios.get('/user/gdpr').then((response) => {
+                            if (response.data.success) {
+                                mtype = "success";
+                                swal({
+                                    text: response.data.msg,
+                                    title: 'Privacy Policy Compliance',
+                                    type: mtype,
+                                    showConfirmButton: true,
+                                    timer: 2000
+                                });
+                            } else {
+                                dispatch('logout');
+                            }
+                        })
+                    } else {
+                        swal({
+                            text: 'You have failed to comply with our Privacy Policy. You will be automatically logged out. Failing to comply by 25.05.2018 will lead to account removal.',
+                            title: 'Privacy Policy Compliance',
+                            type: mtype,
+                            showConfirmButton: true,
+                            timer: 10000
+                        }).then((value) => {
+                            dispatch('logout');
+                        });
+                    }
+                })
+
+            }
         }
     },
     getters: {

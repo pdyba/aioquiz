@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <navbar position="top" class="indigo navbar-dark" name="PyLove.org" href="/" scrolling>
+        <navbar position="top" class="indigo navbar-dark" alt="PyLove.org" href="/" scrolling src="./images/pylove_white.png">
             <navbar-collapse>
                 <navbar-nav right>
                     <!--<help v-if="auth"></help>-->
@@ -39,6 +39,7 @@
                             <dropdown-item href="/organiser/live-quiz-manage">Live Quiz: Manage</dropdown-item>
                             <dropdown-item href="/organiser/exam-create">Exam: Create</dropdown-item>
                             <dropdown-item href="/organiser/exam-manage">Exam: Manage</dropdown-item>
+                            <dropdown-item href="/organiser/users">Users</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
 

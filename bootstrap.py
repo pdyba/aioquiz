@@ -22,6 +22,53 @@ from utils import color_print
 
 cls_to_skip = ('CommonTestTemplate', 'CommonTestQuestion', 'CommonTestAnswer', 'CommonTestStatus')
 
+LESSON_COUNTER = """
+Lesson: {}
+Images:
+    Done: {}
+    Errors: {}
+Quiz: {}
+    Done: {}
+    Errors: {}
+Exercises: {}
+    Created: {}
+    Updated: {}
+    Errors: {}
+"""
+
+
+class GlobalCounter:
+    added_lessons = 0
+    updated_lessons = 0
+    error_lessons = 0
+
+
+class LessonCounter:
+    lesson_outcome = ''
+    lesson_imgs_done = 0
+    lesson_imgs_errors = 0
+    quiz_outcome = ''
+    quiz_details_done = 0
+    quiz_details_error = 0
+    exercise_outcome = ''
+    exercise_details_created = 0
+    exercise_details_updated = 0
+    exercise_details_error = 0
+
+    def __str__(self):
+        return LESSON_COUNTER.format(
+            self.lesson_outcome,
+            self.lesson_imgs_done,
+            self.lesson_imgs_errors,
+            self.quiz_outcome,
+            self.quiz_details_done,
+            self.quiz_details_error,
+            self.exercise_outcome,
+            self.exercise_details_created,
+            self.exercise_details_updated,
+            self.exercise_details_error,
+        )
+
 
 async def bootstrap_db():
     for cls_name in dir(models):
@@ -108,214 +155,28 @@ async def admin():
     color_print('Admin Created', color='green')
 
 
-async def add_question(verbose=False):
-    await models.Question(
-        question='Jakie rozszerzenie zwyczajowo mają pliki z kodem Pythonowym ?',
-    ).create()
-    await models.Question(
-        question='Napisz kod który doda element "a" do listy ?moja_list = []'
-    ).create()
-    await models.Question(
-        question='Napisz kod który doda klucz "ala" o wartosci "kot" do słownika ? mojs_slownik = {}'
-    ).create()
-    await models.Question(
-        question='Napisz kod który zsumuje wszystkie wartości w liście: moja_list = [1, 2, 3, 999, 21, 13, 91212, 12312312312]'
-    ).create()
-    await models.Question(
-        question='Napisz kod który polaczy dwa stringi: ala="ala" i ma_kota="ma kota"'
-    ).create()
-    await models.Question(
-        question='Napisz kod który zamieni tuple na liste: moja_tupla=("abc", "egf")'
-    ).create()
-    await models.Question(
-        question='Które słowo kluczowe nie występuje w pythonie ?',
-        answers=['class', 'def', 'function', 'return'],
-        qtype='abcd'
-    ).create()
-    await models.Question(
-        question='Czy w pythonie jest żółwik (turtle) znany z jezyka Logo',
-        qtype='bool'
-    ).create()
-    await models.Question(
-        question='Czy w pythonie jest operator peirwiastkowania',
-        qtype='bool'
-    ).create()
-    await models.Question(
-        question='Podaj nazwa metody konstruktora w klasie:',
-    ).create()
-    await models.Question(
-        question='Czy w Pythonie wystepuje polimofrizm ?',
-        qtype='bool'
-    ).create()
-    await models.Question(
-        question='Napisz list comprehension ktora z stworzy liste wszystkich cyfr text="7y2tgr3yudha98uq0298y28823323jajshdjahdk"'
-    ).create()
-    await models.Question(
-        question='Które słowo kluczowe nie występuje w pythonie ?',
-        answers=['finally', 'cancel', 'break', 'continue'],
-        qtype='abcd'
-    ).create()
-    await models.Question(
-        question=' Czy python jest językiem obiektowym  ?',
-        qtype='bool'
-    ).create()
-    await models.Question(
-        question='które polecenie NIE zwróci listy: data = [(9,0), (1,2),(3,4)]',
-        answers=[
-            "sorted(data, key=lambda a: a[0], reverse=False)",
-            "max(data, key=lambda a: max(a))",
-            "filter(lambda a: sum(a) >5, data)",
-            "min(data, key=lambda a: max(a))",
-        ],
-        qtype='abcd'
-    ).create()
-    await models.Question(
-        question='Co zwróci to polecenie: data = [(9,0), (1,2),(3,4), (7,5)] print(min(data, key=lambda a: max(a)))',
-        answers=[
-            "(9,0)",
-            "(1,2)",
-            "(3,4)",
-            "(7,5)",
-        ],
-        qtype='abcd'
-    ).create()
-    await models.Question(
-        question='Czy można nadać kolejność elementom w słowniku?',
-        qtype='bool'
-    ).create()
-    await models.Question(
-        question='Mając zdefiniowane klasy, stworzone obiekty i wywołane funkcje jak poniżej, co zostanie wypisane do konsoli?',
-        answers=[
-            "HiHiBonjourGo away",
-            "HiBonjourGo away",
-            "Hi, Hi, Bonjour, Go away",
-            'TypeError: Can not convert "NoneType" object to str implicitly'
-        ],
-        qtype='abcd',
-        img='20',
-    ).create()
-    await models.Question(
-        question='Co wypisze to polecenie: a = "?PDYJTAHNOGNO" print(a[2::2])',
-        answers=['DG', 'PYTHON', 'DJANGO', 'pusty string'],
-        qtype='abcd',
-    ).create()
-    await models.Question(
-        question='Jak wydobyć cyfrę 0? a = [1, 2, [7, 8, 9], 3, [4, 6, [1, 0]]]',
-        answers=['a[5][3][2]', 'a[6][1]', 'a[4][2][1]', 'a[9]'],
-        qtype='abcd',
-    ).create()
-    await models.Question(
-        question='Jaka jest poprawna składnia: a = "aBcDeF"',
-        answers=['a.upper()', 'upper(a)', 'a(upper)', 'a.upper'],
-        qtype='abcd',
-    ).create()
-    await models.Question(
-        question='Co zostanie wypisane do konsoli ?',
-        answers=[
-            'MyClass',
-            'a',
-            '<__main__.MyClass object at 0x0000000000ADAC50>',
-            'abecadlo'
-        ],
-        qtype='abcd',
-        img='24',
-    ).create()
-    await models.Question(
-        question='Jak będzie wyglądała lista po poleceniach: nasza_lista = ["a", "b", "c"] nasza_lista.append("z") nasza_lista.pop() nasza_lista.pop(-2) nasza_lista.remove("c") print(nasza_lista)',
-        answers=['["a"]', '["b"]', '["c"]', '["z"]'],
-        qtype='abcd',
-    ).create()
-    await models.Question(
-        question='Czy ten bląd zostanie dobrze obsłużony ?',
-        qtype='bool',
-        img='26',
-    ).create()
-    await models.Question(
-        question='Która składnia jest niepoprawna ?',
-        answers=[
-            'import random',
-            'from random import random',
-            'from random import randint',
-            'import randint'
-        ],
-        qtype='abcd',
-    ).create()
-    await models.Question(
-        question='Jeżeli chcemy dopisać do pliku, nie nadpisując jego zawartości, użyjemy ?',
-        answers=[
-            'open(file_name, "w")',
-            'open(file_name, "r")',
-            'open(file_name, "a")',
-            'open(file_name, "wb")'
-        ],
-        qtype='abcd',
-    ).create()
-    await models.Question(
-        question='Jakie slowo kuczlowe pozowala nam pominac metode zamykajaca plik - file.close()',
-    ).create()
-    await models.Question(
-        question='Czy podobal Ci sie quiz',
-        qtype='bool',
-    ).create()
-
-
-HEADER = """
-<link rel="stylesheet" href="css/codehilite.css">
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-"""
-
-FOOTER = """
-        </div>
-    </div>
-    <exercises></exercises>
-</div>
-"""
-
-
-class GlobalCounter:
-    added_lessons = 0
-    updated_lessons = 0
-    error_lessons = 0
-
-
-class LessonCounter:
-    lesson_outcome = ''
-    lesson_imgs_done = 0
-    lesson_imgs_errors = 0
-    quiz_outcome = ''
-    quiz_details_done = 0
-    quiz_details_error = 0
-    exercise_outcome = ''
-    exercise_details_created = 0
-    exercise_details_updated = 0
-    exercise_details_error = 0
-
-    def __str__(self):
-        return """Lesson: {}
-    Images:
-        Done: {}
-        Errors: {}
-Quiz: {}
-    Done: {}
-    Errors: {}
-Exercises: {}
-    Created: {}
-    Updated: {}
-    Errors: {}
-        """.format(
-            self.lesson_outcome,
-            self.lesson_imgs_done,
-            self.lesson_imgs_errors,
-            self.quiz_outcome,
-            self.quiz_details_done,
-            self.quiz_details_error,
-            self.exercise_outcome,
-            self.exercise_details_created,
-            self.exercise_details_updated,
-            self.exercise_details_error,
-        )
+async def add_question(qpath="./bootstrap_data/questions.question", verbose=False):
+    try:
+        with open(qpath) as file:
+            questions = yaml.load(file.read())
+    except (FileNotFoundError, FileExistsError):
+        color_print('No questions found')
+        return
+    except Exception as err:
+        print(err)
+        color_print('Issue with reading questions data')
+        return
+    for _, val in questions.items():
+        try:
+            question = models.Question(**val)
+            await question.update_or_create('question')
+        except Exception as err:
+            if UniqueViolationError:
+                color_print('question already existed', color='blue')
+                continue
+            print(err)
+            return
+    color_print('Created {} questions'.format(len(questions)), color='green')
 
 
 async def create_html_lessons(lang='pl', lesson=None, verbose=False):
@@ -343,8 +204,6 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
                 )
         except FileNotFoundError:
             return
-        with open('static/lessons/{}.html'.format(a_dir), 'w') as file:
-            file.write(HEADER + html + FOOTER)
         with open(m_path) as file:
             meta = yaml.load(file.read())
         meta['author'] = DEFAULT_USER
@@ -399,7 +258,7 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
             try:
                 for val in exe.values():
                     exercise = models.Exercise(lesson=lid, **val)
-                    id, updated = await exercise.update_or_create(*val.keys(), verbose=True)
+                    id, updated = await exercise.update_or_create('title', verbose=True)
                     if updated:
                         less_counter.exercise_details_updated += 1
                     else:
@@ -445,15 +304,19 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
     color_print('ERRORS: ', counter.error_lessons, color='red')
 
 
-async def add_exam(e_path_meta, e_path_question):
+async def add_exam(e_path, verbose=False):
+    print(verbose)
     try:
-        with open(e_path_question) as file:
-            questions = yaml.load(file.read())
-        with open(e_path_meta) as file:
+        with open(e_path) as file:
             meta = yaml.load(file.read())
+        questions = meta['questions']
+        del meta['questions']
+    except (FileNotFoundError, FileExistsError):
+        color_print('No exam found')
+        return
     except Exception as err:
         print(err)
-        color_print('No exam found')
+        color_print('Issue with reading exam data')
         return
     exam = models.Exam(title=meta['title'], users=DEFAULT_USER, description=meta['description'])
     exam = await exam.update_or_create('title', get_insta=True)
@@ -476,8 +339,8 @@ async def add_exam(e_path_meta, e_path_question):
 def get_parser():
     a_parser = argparse.ArgumentParser()
     a_parser.add_argument("-l", "--lesson", help="Add lesson with given id, example: --lesson 0024")
-    a_parser.add_argument("-em", help="Add exam from path")
-    a_parser.add_argument("-eq", help="Add exam from path")
+    a_parser.add_argument("-e", "--exam", help="Add exam from path")
+    a_parser.add_argument("-q", "--questions", help="Add questions from path")
     a_parser.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
     a_parser.add_argument("--alllessons", help="Add all lessons", action="store_true")
     a_parser.add_argument("--addquestion", help="Add all question", action="store_true")
@@ -504,8 +367,10 @@ if __name__ == '__main__':
             loop.run_until_complete(bootstrap_db())
     if args.lesson:
         loop.run_until_complete(create_html_lessons(lesson=args.lesson, verbose=args.verbose))
-    if args.eq and args.em:
-        loop.run_until_complete(add_exam(args.em, args.eq))
+    if args.exam:
+        loop.run_until_complete(add_exam(args.exam, verbose=args.verbose))
+    if args.questions:
+        loop.run_until_complete(add_question(args.questions, verbose=args.verbose))
     if args.alllessons:
         loop.run_until_complete(create_html_lessons(verbose=args.verbose))
     if args.addquestion:
