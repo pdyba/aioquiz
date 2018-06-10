@@ -68,14 +68,28 @@
                     text: "Please provide valid email",
                     input: "email",
                     showConfirmButton: true,
+                    showCancelButton: true,
                     showLoaderOnConfirm: true,
-                    allowOutsideClick: () => !swal.isLoading(),
                     closeOnConfirm: false,
-                    preConfirm: (email) => {
-                        return axios.post('/auth/magic_link', {email: email})
+                }).then((value) => {
+                    console.log(value);
+                    if (value.dismiss) {
                     }
-                }).then((response) => {
-                    self.$swal({text: response.value.data.msg});
+                    else {
+                        axios.post('/auth/magic_link', {email: value.value}).then((response) => {
+                            let mtype = "error";
+                            if (response.data.success) {
+                                mtype = "success";
+                            }
+                            self.$swal({
+                                text: response.data.msg,
+                                title: 'Attendance',
+                                type: mtype,
+                                showConfirmButton: true,
+                                timer: 2000
+                            });
+                        })
+                    }
                 })
             }
 

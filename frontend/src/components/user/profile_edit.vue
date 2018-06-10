@@ -120,7 +120,8 @@
                     closeOnCancel: false,
                     closeOnConfirm: false
                 }).then(function (oldpassword) {
-                    change_pass.password = oldpassword;
+                    if (oldpassword.dismiss) {return}
+                    change_pass.password = oldpassword.value;
                     self.$swal({
                         title: "Change Password",
                         input: 'password',
@@ -133,7 +134,8 @@
                         closeOnReject: false,
                         closeOnConfirm: false
                     }).then( function (new_password) {
-                        change_pass.new_password = new_password;
+                        if (new_password.dismiss) {return}
+                        change_pass.new_password = new_password.value;
                         self.$swal({
                             title: "Change Password",
                             input: 'password',
@@ -146,7 +148,8 @@
                             closeOnConfirm: false,
                             closeOnReject: false
                         }).then( function (new_password_2) {
-                            change_pass.new_password_2 = new_password_2;
+                            if (new_password.dismiss) {return}
+                            change_pass.new_password_2 = new_password_2.value;
                             axios.post('user/password_change', change_pass).then(function (response) {
                                 if (response.data.success) {
                                     self.$swal({
