@@ -351,6 +351,24 @@ class Table(object):
     async def update(self, **kwargs):
         return await self._update(self, **kwargs)
 
+    @classmethod
+    async def _update_only_one_value(cls, data, field, value, **kwargs):
+        if hasattr(data, 'id'):
+            querry = """
+                UPDATE {} SET {}
+                WHERE id = {}
+            """.format(cls._name, "{}='{}'".format(field, value), data.id)
+            resp = await make_a_querry(querry)
+        else:
+            wheres = cls._format_kwargs(**kwargs)
+            resp = await make_a_querry(
+                """UPDATE {} SET {} WHERE {}""".format(cls._name, cls._format_update(data), wheres)
+            )
+        return resp
+
+    async def update_only_one_value(self, field, value, **kwargs):
+        return await self._update_only_one_value(self, field, value, **kwargs)
+
     async def update_from_dict(self, data_dict):
         for key, value in data_dict.items():
             if self._in_schema(key) and key not in self._restricted_keys + ['create_date', 'last_login']:

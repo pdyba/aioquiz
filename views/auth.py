@@ -38,10 +38,8 @@ class AuthenticateView(HTTPModelClassView):
             if not user.active:
                 return json({'msg': 'User not active'}, status=404)
             if hash_string(req.get('password', 'x')) == user.password:
-                user.session_uuid = create_uuid()
-                user.last_login = datetime.utcnow()
-                await user.update()
-                _users[user.session_uuid] = user
+                session_uuid = await user.get_session_uuid()
+                _users[session_uuid] = user
                 return json({
                     'success': True,
                     'admin': user.admin,
@@ -52,7 +50,7 @@ class AuthenticateView(HTTPModelClassView):
                     'lang': user.lang,
                     'organiser': user.organiser,
                     'id': user.id,
-                    'session_uuid': user.session_uuid,
+                    'session_uuid': session_uuid,
                     'confirmation': user.confirmation,
                     'gdpr': user.gdpr,
                 })
@@ -154,7 +152,6 @@ class LogOutView(HTTPModelClassView):
     @user_required(msg='Already log out', code=403)
     async def get(self, request, current_user):
         if current_user:
-            current_user.session_uuid = ''
-            await current_user.update()
+            await current_user.set_session_uuid('')
             return json({'success': True})
         return json({'success': False}, status=403)

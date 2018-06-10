@@ -140,6 +140,14 @@ class Users(Table):
     def is_only_attendee(self):
         return not (self.admin or self.mentor or self.organiser)
 
+    async def set_session_uuid(self, session_uuid):
+        await self.update_only_one_value('session_uuid', session_uuid)
+
+    async def get_session_uuid(self):
+        session_uuid =  create_uuid()
+        await self.set_session_uuid(session_uuid)
+        await self.update_only_one_value('last_login', datetime.utcnow())
+        return session_uuid
 
 class UserReview(Table):
     _name = 'user_review'

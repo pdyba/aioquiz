@@ -89,9 +89,10 @@
                                 title: 'Account Deleted',
                                 type: "info",
                                 showConfirmButton: true,
-                                timer: 2000
+                                timer: 3000
+                            }).then((value) => {
+                                self.$store.dispatch('logout')
                             })
-                            self.$store.dispatch('logout')
                         })
                     } else {
                         self.$swal({
