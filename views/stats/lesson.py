@@ -37,7 +37,10 @@ class ExerciseOverview(HTTPModelClassView):
         max_exercises = await Exercise.count_all()
         resp = {'exercises': {}, 'max_exercises': max_exercises}
         for uid in req:
-            resp['exercises'][uid] = await ExerciseAnswer.count_by_field(users=uid)
+            ec = await ExerciseAnswer.count_by_field(users=uid)
+            ec += 30 # zgubione zadania przy stracie bazy danych
+            ec = ec if ec < max_exercises else max_exercises
+            resp['exercises'][uid] = ec
         return json(resp)
 
 

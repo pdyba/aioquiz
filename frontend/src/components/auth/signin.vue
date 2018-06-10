@@ -72,7 +72,6 @@
                     showLoaderOnConfirm: true,
                     closeOnConfirm: false,
                 }).then((value) => {
-                    console.log(value);
                     if (value.dismiss) {
                     }
                     else {
