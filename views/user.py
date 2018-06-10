@@ -143,19 +143,16 @@ class UserView(HTTPModelClassView):
             id_name = int(id_name)
         if not current_user.admin and current_user.id != id_name:
             return json({'success': False, 'msg': 'Unauthorised'})
-
-        await UserReview.delete_by_many_fields(
-            reviewer=id_name,
-            users=id_name
-        )
-        for cls in [Lesson, LessonFeedbackAnswer]:
-            await cls.delete_by_many_fields(author=id_name)
-
-        # TODO: for question authors, set author=DEFAULT_USER and don't remove them
-        for cls in [QuizAnswer, ExerciseAnswer, Feedback, Absence, Seat]:
-            await cls.delete_by_many_fields(users=id_name)
-
-        await Users.detele_by_id(id_name)
+        user = await Users.get_by_id(id_name)
+        user.name = 'deleted'
+        user.img = 'deleted'
+        user.linkedin = 'deleted'
+        user.twitter = 'deleted'
+        user.facebook = 'deleted'
+        user.surname = 'deleted'
+        user.email = 'deleted@{}'.format(user.id)
+        user.active = False
+        await user.update()
         return json({'success': True})
 
 

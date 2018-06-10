@@ -28,26 +28,26 @@ db = None  # Perhaps make a 'db' class instead of using a global variable?
 
 
 # noinspection PyBroadException
-async def make_a_querry(querry, retry=False):
+async def make_a_query(query, retry=False):
     global db
-    if ';' in querry:
-        querry = querry.replace(';', '')
+    if ';' in query:
+        query = query.replace(';', '')
     try:
         if not db:
             db = await asyncpg.connect(**psql_cfg)
         try:
-            return await db.fetch(querry)
+            return await db.fetch(query)
         except (
             DatatypeMismatchError,
         ):
-            logging.exception('queering db: %s', querry)
+            logging.exception('queering db: %s', query)
         except (PostgresSyntaxError, UndefinedColumnError):
-            logging.warning('queering db: %s', querry)
+            logging.warning('queering db: %s', query)
             raise
     except (UniqueViolationError, PostgresSyntaxError, UndefinedColumnError):
         raise
     except InvalidTextRepresentationError:
-        logging.warning('queering db: %s', querry)
+        logging.warning('queering db: %s', query)
         raise
     except ConnectionRefusedError:
         logging.error('DataBase is not UP!')
@@ -57,7 +57,7 @@ async def make_a_querry(querry, retry=False):
             logging.exception('connecting to db')
         db = None
         if not retry:
-            return await make_a_querry(querry, retry=True)
+            return await make_a_query(query, retry=True)
     return False
 
 
@@ -119,7 +119,7 @@ class Table(object):
     async def _table_exists(cls):
         # Bardziej elegancko byłoby przekazać to cls._name jako parametr do zapytania. Dotyczy wszystkich zapytań typu
         # ... WHERE X = <jakis_parametr>
-        exists = await make_a_querry(
+        exists = await make_a_query(
             """SELECT EXISTS (
                     SELECT 1
                     FROM   information_schema.tables
@@ -138,29 +138,29 @@ class Table(object):
                 cls._gen_schema(),
                 unique
             )
-            await make_a_querry(querry)
+            await make_a_query(querry)
             color_print('{} table created'.format(cls._name), color='green')
         else:
             print('{} table already exists'.format(cls._name))
 
     @classmethod
     async def get_by_id(cls, uid):
-        resp = await make_a_querry(
+        resp = await make_a_query(
             """SELECT * FROM {} WHERE id = {}""".format(cls._name, uid)
         )
         return cls(**dict(resp[0]))
 
     @classmethod
     async def get_all(cls, suffix=""):
-        resp = await make_a_querry("""SELECT * FROM {} {}""".format(cls._name, suffix))
+        resp = await make_a_query("""SELECT * FROM {} {}""".format(cls._name, suffix))
         return [cls(**dict(r)) for r in resp]
 
     @classmethod
     async def get_by_field_value(cls, field, value):
         if isinstance(value, str):
-            resp = await make_a_querry("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
+            resp = await make_a_query("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
         else:
-            resp = await make_a_querry("""SELECT * FROM {} WHERE {}={}""".format(cls._name, field, value))
+            resp = await make_a_query("""SELECT * FROM {} WHERE {}={}""".format(cls._name, field, value))
         return [cls(**dict(r)) for r in resp]
 
     @classmethod
@@ -183,7 +183,7 @@ class Table(object):
             if i + 1 < len(kwargs):
                 query += " AND "
 
-        resp = await make_a_querry(query)
+        resp = await make_a_query(query)
         return [cls(**dict(r)) for r in resp]
 
     @classmethod
@@ -200,7 +200,7 @@ class Table(object):
                 querry += """  {}={}""".format(kw, kwargs[kw])
             if i + 1 < len(kwargs):
                 querry += """ AND """
-        resp = await make_a_querry(querry)
+        resp = await make_a_query(querry)
         if not resp:
             return resp
         return [cls(**dict(r)) for r in resp]
@@ -213,7 +213,7 @@ class Table(object):
 
             if i + 1 < len(kwargs):
                 query += """ OR """
-        resp = await make_a_querry(query)
+        resp = await make_a_query(query)
 
     @classmethod
     async def get_first_by_many_field_value(cls, **kwargs):
@@ -262,14 +262,14 @@ class Table(object):
 
     @classmethod
     async def _create(cls, data):
-        resp = await make_a_querry(
+        resp = await make_a_query(
             """INSERT INTO {} ({}) VALUES ({})""".format(
                 cls._name,
                 *cls._format_create(data)
             )
         )
         if cls._in_schema('id'):
-            resp = await make_a_querry(
+            resp = await make_a_query(
                 """SELECT id FROM {} ORDER BY id DESC limit 1""".format(cls._name)
             )
             return resp[0]['id']
@@ -340,16 +340,34 @@ class Table(object):
                 UPDATE {} SET {}
                 WHERE id = {}
             """.format(cls._name, cls._format_update(data), data.id)
-            resp = await make_a_querry(querry)
+            resp = await make_a_query(querry)
         else:
             wheres = cls._format_kwargs(**kwargs)
-            resp = await make_a_querry(
+            resp = await make_a_query(
                 """UPDATE {} SET {} WHERE {}""".format(cls._name, cls._format_update(data), wheres)
             )
         return resp
 
     async def update(self, **kwargs):
         return await self._update(self, **kwargs)
+
+    @classmethod
+    async def _update_only_one_value(cls, data, field, value, **kwargs):
+        if hasattr(data, 'id'):
+            querry = """
+                UPDATE {} SET {}
+                WHERE id = {}
+            """.format(cls._name, "{}='{}'".format(field, value), data.id)
+            resp = await make_a_query(querry)
+        else:
+            wheres = cls._format_kwargs(**kwargs)
+            resp = await make_a_query(
+                """UPDATE {} SET {} WHERE {}""".format(cls._name, cls._format_update(data), wheres)
+            )
+        return resp
+
+    async def update_only_one_value(self, field, value, **kwargs):
+        return await self._update_only_one_value(self, field, value, **kwargs)
 
     async def update_from_dict(self, data_dict):
         for key, value in data_dict.items():
@@ -367,14 +385,14 @@ class Table(object):
 
     @classmethod
     async def count_all(cls):
-        resp = await make_a_querry(
+        resp = await make_a_query(
             """SELECT COUNT(*) FROM {}""".format(cls._name)
         )
         return dict(resp[0])['count']
 
     @classmethod
     async def count_by_field(cls, append='', **kwargs):
-        resp = await make_a_querry(
+        resp = await make_a_query(
             """SELECT COUNT(*) FROM {} WHERE """.format(cls._name) + cls._format_kwargs(**kwargs) + append
         )
         return dict(resp[0])['count']
@@ -385,7 +403,7 @@ class Table(object):
         if kwargs:
             query += ' WHERE ' + cls._format_kwargs(**kwargs)
         query += """ GROUP BY {name}""".format(name=name)
-        resp = await make_a_querry(
+        resp = await make_a_query(
             query
         )
         return dict(resp)
@@ -394,12 +412,12 @@ class Table(object):
     async def _delete(cls, data, **kwargs):
         try:
             if hasattr(data, 'id'):
-                resp = await make_a_querry(
+                resp = await make_a_query(
                     """DELETE FROM {}
                     WHERE id={}
                     """.format(cls._name, data.id))
             else:
-                resp = await make_a_querry("""DELETE FROM {} WHERE {}""".format(cls._name, cls._format_kwargs(**kwargs)))
+                resp = await make_a_query("""DELETE FROM {} WHERE {}""".format(cls._name, cls._format_kwargs(**kwargs)))
             return resp
         except ForeignKeyViolationError:
             logging.error('Could not delete {} id: {}'.format(cls._name, data.id))
@@ -413,7 +431,7 @@ class Table(object):
     @classmethod
     async def detele_by_id(cls, uid):
         try:
-            resp = await make_a_querry(
+            resp = await make_a_query(
                 """DELETE FROM {} WHERE id={}""".format(cls._name, uid)
             )
             return resp
