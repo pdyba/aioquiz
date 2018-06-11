@@ -106,7 +106,7 @@
                 axios.post('/' + this.testType + '/' + this.testid, data).then((resp) => {
                     this.answered = true;
                     this.question.answered = true;
-                    this.quiz.progress += 1
+                    this.quiz.progress += 1;
                     if (Math.ceil(this.quiz.progress / this.quiz.all_questions.length * 100) === 100) {
                         this.quiz.status = "Done";
                     }
@@ -124,11 +124,28 @@
                 )
             },
             submit_test() {
-                axios.patch('/' + this.testType + '/' + this.testid).then((resp) => {
-                        this.$swal('Done', resp.data.msg, "success")
+                let self = this;
+                self.$swal({
+                    title: 'Submit Test',
+                    text: 'Are You sure',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Submit',
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: true,
+                }).then((value) => {
+                    if (value.value) {
+                        axios.patch('/' + self.testType + '/' + self.testid).then((resp) => {
+                                let mtype = "error";
+                                if (resp.data.success) {
+                                    mtype = "success";
+                                    self.quiz.status = 'Submitted';
+                                }
+                                self.$swal('Done', resp.data.msg, mtype)
+                            }
+                        );
                     }
-                );
-                this.quiz.status = 'Submitted';
+                })
             },
             editorInit() {
                 require('brace/ext/language_tools');
