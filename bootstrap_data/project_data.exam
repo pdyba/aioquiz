@@ -1,0 +1,24 @@
+author: Piotr Dyba
+title: Ankieta Projektowa
+description: Ankieta Projektowa
+questions:
+    1:
+        question: |
+            Podaj link do repozytrium swojego projektu.
+        qtype: plain
+        possible_answer: yey
+    2:
+        question: |
+            Podaj link do zdeplyowanej instancji projektu.
+        qtype: plain
+        possible_answer: yey
+    3:
+        question: |
+            Podaj Twój procentowy udział w projektcie (integer 0-100)
+        qtype: plain
+        possible_answer: yey
+    4:
+        question: |
+            Czy masz jakieś inne informacje do projektu?
+        qtype: plain
+        possible_answer: yey

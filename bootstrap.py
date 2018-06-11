@@ -305,7 +305,6 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
 
 
 async def add_exam(e_path, verbose=False):
-    print(verbose)
     try:
         with open(e_path) as file:
             meta = yaml.load(file.read())
@@ -319,7 +318,7 @@ async def add_exam(e_path, verbose=False):
         color_print('Issue with reading exam data')
         return
     exam = models.Exam(title=meta['title'], users=DEFAULT_USER, description=meta['description'])
-    exam = await exam.update_or_create('title', get_insta=True)
+    exam, _ = await exam.update_or_create('title', get_insta=True)
     question_order = 1
     for _, val in questions.items():
         try:

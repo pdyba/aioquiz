@@ -57,7 +57,7 @@ class CommonTestBase(HTTPModelClassView):
             uid = current_user.id
             quiz = await self._cls.get_by_id(qid)
             await quiz.update_status(uid, new_status='Submitted', add=0)
-            return json({'msg': 'Submitted successfully'})
+            return json({'msg': 'Submitted successfully', 'success': True})
         except:
             logging.exception('err live_quiz.post')
             return json({'msg': 'something went wrong'}, status=500)

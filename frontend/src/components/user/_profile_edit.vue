@@ -1,5 +1,15 @@
 <template>
     <div>
+        <b-form-group>
+            <label v-if="en || !pl">Language:</label>
+            <label v-if="pl">Język:</label>
+            <b-form-radio-group
+                    v-model="user.lang"
+                    :options="lang_options"
+                    id="lang">
+            </b-form-radio-group>
+        </b-form-group>
+
         <h4 v-if="en">Stats</h4>
         <h4 v-if="pl">Statystyka</h4>
         <p v-if="en">
@@ -8,13 +18,14 @@
         <p v-if="pl"> Poniższe dane są nam potrzebne do statystyk, które potem
             ułatwiają nam współpracę z partnerami i sponsorami.</p>
 
-        <b-form-group class="input">
+        <b-form-group class="input" :class="{invalid: $v.user.age.$invalid}">
             <label v-if="en">Age</label>
             <label v-if="pl">Wiek</label>
             <input
                     type="number"
                     id="age"
                     v-model.number="user.age">
+            <p v-if="!$v.user.age.minVal">Age of user must be at least 6 years old.</p>
         </b-form-group>
         <b-form-group class="input">
             <label for="city" v-if="en">City</label>
@@ -25,7 +36,7 @@
                     v-model="user.city">
         </b-form-group>
 
-        <b-form-group>
+        <b-form-group :class="{invalid: $v.user.education.$invalid}">
             <label v-if="en">Education</label>
             <label v-if="pl">Edukacja</label>
             <b-form-select
@@ -34,7 +45,7 @@
             </b-form-select>
         </b-form-group>
 
-        <b-form-group>
+        <b-form-group :class="{invalid: $v.user.university.$invalid}">
             <label v-if="en">University - ongoing or graduate</label>
             <label v-if="pl">Szkoła wyższa - aktualna lub ukończona</label>
             <b-form-select
@@ -43,7 +54,7 @@
             </b-form-select>
         </b-form-group>
 
-        <b-form-group>
+        <b-form-group :class="{invalid: $v.user.t_shirt.$invalid}">
             <label>T-Shirt*</label>
             <b-form-select
                     :options="tshirt_options"
@@ -51,7 +62,7 @@
             </b-form-select>
         </b-form-group>
 
-        <b-form-group>
+        <b-form-group :class="{invalid: $v.user.operating_system.$invalid}">
             <label v-if="en">Operating System</label>
             <label v-if="pl">System Operacyjny</label>
             <b-form-select
@@ -63,7 +74,7 @@
         <h4 v-if="en">About You</h4>
         <h4 for="city" v-if="pl">O Tobie</h4>
 
-        <b-form-group>
+        <b-form-group :class="{invalid: $v.user.description.$invalid}">
             <label v-if="en">Write something about yourself</label>
             <label v-if="pl">Napisz coś o sobie</label>
             <b-form-textarea
@@ -74,7 +85,7 @@
             </b-form-textarea>
         </b-form-group>
 
-        <b-form-group>
+        <b-form-group :class="{invalid: $v.user.motivation.$invalid}">
             <label v-if="en">Motivation - Why do you want to
                 participate in the workshop?</label>
             <label v-if="pl">Motywacja - Dlaczego chcesz wziąć udział w
@@ -87,7 +98,7 @@
             </b-form-textarea>
         </b-form-group>
 
-        <b-form-group>
+        <b-form-group :class="{invalid: $v.user.app_idea.$invalid}">
             <label v-if="en">hat are you planning to do with the
                 knowledge you gain during this workshop? Do you have an app idea?</label>
             <label v-if="pl">Do czego chciałabyś/chciałbyś wykorzystać
@@ -100,7 +111,7 @@
             </b-form-textarea>
         </b-form-group>
 
-        <b-form-group>
+        <b-form-group :class="{invalid: $v.user.experience.$invalid}">
             <label v-if="en">Experience</label>
             <label v-if="pl">Doświadczenie</label>
             <b-form-select
@@ -115,19 +126,41 @@
 </template>
 
 <script>
+    import {required,  minValue, minLength} from 'vuelidate/lib/validators'
+
     export default {
         name: "userEditBase",
         data() {
             return {
                 university_options: ['None-Brak', 'UAM', 'PP', 'UP', 'UE', 'UM', 'CDV', 'WSB', 'OTHER'],
-                tshirt_options: ['Female-XXS', 'Female-XS', 'Female-S', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL', 'Female-XXXL', 'Male-XS', 'Male-S', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL'],
+                tshirt_options: [
+                    'Female-XXS', 'Female-XS', 'Female-S', 'Female-M', 'Female-L', 'Female-XL', 'Female-XXL',
+                    'Female-XXXL', 'Male-XS', 'Male-S', 'Male-M', 'Male-L', 'Male-XL', 'Male-XXL', 'Male-XXXL'
+                ],
                 operating_system_options: ['MacOS', 'Linux', 'Windows'],
+                lang_options: ['pl', 'en']
             }
         },
         props: {
             user: {
                 type: Object,
                 required: true
+            }
+        },
+        validations: {
+            user: {
+                age: {
+                    minVal: minValue(6)
+                },
+                city: {},
+                education: {},
+                university: {},
+                t_shirt: {},
+                operating_system: {},
+                description: {},
+                motivation: {},
+                app_idea: {},
+                experience: {},
             }
         },
         computed: {
