@@ -1,0 +1,244 @@
+author: Zuzanna Kunik, Piotr Dyba
+title: Feedback
+description: Feedback z całego roku
+questions:
+    1:
+        question: |
+            Czy poleciłabyś/poleciłbyś PyLove swoim znajomym?
+        qtype: bool
+        possible_answer: yey
+    2:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) zakres omawianego tematu – czy jest wystarczający, za mały, za duży?
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    3:
+        question: |
+            Uwagi dot. zakresu omawianego tematu (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    4:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) tempo prowadzenia zajęć – czy było za szybkie, dopasowane, za wolne?
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    5:
+        question: |
+            Uwagi dot. tempa prowadzenia zajęć (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    6:
+        question: |
+            Czy uważasz, że wstępna prezentacja materiału przed przejściem dalej jest sensowna i pomocna?
+        qtype: bool
+        possible_answer: yey
+    7:
+        question: |
+            Czy uważasz, że wspólne rozwiązywanie zadań (live coding) jest sensowne i pomocne?
+        qtype: bool
+        possible_answer: yey
+    8:
+        question: |
+            Uwagi dot. sposobu prowadzenia zajęć (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    9:
+        question: |
+            Czy AioQuiz jako aplikacja wspierająca naukę programowania jest przydatna?
+        qtype: bool
+        possible_answer: yey
+    10:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) aplikację AioQuiz?
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    11:
+        question: |
+            Co ulepszyłabyś/ulepszyłbyś w AioQuizie? (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    12:
+        question: |
+            Czy zadania domowe pomogły Ci w uczeniu się?
+        qtype: bool
+        possible_answer: yey
+    13:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to trudny) poziom egzaminu.
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    14:
+        question: |
+            Uwagi dot. egzaminu (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+
+    15:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) przydatność projektów.
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    16:
+        question: |
+            Uwagi dot. projektów (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    17:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) Piotra jako głównego prowadzącego.
+            Mówimy tu o ogólnym wrażeniu i sposobie prowadzenia zajęć.
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    18:
+        question: |
+            Uwagi dot. prowadzenia zajęć przez Piotra? (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    19:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) Grzegorza jako głównego prowadzącego.
+            Mówimy tu o ogólnym wrażeniu i sposobie prowadzenia zajęć.
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    20:
+        question: |
+            Uwagi dot. prowadzenia zajęć przez Grzegorza? (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    21:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) Krzysztofa jako głównego prowadzącego.
+            Mówimy tu o ogólnym wrażeniu i sposobie prowadzenia zajęć.
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    22:
+        question: |
+            Uwagi dot. prowadzenia zajęć przez Krzysztofa? (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    23:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) Zuzę jako główną prowadzącą.
+            Mówimy tu o ogólnym wrażeniu i sposobie prowadzenia zajęć.
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    24:
+        question: |
+            Uwagi dot. prowadzenia zajęć przez Zuzę? (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    25:
+        question: |
+            Inne uwagi dot. mentorów prowadzących? (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    26:
+        question: |
+            Oceń w skali 1-5 (gdzie 5 to super) przydatność mentorów pomocniczych.
+        qtype: abcd
+        answers:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        possible_answer: yey
+    27:
+        question: |
+            Czy uważasz, że mentorów pomocniczych było wystarczająco dużo? T/N
+        qtype: bool
+        possible_answer: yey
+    28:
+        question: |
+            Inne uwagi dot. mentorów pomocniczych (możesz również ocenić każdego osobno)
+            (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    29:
+        question: |
+            Czy chciałbyś kontynuować naukę w ramach PyLove? T/N
+        qtype: bool
+        possible_answer: yey
+    30:
+        question: |
+            Jeżeli tak, opisz od jakiego poziomu miałyby to być zajęcia
+            (od podstaw, przerobić część omówionego tematu w ramach tej edycji –
+            np. połowę, czy kontynuować i iść w bardziej złożone tematy)?
+            (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    31:
+        question: |
+            Czy chciałabyś/chciałbyś pomóc nam jako mentor pomocniczy?
+        qtype: bool
+        possible_answer: yey
+    32:
+        question: |
+            Czy chciałabyś/chciałbyś pomóc nam jako mentor prowadzący?
+        qtype: bool
+        possible_answer: yey
+    33:
+        question: |
+            Jakie tematy pominęliśmy, a mogłyby zostać omówione? (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey
+    34:
+        question: |
+            Pole do wypisywania feedbacku, który nie mieścił się nigdzie indziej
+            (pole nieobowiązkowe)
+        qtype: plain
+        possible_answer: yey

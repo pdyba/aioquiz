@@ -1,0 +1,30 @@
+author: Piotr Dyba
+title: Egazamin testowy 2
+description: Egazamin testowy
+questions:
+    1:
+        question: |
+            Dlaczego lubisz gwiezdne wojny
+        qtype: plain
+        possible_answer: yey
+    2:
+        question: |
+            Która część władcy pierścieni była pierwsza
+        qtype: abcd
+        answers:
+            - Drużyna pierścienia
+            - Powrót Króla
+            - Dwie wieże
+            - Hobbit
+        possible_answer: Hobbit
+    3:
+        question: |
+            Napisz funkcję do liczenia BMI.
+        qtype: code
+        possible_answer: yey
+    4:
+        question: |
+            Lubisz Pythona?
+        qtype: bool
+        possible_answer: True
+

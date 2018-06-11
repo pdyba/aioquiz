@@ -5,8 +5,8 @@
             <progress-bar :value='progress'> {{ progress }}</progress-bar>
         </progress-bar-wrapper>
         <b-card no-body>
-            <b-tabs pills card vertical @change.native="check_if_saved(event, quest)">
-                <b-tab v-for="quest in quiz.all_questions" :key="quest.id" @change="check_if_saved(event, quest)">
+            <b-tabs pills card vertical>
+                <b-tab v-for="quest in quiz.all_questions" :key="quest.id">
                     <template slot="title">{{ quest.question_order }} <span v-if="quest.question_details.answered"
                                                                             class="badge badge-success">Done</span>
                     </template>

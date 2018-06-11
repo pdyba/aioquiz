@@ -78,3 +78,35 @@ class CommonMentorQuestionGradeBase(HTTPModelClassView):
             return json(resp)
         else:
             return json({'msg': 'no question id'})
+
+
+class CommonMentorQuestionAutoGradeBase(HTTPModelClassView):
+    _cls = None
+    _urls = []
+
+    @user_required('mentor')
+    async def get(self, _, current_user, qid=0):
+        if qid:
+            question = await Question.get_by_id(qid)
+            if question.qtype not in ('abcd', 'bool'):
+                return json({
+                    'msg': 'You cannot autograde questions types other than abcd and bool',
+                    'success': False
+                })
+            answers = await self._cls.get_by_anwers_to_grade_by_qid(qid)
+            positive = 0
+            for ans in answers:
+                score = 1 if ans['answer'].strip() == question.possible_answer.strip() else 0
+                await self._cls.grade_answer_by_uid(
+                    uid=ans['users'],
+                    qid=qid,
+                    score=score,
+                    comment='autograded'
+                )
+                positive += score
+            return json({
+                'msg': 'Graded {} questions {} good {} wrong'.format(len(answers), positive, len(answers) - positive),
+                'success': True
+            })
+        else:
+            return json({'msg': 'no question id', 'success': False})

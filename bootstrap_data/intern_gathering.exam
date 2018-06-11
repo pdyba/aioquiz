@@ -1,0 +1,50 @@
+author: Piotr Dyba
+title: Ankieta Stażowa
+description: Ankieta Stażowa
+questions:
+    0:
+        question: |
+            Czy chcesz wziąć udział w rekrutacji na staż?
+        qtype: bool
+        possible_answer: yey
+    1:
+        question: |
+            Jeśli nie chcesz wziąć udziału w rekrtuacji na staż, to dlaczego?
+            (jeśli chcesz wziąć udział, wpisz tutaj TAK).
+        qtype: plain
+        possible_answer: yey
+    2:
+        question: |
+            Wybierz pierwszą preferencję miejsca stażowego
+        qtype: abcd
+        answers:
+            - Egnyte
+            - Dlabs
+            - F-Secure
+            - żadne
+        possible_answer: yey
+    3:
+        question: |
+            Wybierz drugą preferencję miejsca stażowego
+        qtype: abcd
+        answers:
+            - Egnyte
+            - Dlabs
+            - F-Secure
+            - żadne
+        possible_answer: yey
+    4:
+        question: |
+            Wybierz trzecią preferencję miejsca stażowego
+        qtype: abcd
+        answers:
+            - Egnyte
+            - Dlabs
+            - F-Secure
+            - żadne
+        possible_answer: yey
+    5:
+        question: |
+            Czy masz jakieś inne infomracje do staży?
+        qtype: plain
+        possible_answer: yey
