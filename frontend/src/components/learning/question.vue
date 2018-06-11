@@ -3,7 +3,7 @@
         <strong>Question:</strong> <span v-if="answered" class="badge badge-success">Done</span>
         <pre class="language-python"><code class="language-python">{{ question.question }} </code></pre>
         <strong>Answer:</strong>
-        <div v-if="!submitted && can_answare">
+        <div v-if="!submitted && can_answer">
             <b-form-group v-if="question.qtype === 'abcd'">
                 <b-form-radio-group
                         stacked
@@ -43,10 +43,10 @@
             </div>
             <br>
             <b-btn @click.prevent="answer()" v-if="!answered && !submitted" variant="success">Save</b-btn>
-            <b-btn @click.prevent="new_answer()" v-if="answered && !submitted && can_answare" variant="warning">
+            <b-btn @click.prevent="new_answer()" v-if="answered && !submitted && can_answer" variant="warning">
                 Update
             </b-btn>
-            <b-btn @click.prevent="submit_test()" v-if="quiz.status === 'Done' && !submitted && can_answare"
+            <b-btn @click.prevent="submit_test()" v-if="quiz.status === 'Done' && !submitted && can_answer"
                    variant="danger">Submit
             </b-btn>
         </div>
@@ -166,7 +166,7 @@
             submitted() {
                 return this.quiz.status === 'Submitted'
             },
-            can_answare() {
+            can_answer() {
                 return !(this.answer_only_once && this.answered)
             }
         }
