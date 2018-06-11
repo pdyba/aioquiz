@@ -296,7 +296,7 @@ class Table(object):
         if inst:
             await inst.update(**kw)
             if get_insta:
-                return inst
+                return inst, True
             if hasattr(inst, 'id'):
                 if verbose:
                     return inst.id, True
@@ -307,6 +307,9 @@ class Table(object):
                 return True
         else:
             resp = await self.create()
+            if get_insta:
+                insta = await self.get_by_id(resp)
+                return insta, True
             if verbose:
                 return resp, False
             return resp
