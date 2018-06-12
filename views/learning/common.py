@@ -14,10 +14,14 @@ class CommonTestBase(HTTPModelClassView):
     _cls = None
     _cls_answer = None
     _urls = []
+    quiz_finished = json({'msg': 'Quiz has finished or is no longer active', 'success': False})
 
     @user_required()
     async def post(self, request, current_user, qid=0):
         try:
+            quiz = await self._cls.get_by_id(qid)
+            if not quiz.active and current_user.is_only_attendee():
+                return self.quiz_finished
             req = request.json
             uid = current_user.id
             qa = self._cls_answer(**{
@@ -27,7 +31,6 @@ class CommonTestBase(HTTPModelClassView):
                 'users': uid,
             })
             await qa.create()
-            quiz = await self._cls.get_by_id(qid)
             await quiz.update_status(uid)
             return json({'msg': 'Answer saved'})
         except:
@@ -37,6 +40,9 @@ class CommonTestBase(HTTPModelClassView):
     @user_required()
     async def put(self, request, current_user, qid=0):
         try:
+            quiz = await self._cls.get_by_id(qid)
+            if not quiz.active and current_user.is_only_attendee():
+                return self.quiz_finished
             req = request.json
             cond = {
                 self._cls_answer._fk_col: qid,
@@ -60,12 +66,14 @@ class CommonTestBase(HTTPModelClassView):
             return json({'msg': 'Submitted successfully', 'success': True})
         except:
             logging.exception('err live_quiz.post')
-            return json({'msg': 'something went wrong'}, status=500)
+            return json({'msg': 'something went wrong', 'success': False}, status=500)
 
     @user_required()
     async def get(self, _, current_user, qid=0):
         if qid:
             quiz = await self._cls.get_by_id(qid)
+            if not quiz.active and current_user.is_only_attendee():
+                return self.quiz_finished
             resp = await quiz.to_dict()
             question = await quiz.get_question(uid=current_user.id)
             resp['all_questions'] = question
@@ -77,6 +85,8 @@ class CommonTestBase(HTTPModelClassView):
             quizzes = await self._cls.get_all()
             resp = []
             for quiz in quizzes:
+                if not quiz.active and current_user.is_only_attendee():
+                    continue
                 q = await quiz.to_dict()
                 q['creator'] = await get_user_name(q['users'])
                 q['amount'] = await quiz.get_question_amount()

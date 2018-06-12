@@ -8,7 +8,6 @@
                 Admin, {{ user.pyfunction }}
             </small>
             <br>
-            <small>{{ user.email }}</small>
         </h3>
         <p>{{ user.description }}</p>
         <ul class="list-unstyled list-inline list-social-icons">
