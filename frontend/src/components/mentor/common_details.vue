@@ -11,11 +11,17 @@
                 </b-btn>
             </template>
         </b-table>
+        <b-btn v-if="can_close" size="sm" @click.stop="CloseTest()">CloseTest</b-btn>
     </b-container>
 </template>
 
 <script>
     import axios from 'axios';
+    import Prism from 'prismjs'
+
+    const loadLanguages = require('prismjs/components/index.js');
+    loadLanguages(['python']);
+
 
     export default {
         name: "test_details",
@@ -52,13 +58,21 @@
                 required: true,
             },
         },
-        computed: {},
+        computed: {
+            can_close: function () {
+                let to_grade = 0;
+                // self.test.all_questions.map(function (item) {
+                //     to_grade += item.to_grade;
+                // });
+                return to_grade === 0
+            }
+        },
         methods: {
             autograde(question) {
                 let self = this;
                 axios.get('/mentor/autograde/' + self.testType + '/' + question.question).then(
                     function (response) {
-                        let mtype = 'error'
+                        let mtype = 'error';
                         if (response.data.success) {
                             question.to_grade = 0;
                             question._rowVariant = 'success';
@@ -70,7 +84,24 @@
                             type: mtype,
                         });
                     })
-            }
+            },
+            CloseTest(){
+                let self = this;
+                axios.get('/mentor/' + self.testType + '/' + self.$route.params.id).then(
+                    function (response) {
+                        let mtype = 'error';
+                        if (response.data.success) {
+                            question.to_grade = 0;
+                            question._rowVariant = 'success';
+                            mtype = "success"
+                        }
+                        self.$swal({
+                            title: "Autograde",
+                            text: response.data.msg,
+                            type: mtype,
+                        });
+                    })
+            },
         }
     }
 </script>

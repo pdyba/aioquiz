@@ -149,6 +149,7 @@ class Users(Table):
         await self.update_only_one_value('last_login', datetime.utcnow())
         return session_uuid
 
+
 class UserReview(Table):
     _name = 'user_review'
     _schema = [

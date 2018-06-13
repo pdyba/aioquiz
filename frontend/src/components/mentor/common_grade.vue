@@ -4,13 +4,15 @@
         <p>Question: {{ question.question }}</p>
         <p v-if="question.possible_answer">Possible Answer: {{ question.possible_answer }}</p>
 
-        <b-row class="mb-4" className="card-deck" v-for="i in rowCount" :key="i.id">
-            <b-col sm="4" v-for="(x, index) in itemCountInRow(i)" :key="x.id">
+        <b-row class="mb-12" className="card-deck" v-for="i in rowCount" :key="i.id">
+            <b-col sm="12" v-for="(x, index) in itemCountInRow(i)" :key="x.id">
                 <card className="samesize card-dark card-cascade">
                     <card-header>{{ index }}
                         <b-badge v-if="grated[index]" :variant="get_color(x.status)">{{ x.status }}</b-badge>
                     </card-header>
-                    <card-body>{{ x.answer }}</card-body>
+                    <card-body>
+                        <pre class="language-python"><code class="language-python">{{ x.answer }}</code></pre>
+                    </card-body>
                     <card-footer>
                         <b-form>
                             <b-form-group>
@@ -32,6 +34,7 @@
                     </card-footer>
                 </card>
             </b-col>
+            <br>
         </b-row>
     </b-container>
 </template>
@@ -51,7 +54,7 @@
             return {
                 question: {},
                 answers: [],
-                itemsPerRow: 2
+                itemsPerRow: 1
             }
         },
         props: {
@@ -79,6 +82,7 @@
                         item.status = item.score !== -1 ? 'scored' : 'notscored';
                         return item;
                     });
+                    Prism.highlightAll();
                 }
             );
         },
@@ -102,7 +106,7 @@
                             title: "Lesson Code",
                             text: response.data.msg,
                             type: "success",
-                        })
+                        });
                         answer.status = 'scored'
                     }
                 );
