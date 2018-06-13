@@ -1,9 +1,16 @@
 <template>
     <b-container>
         <h1 class="page-header">Organiser: Users</h1>
-
+        <b-form-group horizontal label="Filter" class="mb-0">
+            <b-input-group>
+                <b-form-input v-model="filter" placeholder="Type to Search" />
+                <b-input-group-append>
+                    <b-btn :disabled="!filter" @click="filter = ''">Clear</b-btn>
+                </b-input-group-append>
+            </b-input-group>
+        </b-form-group>
         <h3>All registered users:</h3>
-        <b-table hover small :items="allUsers" :fields="fields_users">
+        <b-table hover small :items="allUsers" :fields="fields_users" :filter="filter">
             <template slot="actions" slot-scope="cell">
 
             </template>
@@ -18,6 +25,7 @@
         name: "admin_users",
         data: () => {
             return {
+                filter: null,
                 max_abs: 0,
                 user_attendence: {},
                 allUsers: [],
