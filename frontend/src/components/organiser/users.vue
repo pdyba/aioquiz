@@ -28,6 +28,9 @@
                     surname: {
                         sortable: true
                     },
+                    email: {
+                        sortable: true
+                    },
                     absence: {
                         sortable: true
                     },
@@ -41,6 +44,24 @@
                         sortable: true
                     },
                     exam: {
+                        sortable: true
+                    },
+                    intern: {
+                        sortable: true
+                    },
+                    intern_why: {
+                        sortable: true
+                    },
+                    intern_1: {
+                        sortable: true
+                    },
+                    intern_2: {
+                        sortable: true
+                    },
+                    intern_3: {
+                        sortable: true
+                    },
+                    intern_details: {
                         sortable: true
                     },
                     actions: {},
@@ -77,14 +98,21 @@
                                 axios.post('/stats/exam', uids).then(
                                     function (response) {
                                         self.exams = response.data.exams;
-
-
+                                        self.intern = response.data.intern;
                                         resp.data.forEach(function (e) {
                                             e.absence = self.absence[e.id];
                                             e.exam = self.exams[e.id];
+                                            if (self.intern[e.id]) {
+                                                e.intern = self.intern[e.id].intern;
+                                                e.intern_why = self.intern[e.id].why;
+                                                e.intern_1 = self.intern[e.id]["1"];
+                                                e.intern_2 = self.intern[e.id]["2"];
+                                                e.intern_3 = self.intern[e.id]["3"];
+                                                e.intern_details = self.intern[e.id].details;
+                                            }
                                             e.exercises = self.exercises[e.id];
-                                            e.absence_prc = self.absence[e.id] / self.max_abs * 100;
-                                            e.exercises_prc = self.exercises[e.id] / self.max_exercises * 100;
+                                            e.absence_prc = Math.ceil(self.absence[e.id] / self.max_abs * 100);
+                                            e.exercises_prc = Math.ceil(self.exercises[e.id] / self.max_exercises * 100);
                                         });
                                     });
                             });

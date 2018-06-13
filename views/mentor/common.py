@@ -34,6 +34,18 @@ class CommonMentorTestBase(HTTPModelClassView):
                 resp.append(q)
             return json(resp)
 
+    @user_required('mentor')
+    async def post(self, _, current_user, tid=0):
+        if tid:
+            test = await self._cls.get_by_id(tid)
+            status = await test.close_test()
+            status.update({
+                'success': True,
+                'msg': 'Max: {max} count: {count} mean: {mean}'.format(**status)
+            })
+            return json(status)
+        else:
+            return json({'msg': 'no test id'})
 
 class CommonMentorQuestionGradeBase(HTTPModelClassView):
     _cls = None

@@ -41,6 +41,11 @@
 
 <script>
     import axios from 'axios';
+    import Prism from 'prismjs'
+
+    const loadLanguages = require('prismjs/components/index.js');
+    loadLanguages(['python']);
+
 
     import Card from '../common_components/Card.vue';
     import CardHeader from '../common_components/CardHeader.vue';
@@ -103,7 +108,7 @@
                 axios.post('/mentor/grade/' + self.testType + '/' + self.$route.params.id, answer).then(
                     function (response) {
                         self.$swal({
-                            title: "Lesson Code",
+                            title: "Score saved",
                             text: response.data.msg,
                             type: "success",
                         });
@@ -116,7 +121,7 @@
                 axios.put('/mentor/grade/' + self.testType + '/' + self.$route.params.id, answer).then(
                     function (response) {
                         self.$swal({
-                            title: "Lesson Code",
+                            title: "Score updated",
                             text: response.data.msg,
                             type: "success",
                         })

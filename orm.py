@@ -190,17 +190,17 @@ class Table(object):
     async def get_by_many_field_value(cls, **kwargs):
         if not kwargs:
             return await cls.get_all()
-        querry = """SELECT * FROM {} WHERE """.format(cls._name)
+        query = """SELECT * FROM {} WHERE """.format(cls._name)
         for i, kw in enumerate(kwargs):
             if isinstance(kwargs[kw], (dict, list)):
                 kwargs[kw] = json.dumps(kwargs[kw])
             if isinstance(kwargs[kw], str):
-                querry += """ {}='{}'""".format(kw, kwargs[kw])
+                query += """ {}='{}'""".format(kw, kwargs[kw])
             else:
-                querry += """  {}={}""".format(kw, kwargs[kw])
+                query += """  {}={}""".format(kw, kwargs[kw])
             if i + 1 < len(kwargs):
-                querry += """ AND """
-        resp = await make_a_query(querry)
+                query += """ AND """
+        resp = await make_a_query(query)
         if not resp:
             return resp
         return [cls(**dict(r)) for r in resp]
@@ -475,6 +475,16 @@ class Table(object):
         ALTER TABLE live_quiz_answare RENAME TO live_quiz_answer;
         """
         pass
+
+    @classmethod
+    async def sum(cls, field, **kwargs):
+        query = """SELECT SUM({}) FROM {} WHERE {}""".format(
+            field,
+            cls._name,
+            cls._format_kwargs(**kwargs)
+        )
+        resp = await make_a_query(query)
+        return resp[0]['sum']
 
 
 class Column:

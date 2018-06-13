@@ -7,6 +7,7 @@ from models import AbsenceMeta
 from models import ExamStatus
 from models import Exercise
 from models import ExerciseAnswer
+from models import ExamAnswer
 from models import Lesson
 from models import Users
 
@@ -15,6 +16,8 @@ from orm import DoesNotExist
 from views.utils import user_required
 from views.utils import HTTPModelClassView
 
+FINAL_EXAM = 6
+INTERN_EXAM = 3
 
 class ExerciseOverview(HTTPModelClassView):
     _cls = Exercise
@@ -51,13 +54,32 @@ class ExamOverview(HTTPModelClassView):
     @user_required('organiser')
     async def post(self, request, current_user):
         req = request.json
-        resp = {'exams': {}}
+        resp = {'exams': {}, 'intern': {}}
         for uid in req:
             try:
-                exam = await ExamStatus.get_first_by_many_field_value(users=uid)
+                exam = await ExamStatus.get_first_by_many_field_value(users=uid, exam=FINAL_EXAM)  # TODO: change it in future
                 resp['exams'][uid] = exam.score
             except DoesNotExist:
                 resp['exams'][uid] = -1
+            try:
+                intern_ans = await ExamAnswer.get_by_many_field_value(users=uid, exam=INTERN_EXAM)  # TODO: change it in future
+                intern_resp = {}  # so hackish so sad
+                for intern in intern_ans:
+                    if intern.question == 9:
+                        intern_resp['intern'] = intern.answer
+                    if intern.question == 10:
+                        intern_resp['why'] = intern.answer
+                    if intern.question == 11:
+                        intern_resp['1'] = intern.answer
+                    if intern.question == 12:
+                        intern_resp['2'] = intern.answer
+                    if intern.question == 13:
+                        intern_resp['3'] = intern.answer
+                    if intern.question == 14:
+                        intern_resp['details'] = intern.answer
+                resp['intern'][uid] = intern_resp
+            except DoesNotExist:
+                pass
         return json(resp)
 
 
