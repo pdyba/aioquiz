@@ -142,7 +142,7 @@ class CommonTestTemplate(Table):
         all_statuses = await self._status.get_by_many_field_value(**{self._name: self.id})
         for status in all_statuses:
             status.score = await self._answers.sum_by_uid_tid(uid=status.users, tid=self.id)
-        resp['max'] = max([status.score for status in all_statuses])
+        resp['max'] = max([status.score for status in all_statuses if status])
         resp['count'] = len(all_statuses)
         resp['mean'] = resp['max'] / resp['count']
         for status in all_statuses:
