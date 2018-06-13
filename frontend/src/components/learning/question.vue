@@ -52,6 +52,8 @@
         </div>
         <div v-else>
             <pre class="language-python"><code class="language-python">{{ question.answer }}</code></pre>
+            <p v-if="graded && question.score"><b>Score:</b> {{ question.score }} </p>
+            <p v-if="graded && question.comment"><b>Comments:</b> {{ question.comment }} </p>
         </div>
     </div>
 </template>
@@ -165,6 +167,9 @@
         computed: {
             submitted() {
                 return this.quiz.status === 'Submitted'
+            },
+            graded() {
+                return this.quiz.status === 'Graded'
             },
             can_answer() {
                 return !(this.answer_only_once && this.answered)
