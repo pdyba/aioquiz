@@ -85,14 +85,15 @@ class CommonTestBase(HTTPModelClassView):
             quizzes = await self._cls.get_all()
             resp = []
             for quiz in quizzes:
-                if not quiz.active and current_user.is_only_attendee():
+                status = await quiz.get_status(current_user.id)
+                if not quiz.active and status.status != 'Graded' and current_user.is_only_attendee():
                     continue
                 q = await quiz.to_dict()
                 q['creator'] = await get_user_name(q['users'])
                 q['amount'] = await quiz.get_question_amount()
-                status = await quiz.get_status(current_user.id)
                 q['status'] = status.status
                 q['progress'] = status.progress
+                q['score'] = status.score
                 if status.status == 'NotStarted' and not quiz.active and current_user.is_only_attendee():
                     continue
                 resp.append(q)
