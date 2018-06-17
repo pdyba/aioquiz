@@ -137,6 +137,20 @@ class CommonTestTemplate(Table):
             logging.exception('error grading')
             return False
 
+    async def close_test(self):
+        resp = {}
+        all_statuses = await self._status.get_by_many_field_value(**{self._name: self.id})
+        for status in all_statuses:
+            status.score = await self._answers.sum_by_uid_tid(uid=status.users, tid=self.id)
+        resp['max'] = max([status.score for status in all_statuses])
+        resp['count'] = len(all_statuses)
+        resp['mean'] = resp['max'] / resp['count']
+        for status in all_statuses:
+            status.score = int(status.score / resp['max'] * 100)
+            status.status = 'Graded'
+            await status.update(**{"users": status.users, self._name: self.id})
+        return resp
+
 
 class CommonTestQuestion(Table):
     _name = ''
@@ -228,6 +242,10 @@ class CommonTestAnswer(Table):
             )
         except DoesNotExist:
             return False
+
+    @classmethod
+    async def sum_by_uid_tid(cls, uid, tid):
+        return await cls.sum('score',  **{cls._fk_col: tid, "users": uid}) or 0
 
 
 class CommonTestStatus(Table):

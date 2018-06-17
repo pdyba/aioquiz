@@ -11,17 +11,12 @@
                 </b-btn>
             </template>
         </b-table>
-        <b-btn v-if="can_close" size="sm" @click.stop="CloseTest()">CloseTest</b-btn>
+        <b-btn v-if="can_close" size="sm" @click.stop="CloseTest()">Close Test</b-btn>
     </b-container>
 </template>
 
 <script>
     import axios from 'axios';
-    import Prism from 'prismjs'
-
-    const loadLanguages = require('prismjs/components/index.js');
-    loadLanguages(['python']);
-
 
     export default {
         name: "test_details",
@@ -36,6 +31,7 @@
                     'to_grade',
                     'Management'
                 ],
+                can_close: false
             }
         },
         created() {
@@ -46,6 +42,7 @@
                     return item;
                 });
                 self.test = resp.data;
+                self.can_close_fn()
             })
         },
         props: {
@@ -57,15 +54,6 @@
                 type: String,
                 required: true,
             },
-        },
-        computed: {
-            can_close: function () {
-                let to_grade = 0;
-                // self.test.all_questions.map(function (item) {
-                //     to_grade += item.to_grade;
-                // });
-                return to_grade === 0
-            }
         },
         methods: {
             autograde(question) {
@@ -85,23 +73,43 @@
                         });
                     })
             },
-            CloseTest(){
+            CloseTest() {
                 let self = this;
-                axios.get('/mentor/' + self.testType + '/' + self.$route.params.id).then(
-                    function (response) {
-                        let mtype = 'error';
-                        if (response.data.success) {
-                            question.to_grade = 0;
-                            question._rowVariant = 'success';
-                            mtype = "success"
-                        }
-                        self.$swal({
-                            title: "Autograde",
-                            text: response.data.msg,
-                            type: mtype,
-                        });
-                    })
+                self.$swal({
+                    title: 'Close Test',
+                    text: 'Are You sure',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Submit',
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: true,
+                }).then((value) => {
+                    if (value.value) {
+                        axios.post('/mentor/' + self.testType + '/' + self.$route.params.id, {}).then(
+                            function (response) {
+                                let mtype = 'error';
+                                if (response.data.success) {
+                                    mtype = "success"
+                                }
+                                self.$swal({
+                                    title: "Test Closed",
+                                    text: response.data.msg,
+                                    type: mtype,
+                                });
+                            }
+                        )
+                    }
+                })
             },
+            can_close_fn: function () {
+                let to_grade = 0;
+                if (this.test && this.test.all_questions) {
+                    this.test.all_questions.map(function (item) {
+                        to_grade += item.to_grade;
+                    });
+                    this.can_close = to_grade === 0
+                }
+            }
         }
     }
 </script>

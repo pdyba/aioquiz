@@ -166,7 +166,7 @@
         },
         computed: {
             submitted() {
-                return this.quiz.status === 'Submitted'
+                return this.quiz.status === 'Submitted' || this.quiz.status === 'Graded'
             },
             graded() {
                 return this.quiz.status === 'Graded'

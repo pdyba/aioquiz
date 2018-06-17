@@ -1,9 +1,16 @@
 <template>
     <b-container>
         <h1 class="page-header">Organiser: Users</h1>
-
+        <b-form-group horizontal label="Filter" class="mb-0">
+            <b-input-group>
+                <b-form-input v-model="filter" placeholder="Type to Search" />
+                <b-input-group-append>
+                    <b-btn :disabled="!filter" @click="filter = ''">Clear</b-btn>
+                </b-input-group-append>
+            </b-input-group>
+        </b-form-group>
         <h3>All registered users:</h3>
-        <b-table hover small :items="allUsers" :fields="fields_users">
+        <b-table hover small :items="allUsers" :fields="fields_users" :filter="filter">
             <template slot="actions" slot-scope="cell">
 
             </template>
@@ -18,6 +25,7 @@
         name: "admin_users",
         data: () => {
             return {
+                filter: null,
                 max_abs: 0,
                 user_attendence: {},
                 allUsers: [],
@@ -26,6 +34,9 @@
                         sortable: true
                     },
                     surname: {
+                        sortable: true
+                    },
+                    email: {
                         sortable: true
                     },
                     absence: {
@@ -41,6 +52,24 @@
                         sortable: true
                     },
                     exam: {
+                        sortable: true
+                    },
+                    intern: {
+                        sortable: true
+                    },
+                    intern_why: {
+                        sortable: true
+                    },
+                    intern_1: {
+                        sortable: true
+                    },
+                    intern_2: {
+                        sortable: true
+                    },
+                    intern_3: {
+                        sortable: true
+                    },
+                    intern_details: {
                         sortable: true
                     },
                     actions: {},
@@ -77,14 +106,21 @@
                                 axios.post('/stats/exam', uids).then(
                                     function (response) {
                                         self.exams = response.data.exams;
-
-
+                                        self.intern = response.data.intern;
                                         resp.data.forEach(function (e) {
                                             e.absence = self.absence[e.id];
                                             e.exam = self.exams[e.id];
+                                            if (self.intern[e.id]) {
+                                                e.intern = self.intern[e.id].intern;
+                                                e.intern_why = self.intern[e.id].why;
+                                                e.intern_1 = self.intern[e.id]["1"];
+                                                e.intern_2 = self.intern[e.id]["2"];
+                                                e.intern_3 = self.intern[e.id]["3"];
+                                                e.intern_details = self.intern[e.id].details;
+                                            }
                                             e.exercises = self.exercises[e.id];
-                                            e.absence_prc = self.absence[e.id] / self.max_abs * 100;
-                                            e.exercises_prc = self.exercises[e.id] / self.max_exercises * 100;
+                                            e.absence_prc = Math.ceil(self.absence[e.id] / self.max_abs * 100);
+                                            e.exercises_prc = Math.ceil(self.exercises[e.id] / self.max_exercises * 100);
                                         });
                                     });
                             });
