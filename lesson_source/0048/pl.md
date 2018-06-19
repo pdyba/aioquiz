@@ -29,15 +29,9 @@ Autorzy: Krystyna
 	
 Autorzy: Dorota, Urszula, Marta, Dawid, Maria
 
-#### Tutoring Manager
-[Link do aplikacji](Brak linka !)
-
-[Link do kodu źródłowego](https://github.com/ad-b/tutoring_manager)
-
-Autorzy: Adam	
 
 #### Recipes Manager
-[Link do aplikacji](https://pylove-recipe-manager.herokuapp.com)
+[Link do aplikacji](http://18.197.10.232/)
 
 [Link do kodu źródłowego](https://github.com/pyloveorg/recipes_manager)
 
@@ -66,7 +60,7 @@ Autorzy: Radosław, Ewelina, Patryk, Krzysztof, Ewa, Marek
 Autorzy: Małgorzata, Dagna
 
 #### Games Manager
-[Link do aplikacji](Brak linka !)
+[Link do aplikacji](http://77.55.216.170:8080)
 
 [Link do kodu źródłowego](https://github.com/SimonPolibuda/games_manager)
 
