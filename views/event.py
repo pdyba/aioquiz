@@ -5,6 +5,8 @@ import logging
 from sanic.response import json
 
 from models import Users
+from models.event import Event
+from models.event import Sponsor
 from utils import hash_string
 
 from views.utils import user_required
@@ -72,3 +74,13 @@ class EventAttendenceConfirmation(HTTPModelClassView):
                 'success': False,
                 'msg': 'Answer must be yes or no'
             })
+
+
+class EventView(HTTPModelClassView):
+    _cls = Event
+    _urls = ['/api/event', '/api/event/<uid>']
+
+
+class SponsorView(HTTPModelClassView):
+    _cls = Sponsor
+    _urls = ['/api/sponsor', '/api/sponsor/<uid>']

@@ -6,7 +6,7 @@
                     <!--<help v-if="auth"></help>-->
                     <navbar-item href="/about">About</navbar-item>
                     <navbar-item href="/lessons" v-if="auth">Lessons</navbar-item>
-                    <!--<navbar-item href="/homework" v-if="auth">HomeWork</navbar-item>-->
+                    <navbar-item href="/homework" v-if="auth">Home Work</navbar-item>
                     <navbar-item href="/quiz" v-if="auth">Quiz</navbar-item>
                     <navbar-item href="/live_quiz" v-if="auth">Live Quiz</navbar-item>
                     <navbar-item href="/exam" v-if="auth">Exam</navbar-item>

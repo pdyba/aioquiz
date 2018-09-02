@@ -19,8 +19,9 @@ from orm import UniqueViolationError
 from config import DEFAULT_USER
 from utils import color_print
 
+from types import ModuleType
 
-cls_to_skip = ('CommonTestTemplate', 'CommonTestQuestion', 'CommonTestAnswer', 'CommonTestStatus')
+cls_to_skip = ('CommonTestTemplate', 'CommonTestQuestion', 'CommonTestAnswer', 'CommonTestStatus', 'DEFAULT_USER')
 
 LESSON_COUNTER = """
 Lesson: {}
@@ -74,14 +75,17 @@ async def bootstrap_db():
     for cls_name in dir(models):
         if not cls_name.startswith('_'):
             try:
-                cls = getattr(models, cls_name)
+                cls = getattr(models, cls_name, None)
                 if isinstance(cls, types.FunctionType) or cls_name in cls_to_skip:
                     color_print('skipping: ' + cls_name, color='yellow')
+                    continue
+                if isinstance(cls, ModuleType):
+                    color_print('skipping module: ' + cls_name, color='yellow')
                     continue
                 if issubclass(cls, Table) and cls != Table:
                     await cls.create_table()
             except TypeError:
-                color_print(cls_name, color='red')
+                    color_print(cls_name, color='red')
     color_print('DB bootstrap done', color='green')
 
 
