@@ -168,5 +168,32 @@
 </script>
 
 <style scoped>
+    img.center {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+    }
 
+    img {
+        margin: 1rem;
+    }
+
+    div.section-colored {
+        background-color: #3b5998;
+        color: #efefef
+    }
+
+    div.section {
+        background-color: #efefef;
+    }
+
+    .section {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+
+    .section-colored {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
 </style>
