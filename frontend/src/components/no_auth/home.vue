@@ -20,27 +20,34 @@
 
         <div class="section">
             <b-container>
-                <pl>PyLove jest orgnizacją non profit, której celem jest nauka i promowania języka Python nie zależnie
+                <p>PyLove jest orgnizacją non profit, której celem jest nauka i promowania języka Python nie zależnie
                     od płci, wieku, rasy, przekonań czy orientacji. Akceptujemy białych mężczyzn ;)
-                </pl>
+                </p>
                 <br>
-                <en>PyLove is a non profit organization that promotes and teaches Python regardless of age, sex, race,
+                <p>PyLove is a non profit organization that promotes and teaches Python regardless of age, sex, race,
                     believes or orientation. We accept white man ;) Our purpose is to help people get to intern/junior
                     level in Python to start their adventure in IT world.
-                </en>
+                </p>
             </b-container>
         </div>
 
+
         <div class="section-colored">
             <b-container>
-            <event-desc :event="event" v-for="event in events"></event-desc>
+                <event-desc :event="event" v-for="event in events" filter="active" :key="event.id"></event-desc>
             </b-container>
         </div>
+
+
         <div class="section">
             <b-container>
-            <h2>
-                Jeśli chcesz wystartować PyLove w swoim mieście napisz do nas !
-            </h2>
+                <b-row>
+                    <b-col md="10" align-self="center" offset="1">
+                        <h2>
+                            Jeśli chcesz wystartować PyLove w swoim mieście napisz do nas !
+                        </h2>
+                    </b-col>
+                </b-row>
             </b-container>
         </div>
 
@@ -116,7 +123,7 @@
                                     href="https://pylove.org/#/register">naszym
                                 systemie</a>
                             </li>
-                            <li>Zapisanie się na konkretny kurs/wydarzenie</li>
+                            <li><b>Zapisanie się na konkretny kurs/wydarzenie</b></li>
                             <li>Podstawowa znajomość języka angielskiego. <i>(Spotkania
                                 będą prowadzone w języku polskim, jednakże dla
                                 opanowania składni języka Python znajomość języka
@@ -168,15 +175,22 @@
             <b-container>
                 <h2>Sponsorzy i partnerzy u których odbyły się już praktyki lub wsparli nas w inny sposób!</h2>
                 <b-row>
-                    <sponsor-desc :sponsor="sponsor" v-for="sponsor in sponsors"></sponsor-desc>
+                    <sponsor-desc :sponsor="sponsor" v-for="sponsor in sponsors" :key="sponsor.id"></sponsor-desc>
                 </b-row>
             </b-container>
         </div>
+
+        <div class="section">
+            <b-container>
+                <event-desc :event="event" v-for="event in events" filter="inactive" :key="event.id"></event-desc>
+            </b-container>
+        </div>
+
     </b-container>
 </template>
 
 <script>
-    import globalAxios from 'axios'
+    import axios from 'axios'
     import EventDesc from './event_desc.vue'
     import SponsorDesc from './sponsor_desc.vue'
 
@@ -184,8 +198,8 @@
         name: 'home',
         data() {
             return {
-                events: {},
-                sponsors: {},
+                events: [],
+                sponsors: [],
                 images_home: [
                     'home_0001',
                     'home_0002',
@@ -197,10 +211,10 @@
             }
         },
         beforeMount() {
-            globalAxios.get('/event').then(resp => {
+            axios.get('/events').then(resp => {
                 this.events = resp.data
             });
-            globalAxios.get('/sponsor').then(resp => {
+            axios.get('/sponsor').then(resp => {
                 this.sponsors = resp.data
             });
         },

@@ -28,21 +28,20 @@ def user_required(access_level='any_user', msg='NOT AUTHORISED', code=401):
     def decorator(func):
         @wraps(func)
         async def func_wrapper(self, *args, **kwargs):
-            if access_level != 'no_user':
-                global _users
-                resp = json({'msg': msg}, status=code)
-                authorization = args[0].headers.get('authorization')
-                if not authorization:
-                    return resp
-                user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
-                _users[authorization] = user
-                if not user:
-                    return resp
-                if access_level != 'any_user' and not getattr(user, access_level):
-                    return resp
-            else:
-                user = None
-            # below has to be that way as append does not return anything ;)
+            global _users
+            resp = json({'msg': msg}, status=code)
+            authorization = args[0].headers.get('authorization')
+            if access_level == 'no_user' and not authorization:
+                return None
+            if not authorization:
+                return resp
+            user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
+            _users[authorization] = user
+            if not user and access_level != 'no_user':
+                return resp
+            if access_level not in ['any_user', 'no_user'] and not getattr(user, access_level):
+                return resp
+            # below has to be that way as append is in place
             args = list(args)
             args.append(user)
             args = tuple(args)
@@ -62,7 +61,7 @@ async def get_user_name(uid):
 class HTTPModelClassView(HTTPMethodView):
     _cls = None
 
-    @abstractproperty
+    @property
     def _urls(self):
         pass
 
@@ -70,18 +69,20 @@ class HTTPModelClassView(HTTPMethodView):
     def _get_name(cls):
         return cls.__name__
 
-    @user_required(access_level='no_user')
-    async def get(self, request, current_user, an_id=None):
+    async def _get(self, request, current_user, an_id=None):
         if an_id:
             an_model = await self._cls.get_by_id(an_id)
             q = await an_model.to_dict()
-            return json(q)
-        else:
-            an_model = await self._cls.get_all()
-            models = []
-            for quiz in an_model:
-                models.append(await quiz.to_dict())
-            return json(models)
+            return q
+        an_model = await self._cls.get_all()
+        models = []
+        for quiz in an_model:
+            models.append(await quiz.to_dict())
+        return models
+
+    @user_required(access_level='no_user')
+    async def get(self, request, current_user, an_id=None):
+        return json(await self._get(request, current_user, an_id=an_id))
 
     @user_required(access_level='no_user')
     async def post(self, request, current_user):

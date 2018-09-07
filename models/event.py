@@ -20,8 +20,8 @@ class Event(Table):
     _name = 'event'
     _schema = [
         Column('id', Integer(), primary_key=True),
-        Column('users', ForeignKey('users'), unique=True),
-        Column('description', String(500)),
+        Column('title', String(500), unique=True),
+        Column('description', String(1000)),
 
         Column('country', String(255)),
         Column('city', String(255)),
