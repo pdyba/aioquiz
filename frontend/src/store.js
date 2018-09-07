@@ -23,10 +23,11 @@ export default new Vuex.Store({
         },
         saveEventContext(state, ec_id) {
             if (ec_id) {
+                ec_id = parseInt(ec_id);
                 state.event_context = ec_id;
             } else {
                 axios.get('/event').then(resp => {
-                    state.event_context = resp.data.context
+                    state.event_context = parseInt(resp.data.context)
                 });
             }
         },
@@ -79,7 +80,6 @@ export default new Vuex.Store({
             commit('saveEventContext', ec_id);
         },
         storeEventContext({commit, dispatch}, ec_id) {
-            console.log(ec_id);
             localStorage.setItem('event_context', ec_id);
             commit('saveEventContext', ec_id);
         },

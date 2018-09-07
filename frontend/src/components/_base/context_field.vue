@@ -1,7 +1,5 @@
 <template>
-    <dropdown-item @click="setEventContext(event.id)">
-        {{ event.id }}: {{ event.title }}
-    </dropdown-item>
+    <b-link @click.prevent="setEventContext(event.id)" :class="['nav-link', current_context === event.id ? 'red':'']"><slot>{{ event.id }}: {{ event.title }}</slot></b-link>
 </template>
 
 <script>
@@ -20,14 +18,12 @@
         },
         methods: {
             setEventContext(event_id) {
-                console.log(event_id);
-                // this.$store.dispatch('storeEventContext', event_id);
+                this.$store.dispatch('storeEventContext', event_id);
 
             },
         },
         computed: {
             current_context() {
-                console.log(this.$store.getters.context);
                 return this.$store.getters.context
             }
         }
@@ -37,5 +33,9 @@
 <style scoped>
     .red {
         color: red;
+    }
+    a {
+        padding: 3px;
+        max-height: 2rem;
     }
 </style>

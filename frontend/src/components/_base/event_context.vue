@@ -1,6 +1,6 @@
 <template>
     <dropdown tag="li" class="nav-item">
-        <dropdown-toggle tag="a" navLink color="indigo">Event Context</dropdown-toggle>
+        <dropdown-toggle tag="a" navLink color="indigo">Event: {{ current_event }}</dropdown-toggle>
         <dropdown-menu>
             <context-field :event="event" v-for="event in events" :key="event.id"></context-field>
         </dropdown-menu>
@@ -19,7 +19,7 @@
         name: "event-context-picker",
         data() {
             return {
-                events: []
+                events: [],
             }
         },
         components: {
@@ -30,8 +30,16 @@
         },
         beforeMount() {
             axios.get('/events').then(resp => {
-                this.events = resp.data
+                this.events = resp.data;
             });
+        },
+        computed: {
+            current_event() {
+                if (this.events.length === 0) { return '' }
+                let ctx = this.$store.getters.context;
+                let ev = this.events.find(function(el) {return el.id === ctx});
+                return ev.title
+            }
         }
     }
 </script>
