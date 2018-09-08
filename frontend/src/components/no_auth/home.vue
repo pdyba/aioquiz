@@ -20,14 +20,25 @@
 
         <div class="section">
             <b-container>
-                <p>PyLove jest orgnizacją non profit, której celem jest nauka i promowania języka Python nie zależnie
-                    od płci, wieku, rasy, przekonań czy orientacji. Akceptujemy białych mężczyzn ;)
-                </p>
-                <br>
-                <p>PyLove is a non profit organization that promotes and teaches Python regardless of age, sex, race,
-                    believes or orientation. We accept white man ;) Our purpose is to help people get to intern/junior
-                    level in Python to start their adventure in IT world.
-                </p>
+                <b-row>
+                    <b-col md="6">
+                        <p>PyLove jest orgnizacją non profit, której celem jest nauka i promowanie języka Python
+                            niezależnie
+                            od płci, wieku, rasy, przekonań czy orientacji. Akceptujemy białych mężczyzn ;) Naszym celem
+                            jest pomóc
+                            ludzią w dotarci do poziomu stażysty/juniora w programowaniu przy użyciu Pythona aby mogli
+                            rozpocząc oni swoją przygodę w IT.
+                        </p>
+                    </b-col>
+                    <b-col md="6">
+                        <p>PyLove is a non profit organization that promotes and teaches Python regardless of age, sex,
+                            race,
+                            believes or orientation. We accept white man ;) Our purpose is to help people get to
+                            intern/junior
+                            level in Python to start their adventure in IT world.
+                        </p>
+                    </b-col>
+                </b-row>
             </b-container>
         </div>
 
@@ -43,9 +54,7 @@
             <b-container>
                 <b-row>
                     <b-col md="10" align-self="center" offset="1">
-                        <h2>
-                            Jeśli chcesz wystartować PyLove w swoim mieście napisz do nas !
-                        </h2>
+                        <h2>Jeśli chcesz wystartować PyLove w swoim mieście napisz do nas!</h2>
                     </b-col>
                 </b-row>
             </b-container>
@@ -97,7 +106,7 @@
         <div class="section-colored">
             <b-container>
                 <b-row>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-md-6">
                         <h2>Warunki uczestnictwa:</h2>
                         <p>W spotkaniach może wziąć udział każdy, niezależnie od płci,
                             wieku (16+), wykształcenia, czy wykonywanego zawodu.
@@ -131,7 +140,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-md-6">
                         <b-img fluid class="img-responsive" src="images/home_0010.jpg"></b-img>
                     </div>
                 </b-row>
@@ -143,11 +152,11 @@
             <b-container>
                 <h1>Partner strategiczny</h1>
                 <b-row>
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-md-4">
                         <b-img fluid class="img-responsive"
                                src="http://pypolska.org/img/pypolska_logo.png"></b-img>
                     </div>
-                    <div class="col-lg-8 col-md-8">
+                    <div class="col-md-8">
                         <h3>Stowarzyszenie PyPolska</h3>
                         <p></p>
                         <p class="text-justify">

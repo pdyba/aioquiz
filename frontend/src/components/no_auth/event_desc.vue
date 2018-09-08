@@ -18,9 +18,9 @@
             <div v-if="event.reg_active">
                 <p>Zapisy trwają od {{ event.registration_start_date | moment("calendar") }} do {{
                     event.registration_end_date | moment("calendar") }}</p>
-                <b-btn @click="sign_me" v-if="!auth || !event.user_data" variant="success">Zapisz mnie</b-btn>
+                <b-btn @click="sign_me" v-if="!auth || !active_event" variant="success">Zapisz mnie</b-btn>
                 <h4 v-else>Już się zapisałeś/zapisałaś</h4>
-                <b-btn @click="unsign_me" v-if="auth && event.user_data" variant="warning">Rezygnuję</b-btn>
+                <b-btn @click="unsign_me" v-if="auth && active_event" variant="warning">Rezygnuję</b-btn>
                 <b-btn :href="'event/' + event.id">Więcej szczegółów</b-btn>
             </div>
             <p v-else>
@@ -28,7 +28,6 @@
                 <br>
                 <b-btn :href="'event/' + event.id">Więcej szczegółów</b-btn>
             </p>
-
         </b-col>
     </b-row>
 </template>
@@ -62,6 +61,9 @@
                 else {
                     return false
                 }
+            },
+            active_event() {
+                return "user_data" in this.event
             }
         },
         methods: {
@@ -75,7 +77,6 @@
                         showCancelButton: true,
                         confirmButtonText: "Yes",
                         cancelButtonText: "No",
-                        showLoaderOnConfirm: true,
                         allowOutsideClick: true,
                     }).then((value) => {
                         if (value.value === true) {
@@ -85,16 +86,17 @@
                             }).then((response) => {
                                 self.$swal({
                                     text: response.data.msg,
-                                    title: 'Unsigned',
+                                    title: 'Signed!',
                                     type: "info",
                                     showConfirmButton: true,
                                     timer: 3000
-                                })
+                                });
+                                self.event.user_data = {'smth': 1}
                             })
                         } else {
                             self.$swal({
                                 text: "See You there",
-                                title: 'Cancelation',
+                                title: 'Confirmation',
                                 type: 'success',
                                 showConfirmButton: true,
                                 timer: 3000
@@ -117,29 +119,29 @@
                 if (this.auth) {
                     let self = this;
                     self.$swal({
-                        title: "Sign Up",
+                        title: "Unsign",
                         type: "warning",
-                        text: "You are about to unsign for workshop in " + self.event.city,
+                        text: "You are about to unsign from workshop in " + self.event.city,
                         showCancelButton: true,
                         confirmButtonText: "Yes",
                         cancelButtonText: "No",
-                        showLoaderOnConfirm: true,
                         allowOutsideClick: true,
                     }).then((value) => {
                         if (value.value === true) {
                             axios.delete('/event/' + self.event.id).then((response) => {
                                 self.$swal({
                                     text: response.data.msg,
-                                    title: 'Signed up',
+                                    title: 'Unsigned',
                                     type: "info",
                                     showConfirmButton: true,
                                     timer: 3000
-                                })
+                                });
+                                delete self.event.user_data
                             })
                         } else {
                             self.$swal({
-                                text: "OK maybe later?",
-                                title: 'Cancleation',
+                                text: "OK",
+                                title: 'Cancellation',
                                 type: 'success',
                                 showConfirmButton: true,
                                 timer: 3000
