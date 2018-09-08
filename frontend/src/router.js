@@ -113,6 +113,7 @@ const routes = [
         beforeEnter(to, from, next) {
             check_no_auth(next)
         },
+        name: 'signin'
     },
     // Auth section
     {

@@ -34,10 +34,16 @@ axios.interceptors.request.use(req => {
     return req
 });
 
+const moment = require('moment');
+require('moment/locale/pl');
+
 Vue.use(BootstrapVue);
 Vue.use(Vuelidate);
 Vue.use(VueMarkdown);
 Vue.use(VueSweetalert2);
+Vue.use(require('vue-moment'), {
+    moment
+});
 
 new Vue({
     el: '#app',

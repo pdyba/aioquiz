@@ -11,6 +11,7 @@ export default new Vuex.Store({
     state: {
         session_uuid: localStorage.getItem('session_uuid') || null,
         language: 'pl',
+        event_context: localStorage.getItem('event_context') || null,
         user: JSON.parse(localStorage.getItem('user')) || null
     },
     mutations: {
@@ -19,6 +20,16 @@ export default new Vuex.Store({
         },
         storeUser(state, user) {
             state.user = user;
+        },
+        saveEventContext(state, ec_id) {
+            if (ec_id) {
+                ec_id = parseInt(ec_id);
+                state.event_context = ec_id;
+            } else {
+                axios.get('/event').then(resp => {
+                    state.event_context = parseInt(resp.data.context)
+                });
+            }
         },
         clearAuthData(state) {
             state.session_uuid = null;
@@ -58,13 +69,19 @@ export default new Vuex.Store({
             }
             const expirationDate = localStorage.getItem('expirationDate');
             const user = JSON.parse(localStorage.getItem('user'));
-            const now = new Date()
+            const ec_id = localStorage.getItem('event_context') || 0;
+            const now = new Date();
             if (now >= expirationDate) {
                 return
             }
             dispatch('check_gdpr', user);
             commit('authUser', session_uuid);
             commit('storeUser', user);
+            commit('saveEventContext', ec_id);
+        },
+        storeEventContext({commit, dispatch}, ec_id) {
+            localStorage.setItem('event_context', ec_id);
+            commit('saveEventContext', ec_id);
         },
         logout({commit}) {
             axios.get('/auth/logout').then((resp) => {
@@ -72,6 +89,7 @@ export default new Vuex.Store({
                 localStorage.removeItem('expirationDate');
                 localStorage.removeItem('session_uuid');
                 localStorage.removeItem('user');
+                localStorage.removeItem('event_context');
                 router.replace('/signin');
                 swal("Log out", "You've been logged out successfully")
             })
@@ -145,6 +163,9 @@ export default new Vuex.Store({
     getters: {
         user(state) {
             return state.user
+        },
+        context(state) {
+            return state.event_context
         },
         isAuthenticated(state) {
             return state.session_uuid !== null
