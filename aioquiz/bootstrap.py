@@ -159,7 +159,7 @@ async def admin():
     color_print('Admin Created', color='green')
 
 
-async def add_question(qpath="./bootstrap_data/questions.question", verbose=False):
+async def add_question(qpath="../bootstrap_data/questions.question", verbose=False):
     try:
         with open(qpath) as file:
             questions = yaml.load(file.read())
@@ -190,7 +190,7 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
         less_counter = LessonCounter()
         if a_dir.startswith('.') or a_dir.startswith('_'):
             return
-        path = os.path.abspath('lesson_source/{}'.format(a_dir)) + '/'
+        path = os.path.abspath('../lesson_source/{}'.format(a_dir)) + '/'
         images = path + 'images'
         path += lang
         l_path = path + '.md'
@@ -300,8 +300,8 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
     if lesson:
         await inner_process(lesson)
     else:
-        for a_dir in os.listdir("./lesson_source/"):
-            inner_process(a_dir)
+        for a_dir in os.listdir("../lesson_source/"):
+            await inner_process(a_dir)
     color_print('Processing lessons ---> Done', color='blue')
     color_print('ADDED: ', counter.added_lessons, color='green')
     color_print('UPDATED: ', counter.updated_lessons, color='yellow')

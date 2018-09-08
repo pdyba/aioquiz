@@ -31,10 +31,6 @@ def color_print(*args, color='red', **kwargs):
     print(color, *args, COLOR_RESET, **kwargs)
 
 
-async def format_dict_to_columns(adict):
-    return [[a, adict[a]] for a in adict]
-
-
 def get_args(args_dict):
     for arg, val in args_dict.items():
         if isinstance(val, list):
