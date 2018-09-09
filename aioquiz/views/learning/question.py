@@ -5,9 +5,8 @@ from json import dumps as jdumps
 
 from sanic.response import json
 
-from views.utils import user_required
 from views.utils import get_user_name
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 
 from models import Question
 from models import Users
@@ -16,14 +15,13 @@ from utils import safe_del_key
 
 
 # noinspection PyBroadException
-class QuestionView(HTTPModelClassView):
+class QuestionView(MCV):
     _cls = Question
     _urls = ['/api/question', '/api/question/<qid:int>']
 
-    @user_required()
-    async def post(self, request, current_user):
+    async def post(self):
         try:
-            req = request.json
+            req = self.req.json
             if req['qtype'] == 'abcd':
                 req['answers'] = jdumps(
                     [req['ans_a'], req['ans_b'], req['ans_c'], req['ans_d']]
@@ -36,10 +34,9 @@ class QuestionView(HTTPModelClassView):
             logging.exception('err question.post')
             return json({}, status=500)
 
-    @user_required()
-    async def put(self, request, qid, current_user):
+    async def put(self, qid=0):
         try:
-            req = request.json
+            req = self.req.json
             user = await Users.get_first('email', req['reviewer'])
             question = await Question.get_by_id(qid)
             question.reviewer = user.id
@@ -50,8 +47,7 @@ class QuestionView(HTTPModelClassView):
             logging.exception('err question.update')
             return json({}, status=500)
 
-    @user_required()
-    async def get(self, request, current_user, qid=0):
+    async def get(self, qid=0):
         if qid:
             question = await Question.get_by_id(qid)
             return json(await question.to_dict())

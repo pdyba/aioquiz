@@ -13,18 +13,19 @@ from models import Users
 
 from orm import DoesNotExist
 
-from views.utils import user_required
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 
 FINAL_EXAM = 6
 INTERN_EXAM = 3
 
-class ExerciseOverview(HTTPModelClassView):
+
+class ExerciseOverview(MCV):
     _cls = Exercise
     _urls = '/api/stats/exercises'
+    access_level = {'get': 'mentor', 'post': 'organiser'}
+    access_level_default = 'admin'
 
-    @user_required('mentor')
-    async def get(self, _):
+    async def get(self):
         exercises = await Exercise.get_all()
         resp = {}
         for ex in exercises:
@@ -34,9 +35,8 @@ class ExerciseOverview(HTTPModelClassView):
             resp[ex.lesson][ex.id]['exercise_answer'] = await ExerciseAnswer.group_by_field('status', exercise=ex.id)
         return json(resp)
 
-    @user_required('organiser')
-    async def post(self, request, current_user):
-        req = request.json
+    async def post(self):
+        req = self.req.json
         max_exercises = await Exercise.count_all()
         resp = {'exercises': {}, 'max_exercises': max_exercises}
         for uid in req:
@@ -47,22 +47,24 @@ class ExerciseOverview(HTTPModelClassView):
         return json(resp)
 
 
-class ExamOverview(HTTPModelClassView):
+class ExamOverview(MCV):
     _cls = Exercise
     _urls = '/api/stats/exam'
+    access_level_default = 'organiser'
 
-    @user_required('organiser')
-    async def post(self, request, current_user):
-        req = request.json
+    async def post(self):
+        req = self.req.json
         resp = {'exams': {}, 'intern': {}}
         for uid in req:
             try:
-                exam = await ExamStatus.get_first_by_many_field_value(users=uid, exam=FINAL_EXAM)  # TODO: change it in future
+                # TODO: change it in future
+                exam = await ExamStatus.get_first_by_many_field_value(users=uid, exam=FINAL_EXAM)
                 resp['exams'][uid] = exam.score
             except DoesNotExist:
                 resp['exams'][uid] = -1
             try:
-                intern_ans = await ExamAnswer.get_by_many_field_value(users=uid, exam=INTERN_EXAM)  # TODO: change it in future
+                # TODO: change it in future
+                intern_ans = await ExamAnswer.get_by_many_field_value(users=uid, exam=INTERN_EXAM)
                 intern_resp = {}  # so hackish so sad
                 for intern in intern_ans:
                     if intern.question == 9:
@@ -83,13 +85,13 @@ class ExamOverview(HTTPModelClassView):
         return json(resp)
 
 
-class AbsenceStatsView(HTTPModelClassView):
+class AbsenceStatsView(MCV):
     _cls = Absence
     _urls = ['/api/stats/attendance', '/api/stats/attendance/<lid:int>']
+    access_level = {'post': 'organiser'}
 
-    @user_required()
-    async def get(self, _, current_user, lid=None):
-        if current_user.admin and lid:
+    async def get(self, lid=None):
+        if self.current_user.admin and lid:
             absences = await Absence.get_by_field_value('lesson', lid)
             lesson = await Lesson.get_by_id(lid)
             lesson = lesson.title
@@ -97,7 +99,7 @@ class AbsenceStatsView(HTTPModelClassView):
             current_attendence = len(absences)
         else:
             absences = await AbsenceMeta.get_all()
-            user_absence = await Absence.get_by_field_value('users', current_user.id)
+            user_absence = await Absence.get_by_field_value('users', self.current_user.id)
             lesson = ""
             max_absences = len(absences)
             current_attendence = len(user_absence)
@@ -126,9 +128,8 @@ class AbsenceStatsView(HTTPModelClassView):
             'perc': "{}%".format(round(current_attendence/max_absences*100, 2))
         })
 
-    @user_required('organiser')
-    async def post(self, request, current_user):
-        req = request.json
+    async def post(self):
+        req = self.req.json
         max_absences = await AbsenceMeta.count_all()
         resp = {'absences': {}, 'max_absences': max_absences}
         for uid in req:

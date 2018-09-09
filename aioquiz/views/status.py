@@ -2,13 +2,13 @@
 # encoding: utf-8
 from sanic.response import json
 
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 from models import Config
 
 
 # noinspection PyMethodMayBeStatic
-class RegistrationActiveView(HTTPModelClassView):
+class RegistrationActiveView(MCV):
     _urls = '/api/status/config/registration'
 
-    async def get(self, _):
-        return json({'registration': await Config.get_registration()})
+    async def _get(self, an_id=None):
+        return {'registration': await Config.get_registration()}

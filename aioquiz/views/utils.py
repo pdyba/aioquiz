@@ -2,7 +2,6 @@
 # encoding: utf-8
 from functools import wraps
 import logging
-from abc import abstractproperty
 
 from sanic.response import json
 from sanic.views import HTTPMethodView
@@ -27,25 +26,28 @@ def user_required(access_level='any_user', msg='NOT AUTHORISED', code=401):
     """
     def decorator(func):
         @wraps(func)
-        async def func_wrapper(self, *args, **kwargs):
+        async def func_wrapper(cls, *args, **kwargs):
             global _users
             resp = json({'msg': msg}, status=code)
-            authorization = args[0].headers.get('authorization')
-            if access_level == 'no_user' and not authorization:
-                return None
-            if not authorization:
+            try:
+                req = args[0]
+            except IndexError:
+                print(cls)
+            authorization = req.headers.get('authorization')
+            al = cls.access_level.get(req.method.lower(), cls.access_level_default) or access_level
+            if al == 'no_user' and not authorization:
+                user = None
+            elif not authorization:
                 return resp
-            user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
-            _users[authorization] = user
-            if not user and access_level != 'no_user':
-                return resp
-            if access_level not in ['any_user', 'no_user'] and not getattr(user, access_level):
-                return resp
-            # below has to be that way as append is in place
-            args = list(args)
-            args.append(user)
-            args = tuple(args)
-            return await func(self, *args, **kwargs)
+            else:
+                user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
+                _users[authorization] = user
+                if not user and al != 'no_user':
+                    return resp
+                if al not in ['any_user', 'no_user'] and not getattr(user, al):
+                    return resp
+            cls.current_user = user
+            return await func(cls, *args, **kwargs)
         return func_wrapper
     return decorator
 
@@ -58,8 +60,15 @@ async def get_user_name(uid):
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal
-class HTTPModelClassView(HTTPMethodView):
+class MCV(HTTPMethodView):
+    """
+    MCV - ModelClassView
+    """
     _cls = None
+    req = None
+    current_user = None
+    access_level = {}
+    access_level_default = 'any_user'
 
     @property
     def _urls(self):
@@ -69,47 +78,68 @@ class HTTPModelClassView(HTTPMethodView):
     def _get_name(cls):
         return cls.__name__
 
-    async def _get(self, request, current_user, an_id=None):
+    @user_required()
+    def dispatch_request(self, request, *args, **kwargs):
+        self.req = request
+        handler = getattr(self, request.method.lower(), None)
+        return handler(*args, **kwargs)
+
+    async def _get(self, an_id=None):
         if an_id:
             an_model = await self._cls.get_by_id(an_id)
             q = await an_model.to_dict()
             return q
         an_model = await self._cls.get_all()
         models = []
-        for quiz in an_model:
-            models.append(await quiz.to_dict())
+        for mod in an_model:
+            models.append(await mod.to_dict())
         return models
 
-    @user_required(access_level='no_user')
-    async def get(self, request, current_user, an_id=None):
-        return json(await self._get(request, current_user, an_id=an_id))
+    async def get(self, an_id=None):
+        return json(await self._get(an_id))
 
-    @user_required(access_level='no_user')
-    async def post(self, request, current_user):
+    async def _post(self, an_id=None):
+        model = self._cls(**self.req.json)
+        await model.create()
+
+    async def post(self):
         try:
-            req = request.json
-            model = self._cls(**req)
-            await model.create()
+            await self._post()
             return json({'success': True})
         except:
             logging.exception('err {}.post'.format(self._get_name()))
         return json({'msg': 'error creating'}, status=500)
 
-    @user_required(access_level='no_user')
-    async def delete(self, request, current_user, an_id=None):
+    async def _delete(self, an_id=None):
         model = await self._cls.get_by_id(an_id)
         await model.delete()
+
+    async def delete(self, an_id=None):
+        await self._delete(an_id)
         return json({
             'success': True,
             'msg': 'Deleted successfully'
         })
 
-    @user_required(access_level='no_user')
-    async def put(self, request, current_user, an_id=None):
-        req = request.json
+    async def _put(self, an_id=None):
         model = await self._cls.get_by_id(an_id)
-        await model.update_from_dict(req)
+        await model.update_from_dict(self.req.json)
+
+    async def put(self, an_id=None):
+        await self._put(an_id)
         return json({
             'success': True,
-            'msg': 'Deleted successfully'
+            'msg': 'Updated successfully'
         })
+
+
+class AdminMCV(MCV):
+    access_level_default = 'admin'
+
+
+class OrganiserMCV(MCV):
+    access_level_default = 'organiser'
+
+
+class MentorMCV(MCV):
+    access_level_default = 'mentor'
