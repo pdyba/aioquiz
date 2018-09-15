@@ -6,7 +6,7 @@ import logging
 from sanic.response import json
 from sanic.views import HTTPMethodView
 
-from models import Users
+from models import User
 
 _users = {}
 _users_names = {}
@@ -40,7 +40,7 @@ def user_required(access_level='any_user', msg='NOT AUTHORISED', code=401):
             elif not authorization:
                 return resp
             else:
-                user = _users.get(authorization) or await Users.get_user_by_session_uuid(authorization)
+                user = _users.get(authorization) or await User.get_user_by_session_uuid(authorization)
                 _users[authorization] = user
                 if not user and al != 'no_user':
                     return resp
@@ -54,7 +54,7 @@ def user_required(access_level='any_user', msg='NOT AUTHORISED', code=401):
 
 async def get_user_name(uid):
     if uid not in _users_names:
-        user = await Users.get_by_id(uid)
+        user = await User.get(uid)
         _users_names[uid] = '{} {}'.format(user.name, user.surname)
     return _users_names[uid]
 
@@ -86,7 +86,7 @@ class MCV(HTTPMethodView):
 
     async def _get(self, an_id=None):
         if an_id:
-            an_model = await self._cls.get_by_id(an_id)
+            an_model = await self._cls.get(an_id)
             q = await an_model.to_dict()
             return q
         an_model = await self._cls.get_all()
@@ -111,7 +111,7 @@ class MCV(HTTPMethodView):
         return json({'msg': 'error creating'}, status=500)
 
     async def _delete(self, an_id=None):
-        model = await self._cls.get_by_id(an_id)
+        model = await self._cls.get(an_id)
         await model.delete()
 
     async def delete(self, an_id=None):
@@ -122,7 +122,7 @@ class MCV(HTTPMethodView):
         })
 
     async def _put(self, an_id=None):
-        model = await self._cls.get_by_id(an_id)
+        model = await self._cls.get(an_id)
         await model.update_from_dict(self.req.json)
 
     async def put(self, an_id=None):

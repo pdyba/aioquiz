@@ -11,14 +11,14 @@ class ConfigView(AdminMCV):
     _urls = '/api/admin/config'
 
     async def get(self):
-        config = await Config.get_by_id(1)
+        config = await Config.get(1)
         resp = await config.to_dict()
         return json(resp, sort_keys=True)
 
     async def post(self):
         req = self.req.json
         try:
-            config = await Config.get_by_id(1)
+            config = await Config.get(1)
             await config.update_from_dict(req)
         except IndexError:
             config = Config(**req)

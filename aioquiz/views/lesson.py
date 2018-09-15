@@ -16,7 +16,7 @@ from models import Lesson
 from models import LessonFeedbackAnswer
 from models import LessonFeedbackMeta
 from models import LessonFeedbackQuestion
-from models import Users
+from models import User
 
 from views.utils import MCV
 
@@ -32,7 +32,7 @@ class LessonView(MCV):
     async def post(self):
         try:
             req = self.req.json
-            user = await Users.get_first('email', req['creator'])
+            user = await User.get_first('email', req['creator'])
             req['creator'] = user.id
             lesson = Lesson(**req)
             await lesson.create()
@@ -44,7 +44,7 @@ class LessonView(MCV):
     
     async def get(self, lid=None):
         if lid:
-            lesson = await Lesson.get_by_id(lid)
+            lesson = await Lesson.get(lid)
             return json(await lesson.to_dict())
         else:
             lessons = await Lesson.get_all(suffix="ORDER BY lesson_no")
@@ -216,7 +216,7 @@ class LessonFeedbackQuestionView(MCV):
 
     async def get(self, qid=None):
         if qid:
-            question = await LessonFeedbackQuestion.get_by_id(int(qid))
+            question = await LessonFeedbackQuestion.get(int(qid))
             return json(question)
         else:
             questions = await LessonFeedbackQuestion.get_all()

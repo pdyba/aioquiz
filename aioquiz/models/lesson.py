@@ -2,67 +2,55 @@
 from datetime import datetime
 
 from config import DEFAULT_USER
-from orm import Boolean
-from orm import CodeString
-from orm import Column
-from orm import DateTime
-from orm import ForeignKey
-from orm import Integer
-from orm import String
+from models.db import db, EnchancedModel
 from orm import StringLiteral
-from orm import Table
 
 
-class Lesson(Table):
-    _name = 'lesson'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('lesson_no', Integer()),
-        Column('title', String(255)),
-        Column('description', String(10000)),
-        Column('author', ForeignKey('users'), default=DEFAULT_USER),
-        Column('file', String(255), required=False),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('active', Boolean(), default=False),
-        Column('quiz', ForeignKey('quiz'), required=False),
-        Column('live_quiz', ForeignKey('live_quiz'), required=False),
-    ]
+class Lesson(EnchancedModel):
+    __tablename__ = 'lessons'
+
+    id = db.Column(db.Integer, primary_key=True)
+    lesson_no = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), default=DEFAULT_USER)
+    file = db.Column(db.String)
+    time_created = db.Column(db.DateTime, default=datetime.utcnow)
+    active = db.Column(db.Boolean, default=False)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quizes.id'))
+    live_quiz_id = db.Column(db.Integer, db.ForeignKey('live_quizes.id'))
 
 
-class Exercise(Table):
-    _name = 'exercise'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('title', String(255)),
-        Column('task', CodeString(10000)),
-        Column('possible_answer', CodeString(1000), required=False),
-        Column('author', ForeignKey('users'), default=DEFAULT_USER),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('lesson', ForeignKey('lesson')),
-    ]
-    _unique = ['title']
+class Exercise(EnchancedModel):
+    __tablename__ = 'exercises'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False, unique=True)
+    task = db.Column(db.CodeString, nullable=False)
+    possible_answer = db.Column(db.CodeString)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), default=DEFAULT_USER)
+    time_created = db.Column(db.DateTime, default=datetime.utcnow)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'))
 
 
-class ExerciseAnswer(Table):
-    _name = 'exercise_answer'
-    _schema = [
-        Column('exercise', ForeignKey('exercise')),
-        Column('users', ForeignKey('users')),
-        Column('answer', CodeString(5000)),
-        Column('first_answer', CodeString(5000), default=""),
-        Column('status', String(20)),
-    ]
+class ExerciseAnswer(EnchancedModel):
+    __tablename__ = 'exercise_answers'
+
+    exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    answer = db.Column(db.CodeString, nullable=False)
+    first_answer = db.Column(db.CodeString, default='')
+    status = db.Column(db.String, nullable=False)
 
 
-class LessonFeedbackQuestion(Table):
-    _name = 'lesson_feedback_question'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('author', ForeignKey('users'), default=DEFAULT_USER),
-        Column('type', String(50)),
-        Column('description', String(5000)),
-        Column('answers', CodeString(10000))
-    ]
+class LessonFeedbackQuestion(EnchancedModel):
+    __tablename__ = 'lesson_feedback_questions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), default=DEFAULT_USER)
+    type = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    answers = db.Column(db.CodeString, nullable=False)
 
     @classmethod
     async def get_by_lesson_id(cls, lid):
@@ -73,53 +61,48 @@ class LessonFeedbackQuestion(Table):
         )
 
 
-class LessonFeedbackMeta(Table):
-    _name = 'lesson_feedback_meta'
-    _schema = [
-        Column('question', ForeignKey('lesson_feedback_question')),
-        Column('lesson', ForeignKey('lesson'))
-    ]
+class LessonFeedbackMeta(EnchancedModel):
+    __tablename__ = 'lesson_feetback_meta'
+
+    question_id = db.Column(db.Integer, db.ForeignKey('lesson_feedback_questions.id'), nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), nullable=False)
 
 
-class LessonFeedbackAnswer(Table):
-    _name = 'lesson_feedback_answer'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('author', ForeignKey('users')),
-        Column('answers', CodeString(10000)),
-        Column('question', ForeignKey('lesson_feedback_question')),
-        Column('lesson', ForeignKey('lesson'))
-    ]
+class LessonFeedbackAnswer(EnchancedModel):
+    __tablename__ = 'lesson_feedback_answers'
+
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    answers = db.Column(db.CodeString, nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey('lesson_feedback_questions.id'), nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), nullable=False)
 
 
-class Feedback(Table):
-    _name = 'feedback'
-    _schema = [
-        Column('lesson_review', String(10000)),
-        Column('teacher_review', String(10000)),
-        Column('material', Integer()),
-        Column('teacher', ForeignKey('users')),
-        Column('users', ForeignKey('users')),
-    ]
+class Feedback(EnchancedModel):
+    __tablename__ = 'feedback'
+
+    lesson_review = db.Column(db.String, nullable=False)
+    teacher_review = db.Column(db.String, nullable=False)
+    material = db.Column(db.Integer, nullable=False)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 
-class Absence(Table):
-    _name = 'absence'
-    _schema = [
-        Column('lesson', ForeignKey('lesson')),
-        Column('users', ForeignKey('users')),
-        Column('absent', Boolean(), default=True),
-    ]
+class Absence(EnchancedModel):
+    __tablename__ = 'absence'
+
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    absent = db.Column(db.Boolean, default=True)
 
 
-class AbsenceMeta(Table):
-    _name = 'absence_meta'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('lesson', ForeignKey('lesson')),
-        Column('code', String(10)),
-        Column('active', Boolean(), default=True),
-        Column('users', ForeignKey('users')),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('time_ended', DateTime()),
-    ]
+class AbsenceMeta(EnchancedModel):
+    __tablename__ = 'absence_meta'
+
+    id = db.Column(db.Integer, primary_key=True)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), nullable=False)
+    code = db.Column(db.String, nullable=False)
+    active = db.Column(db.Boolean, default=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    time_created = db.Column(db.DateTime, default=datetime.utcnow)
+    time_ended = db.Column(db.DateTime)

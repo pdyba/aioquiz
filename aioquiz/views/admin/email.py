@@ -9,11 +9,11 @@ from utils import send_email
 from utils import hash_string
 
 from views.utils import AdminMCV
-from models import Users
+from models import User
 
 
 class EmailView(AdminMCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/admin/email'
 
     recipients = {
@@ -94,7 +94,7 @@ class EmailView(AdminMCV):
     async def post(self):
         data = self.req.json
         mail_data = data['mail']
-        users = await Users.get_by_many_field_value(gdpr=True, **data['recipients']['conditions'])
+        users = await User.get_by_many_field_value(gdpr=True, **data['recipients']['conditions'])
         if mail_data['per_user']:
             for user in users:
                 if mail_data['email_type'] == 'EmailTooLate':

@@ -9,7 +9,7 @@ from views.utils import get_user_name
 from views.utils import MCV
 
 from models import Question
-from models import Users
+from models import User
 
 from utils import safe_del_key
 
@@ -37,8 +37,8 @@ class QuestionView(MCV):
     async def put(self, qid=0):
         try:
             req = self.req.json
-            user = await Users.get_first('email', req['reviewer'])
-            question = await Question.get_by_id(qid)
+            user = await User.get_first('email', req['reviewer'])
+            question = await Question.get(qid)
             question.reviewer = user.id
             question.active = req['accept']
             await question.update()
@@ -49,7 +49,7 @@ class QuestionView(MCV):
 
     async def get(self, qid=0):
         if qid:
-            question = await Question.get_by_id(qid)
+            question = await Question.get(qid)
             return json(await question.to_dict())
         questions = await Question.get_all()
         resp = []

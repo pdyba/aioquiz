@@ -10,7 +10,7 @@ from sanic.response import redirect
 from config import REGEMAIL
 from config import SERVER
 from orm import DoesNotExist
-from models import Users
+from models import User
 from models import Config
 from utils import get_args, hash_string
 from utils import create_uuid
@@ -31,7 +31,7 @@ from models import UserReview
 
 # noinspection PyBroadException
 class UserView(MCV):
-    _cls = Users
+    _cls = User
     _urls = ['/api/users/', '/api/users/<id_name>']
     access_level = {'post': 'no_user'}
     access_level_default = 'any_user'
@@ -39,12 +39,12 @@ class UserView(MCV):
     async def get(self, id_name=None):
         if id_name:
             if id_name.isnumeric():
-                user = await Users.get_by_id(int(id_name))
+                user = await User.get(int(id_name))
             elif id_name == 'undefined':
                 return json({'msg': 'wrong username'}, 404)
             else:
                 try:
-                    user = await Users.get_first('email', id_name)
+                    user = await User.get_first('email', id_name)
                 except DoesNotExist:
                     logging.error('Wrong e-mail or smth: ' + id_name)
             if self.current_user.id == user.id:
@@ -56,9 +56,9 @@ class UserView(MCV):
                 if 'sort_by' in self.req.args:
                     sort_by = self.req.args['sort_by'][0]
                     del self.req.args['sort_by']
-                users = await Users.get_by_many_field_value(**get_args(self.req.args))
+                users = await User.get_by_many_field_value(**get_args(self.req.args))
             else:
-                users = await Users.get_all()
+                users = await User.get_all()
             user = []
             for u in users:
                 if self.current_user.admin or self.current_user.organiser:
@@ -97,11 +97,11 @@ class UserView(MCV):
             req = self.req.json
             if 'admin' in req:
                 del req['admin']
-            user = Users(**req)
+            user = User(**req)
             user.session_uuid = create_uuid()
             uid = await user.create()
             if not isinstance(uid, int):
-                usr = Users.get_first('session_uuid', user.session_uuid)
+                usr = User.get_first('session_uuid', user.session_uuid)
                 uid = usr.id
             if uid:
                 text = REGEMAIL.TEXT_PL if user.lang == 'pl' else REGEMAIL.TEXT_EN
@@ -141,7 +141,7 @@ class UserView(MCV):
             id_name = int(id_name)
         if not self.current_user.admin and self.current_user.id != id_name:
             return json({'success': False, 'msg': 'Unauthorised'})
-        user = await Users.get_by_id(id_name)
+        user = await User.get(id_name)
         user.name = 'deleted'
         user.img = 'deleted'
         user.linkedin = 'deleted'
@@ -155,12 +155,12 @@ class UserView(MCV):
 
 
 class ActivationView(MCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/user/activation/<uid:int>/<acode>'
     access_level_default = 'no_user'
 
     async def get(self, uid, acode):
-        user = await Users.get_by_id(uid)
+        user = await User.get(uid)
         if user and user.session_uuid == acode:
             user.active = True
             await user.update()
@@ -169,7 +169,7 @@ class ActivationView(MCV):
 
 
 class INeedHelpView(MCV):
-    _cls = Users
+    _cls = User
     _urls = ['/api/user/i_need_help']
 
     async def get(self):
@@ -228,7 +228,7 @@ class SeatView(MCV):
                 return json({})
         else:
             seats = await Seat.get_all()
-            config = await Config.get_by_id(1)
+            config = await Config.get(1)
             used_seats = defaultdict(dict)
             for seat in seats:
                 full_user_name = await get_user_name(seat.users)
@@ -286,7 +286,7 @@ class SeatView(MCV):
 
 # noinspection PyMethodMayBeStatic
 class ForgotPasswordView(MCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/user/password_forgot'
     access_level_default = 'no_user'
 
@@ -296,7 +296,7 @@ class ForgotPasswordView(MCV):
         try:
             req = self.req.json
             try:
-                user = await Users.get_first_by_many_field_value(email=req.get('email'))
+                user = await User.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
                 return json({'msg': 'wrong email or user does not exist'})
             password = create_uuid()
@@ -320,7 +320,7 @@ class ForgotPasswordView(MCV):
 
 # noinspection PyBroadException PyMethodMayBeStatic
 class ChangePasswordView(MCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/user/password_change'
 
     # noinspection PyMethodOverriding
@@ -347,7 +347,7 @@ class SaveGDPR(MCV):
     """
     Saves GDPR/RODO FFS...
     """
-    _cls = Users
+    _cls = User
     _urls = '/api/user/gdpr'
     failed_msg = """You have failed to comply with our Privacy Policy. 
         You will be automatically logged out. 

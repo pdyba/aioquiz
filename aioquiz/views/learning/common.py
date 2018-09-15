@@ -17,7 +17,7 @@ class CommonTestBase(MCV):
 
     async def post(self, qid=0):
         try:
-            quiz = await self._cls.get_by_id(qid)
+            quiz = await self._cls.get(qid)
             if not quiz.active and self.current_user.is_only_attendee():
                 return self.quiz_finished
             req = self.req.json
@@ -37,7 +37,7 @@ class CommonTestBase(MCV):
 
     async def put(self, qid=0):
         try:
-            quiz = await self._cls.get_by_id(qid)
+            quiz = await self._cls.get(qid)
             if not quiz.active and self.current_user.is_only_attendee():
                 return self.quiz_finished
             req = self.req.json
@@ -57,7 +57,7 @@ class CommonTestBase(MCV):
     async def patch(self, qid=0):
         try:
             uid = self.current_user.id
-            quiz = await self._cls.get_by_id(qid)
+            quiz = await self._cls.get(qid)
             await quiz.update_status(uid, new_status='Submitted', add=0)
             return json({'msg': 'Submitted successfully', 'success': True})
         except:
@@ -66,7 +66,7 @@ class CommonTestBase(MCV):
 
     async def get(self, qid=0):
         if qid:
-            quiz = await self._cls.get_by_id(qid)
+            quiz = await self._cls.get(qid)
             if not quiz.active and self.current_user.is_only_attendee():
                 return self.quiz_finished
             resp = await quiz.to_dict()

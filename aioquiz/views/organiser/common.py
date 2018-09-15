@@ -31,7 +31,7 @@ class CommonOrganiserTestBase(OrganiserMCV):
     async def put(self, tid=0):
         try:
             req = self.req.json
-            test = await self._cls.get_by_id(req['id'])
+            test = await self._cls.get(req['id'])
             new_questions = [q for q in req['all_questions']]
             if req['active'] in ('None', None):
                 req['active'] = False
@@ -48,7 +48,7 @@ class CommonOrganiserTestBase(OrganiserMCV):
     async def get(self, tid=0):
         if tid:
             try:
-                quiz = await self._cls.get_by_id(tid)
+                quiz = await self._cls.get(tid)
                 resp = await quiz.to_dict()
                 questions = await quiz.get_question()
                 resp['all_questions'] = questions
@@ -78,7 +78,7 @@ class CommonActiveateTestBase(OrganiserMCV):
     
     async def post(self):
         req = self.req.json
-        test = await self._cls.get_by_id(req['id'])
+        test = await self._cls.get(req['id'])
         if test:
             test.active = req['active']
             await test.update()

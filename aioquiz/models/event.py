@@ -1,99 +1,82 @@
 # !/usr/bin/python3.5
 from datetime import datetime
 
-from orm import Boolean
-from orm import Column
-from orm import DateTime
-from orm import DoesNotExist
-from orm import Float
-from orm import ForeignKey
-from orm import Integer
-from orm import String
-from orm import Table
-
-from utils import create_uuid
-from utils import hash_string
-from utils import safe_del_key
+from models.db import db, EnchancedModel
 
 
-class Event(Table):
-    _name = 'event'
-    _schema = [
-        Column('id', Integer(), primary_key=True),
-        Column('title', String(500), unique=True),
-        Column('description', String(1000)),
+class Event(EnchancedModel):
+    __tablename__ = 'events'
 
-        Column('country', String(255)),
-        Column('city', String(255)),
-        Column('geo_location_lang', Float()),
-        Column('geo_location_long', Float()),
-        Column('address', String(500)),
-        Column('address_picture', String(500)),
-        Column('address_desc', String(500)),
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, unique=True, nullable=False)
+    description = db.Column(db.String)
 
-        Column('create_date', DateTime(), default=datetime.utcnow),
-        Column('start_date', DateTime(), default=datetime.utcnow),
-        Column('end_date', DateTime(), default=datetime.utcnow),
-        Column('registration_start_date', DateTime(), default=datetime.utcnow),
-        Column('registration_end_date', DateTime(), default=datetime.utcnow),
+    country = db.Column(db.String, nullable=False)
+    city = db.Column(db.String, nullable=False)
+    geo_location_lang = db.Column(db.Float, nullable=False)
+    geo_location_long = db.Column(db.Float, nullable=False)
+    address = db.Column(db.String, nullable=False)
+    address_picture = db.Column(db.String, nullable=False)
+    address_desc = db.Column(db.String, nullable=False)
 
-        Column('reg_active', Boolean(), default=True),
-        Column('event_active', Boolean(), default=True),
-    ]
+    create_date = db.Column(db.DateTime, default=datetime.utcnow)
+    start_date = db.Column(db.DateTime, default=datetime.utcnow)
+    end_date = db.Column(db.DateTime, default=datetime.utcnow)
+    registration_start_date = db.Column(db.DateTime, default=datetime.utcnow)
+    registration_end_date = db.Column(db.DateTime, default=datetime.utcnow)
 
-
-class EventMeetings(Table):
-    _name = 'event_meetings'
-    _schema = [
-        Column('order_number', Integer()),
-        Column('event', ForeignKey('event')),
-        Column('lesson', ForeignKey('lesson')),
-        Column('date', DateTime(), default=datetime.utcnow),
-        Column('lesson_active', Boolean(), default=False),
-    ]
+    reg_active = db.Column(db.Boolean, default=True)
+    event_active = db.Column(db.Boolean, default=True)
 
 
-class EventUsers(Table):
-    _name = 'event_users'
+class EventMeeting(EnchancedModel):
+    __tablename__ = 'event_meetings'
+
+    order_number = db.Column(db.Integer, nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    lesson_active = db.Column(db.Boolean, default=False)
+
+
+class EventUser(EnchancedModel):
+    __tablename__ = 'event_users'    
     _soft_restricted_keys = ['score', 'notes']
-    _schema = [
-        Column('event', ForeignKey('event')),
-        Column('users', ForeignKey('users')),
 
-        Column('confirmation', String(10), default='noans'),
-        Column('accepted', Boolean(), default=False),
-        Column('bring_power_cord', Boolean(), default=False),
-        Column('attend_weekly', Boolean(), default=False),
-        Column('notes', String(5000), default=''),
-        Column('score', Float(), default=0, required=False),
-        Column('i_helped', Boolean(), default=False),
-        Column('helped', String(5000), required=False),
-    ]
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-
-class Sponsor(Table):
-    _name = 'sponsor'
-    _schema = [
-        Column('id', Integer(), primary_key=True),
-        Column('name', String(255)),
-        Column('description', String(5000)),
-
-        Column('logo', String(255), required=False, default=''),
-        Column('webpage', String(255), required=False, default=''),
-        Column('linkedin', String(255), required=False),
-        Column('twitter', String(255), required=False),
-        Column('facebook', String(255), required=False),
-
-        Column('city', String(255), required=False),
-        Column('country', String(255), required=False),
-    ]
+    confirmation = db.Column(db.String, default='noans')
+    accepted = db.Column(db.Boolean, default=False)
+    bring_power_cord = db.Column(db.Boolean, default=False)
+    attend_weekly = db.Column(db.Boolean, default=False)
+    notes = db.Column(db.String, default='')
+    score = db.Column(db.Float, default=0)
+    i_helped = db.Column(db.Boolean)
+    helped = db.Column(db.String)
 
 
-class EventSponsor(Table):
-    _name = 'event_sponsor'
-    _schema = [
-        Column('order_number', Integer()),
-        Column('event', ForeignKey('event')),
-        Column('sponsor', ForeignKey('sponsor')),
-        Column('rank', String(255)),
-    ]
+class Sponsor(EnchancedModel):
+    __tablename__ = 'sponsors'    
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+
+    logo = db.Column(db.String, default='')
+    webpage = db.Column(db.String, default='')
+    linkedin = db.Column(db.String)
+    twitter = db.Column(db.String)
+    facebook = db.Column(db.String)
+
+    city = db.Column(db.String)
+    country = db.Column(db.String)
+
+
+class EventSponsors(EnchancedModel):
+    __tablename__ = 'event_sponsors'    
+
+    order_number = db.Column(db.Integer, nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+    sponsor_id = db.Column(db.Integer, db.ForeignKey('sponsors.id'), nullable=False)
+    rank = db.Column(db.String, nullable=False)

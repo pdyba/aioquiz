@@ -3,6 +3,8 @@
 import ssl
 from sys import stdout
 
+from models.db import db
+
 try:
     from sanic.config import LOGGING
     version = '0.6'
@@ -13,7 +15,7 @@ except:
 from sanic import Sanic
 from sanic_cors import CORS
 
-from config import SERVER
+from config import DB, SERVER
 from exception_handlers import add_exception_handlers
 from routes import add_urls
 from routes import add_static
@@ -53,10 +55,15 @@ except:
     context = None
 
 app = add_static(app)
-
 app = add_urls(app)
-
 app = add_exception_handlers(app)
+
+app.config.DB_HOST = DB.HOST
+app.config.DB_USER = DB.USER
+app.config.DB_PASSWORD = DB.PASSWORD
+app.config.DB_DATABASE = DB.DB
+
+db.init_app(app)
 
 if __name__ == "__main__":
     color_print('http://{}:{}'.format(SERVER.IP, port), color='green')

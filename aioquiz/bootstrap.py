@@ -2,39 +2,34 @@
 # encoding: utf-8
 import argparse
 import asyncio
-from datetime import datetime
 import os
 import random
 import shutil
 import string
-import types
+import timeit
 
 import markdown
 import yaml
 
+from config import DB, DEFAULT_USER
 import models
-from orm import Table
+from models.db import db
 from orm import UniqueViolationError
-
-from config import DEFAULT_USER
 from utils import color_print
 
-from types import ModuleType
-
-cls_to_skip = ('CommonTestTemplate', 'CommonTestQuestion', 'CommonTestAnswer', 'CommonTestStatus', 'DEFAULT_USER')
 
 LESSON_COUNTER = """
-Lesson: {}
+Lesson: {0.lesson_outcome}
 Images:
-    Done: {}
-    Errors: {}
-Quiz: {}
-    Done: {}
-    Errors: {}
-Exercises: {}
-    Created: {}
-    Updated: {}
-    Errors: {}
+    Done: {0.lesson_imgs_done}
+    Errors: {0.lesson_imgs_errors}
+Quiz: {0.quiz_outcome}
+    Done: {0.quiz_details_done}
+    Errors: {0.quiz_details_error}
+Exercises: {0.exercise_outcome}
+    Created: {0.exercise_details_created}
+    Updated: {0.exercise_details_updated}
+    Errors: {0.exercise_details_error}
 """
 
 
@@ -57,43 +52,14 @@ class LessonCounter:
     exercise_details_error = 0
 
     def __str__(self):
-        return LESSON_COUNTER.format(
-            self.lesson_outcome,
-            self.lesson_imgs_done,
-            self.lesson_imgs_errors,
-            self.quiz_outcome,
-            self.quiz_details_done,
-            self.quiz_details_error,
-            self.exercise_outcome,
-            self.exercise_details_created,
-            self.exercise_details_updated,
-            self.exercise_details_error,
-        )
-
-
-async def bootstrap_db():
-    for cls_name in dir(models):
-        if not cls_name.startswith('_'):
-            try:
-                cls = getattr(models, cls_name, None)
-                if isinstance(cls, types.FunctionType) or cls_name in cls_to_skip:
-                    color_print('skipping: ' + cls_name, color='yellow')
-                    continue
-                if isinstance(cls, ModuleType):
-                    color_print('skipping module: ' + cls_name, color='yellow')
-                    continue
-                if issubclass(cls, Table) and cls != Table:
-                    await cls.create_table()
-            except TypeError:
-                    color_print(cls_name, color='red')
-    color_print('DB bootstrap done', color='green')
+        return LESSON_COUNTER.format(self)
 
 
 async def gen_users():
     """
     For development only.
     """
-    start = datetime.utcnow()
+    start = timeit.default_timer()
 
     def text():
         rdata = list(string.ascii_lowercase)
@@ -104,59 +70,55 @@ async def gen_users():
     def gen_email():
         rdata = list(string.ascii_lowercase)
         random.shuffle(rdata)
-        rdata = ''.join(rdata)[:8]
-        return rdata
+        return ''.join(rdata)[:8]
 
     for _ in range(10):
         email = gen_email()
-        new_user = {
-            'email': 'user_' + email + '@test.pl',
-            'password': 'test_1',
-            'img': '0000000001.jpg',
-            'description': text(),
-            'motivation': text(),
-            'what_can_you_bring': 'ciasteczka',
-            'experience': text(),
-            'mentor': False,
-            'active': True,
-            'organiser': False,
-            'admin': False,
-            'name': email[:8],
-            'surname': email[9:],
-            'linkedin': 'https://www.linkedin.com/in/' + email,
-            'twitter': 'https://twitter.com/' + email,
-            'facebook': 'https://www.facebook.com/' + email,
-        }
-        tbl = models.Users(**new_user)
-        await tbl.create()
-    print('Created 10 users in ' + str(datetime.utcnow() - start))
+        await models.User.create(
+            email='user_' + email + '@test.pl',
+            password='test_1',
+            img='0000000001.jpg',
+            description=text(),
+            motivation=text(),
+            what_can_you_bring='ciasteczka',
+            experience=text(),
+            mentor=False,
+            active=True,
+            organiser=False,
+            admin=False,
+            name=email[:8],
+            surname=email[9:],
+            linkedin='https://www.linkedin.com/in/' + email,
+            twitter='https://twitter.com/' + email,
+            facebook='https://www.facebook.com/' + email,
+        )
+
+    time = (timeit.default_timer() - start) * 1000
+    color_print('Created 10 users in {:.3f} ms'.format(time), color='green')
 
 
 async def admin():
-    new_user = {
-        'email': 'piotr@dyba.it',
-        'password': 'test_1',
-        'img': '0000000001.jpg',
-        'description': 'Przykladowy opis',
-        'motivation': 'Motivation opis',
-        'what_can_you_bring': 'wiedze',
-        'experience': 'spore',
-        'mentor': True,
-        'active': True,
-        'organiser': True,
-        'admin': True,
-        'name': 'Piotr',
-        'pyfunction': 'Chief Education Officer',
-        'surname': 'Dyba',
-        'linkedin': 'https://www.linkedin.com/in/pdyba',
-        'twitter': 'https://twitter.com/dybacompl',
-        'facebook': 'https://www.facebook.com/piotr.dyba.photo',
-    }
-
-    tbl = models.Users(**new_user)
-    await tbl.create()
-    await models.Users.get_by_id(1)
-    color_print('Admin Created', color='green')
+    await models.User.create(
+        email='piotr@dyba.it',
+        password='test_1',
+        img='0000000001.jpg',
+        description='Przykladowy opis',
+        motivation='Motivation opis',
+        what_can_you_bring='wiedze',
+        experience='spore',
+        mentor=True,
+        active=True,
+        organiser=True,
+        admin=True,
+        name='Piotr',
+        pyfunction='Chief Education Officer',
+        surname='Dyba',
+        linkedin='https://www.linkedin.com/in/pdyba',
+        twitter='https://twitter.com/dybacompl',
+        facebook='https://www.facebook.com/piotr.dyba.photo',
+    )
+    await models.User.get(1)
+    color_print('Admin created', color='green')
 
 
 async def add_question(qpath="../bootstrap_data/questions.question", verbose=False):
@@ -176,7 +138,7 @@ async def add_question(qpath="../bootstrap_data/questions.question", verbose=Fal
             await question.update_or_create('question')
         except Exception as err:
             if UniqueViolationError:
-                color_print('question already existed', color='blue')
+                color_print('question already exists', color='blue')
                 continue
             print(err)
             return
@@ -332,7 +294,7 @@ async def add_exam(e_path, verbose=False):
             question_order += 1
         except Exception as err:
             if UniqueViolationError:
-                color_print('question already existed', color='blue')
+                color_print('question already exists', color='blue')
                 continue
             print(err)
             return
@@ -340,45 +302,50 @@ async def add_exam(e_path, verbose=False):
 
 
 def get_parser():
-    a_parser = argparse.ArgumentParser()
-    a_parser.add_argument("-l", "--lesson", help="Add lesson with given id, example: --lesson 0024")
-    a_parser.add_argument("-e", "--exam", help="Add exam from path")
-    a_parser.add_argument("-q", "--questions", help="Add questions from path")
-    a_parser.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
-    a_parser.add_argument("--alllessons", help="Add all lessons", action="store_true")
-    a_parser.add_argument("--addquestion", help="Add all question", action="store_true")
-    a_parser.add_argument("--bootstrap", help="Bootstrap the DB", action="store_true")
-    a_parser.add_argument("--admin", help="Create admin account in the DB", action="store_true")
-    a_parser.add_argument(
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-l", "--lesson", help="Add lesson with given id, example: --lesson 0024")
+    parser.add_argument("-e", "--exam", help="Add exam from path")
+    parser.add_argument("-q", "--questions", help="Add questions from path")
+    parser.add_argument("-v", "--verbose", help="Verbose mode", action="store_true")
+    parser.add_argument("--alllessons", help="Add all lessons", action="store_true")
+    parser.add_argument("--allquestions", help="Add all questions", action="store_true")
+    parser.add_argument("--bootstrap", help="Bootstrap the DB", action="store_true")
+    parser.add_argument("--admin", help="Create admin account in the DB", action="store_true")
+    parser.add_argument(
         "--devusers",
         help="Generate 10 user accounts for development purposes in the DB",
         action="store_true"
     )
-    return a_parser
+    return parser
+
+
+async def main():
+    args = get_parser().parse_args()
+
+    await db.set_bind('postgresql://{}:{}@{}/{}'.format(DB.USER, DB.PASSWORD, DB.HOST, DB.DB))
+
+    if args.bootstrap:
+        await db.gino.create_all()
+        color_print('DB bootstrap done', color='green')
+    if args.devusers:
+        await gen_users()
+    if args.lesson:
+        await create_html_lessons(lesson=args.lesson, verbose=args.verbose)
+    if args.exam:
+        await add_exam(args.exam, verbose=args.verbose)
+    if args.questions:
+        await add_question(args.questions, verbose=args.verbose)
+    if args.alllessons:
+        await create_html_lessons(verbose=args.verbose)
+    if args.allquestions:
+        await add_question(verbose=args.verbose)
+    if args.admin:
+        await admin()
+
+    color_print('ALL Done', color='green')
 
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    parser = get_parser()
-    args = parser.parse_args()
-    if args.devusers:
-        loop.run_until_complete(gen_users())
-    if args.bootstrap:
-        loop.run_until_complete(bootstrap_db())
-        ans = input('Have You seen any errors (red) - y/n ')
-        if ans.lower() == 'y':
-            loop.run_until_complete(bootstrap_db())
-    if args.lesson:
-        loop.run_until_complete(create_html_lessons(lesson=args.lesson, verbose=args.verbose))
-    if args.exam:
-        loop.run_until_complete(add_exam(args.exam, verbose=args.verbose))
-    if args.questions:
-        loop.run_until_complete(add_question(args.questions, verbose=args.verbose))
-    if args.alllessons:
-        loop.run_until_complete(create_html_lessons(verbose=args.verbose))
-    if args.addquestion:
-        loop.run_until_complete(add_question(verbose=args.verbose))
-    if args.admin:
-        loop.run_until_complete(admin())
+    loop.run_until_complete(main())
     loop.close()
-    color_print('ALL Done', color='green')

@@ -5,7 +5,7 @@ import logging
 
 from sanic.response import json
 
-from models import Users
+from models import User
 from models import UserReview
 
 from orm import DoesNotExist
@@ -18,12 +18,12 @@ from views.utils import OrganiserMCV
 
 
 class SetOrganiserView(AdminMCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/admin/user/set_organiser'
 
     async def post(self):
         req = self.req.json
-        user = await Users.get_by_id(req['uid'])
+        user = await User.get(req['uid'])
         if user:
             user.organiser = req['organiser']
             await user.update()
@@ -32,12 +32,12 @@ class SetOrganiserView(AdminMCV):
 
 
 class SetMentorView(AdminMCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/admin/user/set_mentor'
 
     async def post(self):
         req = self.req.json
-        user = await Users.get_by_id(req['uid'])
+        user = await User.get(req['uid'])
         if user:
             user.mentor = req['mentor']
             await user.update()
@@ -49,12 +49,12 @@ class SetMentorView(AdminMCV):
 
 
 class ChangeActiveView(AdminMCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/admin/user/set_active'
 
     async def post(self):
         req = self.req.json
-        user = await Users.get_by_id(req['uid'])
+        user = await User.get(req['uid'])
         if user:
             user.active = req['active']
             await user.update()
@@ -63,11 +63,11 @@ class ChangeActiveView(AdminMCV):
 
 
 class ReviewAttendeesView(OrganiserMCV):
-    _cls = Users
+    _cls = User
     _urls = ['/api/admin/user/review']
 
     async def get(self):
-        allusers = await Users.get_by_many_field_value(
+        allusers = await User.get_by_many_field_value(
             admin=False,
             organiser=False
         )
@@ -96,7 +96,7 @@ class ReviewAttendeesView(OrganiserMCV):
         if not await ur.create():
             return json({'msg': 'already exists', 'error': True})
         all_ur = await UserReview.get_by_field_value('users', req['users'])
-        user = await Users.get_by_id(req['users'])
+        user = await User.get(req['users'])
         new_score = sum(u.score for u in all_ur) / (len(all_ur) or 1)
         user.score = new_score
         await user.update()
@@ -105,7 +105,7 @@ class ReviewAttendeesView(OrganiserMCV):
     async def put(self):
         try:
             req = self.req.json
-            user = await Users.get_by_id(req['users'])
+            user = await User.get(req['users'])
             user.accepted = req['accept']
             await user.update()
             return json({'success': True})
@@ -116,14 +116,14 @@ class ReviewAttendeesView(OrganiserMCV):
 
 # noinspection PyMethodMayBeStatic
 class AdminForgotPasswordView(AdminMCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/admin/users/new_password/<email>'
 
     # noinspection PyUnusedLocal
 
     async def get(self, email):
         try:
-            user = await Users.get_first_by_many_field_value(email=email)
+            user = await User.get_first_by_many_field_value(email=email)
         except DoesNotExist:
             logging.error(email)
             user = False

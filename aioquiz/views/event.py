@@ -4,9 +4,9 @@ import logging
 
 from sanic.response import json
 
-from models import Users
+from models import User
 from models.event import Event
-from models.event import EventUsers
+from models.event import EventUser
 from models.event import Sponsor
 from utils import hash_string
 
@@ -15,12 +15,12 @@ from views.utils import MCV
 
 # noinspection PyBroadException, PyMethodMayBeStatic
 class EventAttendenceConfirmation(MCV):
-    _cls = Users
+    _cls = User
     _urls = ['/api/event/absence', '/api/event/absence/<uid>/<rhash>/<answer>']
 
     async def get(self, uid, rhash, answer):
         try:
-            user = await Users.get_by_id(int(uid))
+            user = await User.get(int(uid))
             uhash = hash_string(user.name + str(user.id) + user.email)
             if not user.accepted:
                 logging.error('{} was trying to hack us'.format(user.email))
@@ -84,7 +84,7 @@ class EventsView(MCV):
         events = await self._get(an_id)
         if not self.current_user:
             return json(events)
-        user_events = await EventUsers.get_by_many_field_value(users=self.current_user.id)
+        user_events = await EventUser.get_by_many_field_value(users=self.current_user.id)
         for uev in user_events:
             uev = await uev.to_dict()
             list(filter(lambda a: a.get('id') == uev.get('event'), events))[0].update({'user_data': uev})
@@ -97,14 +97,14 @@ class EventView(MCV):
 
     async def get(self, an_id=None):
         if not (self.current_user.admin or self.current_user.organiser):
-            user_ev = await EventUsers.get_first_by_many_field_value(users=self.current_user.id)
+            user_ev = await EventUser.get_first_by_many_field_value(users=self.current_user.id)
             return json({'context': user_ev.event or 0})
         return await super().get(an_id=an_id)
 
     async def post(self):
         try:
             req = self.req.json
-            model = EventUsers(**req)
+            model = EventUser(**req)
             await model.create()
             return json({'success': True, 'msg': 'Signed up!'})
         except:
@@ -113,7 +113,7 @@ class EventView(MCV):
 
     async def delete(self, an_id=None):
         try:
-            await EventUsers.delete_by_many_fields(users=self.current_user.id, event=an_id)
+            await EventUser.delete_by_many_fields(users=self.current_user.id, event=an_id)
             return json({'success': True, 'msg': 'Unsigned'})
         except:
             logging.exception('err {}.delete'.format(self._get_name()))

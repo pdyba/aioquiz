@@ -9,7 +9,7 @@ from models import Exercise
 from models import ExerciseAnswer
 from models import ExamAnswer
 from models import Lesson
-from models import Users
+from models import User
 
 from orm import DoesNotExist
 
@@ -93,7 +93,7 @@ class AbsenceStatsView(MCV):
     async def get(self, lid=None):
         if self.current_user.admin and lid:
             absences = await Absence.get_by_field_value('lesson', lid)
-            lesson = await Lesson.get_by_id(lid)
+            lesson = await Lesson.get(lid)
             lesson = lesson.title
             max_absences = 200
             current_attendence = len(absences)
@@ -107,7 +107,7 @@ class AbsenceStatsView(MCV):
 
         for absence in absences:
             if not lid:
-                lesson = await Lesson.get_by_id(absence.lesson)
+                lesson = await Lesson.get(absence.lesson)
                 data = {'lesson': lesson.title}
                 uabs = list(filter(
                     lambda b: b.lesson == absence.lesson,
@@ -116,7 +116,7 @@ class AbsenceStatsView(MCV):
                 data['absent'] = True if uabs else False
             else:
                 data = await absence.to_dict()
-                user = await Users.get_by_id(data['users'])
+                user = await User.get(data['users'])
                 data['users'] = user.surname
             attendance.append(data)
 

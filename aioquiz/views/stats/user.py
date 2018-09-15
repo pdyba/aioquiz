@@ -3,51 +3,51 @@
 from sanic.response import json
 
 from views.utils import MCV
-from models import Users
+from models import User
 
 
 class UserStatsView(MCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/users_stats'
     access_level_default = 'admin'
 
     async def get(self):
         resp = {
-            'all': await Users.count_all(),
-            'mentors': await Users.count_by_field(
+            'all': await User.count_all(),
+            'mentors': await User.count_by_field(
                 mentor=True,
                 organiser=False,
                 admin=False
             ),
-            'attendees': await Users.count_by_field(
+            'attendees': await User.count_by_field(
                 mentor=False,
                 organiser=False
             ),
-            'organisers': await Users.count_by_field(
+            'organisers': await User.count_by_field(
                 organiser=True,
                 admin=False
             ),
-            'admins': await Users.count_by_field(admin=True),
-            'attendee_accepted': await Users.count_by_field(
+            'admins': await User.count_by_field(admin=True),
+            'attendee_accepted': await User.count_by_field(
                 accepted=True,
                 mentor=False)
             ,
-            'attendee_confirmed': await Users.count_by_field(
+            'attendee_confirmed': await User.count_by_field(
                 confirmation='ack',
                 mentor=False,
                 accepted=True
             ),
-            'attendee_noans_accepted': await Users.count_by_field(
+            'attendee_noans_accepted': await User.count_by_field(
                 confirmation='noans',
                 mentor=False,
                 accepted=True
             ),
-            'attendee_rej_user': await Users.count_by_field(
+            'attendee_rej_user': await User.count_by_field(
                 confirmation='rej_user',
                 mentor=False,
                 accepted=True
             ),
-            'attendee_rej_time': await Users.count_by_field(
+            'attendee_rej_time': await User.count_by_field(
                 confirmation='rej_time',
                 mentor=False,
                 accepted=True

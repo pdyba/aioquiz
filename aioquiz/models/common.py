@@ -1,78 +1,70 @@
 # !/usr/bin/python3.5
 from datetime import datetime
 
-from orm import Boolean
-from orm import Column
-from orm import DateTime
+from models.db import db, EnchancedModel
 from orm import DoesNotExist
-from orm import Float
-from orm import ForeignKey
-from orm import Integer
-from orm import String
-from orm import Table
 
 from utils import create_uuid
 from utils import hash_string
 from utils import safe_del_key
 
 
-class Users(Table):
+class User(EnchancedModel):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String, unique=True, nullable=False)
+    name = db.Column(db.String, nullable=False)
+    surname = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
+    magic_string = db.Column(db.String, default='')
+    create_date = db.Column(db.DateTime, default=datetime.utcnow)
+    last_login = db.Column(db.DateTime, default=datetime.utcnow)
+    magic_string_date = db.Column(db.DateTime, default=datetime.utcnow)
+    mentor = db.Column(db.Boolean, default=False)
+    organiser = db.Column(db.Boolean, default=False)
+
+    admin = db.Column(db.Boolean, default=False)
+    session_uuid = db.Column(db.String)
+
+    img = db.Column(db.String, default='')
+    linkedin = db.Column(db.String)
+    twitter = db.Column(db.String)
+    facebook = db.Column(db.String)
+
+    city = db.Column(db.String)
+    education = db.Column(db.String)
+    university = db.Column(db.String)
+    t_shirt = db.Column(db.String)
+    lang = db.Column(db.String, default='pl')
+    age = db.Column(db.Integer, default=99)
+
+    python = db.Column(db.Boolean, default=False)
+    operating_system = db.Column(db.String)
+    description = db.Column(db.String)
+    motivation = db.Column(db.String)
+    what_can_you_bring = db.Column(db.String)
+    experience = db.Column(db.String)
+    app_idea = db.Column(db.String)
+
+    pyfunction = db.Column(db.String)
+
+    confirmation = db.Column(db.String, default='noans')
+    active = db.Column(db.Boolean, default=False)
+    accepted_rules = db.Column(db.Boolean, default=False)
+    accepted = db.Column(db.Boolean, default=False)
+    bring_power_cord = db.Column(db.Boolean, default=False)
+    attend_weekly = db.Column(db.Boolean, default=False)
+    i_needed_help = db.Column(db.Integer, default=0)
+
+    notes = db.Column(db.String, default='')
+    score = db.Column(db.Float, default=0)
+    i_helped = db.Column(db.Boolean, default=False)
+    helped = db.Column(db.String)
+    gdpr = db.Column(db.Boolean, default=False)
+
     _restricted_keys = ['session_uuid', 'password', 'magic_string', 'magic_string_date']
     _soft_restricted_keys = ['score', 'notes']
-    _name = 'users'
-    _schema = [
-        Column('id', Integer(), primary_key=True),
-        Column('email', String(255), unique=True),
-        Column('name', String(255)),
-        Column('surname', String(255)),
-        Column('password', String(1000)),
-        Column('magic_string', String(50), default='', required=False),
-        Column('create_date', DateTime(), default=datetime.utcnow),
-        Column('last_login', DateTime(), default=datetime.utcnow),
-        Column('magic_string_date', DateTime(), default=datetime.utcnow),
-        Column('mentor', Boolean(), default=False),
-        Column('organiser', Boolean(), default=False),
-
-        Column('admin', Boolean(), default=False),
-        Column('session_uuid', String(255), required=False),
-
-        Column('img', String(255), required=False, default=''),
-        Column('linkedin', String(255), required=False),
-        Column('twitter', String(255), required=False),
-        Column('facebook', String(255), required=False),
-
-        Column('city', String(255), required=False),
-        Column('education', String(255), required=False),
-        Column('university', String(255), required=False),
-        Column('t_shirt', String(10), required=False),
-        Column('lang', String(20), required=False, default='pl'),
-        Column('age', Integer(), required=False, default=99),
-
-        Column('python', Boolean(), default=False),
-        Column('operating_system', String(10), required=False),
-        Column('description', String(5000), required=False),
-        Column('motivation', String(5000), required=False),
-        Column('what_can_you_bring', String(5000), required=False),
-        Column('experience', String(5000), required=False),
-        Column('app_idea', String(5000), required=False),
-
-        Column('pyfunction', String(255), required=False),
-
-        Column('confirmation', String(10), default='noans'),
-        Column('active', Boolean(), default=False),
-        Column('accepted_rules', Boolean(), default=False),
-        Column('accepted', Boolean(), default=False),
-        Column('bring_power_cord', Boolean(), default=False),
-        Column('attend_weekly', Boolean(), default=False),
-        Column('i_needed_help', Integer(), default=0),
-
-        Column('notes', String(5000), default=''),
-        Column('score', Float(), default=0, required=False),
-        Column('i_helped', Boolean(), default=False),
-        Column('helped', String(5000), required=False),
-        Column('gdpr', Boolean(), default=False),
-    ]
-
     _banned_user_keys = [
         'i_needed_help', 'accepted_rules',
     ]
@@ -83,9 +75,11 @@ class Users(Table):
         'i_helped', 'helped',
     ]
 
-    async def create(self):
-        self.password = hash_string(self.password)
-        return await super().create()
+    @classmethod
+    async def create(cls, *args, **kwargs):
+        if 'password' in kwargs:
+            kwargs['password'] = hash_string(kwargs['password'])
+        return await super().create(*args, **kwargs)
 
     @staticmethod
     async def validate_password(new_password):
@@ -132,55 +126,54 @@ class Users(Table):
         data = safe_del_key(data, self._banned_user_keys)
         return data
 
-    async def update(self, **kwargs):
-        if not self.magic_string_date:
-            self.magic_string_date = datetime.utcnow()
-        return await super().update(**kwargs)
+    # FIXME: This breaks updating for some reason
+    # def update(self, *args, **kwargs):
+    #     if not self.magic_string_date:
+    #         kwargs['magic_string_date'] = datetime.utcnow()
+    #     return super().update(*args, **kwargs)
 
     def is_only_attendee(self):
         return not (self.admin or self.mentor or self.organiser)
 
     async def set_session_uuid(self, session_uuid):
-        await self.update_only_one_value('session_uuid', session_uuid)
+        await self.update(session_uuid=session_uuid).apply()
 
     async def get_session_uuid(self):
-        session_uuid =  create_uuid()
+        session_uuid = create_uuid()
         await self.set_session_uuid(session_uuid)
-        await self.update_only_one_value('last_login', datetime.utcnow())
+        await self.update(last_login=datetime.utcnow()).apply()
         return session_uuid
 
 
-class UserReview(Table):
-    _name = 'user_review'
-    _schema = [
-        Column('users', ForeignKey('users')),
-        Column('reviewer', ForeignKey('users')),
-        Column('score', Integer()),
-    ]
-    _unique = ['users', 'reviewer']
+class UserReview(EnchancedModel):
+    __tablename__ = 'user_reviews'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    reviewer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    score = db.Column(db.Integer, nullable=False)
+
+    # TODO _unique = ['user_d', 'reviewer_id']
 
 
-class Seat(Table):
-    _name = 'seat'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('row', String(255)),
-        Column('number', Integer()),
-        Column('users', ForeignKey('users'), unique=True),
-        Column('i_need_help', Boolean(), default=False),
-    ]
+class Seat(EnchancedModel):
+    __tablename__ = 'seats'
+
+    id = db.Column(db.Integer, primary_key=True)
+    row = db.Column(db.String, nullable=False)
+    number = db.Column(db.Integer(), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
+    i_need_help = db.Column(db.Boolean(), default=False)
 
 
-class Config(Table):
-    _name = 'config'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('reg_active', Boolean(), default=True),
-        Column('room_raws', Integer(), default=10),
-        Column('room_columns', Integer(), default=10),
-    ]
+class Config(EnchancedModel):
+    __tablename__ = 'config'
+
+    id = db.Column(db.Integer, primary_key=True)
+    reg_active = db.Column(db.Boolean, default=True)
+    room_raws = db.Column(db.Integer, default=10)
+    room_columns = db.Column(db.Integer, default=10)
 
     @classmethod
     async def get_registration(cls):
-        config = await cls.get_by_id(1)
+        config = await cls.get(1)
         return config.reg_active

@@ -8,7 +8,7 @@ from sanic.response import json
 import config
 from orm import DoesNotExist
 from views.utils import MCV
-from models import Users
+from models import User
 
 from utils import hash_string
 from utils import send_email
@@ -19,7 +19,7 @@ _users = {}
 
 # noinspection PyBroadException PyMethodMayBeStatic
 class AuthenticateView(MCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/auth/login'
     access_level_default = 'no_user'
 
@@ -32,7 +32,7 @@ class AuthenticateView(MCV):
         global _users
         try:
             req = self.req.json
-            user = await Users.get_first('email', req.get('email', ''))
+            user = await User.get_first('email', req.get('email', ''))
             if not user:
                 return json({'msg': 'User not found'}, status=404)
             if not user.active:
@@ -65,7 +65,7 @@ class AuthenticateView(MCV):
 
 # noinspection PyMethodMayBeStatic
 class MagicAuthenticateView(MCV):
-    _cls = Users
+    _cls = User
     _urls = [
         '/api/auth/magic_link',
         '/api/auth/magic_link/<magic_string>'
@@ -82,7 +82,7 @@ class MagicAuthenticateView(MCV):
                 {'success': False, 'msg': 'Invalid Magic Link'},
             )
         try:
-            user = await Users.get_first('magic_string', magic_string)
+            user = await User.get_first('magic_string', magic_string)
         except DoesNotExist:
             return json(
                 {'success': False, 'msg': 'Wrong Magic Link'},
@@ -114,7 +114,7 @@ class MagicAuthenticateView(MCV):
             req = self.req.json
             http_s = config.SERVER.SCHEME or self.req.scheme
             try:
-                user = await Users.get_first_by_many_field_value(email=req.get('email'))
+                user = await User.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
                 return json({'msg': 'wrong email or user does not exist'})
             await user.set_magic_string()
@@ -146,7 +146,7 @@ class MagicAuthenticateView(MCV):
 
 # noinspection PyMethodMayBeStatic
 class LogOutView(MCV):
-    _cls = Users
+    _cls = User
     _urls = '/api/auth/logout'
     access_level_default = 'no_user'
     

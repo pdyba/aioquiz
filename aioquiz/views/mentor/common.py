@@ -17,7 +17,7 @@ class CommonMentorTestBase(MentorMCV):
 
     async def get(self, tid=0):
         if tid:
-            test = await self._cls.get_by_id(tid)
+            test = await self._cls.get(tid)
             resp = await test.to_dict()
             questions = await test.get_all_questions_to_grade(tid)
             resp['all_questions'] = questions
@@ -34,7 +34,7 @@ class CommonMentorTestBase(MentorMCV):
 
     async def post(self, tid=0):
         if tid:
-            test = await self._cls.get_by_id(tid)
+            test = await self._cls.get(tid)
             status = await test.close_test()
             status.update({
                 'success': True,
@@ -79,7 +79,7 @@ class CommonMentorQuestionGradeBase(MentorMCV):
 
     async def get(self, qid=0):
         if qid:
-            question = await Question.get_by_id(qid)
+            question = await Question.get(qid)
             resp = await question.to_dict()
             resp['answers'] = await self._cls.get_by_anwers_to_grade_by_qid(qid)
             return json(resp)
@@ -93,7 +93,7 @@ class CommonMentorQuestionAutoGradeBase(MentorMCV):
 
     async def get(self, qid=0):
         if qid:
-            question = await Question.get_by_id(qid)
+            question = await Question.get(qid)
             if question.qtype not in ('abcd', 'bool'):
                 return json({
                     'msg': 'You cannot autograde questions types other than abcd and bool',

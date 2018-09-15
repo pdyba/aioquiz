@@ -13,16 +13,22 @@ It is written in Python using asynchronous framework Sanic, PostgresSQL and Angu
 
 ## install and bootstrap PostgresSQL
 
+```bash
+apt-get update
+sudo apt-get install postgresql postgresql-contrib
+sudo adduser aioquiz
+sudo -u postgres createuser --interactive
+sudo -u postgres createdb aioquizdb
+sudo -u postgres psql
+alter user aioquiz with encrypted password '<password>';
+grant all privileges on database aioquizdb to aioquiz;
+```
 
-* `apt-get update <br>`
-* `sudo apt-get install postgresql postgresql-contrib`
-* `sudo adduser aioquiz`
-* `sudo -u postgres createuser --interactive`
-* `sudo -u postgres createdb aioquizdb`
+### using Docker
 
-* `sudo -u postgres psql`
-* `alter user aioquiz with encrypted password '<password>';`
-* `grant all privileges on database aioquizdb to aioquiz;`
+```bash
+docker run --name aioquiz-postgres -e POSTGRES_USER=aiopg -e POSTGRES_PASSWORD=aiopg -e POSTGRES_DB=postgres -p 5432:5432 -d postgres
+```
 
 ## bootstrap DB
 

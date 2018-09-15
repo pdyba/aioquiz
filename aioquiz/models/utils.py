@@ -3,47 +3,34 @@ from datetime import datetime
 import logging
 
 from config import DEFAULT_USER
-
-from orm import Boolean
-from orm import Column
-from orm import CodeString
-from orm import DateTime
+from models.db import db, EnchancedModel
 from orm import DoesNotExist
-from orm import ForeignKey
-from orm import Integer
-from orm import String
-from orm import Table
-
-from utils import ClassProperty
 
 
-class Question(Table):
-    _name = 'question'
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('question', String(1000)),
-        Column('answers', CodeString(2000), default=''),
-        Column('possible_answer', String(1000), default=''),
-        Column('qtype', String(50), default='plain'),
-        Column('img', String(255), required=False, default=''),
-        Column('users', ForeignKey('users'), default=DEFAULT_USER),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-    ]
+class Question(EnchancedModel):
+    __tablename__ = 'questions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.String, nullable=False)
+    answers = db.Column(db.CodeString, default='')
+    possible_answer = db.Column(db.String, default='')
+    qtype = db.Column(db.String, default='plain')
+    img = db.Column(db.String, default='')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), default=DEFAULT_USER)
+    time_created = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class CommonTestTemplate(Table):
-    _name = ''
+class CommonTestTemplate:
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), default=DEFAULT_USER)
+    time_created = db.Column(db.DateTime, default=datetime.utcnow)
+    active = db.Column(db.Boolean, default=False)
+
     _questions = None
     _status = None
     _answers = None
-    _schema = [
-        Column('id', Integer, primary_key=True),
-        Column('title', String(255)),
-        Column('description', String(10000)),
-        Column('users', ForeignKey('users'), default=DEFAULT_USER),
-        Column('time_created', DateTime(), default=datetime.utcnow),
-        Column('active', Boolean(), default=False),
-    ]
 
     async def get_question(self, uid=0, as_json=True):
         return await self._questions.get_all_for_test(self.id, uid=uid, answer_cls=self._answers, as_json=as_json)
@@ -152,21 +139,12 @@ class CommonTestTemplate(Table):
         return resp
 
 
-class CommonTestQuestion(Table):
-    _name = ''
+class CommonTestQuestion:
     _fk_col = ''
 
-    @ClassProperty
-    def _schema(cls):
-        return [
-            Column(cls._fk_col, ForeignKey(cls._fk_col)),
-            Column('question', ForeignKey('question')),
-            Column('question_order', Integer(), default=0),
-        ]
-
-    @ClassProperty
-    def _unique(cls):
-        return ['question_order', cls._fk_col]
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), nullable=False)
+    question_order = db.Column(db.Integer, default=0)
+    # TODO unique = ['question_order', cls._fk_col]
 
     @classmethod
     async def get_all_for_test(cls, tid, uid=0, answer_cls=None, as_json=True):
@@ -178,7 +156,7 @@ class CommonTestQuestion(Table):
             if as_json:
                 qid = tq.question
                 tq = await tq.to_dict()
-                quest = await Question.get_by_id(qid)
+                quest = await Question.get(qid)
                 tq['question_details'] = await quest.to_dict()
                 if uid and answer_cls:
                     answer = await answer_cls.get_answer_by_uid(quest.id, uid)
@@ -187,24 +165,16 @@ class CommonTestQuestion(Table):
         return resp
 
 
-class CommonTestAnswer(Table):
-    _name = ''
+class CommonTestAnswer:
     _fk_col = ''
 
-    @ClassProperty
-    def _schema(cls):
-        return [
-            Column('users', ForeignKey('users')),
-            Column(cls._fk_col, ForeignKey(cls._fk_col)),
-            Column('question', ForeignKey('question')),
-            Column('answer', CodeString(5000)),
-            Column('comment', CodeString(1000), required=False, default=''),
-            Column('score', Integer(), default=-1),
-        ]
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), nullable=False)
+    answer = db.Column(db.CodeString, nullable=False)
+    comment = db.Column(db.CodeString, default='')
+    score = db.Column(db.Integer, default=-1)
 
-    @ClassProperty
-    def _unique(cls):
-        return ['users', 'question']
+    # TODO unique = ['users', 'question']
 
     @classmethod
     async def get_answer_by_uid(cls, qid, uid):
@@ -248,21 +218,13 @@ class CommonTestAnswer(Table):
         return await cls.sum('score',  **{cls._fk_col: tid, "users": uid}) or 0
 
 
-class CommonTestStatus(Table):
-    _name = ''
+class CommonTestStatus:
     _fk_col = ''
 
-    @ClassProperty
-    def _schema(cls):
-        return [
-            Column('users', ForeignKey('users')),
-            Column(cls._fk_col, ForeignKey(cls._fk_col)),
-            Column('progress', Integer(), default=0),
-            Column('score', Integer(), default=-1),
-            Column('comment', CodeString(1000), required=False, default=''),
-            Column('status', String(50), default='NotStarted'),
-        ]
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    progress = db.Column(db.Integer, default=0)
+    score = db.Column(db.Integer, default=-1)
+    comment = db.Column(db.CodeString, default='')
+    status = db.Column(db.String, default='NotStarted')
 
-    @ClassProperty
-    def _unique(cls):
-        return ['users', cls._fk_col]
+    # TODO unique = ['users', cls._fk_col]
