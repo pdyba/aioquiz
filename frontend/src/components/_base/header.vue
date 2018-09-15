@@ -151,9 +151,9 @@
   },
   "pl": {
     "lessons": "Lekcje",
-    "about": "O nas",
+    "about": "O Nas",
     "quiz": "Kartkówka",
-    "feedback": "infomracja zwrotna",
+    "feedback": "Informacja Zwrotna",
     "exam": "Egzamin"
   }
 }
