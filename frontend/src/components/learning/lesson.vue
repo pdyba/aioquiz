@@ -79,7 +79,7 @@
     "lesson": "lekcja",
     "exercises": "ćwiczenia",
     "livequiz": "podsumowanie",
-    "feedback": "infomracja zwrotna",
+    "feedback": "informacja zwrotna",
     "homework": "zadanie domowe"
   }
 }
