@@ -7,8 +7,7 @@ from sanic.response import json
 
 import config
 from orm import DoesNotExist
-from views.utils import user_required
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 from models import Users
 
 from utils import hash_string
@@ -19,19 +18,20 @@ _users = {}
 
 
 # noinspection PyBroadException PyMethodMayBeStatic
-class AuthenticateView(HTTPModelClassView):
+class AuthenticateView(MCV):
     _cls = Users
     _urls = '/api/auth/login'
+    access_level_default = 'no_user'
 
     user_error = json(
         {'success': False, 'msg': 'Wrong user name or password'},
         status=404
     )
 
-    async def post(self, request):
+    async def post(self):
         global _users
         try:
-            req = request.json
+            req = self.req.json
             user = await Users.get_first('email', req.get('email', ''))
             if not user:
                 return json({'msg': 'User not found'}, status=404)
@@ -64,18 +64,19 @@ class AuthenticateView(HTTPModelClassView):
 
 
 # noinspection PyMethodMayBeStatic
-class MagicAuthenticateView(HTTPModelClassView):
+class MagicAuthenticateView(MCV):
     _cls = Users
     _urls = [
         '/api/auth/magic_link',
         '/api/auth/magic_link/<magic_string>'
     ]
-
+    access_level_default = 'no_user'
+    
     user_error = json(
         {'success': False, 'msg': 'Wrong user name or password'},
     )
 
-    async def get(self, request, magic_string=''):
+    async def get(self, magic_string=''):
         if not magic_string or len(magic_string) < 32:
             return json(
                 {'success': False, 'msg': 'Invalid Magic Link'},
@@ -108,10 +109,10 @@ class MagicAuthenticateView(HTTPModelClassView):
             'confirmation': user.confirmation
         })
 
-    async def post(self, request):
+    async def post(self):
         try:
-            req = request.json
-            http_s = config.SERVER.SCHEME or request.scheme
+            req = self.req.json
+            http_s = config.SERVER.SCHEME or self.req.scheme
             try:
                 user = await Users.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
@@ -125,7 +126,7 @@ class MagicAuthenticateView(HTTPModelClassView):
             """.format(
                 http_s=http_s,
                 mlink=user.magic_string,
-                server=config.SERVER.NAME or request.host
+                server=config.SERVER.NAME or self.req.host
             )
             resp = await send_email(
                 recipients=[user.email],
@@ -144,14 +145,12 @@ class MagicAuthenticateView(HTTPModelClassView):
 
 
 # noinspection PyMethodMayBeStatic
-class LogOutView(HTTPModelClassView):
+class LogOutView(MCV):
     _cls = Users
     _urls = '/api/auth/logout'
-
-    # noinspection PyUnusedLocal, PyMethodOverriding
-    @user_required(msg='Already log out', code=403)
-    async def get(self, request, current_user):
-        if current_user:
-            await current_user.set_session_uuid('')
+    
+    async def get(self):
+        if self.current_user:
+            await self.current_user.set_session_uuid('')
             return json({'success': True})
         return json({'success': False}, status=403)

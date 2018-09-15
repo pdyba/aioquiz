@@ -2,17 +2,16 @@
 # encoding: utf-8
 from sanic.response import json
 
-from views.utils import user_required
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 from models import Users
 
 
-class UserStatsView(HTTPModelClassView):
+class UserStatsView(MCV):
     _cls = Users
     _urls = '/api/users_stats'
+    access_level_default = 'admin'
 
-    @user_required('admin')
-    async def get(self, _, current_user):
+    async def get(self):
         resp = {
             'all': await Users.count_all(),
             'mentors': await Users.count_by_field(

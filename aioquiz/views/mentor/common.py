@@ -4,20 +4,18 @@ import logging
 
 from sanic.response import json
 
-from views.utils import user_required
 from views.utils import get_user_name
-from views.utils import HTTPModelClassView
+from views.utils import MentorMCV
 
 from models import Question
 
 
 # noinspection PyBroadException, PyProtectedMember
-class CommonMentorTestBase(HTTPModelClassView):
+class CommonMentorTestBase(MentorMCV):
     _cls = None
     _urls = []
 
-    @user_required('mentor')
-    async def get(self, _, current_user, tid=0):
+    async def get(self, tid=0):
         if tid:
             test = await self._cls.get_by_id(tid)
             resp = await test.to_dict()
@@ -34,8 +32,7 @@ class CommonMentorTestBase(HTTPModelClassView):
                 resp.append(q)
             return json(resp)
 
-    @user_required('mentor')
-    async def post(self, _, current_user, tid=0):
+    async def post(self, tid=0):
         if tid:
             test = await self._cls.get_by_id(tid)
             status = await test.close_test()
@@ -47,14 +44,14 @@ class CommonMentorTestBase(HTTPModelClassView):
         else:
             return json({'msg': 'no test id'})
 
-class CommonMentorQuestionGradeBase(HTTPModelClassView):
+
+class CommonMentorQuestionGradeBase(MentorMCV):
     _cls = None
     _urls = []
 
-    @user_required('mentor')
-    async def post(self, request, current_user, qid=0):
+    async def post(self, qid=0):
         try:
-            req = request.json
+            req = self.req.json
             await self._cls.grade_answer_by_uid(
                 uid=req['users'],
                 qid=qid,
@@ -66,10 +63,9 @@ class CommonMentorQuestionGradeBase(HTTPModelClassView):
             logging.exception('err CommonMentorTestBase.post')
             return json({'msg': 'something went wrong'}, status=500)
 
-    @user_required('mentor')
-    async def put(self, request, current_user, qid=0):
+    async def put(self, qid=0):
         try:
-            req = request.json
+            req = self.req.json
             await self._cls.grade_answer_by_uid(
                 uid=req['users'],
                 qid=qid,
@@ -81,8 +77,7 @@ class CommonMentorQuestionGradeBase(HTTPModelClassView):
             logging.exception('err CommonMentorTestBase.put')
             return json({'msg': 'something went wrong'}, status=500)
 
-    @user_required('mentor')
-    async def get(self, _, current_user, qid=0):
+    async def get(self, qid=0):
         if qid:
             question = await Question.get_by_id(qid)
             resp = await question.to_dict()
@@ -92,12 +87,11 @@ class CommonMentorQuestionGradeBase(HTTPModelClassView):
             return json({'msg': 'no question id'})
 
 
-class CommonMentorQuestionAutoGradeBase(HTTPModelClassView):
+class CommonMentorQuestionAutoGradeBase(MentorMCV):
     _cls = None
     _urls = []
 
-    @user_required('mentor')
-    async def get(self, _, current_user, qid=0):
+    async def get(self, qid=0):
         if qid:
             question = await Question.get_by_id(qid)
             if question.qtype not in ('abcd', 'bool'):

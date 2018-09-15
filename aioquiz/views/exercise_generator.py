@@ -4,19 +4,19 @@ from random import shuffle
 
 from sanic.response import json
 from sanic.response import text
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 
 
-class ExercisesGeneratorView(HTTPModelClassView):
+class ExercisesGeneratorView(MCV):
     _cls = None
     _urls = ['/exercise/<eid>']
+    access_level_default = 'no_user'
 
-    async def get(self, request, eid):
+    async def get(self, eid):
         if not eid:
             return json({}, 404)
         exer = getattr(self, 'exercise_{}'.format(eid))
         return await exer()
-
 
     @staticmethod
     async def exercise_1_19_1():
@@ -27,7 +27,6 @@ class ExercisesGeneratorView(HTTPModelClassView):
                 resp.append(x)
         shuffle(resp)
         return json(resp)
-
 
     @staticmethod
     async def exercise_1_19_2():

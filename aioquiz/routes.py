@@ -6,18 +6,18 @@ from os.path import dirname
 from os.path import join
 
 import views
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 from utils import color_print
 
 dir_name = dirname(abspath(__file__))
 
 
 def add_static(app):
-    app.static('/', join(dir_name, 'frontend/index.html'))
-    app.static('/dist', join(dir_name, 'frontend/dist/'))
-    app.static('/images', join(dir_name, 'static/images'))
-    app.static('/lesson_source', join(dir_name, 'lesson_source/'))
-    app.static('/favicon.ico', join(dir_name, 'static/images/favicon.ico'))
+    app.static('/', join(dir_name, '../frontend/index.html'))
+    app.static('/dist', join(dir_name, '../frontend/dist/'))
+    app.static('/images', join(dir_name, '../static/images'))
+    app.static('/lesson_source', join(dir_name, '../lesson_source/'))
+    app.static('/favicon.ico', join(dir_name, '../static/images/favicon.ico'))
     return app
 
 
@@ -26,9 +26,12 @@ def get_all_views(add_views=True, names=False, urls=False):
     for member in getmembers(views):
         try:
             name, view = member
-            if not issubclass(view, HTTPModelClassView) or view == HTTPModelClassView:
+            if not issubclass(view, MCV) or view == MCV:
                 if 'View' in name:
                     color_print(name, 'skipping', color='yellow')
+                continue
+            if name.endswith('MCV'):
+                color_print(name, 'skipping', color='white')
                 continue
         except:
             continue

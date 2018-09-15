@@ -2,24 +2,21 @@
 # encoding: utf-8
 from sanic.response import json
 
-from views.utils import user_required
-from views.utils import HTTPModelClassView
+from views.utils import AdminMCV
 from models import Config
 
 
-class ConfigView(HTTPModelClassView):
+class ConfigView(AdminMCV):
     _cls = Config
     _urls = '/api/admin/config'
 
-    @user_required('admin')
-    async def get(self, *_):
+    async def get(self):
         config = await Config.get_by_id(1)
         resp = await config.to_dict()
         return json(resp, sort_keys=True)
 
-    @user_required('admin')
-    async def post(self, request, _):
-        req = request.json
+    async def post(self):
+        req = self.req.json
         try:
             config = await Config.get_by_id(1)
             await config.update_from_dict(req)

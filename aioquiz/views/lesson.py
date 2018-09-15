@@ -18,21 +18,20 @@ from models import LessonFeedbackMeta
 from models import LessonFeedbackQuestion
 from models import Users
 
-from views.utils import user_required
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 
 INVALID_ANSWER = json({'msg': 'Invalid answer provided for the given question type'}, 400)
 
 
 # noinspection PyBroadException
-class LessonView(HTTPModelClassView):
+class LessonView(MCV):
     _cls = Lesson
     _urls = ['/api/lessons', '/api/lessons/<lid:int>']
 
-    @user_required()
-    async def post(self, request, current_user):
+    
+    async def post(self):
         try:
-            req = request.json
+            req = self.req.json
             user = await Users.get_first('email', req['creator'])
             req['creator'] = user.id
             lesson = Lesson(**req)
@@ -42,8 +41,8 @@ class LessonView(HTTPModelClassView):
             logging.exception('err lesson.post')
             return json({'msg': 'error creating'}, status=500)
 
-    @user_required()
-    async def get(self, _, current_user, lid=None):
+    
+    async def get(self, lid=None):
         if lid:
             lesson = await Lesson.get_by_id(lid)
             return json(await lesson.to_dict())
@@ -57,12 +56,12 @@ class LessonView(HTTPModelClassView):
 
 
 # noinspection PyBroadException
-class ExercisesView(HTTPModelClassView):
+class ExercisesView(MCV):
     _cls = Exercise
     _urls = ['/api/exercise', '/api/exercise/<lid:int>']
 
-    @user_required()
-    async def get(self, request, current_user, lid=0):
+    
+    async def get(self, lid=0):
         if not lid:
             return json({}, 404)
         exercises = await Exercise.get_by_field_value('lesson', lid)
@@ -71,7 +70,7 @@ class ExercisesView(HTTPModelClassView):
             q = await ex.to_dict()
             try:
                 ans = await ExerciseAnswer.get_first_by_many_field_value(
-                    users=current_user.id,
+                    users=self.current_user.id,
                     exercise=ex.id
                 )
             except DoesNotExist:
@@ -85,10 +84,10 @@ class ExercisesView(HTTPModelClassView):
         resp.sort(key=lambda a: a['title'])
         return json(resp, sort_keys=True)
 
-    @user_required()
-    async def post(self, request, current_user):
-        req = request.json
-        req['users'] = current_user.id
+    
+    async def post(self):
+        req = self.req.json
+        req['users'] = self.current_user.id
         ex = ExerciseAnswer(**req)
         try:
             await ex.create()
@@ -100,18 +99,18 @@ class ExercisesView(HTTPModelClassView):
             'msg': 'ERROR: Exercise answer NOT saved'
         })
 
-    @user_required()
-    async def put(self, request, current_user):
-        req = request.json
+    
+    async def put(self):
+        req = self.req.json
         ex = await ExerciseAnswer.get_first_by_many_field_value(
-            users=current_user.id,
+            users=self.current_user.id,
             exercise=req['exercise']
         )
         if not ex.first_answer:
             ex.first_answer = ex.answer
         ex.answer = req['answer']
         try:
-            await ex.update(users=current_user.id, exercise=req['exercise'])
+            await ex.update(users=self.current_user.id, exercise=req['exercise'])
             return json({'success': True, 'msg': 'Exercise answer saved'})
         except:
             logging.exception("ExercisesView.post")
@@ -121,23 +120,23 @@ class ExercisesView(HTTPModelClassView):
         })
 
 
-class AbsenceManagementView(HTTPModelClassView):
+class AbsenceManagementView(MCV):
     _cls = Absence
     _urls = ['/api/attendance', '/api/attendance/<lid:int>']
+    access_level = {'get': 'admin', 'post': 'admin'}
 
-    @user_required('admin')
-    async def get(self, _, current_user, lid=None):
+    async def get(self, lid=None):
         try:
             abmeta = await AbsenceMeta.get_first('lesson', lid)
             resp = await abmeta.to_dict()
             resp['time_ended'] = str(resp['time_ended']).split('.')[0]
             return json(resp)
         except (DoesNotExist, TypeError):
-            return await self.generate_code(current_user.id, lid)
+            return await self.generate_code(self.current_user.id, lid)
 
-    @user_required()
-    async def put(self, request, current_user):
-        req = request.json
+    
+    async def put(self):
+        req = self.req.json
         code = req.get('code')
         if not code:
             return json(
@@ -165,7 +164,7 @@ class AbsenceManagementView(HTTPModelClassView):
                     'msg': 'You were too late'
                 },
             )
-        absence = Absence(lesson=abmeta.lesson, users=current_user.id, absent=True)
+        absence = Absence(lesson=abmeta.lesson, users=self.current_user.id, absent=True)
         await absence.update_or_create('lesson', 'users')
         return json(
             {
@@ -196,8 +195,7 @@ class AbsenceManagementView(HTTPModelClassView):
             sort_keys=True
         )
 
-    @user_required('admin')
-    async def post(self, _, current_user, lid=None):
+    async def post(self, lid=None):
         abmeta = await AbsenceMeta.get_first('lesson', lid)
         time_ended = datetime.now()
         time_ended = time_ended.replace(minute=time_ended.minute + 2)
@@ -208,15 +206,15 @@ class AbsenceManagementView(HTTPModelClassView):
         return json(resp)
 
 
-class LessonFeedbackQuestionView(HTTPModelClassView):
+class LessonFeedbackQuestionView(MCV):
     _cls = LessonFeedbackQuestion
     _urls = [
         '/api/feedback/questions',
         '/api/feedback/questions/<qid:int>'
     ]
+    access_level_default = 'admin'
 
-    @user_required('admin')
-    async def get(self, _, current_user, qid=None):
+    async def get(self, qid=None):
         if qid:
             question = await LessonFeedbackQuestion.get_by_id(int(qid))
             return json(question)
@@ -224,10 +222,9 @@ class LessonFeedbackQuestionView(HTTPModelClassView):
             questions = await LessonFeedbackQuestion.get_all()
             return json(questions)
 
-    @user_required('admin')
-    async def post(self, request, current_user):
+    async def post(self):
         required_fields = {'type', 'description', 'answers'}
-        data = request.json
+        data = self.req.json
         if set(data.keys()) != required_fields:
             return json({'error': 'Missing required fields'}, 400)
 
@@ -240,23 +237,22 @@ class LessonFeedbackQuestionView(HTTPModelClassView):
         if data['type'] in ['abcd_single', 'abcd_multiple'] and type(jloads(data['answers'])) != list:
             return json({'error': 'Invalid answers provided (should be a list)'}, 400)
 
-        data.update({'author': current_user.id})
+        data.update({'author': self.current_user.id})
 
         question = LessonFeedbackQuestion(**data)
         await question.create()
         return json({'msg': 'Feedback question created'}, 200)
 
-    @user_required('admin')
-    async def put(self, request, current_user, qid):
+    async def put(self, qid):
         available_fields = {'type', 'description', 'answers'}
-        data = request.json
+        data = self.req.json
 
         if set(data.keys()) - available_fields:
             return json({'error': 'I see what you did there. Not gonna happen.'}, 401)
         try:
             question = await LessonFeedbackQuestion.get_first("id", qid)
 
-            if question.author != current_user.id:
+            if question.author != self.current_user.id:
                 return json({'error': 'I see what you did there. Not gonna happen.'}, 401)
 
             # TODO: move valid_types to the LessonFeedbackQuestion class as a constant
@@ -274,7 +270,6 @@ class LessonFeedbackQuestionView(HTTPModelClassView):
         except DoesNotExist:
             return json({'error': 'There is no question with given id'}, 404)
 
-    @user_required('admin')
     async def delete(self, _, current_user, qid):
         try:
             await LessonFeedbackQuestion.get_first("id", qid)
@@ -285,14 +280,15 @@ class LessonFeedbackQuestionView(HTTPModelClassView):
             return json({'error': 'There is no question with given id'}, 404)
 
 
-class LessonFeedbackMetaView(HTTPModelClassView):
+class LessonFeedbackMetaView(MCV):
     _urls = [
         '/api/feedback/questions/<qid:int>/meta/<lid:int>',
-        '/api/feedback/questions_for_lesson/<lid:int>'  # questions_for_lesson rethink that in future
+        '/api/feedback/questions_for_lesson/<lid:int>'  #TODO: questions_for_lesson rethink that in future
     ]
-
-    @user_required()
-    async def get(self, _, current_user, lid):
+    access_level = {'get': 'any_user'}
+    access_level_default = 'admin'
+    
+    async def get(self, lid):
         try:
             await Lesson.get_first("id", lid)
             questions = await LessonFeedbackQuestion.get_by_lesson_id(lid)
@@ -301,8 +297,7 @@ class LessonFeedbackMetaView(HTTPModelClassView):
         except DoesNotExist:
             return json({'error': 'A lesson with given id does not exist'}, 404)
 
-    @user_required('admin')
-    async def post(self, _, current_user, qid, lid):
+    async def post(self, qid, lid):
         try:
             await LessonFeedbackQuestion.get_first("id", qid)
         except DoesNotExist:
@@ -318,8 +313,7 @@ class LessonFeedbackMetaView(HTTPModelClassView):
 
         return json({'msg': 'Feedback association created successfully'}, 200)
 
-    @user_required('admin')
-    async def delete(self, _, current_user, qid, lid):
+    async def delete(self, qid, lid):
         try:
             # doing this twice since delete() could throw a weird out of bounds exc.
             await LessonFeedbackMeta.get_first_by_many_field_value(
@@ -330,13 +324,12 @@ class LessonFeedbackMetaView(HTTPModelClassView):
                 question=qid,
                 lesson=lid
             )
-
             return json({}, 204)
         except DoesNotExist:
             return json({'error': 'No association with given constraints exists in the database'}, 404)
 
 
-class LessonFeedbackAnswerView(HTTPModelClassView):
+class LessonFeedbackAnswerView(MCV):
     _urls = [
         '/api/feedback/answers_for_lesson/<lid:int>', # questions_for_lesson rethink that in future
         '/api/feedback/answers',
@@ -347,7 +340,6 @@ class LessonFeedbackAnswerView(HTTPModelClassView):
     async def _validate_answers(data):
         provided_answers = data['answers']
         question = None
-
         try:
             question = await LessonFeedbackQuestion.get_first("id", data['question'])
         except DoesNotExist:
@@ -369,14 +361,14 @@ class LessonFeedbackAnswerView(HTTPModelClassView):
             except ValueError:
                 return INVALID_ANSWER
 
-    @user_required()
-    async def get(self, _, current_user, lid):
+    
+    async def get(self, lid):
         try:
             await Lesson.get_first("id", lid)
         except DoesNotExist:
             return json({'error': 'There is no lesson with given id'}, 404)
 
-        author = current_user.id
+        author = self.current_user.id
         answers = await LessonFeedbackAnswer.get_by_many_field_value(
             author=author,
             lesson=lid
@@ -384,10 +376,10 @@ class LessonFeedbackAnswerView(HTTPModelClassView):
 
         return json(answers)
 
-    @user_required()
-    async def post(self, request, current_user):
+    
+    async def post(self):
         required_fields = {'answers', 'question', 'lesson'}
-        data = request.json
+        data = self.req.json
         if set(data.keys()) != required_fields:
             return json({'error': 'Missing required field(s)'}, 400)
 
@@ -396,35 +388,28 @@ class LessonFeedbackAnswerView(HTTPModelClassView):
         if response:
             return response
 
-        data.update({'author': current_user.id})
+        data.update({'author': self.current_user.id})
 
         answer = LessonFeedbackAnswer(**data)
         await answer.create()
 
         return json({'msg': 'Answer recorded'})
 
-    @user_required()
-    async def put(self, request, current_user, aid):
+    
+    async def put(self, aid):
         available_fields = {'answers', 'question', 'lesson'}
-        data = request.json
+        data = self.req.json
         answer = None
-
         try:
             answer = await LessonFeedbackAnswer.get_first("id", aid)
-
-            if answer.author != current_user.id:
+            if answer.author != self.current_user.id:
                 return json({'error': 'I see what you did there. Not gonna happen.'}, 401)
         except DoesNotExist:
             return json({'error': 'There is no answer with given id'}, 404)
-
         if set(data.keys()) - available_fields:
             return json({'error': 'Invalid field provided'}, 400)
-
         response = await LessonFeedbackAnswerView._validate_answers(data)
-
         if response:
             return response
-
         await answer.update_from_dict(data)
-
         return json({'msg': 'Answer updated'})

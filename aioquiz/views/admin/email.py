@@ -8,12 +8,11 @@ from config import ALL_EMAILS
 from utils import send_email
 from utils import hash_string
 
-from views.utils import user_required
-from views.utils import HTTPModelClassView
+from views.utils import AdminMCV
 from models import Users
 
 
-class EmailView(HTTPModelClassView):
+class EmailView(AdminMCV):
     _cls = Users
     _urls = '/api/admin/email'
 
@@ -85,17 +84,15 @@ class EmailView(HTTPModelClassView):
         },
     }
 
-    @user_required('admin')
-    async def get(self, request, current_user, **kwargs):
+    async def get(self, **kwargs):
         resp = {
             'recipients': self.recipients,
             'possible_emails': ALL_EMAILS
         }
         return json(resp)
 
-    @user_required('admin')
-    async def post(self, request, current_user):
-        data = request.json
+    async def post(self):
+        data = self.req.json
         mail_data = data['mail']
         users = await Users.get_by_many_field_value(gdpr=True, **data['recipients']['conditions'])
         if mail_data['per_user']:
@@ -108,7 +105,7 @@ class EmailView(HTTPModelClassView):
                     }
                 else:
                     link = 'https://{}/api/event/absence/{}/{}/'.format(
-                        request.host,
+                        self.req.host,
                         str(user.id),
                         hash_string(user.name + str(user.id) + user.email)
                     )

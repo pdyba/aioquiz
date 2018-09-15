@@ -4,21 +4,19 @@ import logging
 
 from sanic.response import json
 
-from views.utils import user_required
 from views.utils import get_user_name
-from views.utils import HTTPModelClassView
+from views.utils import OrganiserMCV
 
 
 # noinspection PyBroadException, PyProtectedMember
-class CommonOrganiserTestBase(HTTPModelClassView):
+class CommonOrganiserTestBase(OrganiserMCV):
     _cls = None
     _urls = []
 
-    @user_required('organiser')
-    async def post(self, request, current_user):
+    async def post(self):
         try:
-            req = request.json
-            req['users'] = current_user.id
+            req = self.req.json
+            req['users'] = self.current_user.id
             questions = [q for q in req['all_questions']]
             del req['all_questions']
             test = self._cls(**req)
@@ -30,10 +28,9 @@ class CommonOrganiserTestBase(HTTPModelClassView):
             logging.exception('err CommonOrganiserTestView.post')
             return json({}, status=500)
 
-    @user_required('organiser')
-    async def put(self, request, current_user, tid=0):
+    async def put(self, tid=0):
         try:
-            req = request.json
+            req = self.req.json
             test = await self._cls.get_by_id(req['id'])
             new_questions = [q for q in req['all_questions']]
             if req['active'] in ('None', None):
@@ -48,8 +45,7 @@ class CommonOrganiserTestBase(HTTPModelClassView):
             logging.exception('err CommonOrganiserTestBase.put')
             return json({'msg': 'something went wrong'}, status=500)
 
-    @user_required('organiser')
-    async def get(self, _, current_user, tid=0):
+    async def get(self, tid=0):
         if tid:
             try:
                 quiz = await self._cls.get_by_id(tid)
@@ -75,13 +71,13 @@ class CommonOrganiserTestBase(HTTPModelClassView):
             return json(resp)
 
 
-class CommonActiveateTestBase(HTTPModelClassView):
+class CommonActiveateTestBase(OrganiserMCV):
     _cls = None
     _urls = []
-
-    @user_required('organiser')
-    async def post(self, request, current_user):
-        req = request.json
+    access_level_default = 'organiser'
+    
+    async def post(self):
+        req = self.req.json
         test = await self._cls.get_by_id(req['id'])
         if test:
             test.active = req['active']

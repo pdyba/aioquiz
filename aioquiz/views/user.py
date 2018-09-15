@@ -16,9 +16,8 @@ from utils import get_args, hash_string
 from utils import create_uuid
 from utils import send_email
 
-from views.utils import user_required
 from views.utils import get_user_name
-from views.utils import HTTPModelClassView
+from views.utils import MCV
 
 from models import Absence
 from models import ExerciseAnswer
@@ -31,12 +30,13 @@ from models import UserReview
 
 
 # noinspection PyBroadException
-class UserView(HTTPModelClassView):
+class UserView(MCV):
     _cls = Users
     _urls = ['/api/users/', '/api/users/<id_name>']
+    access_level = {'post': 'no_user'}
+    access_level_default = 'any_user'
 
-    @user_required()
-    async def get(self, request, current_user, id_name=None):
+    async def get(self, id_name=None):
         if id_name:
             if id_name.isnumeric():
                 user = await Users.get_by_id(int(id_name))
@@ -47,34 +47,33 @@ class UserView(HTTPModelClassView):
                     user = await Users.get_first('email', id_name)
                 except DoesNotExist:
                     logging.error('Wrong e-mail or smth: ' + id_name)
-            if current_user.id == user.id:
+            if self.current_user.id == user.id:
                 return json(await user.get_my_user_data())
             return json(await user.get_public_data())
         else:
             sort_by = 'id'
-            if request.args:
-                if 'sort_by' in request.args:
-                    sort_by = request.args['sort_by'][0]
-                    del request.args['sort_by']
-                users = await Users.get_by_many_field_value(**get_args(request.args))
+            if self.req.args:
+                if 'sort_by' in self.req.args:
+                    sort_by = self.req.args['sort_by'][0]
+                    del self.req.args['sort_by']
+                users = await Users.get_by_many_field_value(**get_args(self.req.args))
             else:
                 users = await Users.get_all()
             user = []
             for u in users:
-                if current_user.admin or current_user.organiser:
+                if self.current_user.admin or self.current_user.organiser:
                     user.append(await u.to_dict())
                 else:
                     user.append(await u.get_public_data())
             user.sort(key=lambda a: a[sort_by])
         return json(user, sort_keys=True)
 
-    @user_required()
-    async def put(self, request, current_user):
+    async def put(self):
         try:
-            req = request.json
+            req = self.req.json
             if 'admin' in req:
                 del req['admin']
-            await current_user.update_from_dict(req)
+            await self.current_user.update_from_dict(req)
             return json({
                 'success': True,
                 'msg': 'Update successful'
@@ -83,7 +82,7 @@ class UserView(HTTPModelClassView):
             logging.exception('err users.put')
             return json({'msg': 'Update Failed'}, status=500)
 
-    async def post(self, request):
+    async def post(self):
         """
         Registration handling.
         :param request:
@@ -95,7 +94,7 @@ class UserView(HTTPModelClassView):
                 status=401
             )
         try:
-            req = request.json
+            req = self.req.json
             if 'admin' in req:
                 del req['admin']
             user = Users(**req)
@@ -110,7 +109,7 @@ class UserView(HTTPModelClassView):
                     acode=user.session_uuid,
                     uid=uid,
                     name=user.name,
-                    server=SERVER.NAME or request.host
+                    server=SERVER.NAME or self.req.host
                 )
                 resp = await send_email(
                     recipients=[user.email],
@@ -137,11 +136,10 @@ class UserView(HTTPModelClassView):
             logging.exception('err user.post')
         return json({}, status=500)
 
-    @user_required()
-    async def delete(self, _, current_user, id_name=None):
+    async def delete(self, id_name=None):
         if isinstance(id_name, str) and id_name.isnumeric():
             id_name = int(id_name)
-        if not current_user.admin and current_user.id != id_name:
+        if not self.current_user.admin and self.current_user.id != id_name:
             return json({'success': False, 'msg': 'Unauthorised'})
         user = await Users.get_by_id(id_name)
         user.name = 'deleted'
@@ -156,11 +154,12 @@ class UserView(HTTPModelClassView):
         return json({'success': True})
 
 
-class ActivationView(HTTPModelClassView):
+class ActivationView(MCV):
     _cls = Users
     _urls = '/api/user/activation/<uid:int>/<acode>'
+    access_level_default = 'no_user'
 
-    async def get(self, request, uid, acode):
+    async def get(self, uid, acode):
         user = await Users.get_by_id(uid)
         if user and user.session_uuid == acode:
             user.active = True
@@ -169,18 +168,17 @@ class ActivationView(HTTPModelClassView):
         return json({'success': False, 'msg': 'wrong token'})
 
 
-class INeedHelpView(HTTPModelClassView):
+class INeedHelpView(MCV):
     _cls = Users
     _urls = ['/api/user/i_need_help']
 
-    @user_required()
-    async def get(self, _, current_user):
+    async def get(self):
         try:
-            seats = await Seat.get_first('users', current_user.id)
+            seats = await Seat.get_first('users', self.current_user.id)
             seats.i_need_help = True
             await seats.update()
-            current_user.i_needed_help += 1
-            await current_user.update()
+            self.current_user.i_needed_help += 1
+            await self.current_user.update()
             return json(
                 {
                     'success': True,
@@ -195,11 +193,10 @@ class INeedHelpView(HTTPModelClassView):
                 },
                 sort_keys=True
             )
-
-    @user_required()
-    async def delete(self, _, current_user):
+ 
+    async def delete(self):
         try:
-            seats = await Seat.get_first('users', current_user.id)
+            seats = await Seat.get_first('users', self.current_user.id)
             seats.i_need_help = False
             await seats.update()
             return json(
@@ -218,12 +215,11 @@ class INeedHelpView(HTTPModelClassView):
             )
 
 
-class SeatView(HTTPModelClassView):
+class SeatView(MCV):
     _cls = None
     _urls = ['/api/seats', '/api/seats/<uid:int>']
 
-    @user_required()
-    async def get(self, _, current_user, uid=None):
+    async def get(self, uid=None):
         if uid:
             try:
                 seats = await Seat.get_first('users', uid)
@@ -255,9 +251,8 @@ class SeatView(HTTPModelClassView):
                         resp[raw][y] = used_seats.get(raw, empty).get(y, empty)
         return json(resp, sort_keys=True)
 
-    @user_required()
-    async def post(self, request, _):
-        req = request.json
+    async def post(self):
+        req = self.req.json
         try:
             seat = Seat(**req)
             await seat.create()
@@ -277,9 +272,8 @@ class SeatView(HTTPModelClassView):
                 sort_keys=True
             )
 
-    @user_required()
-    async def delete(self, _, current_user):
-        seat = await Seat.get_first('users', current_user.id)
+    async def delete(self):
+        seat = await Seat.get_first('users', self.current_user.id)
         await seat.delete()
         return json(
             {
@@ -291,15 +285,16 @@ class SeatView(HTTPModelClassView):
 
 
 # noinspection PyMethodMayBeStatic
-class ForgotPasswordView(HTTPModelClassView):
+class ForgotPasswordView(MCV):
     _cls = Users
     _urls = '/api/user/password_forgot'
+    access_level_default = 'no_user'
 
     # noinspection PyUnusedLocal
-    async def post(self, request):
+    async def post(self):
         # noinspection PyBroadException
         try:
-            req = request.json
+            req = self.req.json
             try:
                 user = await Users.get_first_by_many_field_value(email=req.get('email'))
             except DoesNotExist:
@@ -324,22 +319,21 @@ class ForgotPasswordView(HTTPModelClassView):
 
 
 # noinspection PyBroadException PyMethodMayBeStatic
-class ChangePasswordView(HTTPModelClassView):
+class ChangePasswordView(MCV):
     _cls = Users
     _urls = '/api/user/password_change'
 
     # noinspection PyMethodOverriding
-    @user_required()
-    async def post(self, request, current_user):
+    async def post(self):
         try:
-            req = request.json
-            validation_outcome = await current_user.validate_password(req['new_password'])
+            req = self.req.json
+            validation_outcome = await self.current_user.validate_password(req['new_password'])
             if not validation_outcome['success']:
                 return json(validation_outcome)
-            if hash_string(req.get('password', 'x')) == current_user.password:
+            if hash_string(req.get('password', 'x')) == self.current_user.password:
                 if req['new_password'] == req['new_password_2']:
-                    await current_user.set_password(req['new_password'])
-                    await current_user.update()
+                    await self.current_user.set_password(req['new_password'])
+                    await self.current_user.update()
                     return json({"success": True, "msg": "You have successfully changed your password"})
                 return json({"success": False, "msg": "You provided different new password"})
             return json({"success": False, "msg": "You provided wrong old password"})
@@ -349,7 +343,7 @@ class ChangePasswordView(HTTPModelClassView):
 
 
 # noinspection PyMethodMayBeStatic
-class SaveGDPR(HTTPModelClassView):
+class SaveGDPR(MCV):
     """
     Saves GDPR/RODO FFS...
     """
@@ -359,12 +353,11 @@ class SaveGDPR(HTTPModelClassView):
         You will be automatically logged out. 
         Failing to comply by 25.05.2018 will lead to account removal."""
 
-    @user_required()
     async def get(self, request, current_user):
         # noinspection PyBroadException
         try:
-            current_user.gdpr = True
-            await current_user.update()
+            self.current_user.gdpr = True
+            await self.current_user.update()
             return json({
                 'success': True,
                 'msg': 'You confirmed reading and agreed with our Privacy Policy'

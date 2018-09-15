@@ -1,0 +1,7 @@
+aiosmtplib
+asyncpg
+pytest-asyncio
+pyyaml
+sanic
+sanic-cors
+uvloop

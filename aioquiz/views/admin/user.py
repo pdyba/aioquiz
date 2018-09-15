@@ -13,17 +13,16 @@ from orm import DoesNotExist
 from utils import create_uuid
 
 from views.utils import get_user_name
-from views.utils import HTTPModelClassView
-from views.utils import user_required
+from views.utils import AdminMCV
+from views.utils import OrganiserMCV
 
 
-class SetOrganiserView(HTTPModelClassView):
+class SetOrganiserView(AdminMCV):
     _cls = Users
     _urls = '/api/admin/user/set_organiser'
 
-    @user_required('admin')
-    async def post(self, request, current_user):
-        req = request.json
+    async def post(self):
+        req = self.req.json
         user = await Users.get_by_id(req['uid'])
         if user:
             user.organiser = req['organiser']
@@ -32,13 +31,12 @@ class SetOrganiserView(HTTPModelClassView):
         return json({'success': False, 'reson': 'wrong token'})
 
 
-class SetMentorView(HTTPModelClassView):
+class SetMentorView(AdminMCV):
     _cls = Users
     _urls = '/api/admin/user/set_mentor'
 
-    @user_required('admin')
-    async def post(self, request, current_user):
-        req = request.json
+    async def post(self):
+        req = self.req.json
         user = await Users.get_by_id(req['uid'])
         if user:
             user.mentor = req['mentor']
@@ -50,13 +48,12 @@ class SetMentorView(HTTPModelClassView):
         return json({'success': False, 'msg': 'wrong token'})
 
 
-class ChangeActiveView(HTTPModelClassView):
+class ChangeActiveView(AdminMCV):
     _cls = Users
     _urls = '/api/admin/user/set_active'
 
-    @user_required('admin')
-    async def post(self, request, current_user):
-        req = request.json
+    async def post(self):
+        req = self.req.json
         user = await Users.get_by_id(req['uid'])
         if user:
             user.active = req['active']
@@ -65,12 +62,11 @@ class ChangeActiveView(HTTPModelClassView):
         return json({'success': False, 'msg': 'wrong token'})
 
 
-class ReviewAttendeesView(HTTPModelClassView):
+class ReviewAttendeesView(OrganiserMCV):
     _cls = Users
     _urls = ['/api/admin/user/review']
 
-    @user_required('organiser')
-    async def get(self, request, current_user):
+    async def get(self):
         allusers = await Users.get_by_many_field_value(
             admin=False,
             organiser=False
@@ -93,10 +89,9 @@ class ReviewAttendeesView(HTTPModelClassView):
         users.sort(key=lambda a: a['score'], reverse=True)
         return json(users)
 
-    @user_required('organiser')
-    async def post(self, request, current_user):
-        req = request.json
-        req['reviewer'] = current_user.id
+    async def post(self):
+        req = self.req.json
+        req['reviewer'] = self.current_user.id
         ur = UserReview(**req)
         if not await ur.create():
             return json({'msg': 'already exists', 'error': True})
@@ -107,10 +102,9 @@ class ReviewAttendeesView(HTTPModelClassView):
         await user.update()
         return json({'success': True})
 
-    @user_required('organiser')
-    async def put(self, request, current_user):
+    async def put(self):
         try:
-            req = request.json
+            req = self.req.json
             user = await Users.get_by_id(req['users'])
             user.accepted = req['accept']
             await user.update()
@@ -121,13 +115,13 @@ class ReviewAttendeesView(HTTPModelClassView):
 
 
 # noinspection PyMethodMayBeStatic
-class AdminForgotPasswordView(HTTPModelClassView):
+class AdminForgotPasswordView(AdminMCV):
     _cls = Users
     _urls = '/api/admin/users/new_password/<email>'
 
     # noinspection PyUnusedLocal
-    @user_required('admin')
-    async def get(self, request, current_user, email):
+
+    async def get(self, email):
         try:
             user = await Users.get_first_by_many_field_value(email=email)
         except DoesNotExist:

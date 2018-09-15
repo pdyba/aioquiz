@@ -171,7 +171,7 @@ from app.swapi import get_planet_terrain
 
 @patch('app.swapi.requests')
 def test_get_planet_details(requests_mock):
-with open('tests/planet_Tatooine.json') as file:
+with open(aioquiz_unitests) as file:
     planets = json.load(file)
 
 requests_mock.get.return_value.json.return_value = planets

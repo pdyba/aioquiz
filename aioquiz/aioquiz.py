@@ -37,6 +37,7 @@ app = Sanic(log_config=LOGGING)
 # TODO change the orgins from * to config one (proper one)
 CORS(app, automatic_options=True, esources={r"/api/*": {"origins": "*"}})
 
+
 @app.middleware('response')
 async def custom_banner(request, response):
     if request.path.startswith('/api'):
