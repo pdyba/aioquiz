@@ -48,7 +48,8 @@ const config = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        js: 'babel-loader'
+                        js: 'babel-loader',
+                        i18n: '@kazupon/vue-i18n-loader'
                     }
                 }
             },

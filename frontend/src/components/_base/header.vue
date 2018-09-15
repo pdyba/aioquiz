@@ -4,11 +4,11 @@
             <navbar-collapse>
                 <navbar-nav right>
                     <!--<help v-if="auth"></help>-->
-                    <navbar-item href="/about">About</navbar-item>
-                    <navbar-item href="/lessons" v-if="auth">Lessons</navbar-item>
-                    <navbar-item href="/quiz" v-if="auth">Quiz</navbar-item>
-                    <navbar-item href="/feedback" v-if="auth">Feedback</navbar-item>
-                    <navbar-item href="/exam" v-if="auth">Exam</navbar-item>
+                    <navbar-item href="/about">{{ $t('about') }}</navbar-item>
+                    <navbar-item href="/lessons" v-if="auth">{{ $t('lessons') }}</navbar-item>
+                    <navbar-item href="/quiz" v-if="auth">{{ $t('quiz') }}</navbar-item>
+                    <navbar-item href="/feedback" v-if="auth">{{ $t('feedback') }}</navbar-item>
+                    <navbar-item href="/exam" v-if="auth">{{ $t('exam') }}</navbar-item>
 
                     <divider v-if="mentor || org"></divider>
                     <dropdown tag="li" class="nav-item" v-if="mentor">
@@ -140,3 +140,21 @@
 
 </style>
 
+<i18n>
+{
+  "en": {
+    "lessons": "Lessons",
+    "about": "About",
+    "quiz": "Quiz",
+    "feedback": "Feedback",
+    "exam": "Exam"
+  },
+  "pl": {
+    "lessons": "Lekcje",
+    "about": "O nas",
+    "quiz": "Kartkówka",
+    "feedback": "infomracja zwrotna",
+    "exam": "Egzamin"
+  }
+}
+</i18n>

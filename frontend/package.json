@@ -21,6 +21,7 @@
     "npm": "^5.6.0",
     "sweetalert2": "^7.19.1",
     "vue": "^2.5.2",
+    "vue-i18n": "^8.1.0",
     "vue-markdown": "^2.2.4",
     "vue-moment": "^4.0.0",
     "vue-prism": "^1.0.5",
@@ -33,6 +34,7 @@
     "vuex": "^3.0.0"
   },
   "devDependencies": {
+    "@kazupon/vue-i18n-loader": "^0.3.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
