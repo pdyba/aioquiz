@@ -13,18 +13,23 @@ It is written in Python using asynchronous framework Sanic, PostgresSQL and Angu
 
 ## install and bootstrap PostgresSQL
 
-apt-get update <br>
-sudo apt-get install postgresql postgresql-contrib <br>
-adduser aioquiz<br>
-sudo -u postgres createuser --interactive<br>
-sudo -u postgres createdb aioquizdb<br>
+
+* `apt-get update <br>`
+* `sudo apt-get install postgresql postgresql-contrib`
+* `sudo adduser aioquiz`
+* `sudo -u postgres createuser --interactive`
+* `sudo -u postgres createdb aioquizdb`
+
+* `sudo -u postgres psql`
+* `alter user aioquiz with encrypted password '<password>';`
+* `grant all privileges on database aioquizdb to aioquiz;`
 
 ## bootstrap DB
 
 1. Create config_dev or config_prod in config dir basing on config/template.py
 2. Edit bottom of bootstrap.py
 3. Edit admin adding function in bootstrap.py
-4. `python3.5 bootstrap.py`
+4. `python3.5 bootstrap.py` You may need to run it more than once.
 
 
 ## build front
@@ -61,3 +66,14 @@ or (no nginx)
 Cert refresh for nginx:
 
 `sudo certbot renew --nginx`
+
+
+## backuping DB
+
+### CRON configure 
+Add config_scripts/aioquiz_backup.sh to /usr/local/bin/aioquiz_backup.sh
+Add config_scripts/logrotate_aioquizdb.conf to /etc/logrotate.d/aioquizdb.conf
+`16 10 * * * /usr/local/bin/aioquiz_backup.sh 2>&1 >> /var/log/aioquiz_backup.log`
+
+### Restoring
+sudo -u postgres psql aioquizdb < infile
