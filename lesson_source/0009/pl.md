@@ -21,7 +21,7 @@ poda nam wynik oraz przedział, w którym się on mieści, czyli:
 Twój BMI wynosi: 21.39 (prawidłowa waga)
 
 Zmodyfikuj swój istniejący program tak, by obliczone BMI było dostępne
-pod zmienną `bmi`, a nazwa przedziału pod nazwą `kategoria`.  Użyj print,
+pod zmienną `bmi`, a nazwa przedziału pod nazwą `kategoria`. Użyj print,
 aby wyświetlić otrzymany wynik:
 
 ```python
@@ -193,7 +193,7 @@ podanego rozgranicznika (domyślnie spacji) i zwraca listę podstringów.
 Po podaniu parametru num rozbija string tylko do ilości num podstringów.
 25. splitlines( num=string.count('n')) - rozbija string na wszystkie (lub
 na podaną ilość num) NOWE LINIE i zwraca listę linii z usuniętym znakiem NOWA LINIA.
-26. startswith(str, beg=0,end=len(string)) - dstala, czy string lub podstring stringa
+26. startswith(str, beg=0,end=len(string)) - ustala, czy string lub podstring stringa
 (jeśli początkowy index beg i końcowy index end zostały podane) zaczyna się
 od podstringu str; zwraca true, a w przeciwnym razie zwraca false.
 27. strip(\[chars\]) - przeprowadza jednocześnie metody lstrip() i rstrip() na stringu.
@@ -213,25 +213,25 @@ instrukcji if (również w połączeniu z else i elif).
 To dość dużo, jak na pierwszy program. Mamy jeszcze wiele do zrobienia, mimo to
 możecie być dumni z tego, co zrobiliśmy do tej pory!
 
-A jesli zrobiliście obowiązkowe zadanie nr 1, przekonaliście się, że w Pythonie
+A jeśli zrobiliście obowiązkowe zadanie nr 1, przekonaliście się, że w Pythonie
 występują jajeczka-niespodzianki i wierzcie nam - jest ich więcej. Oto kolejne:
 
 	>>>  True + True
-cwiczenia
+ćwiczenia
 =========
-Korzystając printa i inputa napisz funkcje która pobierze i policzy BMI lub pole prostokąta:
+Korzystając printa i inputa, napisz funkcję, która pobierze i policzy BMI lub pole prostokąta:
 BMI waga podzielona przez kwadrat wzrostu
 bmi = m / h*h     (h**2)
-Pole prostokątna bok * bok
+Pole prostokąta bok * bok
 p = a * b
 
 1. Usuń błąd z poprzedniego zadania:
 print('Twoje BMI wynosi: ' + input('Podaj wage: ') / input('Podaj  wzrost: ')**2)
-print(’Pole prostkoat: ' + input(’Bok A: ') * input(’Bok B: ’))
+print(’Pole prostokat: ' + input(’Bok A: ') * input(’Bok B: ’))
 2. Zamień string ‘123.12’ na int.
 
-1. Sprawdź czy len działa na intach lub floatach
-2. Zmień przykład wykorzystując len aby pobierał imię:
+1. Sprawdź, czy len działa na intach lub floatach
+2. Zmień przykład, wykorzystując len, aby pobierał imię:
 >>> print('x' * input('ile liter ma twoje imie? '))
 ile liter ma twoje imie? 5
 xxxxx

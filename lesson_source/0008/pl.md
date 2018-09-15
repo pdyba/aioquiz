@@ -1,4 +1,4 @@
-Jak wytłumaczyć wężowi o czym mówimy, czyli typy danych: znakowy, liczbowy i boolowski
+Jak wytłumaczyć wężowi, o czym mówimy, czyli typy danych: znakowy, liczbowy i boolowski
 ======================================================================================
 
 Pythonowe typy przechowywania danych
@@ -26,7 +26,7 @@ czy słodkiego kudłatego brązowego króliczka?"
 
 A teraz wracajmy do nauki :)
 
-Tytulik jakis fajny
+Tytulik jakiś fajny
 ====================================
 
 Wprowadźmy dwie nowe funkcje:
@@ -114,7 +114,7 @@ bmi = weight / (height**2) #oblicz BMI
 print("Twoje BMI wynosi:", bmi)
 ```
 
-Możecie zapisać program do `bmi.py` i uruchomić `python bmi.py`. Resultat
+Możecie zapisać program do `bmi.py` i uruchomić `python bmi.py`. Rezultat
 powinien wyglądać następująco:
 
 

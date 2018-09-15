@@ -27,7 +27,7 @@ Python - używany m.in.:
 * Disqus
 * Dropbox
 * Google
-* Hunch
+* Hunch
 * Instagram
 * Mozilla
 * Pinterest
@@ -63,20 +63,20 @@ Programista: Jak zostać?
 * Angielski, angielski, angielski.
 * Umiejętność kodowania w danym języku.
 * Profil na Linkedin, Stackoverflow, Github.
-* Umiejętności miękkie, szczególnie komunikatywność.
+* Umiejętności miękkie, szczególnie komunikatywność.
 
 Co może pomóc:
 * Znajomość Linuxa/Basha.
 * Szczerość i bezpośredniość.
 
-Programista w pracy:zagadki
+Programista w pracy: zagadki
 ------------------------------
 
 * „Dlaczego ten kod działa?”
 * „Jakim cudem nie działa?!”
 * „O co chodziło autorowi?”
 
-Programista w pracy:Warunki
+Programista w pracy: Warunki
 ----------------------------
 
 * Praca zdalna
