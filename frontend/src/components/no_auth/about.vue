@@ -63,7 +63,7 @@
                     <div class="col-md-6">
 
                         <h2>Kodeks Postępowania</h2>
-                        <p>Na naszych zajęciach oraz wydarzeniach,
+                        <p>Na naszych zajęciach oraz wydarzeniach
                             dbamy o dobre samopoczucie wszystkich uczestników oraz
                             mentorów, dlatego obowiązuje na nich kilka ważnych dla
                             nas

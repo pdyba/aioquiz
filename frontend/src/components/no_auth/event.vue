@@ -226,8 +226,8 @@
                             pomiędzy pracownikami danej organizacji, jak również
                             osobami z zewnątrz. Od 2012 roku Egnyte posiada centrum R&D
                             w Poznaniu na ulicy Mostowej. Zespół liczy sobie już ponad
-                            100 osób... i ciągle rośnie! Naszą platformę tworzymy przy
-                            wykorzystujac takie technologie jak Python, Java czy
+                            100 osób... i ciągle rośnie! Naszą platformę tworzymy
+                            wykorzystując takie technologie jak Python, Java czy
                             JavaScript. W poznańskim biurze pracują także Inżynierowie
                             DevOps, Inżynierowie Danych, Inżynierowie Testów, jak i
                             Projektanci Grafiki oraz Interfejsu Użytkownika. Do

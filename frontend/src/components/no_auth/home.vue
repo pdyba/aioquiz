@@ -33,7 +33,7 @@
                     <b-col md="6">
                         <p>PyLove is a non profit organization that promotes and teaches Python regardless of age, sex,
                             race,
-                            believes or orientation. We accept white man ;) Our purpose is to help people get to
+                            believes or orientation. We accept white men ;) Our purpose is to help people get to
                             intern/junior
                             level in Python to start their adventure in IT world.
                         </p>

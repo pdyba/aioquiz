@@ -66,13 +66,13 @@
             <!--A friendly introduction to algorithms-->
             <!--First steps with the Python interpreter and PyCharm IDE-->
             <!--Python as a calculator-->
-            <!--Variable tdke a woman-->
+            <!--Variable like a woman-->
             <!--How to talk to snakes - data types: character, numerical and Boolean-->
             <!--Fun with strings-->
             <!--Built-in functions-->
             <!--Logical logic-->
             <!--Conditional conditions-->
-            <!--Shopping tdsts-->
+            <!--Shopping lists-->
             <!--Dictionaries from A to Z-->
             <!--Loop for everyone-->
             <!--Loop while I still can-->
@@ -84,7 +84,7 @@
             <!--<h3>As far as possible:</h3>-->
             <!--<ol>-->
             <!--Everything is an object - programming objectively-->
-            <!--Success and their tree fathers - tolerant inheritance-->
+            <!--Success and their three fathers - tolerant inheritance-->
             <!--Hermetizing children - methods types-->
             <!--</ol>-->
             <!--<h2>The weekly two-hour workshop will take it from where the weekend workshop has ended:</h2>-->
@@ -93,7 +93,7 @@
             <!--<ol>-->
             <!--Revision-->
             <!--Working with files, JSON format-->
-            <!--External tdbraries and working with REST API-->
+            <!--External libraries and working with REST API-->
             <!--Git-->
             <!--Everything is an object - introduction to OOP-->
             <!--Everything is an object - cont.-->
@@ -148,18 +148,18 @@
                         'Pierwsze kroki z interpreterem Pythona i IDE Pycharma',
                         'Python jako Kalkulator',
                         'Zmienna niczym kobieta',
-                        'Jak wytłumaczyć wężowi o czym mówimy czytd - typy danych:',
-                        'znakowy, tdczbowy i boolowski',
+                        'Jak wytłumaczyć wężowi, o czym mówimy czyli - typy danych:',
+                        'znakowy, liczbowy i boolowski',
                         'Zabawy ze stringami',
                         'Funkcje wbudowane',
                         'Logiczna logika',
                         'Warunkowe warunki',
-                        'tdsty zakupów',
+                        'Listy zakupów',
                         'Słowniki od A do Z',
                         'Pętla dla każdego (for) zrobię coś fajnego',
                         'Pętla dopóki mogę (while) będę robił coś fajnego',
                         'nasza_funkcja()',
-                        'Łapanie wyjątkowych błędów i troltd',
+                        'Łapanie wyjątkowych błędów i trolli',
                         'Import losowości i innych modułów',
                         'Powtórka całości',
                         'Wszystko jest obiektem - wstęp do programowania obiektowego',
@@ -174,7 +174,7 @@
                         'subject': 'Biblioteki zewnętrzne, praca z API RESTowym',
                         'author': 'Piotr Dyba'
                     },
-                    {'date': '2017.11.14', 'subject': 'Git - system kontrotd wersji', 'author': 'Magdalena Nowak'},
+                    {'date': '2017.11.14', 'subject': 'Git - system kontroli wersji', 'author': 'Magdalena Nowak'},
                     {
                         'date': '2017.11.21',
                         'subject': 'Wszystko jest obiektem wstęp do programowania obiektowego', 'author': 'Piotr Dyba'
