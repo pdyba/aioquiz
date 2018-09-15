@@ -5,25 +5,25 @@
 
 #### Co to
 
-Praktyczna definicja dockera to kolejny mechanizm do ruchamiania kontenerow linksowych.
-Opisowa definicja dockera to "lzejsza" maszyna wirtualna. <br>
-Uruchamiajac VM odpalamy zwykle caly system operacyjny, w przypadku kontenera to moze byc tylko jeden proces.
+Praktyczna definicja dockera to kolejny mechanizm do ruchamiania kontenerów linuksowych.
+Opisowa definicja dockera to "lżejsza" maszyna wirtualna. <br>
+Uruchamiając VM odpalamy zwykle cały system operacyjny, w przypadku kontenera to moze byc tylko jeden proces.
 
 #### Po co
 
-Pozwala uruchamiac aplikacje i separowac je od infrastruktury. 
-Tak samo jak VM, mozemy uruchomic wiele instancji kontenerow na jednej maszynie/serwerze.
+Pozwala uruchamiać aplikacje i separować je od infrastruktury. 
+Tak samo jak VM, możemy uruchomić wiele instancji kontenerów na jednej maszynie/serwerze.
 
 # Play with docker
 
 https://labs.play-with-docker.com
 
 
-# Kilka pojec
+# Kilka pojęć
 
 * Obraz (docker image) - gotowe obrazy dockera do uruchomienia
 * Kontener - pojedynczy uruchomiony obraz
-* Repozytoria (docker registry) - tak jak repozytoria kodu, tylko z obrazami kontenerow 
+* Repozytoria (docker registry) - tak jak repozytoria kodu, tylko z obrazami kontenerów 
 
 # Let's play with docker!
 
@@ -33,7 +33,7 @@ https://labs.play-with-docker.com
 
 `docker ps (-a); `
 
-Warto miec na uwadze, ze nasz kontener istnieje tak dlugo jak proces ktory byl uruchomiony wewnatrz (po napisaniu )
+Warto mieć na uwadze, że nasz kontener istnieje tak długo jak proces, który był uruchomiony wewnątrz (po napisaniu)
 
 `docker images`
 
@@ -43,46 +43,46 @@ Warto miec na uwadze, ze nasz kontener istnieje tak dlugo jak proces ktory byl u
 
 # Dockerfile
 
-To zestaw instrukcji pozwalajacych nam opisac obraz, ktory chemy zapisac. 
-Skladnia jest specyficzna dla Dockera, ale glownie sprowadza sie to do komend shellowych
+To zestaw instrukcji pozwalających nam opisać obraz, który chcemy zapisać. 
+Składnia jest specyficzna dla Dockera, ale głównie sprowadza się do komend shellowych
 
-FROM - podajemy obraz na ktorym chemy bazowac
-RUN - uruchmiamy komende shellowa podczas budowania obrazy
+FROM - podajemy obraz na którym chemy bazowac
+RUN - uruchmiamy komendę shellową podczas budowania obrazu
 COPY - kopiujemy lokalny plik do obrazu
-CMD - uruchamiamy komende podczas uruchomienia obrazu
+CMD - uruchamiamy komendę podczas uruchomienia obrazu
 
 
 `docker build -t myimage .`
 `docker run -it myimage`
 
-# Udostepnienie obrazu
+# Udostępnienie obrazu
 
 `docker push myimage`
 
 # Uruchomienie dockera jako serwis
 
-Do tej pory nasze kontenery ginely zaraz po tym jak je opuscilismy, mozna jednak odpalic usluge, ktora bedzie dzialac caly czas. <br>
-budjemy jeszcze raz obraz z samym serwerem http (tym razem okrelslimy dockerfile z ktorego chcemy stworzyc obraz)
+Do tej pory nasze kontenery ginęły zaraz po tym jak je opuścilismy, można jednak odpalić usługę, która będzie działać cały czas. <br>
+Budujemy jeszcze raz obraz z samym serwerem http (tym razem określimy dockerfile, z którego chcemy stworzyć obraz)
 `docker build -t mynginx -f dockerfile_nginx .`
 
-Kiedy may obraz wystarczy uzyc  przelacznika -d
+Kiedy mamy obraz, wystarczy użyć przełącznika -d
 `docker run -d mynginx`
 
-Zeby podlaczyc sie do dzialajacego kontnera
+Żeby podłączyć się do działającego kontenera
 `docker exec -it e018c69efb21 /bin/bash`
 
 
 # Komunikacja z kontenerem
 
-Domyslnie wszelka komunikacja z kontenerem jest zablokowana, podczas uruchomienia kontenera mozemy dokladnie okreslic co chcemy udostepnic
+Domyślnie wszelka komunikacja z kontenerem jest zablokowana, podczas uruchomienia kontenera moąemy dokładnie określić co chcemy udostępnić
 
 `docker run -p 80:80 -d mynginx`
 `curl -XGET 127.0.0.1:80`
 
 
-# Zlozone aplikacje, czyli docker compose
+# Złożone aplikacje, czyli docker compose
 
-Docker compose pozwala nam uruchamia wiele kontenerow w jednym pliku konfiguracyjnym, przykladm ponizej
+Docker compose pozwala nam uruchomić wiele kontenerów w jednym pliku konfiguracyjnym, przykład poniżej:
 
 ```yaml
 version: '3'
