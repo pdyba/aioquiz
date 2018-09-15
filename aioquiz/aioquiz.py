@@ -13,6 +13,9 @@ except:
 from sanic import Sanic
 from sanic_cors import CORS
 
+from config import SENTRY
+if all([SENTRY.KEY, SENTRY.SECRET, SENTRY.PROJECT]):
+    from sanic_sentry import SanicSentry
 from config import SERVER
 from exception_handlers import add_exception_handlers
 from routes import add_urls
@@ -37,6 +40,9 @@ app = Sanic(log_config=LOGGING)
 # TODO change the orgins from * to config one (proper one)
 CORS(app, automatic_options=True, esources={r"/api/*": {"origins": "*"}})
 
+if all([SENTRY.KEY, SENTRY.SECRET, SENTRY.PROJECT]):
+    app.config['SENTRY_DSN'] = 'https://{}:{}@sentry.io/{}'.format(SENTRY.KEY, SENTRY.SECRET, SENTRY.PROJECT)
+    plugin = SanicSentry(app)
 
 @app.middleware('response')
 async def custom_banner(request, response):

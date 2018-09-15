@@ -28,3 +28,9 @@ class DB:
     DB = 'postgres'
     USER = 'aiopg'
     PASSWORD = 'aiopg'
+
+
+class SENTRY:
+    KEY = ''
+    SECRET = ''
+    PROJECT = ''
