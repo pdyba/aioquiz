@@ -33,11 +33,13 @@
         methods: {
             setLang(language) {
                 this.$store.dispatch('changeLanguage', language);
+                this.$i18n.locale = language;
             },
         },
         computed: {
             get_current_lang() {
                 let language = this.$store.getters.language;
+                this.$i18n.locale = language;
                 return this.languages[language].img
             }
         }
