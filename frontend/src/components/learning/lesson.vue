@@ -14,7 +14,7 @@
             <b-tab title="Feedback">
                 ...
             </b-tab>
-            <b-tab title="Home Work">
+            <b-tab title="Homework">
                 ...
             </b-tab>
         </b-tabs>
@@ -63,6 +63,5 @@
 <style scoped>
     img {
         margin: 1rem;
-        width: ;
     }
 </style>
