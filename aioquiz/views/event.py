@@ -77,6 +77,8 @@ class EventAttendenceConfirmation(MCV):
 class EventsView(MCV):
     _cls = Event
     _urls = ['/api/events', '/api/events/<an_id>']
+    access_level_default = 'no_user'
+    access_level = {'post': 'admin'}
 
     async def get(self, an_id=None):
         events = await self._get(an_id)
@@ -121,6 +123,8 @@ class EventView(MCV):
 class SponsorView(MCV):
     _cls = Sponsor
     _urls = ['/api/sponsor', '/api/sponsor/<uid>']
+    access_level_default = 'no_user'
+    access_level = {'post': 'organiser'}
 
     async def get(self, an_id=None):
         return json(await self._get(an_id=an_id))

@@ -37,6 +37,7 @@
             current_event() {
                 if (this.events.length === 0) { return '' }
                 let ctx = this.$store.getters.context;
+                if (isNaN(ctx)) { return '' }
                 let ev = this.events.find(function(el) {return el.id === ctx});
                 return ev.title
             }
