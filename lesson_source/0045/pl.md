@@ -12,7 +12,7 @@ Uruchamiając VM odpalamy zwykle cały system operacyjny, w przypadku kontenera 
 #### Po co
 
 Pozwala uruchamiać aplikacje i separować je od infrastruktury. 
-Tak samo jak VM, mozemy uruchomić wiele instancji kontenerów na jednej maszynie/serwerze.
+Tak samo jak VM, możemy uruchomić wiele instancji kontenerów na jednej maszynie/serwerze.
 
 # Play with docker
 
