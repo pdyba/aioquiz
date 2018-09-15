@@ -30,7 +30,7 @@ Python 3.6.2
 
 ```
 
-Jesli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
+Jeśli komenda `python` nie jest dostępna lub wyświetla się zła wersja:
 
 ### Ubuntu
 
@@ -116,7 +116,7 @@ tworzy nowy katalog.
 Środowisko wirtualne
 --------------------
 
-Musimy teraz wybrać katalog dla naszego wirtualnego środowiska. Srodowisko wirtualne pozwoli nam
+Musimy teraz wybrać katalog dla naszego wirtualnego środowiska. Środowisko wirtualne pozwoli nam
 odizolować naszą pracę od reszty systemu. Na przykład możecie wybrać swój katalog domowy (użytkownika).
 
  Dla Windows 7 ścieżka do katalogu domowego użytkownika ``Ala`` będzie wyglądać tak:
@@ -161,7 +161,7 @@ C:\Users\lrekucki> workshops\Scripts\activate
 # Linux or Mac
 ~$ source workshops/bin/activate
 
-Komenda ``python`` uruchimi właściwą wersję Pythona, więc nie będziemy musieli wprowadzać
+Komenda ``python`` uruchomi właściwą wersję Pythona, więc nie będziemy musieli wprowadzać
 pełnej ścieżki, ani wersji.
 
 Upewnij się, że uzyskałeś prawidłową konfigurację:
@@ -197,7 +197,7 @@ C:\Users\lrekucki\workshops\Scripts\pip.exe
 .. Uwaga::
 Być może masz już w swoim systemie dostępną komendę ``pip``. Pamiętaj o sprawdzaniu, którą wersję pip używasz
 przy pomocy komendy: ``pip --version``.
-Możesz to wykonac uruchamiając jedną z tych komend:
+Możesz to wykonać uruchamiając jedną z tych komend:
 
 .. code-block:: sh
 
