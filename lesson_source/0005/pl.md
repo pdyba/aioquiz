@@ -20,7 +20,7 @@ Type "copyright", "credits" or "license" for more information.
 Wcześniej pracowaliśmy w wierszu poleceń systemu operacyjnego i mogliśmy
 wprowadzać komendy. Znakiem zachęty był `~$`. Po uruchomieniu komendy `python`, 
 znak zachęty zmienił się na `>>>`. Oznacza to dla nas, że od tej chwili możemy
-używac tylko komend języka Python. Wcześniej poznane komendy (takie, jak
+używać tylko komend języka Python. Wcześniej poznane komendy (takie, jak
 'cd', 'mkdir') nie będą działały. Nadszedł moment rozpoczęcia nauki
 nowego języka!
 
@@ -33,7 +33,7 @@ Stringi
 -------
 
 Jednakże liczby nie wystarczają, by efektywnie się komunikować. A zatem
-musimy się nauczyć jak używać 'stringów'. Oto kilka przykładów:
+musimy się nauczyć, jak używać 'stringów'. Oto kilka przykładów:
 
 ```python
 >>> "Hello World" 
@@ -151,7 +151,7 @@ print("Bye.")
 ```
 
 Aby zwiększyć przejrzystość pliku `visitingcard.py`, w dowolnym jego
-miejscu możemy wprowadzać puste wiersze. Tutaj oddzieliśmy nagłówek
+miejscu możemy wprowadzać puste wiersze. Tutaj oddzieliliśmy nagłówek
 wiadomości od jej zawartości i zakończenia.
 
 Tworzenie i uruchomienie pliku w edytorze PyCharm

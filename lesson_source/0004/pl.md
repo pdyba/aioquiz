@@ -21,7 +21,7 @@ Składniki:
 **Przepis:**
 
 W kubku lub małej miseczce roztrzep widelcem jajka z pieprzem i solą. 
-Pokroj szynkę i cebulę na drobne kawałki. Roztop masło w rondelku na
+Pokrój szynkę i cebulę na drobne kawałki. Roztop masło w rondelku na
 małym ogniu.
 Podsmażaj cebulę i szynkę, aż cebula się zezłoci.
 Wlej jajka i mieszaj podgrzewając, aż do otrzymania pożądanej konsystencji.
@@ -40,8 +40,8 @@ składniki = jajka, szynka, cebula, masło, pieprz, sól
 moje_składniki = weź(składniki)
 jeśli długość(moje_składniki) < składniki - idź na zakupy
 roztrzep(jajka, pieprz, sól)
-pokroj(szynka)
-pokroj(cebula)
+pokrój(szynka)
+pokrój(cebula)
 jeśli masło.stan != 'płynny': roztop_w_rondelku(masło)
 jeśli cebula.kolor != 'złoty': podsmaż(cebula, szynka)
 jeśli jajka.stan != pożądany_stan: gotuj_i_mieszaj(wszystko)
