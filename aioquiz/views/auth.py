@@ -148,6 +148,7 @@ class MagicAuthenticateView(MCV):
 class LogOutView(MCV):
     _cls = Users
     _urls = '/api/auth/logout'
+    access_level_default = 'no_user'
     
     async def get(self):
         if self.current_user:
