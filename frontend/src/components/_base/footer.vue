@@ -3,8 +3,8 @@
         <b-container>
             <b-row>
                 <b-col sm="6">
-                    <a href="#/rules">Regulamin</a>
-                    <a href="#/privacy_policy">Polityka Prywatności</a>
+                    <a href="#/rules">{{ $t('rules') }}</a>
+                    <a href="#/privacy_policy">{{ $t('ppolicy') }}</a>
                 </b-col>
                 <b-col sm="5">
                     <a class="pull-right" href="https://github.com/pdyba/aioquiz"><i class="fa fa-github"></i>GitHub</a>
@@ -36,3 +36,17 @@ footer {
 }
 
 </style>
+
+
+<i18n>
+{
+  "en": {
+    "rules": "Rules",
+    "ppolicy": "Privacy Policy"
+  },
+  "pl": {
+    "rules": "Regulamin",
+    "ppolicy": "Polityka Prywatności"
+  }
+}
+</i18n>

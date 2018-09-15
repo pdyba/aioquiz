@@ -11,44 +11,28 @@
                             </b-col>
                             <b-col md="4"></b-col>
                         </b-row>
-                        <h2>Bezpłatna nauka programowania w Pythonie</h2>
+                        <h2>{{ $t('headline') }}</h2>
                     </b-col>
                 </b-row>
             </b-container>
         </div>
-
 
         <div class="section">
             <b-container>
                 <b-row>
-                    <b-col md="6">
-                        <p>PyLove jest organizacją non profit, której celem jest nauka i promowanie języka Python
-                            niezależnie
-                            od płci, wieku, rasy, przekonań czy orientacji. Akceptujemy białych mężczyzn ;) Naszym celem
-                            jest pomóc
-                            ludziom w dotarciu do poziomu stażysty/juniora w programowaniu przy użyciu Pythona, aby mogli
-                            rozpocząć oni swoją przygodę w IT.
-                        </p>
+                    <b-col md="12">
+                        <p>{{ $t('pylove_info') }}</p>
                     </b-col>
-                    <b-col md="6">
-                        <p>PyLove is a non profit organization that promotes and teaches Python regardless of age, sex,
-                            race,
-                            believes or orientation. We accept white men ;) Our purpose is to help people get to
-                            intern/junior
-                            level in Python to start their adventure in IT world.
-                        </p>
-                    </b-col>
+
                 </b-row>
             </b-container>
         </div>
-
 
         <div class="section-colored">
             <b-container>
                 <event-desc :event="event" v-for="event in events" filter="active" :key="event.id"></event-desc>
             </b-container>
         </div>
-
 
         <div class="section">
             <b-container>
@@ -64,21 +48,16 @@
             <b-container>
                 <b-row>
                     <b-col md="4">
-                        <h3><i class="fa fa-check-circle"></i> Staże i praktyki</h3>
-                        <p>Dla najlepszych uczestniczek/uczestników czekają płatne
-                            staże i praktyki u naszych partnerów.</p>
+                        <h3><i class="fa fa-check-circle"></i> {{ $t('bene_1_title') }}</h3>
+                        <p> {{ $t('bene_1_text') }}</p>
                     </b-col>
                     <b-col md="4">
-                        <h3><i class="fa fa-pencil"></i>Materiały po polsku</h3>
-                        <p> Nasi mentorzy przygotowują materiały w formie lekcji,
-                            ćwiczeń, zadań domowych i pytań sprawdzających w języku
-                            polskim.</p>
+                        <h3><i class="fa fa-pencil"></i>{{ $t('bene_2_title') }} </h3>
+                        <p>{{ $t('bene_2_text') }}</p>
                     </b-col>
                     <b-col md="4">
-                        <h3><i class="fa fa-folder-open"></i>Społeczność</h3>
-                        <p>Dzięki tym warsztatom macie szansę dołączyć do grona
-                            programistów języka Python, zdaniem wielu najbardziej
-                            otwartej społeczności programistów na świecie.</p>
+                        <h3><i class="fa fa-folder-open"></i>{{ $t('bene_3_title') }}</h3>
+                        <p>{{ $t('bene_3_text') }}</p>
                     </b-col>
                 </b-row>
             </b-container>
@@ -89,15 +68,13 @@
             <b-container>
                 <b-row>
                     <b-col lg="12" class="text-center">
-                        <h2>Zdjęcia z warsztatów prowadzonych przez naszych
-                            mentorów.</h2>
+                        <h2>{{ $t('photos') }}</h2>
                         <hr>
                     </b-col>
                     <b-col lg="4" v-for="img in images_home" :key="img.id">
                         <b-img fluid class="img-responsive img-home-portfolio"
                                :src="'images/' + img + '.jpg'"></b-img>
                     </b-col>
-
                 </b-row>
             </b-container>
         </b-col>
@@ -107,10 +84,8 @@
             <b-container>
                 <b-row>
                     <div class="col-md-6">
-                        <h2>Warunki uczestnictwa:</h2>
-                        <p>W spotkaniach może wziąć udział każdy, niezależnie od płci,
-                            wieku (16+), wykształcenia, czy wykonywanego zawodu.
-                            Konieczne są:</p>
+                        <h2>{{ $t('requirements_title') }}:</h2>
+                        <p>{{ $t('requirements_text') }} </p>
                         <ul>
                             <li>Własny laptop</li>
                             <li>Zainstalowane środowisko:
@@ -159,20 +134,7 @@
                     <div class="col-md-8">
                         <h3>Stowarzyszenie PyPolska</h3>
                         <p></p>
-                        <p class="text-justify">
-                            PyPolska to stowarzyszenie miłośników języka Python. Naszym nadrzędnym celem jest dzielenie
-                            się tym
-                            zamiłowaniem z innymi. Promujemy wymianę wiedzy organizując m.in. największą w Polsce
-                            konferencję
-                            programistów Pythona - PyCon PL. Aktywnie działamy w kierunku tworzenia nowego pokolenia
-                            programistów - w ramach projektu Microbit:Polska organizujemy i prowadzimy warsztaty dla
-                            dzieci,
-                            młodzieży oraz nauczycieli. Ponadto wspieramy lokalne inicjatywy i społeczności związane z
-                            językiem
-                            Python. Współpracujemy również z innymi organizacjami pozarządowymi i podmiotami
-                            zainteresowanymi
-                            językiem Python, w tym z Python Software Foundation.
-                        </p>
+                        <p class="text-justify">{{ $t('pypoland') }}</p>
                         <a href="http://pypolska.org">http://pypolska.org</a>
                     </div>
                 </b-row>
@@ -182,7 +144,7 @@
 
         <div class="section-colored">
             <b-container>
-                <h2>Sponsorzy i partnerzy u których odbyły się już praktyki lub wsparli nas w inny sposób!</h2>
+                <h2> {{ $t('sponsors') }} </h2>
                 <b-row>
                     <sponsor-desc :sponsor="sponsor" v-for="sponsor in sponsors" :key="sponsor.id"></sponsor-desc>
                 </b-row>
@@ -264,3 +226,38 @@
         padding-bottom: 25px;
     }
 </style>
+
+<i18n>
+{
+    "en": {
+        "headline": "TODO",
+        "pylove_info": "PyLove is a non profit organization that promotes and teaches Python regardless of age, sex, race, believes or orientation. We accept white men ;) Our purpose is to help people get to intern/junior level in Python to start their adventure in IT world.",
+        "bene_1_title": "TODO",
+        "bene_1_text": "TODO",
+        "bene_2_title": "TODO",
+        "bene_2_text": "TODO",
+        "bene_3_title": "TODO",
+        "bene_3_text": "TODO",
+        "photos": "TODO",
+        "requirements_title": "TODO",
+        "requirements_text": "TODO",
+        "pypoland": "TODO",
+        "sponsors": "TODO"
+    },
+    "pl": {
+        "headline": "Bezpłatna nauka programowania w Pythonie",
+        "pylove_info": "PyLove jest organizacją non profit, której celem jest nauka i promowanie języka Python niezależnie od płci, wieku, rasy, przekonań czy orientacji. Akceptujemy białych mężczyzn ;) Naszym celem jest pomóc ludziom w dotarciu do poziomu stażysty/juniora w programowaniu przy użyciu Pythona, aby mogli rozpocząć oni swoją przygodę w IT.",
+        "bene_1_title": "Staże i praktyki",
+        "bene_1_text": "Dla najlepszych uczestniczek/uczestników czekają płatne staże i praktyki u naszych partnerów.",
+        "bene_2_title": "Materiały po polsku",
+        "bene_2_text": "Nasi mentorzy przygotowują materiały w formie lekcji, ćwiczeń, zadań domowych i pytań sprawdzających w języku polskim.",
+        "bene_3_title": "Społeczność",
+        "bene_3_text": "Dzięki tym warsztatom macie szansę dołączyć do grona programistów języka Python, zdaniem wielu najbardziej otwartej społeczności programistów na świecie.",
+        "photos": "Zdjęcia z warsztatów prowadzonych przez naszych mentorów.",
+        "requirements_title": "Warunki uczestnictwa",
+        "requirements_text": "W spotkaniach może wziąć udział każdy, niezależnie od płci, wieku (16+), wykształcenia, czy wykonywanego zawodu. Konieczne są:...",
+        "pypoland": "PyPolska to stowarzyszenie miłośników języka Python. Naszym nadrzędnym celem jest dzielenie się tym zamiłowaniem z innymi. Promujemy wymianę wiedzy organizując m.in. największą w Polsce konferencję programistów Pythona - PyCon PL. Aktywnie działamy w kierunku tworzenia nowego pokolenia programistów - w ramach projektu Microbit:Polska organizujemy i prowadzimy warsztaty dla dzieci, młodzieży oraz nauczycieli. Ponadto wspieramy lokalne inicjatywy i społeczności związane z  językiem Python. Współpracujemy również z innymi organizacjami pozarządowymi i podmiotami  zainteresowanymi językiem Python, w tym z Python Software Foundation.",
+        "sponsors": "Sponsorzy i partnerzy u których odbyły się już praktyki lub wsparli nas w inny sposób!"
+    }
+}
+</i18n>
