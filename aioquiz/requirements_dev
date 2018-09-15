@@ -3,3 +3,4 @@ asynctest
 pytest
 pytest-cov
 pytest-sanic
+coverage
