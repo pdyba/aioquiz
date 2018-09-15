@@ -10,7 +10,7 @@
                         <card-body>{{ x.description }}</card-body>
                         <card-footer>
                             <router-link :to="'/' + alisting + '/' + x.id">
-                            <b-btn variant="primary"> Go!</b-btn>  <b-badge v-if="x.amount" :variant="get_color(x.status)">{{ x.progress }}/{{ x.amount }}</b-badge>
+                            <b-btn variant="primary" size="sm"> Go!</b-btn>  <b-badge v-if="x.amount" :variant="get_color(x.status)">{{ x.progress }}/{{ x.amount }}</b-badge>
                                 <b-badge v-if="x.score > -1" variant="primary">score: {{ x.score }} / 100</b-badge>
                             </router-link>
                         </card-footer>
