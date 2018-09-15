@@ -1,8 +1,23 @@
 <template>
     <b-container>
-        <h3> Lesson: {{ lesson.lesson_no }}</h3>
-        <vue-markdown :source="lesson_content"></vue-markdown>
-        <exercises lid="lesson.id"></exercises>
+        <b-tabs>
+            <b-tab title="Lesson">
+                <h3> Lesson: {{ lesson.lesson_no }}</h3>
+                <vue-markdown :source="lesson_content"></vue-markdown>
+            </b-tab>
+            <b-tab title="Exercises">
+                <exercises lid="lesson.id"></exercises>
+            </b-tab>
+            <b-tab title="Live Quiz">
+                ...
+            </b-tab>
+            <b-tab title="Feedback">
+                ...
+            </b-tab>
+            <b-tab title="Homework">
+                ...
+            </b-tab>
+        </b-tabs>
     </b-container>
 </template>
 
@@ -48,6 +63,5 @@
 <style scoped>
     img {
         margin: 1rem;
-        width: ;
     }
 </style>

@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         session_uuid: localStorage.getItem('session_uuid') || null,
-        language: 'pl',
+        language: localStorage.getItem('language') || 'pl',
         event_context: localStorage.getItem('event_context') || null,
         user: JSON.parse(localStorage.getItem('user')) || null
     },
@@ -27,9 +27,13 @@ export default new Vuex.Store({
                 state.event_context = ec_id;
             } else {
                 axios.get('/event').then(resp => {
-                    state.event_context = parseInt(resp.data.context)
+                    state.event_context = parseInt(resp.data.context);
+                    localStorage.setItem('event_context', resp.data.context);
                 });
             }
+        },
+        setLanguage(state, lang) {
+            state.language = lang;
         },
         clearAuthData(state) {
             state.session_uuid = null;
@@ -59,7 +63,9 @@ export default new Vuex.Store({
             localStorage.setItem('user', JSON.stringify(authData));
             dispatch('check_gdpr', authData);
             commit('storeUser', authData);
+            commit('saveEventContext', NaN);
             commit('authUser', authData.session_uuid);
+            dispatch('changeLanguage', authData.lang);
             router.replace('/lessons');
         },
         tryAutoLogin({commit, dispatch}) {
@@ -69,6 +75,7 @@ export default new Vuex.Store({
             }
             const expirationDate = localStorage.getItem('expirationDate');
             const user = JSON.parse(localStorage.getItem('user'));
+            const lang = localStorage.getItem('language');
             const ec_id = localStorage.getItem('event_context') || 0;
             const now = new Date();
             if (now >= expirationDate) {
@@ -78,10 +85,15 @@ export default new Vuex.Store({
             commit('authUser', session_uuid);
             commit('storeUser', user);
             commit('saveEventContext', ec_id);
+            dispatch('changeLanguage', lang);
         },
         storeEventContext({commit, dispatch}, ec_id) {
             localStorage.setItem('event_context', ec_id);
             commit('saveEventContext', ec_id);
+        },
+        changeLanguage({commit, dispatch}, language) {
+            localStorage.setItem('language', language);
+            commit('setLanguage', language);
         },
         logout({commit}) {
             axios.get('/auth/logout').then((resp) => {
@@ -166,6 +178,9 @@ export default new Vuex.Store({
         },
         context(state) {
             return state.event_context
+        },
+        language(state) {
+            return state.language
         },
         isAuthenticated(state) {
             return state.session_uuid !== null
