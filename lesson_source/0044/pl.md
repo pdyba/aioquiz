@@ -4,7 +4,7 @@
 Funkcja anonimowa - lambda
 --------------------------
 
-jest to funkcja, która nie musi być powiązana z identyfikatorem. 
+Jest to funkcja, która nie musi być powiązana z identyfikatorem. 
 Funkcje anonimowe są często argumentami przekazywanymi funkcjom wyższego rzędu
 lub są używane do budowania wyniku funkcji wyższego rzędu, która musi zwracać funkcję.
 
@@ -39,7 +39,7 @@ a_revers_sorted = sorted(a_list, key=lambda a: a[1], reverse=True)
 ```
 
 filter - 
-funkcja zwraca nam generator z niezbędnymi danymi po ich odfiltorwaniu.
+funkcja zwraca nam generator z niezbędnymi danymi po ich odfiltrowaniu.
 
 ```python
 a_list = [('piotr', 185), ('zuza', 170), ('luke', 145)]
@@ -60,7 +60,7 @@ print(list(mapped))
 Comprehension 
 -------------
 
-czyli tworzenie list w locie. Mocno upraszcza i zmniejsza ilość potrzebnego kodu w naturalny i przyjemny sposób.
+Czyli tworzenie list w locie. Mocno upraszcza i zmniejsza ilość potrzebnego kodu w naturalny i przyjemny sposób.
 
 list comprehension
 ```python

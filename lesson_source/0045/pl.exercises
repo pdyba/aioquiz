@@ -7,19 +7,19 @@
 2:
     title: 1.25.2
     task: |
-        Uruchom dockera pythonem i sprawdz wersje
+        Uruchom dockera pythonem i sprawdź wersję
     possible_answer: docker run -it python python --version
 
 3:
     title: 1.25.3
     task: |
-        Sprawdz jakie obrazy i kontenery sa na Twoim systemie
+        Sprawdź jakie obrazy i kontenery są na Twoim systemie
     possible_answer: docker ps -a; docker images
 
 4:
     title: 1.25.4
     task: |
-        Napisz dockerfile dla kontenera ktory uruchomi Twoja aplikacje pythonowa
+        Napisz dockerfile dla kontenera, który uruchomi Twoją aplikację pythonową
     possible_answer: |
         FROM python
         COPY hello.py /
@@ -28,7 +28,7 @@
 5:
     title: 1.25.5
     task: |
-        Uruchom dostarczona aplikacje przy uzyciu docker compose, dodaj usluge redis, jako dodatkowy kontener z redisem (skorzystaj z gotowego obrazu np redis:alpine) i sprawdz jak dziala aplikacja
+        Uruchom dostarczoną aplikację przy użyciu docker compose, dodaj usługę redis, jako dodatkowy kontener z redisem (skorzystaj z gotowego obrazu np. redis:alpine) i sprawdź jak działa aplikacja
     possible_answer: |
         redis:
         image: "redis:alpine"
