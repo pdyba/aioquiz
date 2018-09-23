@@ -44,7 +44,7 @@ class CommonTestBase(MCV):
             cond = {
                 self._cls_answer._fk_col: qid,
                 'question': req['question'],
-                'users': self.current_user.id,
+                'user': self.current_user.id,
             }
             qa = await self._cls_answer.get_first_by_many_field_value(**cond)
             qa.answer = req['answer']
@@ -84,7 +84,7 @@ class CommonTestBase(MCV):
                 if not quiz.active and status.status != 'Graded' and self.current_user.is_only_attendee():
                     continue
                 q = await quiz.to_dict()
-                q['creator'] = await get_user_name(q['users'])
+                q['creator'] = await get_user_name(q['user_id'])
                 q['amount'] = await quiz.get_question_amount()
                 q['status'] = status.status
                 q['progress'] = status.progress

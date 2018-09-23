@@ -143,25 +143,25 @@ class Table(object):
         else:
             print('{} table already exists'.format(cls._name))
 
-    @classmethod
-    async def get_by_id(cls, uid):
-        resp = await make_a_query(
-            """SELECT * FROM {} WHERE id = {}""".format(cls._name, uid)
-        )
-        return cls(**dict(resp[0]))
+    # @classmethod
+    # async def get_by_id(cls, uid):
+    #     resp = await make_a_query(
+    #         """SELECT * FROM {} WHERE id = {}""".format(cls._name, uid)
+    #     )
+    #     return cls(**dict(resp[0]))
 
-    @classmethod
-    async def get_all(cls, suffix=""):
-        resp = await make_a_query("""SELECT * FROM {} {}""".format(cls._name, suffix))
-        return [cls(**dict(r)) for r in resp]
+    # @classmethod
+    # async def get_all(cls, suffix=""):
+    #     resp = await make_a_query("""SELECT * FROM {} {}""".format(cls._name, suffix))
+    #     return [cls(**dict(r)) for r in resp]
 
-    @classmethod
-    async def get_by_field_value(cls, field, value):
-        if isinstance(value, str):
-            resp = await make_a_query("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
-        else:
-            resp = await make_a_query("""SELECT * FROM {} WHERE {}={}""".format(cls._name, field, value))
-        return [cls(**dict(r)) for r in resp]
+    # @classmethod
+    # async def get_by_field_value(cls, field, value):
+    #     if isinstance(value, str):
+    #         resp = await make_a_query("""SELECT * FROM {} WHERE {}='{}'""".format(cls._name, field, value))
+    #     else:
+    #         resp = await make_a_query("""SELECT * FROM {} WHERE {}={}""".format(cls._name, field, value))
+    #     return [cls(**dict(r)) for r in resp]
 
     @classmethod
     async def get_by_join(cls, *args, **kwargs):
@@ -186,24 +186,24 @@ class Table(object):
         resp = await make_a_query(query)
         return [cls(**dict(r)) for r in resp]
 
-    @classmethod
-    async def get_by_many_field_value(cls, **kwargs):
-        if not kwargs:
-            return await cls.get_all()
-        query = """SELECT * FROM {} WHERE """.format(cls._name)
-        for i, kw in enumerate(kwargs):
-            if isinstance(kwargs[kw], (dict, list)):
-                kwargs[kw] = json.dumps(kwargs[kw])
-            if isinstance(kwargs[kw], str):
-                query += """ {}='{}'""".format(kw, kwargs[kw])
-            else:
-                query += """  {}={}""".format(kw, kwargs[kw])
-            if i + 1 < len(kwargs):
-                query += """ AND """
-        resp = await make_a_query(query)
-        if not resp:
-            return resp
-        return [cls(**dict(r)) for r in resp]
+    # @classmethod
+    # async def get_by_many_field_value(cls, **kwargs):
+    #     if not kwargs:
+    #         return await cls.get_all()
+    #     query = """SELECT * FROM {} WHERE """.format(cls._name)
+    #     for i, kw in enumerate(kwargs):
+    #         if isinstance(kwargs[kw], (dict, list)):
+    #             kwargs[kw] = json.dumps(kwargs[kw])
+    #         if isinstance(kwargs[kw], str):
+    #             query += """ {}='{}'""".format(kw, kwargs[kw])
+    #         else:
+    #             query += """  {}={}""".format(kw, kwargs[kw])
+    #         if i + 1 < len(kwargs):
+    #             query += """ AND """
+    #     resp = await make_a_query(query)
+    #     if not resp:
+    #         return resp
+    #     return [cls(**dict(r)) for r in resp]
 
     @classmethod
     async def delete_by_many_fields(cls, **kwargs):
@@ -215,23 +215,23 @@ class Table(object):
                 query += """ OR """
         resp = await make_a_query(query)
 
-    @classmethod
-    async def get_first_by_many_field_value(cls, **kwargs):
-        # Lepiej byłoby już w samym zapytaniu dać coś w stylu LIMIT 1, poza tym przydałoby się ORDER BY
-        data = await cls.get_by_many_field_value(**kwargs)
-        try:
-            return data[0]
-        except Exception as err:
-            raise DoesNotExist
+    # @classmethod
+    # async def get_first_by_many_field_value(cls, **kwargs):
+    #     # Lepiej byłoby już w samym zapytaniu dać coś w stylu LIMIT 1, poza tym przydałoby się ORDER BY
+    #     data = await cls.get_by_many_field_value(**kwargs)
+    #     try:
+    #         return data[0]
+    #     except Exception as err:
+    #         raise DoesNotExist
 
-    @classmethod
-    async def get_first(cls, field, value):
-        # Jak wyżej
-        data = await cls.get_by_field_value(field, value)
-        try:
-            return data[0]
-        except Exception as err:
-            raise DoesNotExist
+    # @classmethod
+    # async def get_first(cls, field, value):
+    #     # Jak wyżej
+    #     data = await cls.get_by_field_value(field, value)
+    #     try:
+    #         return data[0]
+    #     except Exception as err:
+    #         raise DoesNotExist
 
     @classmethod
     def _format_create(cls, clsi):
@@ -287,32 +287,32 @@ class Table(object):
             logging.exception('Error creating {}'.format(self._name))
             return isinstance(e, TypeError)
 
-    async def update_or_create(self, *args, verbose=False, get_insta=False):
-        kw = {arg: getattr(self, arg) for arg in args}
-        try:
-            inst = await self.get_first_by_many_field_value(**kw)
-        except DoesNotExist:
-            inst = None
-        if inst:
-            await inst.update(**kw)
-            if get_insta:
-                return inst, True
-            if hasattr(inst, 'id'):
-                if verbose:
-                    return inst.id, True
-                return inst.id
-            else:
-                if verbose:
-                    return True, True
-                return True
-        else:
-            resp = await self.create()
-            if get_insta:
-                insta = await self.get_by_id(resp)
-                return insta, True
-            if verbose:
-                return resp, False
-            return resp
+    # async def update_or_create(self, *args, verbose=False, get_insta=False):
+    #     kw = {arg: getattr(self, arg) for arg in args}
+    #     try:
+    #         inst = await self.get_first_by_many_field_value(**kw)
+    #     except DoesNotExist:
+    #         inst = None
+    #     if inst:
+    #         await inst.update(**kw)
+    #         if get_insta:
+    #             return inst, True
+    #         if hasattr(inst, 'id'):
+    #             if verbose:
+    #                 return inst.id, True
+    #             return inst.id
+    #         else:
+    #             if verbose:
+    #                 return True, True
+    #             return True
+    #     else:
+    #         resp = await self.create()
+    #         if get_insta:
+    #             insta = await self.get_by_id(resp)
+    #             return insta, True
+    #         if verbose:
+    #             return resp, False
+    #         return resp
 
     @classmethod
     def _format_update(cls, clsi):
@@ -360,13 +360,13 @@ class Table(object):
                 setattr(self, key, value)
         return await self.update()
 
-    async def to_dict(self, include_soft=False):
-        restricted_keys = self._restricted_keys if include_soft else self._restricted_keys + self._soft_restricted_keys
-        return {
-            field.name: getattr(self, field.name)
-            for field in self._schema
-            if field.name not in restricted_keys
-        }
+    # async def to_dict(self, include_soft=False):
+    #     restricted_keys = self._restricted_keys if include_soft else self._restricted_keys + self._soft_restricted_keys
+    #     return {
+    #         field.name: getattr(self, field.name)
+    #         for field in self._schema
+    #         if field.name not in restricted_keys
+    #     }
 
     @classmethod
     async def count_all(cls):

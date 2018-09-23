@@ -64,14 +64,14 @@ class ExercisesView(MCV):
     async def get(self, lid=0):
         if not lid:
             return json({}, 404)
-        exercises = await Exercise.get_by_field_value('lesson', lid)
+        exercises = await Exercise.get_by_field_value('lesson_id', lid)
         resp = []
         for ex in exercises:
             q = await ex.to_dict()
             try:
                 ans = await ExerciseAnswer.get_first_by_many_field_value(
-                    users=self.current_user.id,
-                    exercise=ex.id
+                    user_id=self.current_user.id,
+                    exercise_id=ex.id
                 )
             except DoesNotExist:
                 ans = None
@@ -103,14 +103,14 @@ class ExercisesView(MCV):
     async def put(self):
         req = self.req.json
         ex = await ExerciseAnswer.get_first_by_many_field_value(
-            users=self.current_user.id,
-            exercise=req['exercise']
+            user_id=self.current_user.id,
+            exercise_id=req['exercise']
         )
         if not ex.first_answer:
             ex.first_answer = ex.answer
         ex.answer = req['answer']
         try:
-            await ex.update(users=self.current_user.id, exercise=req['exercise'])
+            await ex.update(user_id=self.current_user.id, exercise=req['exercise'])
             return json({'success': True, 'msg': 'Exercise answer saved'})
         except:
             logging.exception("ExercisesView.post")
@@ -317,12 +317,12 @@ class LessonFeedbackMetaView(MCV):
         try:
             # doing this twice since delete() could throw a weird out of bounds exc.
             await LessonFeedbackMeta.get_first_by_many_field_value(
-                question=qid,
-                lesson=lid
+                question_id=qid,
+                lesson_id=lid
             )
             await LessonFeedbackMeta.delete_by_many_fields(
-                question=qid,
-                lesson=lid
+                question_id=qid,
+                lesson_id=lid
             )
             return json({}, 204)
         except DoesNotExist:

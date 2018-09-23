@@ -13,7 +13,7 @@ class Lesson(EnchancedModel):
     lesson_no = db.Column(db.Integer, nullable=False)
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), default=DEFAULT_USER)
+    author = db.Column(db.String)
     file = db.Column(db.String)
     time_created = db.Column(db.DateTime, default=datetime.utcnow)
     active = db.Column(db.Boolean, default=False)

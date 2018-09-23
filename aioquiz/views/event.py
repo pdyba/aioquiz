@@ -84,7 +84,7 @@ class EventsView(MCV):
         events = await self._get(an_id)
         if not self.current_user:
             return json(events)
-        user_events = await EventUser.get_by_many_field_value(users=self.current_user.id)
+        user_events = await EventUser.get_by_many_field_value(user_id=self.current_user.id)
         for uev in user_events:
             uev = await uev.to_dict()
             list(filter(lambda a: a.get('id') == uev.get('event'), events))[0].update({'user_data': uev})
@@ -97,7 +97,7 @@ class EventView(MCV):
 
     async def get(self, an_id=None):
         if not (self.current_user.admin or self.current_user.organiser):
-            user_ev = await EventUser.get_first_by_many_field_value(users=self.current_user.id)
+            user_ev = await EventUser.get_first_by_many_field_value(user_id=self.current_user.id)
             return json({'context': user_ev.event or 0})
         return await super().get(an_id=an_id)
 
@@ -113,7 +113,7 @@ class EventView(MCV):
 
     async def delete(self, an_id=None):
         try:
-            await EventUser.delete_by_many_fields(users=self.current_user.id, event=an_id)
+            await EventUser.delete_by_many_fields(user_id=self.current_user.id, event=an_id)
             return json({'success': True, 'msg': 'Unsigned'})
         except:
             logging.exception('err {}.delete'.format(self._get_name()))

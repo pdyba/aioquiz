@@ -2,13 +2,13 @@
 # encoding: utf-8
 import argparse
 import asyncio
+import json
 import os
 import random
 import shutil
 import string
 import timeit
 
-import markdown
 import yaml
 
 from config import DB, DEFAULT_USER
@@ -132,7 +132,7 @@ async def add_question(qpath="../bootstrap_data/questions.question", verbose=Fal
         print(err)
         color_print('Issue with reading questions data')
         return
-    for _, val in questions.items():
+    for val in questions.values():
         try:
             question = models.Question(**val)
             await question.update_or_create('question')
@@ -159,22 +159,19 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
         e_path = path + '.exercises'
         m_path = path + '.meta'
         q_path = path + '.quiz'
-        try:  # lesson generation will be deprecated in future
-            with open(l_path) as file:
-                html = markdown.markdown(
-                    file.read(),
-                    extensions=[
-                        'markdown.extensions.codehilite',
-                        'markdown.extensions.tables'
-                    ]
-                )
+
+        try:
+            open(l_path)
         except FileNotFoundError:
+            color_print('File {} not found - skipping this lesson'.format(l_path))
             return
+
         with open(m_path) as file:
             meta = yaml.load(file.read())
-        meta['author'] = DEFAULT_USER
+
         meta['file'] = '{}.html'.format(a_dir)
         meta['lesson_no'] = int(a_dir)
+
         try:
             with open(q_path) as file:
                 questions = yaml.load(file.read())
@@ -182,25 +179,28 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
         except Exception as err:
             questions = False
             less_counter.quiz_outcome = 'none'
+
         if questions:
-            quiz = models.Quiz(title=meta['title'], users=DEFAULT_USER, description=meta['description'])
-            quiz_id = await quiz.update_or_create('title')
-            meta['quiz'] = quiz_id
+            quiz = models.Quiz(title=meta['title'], user_id=DEFAULT_USER, description=meta['description'])
+            quiz_id = (await quiz.update_or_create('title'))[0].id
+            meta['quiz_id'] = quiz_id
             question_order = 1
-            for _, val in questions.items():
+            for val in questions.values():
                 try:
                     question = models.Question(**val)
-                    qid = await question.update_or_create(*val.keys())
-                    qq = models.QuizQuestions(quiz=quiz_id, question=qid, question_order=question_order)
+                    if not isinstance(question.answers, str):
+                        question.answers = json.dumps(question.answers)
+                    qid = (await question.update_or_create(*val.keys()))[0].id
+                    qq = models.QuizQuestions(quiz_id=quiz_id, question_id=qid, question_order=question_order)
                     question_order += 1
-                    await qq.update_or_create('question', 'quiz')
+                    await qq.update_or_create('question_id', 'quiz_id')
                     less_counter.quiz_details_done += 1
                 except Exception as err:
                     print(err)
                     less_counter.quiz_details_error += 1
         try:
             lesson = models.Lesson(**meta)
-            lid, updated = await lesson.update_or_create('lesson_no', verbose=True)
+            lesson_, updated = await lesson.update_or_create('lesson_no')
             less_counter.lesson_outcome = 'found'
             if updated:
                 less_counter.lesson_outcome = 'updated'
@@ -219,12 +219,12 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
         except Exception as err:
             exe = False
             less_counter.exercise_outcome = 'not found'
-            print(err)
         if exe:
             try:
                 for val in exe.values():
-                    exercise = models.Exercise(lesson=lid, **val)
-                    id, updated = await exercise.update_or_create('title', verbose=True)
+                    val['title'] = str(val['title'])
+                    exercise = models.Exercise(lesson_id=lesson_.id, **val)
+                    _, updated = await exercise.update_or_create('title')
                     if updated:
                         less_counter.exercise_details_updated += 1
                     else:
@@ -234,7 +234,7 @@ async def create_html_lessons(lang='pl', lesson=None, verbose=False):
                 less_counter.exercise_details_error += 1
                 print(exe)
                 print(err)
-        dest = os.path.abspath('static/images/')
+        dest = os.path.abspath('../static/images/')
         if os.path.exists(images):
             for file in os.listdir(images):
                 src = os.path.join(images, file)
@@ -284,12 +284,12 @@ async def add_exam(e_path, verbose=False):
         color_print('Issue with reading exam data')
         return
     exam = models.Exam(title=meta['title'], users=DEFAULT_USER, description=meta['description'])
-    exam, _ = await exam.update_or_create('title', get_insta=True)
+    exam = await exam.update_or_create('title')
     question_order = 1
     for _, val in questions.items():
         try:
             question = models.Question(**val)
-            qid = await question.update_or_create('question')
+            qid = (await question.update_or_create('question'))[0].id
             await exam.add_question(question_id=qid, order=question_order)
             question_order += 1
         except Exception as err:
@@ -316,6 +316,8 @@ def get_parser():
         help="Generate 10 user accounts for development purposes in the DB",
         action="store_true"
     )
+    parser.add_argument("--alldev", help="Boostrap the DB for development", action="store_true")
+    parser.add_argument("--all", help="Boostrap the DB for production", action="store_true")
     return parser
 
 
@@ -324,10 +326,10 @@ async def main():
 
     await db.set_bind('postgresql://{}:{}@{}/{}'.format(DB.USER, DB.PASSWORD, DB.HOST, DB.DB))
 
-    if args.bootstrap:
+    if args.bootstrap or args.alldev or args.all:
         await db.gino.create_all()
         color_print('DB bootstrap done', color='green')
-    if args.devusers:
+    if args.devusers or args.alldev:
         await gen_users()
     if args.lesson:
         await create_html_lessons(lesson=args.lesson, verbose=args.verbose)
@@ -335,11 +337,11 @@ async def main():
         await add_exam(args.exam, verbose=args.verbose)
     if args.questions:
         await add_question(args.questions, verbose=args.verbose)
-    if args.alllessons:
+    if args.alllessons or args.alldev or args.all:
         await create_html_lessons(verbose=args.verbose)
-    if args.allquestions:
+    if args.allquestions or args.alldev or args.all:
         await add_question(verbose=args.verbose)
-    if args.admin:
+    if args.admin or args.alldev:
         await admin()
 
     color_print('ALL Done', color='green')

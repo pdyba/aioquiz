@@ -39,19 +39,19 @@ class CommonTestTemplate:
         try:
             await self.update_status(uid, add=0)
             return await self._status.get_first_by_many_field_value(
-                **{self._name: self.id, 'users': uid}
+                **{self.id_field: self.id, 'user_id': uid}
             )
         except DoesNotExist:
-            status = self._status(**{self._name: self.id, 'users': uid})
+            status = self._status(**{self.id_field: self.id, 'user_id': uid})
             await status.create()
             return status
 
     async def get_question_amount(self):
-        return await self._questions.count_by_field(**{self._name: self.id})
+        return await self._questions.count_by_field(**{self.id_field: self.id})
 
     async def update_status(self, uid, add=1, new_status=''):
         question_amount = await self.get_question_amount()
-        cond = {self._name: self.id, 'users': uid}
+        cond = {self.id_field: self.id, 'user_id': uid}
         status = await self._status.get_first_by_many_field_value(**cond)
         status.progress += add
         if status.progress < question_amount:
@@ -68,7 +68,7 @@ class CommonTestTemplate:
 
     async def add_question(self, question_id, order):
         test_question = self._questions(**{
-            self._name: self.id,
+            self.id_field: self.id,
             'question': question_id,
             'question_order': order
         })
@@ -102,8 +102,8 @@ class CommonTestTemplate:
         return resp
 
     async def delete_old_questions(self):
-        old_questions = self._questions(**{self._name: 1, 'question': 1, 'question_order': 1})
-        await old_questions.delete(**{self._name: self.id})
+        old_questions = self._questions(**{self.id_field: 1, 'question': 1, 'question_order': 1})
+        await old_questions.delete(**{self.id_field: self.id})
 
     @classmethod
     async def get_by_anwers_to_grade_by_qid(cls, qid):
@@ -118,7 +118,7 @@ class CommonTestTemplate:
             answer = await cls._answers.get_answer_by_uid(qid, uid)
             answer.score = score
             answer.comment = comment
-            await answer.update(**{'question': qid, 'users': uid})
+            await answer.update(**{'question': qid, 'user_id': uid})
             return True
         except Exception:
             logging.exception('error grading')
@@ -126,16 +126,16 @@ class CommonTestTemplate:
 
     async def close_test(self):
         resp = {}
-        all_statuses = await self._status.get_by_many_field_value(**{self._name: self.id})
+        all_statuses = await self._status.get_by_many_field_value(**{self.id_field: self.id})
         for status in all_statuses:
-            status.score = await self._answers.sum_by_uid_tid(uid=status.users, tid=self.id)
+            status.score = await self._answers.sum_by_uid_tid(uid=status.user_id, tid=self.id)
         resp['max'] = max([status.score for status in all_statuses])
         resp['count'] = len(all_statuses)
         resp['mean'] = resp['max'] / resp['count']
         for status in all_statuses:
             status.score = int(status.score / resp['max'] * 100)
             status.status = 'Graded'
-            await status.update(**{"users": status.users, self._name: self.id})
+            await status.update(**{"user_id": status.user_id, self.id_field: self.id})
         return resp
 
 
@@ -149,12 +149,12 @@ class CommonTestQuestion:
     @classmethod
     async def get_all_for_test(cls, tid, uid=0, answer_cls=None, as_json=True):
         test_questions = await cls.get_by_many_field_value(
-            **{cls._fk_col: tid}
+            **{cls._fk_col + '_id': tid}
         )
         resp = []
         for tq in test_questions:
             if as_json:
-                qid = tq.question
+                qid = tq.question_id
                 tq = await tq.to_dict()
                 quest = await Question.get(qid)
                 tq['question_details'] = await quest.to_dict()
@@ -180,7 +180,7 @@ class CommonTestAnswer:
     async def get_answer_by_uid(cls, qid, uid):
         try:
             return await cls.get_first_by_many_field_value(
-                **{'question': qid, 'users': uid}
+                **{'question_id': qid, 'user_id': uid}
             )
         except DoesNotExist:
             return False
@@ -189,7 +189,7 @@ class CommonTestAnswer:
     async def get_answers_by_qid(cls, qid):
         try:
             return await cls.get_by_many_field_value(
-                **{'question': qid}
+                **{'question_id': qid}
             )
         except DoesNotExist:
             return False
@@ -198,7 +198,7 @@ class CommonTestAnswer:
     async def get_answer_count(cls, qid):
         try:
             return await cls.count_by_field(
-                **{'question': qid}
+                **{'question_id': qid}
             )
         except DoesNotExist:
             return False
@@ -208,14 +208,14 @@ class CommonTestAnswer:
         try:
             return await cls.count_by_field(
                 append=' AND score <> -1',
-                **{'question': qid}
+                **{'question_id': qid}
             )
         except DoesNotExist:
             return False
 
     @classmethod
     async def sum_by_uid_tid(cls, uid, tid):
-        return await cls.sum('score',  **{cls._fk_col: tid, "users": uid}) or 0
+        return await cls.sum('score',  **{cls._fk_col + '_id': tid, "user_id": uid}) or 0
 
 
 class CommonTestStatus:

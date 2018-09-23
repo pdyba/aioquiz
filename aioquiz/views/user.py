@@ -353,11 +353,10 @@ class SaveGDPR(MCV):
         You will be automatically logged out. 
         Failing to comply by 25.05.2018 will lead to account removal."""
 
-    async def get(self, request, current_user):
+    async def get(self):
         # noinspection PyBroadException
         try:
-            self.current_user.gdpr = True
-            await self.current_user.update()
+            await self.current_user.update(gdpr=True).apply()
             return json({
                 'success': True,
                 'msg': 'You confirmed reading and agreed with our Privacy Policy'

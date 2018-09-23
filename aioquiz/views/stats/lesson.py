@@ -58,13 +58,13 @@ class ExamOverview(MCV):
         for uid in req:
             try:
                 # TODO: change it in future
-                exam = await ExamStatus.get_first_by_many_field_value(users=uid, exam=FINAL_EXAM)
+                exam = await ExamStatus.get_first_by_many_field_value(user_id=uid, exam=FINAL_EXAM)
                 resp['exams'][uid] = exam.score
             except DoesNotExist:
                 resp['exams'][uid] = -1
             try:
                 # TODO: change it in future
-                intern_ans = await ExamAnswer.get_by_many_field_value(users=uid, exam=INTERN_EXAM)
+                intern_ans = await ExamAnswer.get_by_many_field_value(user_id=uid, exam=INTERN_EXAM)
                 intern_resp = {}  # so hackish so sad
                 for intern in intern_ans:
                     if intern.question == 9:
@@ -92,14 +92,14 @@ class AbsenceStatsView(MCV):
 
     async def get(self, lid=None):
         if self.current_user.admin and lid:
-            absences = await Absence.get_by_field_value('lesson', lid)
+            absences = await Absence.get_by_field_value('lesson_id', lid)
             lesson = await Lesson.get(lid)
             lesson = lesson.title
             max_absences = 200
             current_attendence = len(absences)
         else:
             absences = await AbsenceMeta.get_all()
-            user_absence = await Absence.get_by_field_value('users', self.current_user.id)
+            user_absence = await Absence.get_by_field_value('user_id', self.current_user.id)
             lesson = ""
             max_absences = len(absences)
             current_attendence = len(user_absence)

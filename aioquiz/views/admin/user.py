@@ -95,7 +95,7 @@ class ReviewAttendeesView(OrganiserMCV):
         ur = UserReview(**req)
         if not await ur.create():
             return json({'msg': 'already exists', 'error': True})
-        all_ur = await UserReview.get_by_field_value('users', req['users'])
+        all_ur = await UserReview.get_by_field_value('user_id', req['users'])
         user = await User.get(req['users'])
         new_score = sum(u.score for u in all_ur) / (len(all_ur) or 1)
         user.score = new_score
