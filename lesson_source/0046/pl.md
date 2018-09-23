@@ -16,7 +16,7 @@ Zaczynajmy!
 Dlaczego powstają błędy bezpieczeństwa?
 ---------------------------------------
 
-Najczęściej jest to spowodowane skupieniem na funkcjach aplikacji (ang. features) - na przykład w obliczu nadchodzącej wielkimi krokami publikacji produktu - lub pomyłkami programisty. Pomyłki te mogą oczywiście wynikać ze zmęczenia, przeoczenia lub nieznajomości tematu (biblioteki, frameworku, ); skupimy się dziś na tym ostatnim.
+Najczęściej jest to spowodowane skupieniem na funkcjach aplikacji (ang. features) - na przykład w obliczu nadchodzącej wielkimi krokami publikacji produktu - lub pomyłkami programisty. Pomyłki te mogą oczywiście wynikać ze zmęczenia, przeoczenia lub nieznajomości tematu (biblioteki, frameworku); skupimy się dziś na tym ostatnim.
 
 Złośliwi użytkownicy
 --------------------

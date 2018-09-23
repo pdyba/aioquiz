@@ -1,6 +1,6 @@
 1:
     title: Batman
-    task: Sprawdź co wypiszę linijka:print(‘Na’ * 20 + ‘ Batman’)
+    task: Sprawdź co wypisze linijka: print(‘Na’ * 20 + ‘ Batman’)
     possible_answer: yey
 2:
     title: Aa
@@ -8,11 +8,11 @@
     possible_answer: print(‘Aa’ * 12)
 3:
     title: Ucieczka_1
-    task: Napisz tak stringa żeby wypisał: Nowy film Ama’deusza pt. „xyz”
+    task: Napisz tak stringa, żeby wypisał: Nowy film Ama’deusza pt. „xyz”
     possible_answer: print(„Nowy film Ama’deusza pt. \„xyz\””)
 4:
     title: Ucieczka_2
-    task: Napisz tak stringa żeby wypisał: A\A’ == A\A”
+    task: Napisz tak stringa, żeby wypisał: A\A’ == A\A”
     possible_answer: print(„A\\A’ == A\\A\””)
 
 

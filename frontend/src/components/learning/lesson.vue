@@ -1,8 +1,23 @@
 <template>
     <b-container>
-        <h3> Lesson: {{ lesson.lesson_no }}</h3>
-        <vue-markdown :source="lesson_content"></vue-markdown>
-        <exercises lid="lesson.id"></exercises>
+        <b-tabs>
+            <b-tab :title="$t('lesson')">
+                <h3>{{ $t('lesson') }}: {{ lesson.lesson_no }}</h3>
+                <vue-markdown :source="lesson_content"></vue-markdown>
+            </b-tab>
+            <b-tab :title="$t('livequiz')">
+                ...
+            </b-tab>
+            <b-tab :title="$t('exercises')">
+                <exercises lid="lesson.id"></exercises>
+            </b-tab>
+            <b-tab :title="$t('feedback')">
+                ...
+            </b-tab>
+            <b-tab :title="$t('homework')">
+                ...
+            </b-tab>
+        </b-tabs>
     </b-container>
 </template>
 
@@ -48,6 +63,24 @@
 <style scoped>
     img {
         margin: 1rem;
-        width: ;
     }
 </style>
+
+<i18n>
+{
+  "en": {
+    "lesson": "lesson",
+    "exercises": "exercises",
+    "livequiz": "livequiz",
+    "feedback": "feedback",
+    "homework": "homework"
+  },
+  "pl": {
+    "lesson": "lekcja",
+    "exercises": "ćwiczenia",
+    "livequiz": "podsumowanie",
+    "feedback": "informacja zwrotna",
+    "homework": "zadanie domowe"
+  }
+}
+</i18n>

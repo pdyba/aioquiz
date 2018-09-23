@@ -1,6 +1,8 @@
 aiosmtplib==1.0.2
 gino==0.7.5
+pytest-asyncio
 PyYAML==3.13
 sanic==0.7.0
-Sanic-Cors==0.9.6
+sanic-cors==0.9.6
+sanic-sentry
 uvloop==0.11.2

@@ -22,18 +22,18 @@
             <b-container>
                 <b-row>
                     <b-col md="6">
-                        <p>PyLove jest orgnizacją non profit, której celem jest nauka i promowanie języka Python
+                        <p>PyLove jest organizacją non profit, której celem jest nauka i promowanie języka Python
                             niezależnie
                             od płci, wieku, rasy, przekonań czy orientacji. Akceptujemy białych mężczyzn ;) Naszym celem
                             jest pomóc
-                            ludzią w dotarci do poziomu stażysty/juniora w programowaniu przy użyciu Pythona aby mogli
-                            rozpocząc oni swoją przygodę w IT.
+                            ludziom w dotarciu do poziomu stażysty/juniora w programowaniu przy użyciu Pythona, aby mogli
+                            rozpocząć oni swoją przygodę w IT.
                         </p>
                     </b-col>
                     <b-col md="6">
                         <p>PyLove is a non profit organization that promotes and teaches Python regardless of age, sex,
                             race,
-                            believes or orientation. We accept white man ;) Our purpose is to help people get to
+                            believes or orientation. We accept white men ;) Our purpose is to help people get to
                             intern/junior
                             level in Python to start their adventure in IT world.
                         </p>

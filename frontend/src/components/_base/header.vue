@@ -4,13 +4,11 @@
             <navbar-collapse>
                 <navbar-nav right>
                     <!--<help v-if="auth"></help>-->
-                    <navbar-item href="/about">About</navbar-item>
-                    <navbar-item href="/quiz" v-if="auth">Quiz</navbar-item>
-                    <navbar-item href="/lessons" v-if="auth">Lessons</navbar-item>
-                    <navbar-item href="/live_quiz" v-if="auth">Live Quiz</navbar-item>
-                    <navbar-item href="/homework" v-if="auth">Home Work</navbar-item>
-                    <navbar-item href="/feedback" v-if="auth">Feedback</navbar-item>
-                    <navbar-item href="/exam" v-if="auth">Exam</navbar-item>
+                    <navbar-item href="/about">{{ $t('about') }}</navbar-item>
+                    <navbar-item href="/lessons" v-if="auth">{{ $t('lessons') }}</navbar-item>
+                    <navbar-item href="/quiz" v-if="auth">{{ $t('quiz') }}</navbar-item>
+                    <navbar-item href="/feedback" v-if="auth">{{ $t('feedback') }}</navbar-item>
+                    <navbar-item href="/exam" v-if="auth">{{ $t('exam') }}</navbar-item>
 
                     <divider v-if="mentor || org"></divider>
                     <dropdown tag="li" class="nav-item" v-if="mentor">
@@ -41,6 +39,7 @@
                             <dropdown-item href="/organiser/exam-create">Exam: Create</dropdown-item>
                             <dropdown-item href="/organiser/exam-manage">Exam: Manage</dropdown-item>
                             <dropdown-item href="/organiser/users">Users</dropdown-item>
+                            <dropdown-item href="/organiser/users/review">Users: Review</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
 
@@ -51,7 +50,7 @@
                             <dropdown-item href="/admin/email">E-mail</dropdown-item>
                             <dropdown-item href="/admin/users">Users</dropdown-item>
                             <dropdown-item href="/admin/config">Config</dropdown-item>
-                            <!--<dropdown-item href="/admin/events">Events</dropdown-item>-->
+                            <dropdown-item href="/admin/events">Events</dropdown-item>
                         </dropdown-menu>
                     </dropdown>
                     <event-context-picker v-if="admin || org"></event-context-picker>
@@ -68,7 +67,7 @@
                             <dropdown-item><attendance></attendance></dropdown-item>
                         </dropdown-menu>
                     </dropdown>
-                    <!--<language_picker v-if="admin"></language_picker>-->
+                    <language-picker></language-picker>
                     <a @click="onLogout" v-if="auth" class="">
                         <navbar-item>&#10006;</navbar-item>
                     </a>
@@ -91,7 +90,7 @@
     import drop from '../mixins/drop';
     import divider from './divider.vue';
     import attendance from './attendance.vue';
-    import language_picker from './language_picker.vue';
+    import LanguagePicker from './language_picker.vue';
     import EventContextPicker from './event_context.vue';
     import help from './help.vue';
 
@@ -107,7 +106,7 @@
             Dropdown,
             divider,
             attendance,
-            language_picker,
+            LanguagePicker,
             help,
             EventContextPicker
         },
@@ -141,3 +140,21 @@
 
 </style>
 
+<i18n>
+{
+  "en": {
+    "lessons": "Lessons",
+    "about": "About",
+    "quiz": "Quiz",
+    "feedback": "Feedback",
+    "exam": "Exam"
+  },
+  "pl": {
+    "lessons": "Lekcje",
+    "about": "O Nas",
+    "quiz": "Kartkówka",
+    "feedback": "Informacja Zwrotna",
+    "exam": "Egzamin"
+  }
+}
+</i18n>

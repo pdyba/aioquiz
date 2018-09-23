@@ -6,6 +6,7 @@ import BootstrapVue from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
 import VueMarkdown from 'vue-markdown'
 import VueSweetalert2 from 'vue-sweetalert2';
+import VueI18n from 'vue-i18n';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'mdbootstrap/css/mdb.css';
@@ -44,10 +45,20 @@ Vue.use(VueSweetalert2);
 Vue.use(require('vue-moment'), {
     moment
 });
+Vue.use(VueI18n);
+
+const i18n = new VueI18n({
+    locale: 'pl',
+    messages: {
+        en: {},
+        pl: {}
+    }
+});
 
 new Vue({
     el: '#app',
     router,
     store,
+    i18n,
     render: h => h(App)
 });

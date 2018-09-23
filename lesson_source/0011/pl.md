@@ -56,7 +56,7 @@ interpreterze:
 >>>  love is love
 ```
 
-W Pytonie możemy porównywać używając kilku różnych operatorów:
+W Pythonie możemy porównywać, używając kilku różnych operatorów:
 
 -   ==
 -   is
