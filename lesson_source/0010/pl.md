@@ -40,8 +40,8 @@ Ala has a cat
 'Ala has a cat'
 ```
 
-Teraz nauczycie się co oznacza wyrażenie "wywołać funkcję". Możecie
-wywołać funkcję używając `()`. Jest to informacja dla interpretera,
+Teraz nauczycie się, co oznacza wyrażenie "wywołać funkcję". Możecie
+wywołać funkcję, używając `()`. Jest to informacja dla interpretera,
 by wywołał funkcję. Wywołanie funkcji uruchomi funkcję. Jeśli zapomnicie
 użyć `()` po nazwie funkcji, funkcja nie zostanie wywołana. W takiej
 sytuacji nie otrzymacie komunikatu o błędzie, ponieważ komenda, którą
