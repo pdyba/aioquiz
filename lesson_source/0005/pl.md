@@ -6,7 +6,7 @@ zainstalowaliśmy w poprzednim rozdziale. Proszę uruchomcie:
 
 ```bash
 (workshops) ~$ python
-Python 3.6.0 (...)
+Python 3.8.0 (...)
 Type "copyright", "credits" or "license" for more information.
 
 >>>

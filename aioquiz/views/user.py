@@ -99,29 +99,14 @@ class UserView(MCV):
                 del req['admin']
             user = Users(**req)
             user.session_uuid = create_uuid()
+            user.active = True
             uid = await user.create()
             if not isinstance(uid, int):
                 usr = Users.get_first('session_uuid', user.session_uuid)
-                uid = usr.id
-            if uid:
-                text = REGEMAIL.TEXT_PL if user.lang == 'pl' else REGEMAIL.TEXT_EN
-                text = text.format(
-                    acode=user.session_uuid,
-                    uid=uid,
-                    name=user.name,
-                    server=SERVER.NAME or self.req.host
-                )
-                resp = await send_email(
-                    recipients=[user.email],
-                    text=text,
-                    subject=REGEMAIL.SUBJECT_PL if user.lang == 'pl' else REGEMAIL.SUBJECT_EN,
-                )
-                if resp:
-                    return json({
-                        'success': True,
-                        'msg': 'Check Your e-mail for activation link!'
-                    })
-                return json({'success': False, 'msg': 'error sending e-mail'})
+            return json({
+                'success': True,
+                'msg': 'Check Your e-mail for activation link!'
+            })
         except DeprecationWarning:
             return json(
                 {'msg': 'You probably used one of banned chars like ;'},

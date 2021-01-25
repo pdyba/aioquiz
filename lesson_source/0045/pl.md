@@ -6,7 +6,7 @@
 #### Co to
 
 Praktyczna definicja dockera to kolejny mechanizm do ruchamiania kontenerów linuksowych.
-Opisowa definicja dockera to "lżejsza" maszyna wirtualna. <br>
+Opisowa definicja dockera to "lżejsza" maszyna wirtualna. 
 Uruchamiając VM odpalamy zwykle cały system operacyjny, w przypadku kontenera to moze byc tylko jeden proces.
 
 #### Po co
@@ -61,7 +61,7 @@ CMD - uruchamiamy komendę podczas uruchomienia obrazu
 
 # Uruchomienie dockera jako serwis
 
-Do tej pory nasze kontenery ginęły zaraz po tym jak je opuścilismy, można jednak odpalić usługę, która będzie działać cały czas. <br>
+Do tej pory nasze kontenery ginęły zaraz po tym jak je opuścilismy, można jednak odpalić usługę, która będzie działać cały czas.
 Budujemy jeszcze raz obraz z samym serwerem http (tym razem określimy dockerfile, z którego chcemy stworzyć obraz)
 `docker build -t mynginx -f dockerfile_nginx .`
 
@@ -94,7 +94,7 @@ services:
     ports:
      - "5000:5000"
   redis:
-    image: myngix
+    image: myredis
 ```
 
 `docker-compose up -d`

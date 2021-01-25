@@ -1,7 +1,7 @@
 Instalacja
 ============
 
-Podczas naszego warsztatu będziecie potrzebowali interpretera Python 3.6. 
+Podczas naszego warsztatu będziecie potrzebowali interpretera Python 3.8. 
 Poniżej znajdziecie kilka wskazówek jak sprawdzić, czy macie już zainstalowany 
 ten interpreter i jak go zainstalować wraz z kilkoma innymi potrzebnymi narzędziami.
 
@@ -24,9 +24,9 @@ wierszu poleceń:
 
 ```bash
 $ python --version
-Python 3.6.2
+Python 3.8
 
-Python 3.6.2
+Python 3.8
 
 ```
 
@@ -178,7 +178,7 @@ C:\Users\lrekucki\workshops\Scripts\pip.exe
 ...
 
 (workshops) C:\Users\lrekucki>python --version
-3.6.2
+3.8
 
 .. code-block:: sh
 
@@ -190,9 +190,9 @@ C:\Users\lrekucki\workshops\Scripts\pip.exe
 ...
 
 (workshops) ~$ python --version
-3.6.2
+3.8
 
-.. _python.org: http://python.org/download/releases/3.6.2/
+.. _python.org: http://python.org/download/releases/3.8/
 
 .. Uwaga::
 Być może masz już w swoim systemie dostępną komendę ``pip``. Pamiętaj o sprawdzaniu, którą wersję pip używasz
@@ -247,18 +247,7 @@ Upewnij się, że używasz prawidłowej wersji Pythona:
 .. code-block:: sh
 
 (workshops) ~$ python --version
-3.6.2
+3.8
 
-IPython
--------
-
-Opcjonalnie, możesz zainstalować ``IPython``, który oferuje większą przejrzystość
-i wyższy komfort korzystania z Pythona w konsoli.
-
-Instalacja ``IPython``:
-
-.. code-block:: sh
-
-(workshops) ~$ pip install ipython
 
 [python.org](http://python.org)
