@@ -45,14 +45,14 @@ class LessonView(MCV):
     async def get(self, lid=None):
         if lid:
             lesson = await Lesson.get_by_id(lid)
-            return json(await lesson.to_dict())
+            return json(await lesson.to_dict(), default=str)
         else:
             lessons = await Lesson.get_all(suffix="ORDER BY lesson_no")
             resp = []
             for l in lessons:
                 resp.append(await l.to_dict())
             resp.sort(key=lambda a: a['lesson_no'])
-            return json(resp, sort_keys=True)
+            return json(resp, sort_keys=True, default=str)
 
 
 # noinspection PyBroadException
@@ -82,7 +82,7 @@ class ExercisesView(MCV):
                 q['answered'] = False
             resp.append(q)
         resp.sort(key=lambda a: a['title'])
-        return json(resp, sort_keys=True)
+        return json(resp, sort_keys=True, default=str)
 
     
     async def post(self):
@@ -130,7 +130,7 @@ class AbsenceManagementView(MCV):
             abmeta = await AbsenceMeta.get_first('lesson', lid)
             resp = await abmeta.to_dict()
             resp['time_ended'] = str(resp['time_ended']).split('.')[0]
-            return json(resp)
+            return json(resp, default=str)
         except (DoesNotExist, TypeError):
             return await self.generate_code(self.current_user.id, lid)
 
@@ -217,10 +217,10 @@ class LessonFeedbackQuestionView(MCV):
     async def get(self, qid=None):
         if qid:
             question = await LessonFeedbackQuestion.get_by_id(int(qid))
-            return json(question)
+            return json(question, default=str)
         else:
             questions = await LessonFeedbackQuestion.get_all()
-            return json(questions)
+            return json(questions, default=str)
 
     async def post(self):
         required_fields = {'type', 'description', 'answers'}
@@ -374,7 +374,7 @@ class LessonFeedbackAnswerView(MCV):
             lesson=lid
         )
 
-        return json(answers)
+        return json(answers, default=str)
 
     
     async def post(self):
