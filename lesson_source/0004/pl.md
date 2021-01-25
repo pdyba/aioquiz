@@ -1,99 +1,176 @@
-Przyjazne wprowadzenie do algorytmiki
-=====================================
+Pierwsze kroki z interpreterem Pythona i IDE Pycharma
+=====================================================
 
-Algorytm jest zestawem operacji do wykonania krok po kroku. 
-Jak przepis kucharski.
+Rozpocznijmy od uruchomienia interpretera Pythona, którego
+zainstalowaliśmy w poprzednim rozdziale. Proszę uruchomcie:
 
-Przykład
---------
+```bash
+(workshops) ~$ python
+Python 3.8.0 (...)
+Type "copyright", "credits" or "license" for more information.
 
-**Przykład z jajecznicą:**
+>>>
 
-Składniki:
+>>>
 
--   jajka
--   szynka
--   cebula
--   masło
--   pieprz
--   sól
-
-**Przepis:**
-
-W kubku lub małej miseczce roztrzep widelcem jajka z pieprzem i solą. 
-Pokrój szynkę i cebulę na drobne kawałki. Roztop masło w rondelku na
-małym ogniu.
-Podsmażaj cebulę i szynkę, aż cebula się zezłoci.
-Wlej jajka i mieszaj podgrzewając, aż do otrzymania pożądanej konsystencji.
-Nie gotuj za długo.
-
-Schemat blokowy
----------------
-
-![image](./images/scambled_eggs_diagram.png)
-
-Pseudokod
----------
-
-```python
-składniki = jajka, szynka, cebula, masło, pieprz, sól
-moje_składniki = weź(składniki)
-jeśli długość(moje_składniki) < składniki - idź na zakupy
-roztrzep(jajka, pieprz, sól)
-pokrój(szynka)
-pokrój(cebula)
-jeśli masło.stan != 'płynny': roztop_w_rondelku(masło)
-jeśli cebula.kolor != 'złoty': podsmaż(cebula, szynka)
-jeśli jajka.stan != pożądany_stan: gotuj_i_mieszaj(wszystko)
-zjedz(wszystko)
-
-zjedz(wszystko)
 ```
 
-Ćwiczenia
----------
+![interpreter Pythona w terminalu](images/terminal_python.png)
 
-Zabawa w kształt:
+Wcześniej pracowaliśmy w wierszu poleceń systemu operacyjnego i mogliśmy
+wprowadzać komendy. Znakiem zachęty był `~$`. Po uruchomieniu komendy `python`, 
+znak zachęty zmienił się na `>>>`. Oznacza to dla nas, że od tej chwili możemy
+używać tylko komend języka Python. Wcześniej poznane komendy (takie, jak
+'cd', 'mkdir') nie będą działały. Nadszedł moment rozpoczęcia nauki
+nowego języka!
 
-1.  Nazwijcie swoją drużynę.
-2.  Każda drużyna niechaj stworzy na kartce dowolną zamkniętą 
-figurę geometryczną używając 4-8 odcinków, na przykład kwadrat
-lub ośmiokąt.
-3.  Podpiszcie swoją kartkę nazwą drużyny.
-4.  Roztasujcie kartki wśród wszystkich drużyn.
-5.  Po otrzymaniu kartki od innej drużyny: stwórzcie instrukcję, która
-pozwoli innej drużynie odtworzyć taką samą figurę jak najbardziej
-podobną do pierwotnej figury.
-6.  Podpiszcie instrukcję nazwą poprzedniej drużyny i dodajcie nazwę 
-swojej drużyny.
-7.  Roztasujcie wśród wszystkich drużyn tylko instrukcje.
-8.  Po otrzymaniu instrukcji od innej drużyny wykonajcie ją i narysujcie
-według niej figurę geometryczną.
+Nie wpisujemy znaku zachęty `>>>` (podobnie jak `~$`) - interpreter zrobi to za nas.
 
-9.  Podpiszcie rysunek nazwą poprzedniej drużyny i dodajcie nazwę swojej
-drużyny.
+Przedstaw się
+=============
 
-Porównajcie rysunki z oryginałami i instrukcjami. Zwróćcie uwagę na różnice
-i zastanówcie się, jaka jest ich przyczyna.
+Stringi
+-------
 
-Głuchy telefon:
+Jednakże liczby nie wystarczają, by efektywnie się komunikować. A zatem
+musimy się nauczyć, jak używać 'stringów'. Oto kilka przykładów:
 
-1.  Każda z drużyn tworzy dowolne zdanie o długości masymalnie 20 liter.
-2.  Podpiszcie kartkę nazwą swojej drużyny.
-3.  Roztasujcie zdania wśród wszystkich drużyn.
-4.  Każda z drużyn tworzy algortym kodujący (szyfrujący) nie dłuższy
-niż 6 kroków.
-5.  Używając algorytmu zakodujcie otrzymane zdanie i napiszcie sekretną
-wiadomość na kartce zawierającej algorytm kodujący.
-6.  Podpiszcie kartkę nazwą poprzedniej drużyny i swojej drużyny.
-7.  Roztasujcie wszystkie zakodowane zdania i mechanizm kodujący pomiędzy drużyny.
-8.  Każda drużyna odkodowuje otrzymaną wiadomość i zapisuje algorytm dekodujący
-na nowej kartce.
-9.  Zapiszcie otrzymane zakodowane zdanie na kartce z algorytmem rozkodowującym.
-10. Podpiszcie kartkę nazwami poprzednich drużyn i nazwą swojej drużyny.
-11. Każda drużyna rozszyfrowuje zdanie.
-12. Podpiszcie kartkę nazwami poprzednich drużyn i nazwą swojej drużyny.
-13. Sprawdźcie czy zdania pasują? Co się z nimi stało?
+```python
+>>> "Hello World" 
+'Hello World' 
+>>> 'Foo Bar' 
+'Foo Bar' 
+>>> "Rock 'n' Roll" 
+"Rock 'n' Roll" 
+>>> 'My name is "James"' 
+'My name is "James"'
+```
 
-Czy widzicie jak użyteczne są algorytmy i jak często ich używacie?
+Stringi możecie dodawać w następujący sposób:
 
+```python
+>>> 'My name is ' + '"James"' 
+'My name is "James"'
+```
+
+lub mnożyć przez liczby całkowite:
+
+```python
+>>> 'Hastur' * 3 
+'HasturHasturHastur'
+```
+
+String zawsze musi zaczynać się i kończyć tym samym znakiem. Może to być 
+pojedynczy cudzysłów (`'`) lub podwójny cudzysłów (`"`). Nie ma to wpływu na
+wartość stringa, np. wpisanie `"Batman"` tworzy string `Batman` -
+cudzysłowia nie są jego częścią, wskazują tylko, że jest to string 
+(niestety, Python nie jest wystarczająco bystry, by to samemu odgadnąć).
+
+Wyświetlanie stringów
+---------------------
+
+W jaki sposób prezentujemy wartości, by móc je przeczytać? Możemy to zrobić
+przy użyciu komendy print:
+
+```python
+>>> print("Hello World") 
+Hello World
+```
+
+W podobny sposób możemy napisać kilka stringów w tej samej linii bez
+konieczności dodawania ich do siebie. Będą one oddzielone spacjami:
+
+```python
+>>> print("Hi, my name is", "Łukasz") 
+Hi, my name is Łukasz
+```
+
+Komenda print ma wiele więcej zastosowań, gdyż może wyświetlić prawie
+wszystko. W tej chwili jedynymi znanymi nam wartościami są liczby:
+
+```python
+>>> print(1)
+1 
+>>> print(1, 2, 3) 
+1 2 3
+>>> print("2 + 2 =", 2 + 2) 
+2 + 2 = 4
+```
+
+Kończymy chwilowo z konsolą intraktywną. Aby z niej wyjść, wpiszcie
+quit():
+
+```python
+>>> quit()
+```
+
+lub przytrzymajcie `Ctrl+D` (dla Linuxa) lub `Ctrl+Z` (dla Windows).
+
+Pliki źródłowe
+==============
+
+Dotychczas nasz kod był wykonywany w sposób interaktywny. Podawaliśmy 
+poszczególne komendy i natychmiast otrzymywaliśmy odpowiedź. To świetny sposób,
+by eksperymentować i uczyć się nowych składników języka, stąd ostatecznie
+wrócimy to tego sposobu.
+
+Nasz pierwszy program będzie wyglądał tak:
+
+print("Hi, my name is Lucas")
+
+Aby napisać i zapisać kod w pliku, musimy użyć edytora tekstu. Poszukajcie
+edytora tekstu, który działa w Waszym OS (użyj [listy edytorów w 
+Wikipedii](http://en.wikipedia.org/wiki/List_of_text_editors), by znaleźć przykłady).
+Rekomendujemy Wam PyCharm lub Sublime. Sublime jest
+napisany w Pythonie :). Wpiszcie w edytorze powyższy kod w Pythonie i zapiszcie
+go w nowym pliku o nazwie `visitingcard.py`. Następnie uruchomcie Wasz 
+pierwszy program w Pythonie w wierszu poleceń przy użyciu:
+
+```bash
+(workshops) ~$ python visitingcard.py
+Hi, my name is Lucas
+(workshops) ~$
+
+(workshops) ~$
+
+```
+
+Pojedynczy program może zawierać więcej niż jedną komendę. Każda z nich
+powinna być w osobnym wierszu. Na przykład:
+
+```python
+print("Hi,")
+print()
+
+print("my name is Lucas")
+
+print()
+print("Bye.")
+
+print("Bye.")
+```
+
+Aby zwiększyć przejrzystość pliku `visitingcard.py`, w dowolnym jego
+miejscu możemy wprowadzać puste wiersze. Tutaj oddzieliliśmy nagłówek
+wiadomości od jej zawartości i zakończenia.
+
+Tworzenie i uruchomienie pliku w edytorze PyCharm
+================================
+
+Aby utworzyć plik, wciśnij prawy przycisk myszy na nazwie projektu i wybierz "New" ("Nowy") a następnie "File" ("Plik").
+
+W oknie, które się pojawi wpisz nazwę pliku (na przykład `visitingcard.py`).
+
+![tworzenie pliku](images/pycharm_new_file_project.png)
+
+![nazwa pliku](images/pycharm_new_file_name.png)
+
+Wypełnij teraz plik treścią skryptu.
+
+Aby go uruchomić, wybierz "Run" ("Uruchom"), a następnie opcję o nazwie takiej jak uruchamiany plik (`visitingcard.py`).
+
+Wynik skryptu zostanie wyświetlony (domyślnie) w oknie na dole ekranu.
+
+![uruchom plik](images/pycharm_run_file.png)
+
+![uruchom plik](images/pycharm_run_result.png)
