@@ -13,7 +13,7 @@ class ConfigView(AdminMCV):
     async def get(self):
         config = await Config.get_by_id(1)
         resp = await config.to_dict()
-        return json(resp, sort_keys=True)
+        return json(resp, sort_keys=True , default=str)
 
     async def post(self):
         req = self.req.json

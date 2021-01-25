@@ -92,4 +92,4 @@ class CommonTestBase(MCV):
                 if status.status == 'NotStarted' and not quiz.active and self.current_user.is_only_attendee():
                     continue
                 resp.append(q)
-            return json(resp)
+            return json(resp, default=str)

@@ -53,4 +53,4 @@ class UserStatsView(MCV):
                 accepted=True
             ),
         }
-        return json(resp, sort_keys=True)
+        return json(resp, sort_keys=True, default=str)

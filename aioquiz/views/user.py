@@ -66,7 +66,7 @@ class UserView(MCV):
                 else:
                     user.append(await u.get_public_data())
             user.sort(key=lambda a: a[sort_by])
-        return json(user, sort_keys=True)
+        return json(user, sort_keys=True, default=str)
 
     async def put(self):
         try:

@@ -26,7 +26,7 @@ class ExercisesGeneratorView(MCV):
             for _ in range(occurences):
                 resp.append(x)
         shuffle(resp)
-        return json(resp)
+        return json(resp, default=str)
 
     @staticmethod
     async def exercise_1_19_2():
