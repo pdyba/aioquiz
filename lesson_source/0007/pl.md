@@ -1,5 +1,5 @@
-Logika Pythona i Warunkowanie (if)
-==================================
+Logika Python
+=============
 
 Sprawdzanie warunków
 --------------------

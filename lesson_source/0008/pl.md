@@ -1,5 +1,5 @@
-Warunkowe warunki
-======================
+Warunkowanie
+============
 
 Indentacja
 ----------
