@@ -210,10 +210,12 @@ Otrzymasz wersję pip oraz ścieżkę do katalogu twojego środowiska wirtualneg
 Jeśli nie możesz odszukać swojego ``pip`` albo masz problem po wpisaniu ``which pip`` (``where pip`` na windows),
 byc może musisz re-instalować pip:
 
+
 .. code-block:: sh
 
     ~$ python -m pip uninstall pip
     ~$ python -m ensurepip
+
 
 Podsumowanie
 ------------

@@ -1,166 +1,198 @@
-Jak wytłumaczyć wężowi, o czym mówimy, czyli typy danych: znakowy, liczbowy i boolowski
-======================================================================================
+Warunkowe warunki
+======================
 
-Pythonowe typy przechowywania danych
-====================================
+Indentacja
+----------
 
-Python ma pięć podstawowych typów danych:
-- Liczba
-- String
-- Lista
-- Tupla
-- Słownik
+Kolejną rzeczą, na którą powinniście zwrócić uwagę w kodzie jest indentacja.
+Otwórzcie interpreter i wprowadźcie taki warunek:
 
-Używaliśmy już liczb (całkowitych int i zmiennoprzecinkowych float), stringów i tupli. Nadszedł czas, by poznać
-listy i słowniki.
+>>> if 2 > 1:
+...
 
-'Słodki Kłólik'
-
-Dziewczynka idzie do sklepu ze zwierzątkami domowymi i pyta o kłólika.
-Sprzedawca pochyla się nad nią, uśmiecha i pyta:
-
-"Chciałabyś ślicznego puszystego białego króliczka,
-czy słodkiego kudłatego brązowego króliczka?"
-
-"Właściwie", odpowiada dziewczynka, "Nie sądzę, by mój pyton zauważył różnicę."
-
-A teraz wracajmy do nauki :)
-
-Tytulik jakiś fajny
-====================================
-
-Wprowadźmy dwie nowe funkcje:
+Do tej pory nic się nie wydarzyło, na co wskazują kropki `...`, zamiast
+znaku ponaglenia `>>>`, który widzieliśmy do tej pory. Python spodziewa się,
+że podamy dalsze instrukcje, które mają być wykonane, gdy warunek
+`2 > 1` okaże się prawdziwy. Spróbujmy sprawić, by Python wydrukował "OK":
 
 ```python
->>> help(int)
-Help on class int in module builtins:
-<BLANKLINE>
-class int(object)
-|  int(x=0) -> integer
-|  int(x, base=10) -> integer
-|
-|  Convert a number or string to an integer, or return 0 if no arguments
-|  are given.  If x is a number, return x.__int__().  For floating point
-|  numbers, this truncates towards zero.
-|
-|  ...
+>>> if 2 > 1:
+... print("OK")
+  File "<stdin>", line 2
+    print("OK")
+        ^
+
+IndentationError: expected an indented block
+
+IndentationError: expected an indented block
 ```
 
-oraz
+Niestety, nie powiodło się. Python musi wiedzieć, czy instrukcja, którą wpisaliśmy
+jest kontynuacją warunku if, czy jest kolejną instrukcją nie związaną z warunkiem.
+W tym celu musimy w kodzie zastosować indentację:
 
 ```python
->>> help(float)  # doctest: +NORMALIZE_WHITESPACE
-Help on class float in module builtins:
-<BLANKLINE>
-class float(object)
-|  float(x) -> floating point number
-|
-|  Convert a string or number to a floating point number, if possible.
-|
-|  ...
+>>>  if 2 > 1:
+    print("OK")
+OK
 ```
 
-Funkcja help nie waha się poinformować nas, że w rzeczywistości int i float
-nie są funkcjami, ale klasami (będzie o tym mowa później), stąd dowiadujemy się
-dodatkowo, że możemy ich użyć również do wielu innych rzeczy. W tej chwili
-jednak potrzebujemy tylko ich podstawowej funkcjonalności - przekształcania
-stringów w liczby określonego typu.
-
-Przetestujmy int i float:
+Wystarczy, że wpiszemy jedną spację lub naciśniemy `TAB`. Ważne jest jednak,
+żeby wszystkie linie, które chcemy, by były wykonane po kolei miały identyczną
+indentację:
 
 ```python
->>> int("0")
-0
->>> int(" 63 ")
-63
->>> int("60.5")
-Traceback (most recent call last):
-File "<stdin>", line 1, in <module>
-ValueError: invalid literal for int() with base 10: '60.5'
->>> float("0")
-0.0
->>> float(" 63 ")
-63.0
->>> float("60.5")
-60.5
+>>> if -1 < 0:
+...  print("A")
+...   print("B")
+  File "<stdin>", line 3
+    print("B")
+    ^
+IndentationError: unexpected indent
+
+>>> if -1 < 0:
+...     print("A")
+...   print("B")
+  File "<stdin>", line 3
+    print("B")
+            ^
+IndentationError: unindent does not match any outer indentation level
+
+>>> if -1 < 0:
+...... print("A")
+...... print("B")
+A
+B
+B
 ```
 
-Zanim użyjemy w naszym programie funkcji, których właśnie się nauczyliśmy,
-zaplanujmy, jak powinien on działać:
+By uniknąć chaosu, większość programistów używa czterech spacji dla
+każdego poziomu indentacji. Zróbmy tak samo:
 
-1.  Zapytaj użytkownika o wzrost.
-2.  Uzyskaj string od użytkownika i zachowaj go pod nazwą `height`.
-3.  Przekształć string z liczbą w liczbę z ułamkiem.
-4.  Poproś użytkownika o wprowadzenie wagi.
-5.  Uzyskaj string od użytkownika i zachowaj go pod nazwą `weight`.
-6.  Przekształć string z liczbą w liczbę z ułamkiem.
-7.  Oblicz BMI, wykorzystując zapamiętane wartości i zachowaj wynik jako `bmi`.
-8.  Wyświetl obliczone BMI.
+	>>>  if 2 > 1:
+	........ if 3 > 2:
+	............ print("OK")
+	........ else:
+	............ print("FAIL")
+	.... print("DONE")
+	OK
+	DONE
 
-Nie powinno nas dziwić, że te osiem punktów może być wprost
-przetłumaczone na osiem wierszy naszego programu (nie licząc spacji):
+A co, jeśli nie?
+----------------
 
+Właściwie moglibyśmy napisać nasz program tylko używając if:
 
 ```python
-print("Wprowadź wzrost w metrach:")
-height = input()
-height = float(height)
+if bmi < 18.5:
+    print("niedowaga")
+if bmi >= 18.5:
+    if bmi < 25.0:
+        print("prawidłowa waga")
+if bmi >= 25.0:
+    print("nadwaga")
 
-print("Wprowadź wagę w kilogramach:")
-weight = input()
-weight = float(weight)
+    print("nadwaga")
 
-bmi = weight / (height**2) #oblicz BMI
-print("Twoje BMI wynosi:", bmi)
 ```
 
-Możecie zapisać program do `bmi.py` i uruchomić `python bmi.py`. Rezultat
-powinien wyglądać następująco:
+Możemy także użyć else i elif, aby uniknąć powtarzania takich samych warunków
+i poprawić czytelność kodu. W bardziej złożonych programach może nie być
+od początku oczywiste, że pewien warunek jest przeciwnością poprzedniego.
 
-
-Wprowadź wzrost w metrach:
-1.75
-Wprowadź wagę w kilogramach:
-65.5
-Twoje BMI wynosi: 21.387755102040817
-
-
-Podsumowując, aby wywołać funckję, musimy znać jej nazwę (do tej pory
-nauczyliśmy się szeregu funkcji: print, help, input, float i int) i jakich
-danych ta funkcja od nas oczekuje (nazywanych listą argumentów).
-
-Wprowadzenie samej nazwy nie uruchamia funkcji. Zostanie wyłącznie wyświetlona
-informacja, że jest to funkcja:
+Używając else mamy gwarancję, że podane instrukcje będą wykonane tylko,
+jeśli instrukcje podane pod if nie zostały wykonane:
 
 ```python
->>>  input 
+if bmi < 18.5:
+    print("niedowaga")
+else:
+    # jeśli Twój program wykona tę istrukcję, bmi na pewno jest >= 18.5!
+    if bmi < 25.0:
+        print("prawidłowa waga")
+    else:
+        # teraz już na pewno bmi jest >= 25.0, nawet nie musimy sprawdzać
+        print("nadwaga")
+
+        print("nadwaga")
+
 ```
 
-Aby wywołać funcję, musimy użyć nawiasów po nazwie funcji:
+Zwróć szczególną uwagę na wszystkie indentacje. Każde użycie else spowoduje
+zwiększenie indentacji w Twoim kodzie.
+To bardzo irytujące, gdy musisz sprawdzać kilka lub jakiś tuzin warunków,
+które się wzajemnie wykluczają. Stąd twórcy Pythona dodali małe
+'ulepszenie' w formie elif - instrukcję, która pozwala Ci sprawdzić
+niezwłocznie kolejny warunek:
 
 ```python
->>>  input()
+if n < 1:
+    print("jeden")
+elif n < 2:
+    # jeśli n nie było < 1, a teraz n jest < 2
+    print("dwa")
+elif n < 3:
+    # jeśli żaden z dwóch wcześniejszych warunków nie był prawdziwy,
+    # czyli n >= 1 i n>= 2, ale n < 3
+    print("trzy")
+else:
+    # trole liczą tylko do trzech
+    print("więcej")
+
+    print("więcej")
+
 ```
 
-Teraz Python wykona funkcję.
+Dane do zadań:
+==============
 
-Wszystkie argumenty podajemy w nawiasach. Aby wyszczególnić więcej niż jeden,
-oddzielcie je przecinkiem:
+| BMI          | KOBIETY         |
+|--------------|-----------------|
+| < 17,5       | niedowaga       |
+| 17,5 – 22,49 | prawidłowa waga |
+| 22,5 – 27,49 | nadwaga         |
+| ≥ 27,5       | otyłość         |
+
+| BMI          | MĘŻCZYŹNI       |
+|--------------|-----------------|
+| < 19.99      | niedowaga       |
+| 20 – 24,99   | prawidłowa waga |
+| 25,0 – 29,99 | nadwaga         |
+| ≥ 30,0       | otyłość         |
+
+
+
+BMI: Gruby, czy nie? Niechaj Python zadecyduje za Ciebie
+--------------------------------------------------------
+
+Przejdźmy do naszego kolejnego problemu. Chcemy, aby program wydrukował
+właściwą klasyfikację dla obliczonego BMI, przy użyciu poniższej tabeli:
+
+  	BMI              Klasyfikacja
+  	-------------- ----------------
+  	< 18,5         niedowaga
+  	18,5 – 24,99   prawidłowa waga
+  	25,0 – 29,99   nadwaga
+  	≥ 30,0         otyłość
+
+Musimy użyć "komendy warunkowej' if. Wykona ona dalszy ciąg programu
+zależnie od podanego warunku:
+
+Ćwiczenie - prosty pythonowy kalkulator
+---------------------------------------
+
+Napiszcie skrypt stanowiący prosty kalkulator, który pobierze dwie
+liczby oraz znak operacji matematycznej (+, -, \*, /) i wyświetli
+przyjemny string, który pokaże całe równanie oraz rozwiązanie. 
+Pamiętajcie: string + string = nowy string :-)
+Przykład:
 
 ```python
->>>  int("FF", 16)
-255
-''''''
-
-Podsumowanie
-============
-
-W tym rozdziale nauczyliśmy się podstaw składni Pythona. Odkryliśmy, jak
-wyświetlać liczby całkowite, liczby dziesiętne, stringi i tuple.
-
-Nauczyliśmy się funkcji print, która wyświetla informacje użytkownikowi
-oraz funkcji input, która je pobiera.
-
-Pomyślnie stworzyliśmy przechowywany w pliku program i uruchomiliśmy go.
-Nasz program zadaje użytkownikowi kilka prostych pytań, wykonuje obliczenia
-i wyświetla wyniki w formie użytecznej dla użytkownika.
+>>>  'Wprowadź pierwszą liczbę' 
+10 
+>>>  "Wprowadź znak operacji matematycznej (+, -, \*, /)" 
++ 
+>>> 'Wprowadź drugą liczbę'
+5
+'10 + 5 = 15'
+```
