@@ -1,0 +1,12 @@
+1:
+    title: Batman
+    task: Korzystając printa i inputa, napisz funkcję, która pobierze i policzy BMI, wykorzystaj kod z poprzedniej lekcji
+    possible_answer: yey
+2:
+    title: Pole
+    task: Napisz funkcje ktora policzy i zwroci pole kwadratu lub prostokąta. Dla kwadratu funkcja powinna pobierac jeden arguemnt dla prostokata dwa.
+    possible_answer: yey
+3:
+    title: Objetosc
+    task: Rozszerz funkcje z zadania 2giego tak zeby tez liczyla objetosc szescianu (nadal 1 argument) lub prostopadloscianu (dodatkowy 3ci argumnet) jeśli są dostępne wszystkie dane.
+    possible_answer: yey

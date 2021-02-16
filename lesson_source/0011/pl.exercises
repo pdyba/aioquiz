@@ -1,0 +1,14 @@
+1:
+    title: Ucieczka_1
+    task: Napisz tak stringa, żeby wypisał: Nowy film Ama’deusza pt. "xyz"
+    possible_answer: print(„Nowy film Ama’deusza pt. \"xyz\"”)
+2:
+    title: Ucieczka_2
+    task: Napisz tak stringa, żeby wypisał: A\A’ == A\A”
+    possible_answer: print(„A\\A’ == A\\A\””)
+3.
+    title: Ladne pole i objetosc
+    task: Na podstawie kodu z zadania z funkcji do liczenia objetosci i powierzchni dodaj tam ladna forme wyniku np. Twój sześcian ma 1m kwadratowy powierzchni i 1m szescienny objetosci. LUB Twój prostopadłościan ma 2m kwadratowe powierzchni.
+    possible_answer: yey
+
+
