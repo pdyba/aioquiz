@@ -1,166 +1,326 @@
-Jak wytłumaczyć wężowi, o czym mówimy, czyli typy danych: znakowy, liczbowy i boolowski
-======================================================================================
-
-Pythonowe typy przechowywania danych
+Listy zakupów
 ====================================
 
 Python ma pięć podstawowych typów danych:
-- Liczba
-- String
-- Lista
-- Tupla
-- Słownik
+
+* Liczba (int, float)
+* String (str)
+* Lista (list)
+* Tupla (tuple)
+* Słownik (dict)
 
 Używaliśmy już liczb (całkowitych int i zmiennoprzecinkowych float), stringów i tupli. Nadszedł czas, by poznać
-listy i słowniki.
+listy, tuple i słowniki.
 
 'Słodki Kłólik'
 
 Dziewczynka idzie do sklepu ze zwierzątkami domowymi i pyta o kłólika.
 Sprzedawca pochyla się nad nią, uśmiecha i pyta:
 
-"Chciałabyś ślicznego puszystego białego króliczka,
+"Chciałabyś ślicznego puszystego białego króliczka, 
 czy słodkiego kudłatego brązowego króliczka?"
 
 "Właściwie", odpowiada dziewczynka, "Nie sądzę, by mój pyton zauważył różnicę."
 
 A teraz wracajmy do nauki :)
 
-Tytulik jakiś fajny
-====================================
+Lista
+=====
 
-Wprowadźmy dwie nowe funkcje:
+Nie wspomnieliśmy dotychczas o listach, bo nie różnią się one od intuicyjnej
+koncepcji list znanej z codziennego życia. Możemy myśleć o listach w Pythonie
+tak samo, jak myślimy o każdej innej liście (liście zakupów, liście gości,
+wynikach egzaminu itd.) spisanej na papierze i ponumerowanej.
+
+Zacznijmy od czystej strony w interpreterze Pythona:
 
 ```python
->>> help(int)
-Help on class int in module builtins:
-<BLANKLINE>
-class int(object)
-|  int(x=0) -> integer
-|  int(x, base=10) -> integer
-|
-|  Convert a number or string to an integer, or return 0 if no arguments
-|  are given.  If x is a number, return x.__int__().  For floating point
-|  numbers, this truncates towards zero.
-|
-|  ...
+>>> L = [] 
+>>> L
 ```
 
-oraz
+W każdej chwili możemy sprawdzić, ile elementów przechowujemy w liście,
+stosując funkcję len:
 
 ```python
->>> help(float)  # doctest: +NORMALIZE_WHITESPACE
-Help on class float in module builtins:
-<BLANKLINE>
-class float(object)
-|  float(x) -> floating point number
-|
-|  Convert a string or number to a floating point number, if possible.
-|
-|  ...
-```
-
-Funkcja help nie waha się poinformować nas, że w rzeczywistości int i float
-nie są funkcjami, ale klasami (będzie o tym mowa później), stąd dowiadujemy się
-dodatkowo, że możemy ich użyć również do wielu innych rzeczy. W tej chwili
-jednak potrzebujemy tylko ich podstawowej funkcjonalności - przekształcania
-stringów w liczby określonego typu.
-
-Przetestujmy int i float:
-
-```python
->>> int("0")
+>>> len(L) 
 0
->>> int(" 63 ")
-63
->>> int("60.5")
-Traceback (most recent call last):
-File "<stdin>", line 1, in <module>
-ValueError: invalid literal for int() with base 10: '60.5'
->>> float("0")
-0.0
->>> float(" 63 ")
-63.0
->>> float("60.5")
-60.5
 ```
 
-Zanim użyjemy w naszym programie funkcji, których właśnie się nauczyliśmy,
-zaplanujmy, jak powinien on działać:
-
-1.  Zapytaj użytkownika o wzrost.
-2.  Uzyskaj string od użytkownika i zachowaj go pod nazwą `height`.
-3.  Przekształć string z liczbą w liczbę z ułamkiem.
-4.  Poproś użytkownika o wprowadzenie wagi.
-5.  Uzyskaj string od użytkownika i zachowaj go pod nazwą `weight`.
-6.  Przekształć string z liczbą w liczbę z ułamkiem.
-7.  Oblicz BMI, wykorzystując zapamiętane wartości i zachowaj wynik jako `bmi`.
-8.  Wyświetl obliczone BMI.
-
-Nie powinno nas dziwić, że te osiem punktów może być wprost
-przetłumaczone na osiem wierszy naszego programu (nie licząc spacji):
-
+Stwórzmy kolejną listę (o takiej samej lub innej, niż poprzednia lista nazwie):
 
 ```python
-print("Wprowadź wzrost w metrach:")
-height = input()
-height = float(height)
-
-print("Wprowadź wagę w kilogramach:")
-weight = input()
-weight = float(weight)
-
-bmi = weight / (height**2) #oblicz BMI
-print("Twoje BMI wynosi:", bmi)
+>>> L = ["Ala", "Ola", "Jacek"] 
+>>> len(L)
+3
 ```
 
-Możecie zapisać program do `bmi.py` i uruchomić `python bmi.py`. Rezultat
-powinien wyglądać następująco:
+Tak, jak w przypadku tupli, kolejne elementy listy są oddzielone przecinkami. 
+Zaś w odróżnieniu od tupli, nawiasy `[` i `]` są obowiązkowe.
 
+Dostęp do wartości w liście
+---------------------------
 
-Wprowadź wzrost w metrach:
-1.75
-Wprowadź wagę w kilogramach:
-65.5
-Twoje BMI wynosi: 21.387755102040817
-
-
-Podsumowując, aby wywołać funckję, musimy znać jej nazwę (do tej pory
-nauczyliśmy się szeregu funkcji: print, help, input, float i int) i jakich
-danych ta funkcja od nas oczekuje (nazywanych listą argumentów).
-
-Wprowadzenie samej nazwy nie uruchamia funkcji. Zostanie wyłącznie wyświetlona
-informacja, że jest to funkcja:
+Tak możemy wyświetlić określony element listy (pamiętajcie, że liczymy od zera):
 
 ```python
->>>  input 
+>>> L = ["Ala", "Ola", "Jacek"] 
+>>> L[0]
+'Ala'
+>>>  L[1]
+'Ola' 
+>>> L[2] 
+'Jacek' 
+>>>  L[3]
+Traceback (most recent call last): File "<stdin>", line
+1, in <module> IndexError: list index out of range
 ```
 
-Aby wywołać funcję, musimy użyć nawiasów po nazwie funcji:
+Podstawowe operacje na listach
+------------------------------
+
+Listy reagują na operatory + i \* podobnie, jak stringi. Znaki te oznaczają
+również tutaj konkatenację (łączenie tekstów) i powtórzenie, ale rezultatem
+jest lista, a nie string.
+
+Okazuje się, listy reagują na wszystkie ogólne operacje dla sekwencji, które
+używalismy na stringach w poprzednim rozdziale.
 
 ```python
->>>  input()
+>>>  len([1, 2, 3])   # Długość 
+>>> [1, 2, 3] + [4, 5, 6]     # Konkatenacja
+[1, 2, 3, 4, 5, 6]
+>>>  ['Hi!'] * 4    # Powtórzenie 
+['Hi!', 'Hi!', 'Hi!', 'Hi!']
+>>>  3 in [1, 2, 3]   # Zawieranie się 
+True 
+>>> L = ["Ala", "Ola", "Jacek"] 
+>>> L[1] 
+'Ola'
+>>>  L[-1] 
+'Jacek' 
+>>> L[1:] 
+['Ola', 'Jacek'] 
+>>>  L[:1] 
+['Ala'] 
+>>> L[1:2] 
+['Ola'] 
+>>>  L[1:3] # komenda L[3] wywoła błąd! 
+['Ola', 'Jacek']
 ```
 
-Teraz Python wykona funkcję.
+Range (Zakres)
+--------------
 
-Wszystkie argumenty podajemy w nawiasach. Aby wyszczególnić więcej niż jeden,
-oddzielcie je przecinkiem:
+Cóż, niestety ciągle musimy sami pisać całą zawartość listy. Ten problem
+może być rozwiązany dzięki użyciu funkcji range. Wypróbuj komendę
+`help(range)`, aby zapoznać się z wszystkimi możliwościami funkcji range lub wykonaj
+tych kilka przykładów: 
 
 ```python
->>>  int("FF", 16)
-255
-''''''
+>>>  list(range(2)) 
+[0, 1] 
+>>> list(range(1, 11))
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
+>>> list(range(1, 11, 2))
+[1, 3, 5, 7, 9]
+```
 
-Podsumowanie
-============
+Aktualizowanie list
+-------------------
 
-W tym rozdziale nauczyliśmy się podstaw składni Pythona. Odkryliśmy, jak
-wyświetlać liczby całkowite, liczby dziesiętne, stringi i tuple.
+Możesz zmienić jeden lub wiele elementów listy poprzez wybranie elementu,
+który chcesz zmienić i nadanie mu nowej wartości. Możesz również dodawać do listy
+nowe elementy używając metody append().
 
-Nauczyliśmy się funkcji print, która wyświetla informacje użytkownikowi
-oraz funkcji input, która je pobiera.
+```python
+>>>  lista = ['fizyka', 'chemia', 1997, 2000]
+>>>  print(lista[2]) 
+>>>  lista[2] = 2001
+>>>  print(list[2])
 
-Pomyślnie stworzyliśmy przechowywany w pliku program i uruchomiliśmy go.
-Nasz program zadaje użytkownikowi kilka prostych pytań, wykonuje obliczenia
-i wyświetla wyniki w formie użytecznej dla użytkownika.
+>>>  lista_2 = ['a', 'b'] 
+>>>  lista_2.append('c')
+>>>  print(lista_2)
+```
+
+Usuwanie elementów listy
+------------------------
+
+Aby usunąć element z listy, możesz użyć komendy del, jeśli wiesz dokładnie,
+który element chcesz usunąć lub metody remove(), jeśli tego nie wiesz.
+Na przykład:
+
+```python
+lista1 = ['fizyka', 'chemia', 1997, 2000]
+print(lista1) 
+del lista1[2]
+print(lista1)
+```
+
+Tuple
+=====
+
+Na początku wspomnieliśmy, że nie możemy używać przecinków w liczbach,
+bo będziemy potrzebowali ich w tuplach. Doszliśmy właśnie do tego
+momentu:
+
+```python
+>>>  1, 2, 3
+(1, 2, 3)
+>>> ("Ala", 15)
+('Ala', 15)
+>>>  x = 1,5
+>>> print(x)
+(1, 5)
+```
+
+Tupla to nic innego, jak zbiór kilku wartości. Wartości te odddzielamy
+przecinkami. Zbiór najczęściej otaczamy nawiasami zwykłymi, ale nie jest to
+konieczne. Chyba, że chcemy objąć zbiorem zero elementów (jakkolwiek
+dziwnie to może brzmieć):
+
+```python
+>>> ()
+()
+```
+
+Tuple możemy łączyć:
+
+```python
+>>> nazwy = ("Paulina", "Kowalska")
+>>> szczegóły = (27, 1.70)
+>>> nazwy + szczegóły
+('Paulina', 'Kowalska', 27, 1.7)
+```
+
+Możemy w nich także zawrzeć inne tuple, np. punkty na mapie możemy
+zgrupować następująco:
+
+```python
+>>>  punkt = ("Nazwa punktu", (x, y))
+```
+
+gdzie `x` i `y` to liczby.
+
+Możemy odwoływać się do tak zgrupowanych wartości poprzez ich kolejną
+pozycję w tupli (zaczynając od zera), np.:
+
+```python
+>>> p = (10, 15)
+>>> p[0] # pierwsza wartość
+10
+>>> p[1] # druga wartość
+15
+```
+
+
+# Słowniki od A do Z
+
+
+Słownik jest typem danych złożonym z zestawu par (klucz, wartość) takim, 
+że każdy klucz pojawia się tylko jeden raz w zestawie. Poza tym jedynym
+warunkiem słownik pythonowy jest bardzo podobny do zwykłego słownika.
+
+Każdy klucz jest oddzielony od wartości dwukropkiem (:), elementy słownika
+są oddzielone przecinkami, a cały zestaw jest otoczony nawiasami klamrowymi.
+Pusty słownik, nie posiadający elementów jest zapisywany jako dwa nawiasy
+klamrowe, czyli {}.
+
+Klucze w obrębie słownika są unikatowe, ale wartości nie muszą. Wartości
+słownika mogą być dowolnym typem danych, ale klucze muszą być niezmiennymi
+typami danych, takimi jak stringi, liczby lub tuple.
+
+## Tworzenie i dostęp do wartości w słowniku
+
+
+Aby uzyskać dostęp do wartości słownika, należy podać klucz ujęty w znanych Ci
+już nawiasach kwadratowych. Oto przykład:
+
+```python
+słownik = {'Imię': 'Marta', 'Wiek': 21, 'Zawód': 'Python Developer'} # utworzenie slownika
+print(słownik['Imię'])
+print(słownik['Wiek'])
+print(słownik['Zawód'])
+```
+
+Po wykonaniu powyższego kodu uzyskujemy następujący rezultat:
+
+	Martha
+	21
+	Python Developer
+
+## Zmienianie zawartości słownika
+
+
+Możesz zmienić zawartość słownika poprzez dodanie do niego nowego elementu
+lub pary klucz-wartość. Prześledź poniższe przykłady:
+
+```python
+	słownik = {'Imię': 'Marta', 'Wiek': 21, 'Zawód':'Python Developer'} 
+	słownik['Wiek'] = 8  # zmiana wartości w istniejącym elemencie
+	słownik['Zawód'] = 'Uczeń'  # zmiana wartości w istniejącym elemencie
+	słownik['Szkoła'] = "Szkoła podstawowa"  # Dodanie nowego elementu do słownika
+	print(słownik['Wiek'])
+	print(słownik['School'])
+```
+
+Usuwanie elementów słownika
+---------------------------
+
+Możesz zarówno usuwać poszczególne elementy słownika, jak i usunąc całą zawartość
+słownika. Możesz także usunąć cały słownik przy pomocy jednej operacji.
+
+Aby całkowicie usunąć cały słownik, możesz użyć komendy del. Oto przykład:
+
+	>>>  słownik = {'Imię': 'Marta', 'Wiek': 8, 'Zawód':'Uczeń', 'Szkoła':'Szkoła podstawowa'}
+	>>>  del słownik['Imię'] # usuwanie elementu o kluczu 'Imię'
+	>>>  print(słownik) 
+	>>>  słownik.clear() # usuwanie wszystkich elementów słownika 
+	>>>  print(słownik) 
+	>>>  del słownik # usuwanie całego słownika
+
+Zagnieżdżanie
+=============
+
+W Pythonie możesz tworzyć obiekty zagnieżdżone, na przykład:
+
+```python
+ZOO = {
+    'zwierzęta': {
+        'pyton': {
+            'jedzenie': [
+                'myszy',
+                'króliki',
+                'szczury',
+            ],
+            'środowisko': {
+                'temperatura': 25,
+                'wilgotność': 80,
+            },
+            'pomieszczenie': 'klatka',
+        },
+        'słodki_króliczek': {
+            'jedzenie': [
+                'marchewki',
+                'marchewki',
+                'marchewki',
+            ],
+            'środowisko': {
+                'temperatura': 20,
+                'wilgotność': 35,
+            },
+            'pomieszczenie': 'na wolności',
+        },
+    'kontakt': {
+        'telefon': "0 700 800 900",
+        'email': 'zoo@zoo.zoo'
+    }
+}
+
+}
+
+```
+
+Jak widzicie, słownik może zawierać na przykład słowniki słowników i listy.
+

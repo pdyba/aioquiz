@@ -1,195 +1,269 @@
-Strings and how to play with them
-=================================
+Python data storage types
+=========================
 
-The last issue which we have mentioned above was the problem with too
-many digits in a printed BMI. Out of the three problems we had, this one
-is the easiest to solve.
+Python has five standard data types −
+- Numbers
+- String
+- List
+- Tuple
+- Dictionary
+We already used numbers(ints and floats), string and tuples. Now it is time to learn about Lists and Dictionaries.
+Cute Wabbit
 
-That’s why we left it for the end of our "adventure" with the BMI
-calculator. We already know that we can add strings to each other and
-multiply them by integers. You will see that we can also format them.
-But first we will need one more type of data (except the strings and the
-numbers we already know).
+A little girl goes into a pet show and asks for a wabbit. The shop
+keeper looks down at her, smiles and says:
 
-Tuples
-======
+"Would you like a lovely fluffy little white rabbit, or a cutesy
+wootesly little brown rabbit?"
 
-At the beginning we mentioned that we can not use commas in numbers,
-because we will need them later while using tuples. And here they are:
+"Actually", says the little girl, "I don't think my python would
+notice."
 
-	>>>  1, 2, 3 (1, 2, 3) >>> ("Ala", 15) ('Ala', 15)
-	>>>  x = 1,5 >>> print(x) (1, 5)
+Now lets get back to learning :)
 
-A tuple is nothing more than a few values grouped into one. The values
-we want to group should be separated by commas. The whole thing can be
-enclosed in parentheses to make it more clear, but it is not required.
-Except when we want to group none of the elements (however strange it
-may sound):
+List
+====
 
-	>>>  () ()
+Still we haven’t said anything about lists, as they do not differ much
+from the intuitive concept of lists in the everyday life. We can easily
+think of lists in Python as we think of any other list (a shopping list,
+a guest list, exam results etc.) written on a paper and numbered.
 
-Tuples can be combined:
+Let's start with a blank page by starting a new python interpreter:
 
-	>>>  names = ("Paulina", "Kowalska") >>> details =
-	>>>  (27, 1.70) >>> names + details ('Paulina', 'Kowalska', 27,
-	>>>  1.7)
+	>>> L = []
+	>>> L
+	[]
 
-They may also contain other tuples e.g. information on a point on the
-map can be grouped as follows:
+At any time we can check how many items we have saved on our list by
+using the function len.
 
-	>>>  point = ("Name of point", (x, y))
+	>>>  len(L) 0
 
-where `x` and `y` are numbers.
+Let's make another list (which can have the same name or a different
+one):
 
-We can refer to the grouped values by using their positions in the tuple
-(counting form zero) e.g.:
+	>>>  L = ["Ala", "Ola", "Jacek"]
+	>>> len(L)
+	3
 
-	>>>  p = (10, 15) >>> p[0] # first value 10
-	>>>  p[1] # second value 15
+As in the case of tuples, consecutive elements of the list are separated
+by commas. Unlike tuples, brackets `[` and `]` are obligatory.
 
-Formatting plain
-================
+Accessing Values in Lists
+-------------------------
 
-Going back to our program: currently the result is reduced to a single
-line. Now we want to write the BMI as a number and the interval in which
-it is located, that is to say:
+To preview a particular position of an element on the list (remember
+that we count the positions from 0 ):
 
-Your BMI is equal: 21.39 (normal weight)
+	>>>  L = ["Ala", "Ola", "Jacek"]
+	>>> L[0] 'Ala'
+	>>>  L[1] 'Ola' >>> L[2] 'Jacek'
+	>>>
+	>>>  L[3] Traceback (most recent call last): File "<stdin>", line
+	>>>  1, in <module> IndexError: list index out of range
 
-Modify the current program so that the calculated BMI would be available
-under the name of `bmi`,and the name of the interval under the name of
-`category`. Then we can use print and obtain the required result:
+We can also use the loop for,to execute instructions for every element
+of the list:
 
-Well, almost….We still have too many digits. We would also have a
-problem if we wanted to generate such a string and save with a name,
-because we use print to separate the elements. Fortunately, there is a
-better way:
+	>>>  for name in L:
+	... print("Name:", name)
+	Name: Ala
+	Name: Ola
+	Name: Jacek
 
-	>>>  bmi = 21.387755102040817 >>> category = "normal
-	>>>  weight" >>> result = "Your BMI: %f (%s)" % (bmi, category)
-	>>>  result 'Your BMI: 21.387755 (normal weight)' >>>
-	>>>  print(result) Your BMI: 21.387755 (normal weight)
+In the same way, we can print the first part of our half of the
+Christmas tree:
 
-We have here a string and a tuple joined by `%`. The string is a
-template which will be completed with values from the tuple. The spaces
-to be filled are also labeled with the percentage (`%`). . The letter
-that follows defines the type of a value we want to insert. The integers
-are represented by `i` as **integer** (we can also use `d` as
-**decimal**), strings are represented by `s` as **string**, and
-floating-point numbers are represented by `f` for **float**:
+	>>>  lst = [1, 2, 3]
+	>>> for n in lst:
+	... print("*"*n)
 
-	>>>  "String: %s, Numbers: %d %f" % ("Ala", 10, 3.1415)
-	>>>  'String: Ala, Numbers: 10 3.141500'
+Basic List Operations
+---------------------
 
-Now instead of nine decimal places we always get six, but the formatting
-has the advantage that it allows us to have more control by putting
-between `%` and `f` additional information, e.g. if you want to display
-only two places after the decimal point:
+Lists respond to the + and * operators much like strings; they mean
+concatenation and repetition here too, except that the result is a new
+list, not a string.
 
-	>>>  "%.2f" % 3.1415 '3.14' >>> "%.2f" %
-	>>>  21.387755102040817 '21.39'
+In fact, lists respond to all of the general sequence operations we used
+on strings in the prior chapter.
 
-There are plenty options of formatting, so we will not show them all
-here. One of the most useful is the option of aligning to a specific
-number of characters:
+	>>>  len([1, 2, 3]) # Length 3
+	>>> [1, 2, 3] + [4, 5, 6] # Concatenation
+	[1, 2, 3, 4, 5, 6]
+	>>> ['Hi!'] * 4 # Repetition
+	['Hi!', 'Hi!', 'Hi!', 'Hi!']
+	>>>  3 in [1, 2, 3] # Membership True
+	>>> L = ["Ala", "Ola", "Jacek"]
+	>>> L[1]
+	'Ola'
+	>>>  L[-1]
+	'Jacek'
+	>>> L[1:]
+	['Ola', 'Jacek']
+	>>>  L[:1]
+	['Ala']
+	>>> L[1:2]
+	['Ola']
+	>>>  L[1:3] # L[3] will end up with error !
+	['Ola', 'Jacek']
 
-We can also align the string `-` to the left by putting before the
-number of characters:
+Range
+-----
 
-Aligning towards the centre is an additional exercise for you :).
+Well, unfortunately we still have to type the entire contents of the
+list. This problem can be solved by the function range. Check
+`help(range)` for the full story, or check these quick examples:
 
-Formatting more Pythonic way
-============================
+	>>>  list(range(2))
+	[0, 1]
+	>>> list(range(1, 11))
+	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	>>> list(range(1, 11, 2))
+	[1, 3, 5, 7, 9]
 
-String Slicing
-==============
+```python
+for i in range(10):
+    print(i)
 
-Try it out: >>> text = “ala ma kota” >>> text[0] #
-string[int] >>> text[2:] # string[int:] >>>
-text[:5] # string[:int] >>> text[3:7] #
-string[int:int] >>> text[::2] # stirng[::int]
-	>>>  text[::-1] # stirng[::int]
+    print(i)
 
-Always remember computer counts from 0.
+```
 
-Methods
+Updating Lists
+--------------
+
+You can update single or multiple elements of lists by giving the slice
+on the left-hand side of the assignment operator, and you can add to
+elements in a list with the append() method.
+
+	>>>  list = ['physics', 'chemistry', 1997, 2000]
+	>>>  print(list[2])
+	>>> list[2] = 2001
+	>>>  print(list[2])
+
+	>>>  list_2 = ['a', 'b']
+	>>> list_2.append('c')
+	>>>  print(list_2)
+
+Delete List Elements
+--------------------
+
+To remove a list element, you can use either the del statement if you
+know exactly which element(s) you are deleting or the remove() method if
+you do not know. For example −
+
+	>>>  list1 = ['physics', 'chemistry', 1997, 2000]
+	>>>  print(list1) >>> del list1[2] >>>
+	>>>  print(list1)
+
+Dictionary
+==========
+
+Dictionary is an data type composed of a collection of (key, value)
+pairs, such that each possible key appears just once in the collection.
+Except the unique condition it is very similar to normal dictionary.
+
+Each key is separated from its value by a colon (:), the items are
+separated by commas, and the whole thing is enclosed in curly braces. An
+empty dictionary without any items is written with just two curly
+braces, like this: {}.
+
+Keys are unique within a dictionary while values may not be. The values
+of a dictionary can be of any type, but the keys must be of an immutable
+data type such as strings, numbers, or tuples.
+
+Accessing Values in Dictionary:
+-------------------------------
+
+To access dictionary elements, you can use the familiar square brackets
+along with the key to obtain its value. Following is a simple example −
+
+```python
+a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
+print(a_dict['Name'])
+print(a_dict['Age'])
+print(a_dict['Profession'])
+
+print(a_dict['Profession'])
+
+```
+
+When the above code is executed, it produces the following result:
+
+	>>>  Martha >>> 21 >>> Python Developer
+
+Updating Dictionary
+-------------------
+
+You can update a dictionary by adding a new entry or a key-value pair,
+modifying an existing entry as shown below in the simple example −
+
+	>>> a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
+	>>> a_dict['Age'] = 8 # update existing entry
+	>>> a_dict['Profession'] = 'Student' # update existing entry
+	>>> a_dict['School'] = "Primary School" # Add new entry
+	>>> print(a_dict['Age'])
+	>>> print(a_dict['School'])
+
+Delete Dictionary Elements
+--------------------------
+
+You can either remove individual dictionary elements or clear the entire
+contents of a dictionary. You can also delete entire dictionary in a
+single operation.
+
+To explicitly remove an entire dictionary, just use the del statement.
+Following is a simple example −
+
+	>>> a_dict = {'Name': 'Martha', 'Age': 21, 'Profession': 'Python Developer'}
+	>>> del a_dict['Name'] # remove entry with key 'Name'
+	>>> print(a_dict)
+	>>> a_dict.clear() # remove all entries in dict
+	>>> print(a_dict)
+	>>> del a_dict # delete entire dictionary
+
+Nesting
 =======
 
-With string there is a lot of methods implemented already.
+In Python You can create nested objects like:
 
-1.  capitalize() - Capitalizes first letter of string
-2.  count(str, beg= 0,end=len(string)) - Counts how many times str
-occurs in string or in a substring of string if starting index beg
-and ending index end are given.
-3.  endswith(suffix, beg=0, end=len(string)) - Determines if string or a
-substring of string (if starting index beg and ending index end are
-given) ends with suffix; returns true if so and false otherwise.
-4.  find(str, beg=0 end=len(string)) - Determine if str occurs in string
-or in a substring of string if starting index beg and ending index
-end are given returns index if found and -1 otherwise.
-5.  index(str, beg=0, end=len(string)) - Same as find(), but raises an
-exception if str not found.
-6.  isalnum() - Returns true if string has at least 1 character and all
-characters are alphanumeric and false otherwise.
-7.  isalpha() - Returns true if string has at least 1 character and all
-characters are alphabetic and false otherwise.
-8.  isdigit() - Returns true if string contains only digits and false
-otherwise.
-9.  islower() - Returns true if string has at least 1 cased character
-and all cased characters are in lowercase and false otherwise.
-10. isnumeric() - Returns true if a unicode string contains only numeric
-characters and false otherwise.
-11. isspace() - Returns true if string contains only whitespace
-characters and false otherwise.
-12. istitle() - Returns true if string is properly "titlecased" and
-false otherwise.
-13. isupper() - Returns true if string has at least one cased character
-and all cased characters are in uppercase and false otherwise.
-14. join(seq) - Merges (concatenates) the string representations of
-elements in sequence seq into a string, with separator string.
-15. len(string) - Returns the length of the string
-16. lower() - Converts all uppercase letters in string to lowercase.
-17. lstrip() - Removes all leading whitespace in string.
-18. max(str) - Returns the max alphabetical character from the string
-str.
-19. min(str) - Returns the min alphabetical character from the string
-str.
-20. replace(old, new [, max]) - Replaces all occurrences of old in
-string with new or at most max occurrences if max given.
-21. rfind(str, beg=0,end=len(string)) - Same as find(), but search
-backwards in string.
-22. rindex( str, beg=0, end=len(string)) - Same as index(), but search
-backwards in string.
-23. rstrip() - Removes all trailing whitespace of string.
-24. split(str="", num=string.count(str)) - Splits string according to
-delimiter str (space if not provided) and returns list of
-substrings; split into at most num substrings if given.
-25. splitlines( num=string.count('n')) - Splits string at all (or num)
-NEWLINEs and returns a list of each line with NEWLINEs removed.
-26. startswith(str, beg=0,end=len(string)) - Determines if string or a
-substring of string (if starting index beg and ending index end are
-given) starts with substring str; returns true if so and false
-otherwise.
-27. strip([chars]) - Performs both lstrip() and rstrip() on string
-28. swapcase() - Inverts case for all letters in string.
-29. title() - Returns "titlecased" version of string, that is, all words
-begin with uppercase and the rest are lowercase.
-30. upper() - Converts lowercase letters in string to uppercase.
+```python
+ZOO = {
+    'animals': {
+        'python': {
+            'food': [
+                'mice',
+                'rabbits',
+                'rats',
+            ]
+            'environment': {
+                'temp': 25,
+                'humidity': 80,
+            }
+            'location': 'cage',
+        },
+        'cute_little_rabbit': {
+            'food': [
+                'carrots',
+                'carrots',
+                'carrots',
+            ]
+            'environment': {
+                'temp': 20,
+                'humidity': 35,
+            }
+            'location': 'run free',
+        },
+    'contact': {
+        'telphone': 0 700 800 900,
+        'email': 'zoo@zoo.zoo'
+    }
+}
 
-There is over 10 more methods but they are much more advanced.
+}
 
-Summary
-=======
+```
 
-We also know now that indentations can be important, especially when we
-want to use the instruction if (also in connection with else and elif).
-
-This is quite a lot like for a first program. We still have a lot of
-work, anyhow you can be proud of what we have done so far!
-
-And if You did the obligatory task 1 You know there are some easter eggs
-in python and thats not all of them. Here is one more:
-
-	>>>  True + True
-
-:-)
+As You can see there can be a dict or a list inside of a dict of dicts.
