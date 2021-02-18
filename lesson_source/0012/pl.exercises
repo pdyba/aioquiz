@@ -1,10 +1,10 @@
 1:
     title: Metody listowe
-    task: Wypróbuj: .get(klucz), .has_key(klucz), .items(), .keys(), .update(słownik), .values() Opcja a) Ustal, jaka jest różnica między słownik[klucz] a słownik.get(klucz) Opcja b) Co oznacza słownik.get(klucz, 'Python') i do czego może służyć?
+    task: Wypróbuj .get(klucz), .has_key(klucz), .items(), .keys(), .update(słownik), .values() Opcja a) Ustal, jaka jest różnica między słownik[klucz] a słownik.get(klucz) Opcja b) Co oznacza słownik.get(klucz, 'Python') i do czego może służyć?
     possible_answer: yey
 2:
     title: Metody słownikowe
-    task: Wypróbuj: .append(), .clear(), .count(), .extend(), .index(), .insert(), .pop(), .remove(), .reverse(), .sort()
+    task: Wypróbuj .append(), .clear(), .count(), .extend(), .index(), .insert(), .pop(), .remove(), .reverse(), .sort()
     possible_answer: yey
 3:
     title: Magazyn danych
