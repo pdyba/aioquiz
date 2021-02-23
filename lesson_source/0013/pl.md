@@ -419,7 +419,7 @@ Omówiliśmy pętlę for, ale istnieje jeszcze pętla while:
 
 ```python
 while wyrażenie:
-komenda(y)
+    komenda(y)
 
 liczba = 0
 while (liczba < 9):

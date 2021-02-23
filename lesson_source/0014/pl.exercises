@@ -1,0 +1,8 @@
+1:
+    title: Choinka
+    task: Stwórz choinkę, dla której użytkownik może podać rozmiar.
+    possible_answer: yey
+2:
+    title: Ostateczna wersja BMI
+    task: Używając pętli spraw, aby użytkownik został nakłoniony do wprowadzenia prawidłowych danych - czyli stwórz mechanizm anty-trollowy za pomocą pętli i wyłpaywania błedów funkcja powinna ogarniać i błedne dane wejściowe (np. zły typ) jak i dane wychodzące poza zakres bmi.
+    possible_answer: yey
