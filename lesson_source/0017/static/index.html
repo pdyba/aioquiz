@@ -1,0 +1,302 @@
+
+<link rel="stylesheet" href="css/codehilite.css">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+<h1>Biblioteki zewnętrzne i REST API</h1>
+<p>API - application programming interface - interfejs programistyczny</p>
+<p>Representational State Transfer (<strong>REST</strong>, ang. zmiana stanu poprzez reprezentacje) –
+styl architektury oprogramowania HTTP dla systemów rozproszonych. REST wykorzystuje m.in.</p>
+<ul>
+<li>jednorodny interfejs</li>
+<li>bezstanową komunikację</li>
+</ul>
+<h2>Instalacja bibliotek zewnętrznych</h2>
+<p>pip - menadżer pakietów w języka python - taki AppStore/GooglePlay ;)</p>
+<div class="codehilite"><pre><span></span>pip
+pip <span class="nb">help</span>
+</pre></div>
+
+
+<p>Instalacje pojedyńczej paczki:</p>
+<div class="codehilite"><pre><span></span>pip install requests
+</pre></div>
+
+
+<p>Instalacje pojedyńczej paczki w konkretnej wersji:</p>
+<div class="codehilite"><pre><span></span>pip install <span class="nv">requests</span><span class="o">==</span><span class="m">2</span>.18.4
+</pre></div>
+
+
+<p>Instalacje pojedyńczej paczki z pliku:</p>
+<div class="codehilite"><pre><span></span>pip install requests-2.18.4-py2.py3-none-any.whl
+</pre></div>
+
+
+<p>Upgrade:</p>
+<div class="codehilite"><pre><span></span>pip install -U requests
+</pre></div>
+
+
+<p>Instalacja wszystkich zależności:</p>
+<div class="codehilite"><pre><span></span>pip install -r requirements
+</pre></div>
+
+
+<p>Usuwanie pakietów:</p>
+<div class="codehilite"><pre><span></span>pip uninstall
+</pre></div>
+
+
+<p>Aktualnie zaintalowane pakiety:</p>
+<div class="codehilite"><pre><span></span>pip freeze
+</pre></div>
+
+
+<h2>Protokół HTTP</h2>
+<p>Protokołu do przesyła dokumentów sieci WWW np. stron internetowych, plików, obiektów oraz informacje z formularzy.</p>
+<p>Metody protokołu HTTP</p>
+<ul>
+<li>GET – pobranie zasobu wskazanego przez URI</li>
+<li>
+<p>POST – przyjęcie danych przesyłanych od klienta do serwera (np. wysyłanie zawartości formularzy, JSONów, plików)</p>
+</li>
+<li>
+<p>PUT – przyjęcie danych przesyłanych od klienta do serwera, najczęściej aby zaktualizować wartość encji</p>
+</li>
+<li>
+<p>DELETE – żądanie usunięcia zasobu, włączone dla uprawnionych użytkowników</p>
+</li>
+<li>
+<p>HEAD – pobiera informacje o zasobie, stosowane do sprawdzania dostępności zasobu</p>
+</li>
+<li>OPTIONS – informacje o opcjach i wymaganiach istniejących w kanale komunikacyjnym</li>
+<li>PATCH – aktualizacja części danych</li>
+</ul>
+<h2>Kody http</h2>
+<p>Klasy kodów odpowiedzi serwera HTTP:</p>
+<ul>
+<li>1xx - kody informacyjne</li>
+<li>2xx - kody powodzenia</li>
+<li>3xx - kody przekierowania</li>
+<li>4xx - kody błędu aplikacji klienta</li>
+<li>5xx - kody błędu serwera</li>
+</ul>
+<p>1xx - są rzadko spotykane</p>
+<p>2xx:</p>
+<ul>
+<li>200 - OK</li>
+<li>201 - Created - wysłany dokument został zapisany na serwerze</li>
+</ul>
+<p>3xx:</p>
+<ul>
+<li>301 - Moved Permanently - trwale przeniesiony - żądany zasób zmienił swój URI częsta odpowiedź na POSTa</li>
+</ul>
+<p>4xx:</p>
+<ul>
+<li>400 - Bad Request - nieprawidłowe zapytanie – żądanie nie może być obsłużone przez serwer z powodu błędnej składni zapytania</li>
+<li>401 - Unauthorized - nieautoryzowany dostęp</li>
+<li>403 - Forbidden - Zabroniony – serwer zrozumiał zapytanie lecz konfiguracja bezpieczeństwa zabrania mu zwrócić żądany zasób</li>
+<li>404 - Not Found - nie znaleziono – serwer nie odnalazł zasobu według podanego URL</li>
+<li>405 - Method Not Allowed - niedozwolona metoda – metoda zawarta w żądaniu nie jest dozwolona dla wskazanego zasobu</li>
+<li>408 - Request Timeout koniec czasu oczekiwania na żądanie – klient nie przesłał zapytania do serwera w określonym czasie</li>
+<li>413 - Request Entity Too Large    encja zapytania zbyt długa – całkowita długość zapytania jest zbyt długa dla serwera</li>
+<li>414 - Request-URI Too Long    adres URI zapytania zbyt długi – długość zażądanego URI jest większa niż maksymalna</li>
+<li>415 - Unsupported Media Type  nieznany sposób żądania – serwer odmawia przyjęcia zapytania, ponieważ jego składnia jest niezrozumiała dla serwera</li>
+</ul>
+<p>5xx:</p>
+<ul>
+<li>500 - Internal Server Error - wewnętrzny błąd serwera – serwer napotkał niespodziewane trudności, które uniemożliwiły zrealizowanie żądania</li>
+<li>501 - Not Implemented - nie zaimplementowano – serwer nie dysponuje funkcjonalnością wymaganą w zapytaniu; ten kod jest zwracany, gdy serwer otrzymał nieznany typ zapytania</li>
+<li>502 - Bad Gateway - błąd bramy – serwer – spełniający rolę bramy lub pośrednika – otrzymał niepoprawną odpowiedź od serwera nadrzędnego i nie jest w stanie zrealizować żądania klienta</li>
+<li>503 - Service Unavailable - usługa niedostępna – serwer nie jest w stanie w danej chwili zrealizować zapytania klienta ze względu na przeciążenie</li>
+</ul>
+<p>Specjalne:</p>
+<ul>
+<li>418 - I'm a teapot - :D</li>
+</ul>
+<h2>requests</h2>
+<p><a href="http://python-requests.org/">http://python-requests.org</a></p>
+<p>Requests jest biblioteką HTTP na licencji Apache2, w języku Python, dla istot ludzkich.</p>
+<p>Większość istniejących modułów Pythona używanych do wysyłania żądań HTTP jest niezwykle rozwlekła i niewygodna. Wbudowany w Pythona moduł urllib2 oferuje większość potrzebnych możliwości HTTP, ale API jest całkowicie zepsute. Wymaga olbrzymiej ilości pracy (nawet nadpisywania metod) żeby wykonać najprostsze zadania.</p>
+<p><a href="http://py.net/requests">http://py.net/requests</a></p>
+<div class="codehilite"><pre><span></span>pip install requests-2.18.4-py2.py3-none-any.whl
+
+LUB:
+
+python -m pip install requests-2.18.4-py2.py3-none-any.whl
+</pre></div>
+
+
+<h2>URL</h2>
+<p>URL:</p>
+<p>URL's types:</p>
+<ul>
+<li>http://dyba.com.pl</li>
+<li>http://dyba.com.pl/api</li>
+<li>http://dyba.com.pl/api?country=Poland</li>
+</ul>
+<p><img alt="image" src="images/url_1.jpg" />
+<img alt="image" src="images/url_2.jpg" /></p>
+<h2>GET</h2>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://py.net/health&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>odpowiedź <code>data</code> z dokumentacji biblioteki requests:</p>
+<ul>
+<li><code>content</code> - content of the response, in bytes.</li>
+<li><code>cookies</code>  - A CookieJar of Cookies the server sent back.</li>
+<li><code>elapsed</code> - The amount of time elapsed between sending the request and the arrival of the response (as a timedelta)</li>
+<li><code>headers</code> - Case-insensitive Dictionary of Response Headers. For example, headers['content-encoding'] will return the value of a 'Content-Encoding' response header.</li>
+<li><code>json</code> - Returns the json-encoded content of a response, if any.</li>
+<li><code>status_code</code> - Integer Code of responded HTTP Status.</li>
+<li><code>text</code> - Content of the response, in unicode.</li>
+<li><code>url</code> - Final URL location of Response.</li>
+</ul>
+<p>Przykład:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://py.net/health&#39;</span><span class="p">)</span>
+<span class="n">resp_json</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>  <span class="c1"># &lt;- to jest metoda ją trzeba wywołać</span>
+<span class="n">resp_text</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">text</span>  <span class="c1"># &lt;- to nie jest metoda jej nie trzeba wywoływac</span>
+<span class="n">resp_time</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">elapsed</span>
+<span class="n">resp_url</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">url</span>
+</pre></div>
+
+
+<p>Zapisanie pliku:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://py.net/somefile&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;file.pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+
+
+<h2>POST</h2>
+<p>Wysłanie jsona:</p>
+<div class="codehilite"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://mywebsite.org/post&#39;</span>
+<span class="n">a_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;random_key&quot;</span><span class="p">:</span> <span class="s2">&quot;with_random_value&quot;</span><span class="p">}</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">a_dict</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Upload pliku:</p>
+<div class="codehilite"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://mywebsite.org/post&#39;</span>
+<span class="n">files</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;report.xls&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)}</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
+</pre></div>
+
+
+<h2>Przygotowanie do zadań</h2>
+<p>Dokumentacja py.net API:</p>
+<p>Health:</p>
+<div class="codehilite"><pre><span></span>/health
+GET
+proper response:
+    200: {&#39;health&#39;: &quot;OK&quot;}
+</pre></div>
+
+
+<p>Status - get</p>
+<div class="codehilite"><pre><span></span>/status
+GET
+proper response:
+    200: {&#39;status&#39;: string}
+</pre></div>
+
+
+<p>Status - set</p>
+<div class="codehilite"><pre><span></span>/status/set
+POST
+requires:
+    &quot;status&quot;: string
+proper response:
+    200: {&#39;success&#39;: True}
+</pre></div>
+
+
+<p>Register:</p>
+<div class="codehilite"><pre><span></span>/register
+POST
+requires:
+    &quot;name&quot;: string
+    &quot;password&quot;: string
+proper response:
+    200: {&#39;success&#39;: True}
+</pre></div>
+
+
+<p>Login:</p>
+<div class="codehilite"><pre><span></span>/auth
+POST
+requires:
+    &quot;name&quot;: string
+    &quot;password&quot;: string
+proper response:
+    {&#39;api_key&#39;: string, &#39;name&#39;: string}
+</pre></div>
+
+
+<p>User status - get:</p>
+<div class="codehilite"><pre><span></span>/user_status
+GET
+proper response:
+    200: {string: string}
+</pre></div>
+
+
+<p>User status - set:</p>
+<div class="codehilite"><pre><span></span>/user_status/set
+POST
+requires:
+    &quot;api_key&quot;: string
+    &quot;status&quot;: string
+proper response:
+    {&#39;success&#39;: True}
+</pre></div>
+
+
+<p>Random cat img:</p>
+<div class="codehilite"><pre><span></span>/cat
+GET
+proper response:
+    200: data
+</pre></div>
+
+
+<p>Query string zabawa:</p>
+<div class="codehilite"><pre><span></span>/query_string
+GET
+proper response:
+    200: {
+    &quot;parsed&quot;: bool,
+    &quot;args&quot;: dict,
+    &quot;url&quot;: dict,
+    &quot;query_string&quot;: dict
+}
+</pre></div>
+
+
+<p>Requests lib whl:</p>
+<div class="codehilite"><pre><span></span>/requests
+GET
+proper response:
+    200: data
+</pre></div>
+
+
+<p>Requests lib tar:</p>
+<div class="codehilite"><pre><span></span>/requests_tar
+GET
+proper response:
+    200: data
+</pre></div>
+
+
+<p>Do reszty zadań:
+https://swapi.co/api/</p>
+        </div>
+    </div>
+    <exercises></exercises>
+</div>

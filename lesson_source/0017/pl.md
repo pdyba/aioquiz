@@ -154,7 +154,9 @@ requests
 
 Requests jest biblioteką HTTP na licencji Apache2, w języku Python, dla istot ludzkich.
 
-Większość istniejących modułów Pythona używanych do wysyłania żądań HTTP jest niezwykle rozwlekła i niewygodna. Wbudowany w Pythona moduł urllib2 oferuje większość potrzebnych możliwości HTTP, ale API jest całkowicie zepsute. Wymaga olbrzymiej ilości pracy (nawet nadpisywania metod) żeby wykonać najprostsze zadania.
+Większość istniejących modułów Pythona używanych do wysyłania żądań HTTP jest niezwykle rozwlekła i niewygodna. 
+Wbudowany w Pythona moduł urllib2 oferuje większość potrzebnych możliwości HTTP, ale API jest całkowicie zepsute. 
+Wymaga olbrzymiej ilości pracy (nawet nadpisywania metod) żeby wykonać najprostsze zadania.
 
 [http://py.net/requests](http://py.net/requests)
 
@@ -188,9 +190,9 @@ GET
 
 ```python
 import requests
-resp = requests.get('http://py.net/health')
+resp = requests.get('http://ifconfig.co')
 
-resp = requests.get('http://py.net/health')
+resp = requests.get('http://ifconfig.co')
 
 ```
 
@@ -209,7 +211,7 @@ Przykład:
 
 ```python
 import requests
-resp = requests.get('http://py.net/health')
+resp = requests.get('http://ifconfig.co')
 resp_json = resp.json()  # <- to jest metoda ją trzeba wywołać
 resp_text = resp.text  # <- to nie jest metoda jej nie trzeba wywoływac
 resp_time = resp.elapsed
