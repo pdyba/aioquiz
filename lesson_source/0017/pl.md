@@ -258,7 +258,7 @@ resp = requests.post(url, files=files)
 Przygotowanie do zadań
 ----------------------
 
-Dokumentacja py.net API:
+Dokumentacja http://34.243.20.71:10080 API:
 
 Health:
 
