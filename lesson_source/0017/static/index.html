@@ -119,7 +119,7 @@ pip <span class="nb">help</span>
 <p><a href="http://python-requests.org/">http://python-requests.org</a></p>
 <p>Requests jest biblioteką HTTP na licencji Apache2, w języku Python, dla istot ludzkich.</p>
 <p>Większość istniejących modułów Pythona używanych do wysyłania żądań HTTP jest niezwykle rozwlekła i niewygodna. Wbudowany w Pythona moduł urllib2 oferuje większość potrzebnych możliwości HTTP, ale API jest całkowicie zepsute. Wymaga olbrzymiej ilości pracy (nawet nadpisywania metod) żeby wykonać najprostsze zadania.</p>
-<p><a href="http://py.net/requests">http://py.net/requests</a></p>
+<p><a href="http://34.243.20.71:8080/requests">http://34.243.20.71:8080/requests</a></p>
 <div class="codehilite"><pre><span></span>pip install requests-2.18.4-py2.py3-none-any.whl
 
 LUB:
@@ -140,7 +140,7 @@ python -m pip install requests-2.18.4-py2.py3-none-any.whl
 <img alt="image" src="images/url_2.jpg" /></p>
 <h2>GET</h2>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://py.net/health&#39;</span><span class="p">)</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://34.243.20.71:8080/health&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -157,7 +157,7 @@ python -m pip install requests-2.18.4-py2.py3-none-any.whl
 </ul>
 <p>Przykład:</p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://py.net/health&#39;</span><span class="p">)</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://34.243.20.71:8080/health&#39;</span><span class="p">)</span>
 <span class="n">resp_json</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>  <span class="c1"># &lt;- to jest metoda ją trzeba wywołać</span>
 <span class="n">resp_text</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">text</span>  <span class="c1"># &lt;- to nie jest metoda jej nie trzeba wywoływac</span>
 <span class="n">resp_time</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">elapsed</span>
@@ -167,7 +167,7 @@ python -m pip install requests-2.18.4-py2.py3-none-any.whl
 
 <p>Zapisanie pliku:</p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
-<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://py.net/somefile&#39;</span><span class="p">)</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://34.243.20.71:8080/somefile&#39;</span><span class="p">)</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;file.pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
     <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
@@ -189,7 +189,7 @@ python -m pip install requests-2.18.4-py2.py3-none-any.whl
 
 
 <h2>Przygotowanie do zadań</h2>
-<p>Dokumentacja py.net API:</p>
+<p>Dokumentacja 34.243.20.71:8080 API:</p>
 <p>Health:</p>
 <div class="codehilite"><pre><span></span>/health
 GET
@@ -295,7 +295,7 @@ proper response:
 
 
 <p>Do reszty zadań:
-https://swapi.co/api/</p>
+https://swapi.dev/api/</p>
         </div>
     </div>
     <exercises></exercises>

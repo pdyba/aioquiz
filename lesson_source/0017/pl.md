@@ -158,7 +158,7 @@ Większość istniejących modułów Pythona używanych do wysyłania żądań H
 Wbudowany w Pythona moduł urllib2 oferuje większość potrzebnych możliwości HTTP, ale API jest całkowicie zepsute. 
 Wymaga olbrzymiej ilości pracy (nawet nadpisywania metod) żeby wykonać najprostsze zadania.
 
-[http://py.net/requests](http://py.net/requests)
+[http://34.243.20.71:8080/requests](http://34.243.20.71:8080/requests)
 
 ```bash
 pip install requests-2.18.4-py2.py3-none-any.whl
@@ -225,7 +225,7 @@ Zapisanie pliku:
 
 ```python
 import requests
-resp = requests.get('http://py.net/somefile')
+resp = requests.get('http://34.243.20.71:8080/somefile')
 with open('file.pdf', 'wb') as file:
     file.write(resp.content)
 
@@ -354,4 +354,4 @@ proper response:
     200: data
 
 Do reszty zadań:
-https://swapi.co/api/
+https://swapi.dev/api/

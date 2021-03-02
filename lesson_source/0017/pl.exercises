@@ -1,50 +1,50 @@
 1:
     title: 3.1
     task: |
-        Korzystając z API http://py.net/ zmień status (/status/set) i sprawdź czy się udało (/status)
+        Korzystając z API http://34.243.20.71:8080/ zmień status (/status/set) i sprawdź czy się udało (/status)
     possible_answer: yey
 2:
     title: 3.2
     task: |
-        Korzystając z API http://py.net/ zarejestruj się (/register) pamiętaj że może być tylko jeden użytkownik pod daną nazwą (name)
+        Korzystając z API http://34.243.20.71:8080/ zarejestruj się (/register) pamiętaj że może być tylko jeden użytkownik pod daną nazwą (name)
     possible_answer: yey
 3:
     title: 3.3
     task: |
-        Korzystając z API http://py.net/ pobierz klucz API (api_key) - zaloguj się (/auth).
+        Korzystając z API http://34.243.20.71:8080/ pobierz klucz API (api_key) - zaloguj się (/auth).
     possible_answer: yey
 4:
     title: 3.4
     task: |
-        Korzystając z API http://py.net/ po pobraniu klucza API (api_key) ustaw status swojego użytkownika (/user_status/set) i sprawdź status innych (/user_status) w szczególności koleżanki/kolegi obok.
+        Korzystając z API http://34.243.20.71:8080/ po pobraniu klucza API (api_key) ustaw status swojego użytkownika (/user_status/set) i sprawdź status innych (/user_status) w szczególności koleżanki/kolegi obok.
     possible_answer: yey
 5:
     title: 3.5
     task: |
-        Korzystając z API http://py.net/ ściągnij i zapisz na dysku losowe zdjęcia kotów (/cat)
+        Korzystając z API http://34.243.20.71:8080/ ściągnij i zapisz na dysku losowe zdjęcia kotów (/cat)
     possible_answer: yey
 6:
     title: 3.6
     task: |
-        Korzystając z API http://py.net/ spróbuj użyc querry stringów (query_string)
+        Korzystając z API http://34.243.20.71:8080/ spróbuj użyc querry stringów (query_string)
     possible_answer: yey
 7:
     title: 3.7
     task: |
-        Korzystając z API https://swapi.co/api/. Pobierz dane wszystkich mieszkańców planety Tatooin
+        Korzystając z API https://swapi.dev/api/. Pobierz dane wszystkich mieszkańców planety Tatooin
     possible_answer: yey
 8:
     title: 3.8
     task: |
-        Korzystając z API https://swapi.co/api/. Wyświetl wszystkie nazwy ras gatunków wystepujących w V częsci Gwiezdnych Wojen (Imperium kontratakuje).
+        Korzystając z API https://swapi.dev/api/. Wyświetl wszystkie nazwy ras gatunków wystepujących w V częsci Gwiezdnych Wojen (Imperium kontratakuje).
     possible_answer: yey
 9:
     title: 3.9
     task: |
-        Korzystając z API https://swapi.co/api/. Policz BMI wszystkich pilotów Milenium Falcona I wyswietl je wraz z ich imionami.
+        Korzystając z API https://swapi.dev/api/. Policz BMI wszystkich pilotów Milenium Falcona I wyswietl je wraz z ich imionami.
     possible_answer: yey
 10:
     title: 3.10
     task: |
-        Korzystając z API https://swapi.co/api/. Wyświetl imiona wszytkich Gunganów w języku Wooki.
+        Korzystając z API https://swapi.dev/api/. Wyświetl imiona wszytkich Gunganów w języku Wooki.
     possible_answer: yey
