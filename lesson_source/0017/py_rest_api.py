@@ -270,4 +270,4 @@ app.static('/css/', join(dir_name, 'static/css'))
 app.static('/images', join(dir_name, 'static/images'))
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=10080, workers=3)
+    app.run(host="0.0.0.0", port=8080, workers=3)

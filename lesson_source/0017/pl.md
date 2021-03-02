@@ -258,7 +258,7 @@ resp = requests.post(url, files=files)
 Przygotowanie do zadań
 ----------------------
 
-Dokumentacja http://34.243.20.71:10080 API:
+Dokumentacja http://34.243.20.71:8080 API:
 
 Health:
 
