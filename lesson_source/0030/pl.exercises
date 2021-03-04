@@ -1,39 +1,4 @@
-1:
-    title: 1. Proste wczytywanie plików
-    task: |
-        Napisz program, który w zależności od opcji podanej przez użytkownika (1, 2 lub 3)
-        odczyta odpowiednio plik x.txt, y.txt lub z.txt (zawartość dowolna);
-        obsługa błędów powinna obejmować (co najmniej) komunikat o nieprawidłowej opcji,
-        zaś wczytywanie treści pliku powinno znaleźć się w oddzielnej funkcji (wraz z obsługą błędów)
-    possible_answer: yey
-2:
-    title: 2. NieUnikalna Lista
-    task: |
-        Napisz algorytm, który na wejście przyjmie listę zawierającą tylko stringi i integery.
-        Zwróci listą zawierającą tylko powtarzające się wartości, nie zmieniając ich kolejności.
-        Przykład: [1, 2, 3, 1, 3] 1 i 3 nie są unikalne, więc wynikiem będzie [1, 3, 1, 3].
-    possible_answer: yey
-3:
-    title: 3. Cezar.com
-    task: |
-        Napisz aplikację - na podstawie podanego szablonu - która po podaniu tekstu i liczby zwróci tekst "przesunięty w prawo"
-        (uwaga: ograniczamy się do małych liter alfabetu łacińskiego) o liczbę podaną przez użytkownika (np. abcd -> bcde, zdcb -> aedc)
-        Przydatne funkcje: chr, ord
-        Przydatny operator: % (modulo)
-        Przydatna informacja: alfabet łaciński ma 26 liter
-    possible_answer: yey
-4:
-    title: 4. pińćdźiśiąt groży
-    task: |
-        Napisz prosty konwerter walut, który na wejściu przyjmie stringa składającego się z:
-        kwoty, waluty wejściowej, słówka kluczowego "to" i kwoty wyjściowej.
-        Użyj następujących kursów: 1 PLN to 1000 USD, 1 PLN to 4505 EURO, 1 PLN to 100 JPY
-        Załóż, że konwersje są wykonywane tylko z lub do PLNów.
-        Dla zaawansowanych: przeliczaj wszystkie waluty między sobą (PLN, USD, EURO, JPY)
-        Przykład:
-        input: "2 PLN to USD" output: "2000 USD"
-        input "15 USD to PLN" output: "0.015 PLN"
-    possible_answer: yey
+
 5:
     title: 5a. Wczytywacz heheszek
     task: |

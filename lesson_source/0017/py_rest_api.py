@@ -1,12 +1,14 @@
-import json
 import hashlib
+import json
 import os
-from os.path import isfile
 from os.path import abspath
 from os.path import dirname
+from os.path import isfile
 from os.path import join
 from random import randint
 
+from helpers import countries
+from helpers.hiden_msg import create_hiden_string
 from sanic import Sanic
 from sanic import response
 
@@ -34,6 +36,32 @@ def status(request):
     :return:
     """
     return response.json({'health': health})
+
+
+@app.route("/hidden_message", methods=['GET'])
+def status(request):
+    """
+    /health
+    GET
+    proper response:
+        200: {'health': "OK"}
+    :param request:
+    :return:
+    """
+    return response.json({'msg': create_hiden_string()})
+
+
+@app.route("/countries", methods=['GET'])
+def status(request):
+    """
+    /health
+    GET
+    proper response:
+        200: {'health': "OK"}
+    :param request:
+    :return:
+    """
+    return response.json(countries.countries)
 
 
 @app.route("/status/set", methods=['POST'])
@@ -263,6 +291,7 @@ async def get_requests_tar(request):
     :return:
     """
     return await response.file(os.path.abspath("files/requests-2.18.4.tar.gz"))
+
 
 dir_name = dirname(abspath(__file__))
 app.static('/', join(dir_name, 'static/index.html'))

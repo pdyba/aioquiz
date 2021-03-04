@@ -30,42 +30,6 @@
         "Illegal letters in text"
     possible_answer: yey
 
-4:
-    title: Cenzura cyfr
-    task: |
-        Napisz funkcję, która zamieni wszystkie cyfry na "#" w tekście (stringu)
-        >>> cenzura_cyfr("password12345")
-        "password#####"
-        >>> cenzura_cyfr("a1a ma k0ta")
-        "a#a ma k#ta"
-    possible_answer: yey
-
-5:
-    title: Kraje Ameryki Północnej
-    task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje w Ameryce Północnej. (Northern America).
-    possible_answer: yey
-6:
-    title: Kraje nie Afrykanskie
-    task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje niebędące w Afryce (Africa).
-    possible_answer: yey
-7:
-    title: Wiele walut
-    task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje, które mają więcej niż jedną walutę (currency) oraz wypisz te waluty.
-    possible_answer: yey
-
-8:
-    title: Stolice na W
-    task: Korzystając w ze ściągniętego pliku z bazą krajów. Wyświetl wszystkie kraje i ich stolice, jeśli stolica zaczyna się od litery W.
-    possible_answer: yey
-9:
-    title: Najwieksza powierzchnia
-    task: Korzystając w ze ściągniętego pliku z bazą krajów. Znajdź kraj o największej powierzchni i wyświetl jego nazwę i powierzchnię.
-    possible_answer: yey
-
-10:
-    title: Najwiecej sasiadow
-    task: Korzystając w ze ściągniętego pliku z bazą krajów. Znajdź kraj, który graniczy z największą ilością innych krajów (borders) i wyświetl jego nazwę oraz ilość granic
-    possible_answer: yey
 11:
     title: Odwazniki
     task: |
@@ -105,3 +69,11 @@
         uwzględnij dodatkowo wielkie litery
     possible_answer: yey
 
+6:
+    title: Stwórz aplikację, która służy do nauki japońskich słówek.
+    task: Napisz prostą aplikację, która pozwoli Ci uczyć się podstawowych słówek w języku japońskim. Skorzystaj z pliku jap\_dict.txt, Twoim zadaniem jest a) skopiowanie i wklejenie tekstu lub użycie funkcji open(nazwa_pliku), by pozyskać dane b) zamiana stringa na strukturę danych c) zadanie pytania o przetłumaczenie słowa lub wyrażenia z angielskiego na japońskie d) sprawdzenie, czy tłumaczenie wykonano prawidłowo, a jeśli tak, niechaj program nie zadaje już tego samego zadania e) informacja, ile słówek odgadywano i ile pozostało do odgadnięciaf) pogratulowanie na końcu, opcjonalnie  g) pokazanie różnicy w pisowni
+    possible_answer: yey
+7:
+    title: Wisielec
+    task: Stwórz w Pythonie grę Wisielec. Użytkownik powinien widzieć postęp gry, udostępniliśmy plik z obrazkami wisielca - hangman.py. Pamiętaj, że jeśli słowo ma więcej niż jedną taką samą literę, program musi pokazać je wszystkie, na przykład "mama" jest dobrym słowem testowym.
+    possible_answer: yey

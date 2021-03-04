@@ -1,0 +1,81 @@
+0:
+    title: Odkoduj ukrytą wiadomość
+    task: Pobierz wiadomość zaśmieciną z http://34.243.20.71:8080/hidden_message i spróbuj odkodować ukrytą wiadomość łącząc wszystkie litery w tekście. Opcja a) skopiuj i wklej tekst i uruchom swój skrypt. Opcja b) użyj funkcji open(nazwa_pliku)
+    possible_answer: yey
+1:
+    title: 1. Proste wczytywanie plików
+    task: |
+        Napisz program, który w zależności od opcji podanej przez użytkownika (1, 2 lub 3)
+        odczyta odpowiednio plik x.txt, y.txt lub z.txt (zawartość dowolna);
+        obsługa błędów powinna obejmować (co najmniej) komunikat o nieprawidłowej opcji,
+        zaś wczytywanie treści pliku powinno znaleźć się w oddzielnej funkcji (wraz z obsługą błędów)
+    possible_answer: yey
+2:
+    title: 2. NieUnikalna Lista
+    task: |
+        Napisz algorytm, który na wejście przyjmie listę zawierającą tylko stringi i integery.
+        Zwróci listą zawierającą tylko powtarzające się wartości, nie zmieniając ich kolejności.
+        Przykład: [1, 2, 3, 1, 3] 1 i 3 nie są unikalne, więc wynikiem będzie [1, 3, 1, 3].
+    possible_answer: yey
+3:
+    title: 3. Cezar.com
+    task: |
+        Napisz aplikację - na podstawie podanego szablonu - która po podaniu tekstu i liczby zwróci tekst "przesunięty w prawo"
+        (uwaga: ograniczamy się do małych liter alfabetu łacińskiego) o liczbę podaną przez użytkownika (np. abcd -> bcde, zdcb -> aedc)
+        Przydatne funkcje: chr, ord
+        Przydatny operator: % (modulo)
+        Przydatna informacja: alfabet łaciński ma 26 liter
+    possible_answer: yey
+4:
+    title: 4. pińćdźiśiąt groży
+    task: |
+        Napisz prosty konwerter walut, który na wejściu przyjmie stringa składającego się z:
+        kwoty, waluty wejściowej, słówka kluczowego "to" i kwoty wyjściowej.
+        Użyj następujących kursów: 1 PLN to 1000 USD, 1 PLN to 4505 EURO, 1 PLN to 100 JPY
+        Załóż, że konwersje są wykonywane tylko z lub do PLNów.
+        Dla zaawansowanych: przeliczaj wszystkie waluty między sobą (PLN, USD, EURO, JPY)
+        Przykład:
+        input: "2 PLN to USD" output: "2000 USD"
+        input "15 USD to PLN" output: "0.015 PLN"
+    possible_answer: yey
+5:
+    title: Gra "Odgadnij liczbę"
+    task: Napisz prostą grę przeciwko komputerowi, która pozwoli Ci odgadnąć liczbę od a) 1 do 100 w 5 krokach b) 1 to 1000 w 7 krokach c) Użtkownik może wybrać opcję a lub b na początku gry. Po zakończeniu gry niech program wyświetli informację ile gier rozegrano, ile wygrano, ile przegrano.
+    possible_answer: yey
+
+6:
+    title: Cenzura cyfr
+    task: |
+        Napisz funkcję, która zamieni wszystkie cyfry na "#" w tekście (stringu)
+        >>> cenzura_cyfr("password12345")
+        "password#####"
+        >>> cenzura_cyfr("a1a ma k0ta")
+        "a#a ma k#ta"
+    possible_answer: yey
+
+7:
+    title: Kraje Ameryki Północnej
+    task: Korzystając z bazy krajów dostępnej pod adesem http://34.243.20.71:8080/countries . Wyświetl wszystkie kraje w Ameryce Północnej. (Northern America).
+    possible_answer: yey
+8:
+    title: Kraje nie Afrykanskie
+    task: Korzystając z bazy krajów dostępnej pod adesem http://34.243.20.71:8080/countries . Wyświetl wszystkie kraje niebędące w Afryce (Africa).
+    possible_answer: yey
+9:
+    title: Wiele walut
+    task: Korzystając z bazy krajów dostępnej pod adesem http://34.243.20.71:8080/countries . Wyświetl wszystkie kraje, które mają więcej niż jedną walutę (currency) oraz wypisz te waluty.
+    possible_answer: yey
+
+10:
+    title: Stolice na W
+    task: Korzystając z bazy krajów dostępnej pod adesem http://34.243.20.71:8080/countries . Wyświetl wszystkie kraje i ich stolice, jeśli stolica zaczyna się od litery W.
+    possible_answer: yey
+11:
+    title: Najwieksza powierzchnia
+    task: Korzystając z bazy krajów dostępnej pod adesem http://34.243.20.71:8080/countries . Znajdź kraj o największej powierzchni i wyświetl jego nazwę i powierzchnię.
+    possible_answer: yey
+
+12:
+    title: Najwiecej sasiadow
+    task: KKorzystając z bazy krajów dostępnej pod adesem http://34.243.20.71:8080/countries . Znajdź kraj, który graniczy z największą ilością innych krajów (borders) i wyświetl jego nazwę oraz ilość granic
+    possible_answer: yey
