@@ -1,5 +1,5 @@
 1:
-    title: 6.1
+    title: 1.2.1
     task: |
         Stwórz klasę Czas, której konstruktor (__init__) będzie brał trzy opcjonalne argumenty, godzine, minuty, sekundy i zapisywal je w odpowiednich zmiennych w klasie.
     possible_answer: yey
