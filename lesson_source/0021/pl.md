@@ -1,8 +1,7 @@
-1.3 Aplikacje internetowe
-=========================
+# 1.3 Aplikacje internetowe
 
-Co to jest aplikacja internetowa?
----------------------------------
+## Co to jest aplikacja internetowa?
+
 
 Aplikacja internetowa to zaawansowana strona internetowa. Większość rzeczy nazywanych stronami internetowymi jest de facto aplikacjami. Przykłady aplikacji internetowych:
 
@@ -22,8 +21,8 @@ Aplikacja internetowa:
 * Umożliwia również wprowadzanie danych przez użytkowników
 * Wymaga napisania backendu (np. w Pythonie)
 
-Komponenty aplikacji internetowej
----------------------------------
+## Komponenty aplikacji internetowej
+
 
 ### Frontend
 
@@ -45,8 +44,7 @@ Odpowiada za:
 
 Do napisania backendu można wykorzystać różne języki, m. in. Python.
 
-Jak napisać aplikację internetową?
-----------------------------------
+### Jak napisać aplikację internetową?
 
 Do napisania aplikacji internetowej potrzebujemy bibliotekę (tzw. framework). W Pythonie mamy różne opcje, m. in.:
 
@@ -58,8 +56,7 @@ Do napisania aplikacji internetowej potrzebujemy bibliotekę (tzw. framework). W
 
 My będziemy używać Flaska.
 
-Metody HTTP
------------
+## Metody HTTP
 
 Metoda to słowo określające rodzaj operacji jaką chcemy wykonać. Jego interpretacja zależy całkowicie od autora aplikacji.
 
@@ -67,9 +64,9 @@ Najważniejsze metody:
 
 * GET - domyślna metoda używana przez przeglądarki, służy do pobierania danych
 * POST - służy do zmiany danych na serwerze
+* PUT - służy do stworzenia nowych danych na serwerze
 
-Flask
------
+## Flask
 
 Strona biblioteki: [http://flask.pocoo.org/](http://flask.pocoo.org/)
 
@@ -97,8 +94,6 @@ def hello():
 
 app.run(debug=True)
 
-app.run(debug=True)
-
 ```
 
 ### Parametry
@@ -108,7 +103,6 @@ app.run(debug=True)
 def welcome(name):
     return "Welcome {}!".format(name)
 
-    return "Welcome {}!".format(name)
 
 ```
 
@@ -133,9 +127,6 @@ def read():
     return saved
 
 app.run(debug=True)
-
-app.run(debug=True)
-
 ```
 
 ### Program testowy
@@ -152,12 +143,10 @@ print(save_result.text)
 read_result = requests.get('http://localhost:5000/read')
 print(read_result.text)
 
-print(read_result.text)
 
 ```
 
-Zadania
--------
+## Zadania
 
 Uwaga - jeśli np. zadanie 3b zaczyna się od wielokropka znaczy to, że należy w zadany sposób zmodyfikować aplikację z podpunktu 3a.
 
