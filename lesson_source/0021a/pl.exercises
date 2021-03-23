@@ -1,0 +1,79 @@
+1:
+    title: Liczenie słów
+    task: |
+        Napisz funkcję, która policzy słowa w tekście. Każde słowo jest oddzielone spacją. Przykład działania
+        >>> policz_slowa("Ala ma kota")
+        3
+        >>> policz_slowa("Pies psu niedzwiedziem, bo tak")
+        5
+    possible_answer: yey
+
+2:
+    title: Liczenie samogłosek
+    task: |
+        Napisz funkcję, która policzy wszystkie samogłoski w tekście. Przykład działania
+        >>> policz_samogloski("Ala ma kota")
+        5
+        >>> policz_samogloski("Pies psu niedzwiedziem")
+        9
+    possible_answer: yey
+
+3:
+    title: xoxo
+    task: |
+        Napisz funkcję, która sprawdzi, czy liczba znaków "x" i "o" w stringu jest taka sama i zwróci True/False. Jeśli string zawiera coś innego niż "x" lub "o", to wypisze błąd.
+        >>> xo_checker("xoxoxoxoxoxo")
+        True
+        >>> xo_checker("xxxoooxxxxxxxo")
+        False
+        >>> xo_checker("xpd")
+        "Illegal letters in text"
+    possible_answer: yey
+
+11:
+    title: Odwazniki
+    task: |
+        Napisz funkcję, która znajdzie liczbę odważników o wadze A aby zrównoważyć szale wagi z odważnikami o wadze B. Przykład działania:
+        >>> odwazniki(2, 8)
+        4, 1
+        >>> odwazniki(4, 6)
+        3, 2
+    possible_answer: yey
+
+12:
+    title: Droga w ruchu przyspieszonym
+    task: |
+        Napisz funkcję, która policzy drogę pokonaną przez samochód w czasie t i przyspieszeniu a z opcjonalną prędkością początkową, domyślnie równą 0.
+        >>> droga(5, 5)
+        62.5
+        >>> droga(10, 10, vs=100)
+        1500
+    possible_answer: yey
+
+13:
+    title: Szyfr cezara
+    task: |
+        Wykorzystując dwie nowe wbudowane
+        char() 		ord()
+        >>> ord("a")
+        97
+        >>> chr(98)
+        "b"
+        funkcje zaimplementuj szyfr cezara, który jako drugi parametr będzie brał przesunięcie.
+        Przykłady szyfr cezaraz o parametrze 3 podmieni każd literka alfabetu na trzecią z kolei np A na D a Z na C.
+        >>> cezar("abc", 2)
+        "cde"
+        >>> cezar("abc", -2)
+        "yza"
+        Pamiętaj żeby znaki inne niż litery nie zmieniać.
+        uwzględnij dodatkowo wielkie litery
+    possible_answer: yey
+
+6:
+    title: Stwórz aplikację, która służy do nauki japońskich słówek.
+    task: Napisz prostą aplikację, która pozwoli Ci uczyć się podstawowych słówek w języku japońskim. Skorzystaj z pliku jap\_dict.txt, Twoim zadaniem jest a) skopiowanie i wklejenie tekstu lub użycie funkcji open(nazwa_pliku), by pozyskać dane b) zamiana stringa na strukturę danych c) zadanie pytania o przetłumaczenie słowa lub wyrażenia z angielskiego na japońskie d) sprawdzenie, czy tłumaczenie wykonano prawidłowo, a jeśli tak, niechaj program nie zadaje już tego samego zadania e) informacja, ile słówek odgadywano i ile pozostało do odgadnięciaf) pogratulowanie na końcu, opcjonalnie  g) pokazanie różnicy w pisowni
+    possible_answer: yey
+7:
+    title: Wisielec
+    task: Stwórz w Pythonie grę Wisielec. Użytkownik powinien widzieć postęp gry, udostępniliśmy plik z obrazkami wisielca - hangman.py. Pamiętaj, że jeśli słowo ma więcej niż jedną taką samą literę, program musi pokazać je wszystkie, na przykład "mama" jest dobrym słowem testowym.
+    possible_answer: yey

@@ -1,349 +1,170 @@
-PyLove 1.0 Powtórka
-=====================
+1.3 Aplikacje internetowe
+=========================
 
-CRUD
-----
+Co to jest aplikacja internetowa?
+---------------------------------
 
-* C – Create - Stwórz
-* R – Read - Odczytaj
-* U – Update - Zmodyfikuj
-* D – Delete - Usuń
+Aplikacja internetowa to zaawansowana strona internetowa. Większość rzeczy nazywanych stronami internetowymi jest de facto aplikacjami. Przykłady aplikacji internetowych:
 
-Typy liczbowe
--------------
+* YouTube
+* Facebook
+* Allegro
 
-```python
-# int:
-1 2 123123
+### Różnice między stroną a aplikacją
 
-# float:
-1.23     3.22   3.0   123.12311
+Strona internetowa:
 
-1.23     3.22   3.0   123.12311
+* Wyświetla informacje wprowadzone przez autora strony
+* Nie wymaga backendu, tylko pliki HTML, CSS, ew. JavaScript
 
-```
+Aplikacja internetowa:
 
-Na liczbach możemy wykonywać znane nam operacje matematyczne:
-+ - * / ** // %
-Np. 
+* Umożliwia również wprowadzanie danych przez użytkowników
+* Wymaga napisania backendu (np. w Pythonie)
 
-```python
-23 + 7 // 2 * 5 % 3
-(2 + 2) * 2 ** 2 + (3 -1) * 2
+Komponenty aplikacji internetowej
+---------------------------------
 
-(2 + 2) * 2 ** 2 + (3 -1) * 2
+### Frontend
 
-```
+Interfejs wyświetlany w przeglądarce. Języki używane do tworzenia frontendu to:
 
-Typ tekstowy
-------------
+* HTML – struktura i zawartość strony
+* CSS – wygląd strony
+* JavaScript – zachowanie strony
 
-	```python
-'Ala ma kota'
-'Ala ma kota'
-```
+### Backend
 
-	'Kot ma ale'
-	'''Nie Kot	Ma
-	Nie Ale'''
+Odpowiada za:
 
-Można z nimi robić wiele rzeczy!
+* Przetwarzanie zapytań z frontendu
+* Zadania wymagające dużej mocy obliczeniowej
+* Kontakt z bazą danych
+* Uwierzytelnianie, autoryzację
+* Generowanie i wypełnianie frontendu (zależnie od architektury)
 
-```python
-'Ala' + 'Ma' + 'kota'
-'{} ma {}'.format('Pies', 'wilka')
+Do napisania backendu można wykorzystać różne języki, m. in. Python.
 
-'{} ma {}'.format('Pies', 'wilka')
+Jak napisać aplikację internetową?
+----------------------------------
 
-```
+Do napisania aplikacji internetowej potrzebujemy bibliotekę (tzw. framework). W Pythonie mamy różne opcje, m. in.:
 
-zmienna
--------
+* Django
+* Flask
+* CherryPy
+* Falcon
+* Sanic
 
-C:
+My będziemy używać Flaska.
 
-```python
-dane = 'kot'
-dane = 'kot'
-```
-
-R:
-
-```python
-dane
-dane
-```
-
-U:
-
-```python
-dane = 'pies'
-dane = 'pies'
-```
-
-D: nie ma potrzeby Python zrobi to za nas.
-
-```python
-moja_lista = ['x', 'y', 'ciecz']
-moj_string = 'PyLove'
-moja_liczba = 1.23
-
-moja_liczba = 1.23
-
-```
-
-lista
------
-
-Przykłady:
-
-```python
-```
-
-	['piotr', 20, 185]
-	[1, 3, 6]
-C:
-
-```python
-moja_lista = [['magda', 22], ['zosia', 23]]
-moja_lista = [['magda', 22], ['zosia', 23]]
-```
-
-R:
-
-```python
-moja_lista[0]
-moja_lista[0][1]
-
-moja_lista[0][1]
-
-```
-
-U:
-
-```python
-moja_lista[1] = ['cecylia', 55]
-moja_lista[1][0] = 'weronika'
-moja_lista[1][0] = 'weronika'
-```
-
-D:
-
-```python
-moja_lista.pop()
-moja_lista[0].remove('magda')
-
-moja_lista[0].remove('magda')
-
-```
-
-slice - kawałek
----------------
-
-```python
-moja_torebka = ['szminka', 'pomadka', 'portfel', 'okulary']
-moj_string = 'PyLove'
-moja_torebka[0:2]
-moja_torebka[::2]
-moj_string[2:4]
-moj_string[::3]
-
-moj_string[::3]
-
-```
-
-slownik
--------
-
-Przykłady:
-
-```python
-```
-
-	{'klucz': 'wartosc', 'klucz_2': 'wartosc'}
-	{1: 'jeden', 2: 'dwa', 3: 'trzy'}
-
-C:
-
-```python
-moj_slownik = {'imie': 'piotr', 'wiek': 99}
-moj_slownik = {'imie': 'piotr', 'wiek': 99}
-```
-
-	moj_slownik['plec'] = 'M'
-R:
-
-```python
-moj_slownik['imie']	moj_slownik.get('imie')
-moj_slownik['imie']	moj_slownik.get('imie')
-```
-
-	moj_slownik['wiek']
-U:
-
-```python
-moj_slownik['imie'] = 'cecylia'
-moj_slownik['imie'] = 'cecylia'
-```
-
-	moj_slownik['wiek'] = 22
-
-D:
-
-```python
-del moj_slownik['wiek']
-
-del moj_slownik['wiek']
-
-```
-
-funkcje wbudowane
------------------
-
-Ogólne:
-
-	```python
-print()
-input()
-abs()
-len()
-round()
-
-round()
-
-```
-
-Pomocnicze:
-
-```python
-type()
-dir()
-help()
-
-help()
-
-```
-
-Funkcje do zmiany typu:
-
-```python
-```
-
-	str()
-	int()
-	float()
-	list()
-
-Przykłady:
-
-```python
-str(int(float('123123.123123')))
-list('ala ma kota')
-
-list('ala ma kota')
-
-```
-
-typ bool i if
--------------
-
-Bool może przyjąć jedną z dwóch wartości:
-* True 
-* False
-
-Składnia funkcji warunkej if:
-
-```python
-if 3 > 5:	
-    print('alternatywna matematyka')
-elif 3 == 5:
-    print('chyba zmienilismy wszechswiat')
-elif 1 <= 0 or 1 >= 5 and True:
-    print('ehhh...')
-else:
-    print('wszystko jest ok')
-
-    print('wszystko jest ok')
-
-```
-
-pętla for
----------
-
-```python
-for letter in in 'Ala ma Kota':
-    print(letter)
-
-moja_lista = ['x', 'y', 'ciecz']
-for rzecz in moja_lista:
-    print(rzecz)
-
-# petla o okreslonej liczbie wykonań
-for i in range(10)
-    print(i)
-
-    print(i)
-
-```
-
-pętla while
+Metody HTTP
 -----------
 
-```python
-czy_zakonczyc_program = False
-while not czy_zakonczyc_program:
-    odp = input('czy zakonczyc program T/N')
-    if odp == 'T':
-        czy_zakonczyc_program = True
+Metoda to słowo określające rodzaj operacji jaką chcemy wykonać. Jego interpretacja zależy całkowicie od autora aplikacji.
 
-        czy_zakonczyc_program = True
+Najważniejsze metody:
 
-```
+* GET - domyślna metoda używana przez przeglądarki, służy do pobierania danych
+* POST - służy do zmiany danych na serwerze
 
-funkcje - def
--------------
+Flask
+-----
 
-```python
-def moja_funkcja():
-    print('To jest moja funkcja')
+Strona biblioteki: [http://flask.pocoo.org/](http://flask.pocoo.org/)
 
-moja_funkcja()
-moja_funkcja()
+Tutorial: [http://flask.pocoo.org/docs/0.12/quickstart/](http://flask.pocoo.org/docs/0.12/quickstart/)
 
-def moje_dodawanie(a, b):
-    c = a + b
-    print('Twoim wynikiem jest liczba: ' + str(c))
+Instalacja:
 
-moje_dodawanie(2, 3)
+```bash
+pip install Flask
 
-def moje_potegowanie(a, b=2):
-    c = a ** b
-    print('Liczba' + str(a) + ' do ' + str(b) +' jest liczba: ' + str(c))
-
-moje_potegowanie(2)
-moje_potegowanie(2, b=10)
-
-moje_potegowanie(2, b=10)
+pip install Flask
 
 ```
 
-łapanie wyjatkow - try/except
------------------------------
+### Aplikacja startowa
 
 ```python
-def test_try(alist):
-    try:
-        return alist[1]
-    except IndexError:
-        print('Obiekt nie ma tylu elementow')
+from flask import Flask
 
-        print('Obiekt nie ma tylu elementow')
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+app.run(debug=True)
+
+app.run(debug=True)
 
 ```
 
-Przygotowanie do zadań
-----------------------
+### Parametry
 
-Pobierz plik zawierający bazę krajów z:
-[http://dyba.it/countries.py](http://dyba.it/countries.py)
+```python
+@app.route("/hello/<name>")
+def welcome(name):
+    return "Welcome {}!".format(name)
 
+    return "Welcome {}!".format(name)
+
+```
+
+### Metoda POST
+
+```python
+from flask import Flask, request
+
+app = Flask(__name__)
+
+saved = "Data"
+
+@app.route("/save", methods=["POST"])
+def save():
+    global saved
+    data = request.get_json()
+    saved = data["value"]
+    return "Saved {}".format(data["value"])
+
+@app.route("/read", methods=["GET"])
+def read():
+    return saved
+
+app.run(debug=True)
+
+app.run(debug=True)
+
+```
+
+### Program testowy
+
+```python
+import requests
+
+save_result = requests.post(
+    'http://localhost:5000/save',
+    json={'value': 'witam'}
+)
+print(save_result.text)
+
+read_result = requests.get('http://localhost:5000/read')
+print(read_result.text)
+
+print(read_result.text)
+
+```
+
+Zadania
+-------
+
+Uwaga - jeśli np. zadanie 3b zaczyna się od wielokropka znaczy to, że należy w zadany sposób zmodyfikować aplikację z podpunktu 3a.
+
+### Podpowiedzi do zadań
+
+Najpierw spróbujcie znaleźć rozwiązanie sami ;)
+
+* 1b - [http://flask.pocoo.org/docs/0.12/quickstart/#variable-rules](http://flask.pocoo.org/docs/0.12/quickstart/#variable-rules)
+* 3c - [https://docs.python.org/3.6/library/uuid.html](https://docs.python.org/3.6/library/uuid.html)
+* 6 - [http://flask.pocoo.org/docs/0.12/quickstart/#redirects-and-errors](http://flask.pocoo.org/docs/0.12/quickstart/#redirects-and-errors)
