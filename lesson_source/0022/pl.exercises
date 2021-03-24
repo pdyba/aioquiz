@@ -1,0 +1,68 @@
+1:
+    title: 1.6.1a
+    task: |
+        Stwórz nowy katalog dla projektu i przypisz mu Pythona z wersją 3.8.7 za pomocą Pyenva.
+    possible_answer: yey
+2:
+    title: 1.6.1b
+    task: |
+        Stwórz virtualenv w katalogu swojego projektu. Dodaj plik z następującymi zależnościami: requests, ipython, ipdb, pytest, flake8, pytest-flake8. Zainstaluj zależności z pliku.
+    possible_answer: yey
+3:
+    title: 1.6.1c
+    task: |
+        Przemigruj virtualenva do Poetry razem z zależnościami.
+    possible_answer: yey
+4:
+    title: 1.6.1d
+    task: |
+        Dodaj konfigurację dla flake8 w projekcie tak aby pytest mógł wykonywać flake8 i jego reguły.
+        Reguły:
+         - maksymalna długość linii: 120
+         - ignorowanie folderów: .venv, .git
+    possible_answer: yey
+5:
+    title: 1.6.1e
+    task: |
+        Skopiuj poniższy kod do pliku w katalogu z projektem i spraw, by flake8 nie zwracał żadnego błędu po przeskanowaniu go:
+        import requests
+
+        import logging
+
+        def get_service(company):
+            try:
+                print(f"{company.capitalize()} has service: {services()[company]}")
+            except:
+                logging.error("Service not found!")
+
+        def services():
+            return {
+                 "My company": "nginx",
+                "Your company": "apache",
+                "His company": "caddy"
+            }
+
+        if __name__ == "__main__":
+            get_service("My company")
+            get_service("foo bar")
+    possible_answer: yey
+6:
+    title: 1.6.1.f
+    task: |
+        Wykonaj kod w virtualenvie i spraw, by debugger uruchomił się w momencie wystąpienia wyjątku. Wyświetl stack trace i wartość zmiennej "company".
+    possible_answer: yey
+7:
+    title: 1.6.1g
+    task: |
+        Wykonaj kod wewnątrz virtualenva i zatrzymaj się przed miejscem, w którym występuje wyjątek. Zmień wartość "company" tak, aby kod się wykonał bez błędu i wznów działanie programu.
+    possible_answer: yey
+8:
+    title: 1.6.1h
+    task: |
+        Usuń z zależności i odinstaluj bibliotekę requests z projektu.
+    possible_answer: yey
+9:
+    title: 1.6.1i
+    task: |
+        Ustaw globalnie, aby folder virtualenva dla Poetry tworzył się w głównym katalogu projektu. Zainstaluj ponownie zależności.
+    possible_answer: yey
