@@ -24,30 +24,10 @@
 5:
     title: 1.6.1e
     task: |
-        Skopiuj poniższy kod do pliku w katalogu z projektem i spraw, by flake8 nie zwracał żadnego błędu po przeskanowaniu go:
-        import requests
-
-        import logging
-
-        def get_service(company):
-            try:
-                print(f"{company.capitalize()} has service: {services()[company]}")
-            except:
-                logging.error("Service not found!")
-
-        def services():
-            return {
-                 "My company": "nginx",
-                "Your company": "apache",
-                "His company": "caddy"
-            }
-
-        if __name__ == "__main__":
-            get_service("My company")
-            get_service("foo bar")
+        Skopiuj kod znajdujący się na końcu lekcji do pliku w katalogu z projektem i spraw, by flake8 nie zwracał żadnego błędu po przeskanowaniu go:
     possible_answer: yey
 6:
-    title: 1.6.1.f
+    title: 1.6.1f
     task: |
         Wykonaj kod w virtualenvie i spraw, by debugger uruchomił się w momencie wystąpienia wyjątku. Wyświetl stack trace i wartość zmiennej "company".
     possible_answer: yey
