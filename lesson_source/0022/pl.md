@@ -42,12 +42,12 @@ virtualenv venv
 
 #### Wejście do virtualenva
 ```
-source bin/activate
+source venv/bin/activate
 ```
 
 #### Wyjście z virtualenva
 ```
-exit lub Ctrl + D
+deactivate
 ```
 
 #### Instalacja zależności z pliku
@@ -90,6 +90,12 @@ lub
 poetry add -D <nazwa_paczki>
 ```
 dla zależności deweloperskich (np. pytest)
+
+#### Usunięcie zależności
+```
+poetry remove <nazwa_paczki>
+```
+i analogicznie z flagą `-D` dla zależności deweloperskich.
 
 #### Uruchomienie komendy wewnątrz virtualenva
 Pozwala nam wykonać komendę w virtualenvie bez potrzeby wchodzenia do niego.
@@ -203,3 +209,27 @@ Najważniejsze komendy debuggera:
 * `a` - wyświetla wartości argumentów dla aktualnej funkcji
 * `r` - kontynuuje wykonywanie funkcji aż do zwrócenia `return`
 * `w` - wyświetla stack trace
+
+## Przykładowy kod do zadań
+```python
+import requests
+
+import logging
+
+def get_service(company):
+    try:
+        print(f"{company.capitalize()} has service: {services()[company]}")
+    except:
+        logging.error("Service not found!")
+
+def services():
+    return {
+         "My company": "nginx",
+        "Your company": "apache",
+        "His company": "caddy"
+    }
+
+if __name__ == "__main__":
+    get_service("My company")
+    get_service("foo bar")
+```
