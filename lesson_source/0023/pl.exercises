@@ -1,0 +1,40 @@
+1:
+    title: 1.7.1a
+    task: |
+        Utwórz tabelę w DynamoDB o nazwie "Uczestnicy" z kluczem partycji "email". Ustaw tryb odczytu/zapisu tak aby sam dostosowywał się do wysokich skoków zapytań.
+    possible_answer: yey
+2:
+    title: 1.7.1b
+    task: |
+        Dodaj 3 rekordy, które będą dodatkowo zawierały pola "wiek" (number) i "imię" (string). Wartości pól mogą być dowolne ale zgodne z rodzajem pola.
+    possible_answer: yey
+3:
+    title: 1.7.1c
+    task: |
+        Utwórz indeks, dzięki któremu będzie można sortować rekordy po wieku.
+    possible_answer: yey
+4:
+    title: 1.7.1d
+    task: |
+        Napisz skrypt w Pythonie, którym wyciągniesz i wyświetlisz jeden z rekordów z bazy. Użyj biblioteki boto3.
+    possible_answer: yey
+5:
+    title: 1.7.1e
+    task: |
+        Napisz skrypt w Pythonie, którym zaktualizujesz i wyświetlisz jeden z rekordów z bazy. Użyj biblioteki boto3.
+    possible_answer: yey
+6:
+    title: 1.7.1f
+    task: |
+        Napisz skrypt w Pythonie, którym usuniesz jeden z rekordów z bazy. Użyj biblioteki boto3.
+    possible_answer: yey
+7:
+    title: 1.7.2
+    task: |
+         Napisz skrypt, którym utworzysz bucket w regionie "eu-west-1". Wgraj do niego plik tekstowy z dowolną zawartością. Następnie pobierz ten plik i wyświetl zawartość. Wszystkie czynności zrób z pomocą boto3.
+    possible_answer: yey
+8:
+    title: 1.7.3
+    task: |
+        Napisz skrypt, w którym dodajesz parametr "string" z dowolną zawartością w regionie "eu-west-1" do Parameter Store. Pobierz ten parametr, wyświetl go i usuń z Parameter Store.
+    possible_answer: yey
