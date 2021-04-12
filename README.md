@@ -14,7 +14,7 @@ It is written in Python using asynchronous framework Sanic, PostgresSQL and Angu
 ## install and bootstrap PostgresSQL
 
 
-* `apt-get update <br>`
+* `apt-get update`
 * `sudo apt-get install postgresql postgresql-contrib`
 * `sudo adduser aioquiz`
 * `sudo -u postgres createuser --interactive`
