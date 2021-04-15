@@ -1,30 +1,30 @@
 1:
-    title: 1.5.1
+    title: 1.6.1
     task: |
         Utwórz program który przyjmie jako argument tekst i zwróci ten tekst zakodowany w base64
     possible_answer: yey
 2:
-    title: 1.5.2
+    title: 1.6.2
     task: |
         Zmodyfikuj program aby przyjmował opcje `--decode` lub '-d' i dekodował tekst z argumentu
     possible_answer: yey
 3:
-    title: 1.5.3
+    title: 1.6.3
     task: |
         Zmodyfikuj program tak aby zamiast opcji używał komend np. `main.py encode STRING` oraz `main.py decode STRING`
     possible_answer: yey
 4:
-    title: 1.5.4
+    title: 1.6.4
     task: |
         Dodaj do powyższego programu opcje która pozwoli wybrać czy tekst ma zostać zakodowany/zdekodowany za pomocą base64 lub base32. Np. `main.py encode TEKST_DO_ZAKODOWANIA --method base32`
     possible_answer: yey
 5:
-    title: 1.5.5
+    title: 1.6.5
     task: |
         Zmodyfikuj program tak aby aby zamiast tekstu przyjmował jako argumenty dwa pliki, wejściowy i wyjściowy i aby enkodował/dekodował dane z pliku wejściowego do wyjściowego
     possible_answer: yey
 6:
-    title: 1.5.6
+    title: 1.6.6
     task: |
         Dodaj do programu opcje `--version` lub `-v` która wyświetli wersje i zakończy program
     possible_answer: yey
