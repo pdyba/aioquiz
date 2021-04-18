@@ -1,0 +1,10 @@
+1:
+    title: 1.10.1
+    task: |
+        Utwórz program który będzie zapisywał dowolny plik konfiguracyjny w katalogu domowym użytkownika (pomocna może być funkcja os.path.expanduser)
+    possible_answer: yey
+2:
+    title: 1.10.2
+    task: |
+        Utwórz program który będzie odczytywał plik konfiguracyjny z użyciem funkcji `getint()`, `getfloat()` oraz `getboolean()` oraz z wykorzystaniem sekcji DEFAULT (dowolna struktura)
+    possible_answer: yey
