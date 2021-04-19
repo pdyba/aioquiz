@@ -1,0 +1,30 @@
+1:
+    title: 1.11.1
+    task: |
+        Za pomocą SQLAlchemy ORM stwórz w bazie danych tabelę "Users" zawierającą nazwę użytkownika, email, hasło oraz datę rejestracji
+    possible_answer: yey
+2:
+    title: 1.11.2
+    task: |
+        Dodaj funkcję zapisującą użytkownika w bazie danych która przed zapisaniem hashuje hasło za pomocą md5. `def create_user(username: str, email: str, password: str)`
+    possible_answer: yey
+3:
+    title: 1.11.3
+    task: |
+        Dodaj funkcję sprawdzającą czy przekazane w parametrach nazwa użytkownika i hasło są poprawne. `def auth_user(username: str, password: str)`
+    possible_answer: yey
+4:
+    title: 1.11.4
+    task: |
+        Dodaj funkcję pozwalającą zmienić nazwę użytkownika, ale tylko gdy podane hasło jest poprawne. `def update_username(old_username: str, new_username: str, password: str)`
+    possible_answer: yey
+5:
+    title: 1.11.5
+    task: |
+        Dodaj tabelę "Posts" zawierającą kolumny "title", "content", "userid" i relację z tabelą użytkowników (jeden użytkownik może mieć wiele postów)
+    possible_answer: yey
+6:
+    title: 1.11.6
+    task: |
+        Wypełnij bazę przykładowymi danymi.
+    possible_answer: yey
