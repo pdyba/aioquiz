@@ -1,0 +1,60 @@
+1:
+    title: 1
+    task: |
+        Utwórz plik html przypominający CV. Przykładowe elementy:
+        * nagłówek z imieniem i nazwiskiem,
+        * zdjęcie (dowolny obrazek),
+        * lista znanych języków, ukończonych kursów itp.,
+        * akapit opisujący zainteresowania,
+        * tabela przedstawiająca przebieg edukacji (nazwa szkoły, profil, rok rozpoczęcia, rok zakończenia).
+        Utworzony plik otwórz w przeglądarce.
+    possible_answer: yey
+2:
+    title: 2
+    task: |
+        Do domu - na podstawie dokumentacji (np. https://www.w3schools.com/html/html_lists.asp) utwórz plik html zawierający następujące elementy:
+        * listę numerowaną liczbami rzymskimi,
+        * link, który po kliknięciu otwiera się w nowej karcie przeglądarki,
+        * tabelę, w której drugi wiersz zawiera komórkę zajmującą miejsce dwóch normalnych komórek (przykład w treści lekcji).
+    possible_answer: yey
+3:
+    title: 3
+    task: |
+        Napisz program, który po wejściu na adres /hello?name=<imie> odpowie stroną HTML zawierającą nagłówek o treści "Hello <imie>"!
+    possible_answer: yey
+4:
+    title: 4
+    task: |
+        Utwórz klasę Osoba. Każda instancja tej klasy powinna posiadać trzy atrybuty – imię, nazwisko i wiek.
+        Utwórz listę kilku dowolnych osób.
+        Utwórz szablon HTML, który będzie renderował tabelę osób (imię, nazwisko i wiek powinny wyświetlać się w osobnych kolumnach).
+        Napisz program, który po wejściu na adres /osoby renderuje ten szablon.
+        Przetestuj program w przeglądarce.
+    possible_answer: yey
+5:
+    title: 5
+    task: |
+        Przykład formularza z lekcji zmodyfikuj tak, aby formularz wysyłał zapytanie POST zamiast GET (program ma nadal działać tak jak wcześniej).
+    possible_answer: yey
+6:
+    title: 6a
+    task: |
+        Utwórz formularz zawierający dwa inputy o nazwach "liczba1" i "liczba2" oraz przycisk do wysłania formularza.
+        Wysłanie formularza metodą GET powinno spowodować wyświetlenie strony zawierającej sumę liczb wprowadzonych przez użytkownika.
+    possible_answer: yey
+7:
+    title: 6b
+    task: |
+        ...jeśli użytkownik wprowadził wartość niebędącą liczbą, powinien zostać wyświetlony komunikat o błędzie.
+    possible_answer: yey
+8:
+    title: 6c
+    task: |
+        ...powyższą aplikację zmodyfikuj tak, aby formularz wysyłał się metodą POST.
+    possible_answer: yey
+9:
+    title: 7
+    task: |
+        Napisz aplikację, która wyświetla stronę HTML zawierającą listę zespołów (zdefiniowaną w aplikacji) oraz formularz do wyszukiwania z jednym inputem.
+        Przesłanie formularza powinno spowodować wyświetlenie tylko tych zespołów, które w nazwie zawierają ciąg znaków podany przez użytkownika.
+    possible_answer: yey
