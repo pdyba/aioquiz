@@ -1,355 +1,242 @@
-1.8 HTML, szablony stron
-========================
+1.20 Wyrażenia regularne
+=======================================
 
-Frontend
---------
-
-Frontend to wszystko, co widać w przeglądarce. Języki obsługiwane przez przeglądarkę to:
-
-* HTML – struktura strony,
-* CSS – wygląd strony,
-* JavaScript – zachowanie strony,
-* Java, Flash - zabytki.
-
-HTML – elementy i znaczniki
----------------------------
-
-* Elementy tworzą strukturę dokumentu HTML,
-* Znaczniki oznaczają początek i koniec elementu,
-* Znaczniki:
-* `<p>` - znacznik otwierający,
-* `</p>` - znacznik zamykający,
-* `<p />` - znacznik oznaczający pusty element.
-* Atrybuty – umieszczone w znaczniku dodatkowe informacje o elemencie:
-* `<img src="cat_image.png">` - atrybut `src` o wartości `cat_image.jpg`,
-* `<table border>` - atrybut `border` nie posiadający wartości.
-
-### Elementy
-
-* Elementy:
-* `<p>Treść akapitu</p>` - akapit
-* `<br />` - nowa linia
-* W dokumentach HTML często spotyka się elementy bez znacznika zamykającego:
-* `<br>` - też nowa linia
-
-### Zagnieżdżanie elementów
-
-Przykład - akapit zawierający listę
-
-```html
-<p>
-  Przykładowa lista
-  <ul>
-    <li>Element 1
-    <li>Element 2
-  </ul>
-</p>
-
-</p>
-
-```
-
-### Podstawowa struktura HTML
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Tytuł strony</title>
-  </head>
-  <body>
-  
-  </body>
-</html>
-
-</html>
-
-```
-
-Element `<title>` zawiera tytuł strony wyświetlany przez przeglądarkę jako nazwa karty.<br>
-Element `<body>` ma zawierać całą właściwą treść strony - na dzisiejszych zajęciach wszystko będziemy umieszczać właśnie tam.
-
-### Podstawowe elementy
-
-* `<p>Akapit</p>`
-* `<h1>Duży nagłówek</h1>`
-* `<h2>Trochę mniejszy nagłówek</h2>`
-* ...
-* `<h6>Najmniejszy nagłówek</h6>`
-* `<br>` - nowa linia (uwaga – zwykłe entery są ignorowane przez przeglądarki!)
-* `<hr>` - pozioma linia
-
-#### Lista numerowana
-
-```html
-<ol>
-  <li>Element 1</li>
-  <li>Element 2</li>
-</ol>
-
-</ol>
-
-```
-
-#### Lista nienumerowana
-
-```html
-<ul>
-  <li>Element 1</li>
-  <li>Element 2</li>
-</ul>
-
-</ul>
-
-```
-
-#### Obrazki
-
-```html
-<img src="cat_image.jpg" width="200" height="200">
-
-<img src="cat_image.jpg" width="200" height="200">
-
-```
-
-* `src` - nazwa pliku z obrazkiem, musi być w tym samym folderze co plik strony,
-* `width`, `height` - szerokość i wysokość obrazka (opcjonalne).
-
-#### Linki
-
-```html
-<a href="https://www.python.org/">Strona Pythona</a>
-
-<a href="https://www.python.org/">Strona Pythona</a>
-
-```
-
-* `href` - adres docelowy linku. Jeśli zaczniemy go od `/` - będzie oznaczać adres w aktualnie wyświetlanej stronie
-(np. jeśli nasza strona to `www.sluchamjazzu.pl` to link o adresie `/podstrona` będzie prowadził do adresu
-`www.sluchamjazzu.pl/podstrona`).
-
-#### Tabele
-
-```html
-<table border>
-  <tr>
-    <th>Imię</th>
-    <th>Nazwisko</th>
-  </tr>
-  <tr>
-    <td>Hiromi</td>
-    <td>Uehara</td>
-  </tr>
-</table>
-
-</table>
-
-```
-
-* `<table>` - nadrzędny element oznaczający tabelę. Atrybut `border` powoduje dodanie ramki do tabeli
-* `<tr>` - wiersz tabeli
-* `<td>` - komórka tabeli
-* `<th>` - komórka nagłówkowa - od zwykłej różni się głównie pogrubioną czcionką
-
-### Pełny przykład
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Przykładowa strona</title>
-</head>
-<body>
-    <h1>To jest przykładowa strona</h1>
-    Ta strona zawiera:
-    <p>Przykładowy akapit</p>
-    <p>Oraz drugi akapit<br>z wstawioną nową linią w środek</p>
-    <ol>
-        <li>Listę</li>
-        <li>numerowaną</li>
-    </ol>
-    <a href="https://pylove.org">Link do strony PyLove</a>
-    <table border>
-        <tr>
-            <th>Oraz</th>
-            <th>Przykładową</th>
-        </tr>
-        <tr>
-            <td>Tabelkę</td>
-            <td>z kilkoma</td>
-        </tr>
-        <tr>
-            <td>wierszami</td>
-            <td></td>
-        </tr>
-    </table>
-</body>
-</html>
-
-</html>
-
-```
-
-### Przykład tabeli do zadania 2.
-
-<table border>
-<tr><th>Col 1</th><th>Col 2</th></tr>
-<tr><td colspan="2">Wide cell</td></tr>
-<tr><td>Cell 1</td><td>Cell 2</td></tr>
-</table>
-
-Renderowanie szablonów
+Wyrażenia regularne - what & why?
 ----------------------
+* ang. *regular expressions*, *regex*, *regexp*
+* Wzorce, które opisują łańcuchy symboli (ciągi znaków)
+* Używane do wyszukiwania w długim tekście, edycji długiego tekstu, walidacji (np. maili, nr telefonu)
+* Try it yourself - https://regex101.com/ - po lewej wybrać `python`!
 
-W aplikacji internetowej często będziemy chcieli utworzyć fragment pliku HTML na podstawie, na przykład, danych z bazy.
-Wtedy potrzebujemy szablonu HTML – specjalnego pliku HTML, zawierającego informacje, gdzie wkleić dane.
-Nasza aplikacja (czyli Flask) będzie renderować ten szablon, czyli uzupełniać go podanymi informacjami.
-Szablony dla Flaska tworzymy przy pomocy języka biblioteki Jinja2: [http://jinja.pocoo.org/docs/2.10/templates/](http://jinja.pocoo.org/docs/2.10/templates/)
 
-### Specjalne elementy szablonu
+Znaki specjalne i surowe ciągi znaków
+-------------------------------------
+* Większość znaków może być używana "wprost", tj. jeżeli mamy na myśli literę `a`, to piszemy `a`
+* Są jednak znaki specjalne, które muszą być poprzedzane ukośnikiem (ang. *backslash*) `\`
+    * Znaki specjalne to: `\`, `.`, `^`, `$`, `?`, `+`, `*`, `{`, `}`, `[`, `]`, `|`
+    * Zwykle jeżeli nie wstawimy ukośnika `\` przed danym znakiem, to zostanie potraktowany jako
+      fragment specjalnej składni wyrażenia regularnego (ale nie zawsze - zależy od kontekstu)
+    * Przykłady: `\\`, `\.`, `\|`
+* W Pythonie pojedynczy backslash służy do umieszczania znaków specjalnych w tekście (np. `\n`),
+  więc żeby przekazać backslash do wyrażenia regularnego trzeba zastosować podwójny backslash (`\\\\`)
+* W surowych ciągach znaków (ang. *raw strings*) nie trzeba korzystać z podwójnego backslasha
+    * W Pythonie raw strings to stringi poprzedzone literą `r`
+    * Dobrą praktyką jest definiowanie wzorców jako raw strings
 
-<code ng-non-bindable>{{ zmienna }}</code> - w tym miejscu umieść wartość zmiennej zmienna.<br>
-Wewnątrz <code ng-non-bindable>{{ }}</code> można używać wielu poleceń pythonowych, np.:
+| Zwykły ciąg znaków | Surowy ciąg znaków |
+|:------------------:|:------------------:|
+| `"zk*"`            | `r"zk*"`           |
+| `"zk\\d"`          | `r"zk\d"`          |
+| `"\\w\\s\\d"`      | `r"\w\s\d"`        |
 
-* <code ng-non-bindable>{{ liczba + 5 }}</code>
-* <code ng-non-bindable>{{ slownik['klucz'] }}</code>
 
-### if
+Klasy znaków
+------------
+* Jeżeli chcemy dopasować jeden znak z określonego zbioru, możemy skorzystac z klasy znaków
+* Jeżeli po klasie nie będzie podany kwantyfikator, dopasowany będzie dokładnie jeden znak
+* Widzimy tutaj w użyciu ukośnik `\` jako jeden ze znaków specjalnych, użyty do obsługi wzorca
 
-{% if zmienna == 1 %}
-    zmienna ma wartość 1
-{% else %}
-    zmienna ma inną wartość
-{% endif %}
+| Klasa znaków | Dopasowuje                                                    |
+|:------------:|---------------------------------------------------------------|
+| `.`         |  Dowolny znak z wyjątkiem znaku nowej linii (ang. `wildcard`) |
+| `\d`         |  Dowolna cyfra                                                |
+| `\D`         |  Dowolny znak nie będący cyfrą                                |
+| `\w`         |  Dowolny litera lub cyfra (znaki alfanumeryczne)              |
+| `\W`         |  Dowolny znak nie będący znakiem alfanumerycznym              |
+| `\s`         |  Dowolny biały znak (spacja, tab, nowa linia)                 |
+| `\S`         |  Dowolny znak nie będący białym znakiem                       |
 
-### for
+* Przykład: `\D\D\D\D\d\d` dopasuje każdą sekwencję składającą się z 4 następujących po sobie znaków
+  nie będących cyframi oraz następnie 2 następujących po sobie cyfrach, np. `abcd00`, `hehe37`
 
-{% for element in kolekcja %}
-    <p>{{ element }}</p>
-{% endfor %}
 
-Jeśli `kolekcja` jest listą `['Queen', 'Pink Floyd']`, to efektem będzie:
+Kwantyfikatory
+--------------
+* Określają liczbę powtórzeń znaków lub sekwencji we wzorcach
+* Domyślnie kwantyfikatory są **zachłanne** (ang. `greedy`) tzn. dopasowują **maksymalną** możliwą
+  liczbę znaków w tekście
 
-<p>Queen</p>
-<p>Pink Floyd</p>
+| Kwantyfikator| Dopasowuje                        |
+|:------------:|-----------------------------------|
+| `*`          | 0 lub więcej wystąpień            |
+| `+`          | 1 lub więcej wystąpień            |
+| `?`          | 0 lub 1 wystąpienie               |
+| `{m}`        | dokładnie m wystąpień             |
+| `{m,}`       | co najmniej m wystąpień           |
+| `{,n}`       | co najwyżej n wystąpień           |
+| `{m,n}`      | od m do n wystąpień               |
+| `[...]`      | jeden znak spośród zbioru znaków  |
+| `[^...]`     | jeden znak spoza zbioru znaków    |
 
-### Przykład
+Przykłady:
+* `.*` dopasuje dowolny ciąg znaków
+* `[a-z]` dopasuje dowolną małą literę
+* `[gole]+` dopasuje każdą sekwencję zawierającą litery `g`, `o`, `l`, `e`, np. `google`, `lego`
+* `[^\saAlm]+` dopasuje z tekstu `Ala ma kota` słowo `kot` - wyrażenie wyklucza (`^`) użycie spacji (`\s`), liter `a`, `A`, `l`, `m`, a to, co zostało, bierze jako całość (`+`)
 
-#### Backend
+
+Alternatywy
+-----------
+
+Czasami chemy znaleźć wystąpienie jednego z kilku predefiniowanych ciągów. Możemy do tego wykorzystać
+następującą składnię:
+
+`(opcja1|opcja2|...)`
+
+Przykładowo, żeby znaleźć wszystkie maile w domenach `@nordcloud.com` i `@google.com` możemy użyć
+następującego wyrażenia regularnego:
+
+`.+@(nordcloud|google).com`
+
+
+Asercje
+-------
+* Pomagają wyznaczyć miejsce w tekście, w którym musi pojawić się dopasowanie
+
+
+| Asercja  | Dopasowuje                                       |
+|:--------:|--------------------------------------------------|
+| `^`      | początek tekstu                                  |
+| `$`      | koniec tekstu                                    |
+| `\A`     | początek tekstu (rzadko stosowana alternatywa)   |
+| `\Z`     | koniec tekstu (rzadko stosowana alternatywa)     |
+
+* Przykład: `^witam` dopasuje `witam serdecznie`, ale nie dopasuje `serdecznie witam`
+
+
+OK, to jak to zrobić w Pythonie?
+--------------------------------
+
+* Należy zaimportować moduł `re` poprzez `import re`
+
+
+#### re.search
+Poszukuje dopasowania w podanym stringu.
+Zwróci `None` jeżeli nie odnaleziono dopasowania.
+Jeżeli odnaleziono dopasowanie, zwróci obiekt `Match` **pierwszego** dopasowania.
 
 ```python
-from flask import Flask, render_template
-
-app = Flask(__name__)
-
-@app.route("/zespoly")
-def lista_zespolow():
-    return render_template(
-        'zespoly.html',
-        naglowek='Zespoły',
-        zespoly=['Pink Floyd', 'Queen', 'Led Zeppelin'],
-        link=True
-    )
-
-app.run(debug=True)
-
-app.run(debug=True)
-
+found = re.search(r'[a-z]+@[a-z]+\.[a-z]{2,3}', 'Moj adres email to: jakis@mail.com')
 ```
 
-#### Szablon - zespoly.html
+#### re.compile
+Tworzy obiekt `Regex`, który reprezentuje dane wyrażenie regularne. Pozwala uniknąć wielokrotnej
+kompilacji tego samego wyrażenia (co miałoby miejsce np. w przypadku użycia `re.search` w pętli).
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Zespoły</title>
-</head>
-<body>
-    <h1>{{ naglowek }}</h1>
-    <ol>
-        {% for zespol in zespoly %}
-            <li>{{ zespol }}</li>
-        {% endfor %}
-    </ol>
-    {% if link %}
-        <a href="//pylove.org">PyLove</a>
-    {% endif %}
-</body>
-</html>
+```python
+simple_email_regex = re.compile(r'[a-z]+@[a-z]+\.[a-z]{2,3}')
+found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
+```
 
-### Uwagi
+#### re.findall
+Poszukuje dopasowania w podanym stringu.
+W przeciwieństwie do metody `search`, zwraca listę stringów (jeżeli w wyrażeniu regularnym nie ma grup)
+albo listę tupli.
 
-* Wcięcia, nowe linie itp. nie mają znaczenia w szablonach,
-* Szablon musi znajdować się w folderze `templates`, czyli jeśli nasza aplikacja jest w ścieżce 
-`C:\projekt\aplikacja.py`, to szablon musi być w ścieżce `C:\projekt\templates\szablon.html`
+```python
+found = re.findall(r'[a-z]+@[a-z]+\.[a-z]{2,3}', 'Moje adresy email to: jakis@mail.com, inny@email.pl')
+print(found)  # ['jakis@mail.com', 'inny@email.pl']
+```
 
-Formularze
+#### re.split
+Dzieli podany string w miejscach, gdzie znajdzie dopasowanie.
+Zwraca listę podzielonych części stringa.
+Jeżeli w wyrażeniu regularnym istnieją grupy, w liście pojawią się również dopasowania tych grup.
+
+```python
+text = 'Ciastka, dżem, herbata.'
+text_split = re.split(r'\W+', text)
+print(text_split)  # ['Ciastka', 'dżem', 'herbata', '']
+```
+
+#### re.sub
+Poszukuje dopasowań w podanym stringu i zastępuje je innym wyrażeniem.
+Można zastosować odwołanie do grup z dopasowania.
+
+```python
+text = 'Moje adresy email to: jakis@mail.com, inny@email.pl'
+text_changed = re.sub(r'[a-z]+@[a-z]+\.[a-z]{2,3}', r'***', text)
+print(text_changed)  # Moje adresy email to: ***, ***
+```
+
+Zaawansowane wyrażenia regularne
+================================
+
+Grupowanie
 ----------
+* W wyrażeniach regularnych nawiasy `(`, `)` mają wpływ na kolejność obliczeń oraz definiują tzw. grupy
+* Po dopasowaniu grupy we wzorcu można odwoływać się do niej za pomocą jej numeru, np. `\1` dla pierwszej grupy, są to tzw. odwołania wsteczne
+* Cały wzorzec tworzy grupę zerową
 
-Formularz to fragment strony umożliwiający użytkownikowi wprowadzenie informacji i wysłanie ich do serwera.
-Umożliwia wysyłanie zapytań GET i POST.
-W przypadku zapytania GET wprowadzone dane trafią do query stringa (np. `http://example.com/search?query=tekst`).
-W przypadku zapytania POST dane trafią do treści zapytania, której nie widać w adresie URL.
+| Wyrażenie            | Wyjaśnienie                                                                                                                        |
+|:--------------------:|------------------------------------------------------------------------------------------------------------------------------------|
+| `(...)`              | dopasowanie wyrażenia w nawiasie jako grupy                                                                                        |
+| `(?:...)`            | nawiasy nieprzechwytujące - po dopasowaniu nie można odwoływać się do zawartości dopasowanego wyrażenia poprzez odwołania wsteczne |
+| `(?P<ciastko>...)`   | tworzy grupę nazwaną `ciastko`                                                                                                     |
+| `(?P=ciastko)`       | dopasowuje tekst, który został dopasowany wcześniej przez grupę nazwaną `ciastko`                                                  |
 
-### Przykład formularza
+* Przykład: `(ciastka)(dżem)\1+oraz\2+` dopasuje `ciastkadżemciastkaciastkaciastkaorazdżemdżem` - pierwsze `ciastka` zostaną dopasowane i oznaczone jako grupa 1., pierwszy `dżem` zostanie dopasowany i oznaczony jako grupa 2., następnie poszukujemy wielu wystąpień grupy 1. (`\1+`), czyli `ciastka`, potem szukamy słowa `oraz`, a potem poszukujemy wielu wystąpień grupy 2. (`\2+`), czyli `dżem`
 
-```html
-<form action="/search" method="get">
-  <input type="text" name="query">
-  <button type="submit">Wyślij</button>
-</form>
+### Grupy w Pythonie
 
-</form>
-
-```
-
-* `action` oznacza ścieżkę, do której chcemy wysłać zapytanie,
-* `method` oznacza metodę (get / post),
-* `name` w elemencie `input` to nazwa parametru, do którego trafi wartość wprowadzona przez użytkownika.
-
-### Obsługa formularza w aplikacji
-
-* Dane przesłane w zapytaniu GET znajdą się w zmiennej `request.args` (ta zmienna jest słownikiem),
-* W przypadku zapytania POST dane znajdą się w zmiennej `request.form` (która również jest słownikiem).
-
-### Przykład - GET
-
-#### Backend
+#### Match.group
+Metoda obiektu `Match`, zwróci całe dopasowanie lub dopasowanie wybranej grupy.
 
 ```python
-from flask import Flask, render_template, request
+found = re.search(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moj adres email to: jakis@mail.com')
+print(found.group()) # jakis@mail.com
+print(found.group(0))  # jakis@mail.com
+print(found.group(1))  # jakis
+print(found.group(2))  # mail
+print(found.group(3))  # com
 
-app = Flask(__name__)
-
-@app.route("/search", methods=['GET'])
-def search():
-    query = request.args.get('query')
-    return render_template('formularz.html', query=query)
-
-app.run(debug=True)
-
-app.run(debug=True)
-
+# nazwana grupa
+found = re.search(r'(?P<user>[a-z]+)@([a-z]+)\.([a-z]{2,3})', 'Moj adres email to: jakis@mail.com')
+print(found.group("user")) # jakis
 ```
 
-#### Szablon - formularz.html
+#### Match.groups
+Metoda obiektu `Match`, zwróci wszystkie grupy naraz.
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Formularz</title>
-</head>
-<body>
-    {% if query %}
-        Przesłano {{ query }}
-    {% endif %}
-    <form action="/search" method="get">
-        <input type="text" name="query">
-        <button type="submit">Wyślij</button>
-    </form>
-</body>
-</html>
+```python
+simple_email_regex = re.compile(r'([a-z]+)@([a-z]+)\.([a-z]{2,3})')
+found = simple_email_regex.search('Moj adres email to: jakis@mail.com')
+print(found.groups())  # ('jakis', 'mail', 'com')
+```
+
+Kwantyfikatory w wersji niezachłannej
+-------------------------------------
+* Kwantyfikator **niezachłanny** (leniwy, ang. `nongreedy`) dopasowuje **minimalną** możliwą liczbę znaków w tekście
+* Dodanie `?` po kwantyfikatorze przekształca go w tryb niezachłanny
+* Przykład: `[nord]{2,4}` dopasowałoby całe słowo `nord`, natomiast `[nord]{2,4}?` dopasuje osobno `no` oraz `rd`
+
+
+Zaawansowane asercje
+--------------------
+
+| Asercja  | Dopasowuje                                                                                                           |
+|:--------:|----------------------------------------------------------------------------------------------------------------------|
+| `\b`     | pusty string na początku lub końcu słowa                                                                             |
+| `\B`     | pusty string, ale nie na początku lub końcu słowa                                                                    |
+| `(?=e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim następuje wyrażenie pasujące do e (ang. *positive lookahead*)         |
+| `(?!e)`  | dopasowuje łańcuch, jeśli bezpośrednio po nim nie następuje wyrażenie pasujące do e (ang. *negative lookahead*)     |
+| `(?<=e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim następuje wyrażenie pasujące do e (ang. *positive lookbehind*)     |
+| `(?<!e)` | dopasowuje łańcuch, jeśli bezpośrednio przed nim nie następuje wyrażenie pasujące do e (ang. *negative lookbehind*) |
+
+* Przykład: `(?<=pass:)\S*` z tekstu `pass:abc123` dopasuje `abc123`
+
+
+Materiały
+---------
+
+* [Regex do walidacji maili](http://www.ex-parrot.com/~pdw/Mail-RFC822-Address.html)
+* [RegexGolf](https://alf.nu/RegexGolf)
+* [RegexCrossword](https://regexcrossword.com/)
+
+
+Pliki txt do zadań
+------------------
+
+* [Zadanie 2.](./images/wikipedia_python.txt)
+* [Zadanie 4. i 5.](./images/program_pylove.txt)
+* [Zadanie 6.](./images/celebrities.txt)

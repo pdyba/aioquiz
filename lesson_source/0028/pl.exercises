@@ -1,60 +1,41 @@
 1:
-    title: 1
+    title: 1.20.1
     task: |
-        Utwórz plik html przypominający CV. Przykładowe elementy:
-        * nagłówek z imieniem i nazwiskiem,
-        * zdjęcie (dowolny obrazek),
-        * lista znanych języków, ukończonych kursów itp.,
-        * akapit opisujący zainteresowania,
-        * tabela przedstawiająca przebieg edukacji (nazwa szkoły, profil, rok rozpoczęcia, rok zakończenia).
-        Utworzony plik otwórz w przeglądarce.
+        Napisz funkcję, która sprawdzi, czy podany tekst jest poprawnym connection stringiem, np.
+        postgresql://user:password@localhost:5432/dbname
+        Wszystkie części (user, hasło, host, port, nazwa bazy) są wymagane.
     possible_answer: yey
 2:
-    title: 2
+    title: 1.20.2
     task: |
-        Do domu - na podstawie dokumentacji (np. https://www.w3schools.com/html/html_lists.asp) utwórz plik html zawierający następujące elementy:
-        * listę numerowaną liczbami rzymskimi,
-        * link, który po kliknięciu otwiera się w nowej karcie przeglądarki,
-        * tabelę, w której drugi wiersz zawiera komórkę zajmującą miejsce dwóch normalnych komórek (przykład w treści lekcji).
+        Otwórz stronę Wikipedii nt. Pythona zapisaną w pliku txt
+        (użyj encoding="utf8") i przelicz ile razy pojawiało się słowo "Python".
+        Uwaga: zwróć uwagę na małe i duże litery!
     possible_answer: yey
 3:
-    title: 3
+    title: 1.20.3
     task: |
-        Napisz program, który po wejściu na adres /hello?name=<imie> odpowie stroną HTML zawierającą nagłówek o treści "Hello <imie>"!
+        Zmień funkcję z zadania 1.20.1 tak, aby nr portu był opcjonalny, oraz aby funkcja zwracała
+        nazwę użytkownika z connection stringa.
     possible_answer: yey
 4:
-    title: 4
+    title: 1.20.4
     task: |
-        Utwórz klasę Osoba. Każda instancja tej klasy powinna posiadać trzy atrybuty – imię, nazwisko i wiek.
-        Utwórz listę kilku dowolnych osób.
-        Utwórz szablon HTML, który będzie renderował tabelę osób (imię, nazwisko i wiek powinny wyświetlać się w osobnych kolumnach).
-        Napisz program, który po wejściu na adres /osoby renderuje ten szablon.
-        Przetestuj program w przeglądarce.
+        Otwórz program warsztatów Pylove zapisany do pliku txt (użyj encoding="utf8")
+        i zwróć wszystkie występujące w nim daty warsztatów, np. 2018.04.10
     possible_answer: yey
 5:
-    title: 5
+    title: 1.20.5
     task: |
-        Przykład formularza z lekcji zmodyfikuj tak, aby formularz wysyłał zapytanie POST zamiast GET (program ma nadal działać tak jak wcześniej).
+        Korzystając z pliku z poprzedniego zadania, stwórz słownik warsztatów w formacie - przykład:
+        workshops = {22: {date: "2018.04.10", title: "Wyrażenia regularne", leading_mentor: "Roger Taylor"}.
+        "BRAK ZAJĘĆ" potraktuj jako tytuł, przypisz wtedy pusty string jako leading_mentor.
+        Numeruj lekcje wg daty (2017.10.17 to pierwsze zajęcia, 2018.06.19 to ostatnie).
     possible_answer: yey
 6:
-    title: 6a
+    title: 1.20.6
     task: |
-        Utwórz formularz zawierający dwa inputy o nazwach "liczba1" i "liczba2" oraz przycisk do wysłania formularza.
-        Wysłanie formularza metodą GET powinno spowodować wyświetlenie strony zawierającej sumę liczb wprowadzonych przez użytkownika.
-    possible_answer: yey
-7:
-    title: 6b
-    task: |
-        ...jeśli użytkownik wprowadził wartość niebędącą liczbą, powinien zostać wyświetlony komunikat o błędzie.
-    possible_answer: yey
-8:
-    title: 6c
-    task: |
-        ...powyższą aplikację zmodyfikuj tak, aby formularz wysyłał się metodą POST.
-    possible_answer: yey
-9:
-    title: 7
-    task: |
-        Napisz aplikację, która wyświetla stronę HTML zawierającą listę zespołów (zdefiniowaną w aplikacji) oraz formularz do wyszukiwania z jednym inputem.
-        Przesłanie formularza powinno spowodować wyświetlenie tylko tych zespołów, które w nazwie zawierają ciąg znaków podany przez użytkownika.
+        Otwórz przykładową listę celebrytów z pliku txt (użyj encoding="utf8")
+        i zamień pierwszą literę imienia z pierwszą literą nazwiska.
+        Przykład: Magda Gessler -> Gagda Messler
     possible_answer: yey
