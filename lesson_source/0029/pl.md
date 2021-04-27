@@ -1,94 +1,285 @@
-1.9 Aplikacje internetowe - powtórka
-====================================
+1.19 Zaawansowane konstrukty w Pythonie
+=======================================
 
-POST - Redirect - GET
----------------------
+Najpopularniejsze konstrukty danych wykorzystywane na co dzień to:
+* dict
+* list
+* tuple
+* set
 
-Poniżej znajduje się kod prostej aplikacji służącej do tworzenia listy zadań.
-Zawiera jedną stronę, która umożliwia dodanie nowego zadania i wyświetla już listę zadań już utworzonych.
+oraz równie często używane:
+* datetime
+* Counter
+* defaultdict
+* namedtuple
 
-### Szablon (templates/zadania.html)
+set
+----------------------
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista zadań</title>
-</head>
-<body>
-    <h1>Lista zadań</h1>
-    {% if zadania %}
-        <ul>
-            {% for zadanie in zadania %}
-                <li>{{ zadanie }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        Brak zadań
-    {% endif %}
+Struktura zbliżona do listy z dwoma cechami:
+* nieuporządkowana
+* unikalna (nie zawiera powtarzających się elementów)
 
-    <br><br>
-    <form method="post">
-        Nowe zadanie
-        <input type="text" name="zadanie">
-        <button type="submit">Dodaj</button>
-    </form>
-</body>
-</html>
 
-</html>
-
-```
-
-### Backend
+#### Create
 
 ```python
-from flask import Flask, request, render_template
+jakis_tam_set = set()
+jakis_tam_set = {'a', 'b', 'c'}
 
-app = Flask(__name__)
-
-zadania = []
-
-@app.route("/zadania", methods=['GET', 'POST'])
-def lista_zespolow():
-    if request.method == 'POST':
-        zadania.append(request.form['zadanie'])
-
-    return render_template('zadania.html', zadania=zadania)
-
-app.run(debug=True)
-
-app.run(debug=True)
+jakis_tam_set = {'a', 'b', 'c'}
 
 ```
 
-Powyższa aplikacja ma pewnien problem - jeśi użytkownik doda nowe zadanie, a następnie odświeży stronę,
-zobaczy komunikat z pytaniem typu "Czy na pewno chcesz ponownie przesłać formularz?".
-Jeśli użytkownik odpowie "Tak", przeglądarka wykona ponownie zapytanie POST w wyniku którego otrzymała od serwera listę zadań,
-co spowoduje dodanie jeszcze raz tego samego zadania. Aby tego uniknąć należy zastosować tzw. wzorzec projektowy
-"POST - Redirect - GET", a więc w odpowiedzi na zapytanie POST zwrócić przekierowanie na ten sam adres.
-Wtedy przeglądarka po przesłaniu formularza zapytaniem POST wykona zapytanie GET, w wyniku którego dostanie listę zadań.
-Wówczas użytkownik będzie mógł odświeżać stronę bez ryzyka ponownego wykonania tej samej operacji na danych po stronie serwera.
+#### Read
 
-### Poprawiony backend
+Tylko w czasie iterowania np.:
 
 ```python
-from flask import Flask, request, render_template, redirect
+jakis_tam_set = {'a', 'b', 'c'}
+for el in jakis_tam_set:
+    print(el)
 
-app = Flask(__name__)
-
-zadania = []
-
-@app.route('/zadania', methods=['GET', 'POST'])
-def lista_zespolow():
-    if request.method == 'POST':
-        zadania.append(request.form['zadanie'])
-        return redirect('/zadania')
-
-    return render_template('zadania.html', zadania=zadania)
-
-app.run(debug=True)
-app.run(debug=True)
+    print(el)
 ```
 
+#### Update
+
+```python
+a = {'a', 'b', 'c'}
+a.add('a')
+a.add('d')
+assert len(a) == 4
+
+a = {'a', 'b', 'c'}
+a.update({'g', 'f'})
+a.update(['z', 'x'])
+a.update(('p', 'o'))
+a.update({'u':'1', 't':'2'})
+```
+
+#### Delete
+
+```python
+a = {'a', 'b', 'c'}
+a.clear()
+assert a == set()
+
+a = {'a', 'b', 'c'}
+a.remove('d')
+a.remove('a')
+assert 'a' not in a
+
+a = {'a', 'b', 'c'}
+a.discard('d')
+a.discard('a')
+assert 'a' not in a
+
+a = {'a', 'b', 'c'}
+b = a.pop()
+assert b not in a
+
+assert b not in a
+
+```
+
+#### Operacje na zbiorach
+
+* difference - różnica jednostronna
+* difference_update
+* intersection - część wspólna
+* intersection_update
+* symmetric_difference  - różnica obustronna - przeciwieństwo części wspólnej
+* symmetric_difference_update
+* union  - suma zbiorów
+
+```python
+a = {'a', 'b', 'c'}
+b = {'c', 'd', 'e'}
+
+a.difference(b)
+{'a', 'b'}
+a - b
+{'b', 'a'}
+
+a.intersection(b)
+{'c'}
+
+a.symmetric_difference(b)
+{'b', 'a', 'd', 'e'}
+
+a.union(b)
+{'b', 'd', 'a', 'c', 'e'}
+
+{'b', 'd', 'a', 'c', 'e'}
+
+```
+
+#### Sprawdzenia 
+
+```python
+# sprawdzanie braku części wspólnej
+a = {'a', 'b', 'c'}
+b = {'c', 'd', 'e'}
+assert a.isdisjoint(b) == false
+
+# sprawdzanie czy zbiór jest podzbiorem innego zbioru
+a = {'a', 'b', 'c', 'd'}
+b = {'c', 'd'}
+assert b.issubset(a) == True
+
+# sprawdzanie czy zbiór jest nadzbiorem innego zbioru
+assert a.issuperset(b) == True
+
+assert a.issuperset(b) == True
+
+```
+
+datetime
+----------------------
+
+#### imporotwanie modułów
+
+```python
+from datetime import date
+from datetime import time
+from datetime import datetime
+from datetime import timedelta
+
+from datetime import timedelta
+
+```
+
+#### date
+
+Do przechowywania tylko daty (bez czasu)
+
+```python
+from datetime import date
+
+a_date = date(day=12, month=8, year=2009)
+today = date.today()
+    
+today.day
+today.month
+today.year
+today.weekday() # 0 = poniedzialek, 6 = niedziela
+today = today.replace(day=12, year=2009, month=8)     
+    
+date.fromtimestamp(1) #epoh (1970, 1, 1)
+date.fromtimestamp(1234123141) # (2009, 2, 8)
+
+today - a_date
+
+today - a_date
+
+```
+
+#### time
+
+Do przechowywania tylko czasu (bez daty)
+
+```python
+from datetime import time
+a_time = time(minute=12, second=13, hour=4)
+a_time.hour
+a_time.minute
+a_time.microsecond
+
+```
+
+#### datetime
+ 
+ Do przechowywania dat i czasu
+ 
+```python   
+from datetime import datetime
+a_date = datetime(2017, 3, 26, 23, 41, 45, 620822)
+str(a_date)
+start = datetime.now()
+diff = datetime.now() - start
+
+diff = datetime.now() - start
+
+```
+
+#### timedelta
+
+Do przechowywania różnicy w dacie i czasie.
+
+```python   
+from datetime import timedelta
+td = timedelta(days=1, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
+a_date = datetime(2017, 3, 26, 23, 41, 45, 620822) 
+a_date += td
+a_date i= td
+
+a_date i= td
+
+```
+
+defaultdict
+----------------------
+
+Słownik, który ma domyślne typy wartości, tworzone w locie.
+
+```python
+from collections import defaultdict
+a = defaultdict(list)
+a['x'].append('1')
+
+b = defaultdict(str)
+b['b'] += 'ma kota'
+b['b'] += 'ma kota'
+
+a = defaultdict(dict)
+a = defaultdict(int)
+
+
+a = defaultdict(int)
+
+
+```
+
+Counter
+----------------------
+
+Klasa służąca do zliczania elementów iterowalnych obiektów np. stringów, list, tupli itp. 
+
+from collections import Counter
+
+# count elements from a string
+c = Counter('abcdeabcdabcaba') 
+# count elements from a list
+c = Counter(['a', 'b', 'c', 'd', 'e', 'a', 'b', 'c', 'd', 'a', 'b', 'c', 'a', 'b', 'a'])  
+c.most_common()     #  most common elements
+c.most_common(3)    # three most common elements
+sum(c.values())     # suma wszystkich elementow
+
+
+namedtuple
+----------------------
+
+Tworzenie prostych klas do przechowywania danych. Łatwe w użyciu, optymalizuje zużycie pamięci.
+
+from collections import namedtuple
+
+```python
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(x=11, y=22)
+
+p = Point(x=11, y=22)
+
+```
+
+Kod do zadania 1.19.5
+----------------------
+
+```python
+class Ojciec:
+    def __init__(self, imie, nazwisko, data_ur):
+        self.imie = imie
+        self.nazwisko = nazwisko
+        self.data_ur = data_ur            
+        self.data_ur = data_ur
+```
