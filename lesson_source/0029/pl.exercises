@@ -1,40 +1,28 @@
 1:
-    title: 1a.
+    title: 1.19.1
     task: |
-        Napisz aplikację, która po wejściu na adres "/konto" wyświetli stan konta użytkownika i listę ostatnich przelewów.
-        Początkowy stan konta ustaw np. na 1000 zł.
-        Na stronie powinien znajdować się formularz, umożliwiający wykonanie przelewu - powinien zawierać dwa pola tekstowe:
-        * nr konta docelowego,
-        * kwotę przelewu.
-        Po przesłaniu formularza kwota na koncie powinna zostać zmniejszona o podaną wartość, ponadto nowy przelew powinien pojawić się na liście ostatnich przelewów.
-        Upewnij się, że odświeżenie strony po wykonaniu przelewu nie spowoduje wykonania tego przelewu jeszcze raz.
+        Pobierz losowe dane z https://pylove.org/exercise/1_19_1 i ułóż hasło tylko z unikalnych słów.
     possible_answer: yey
 2:
-    title: 1b.
+    title: 1.19.2
     task: |
-        Aplikację z punktu 1a. zmodyfikuj tak, aby po wejściu na adres "/" użytkownik został przekierowany na adres "/konto".
+        Pobierz losowe dane z https://pylove.org/exercise/1_19_2 i
+        znajdź hasło, na które złoży się 6 najpopularniejszych
+        liter w kolejności malejącej według wystąpień.
     possible_answer: yey
 3:
-    title: 2a.
+    title: 1.19.3
     task: |
-        Napisz aplikację, która będzie wyświetlać dane pracowników pewnej firmy. Każdy pracownik będzie mieć identyfikator, imię, nazwisko, płacę, opis stanowiska (użyj klasy po stronie serwera).
-        Utwórz stonę zawierającą tabelę pracowników (adres wymyśl samodzielnie). W każdym wierszu tabeli powinny znaleźć się imię, nazwisko pracownika i dodatkowa pusta komórka - uzupełnimy ją w następnym zadaniu.
+        Dodaj do zadań 1., 2. wyświetlanie czasu rozpoczęcia oraz zakończenia skryptu oraz czas jego wykonania.
     possible_answer: yey
 4:
-    title: 2b.
+    title: 1.19.4
     task: |
-        Do aplikacji dodaj stronę wyświetlającą wszystkie informacje o danym pracowniku. W ostatniej kolumnie tabeli z zadania 2a powinny pojawić się linki do stron z detalami poszczególnych użytkowników.
-        Podpowiedź – w adresie strony z detalami przekaż identyfikator pracownika.
+        Wykonaj zadanie 2. z wykorzystaniem konstruktu Counter z biblioteki collections.
     possible_answer: yey
 5:
-    title: 2c.
+    title: 1.19.5
     task: |
-        Do strony z listą pracowników dodaj formularz, umożliwiający dodanie nowego pracownika. Powinien zawierać osobne pole tekstowe dla każdej informacji o pracowniku.
-        Przesłanie formularza powinno spowodować dodanie pracownika i wyświetlenie zaktualizowanej listy.
+        Wykorzystując kod przygotowany do tego zadania, zamień klasy na namedtuple.
     possible_answer: yey
-6:
-    title: 2d.
-    task: |
-        Na stronie z detalami pracownika dodaj przycisk umożliwiający usunięcie danego pracownika (uwaga – usunięcie musi być wykonywane przy pomocy metody POST).
-        Po usunięciu powinna zostać wyświetlona zaktualizowana lista pracowników.
-    possible_answer: yey
+
